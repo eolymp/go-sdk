@@ -19,19 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ContentService_DescribeFragment_FullMethodName            = "/eolymp.content.ContentService/DescribeFragment"
-	ContentService_ListFragments_FullMethodName               = "/eolymp.content.ContentService/ListFragments"
-	ContentService_CreateFragment_FullMethodName              = "/eolymp.content.ContentService/CreateFragment"
-	ContentService_UpdateFragment_FullMethodName              = "/eolymp.content.ContentService/UpdateFragment"
-	ContentService_DeleteFragment_FullMethodName              = "/eolymp.content.ContentService/DeleteFragment"
-	ContentService_TranslateFragment_FullMethodName           = "/eolymp.content.ContentService/TranslateFragment"
-	ContentService_DescribeFragmentTranslation_FullMethodName = "/eolymp.content.ContentService/DescribeFragmentTranslation"
-	ContentService_ListFragmentTranslations_FullMethodName    = "/eolymp.content.ContentService/ListFragmentTranslations"
-	ContentService_CreateFragmentTranslation_FullMethodName   = "/eolymp.content.ContentService/CreateFragmentTranslation"
-	ContentService_UpdateFragmentTranslation_FullMethodName   = "/eolymp.content.ContentService/UpdateFragmentTranslation"
-	ContentService_DeleteFragmentTranslation_FullMethodName   = "/eolymp.content.ContentService/DeleteFragmentTranslation"
-	ContentService_DescribePath_FullMethodName                = "/eolymp.content.ContentService/DescribePath"
-	ContentService_ListParents_FullMethodName                 = "/eolymp.content.ContentService/ListParents"
+	ContentService_DescribeFragment_FullMethodName  = "/eolymp.content.ContentService/DescribeFragment"
+	ContentService_ListFragments_FullMethodName     = "/eolymp.content.ContentService/ListFragments"
+	ContentService_CreateFragment_FullMethodName    = "/eolymp.content.ContentService/CreateFragment"
+	ContentService_UpdateFragment_FullMethodName    = "/eolymp.content.ContentService/UpdateFragment"
+	ContentService_DeleteFragment_FullMethodName    = "/eolymp.content.ContentService/DeleteFragment"
+	ContentService_TranslateFragment_FullMethodName = "/eolymp.content.ContentService/TranslateFragment"
+	ContentService_DescribePath_FullMethodName      = "/eolymp.content.ContentService/DescribePath"
+	ContentService_ListParents_FullMethodName       = "/eolymp.content.ContentService/ListParents"
 )
 
 // ContentServiceClient is the client API for ContentService service.
@@ -41,22 +36,22 @@ const (
 // ContentService manages the pages of a space or of a contest.
 //
 // A page — a fragment on the wire — is content an admin writes for members: space information, rules,
-// contact details, a schedule. What places a page on the site is its path rather than its title: a path
-// under `/pages/` is published on the space site with that prefix stripped, so `/pages/rules` is served at
-// `<space>.eolymp.space/rules`; `/index` replaces the site home page and `/nav` replaces the navigation
-// menu, whose Markdown body is read as link lists rather than as prose. Crucially, the same service works
-// at two scopes and the base URL decides which: addressed to a space it manages that space's site pages,
-// addressed to a contest it manages that contest's own pages, where `/overview` is the contest home page,
-// anything below `/overview/...` becomes an extra tab, and both remain reachable before the contest starts
-// and after it ends — a space and a contest each keep their own independent set of pages, so aiming a
-// client at the wrong base URL quietly reads and writes the wrong ones. A page has a base locale plus
-// translations, managed by their own methods here instead of by patching the page, and reading a locale
-// that has no translation returns the base-locale page rather than an error or an empty result. Page
-// content is rich content — Markdown or LaTeX with a parsed tree alongside it — and reads leave it out
-// unless it is asked for, as the raw value, as the tree, or as both.
+// contact details, a schedule. Its path, not its title, is what places it on the site: `/pages/rules` is
+// served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the navigation menu.
+//
+// The base URL decides which set of pages is addressed. Aimed at a space it manages that space's site
+// pages, aimed at a contest that contest's own pages, where `/overview` is the contest home page and
+// anything below it becomes a tab. The two sets are independent, so the wrong base URL quietly reads and
+// writes the wrong pages.
+//
+// A page has no locale of its own. It holds the source title and content plus a complete translation of
+// them per locale, and the locale on a request picks between them: reading falls back to the page when the
+// translation does not exist, writing creates it from the page. The path, the draft flag and the labels are
+// not translatable and always belong to the page. Content is Markdown or LaTeX with a parsed tree
+// alongside it, and reads leave it out unless asked for it.
 type ContentServiceClient interface {
 	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
-	// path. The requested locale selects a translation and falls back to the base-locale page when that
+	// path. The requested locale selects a translation and falls back to the page itself when that
 	// translation does not exist, so this is also the read to use when rendering a page for a particular
 	// reader.
 	DescribeFragment(ctx context.Context, in *DescribeFragmentInput, opts ...grpc.CallOption) (*DescribeFragmentOutput, error)
@@ -69,37 +64,21 @@ type ContentServiceClient interface {
 	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
 	// how a page can be written before members are meant to see it.
 	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
-	// UpdateFragment writes new values into an existing page. Fields outside the patch mask keep the values
-	// they already have, so moving a page to another path does not mean resending its content. The same call
-	// can be aimed at one locale of the page instead of its base locale, which edits that translation.
+	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
+	// written, so moving a page to another path does not mean resending its content. Aimed at a locale it
+	// writes that page's translation instead, creating it from the page when the translation does not exist
+	// yet; the path, the draft flag and the labels are not translatable, so they still land on the page
+	// itself rather than being dropped.
 	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
-	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at.
-	// Aimed at a single locale it removes only that translation and leaves the page itself in place.
+	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at,
+	// and takes the page's translations with it. Aimed at a single locale it removes only that translation
+	// and leaves the page itself in place.
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
 	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
 	// work runs asynchronously, so the translations appear some time after the call returns and are found by
-	// listing them again. Translations written by hand are left alone unless the request asks for them to be
-	// overwritten, and whatever this produces is marked as automatic.
+	// reading the page in those locales. Translations written by hand are left alone unless the request asks
+	// for them to be overwritten, and whatever this produces is marked as automatic.
 	TranslateFragment(ctx context.Context, in *TranslateFragmentInput, opts ...grpc.CallOption) (*TranslateFragmentOutput, error)
-	// DescribeFragmentTranslation returns one translation by its own id. It addresses that translation
-	// directly, so unlike asking a page for a locale there is nothing here to fall back to when it is absent.
-	DescribeFragmentTranslation(ctx context.Context, in *DescribeFragmentTranslationInput, opts ...grpc.CallOption) (*DescribeFragmentTranslationOutput, error)
-	// ListFragmentTranslations returns the translations of one page, which is how to discover the locales it
-	// is available in besides its base one, and which of them were produced automatically.
-	ListFragmentTranslations(ctx context.Context, in *ListFragmentTranslationsInput, opts ...grpc.CallOption) (*ListFragmentTranslationsOutput, error)
-	// CreateFragmentTranslation adds one locale of a page and returns its id. A translation carries its own
-	// title and content but no path of its own, so it is served at the page's path and reached by readers of
-	// that locale.
-	CreateFragmentTranslation(ctx context.Context, in *CreateFragmentTranslationInput, opts ...grpc.CallOption) (*CreateFragmentTranslationOutput, error)
-	// UpdateFragmentTranslation replaces an existing translation; there is no patch mask here, so the request
-	// has to carry the whole translation rather than the fields that changed. Whether a translation counts as
-	// automatic is part of what is written, and a translation that is not automatic survives a later
-	// translation run unless that run is told to override manual work.
-	UpdateFragmentTranslation(ctx context.Context, in *UpdateFragmentTranslationInput, opts ...grpc.CallOption) (*UpdateFragmentTranslationOutput, error)
-	// DeleteFragmentTranslation drops one locale of a page, leaving the page and its other locales untouched.
-	// Readers of that locale are served the base-locale page afterwards, since a missing translation falls
-	// back instead of failing.
-	DeleteFragmentTranslation(ctx context.Context, in *DeleteFragmentTranslationInput, opts ...grpc.CallOption) (*DeleteFragmentTranslationOutput, error)
 	// DescribePath looks a page up by the path it is served at instead of by id, which is what a front-end
 	// has to work with when all it knows is the URL a visitor asked for. Otherwise it behaves like
 	// DescribeFragment, honouring the requested locale and its fallback.
@@ -178,56 +157,6 @@ func (c *contentServiceClient) TranslateFragment(ctx context.Context, in *Transl
 	return out, nil
 }
 
-func (c *contentServiceClient) DescribeFragmentTranslation(ctx context.Context, in *DescribeFragmentTranslationInput, opts ...grpc.CallOption) (*DescribeFragmentTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeFragmentTranslationOutput)
-	err := c.cc.Invoke(ctx, ContentService_DescribeFragmentTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentServiceClient) ListFragmentTranslations(ctx context.Context, in *ListFragmentTranslationsInput, opts ...grpc.CallOption) (*ListFragmentTranslationsOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListFragmentTranslationsOutput)
-	err := c.cc.Invoke(ctx, ContentService_ListFragmentTranslations_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentServiceClient) CreateFragmentTranslation(ctx context.Context, in *CreateFragmentTranslationInput, opts ...grpc.CallOption) (*CreateFragmentTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateFragmentTranslationOutput)
-	err := c.cc.Invoke(ctx, ContentService_CreateFragmentTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentServiceClient) UpdateFragmentTranslation(ctx context.Context, in *UpdateFragmentTranslationInput, opts ...grpc.CallOption) (*UpdateFragmentTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateFragmentTranslationOutput)
-	err := c.cc.Invoke(ctx, ContentService_UpdateFragmentTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentServiceClient) DeleteFragmentTranslation(ctx context.Context, in *DeleteFragmentTranslationInput, opts ...grpc.CallOption) (*DeleteFragmentTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteFragmentTranslationOutput)
-	err := c.cc.Invoke(ctx, ContentService_DeleteFragmentTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *contentServiceClient) DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribePathOutput)
@@ -255,22 +184,22 @@ func (c *contentServiceClient) ListParents(ctx context.Context, in *ListParentsI
 // ContentService manages the pages of a space or of a contest.
 //
 // A page — a fragment on the wire — is content an admin writes for members: space information, rules,
-// contact details, a schedule. What places a page on the site is its path rather than its title: a path
-// under `/pages/` is published on the space site with that prefix stripped, so `/pages/rules` is served at
-// `<space>.eolymp.space/rules`; `/index` replaces the site home page and `/nav` replaces the navigation
-// menu, whose Markdown body is read as link lists rather than as prose. Crucially, the same service works
-// at two scopes and the base URL decides which: addressed to a space it manages that space's site pages,
-// addressed to a contest it manages that contest's own pages, where `/overview` is the contest home page,
-// anything below `/overview/...` becomes an extra tab, and both remain reachable before the contest starts
-// and after it ends — a space and a contest each keep their own independent set of pages, so aiming a
-// client at the wrong base URL quietly reads and writes the wrong ones. A page has a base locale plus
-// translations, managed by their own methods here instead of by patching the page, and reading a locale
-// that has no translation returns the base-locale page rather than an error or an empty result. Page
-// content is rich content — Markdown or LaTeX with a parsed tree alongside it — and reads leave it out
-// unless it is asked for, as the raw value, as the tree, or as both.
+// contact details, a schedule. Its path, not its title, is what places it on the site: `/pages/rules` is
+// served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the navigation menu.
+//
+// The base URL decides which set of pages is addressed. Aimed at a space it manages that space's site
+// pages, aimed at a contest that contest's own pages, where `/overview` is the contest home page and
+// anything below it becomes a tab. The two sets are independent, so the wrong base URL quietly reads and
+// writes the wrong pages.
+//
+// A page has no locale of its own. It holds the source title and content plus a complete translation of
+// them per locale, and the locale on a request picks between them: reading falls back to the page when the
+// translation does not exist, writing creates it from the page. The path, the draft flag and the labels are
+// not translatable and always belong to the page. Content is Markdown or LaTeX with a parsed tree
+// alongside it, and reads leave it out unless asked for it.
 type ContentServiceServer interface {
 	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
-	// path. The requested locale selects a translation and falls back to the base-locale page when that
+	// path. The requested locale selects a translation and falls back to the page itself when that
 	// translation does not exist, so this is also the read to use when rendering a page for a particular
 	// reader.
 	DescribeFragment(context.Context, *DescribeFragmentInput) (*DescribeFragmentOutput, error)
@@ -283,37 +212,21 @@ type ContentServiceServer interface {
 	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
 	// how a page can be written before members are meant to see it.
 	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
-	// UpdateFragment writes new values into an existing page. Fields outside the patch mask keep the values
-	// they already have, so moving a page to another path does not mean resending its content. The same call
-	// can be aimed at one locale of the page instead of its base locale, which edits that translation.
+	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
+	// written, so moving a page to another path does not mean resending its content. Aimed at a locale it
+	// writes that page's translation instead, creating it from the page when the translation does not exist
+	// yet; the path, the draft flag and the labels are not translatable, so they still land on the page
+	// itself rather than being dropped.
 	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
-	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at.
-	// Aimed at a single locale it removes only that translation and leaves the page itself in place.
+	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at,
+	// and takes the page's translations with it. Aimed at a single locale it removes only that translation
+	// and leaves the page itself in place.
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
 	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
 	// work runs asynchronously, so the translations appear some time after the call returns and are found by
-	// listing them again. Translations written by hand are left alone unless the request asks for them to be
-	// overwritten, and whatever this produces is marked as automatic.
+	// reading the page in those locales. Translations written by hand are left alone unless the request asks
+	// for them to be overwritten, and whatever this produces is marked as automatic.
 	TranslateFragment(context.Context, *TranslateFragmentInput) (*TranslateFragmentOutput, error)
-	// DescribeFragmentTranslation returns one translation by its own id. It addresses that translation
-	// directly, so unlike asking a page for a locale there is nothing here to fall back to when it is absent.
-	DescribeFragmentTranslation(context.Context, *DescribeFragmentTranslationInput) (*DescribeFragmentTranslationOutput, error)
-	// ListFragmentTranslations returns the translations of one page, which is how to discover the locales it
-	// is available in besides its base one, and which of them were produced automatically.
-	ListFragmentTranslations(context.Context, *ListFragmentTranslationsInput) (*ListFragmentTranslationsOutput, error)
-	// CreateFragmentTranslation adds one locale of a page and returns its id. A translation carries its own
-	// title and content but no path of its own, so it is served at the page's path and reached by readers of
-	// that locale.
-	CreateFragmentTranslation(context.Context, *CreateFragmentTranslationInput) (*CreateFragmentTranslationOutput, error)
-	// UpdateFragmentTranslation replaces an existing translation; there is no patch mask here, so the request
-	// has to carry the whole translation rather than the fields that changed. Whether a translation counts as
-	// automatic is part of what is written, and a translation that is not automatic survives a later
-	// translation run unless that run is told to override manual work.
-	UpdateFragmentTranslation(context.Context, *UpdateFragmentTranslationInput) (*UpdateFragmentTranslationOutput, error)
-	// DeleteFragmentTranslation drops one locale of a page, leaving the page and its other locales untouched.
-	// Readers of that locale are served the base-locale page afterwards, since a missing translation falls
-	// back instead of failing.
-	DeleteFragmentTranslation(context.Context, *DeleteFragmentTranslationInput) (*DeleteFragmentTranslationOutput, error)
 	// DescribePath looks a page up by the path it is served at instead of by id, which is what a front-end
 	// has to work with when all it knows is the URL a visitor asked for. Otherwise it behaves like
 	// DescribeFragment, honouring the requested locale and its fallback.
@@ -348,21 +261,6 @@ func (UnimplementedContentServiceServer) DeleteFragment(context.Context, *Delete
 }
 func (UnimplementedContentServiceServer) TranslateFragment(context.Context, *TranslateFragmentInput) (*TranslateFragmentOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method TranslateFragment not implemented")
-}
-func (UnimplementedContentServiceServer) DescribeFragmentTranslation(context.Context, *DescribeFragmentTranslationInput) (*DescribeFragmentTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeFragmentTranslation not implemented")
-}
-func (UnimplementedContentServiceServer) ListFragmentTranslations(context.Context, *ListFragmentTranslationsInput) (*ListFragmentTranslationsOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListFragmentTranslations not implemented")
-}
-func (UnimplementedContentServiceServer) CreateFragmentTranslation(context.Context, *CreateFragmentTranslationInput) (*CreateFragmentTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateFragmentTranslation not implemented")
-}
-func (UnimplementedContentServiceServer) UpdateFragmentTranslation(context.Context, *UpdateFragmentTranslationInput) (*UpdateFragmentTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateFragmentTranslation not implemented")
-}
-func (UnimplementedContentServiceServer) DeleteFragmentTranslation(context.Context, *DeleteFragmentTranslationInput) (*DeleteFragmentTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteFragmentTranslation not implemented")
 }
 func (UnimplementedContentServiceServer) DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribePath not implemented")
@@ -498,96 +396,6 @@ func _ContentService_TranslateFragment_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContentService_DescribeFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeFragmentTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServiceServer).DescribeFragmentTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContentService_DescribeFragmentTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).DescribeFragmentTranslation(ctx, req.(*DescribeFragmentTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContentService_ListFragmentTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListFragmentTranslationsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServiceServer).ListFragmentTranslations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContentService_ListFragmentTranslations_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).ListFragmentTranslations(ctx, req.(*ListFragmentTranslationsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContentService_CreateFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateFragmentTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServiceServer).CreateFragmentTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContentService_CreateFragmentTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).CreateFragmentTranslation(ctx, req.(*CreateFragmentTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContentService_UpdateFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateFragmentTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServiceServer).UpdateFragmentTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContentService_UpdateFragmentTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).UpdateFragmentTranslation(ctx, req.(*UpdateFragmentTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ContentService_DeleteFragmentTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteFragmentTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServiceServer).DeleteFragmentTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ContentService_DeleteFragmentTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServiceServer).DeleteFragmentTranslation(ctx, req.(*DeleteFragmentTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ContentService_DescribePath_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribePathInput)
 	if err := dec(in); err != nil {
@@ -654,26 +462,6 @@ var ContentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TranslateFragment",
 			Handler:    _ContentService_TranslateFragment_Handler,
-		},
-		{
-			MethodName: "DescribeFragmentTranslation",
-			Handler:    _ContentService_DescribeFragmentTranslation_Handler,
-		},
-		{
-			MethodName: "ListFragmentTranslations",
-			Handler:    _ContentService_ListFragmentTranslations_Handler,
-		},
-		{
-			MethodName: "CreateFragmentTranslation",
-			Handler:    _ContentService_CreateFragmentTranslation_Handler,
-		},
-		{
-			MethodName: "UpdateFragmentTranslation",
-			Handler:    _ContentService_UpdateFragmentTranslation_Handler,
-		},
-		{
-			MethodName: "DeleteFragmentTranslation",
-			Handler:    _ContentService_DeleteFragmentTranslation_Handler,
 		},
 		{
 			MethodName: "DescribePath",

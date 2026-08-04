@@ -73,82 +73,21 @@ func (Fragment_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Fragment_Patch_Field int32
-
-const (
-	Fragment_Patch_UNKNOWN_PATCH Fragment_Patch_Field = 0
-	Fragment_Patch_PATH          Fragment_Patch_Field = 2
-	Fragment_Patch_LOCALE        Fragment_Patch_Field = 3
-	Fragment_Patch_DRAFT         Fragment_Patch_Field = 5
-	Fragment_Patch_TITLE         Fragment_Patch_Field = 6
-	Fragment_Patch_CONTENT       Fragment_Patch_Field = 7
-	Fragment_Patch_LABELS        Fragment_Patch_Field = 8
-)
-
-// Enum value maps for Fragment_Patch_Field.
-var (
-	Fragment_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_PATCH",
-		2: "PATH",
-		3: "LOCALE",
-		5: "DRAFT",
-		6: "TITLE",
-		7: "CONTENT",
-		8: "LABELS",
-	}
-	Fragment_Patch_Field_value = map[string]int32{
-		"UNKNOWN_PATCH": 0,
-		"PATH":          2,
-		"LOCALE":        3,
-		"DRAFT":         5,
-		"TITLE":         6,
-		"CONTENT":       7,
-		"LABELS":        8,
-	}
-)
-
-func (x Fragment_Patch_Field) Enum() *Fragment_Patch_Field {
-	p := new(Fragment_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Fragment_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Fragment_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_content_fragment_proto_enumTypes[1].Descriptor()
-}
-
-func (Fragment_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_content_content_fragment_proto_enumTypes[1]
-}
-
-func (x Fragment_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Fragment_Patch_Field.Descriptor instead.
-func (Fragment_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 type Fragment struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Path               string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`
-	Locale             string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`
-	AlternativeLocales []string               `protobuf:"bytes,14,rep,name=alternative_locales,json=alternativeLocales,proto3" json:"alternative_locales,omitempty"` // list of alternative locales available for this fragment
-	Draft              bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                    // content is only visible to admin
-	Automatic          bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`                                            // content generated automatically
-	Title              string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
-	Content            *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
-	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Labels             []string               `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Path          string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`
+	Locale        string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`        // locale of the translation being read, empty when reading the fragment itself
+	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`      // locales this fragment has translations for
+	Draft         bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`         // content is only visible to admin
+	Automatic     bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"` // content generated automatically
+	Title         string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
+	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Labels        []string               `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Fragment) Reset() {
@@ -202,9 +141,9 @@ func (x *Fragment) GetLocale() string {
 	return ""
 }
 
-func (x *Fragment) GetAlternativeLocales() []string {
+func (x *Fragment) GetLocales() []string {
 	if x != nil {
-		return x.AlternativeLocales
+		return x.Locales
 	}
 	return nil
 }
@@ -297,13 +236,12 @@ func (*Fragment_Extra) Descriptor() ([]byte, []int) {
 type Fragment_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"`
-	Locale        *string                `protobuf:"bytes,11,opt,name=locale,proto3,oneof" json:"locale,omitempty"`
 	Draft         *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
 	Automatic     *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
 	Title         *string                `protobuf:"bytes,12,opt,name=title,proto3,oneof" json:"title,omitempty"`
-	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3,oneof" json:"content,omitempty"`
-	HasLabels     bool                   `protobuf:"varint,101,opt,name=has_labels,json=hasLabels,proto3" json:"has_labels,omitempty"`
+	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
 	Labels        []string               `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
+	Unlabel       *bool                  `protobuf:"varint,101,opt,name=unlabel,proto3,oneof" json:"unlabel,omitempty"` // clears the labels, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -345,13 +283,6 @@ func (x *Fragment_Patch) GetPath() string {
 	return ""
 }
 
-func (x *Fragment_Patch) GetLocale() string {
-	if x != nil && x.Locale != nil {
-		return *x.Locale
-	}
-	return ""
-}
-
 func (x *Fragment_Patch) GetDraft() bool {
 	if x != nil && x.Draft != nil {
 		return *x.Draft
@@ -380,13 +311,6 @@ func (x *Fragment_Patch) GetContent() *ecm.Content {
 	return nil
 }
 
-func (x *Fragment_Patch) GetHasLabels() bool {
-	if x != nil {
-		return x.HasLabels
-	}
-	return false
-}
-
 func (x *Fragment_Patch) GetLabels() []string {
 	if x != nil {
 		return x.Labels
@@ -394,78 +318,9 @@ func (x *Fragment_Patch) GetLabels() []string {
 	return nil
 }
 
-type Fragment_Translation struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Locale        string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`
-	Title         string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
-	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
-	Automatic     bool                   `protobuf:"varint,8,opt,name=automatic,proto3" json:"automatic,omitempty"` // if true means the variant was created automatically (probably translation from another language)
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Fragment_Translation) Reset() {
-	*x = Fragment_Translation{}
-	mi := &file_eolymp_content_content_fragment_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Fragment_Translation) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Fragment_Translation) ProtoMessage() {}
-
-func (x *Fragment_Translation) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_fragment_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Fragment_Translation.ProtoReflect.Descriptor instead.
-func (*Fragment_Translation) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 2}
-}
-
-func (x *Fragment_Translation) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *Fragment_Translation) GetLocale() string {
-	if x != nil {
-		return x.Locale
-	}
-	return ""
-}
-
-func (x *Fragment_Translation) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *Fragment_Translation) GetContent() *ecm.Content {
-	if x != nil {
-		return x.Content
-	}
-	return nil
-}
-
-func (x *Fragment_Translation) GetAutomatic() bool {
-	if x != nil {
-		return x.Automatic
+func (x *Fragment_Patch) GetUnlabel() bool {
+	if x != nil && x.Unlabel != nil {
+		return *x.Unlabel
 	}
 	return false
 }
@@ -474,13 +329,13 @@ var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xac\b\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xea\x05\n" +
 	"\bFragment\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x12\n" +
 	"\x04path\x18\n" +
 	" \x01(\tR\x04path\x12\x16\n" +
-	"\x06locale\x18\v \x01(\tR\x06locale\x12/\n" +
-	"\x13alternative_locales\x18\x0e \x03(\tR\x12alternativeLocales\x12\x14\n" +
+	"\x06locale\x18\v \x01(\tR\x06locale\x12\x18\n" +
+	"\alocales\x18\x0e \x03(\tR\alocales\x12\x14\n" +
 	"\x05draft\x18\r \x01(\bR\x05draft\x12\x1c\n" +
 	"\tautomatic\x18\x0f \x01(\bR\tautomatic\x12\x14\n" +
 	"\x05title\x18\f \x01(\tR\x05title\x12-\n" +
@@ -494,42 +349,23 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1a\xa4\x03\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\x9c\x02\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04path\x18\n" +
-	" \x01(\tH\x00R\x04path\x88\x01\x01\x12\x1b\n" +
-	"\x06locale\x18\v \x01(\tH\x01R\x06locale\x88\x01\x01\x12\x19\n" +
-	"\x05draft\x18\r \x01(\bH\x02R\x05draft\x88\x01\x01\x12!\n" +
-	"\tautomatic\x18\x0f \x01(\bH\x03R\tautomatic\x88\x01\x01\x12\x19\n" +
-	"\x05title\x18\f \x01(\tH\x04R\x05title\x88\x01\x01\x122\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentH\x05R\acontent\x88\x01\x01\x12\x1d\n" +
-	"\n" +
-	"has_labels\x18e \x01(\bR\thasLabels\x12\x16\n" +
-	"\x06labels\x18d \x03(\tR\x06labels\"_\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\b\n" +
-	"\x04PATH\x10\x02\x12\n" +
-	"\n" +
-	"\x06LOCALE\x10\x03\x12\t\n" +
-	"\x05DRAFT\x10\x05\x12\t\n" +
-	"\x05TITLE\x10\x06\x12\v\n" +
-	"\aCONTENT\x10\a\x12\n" +
-	"\n" +
-	"\x06LABELS\x10\bB\a\n" +
-	"\x05_pathB\t\n" +
-	"\a_localeB\b\n" +
+	" \x01(\tH\x00R\x04path\x88\x01\x01\x12\x19\n" +
+	"\x05draft\x18\r \x01(\bH\x01R\x05draft\x88\x01\x01\x12!\n" +
+	"\tautomatic\x18\x0f \x01(\bH\x02R\tautomatic\x88\x01\x01\x12\x19\n" +
+	"\x05title\x18\f \x01(\tH\x03R\x05title\x88\x01\x01\x12-\n" +
+	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
+	"\x06labels\x18d \x03(\tR\x06labels\x12\x1d\n" +
+	"\aunlabel\x18e \x01(\bH\x04R\aunlabel\x88\x01\x01B\a\n" +
+	"\x05_pathB\b\n" +
 	"\x06_draftB\f\n" +
 	"\n" +
 	"_automaticB\b\n" +
 	"\x06_titleB\n" +
 	"\n" +
-	"\b_content\x1a\xa0\x01\n" +
-	"\vTranslation\x12\x16\n" +
-	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x16\n" +
-	"\x06locale\x18\v \x01(\tR\x06locale\x12\x14\n" +
-	"\x05title\x18\f \x01(\tR\x05title\x12-\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1c\n" +
-	"\tautomatic\x18\b \x01(\bR\tautomaticB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\b_unlabelJ\x04\b\v\x10\fB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_fragment_proto_rawDescOnce sync.Once
@@ -543,29 +379,26 @@ func file_eolymp_content_content_fragment_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_content_fragment_proto_rawDescData
 }
 
-var file_eolymp_content_content_fragment_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_content_content_fragment_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_content_content_fragment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_content_content_fragment_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_content_content_fragment_proto_goTypes = []any{
 	(Fragment_Extra_Field)(0),     // 0: eolymp.content.Fragment.Extra.Field
-	(Fragment_Patch_Field)(0),     // 1: eolymp.content.Fragment.Patch.Field
-	(*Fragment)(nil),              // 2: eolymp.content.Fragment
-	(*Fragment_Extra)(nil),        // 3: eolymp.content.Fragment.Extra
-	(*Fragment_Patch)(nil),        // 4: eolymp.content.Fragment.Patch
-	(*Fragment_Translation)(nil),  // 5: eolymp.content.Fragment.Translation
-	(*ecm.Content)(nil),           // 6: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*Fragment)(nil),              // 1: eolymp.content.Fragment
+	(*Fragment_Extra)(nil),        // 2: eolymp.content.Fragment.Extra
+	(*Fragment_Patch)(nil),        // 3: eolymp.content.Fragment.Patch
+	(*ecm.Content)(nil),           // 4: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_eolymp_content_content_fragment_proto_depIdxs = []int32{
-	6, // 0: eolymp.content.Fragment.content:type_name -> eolymp.ecm.Content
-	7, // 1: eolymp.content.Fragment.created_at:type_name -> google.protobuf.Timestamp
-	7, // 2: eolymp.content.Fragment.updated_at:type_name -> google.protobuf.Timestamp
-	6, // 3: eolymp.content.Fragment.Patch.content:type_name -> eolymp.ecm.Content
-	6, // 4: eolymp.content.Fragment.Translation.content:type_name -> eolymp.ecm.Content
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 0: eolymp.content.Fragment.content:type_name -> eolymp.ecm.Content
+	5, // 1: eolymp.content.Fragment.created_at:type_name -> google.protobuf.Timestamp
+	5, // 2: eolymp.content.Fragment.updated_at:type_name -> google.protobuf.Timestamp
+	4, // 3: eolymp.content.Fragment.Patch.content:type_name -> eolymp.ecm.Content
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_content_fragment_proto_init() }
@@ -579,8 +412,8 @@ func file_eolymp_content_content_fragment_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_content_fragment_proto_rawDesc), len(file_eolymp_content_content_fragment_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   4,
+			NumEnums:      1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

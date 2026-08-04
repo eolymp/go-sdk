@@ -69,7 +69,7 @@ func (x ListFragmentsInput_Sort) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListFragmentsInput_Sort.Descriptor instead.
 func (ListFragmentsInput_Sort) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{4, 0}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3, 0}
 }
 
 type FragmentChangedEvent struct {
@@ -132,66 +132,6 @@ func (x *FragmentChangedEvent) GetAfter() *Fragment {
 	return nil
 }
 
-type FragmentTranslationChangedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId    string                 `protobuf:"bytes,10,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Before        *Fragment_Translation  `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
-	After         *Fragment_Translation  `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FragmentTranslationChangedEvent) Reset() {
-	*x = FragmentTranslationChangedEvent{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FragmentTranslationChangedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FragmentTranslationChangedEvent) ProtoMessage() {}
-
-func (x *FragmentTranslationChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FragmentTranslationChangedEvent.ProtoReflect.Descriptor instead.
-func (*FragmentTranslationChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *FragmentTranslationChangedEvent) GetFragmentId() string {
-	if x != nil {
-		return x.FragmentId
-	}
-	return ""
-}
-
-func (x *FragmentTranslationChangedEvent) GetBefore() *Fragment_Translation {
-	if x != nil {
-		return x.Before
-	}
-	return nil
-}
-
-func (x *FragmentTranslationChangedEvent) GetAfter() *Fragment_Translation {
-	if x != nil {
-		return x.After
-	}
-	return nil
-}
-
 type DescribeFragmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
@@ -203,7 +143,7 @@ type DescribeFragmentInput struct {
 
 func (x *DescribeFragmentInput) Reset() {
 	*x = DescribeFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[2]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -215,7 +155,7 @@ func (x *DescribeFragmentInput) String() string {
 func (*DescribeFragmentInput) ProtoMessage() {}
 
 func (x *DescribeFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[2]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -228,7 +168,7 @@ func (x *DescribeFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeFragmentInput.ProtoReflect.Descriptor instead.
 func (*DescribeFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *DescribeFragmentInput) GetLocale() string {
@@ -261,7 +201,7 @@ type DescribeFragmentOutput struct {
 
 func (x *DescribeFragmentOutput) Reset() {
 	*x = DescribeFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[3]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -273,7 +213,7 @@ func (x *DescribeFragmentOutput) String() string {
 func (*DescribeFragmentOutput) ProtoMessage() {}
 
 func (x *DescribeFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[3]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -286,7 +226,7 @@ func (x *DescribeFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeFragmentOutput.ProtoReflect.Descriptor instead.
 func (*DescribeFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *DescribeFragmentOutput) GetFragment() *Fragment {
@@ -313,7 +253,7 @@ type ListFragmentsInput struct {
 
 func (x *ListFragmentsInput) Reset() {
 	*x = ListFragmentsInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[4]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -325,7 +265,7 @@ func (x *ListFragmentsInput) String() string {
 func (*ListFragmentsInput) ProtoMessage() {}
 
 func (x *ListFragmentsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[4]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,7 +278,7 @@ func (x *ListFragmentsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFragmentsInput.ProtoReflect.Descriptor instead.
 func (*ListFragmentsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListFragmentsInput) GetOffset() int32 {
@@ -400,7 +340,7 @@ type ListFragmentsOutput struct {
 
 func (x *ListFragmentsOutput) Reset() {
 	*x = ListFragmentsOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[5]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -412,7 +352,7 @@ func (x *ListFragmentsOutput) String() string {
 func (*ListFragmentsOutput) ProtoMessage() {}
 
 func (x *ListFragmentsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[5]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -425,7 +365,7 @@ func (x *ListFragmentsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFragmentsOutput.ProtoReflect.Descriptor instead.
 func (*ListFragmentsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListFragmentsOutput) GetTotal() int32 {
@@ -451,7 +391,7 @@ type CreateFragmentInput struct {
 
 func (x *CreateFragmentInput) Reset() {
 	*x = CreateFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[6]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -463,7 +403,7 @@ func (x *CreateFragmentInput) String() string {
 func (*CreateFragmentInput) ProtoMessage() {}
 
 func (x *CreateFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[6]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -476,7 +416,7 @@ func (x *CreateFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateFragmentInput.ProtoReflect.Descriptor instead.
 func (*CreateFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateFragmentInput) GetFragment() *Fragment {
@@ -495,7 +435,7 @@ type CreateFragmentOutput struct {
 
 func (x *CreateFragmentOutput) Reset() {
 	*x = CreateFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[7]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -507,7 +447,7 @@ func (x *CreateFragmentOutput) String() string {
 func (*CreateFragmentOutput) ProtoMessage() {}
 
 func (x *CreateFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[7]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -520,7 +460,7 @@ func (x *CreateFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateFragmentOutput.ProtoReflect.Descriptor instead.
 func (*CreateFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateFragmentOutput) GetFragmentId() string {
@@ -532,18 +472,16 @@ func (x *CreateFragmentOutput) GetFragmentId() string {
 
 type UpdateFragmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Fragment_Patch_Field `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.content.Fragment_Patch_Field" json:"patch,omitempty"`
-	Fragment      *Fragment              `protobuf:"bytes,2,opt,name=fragment,proto3" json:"fragment,omitempty"`
-	Locale        string                 `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"` // update original when empty, update translation when set
 	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	FragmentPatch *Fragment_Patch        `protobuf:"bytes,4,opt,name=fragment_patch,json=fragmentPatch,proto3" json:"fragment_patch,omitempty"` // alternative to fragment+patch which uses optional fields
+	Locale        string                 `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"` // update the fragment when empty, update its translation when set
+	Fragment      *Fragment_Patch        `protobuf:"bytes,4,opt,name=fragment,proto3" json:"fragment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateFragmentInput) Reset() {
 	*x = UpdateFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[8]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -555,7 +493,7 @@ func (x *UpdateFragmentInput) String() string {
 func (*UpdateFragmentInput) ProtoMessage() {}
 
 func (x *UpdateFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[8]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -568,28 +506,7 @@ func (x *UpdateFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateFragmentInput.ProtoReflect.Descriptor instead.
 func (*UpdateFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *UpdateFragmentInput) GetPatch() []Fragment_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateFragmentInput) GetFragment() *Fragment {
-	if x != nil {
-		return x.Fragment
-	}
-	return nil
-}
-
-func (x *UpdateFragmentInput) GetLocale() string {
-	if x != nil {
-		return x.Locale
-	}
-	return ""
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateFragmentInput) GetFragmentId() string {
@@ -599,9 +516,16 @@ func (x *UpdateFragmentInput) GetFragmentId() string {
 	return ""
 }
 
-func (x *UpdateFragmentInput) GetFragmentPatch() *Fragment_Patch {
+func (x *UpdateFragmentInput) GetLocale() string {
 	if x != nil {
-		return x.FragmentPatch
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *UpdateFragmentInput) GetFragment() *Fragment_Patch {
+	if x != nil {
+		return x.Fragment
 	}
 	return nil
 }
@@ -614,7 +538,7 @@ type UpdateFragmentOutput struct {
 
 func (x *UpdateFragmentOutput) Reset() {
 	*x = UpdateFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[9]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -626,7 +550,7 @@ func (x *UpdateFragmentOutput) String() string {
 func (*UpdateFragmentOutput) ProtoMessage() {}
 
 func (x *UpdateFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[9]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -639,20 +563,20 @@ func (x *UpdateFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateFragmentOutput.ProtoReflect.Descriptor instead.
 func (*UpdateFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{8}
 }
 
 type DeleteFragmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"` // delete original when empty, delete translation when set
+	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"` // delete the fragment when empty, delete only its translation when set
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteFragmentInput) Reset() {
 	*x = DeleteFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[10]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -664,7 +588,7 @@ func (x *DeleteFragmentInput) String() string {
 func (*DeleteFragmentInput) ProtoMessage() {}
 
 func (x *DeleteFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[10]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -677,7 +601,7 @@ func (x *DeleteFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFragmentInput.ProtoReflect.Descriptor instead.
 func (*DeleteFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteFragmentInput) GetFragmentId() string {
@@ -702,7 +626,7 @@ type DeleteFragmentOutput struct {
 
 func (x *DeleteFragmentOutput) Reset() {
 	*x = DeleteFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[11]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -714,7 +638,7 @@ func (x *DeleteFragmentOutput) String() string {
 func (*DeleteFragmentOutput) ProtoMessage() {}
 
 func (x *DeleteFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[11]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -727,23 +651,23 @@ func (x *DeleteFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFragmentOutput.ProtoReflect.Descriptor instead.
 func (*DeleteFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{10}
 }
 
 type TranslateFragmentInput struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	FragmentId      string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Source          string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`                                           // source language (by default fragment content is used)
-	Target          []string               `protobuf:"bytes,3,rep,name=target,proto3" json:"target,omitempty"`                                           // list of target languages, if statement exists and it has automatic=true (or override_manual=true) it will be updated
-	TargetAutomatic bool                   `protobuf:"varint,4,opt,name=target_automatic,json=targetAutomatic,proto3" json:"target_automatic,omitempty"` // add to targets all editorials with automatic=true
-	OverrideManual  bool                   `protobuf:"varint,5,opt,name=override_manual,json=overrideManual,proto3" json:"override_manual,omitempty"`    // update editorials even if automatic=false
+	Source          string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`                                           // source locale, the fragment's own content is translated when empty
+	Target          []string               `protobuf:"bytes,3,rep,name=target,proto3" json:"target,omitempty"`                                           // target locales, existing translations are only replaced when automatic (or override_manual is set)
+	TargetAutomatic bool                   `protobuf:"varint,4,opt,name=target_automatic,json=targetAutomatic,proto3" json:"target_automatic,omitempty"` // add every automatic translation to the targets
+	OverrideManual  bool                   `protobuf:"varint,5,opt,name=override_manual,json=overrideManual,proto3" json:"override_manual,omitempty"`    // translate into a locale even when its translation was written by hand
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TranslateFragmentInput) Reset() {
 	*x = TranslateFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[12]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -755,7 +679,7 @@ func (x *TranslateFragmentInput) String() string {
 func (*TranslateFragmentInput) ProtoMessage() {}
 
 func (x *TranslateFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[12]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -768,7 +692,7 @@ func (x *TranslateFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslateFragmentInput.ProtoReflect.Descriptor instead.
 func (*TranslateFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *TranslateFragmentInput) GetFragmentId() string {
@@ -815,7 +739,7 @@ type TranslateFragmentOutput struct {
 
 func (x *TranslateFragmentOutput) Reset() {
 	*x = TranslateFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[13]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -827,7 +751,7 @@ func (x *TranslateFragmentOutput) String() string {
 func (*TranslateFragmentOutput) ProtoMessage() {}
 
 func (x *TranslateFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[13]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -840,7 +764,7 @@ func (x *TranslateFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslateFragmentOutput.ProtoReflect.Descriptor instead.
 func (*TranslateFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *TranslateFragmentOutput) GetTaskId() string {
@@ -848,520 +772,6 @@ func (x *TranslateFragmentOutput) GetTaskId() string {
 		return x.TaskId
 	}
 	return ""
-}
-
-type DescribeFragmentTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Extra         []Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeFragmentTranslationInput) Reset() {
-	*x = DescribeFragmentTranslationInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeFragmentTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeFragmentTranslationInput) ProtoMessage() {}
-
-func (x *DescribeFragmentTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeFragmentTranslationInput.ProtoReflect.Descriptor instead.
-func (*DescribeFragmentTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *DescribeFragmentTranslationInput) GetFragmentId() string {
-	if x != nil {
-		return x.FragmentId
-	}
-	return ""
-}
-
-func (x *DescribeFragmentTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-func (x *DescribeFragmentTranslationInput) GetExtra() []Fragment_Extra_Field {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type DescribeFragmentTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Translation   *Fragment_Translation  `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeFragmentTranslationOutput) Reset() {
-	*x = DescribeFragmentTranslationOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeFragmentTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeFragmentTranslationOutput) ProtoMessage() {}
-
-func (x *DescribeFragmentTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeFragmentTranslationOutput.ProtoReflect.Descriptor instead.
-func (*DescribeFragmentTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *DescribeFragmentTranslationOutput) GetTranslation() *Fragment_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type ListFragmentTranslationsInput struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId string                 `protobuf:"bytes,2,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	// pagination
-	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	// data filters
-	Filters       *ListFragmentTranslationsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Extra         []Fragment_Extra_Field                `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListFragmentTranslationsInput) Reset() {
-	*x = ListFragmentTranslationsInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListFragmentTranslationsInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListFragmentTranslationsInput) ProtoMessage() {}
-
-func (x *ListFragmentTranslationsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListFragmentTranslationsInput.ProtoReflect.Descriptor instead.
-func (*ListFragmentTranslationsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *ListFragmentTranslationsInput) GetFragmentId() string {
-	if x != nil {
-		return x.FragmentId
-	}
-	return ""
-}
-
-func (x *ListFragmentTranslationsInput) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListFragmentTranslationsInput) GetSize() int32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-func (x *ListFragmentTranslationsInput) GetFilters() *ListFragmentTranslationsInput_Filter {
-	if x != nil {
-		return x.Filters
-	}
-	return nil
-}
-
-func (x *ListFragmentTranslationsInput) GetExtra() []Fragment_Extra_Field {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type ListFragmentTranslationsOutput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Total         int32                   `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Fragment_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListFragmentTranslationsOutput) Reset() {
-	*x = ListFragmentTranslationsOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListFragmentTranslationsOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListFragmentTranslationsOutput) ProtoMessage() {}
-
-func (x *ListFragmentTranslationsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListFragmentTranslationsOutput.ProtoReflect.Descriptor instead.
-func (*ListFragmentTranslationsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *ListFragmentTranslationsOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListFragmentTranslationsOutput) GetItems() []*Fragment_Translation {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
-type CreateFragmentTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Translation   *Fragment_Translation  `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateFragmentTranslationInput) Reset() {
-	*x = CreateFragmentTranslationInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateFragmentTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateFragmentTranslationInput) ProtoMessage() {}
-
-func (x *CreateFragmentTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateFragmentTranslationInput.ProtoReflect.Descriptor instead.
-func (*CreateFragmentTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *CreateFragmentTranslationInput) GetFragmentId() string {
-	if x != nil {
-		return x.FragmentId
-	}
-	return ""
-}
-
-func (x *CreateFragmentTranslationInput) GetTranslation() *Fragment_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type CreateFragmentTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TranslationId string                 `protobuf:"bytes,1,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateFragmentTranslationOutput) Reset() {
-	*x = CreateFragmentTranslationOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateFragmentTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateFragmentTranslationOutput) ProtoMessage() {}
-
-func (x *CreateFragmentTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateFragmentTranslationOutput.ProtoReflect.Descriptor instead.
-func (*CreateFragmentTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *CreateFragmentTranslationOutput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-type UpdateFragmentTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Translation   *Fragment_Translation  `protobuf:"bytes,3,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateFragmentTranslationInput) Reset() {
-	*x = UpdateFragmentTranslationInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateFragmentTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateFragmentTranslationInput) ProtoMessage() {}
-
-func (x *UpdateFragmentTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateFragmentTranslationInput.ProtoReflect.Descriptor instead.
-func (*UpdateFragmentTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *UpdateFragmentTranslationInput) GetFragmentId() string {
-	if x != nil {
-		return x.FragmentId
-	}
-	return ""
-}
-
-func (x *UpdateFragmentTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-func (x *UpdateFragmentTranslationInput) GetTranslation() *Fragment_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type UpdateFragmentTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateFragmentTranslationOutput) Reset() {
-	*x = UpdateFragmentTranslationOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateFragmentTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateFragmentTranslationOutput) ProtoMessage() {}
-
-func (x *UpdateFragmentTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateFragmentTranslationOutput.ProtoReflect.Descriptor instead.
-func (*UpdateFragmentTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{21}
-}
-
-type DeleteFragmentTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteFragmentTranslationInput) Reset() {
-	*x = DeleteFragmentTranslationInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteFragmentTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteFragmentTranslationInput) ProtoMessage() {}
-
-func (x *DeleteFragmentTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteFragmentTranslationInput.ProtoReflect.Descriptor instead.
-func (*DeleteFragmentTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *DeleteFragmentTranslationInput) GetFragmentId() string {
-	if x != nil {
-		return x.FragmentId
-	}
-	return ""
-}
-
-func (x *DeleteFragmentTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-type DeleteFragmentTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteFragmentTranslationOutput) Reset() {
-	*x = DeleteFragmentTranslationOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteFragmentTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteFragmentTranslationOutput) ProtoMessage() {}
-
-func (x *DeleteFragmentTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteFragmentTranslationOutput.ProtoReflect.Descriptor instead.
-func (*DeleteFragmentTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{23}
 }
 
 type DescribePathInput struct {
@@ -1375,7 +785,7 @@ type DescribePathInput struct {
 
 func (x *DescribePathInput) Reset() {
 	*x = DescribePathInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[24]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1387,7 +797,7 @@ func (x *DescribePathInput) String() string {
 func (*DescribePathInput) ProtoMessage() {}
 
 func (x *DescribePathInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[24]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1400,7 +810,7 @@ func (x *DescribePathInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribePathInput.ProtoReflect.Descriptor instead.
 func (*DescribePathInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{24}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *DescribePathInput) GetPath() string {
@@ -1433,7 +843,7 @@ type DescribePathOutput struct {
 
 func (x *DescribePathOutput) Reset() {
 	*x = DescribePathOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[25]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1445,7 +855,7 @@ func (x *DescribePathOutput) String() string {
 func (*DescribePathOutput) ProtoMessage() {}
 
 func (x *DescribePathOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[25]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1458,7 +868,7 @@ func (x *DescribePathOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribePathOutput.ProtoReflect.Descriptor instead.
 func (*DescribePathOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{25}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *DescribePathOutput) GetFragment() *Fragment {
@@ -1479,7 +889,7 @@ type ListParentsInput struct {
 
 func (x *ListParentsInput) Reset() {
 	*x = ListParentsInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[26]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1491,7 +901,7 @@ func (x *ListParentsInput) String() string {
 func (*ListParentsInput) ProtoMessage() {}
 
 func (x *ListParentsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[26]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1504,7 +914,7 @@ func (x *ListParentsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListParentsInput.ProtoReflect.Descriptor instead.
 func (*ListParentsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{26}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListParentsInput) GetPath() string {
@@ -1538,7 +948,7 @@ type ListParentsOutput struct {
 
 func (x *ListParentsOutput) Reset() {
 	*x = ListParentsOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[27]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1550,7 +960,7 @@ func (x *ListParentsOutput) String() string {
 func (*ListParentsOutput) ProtoMessage() {}
 
 func (x *ListParentsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[27]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1563,7 +973,7 @@ func (x *ListParentsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListParentsOutput.ProtoReflect.Descriptor instead.
 func (*ListParentsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{27}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ListParentsOutput) GetTotal() int32 {
@@ -1585,7 +995,6 @@ type ListFragmentsInput_Filter struct {
 	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Path          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=path,proto3" json:"path,omitempty"`
-	Locale        []*wellknown.ExpressionEnum   `protobuf:"bytes,4,rep,name=locale,proto3" json:"locale,omitempty"`
 	Label         []*wellknown.ExpressionEnum   `protobuf:"bytes,5,rep,name=label,proto3" json:"label,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1593,7 +1002,7 @@ type ListFragmentsInput_Filter struct {
 
 func (x *ListFragmentsInput_Filter) Reset() {
 	*x = ListFragmentsInput_Filter{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[28]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1605,7 +1014,7 @@ func (x *ListFragmentsInput_Filter) String() string {
 func (*ListFragmentsInput_Filter) ProtoMessage() {}
 
 func (x *ListFragmentsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[28]
+	mi := &file_eolymp_content_content_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1618,7 +1027,7 @@ func (x *ListFragmentsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFragmentsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListFragmentsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{4, 0}
+	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3, 0}
 }
 
 func (x *ListFragmentsInput_Filter) GetQuery() string {
@@ -1642,76 +1051,9 @@ func (x *ListFragmentsInput_Filter) GetPath() []*wellknown.ExpressionString {
 	return nil
 }
 
-func (x *ListFragmentsInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Locale
-	}
-	return nil
-}
-
 func (x *ListFragmentsInput_Filter) GetLabel() []*wellknown.ExpressionEnum {
 	if x != nil {
 		return x.Label
-	}
-	return nil
-}
-
-type ListFragmentTranslationsInput_Filter struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Query         string                      `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
-	Id            []*wellknown.ExpressionID   `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
-	Locale        []*wellknown.ExpressionEnum `protobuf:"bytes,4,rep,name=locale,proto3" json:"locale,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListFragmentTranslationsInput_Filter) Reset() {
-	*x = ListFragmentTranslationsInput_Filter{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListFragmentTranslationsInput_Filter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListFragmentTranslationsInput_Filter) ProtoMessage() {}
-
-func (x *ListFragmentTranslationsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[29]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListFragmentTranslationsInput_Filter.ProtoReflect.Descriptor instead.
-func (*ListFragmentTranslationsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{16, 0}
-}
-
-func (x *ListFragmentTranslationsInput_Filter) GetQuery() string {
-	if x != nil {
-		return x.Query
-	}
-	return ""
-}
-
-func (x *ListFragmentTranslationsInput_Filter) GetId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.Id
-	}
-	return nil
-}
-
-func (x *ListFragmentTranslationsInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Locale
 	}
 	return nil
 }
@@ -1725,20 +1067,14 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x120\n" +
 	"\x06before\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\x06before\x12.\n" +
-	"\x05after\x18\x02 \x01(\v2\x18.eolymp.content.FragmentR\x05after\"\xbc\x01\n" +
-	"\x1fFragmentTranslationChangedEvent\x12\x1f\n" +
-	"\vfragment_id\x18\n" +
-	" \x01(\tR\n" +
-	"fragmentId\x12<\n" +
-	"\x06before\x18\x01 \x01(\v2$.eolymp.content.Fragment.TranslationR\x06before\x12:\n" +
-	"\x05after\x18\x02 \x01(\v2$.eolymp.content.Fragment.TranslationR\x05after\"\x8d\x01\n" +
+	"\x05after\x18\x02 \x01(\v2\x18.eolymp.content.FragmentR\x05after\"\x8d\x01\n" +
 	"\x15DescribeFragmentInput\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"N\n" +
 	"\x16DescribeFragmentOutput\x124\n" +
-	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xf5\x04\n" +
+	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xc1\x04\n" +
 	"\x12ListFragmentsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1747,13 +1083,12 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x04sort\x182 \x01(\x0e2'.eolymp.content.ListFragmentsInput.SortR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12;\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xf8\x01\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xc4\x01\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
-	"\x04path\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04path\x128\n" +
-	"\x06locale\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\x126\n" +
-	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05label\"-\n" +
+	"\x04path\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04path\x126\n" +
+	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\x04\x10\x05\"-\n" +
 	"\x04Sort\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\b\n" +
 	"\x04PATH\x10\x01\x12\x0e\n" +
@@ -1766,14 +1101,12 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"7\n" +
 	"\x14CreateFragmentOutput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\"\x87\x02\n" +
-	"\x13UpdateFragmentInput\x12:\n" +
-	"\x05patch\x18\x03 \x03(\x0e2$.eolymp.content.Fragment.Patch.FieldR\x05patch\x124\n" +
-	"\bfragment\x18\x02 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\x12\x16\n" +
-	"\x06locale\x18\x05 \x01(\tR\x06locale\x12\x1f\n" +
+	"fragmentId\"\x96\x01\n" +
+	"\x13UpdateFragmentInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\x12E\n" +
-	"\x0efragment_patch\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\rfragmentPatch\"\x16\n" +
+	"fragmentId\x12\x16\n" +
+	"\x06locale\x18\x05 \x01(\tR\x06locale\x12:\n" +
+	"\bfragment\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\bfragmentJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x16\n" +
 	"\x14UpdateFragmentOutput\"N\n" +
 	"\x13DeleteFragmentInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
@@ -1788,46 +1121,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x17TranslateFragmentOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\xa7\x01\n" +
-	" DescribeFragmentTranslationInput\x12\x1f\n" +
-	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\x12;\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"k\n" +
-	"!DescribeFragmentTranslationOutput\x12F\n" +
-	"\vtranslation\x18\x01 \x01(\v2$.eolymp.content.Fragment.TranslationR\vtranslation\"\x84\x03\n" +
-	"\x1dListFragmentTranslationsInput\x12\x1f\n" +
-	"\vfragment_id\x18\x02 \x01(\tR\n" +
-	"fragmentId\x12\x16\n" +
-	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12N\n" +
-	"\afilters\x18( \x01(\v24.eolymp.content.ListFragmentTranslationsInput.FilterR\afilters\x12;\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\x88\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
-	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x128\n" +
-	"\x06locale\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"r\n" +
-	"\x1eListFragmentTranslationsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x12:\n" +
-	"\x05items\x18\x02 \x03(\v2$.eolymp.content.Fragment.TranslationR\x05items\"\x89\x01\n" +
-	"\x1eCreateFragmentTranslationInput\x12\x1f\n" +
-	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\x12F\n" +
-	"\vtranslation\x18\x02 \x01(\v2$.eolymp.content.Fragment.TranslationR\vtranslation\"H\n" +
-	"\x1fCreateFragmentTranslationOutput\x12%\n" +
-	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\xb0\x01\n" +
-	"\x1eUpdateFragmentTranslationInput\x12\x1f\n" +
-	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\x12F\n" +
-	"\vtranslation\x18\x03 \x01(\v2$.eolymp.content.Fragment.TranslationR\vtranslation\"!\n" +
-	"\x1fUpdateFragmentTranslationOutput\"h\n" +
-	"\x1eDeleteFragmentTranslationInput\x12\x1f\n" +
-	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"!\n" +
-	"\x1fDeleteFragmentTranslationOutput\"|\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"|\n" +
 	"\x11DescribePathInput\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12;\n" +
@@ -1840,7 +1134,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"Y\n" +
 	"\x11ListParentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\x9a\x17\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\xce\v\n" +
 	"\x0eContentService\x12\xbb\x01\n" +
 	"\x10DescribeFragment\x12%.eolymp.content.DescribeFragmentInput\x1a&.eolymp.content.DescribeFragmentOutput\"X\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -1878,37 +1172,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02,\"*/content/fragments/{fragment_id}/translate\x12\xb9\x02\n" +
-	"\x1bDescribeFragmentTranslation\x120.eolymp.content.DescribeFragmentTranslationInput\x1a1.eolymp.content.DescribeFragmentTranslationOutput\"\xb4\x01\xea\xe2\n" +
-	"\f\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xf4\x03\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02~Z<\x12:/content/fragments/{fragment_id}/variants/{translation_id}\x12>/content/fragments/{fragment_id}/translations/{translation_id}\x12\x8d\x02\n" +
-	"\x18ListFragmentTranslations\x12-.eolymp.content.ListFragmentTranslationsInput\x1a..eolymp.content.ListFragmentTranslationsOutput\"\x91\x01\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\\Z+\x12)/content/fragments/{fragment_id}/variants\x12-/content/fragments/{fragment_id}/translations\x12\x91\x02\n" +
-	"\x19CreateFragmentTranslation\x12..eolymp.content.CreateFragmentTranslationInput\x1a/.eolymp.content.CreateFragmentTranslationOutput\"\x92\x01\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02\\Z+\")/content/fragments/{fragment_id}/variants\"-/content/fragments/{fragment_id}/translations\x12\xb3\x02\n" +
-	"\x19UpdateFragmentTranslation\x12..eolymp.content.UpdateFragmentTranslationInput\x1a/.eolymp.content.UpdateFragmentTranslationOutput\"\xb4\x01\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02~Z<\x1a:/content/fragments/{fragment_id}/variants/{translation_id}\x1a>/content/fragments/{fragment_id}/translations/{translation_id}\x12\xb3\x02\n" +
-	"\x19DeleteFragmentTranslation\x12..eolymp.content.DeleteFragmentTranslationInput\x1a/.eolymp.content.DeleteFragmentTranslationOutput\"\xb4\x01\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02~Z<*:/content/fragments/{fragment_id}/variants/{translation_id}*>/content/fragments/{fragment_id}/translations/{translation_id}\x12\x9c\x01\n" +
+	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02,\"*/content/fragments/{fragment_id}/translate\x12\x9c\x01\n" +
 	"\fDescribePath\x12!.eolymp.content.DescribePathInput\x1a\".eolymp.content.DescribePathOutput\"E\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
@@ -1935,113 +1199,75 @@ func file_eolymp_content_content_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_content_content_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_content_content_service_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_eolymp_content_content_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_eolymp_content_content_service_proto_goTypes = []any{
-	(ListFragmentsInput_Sort)(0),                 // 0: eolymp.content.ListFragmentsInput.Sort
-	(*FragmentChangedEvent)(nil),                 // 1: eolymp.content.FragmentChangedEvent
-	(*FragmentTranslationChangedEvent)(nil),      // 2: eolymp.content.FragmentTranslationChangedEvent
-	(*DescribeFragmentInput)(nil),                // 3: eolymp.content.DescribeFragmentInput
-	(*DescribeFragmentOutput)(nil),               // 4: eolymp.content.DescribeFragmentOutput
-	(*ListFragmentsInput)(nil),                   // 5: eolymp.content.ListFragmentsInput
-	(*ListFragmentsOutput)(nil),                  // 6: eolymp.content.ListFragmentsOutput
-	(*CreateFragmentInput)(nil),                  // 7: eolymp.content.CreateFragmentInput
-	(*CreateFragmentOutput)(nil),                 // 8: eolymp.content.CreateFragmentOutput
-	(*UpdateFragmentInput)(nil),                  // 9: eolymp.content.UpdateFragmentInput
-	(*UpdateFragmentOutput)(nil),                 // 10: eolymp.content.UpdateFragmentOutput
-	(*DeleteFragmentInput)(nil),                  // 11: eolymp.content.DeleteFragmentInput
-	(*DeleteFragmentOutput)(nil),                 // 12: eolymp.content.DeleteFragmentOutput
-	(*TranslateFragmentInput)(nil),               // 13: eolymp.content.TranslateFragmentInput
-	(*TranslateFragmentOutput)(nil),              // 14: eolymp.content.TranslateFragmentOutput
-	(*DescribeFragmentTranslationInput)(nil),     // 15: eolymp.content.DescribeFragmentTranslationInput
-	(*DescribeFragmentTranslationOutput)(nil),    // 16: eolymp.content.DescribeFragmentTranslationOutput
-	(*ListFragmentTranslationsInput)(nil),        // 17: eolymp.content.ListFragmentTranslationsInput
-	(*ListFragmentTranslationsOutput)(nil),       // 18: eolymp.content.ListFragmentTranslationsOutput
-	(*CreateFragmentTranslationInput)(nil),       // 19: eolymp.content.CreateFragmentTranslationInput
-	(*CreateFragmentTranslationOutput)(nil),      // 20: eolymp.content.CreateFragmentTranslationOutput
-	(*UpdateFragmentTranslationInput)(nil),       // 21: eolymp.content.UpdateFragmentTranslationInput
-	(*UpdateFragmentTranslationOutput)(nil),      // 22: eolymp.content.UpdateFragmentTranslationOutput
-	(*DeleteFragmentTranslationInput)(nil),       // 23: eolymp.content.DeleteFragmentTranslationInput
-	(*DeleteFragmentTranslationOutput)(nil),      // 24: eolymp.content.DeleteFragmentTranslationOutput
-	(*DescribePathInput)(nil),                    // 25: eolymp.content.DescribePathInput
-	(*DescribePathOutput)(nil),                   // 26: eolymp.content.DescribePathOutput
-	(*ListParentsInput)(nil),                     // 27: eolymp.content.ListParentsInput
-	(*ListParentsOutput)(nil),                    // 28: eolymp.content.ListParentsOutput
-	(*ListFragmentsInput_Filter)(nil),            // 29: eolymp.content.ListFragmentsInput.Filter
-	(*ListFragmentTranslationsInput_Filter)(nil), // 30: eolymp.content.ListFragmentTranslationsInput.Filter
-	(*Fragment)(nil),                             // 31: eolymp.content.Fragment
-	(*Fragment_Translation)(nil),                 // 32: eolymp.content.Fragment.Translation
-	(Fragment_Extra_Field)(0),                    // 33: eolymp.content.Fragment.Extra.Field
-	(wellknown.Direction)(0),                     // 34: eolymp.wellknown.Direction
-	(Fragment_Patch_Field)(0),                    // 35: eolymp.content.Fragment.Patch.Field
-	(*Fragment_Patch)(nil),                       // 36: eolymp.content.Fragment.Patch
-	(*wellknown.ExpressionID)(nil),               // 37: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),           // 38: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),             // 39: eolymp.wellknown.ExpressionEnum
+	(ListFragmentsInput_Sort)(0),       // 0: eolymp.content.ListFragmentsInput.Sort
+	(*FragmentChangedEvent)(nil),       // 1: eolymp.content.FragmentChangedEvent
+	(*DescribeFragmentInput)(nil),      // 2: eolymp.content.DescribeFragmentInput
+	(*DescribeFragmentOutput)(nil),     // 3: eolymp.content.DescribeFragmentOutput
+	(*ListFragmentsInput)(nil),         // 4: eolymp.content.ListFragmentsInput
+	(*ListFragmentsOutput)(nil),        // 5: eolymp.content.ListFragmentsOutput
+	(*CreateFragmentInput)(nil),        // 6: eolymp.content.CreateFragmentInput
+	(*CreateFragmentOutput)(nil),       // 7: eolymp.content.CreateFragmentOutput
+	(*UpdateFragmentInput)(nil),        // 8: eolymp.content.UpdateFragmentInput
+	(*UpdateFragmentOutput)(nil),       // 9: eolymp.content.UpdateFragmentOutput
+	(*DeleteFragmentInput)(nil),        // 10: eolymp.content.DeleteFragmentInput
+	(*DeleteFragmentOutput)(nil),       // 11: eolymp.content.DeleteFragmentOutput
+	(*TranslateFragmentInput)(nil),     // 12: eolymp.content.TranslateFragmentInput
+	(*TranslateFragmentOutput)(nil),    // 13: eolymp.content.TranslateFragmentOutput
+	(*DescribePathInput)(nil),          // 14: eolymp.content.DescribePathInput
+	(*DescribePathOutput)(nil),         // 15: eolymp.content.DescribePathOutput
+	(*ListParentsInput)(nil),           // 16: eolymp.content.ListParentsInput
+	(*ListParentsOutput)(nil),          // 17: eolymp.content.ListParentsOutput
+	(*ListFragmentsInput_Filter)(nil),  // 18: eolymp.content.ListFragmentsInput.Filter
+	(*Fragment)(nil),                   // 19: eolymp.content.Fragment
+	(Fragment_Extra_Field)(0),          // 20: eolymp.content.Fragment.Extra.Field
+	(wellknown.Direction)(0),           // 21: eolymp.wellknown.Direction
+	(*Fragment_Patch)(nil),             // 22: eolymp.content.Fragment.Patch
+	(*wellknown.ExpressionID)(nil),     // 23: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 24: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 25: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_content_content_service_proto_depIdxs = []int32{
-	31, // 0: eolymp.content.FragmentChangedEvent.before:type_name -> eolymp.content.Fragment
-	31, // 1: eolymp.content.FragmentChangedEvent.after:type_name -> eolymp.content.Fragment
-	32, // 2: eolymp.content.FragmentTranslationChangedEvent.before:type_name -> eolymp.content.Fragment.Translation
-	32, // 3: eolymp.content.FragmentTranslationChangedEvent.after:type_name -> eolymp.content.Fragment.Translation
-	33, // 4: eolymp.content.DescribeFragmentInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	31, // 5: eolymp.content.DescribeFragmentOutput.fragment:type_name -> eolymp.content.Fragment
-	29, // 6: eolymp.content.ListFragmentsInput.filters:type_name -> eolymp.content.ListFragmentsInput.Filter
-	0,  // 7: eolymp.content.ListFragmentsInput.sort:type_name -> eolymp.content.ListFragmentsInput.Sort
-	34, // 8: eolymp.content.ListFragmentsInput.order:type_name -> eolymp.wellknown.Direction
-	33, // 9: eolymp.content.ListFragmentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	31, // 10: eolymp.content.ListFragmentsOutput.items:type_name -> eolymp.content.Fragment
-	31, // 11: eolymp.content.CreateFragmentInput.fragment:type_name -> eolymp.content.Fragment
-	35, // 12: eolymp.content.UpdateFragmentInput.patch:type_name -> eolymp.content.Fragment.Patch.Field
-	31, // 13: eolymp.content.UpdateFragmentInput.fragment:type_name -> eolymp.content.Fragment
-	36, // 14: eolymp.content.UpdateFragmentInput.fragment_patch:type_name -> eolymp.content.Fragment.Patch
-	33, // 15: eolymp.content.DescribeFragmentTranslationInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	32, // 16: eolymp.content.DescribeFragmentTranslationOutput.translation:type_name -> eolymp.content.Fragment.Translation
-	30, // 17: eolymp.content.ListFragmentTranslationsInput.filters:type_name -> eolymp.content.ListFragmentTranslationsInput.Filter
-	33, // 18: eolymp.content.ListFragmentTranslationsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	32, // 19: eolymp.content.ListFragmentTranslationsOutput.items:type_name -> eolymp.content.Fragment.Translation
-	32, // 20: eolymp.content.CreateFragmentTranslationInput.translation:type_name -> eolymp.content.Fragment.Translation
-	32, // 21: eolymp.content.UpdateFragmentTranslationInput.translation:type_name -> eolymp.content.Fragment.Translation
-	33, // 22: eolymp.content.DescribePathInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	31, // 23: eolymp.content.DescribePathOutput.fragment:type_name -> eolymp.content.Fragment
-	33, // 24: eolymp.content.ListParentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	31, // 25: eolymp.content.ListParentsOutput.items:type_name -> eolymp.content.Fragment
-	37, // 26: eolymp.content.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	38, // 27: eolymp.content.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
-	39, // 28: eolymp.content.ListFragmentsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	39, // 29: eolymp.content.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
-	37, // 30: eolymp.content.ListFragmentTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	39, // 31: eolymp.content.ListFragmentTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	3,  // 32: eolymp.content.ContentService.DescribeFragment:input_type -> eolymp.content.DescribeFragmentInput
-	5,  // 33: eolymp.content.ContentService.ListFragments:input_type -> eolymp.content.ListFragmentsInput
-	7,  // 34: eolymp.content.ContentService.CreateFragment:input_type -> eolymp.content.CreateFragmentInput
-	9,  // 35: eolymp.content.ContentService.UpdateFragment:input_type -> eolymp.content.UpdateFragmentInput
-	11, // 36: eolymp.content.ContentService.DeleteFragment:input_type -> eolymp.content.DeleteFragmentInput
-	13, // 37: eolymp.content.ContentService.TranslateFragment:input_type -> eolymp.content.TranslateFragmentInput
-	15, // 38: eolymp.content.ContentService.DescribeFragmentTranslation:input_type -> eolymp.content.DescribeFragmentTranslationInput
-	17, // 39: eolymp.content.ContentService.ListFragmentTranslations:input_type -> eolymp.content.ListFragmentTranslationsInput
-	19, // 40: eolymp.content.ContentService.CreateFragmentTranslation:input_type -> eolymp.content.CreateFragmentTranslationInput
-	21, // 41: eolymp.content.ContentService.UpdateFragmentTranslation:input_type -> eolymp.content.UpdateFragmentTranslationInput
-	23, // 42: eolymp.content.ContentService.DeleteFragmentTranslation:input_type -> eolymp.content.DeleteFragmentTranslationInput
-	25, // 43: eolymp.content.ContentService.DescribePath:input_type -> eolymp.content.DescribePathInput
-	27, // 44: eolymp.content.ContentService.ListParents:input_type -> eolymp.content.ListParentsInput
-	4,  // 45: eolymp.content.ContentService.DescribeFragment:output_type -> eolymp.content.DescribeFragmentOutput
-	6,  // 46: eolymp.content.ContentService.ListFragments:output_type -> eolymp.content.ListFragmentsOutput
-	8,  // 47: eolymp.content.ContentService.CreateFragment:output_type -> eolymp.content.CreateFragmentOutput
-	10, // 48: eolymp.content.ContentService.UpdateFragment:output_type -> eolymp.content.UpdateFragmentOutput
-	12, // 49: eolymp.content.ContentService.DeleteFragment:output_type -> eolymp.content.DeleteFragmentOutput
-	14, // 50: eolymp.content.ContentService.TranslateFragment:output_type -> eolymp.content.TranslateFragmentOutput
-	16, // 51: eolymp.content.ContentService.DescribeFragmentTranslation:output_type -> eolymp.content.DescribeFragmentTranslationOutput
-	18, // 52: eolymp.content.ContentService.ListFragmentTranslations:output_type -> eolymp.content.ListFragmentTranslationsOutput
-	20, // 53: eolymp.content.ContentService.CreateFragmentTranslation:output_type -> eolymp.content.CreateFragmentTranslationOutput
-	22, // 54: eolymp.content.ContentService.UpdateFragmentTranslation:output_type -> eolymp.content.UpdateFragmentTranslationOutput
-	24, // 55: eolymp.content.ContentService.DeleteFragmentTranslation:output_type -> eolymp.content.DeleteFragmentTranslationOutput
-	26, // 56: eolymp.content.ContentService.DescribePath:output_type -> eolymp.content.DescribePathOutput
-	28, // 57: eolymp.content.ContentService.ListParents:output_type -> eolymp.content.ListParentsOutput
-	45, // [45:58] is the sub-list for method output_type
-	32, // [32:45] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	19, // 0: eolymp.content.FragmentChangedEvent.before:type_name -> eolymp.content.Fragment
+	19, // 1: eolymp.content.FragmentChangedEvent.after:type_name -> eolymp.content.Fragment
+	20, // 2: eolymp.content.DescribeFragmentInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 3: eolymp.content.DescribeFragmentOutput.fragment:type_name -> eolymp.content.Fragment
+	18, // 4: eolymp.content.ListFragmentsInput.filters:type_name -> eolymp.content.ListFragmentsInput.Filter
+	0,  // 5: eolymp.content.ListFragmentsInput.sort:type_name -> eolymp.content.ListFragmentsInput.Sort
+	21, // 6: eolymp.content.ListFragmentsInput.order:type_name -> eolymp.wellknown.Direction
+	20, // 7: eolymp.content.ListFragmentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 8: eolymp.content.ListFragmentsOutput.items:type_name -> eolymp.content.Fragment
+	19, // 9: eolymp.content.CreateFragmentInput.fragment:type_name -> eolymp.content.Fragment
+	22, // 10: eolymp.content.UpdateFragmentInput.fragment:type_name -> eolymp.content.Fragment.Patch
+	20, // 11: eolymp.content.DescribePathInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 12: eolymp.content.DescribePathOutput.fragment:type_name -> eolymp.content.Fragment
+	20, // 13: eolymp.content.ListParentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 14: eolymp.content.ListParentsOutput.items:type_name -> eolymp.content.Fragment
+	23, // 15: eolymp.content.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	24, // 16: eolymp.content.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
+	25, // 17: eolymp.content.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
+	2,  // 18: eolymp.content.ContentService.DescribeFragment:input_type -> eolymp.content.DescribeFragmentInput
+	4,  // 19: eolymp.content.ContentService.ListFragments:input_type -> eolymp.content.ListFragmentsInput
+	6,  // 20: eolymp.content.ContentService.CreateFragment:input_type -> eolymp.content.CreateFragmentInput
+	8,  // 21: eolymp.content.ContentService.UpdateFragment:input_type -> eolymp.content.UpdateFragmentInput
+	10, // 22: eolymp.content.ContentService.DeleteFragment:input_type -> eolymp.content.DeleteFragmentInput
+	12, // 23: eolymp.content.ContentService.TranslateFragment:input_type -> eolymp.content.TranslateFragmentInput
+	14, // 24: eolymp.content.ContentService.DescribePath:input_type -> eolymp.content.DescribePathInput
+	16, // 25: eolymp.content.ContentService.ListParents:input_type -> eolymp.content.ListParentsInput
+	3,  // 26: eolymp.content.ContentService.DescribeFragment:output_type -> eolymp.content.DescribeFragmentOutput
+	5,  // 27: eolymp.content.ContentService.ListFragments:output_type -> eolymp.content.ListFragmentsOutput
+	7,  // 28: eolymp.content.ContentService.CreateFragment:output_type -> eolymp.content.CreateFragmentOutput
+	9,  // 29: eolymp.content.ContentService.UpdateFragment:output_type -> eolymp.content.UpdateFragmentOutput
+	11, // 30: eolymp.content.ContentService.DeleteFragment:output_type -> eolymp.content.DeleteFragmentOutput
+	13, // 31: eolymp.content.ContentService.TranslateFragment:output_type -> eolymp.content.TranslateFragmentOutput
+	15, // 32: eolymp.content.ContentService.DescribePath:output_type -> eolymp.content.DescribePathOutput
+	17, // 33: eolymp.content.ContentService.ListParents:output_type -> eolymp.content.ListParentsOutput
+	26, // [26:34] is the sub-list for method output_type
+	18, // [18:26] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_content_service_proto_init() }
@@ -2056,7 +1282,7 @@ func file_eolymp_content_content_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_content_service_proto_rawDesc), len(file_eolymp_content_content_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   30,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
