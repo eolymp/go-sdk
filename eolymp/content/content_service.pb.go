@@ -808,7 +808,7 @@ func (x *TranslateFragmentInput) GetOverrideManual() bool {
 
 type TranslateFragmentOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -843,9 +843,9 @@ func (*TranslateFragmentOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *TranslateFragmentOutput) GetJobId() string {
+func (x *TranslateFragmentOutput) GetTaskId() string {
 	if x != nil {
-		return x.JobId
+		return x.TaskId
 	}
 	return ""
 }
@@ -1786,9 +1786,9 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x16\n" +
 	"\x06target\x18\x03 \x03(\tR\x06target\x12)\n" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
-	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"0\n" +
-	"\x17TranslateFragmentOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\xa7\x01\n" +
+	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"2\n" +
+	"\x17TranslateFragmentOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\xa7\x01\n" +
 	" DescribeFragmentTranslationInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12%\n" +

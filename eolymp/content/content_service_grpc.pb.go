@@ -76,7 +76,7 @@ type ContentServiceClient interface {
 	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at.
 	// Aimed at a single locale it removes only that translation and leaves the page itself in place.
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
-	// TranslateFragment starts automatic translation of a page into other locales and returns a job id; the
+	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
 	// work runs asynchronously, so the translations appear some time after the call returns and are found by
 	// listing them again. Translations written by hand are left alone unless the request asks for them to be
 	// overwritten, and whatever this produces is marked as automatic.
@@ -290,7 +290,7 @@ type ContentServiceServer interface {
 	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at.
 	// Aimed at a single locale it removes only that translation and leaves the page itself in place.
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
-	// TranslateFragment starts automatic translation of a page into other locales and returns a job id; the
+	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
 	// work runs asynchronously, so the translations appear some time after the call returns and are found by
 	// listing them again. Translations written by hand are left alone unless the request asks for them to be
 	// overwritten, and whatever this produces is marked as automatic.

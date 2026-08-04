@@ -1417,7 +1417,7 @@ func (x *TranslatePostInput) GetOverrideManual() bool {
 
 type TranslatePostOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1452,9 +1452,9 @@ func (*TranslatePostOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{22}
 }
 
-func (x *TranslatePostOutput) GetJobId() string {
+func (x *TranslatePostOutput) GetTaskId() string {
 	if x != nil {
-		return x.JobId
+		return x.TaskId
 	}
 	return ""
 }
@@ -2312,9 +2312,9 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x16\n" +
 	"\x06target\x18\x03 \x03(\tR\x06target\x12)\n" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
-	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\",\n" +
-	"\x13TranslatePostOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\x91\x01\n" +
+	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\".\n" +
+	"\x13TranslatePostOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x91\x01\n" +
 	"\x1cDescribePostTranslationInput\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\x121\n" +

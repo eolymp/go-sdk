@@ -85,7 +85,7 @@ type PostServiceClient interface {
 	// a reader action rather than an editorial one: a caller votes only for themselves, reads back their own vote
 	// as an extra on the post, and sees everyone's votes summed into an ordinary field.
 	VotePost(ctx context.Context, in *VotePostInput, opts ...grpc.CallOption) (*VotePostOutput, error)
-	// TranslatePost hands a post to automatic translation for several locales at once and returns a job id: the
+	// TranslatePost hands a post to automatic translation for several locales at once and returns a task id: the
 	// work runs in the background, so the translations turn up some time after the call returns and are found by
 	// listing them again. It can additionally take in every translation an earlier automatic run produced, to
 	// refresh them, and can be told to overwrite translations a person wrote, which it otherwise leaves alone.
@@ -316,7 +316,7 @@ type PostServiceServer interface {
 	// a reader action rather than an editorial one: a caller votes only for themselves, reads back their own vote
 	// as an extra on the post, and sees everyone's votes summed into an ordinary field.
 	VotePost(context.Context, *VotePostInput) (*VotePostOutput, error)
-	// TranslatePost hands a post to automatic translation for several locales at once and returns a job id: the
+	// TranslatePost hands a post to automatic translation for several locales at once and returns a task id: the
 	// work runs in the background, so the translations turn up some time after the call returns and are found by
 	// listing them again. It can additionally take in every translation an earlier automatic run produced, to
 	// refresh them, and can be told to overwrite translations a person wrote, which it otherwise leaves alone.

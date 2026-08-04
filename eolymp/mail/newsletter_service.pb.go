@@ -856,7 +856,7 @@ func (x *TranslateNewsletterInput) GetOverrideManual() bool {
 
 type TranslateNewsletterOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -891,9 +891,9 @@ func (*TranslateNewsletterOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *TranslateNewsletterOutput) GetJobId() string {
+func (x *TranslateNewsletterOutput) GetTaskId() string {
 	if x != nil {
-		return x.JobId
+		return x.TaskId
 	}
 	return ""
 }
@@ -2366,9 +2366,9 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x16\n" +
 	"\x06target\x18\x03 \x03(\tR\x06target\x12)\n" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
-	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"2\n" +
-	"\x19TranslateNewsletterOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\x84\x01\n" +
+	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"4\n" +
+	"\x19TranslateNewsletterOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x84\x01\n" +
 	"\x16CreateTranslationInput\x12#\n" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12E\n" +
 	"\vtranslation\x18\x02 \x01(\v2#.eolymp.mail.Newsletter.TranslationR\vtranslation\"@\n" +
