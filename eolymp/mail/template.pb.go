@@ -70,19 +70,19 @@ func (Template_Extra_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Template struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Key                string                 `protobuf:"bytes,10,opt,name=key,proto3" json:"key,omitempty"`
-	Draft              bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`
-	Subject            string                 `protobuf:"bytes,12,opt,name=subject,proto3" json:"subject,omitempty"`
-	Automatic          bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`
-	Locale             string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`
-	AlternativeLocales []string               `protobuf:"bytes,14,rep,name=alternative_locales,json=alternativeLocales,proto3" json:"alternative_locales,omitempty"`
-	Content            string                 `protobuf:"bytes,52,opt,name=content,proto3" json:"content,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Key           string                 `protobuf:"bytes,10,opt,name=key,proto3" json:"key,omitempty"`
+	Draft         bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`
+	Subject       string                 `protobuf:"bytes,12,opt,name=subject,proto3" json:"subject,omitempty"`
+	Automatic     bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`
+	Locale        string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`
+	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"` // alternative locales
+	Content       string                 `protobuf:"bytes,52,opt,name=content,proto3" json:"content,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Template) Reset() {
@@ -171,9 +171,9 @@ func (x *Template) GetLocale() string {
 	return ""
 }
 
-func (x *Template) GetAlternativeLocales() []string {
+func (x *Template) GetLocales() []string {
 	if x != nil {
-		return x.AlternativeLocales
+		return x.Locales
 	}
 	return nil
 }
@@ -301,7 +301,7 @@ var File_eolymp_mail_template_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_template_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/mail/template.proto\x12\veolymp.mail\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x05\n" +
+	"\x1aeolymp/mail/template.proto\x12\veolymp.mail\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe1\x04\n" +
 	"\bTemplate\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12A\n" +
 	"\n" +
@@ -313,13 +313,13 @@ const file_eolymp_mail_template_proto_rawDesc = "" +
 	"\x05draft\x18\r \x01(\bR\x05draft\x12\x18\n" +
 	"\asubject\x18\f \x01(\tR\asubject\x12\x1c\n" +
 	"\tautomatic\x18\x0f \x01(\bR\tautomatic\x12\x16\n" +
-	"\x06locale\x18\v \x01(\tR\x06locale\x12/\n" +
-	"\x13alternative_locales\x18\x0e \x03(\tR\x12alternativeLocales\x12\x18\n" +
+	"\x06locale\x18\v \x01(\tR\x06locale\x12\x18\n" +
+	"\alocales\x18\x0e \x03(\tR\alocales\x12\x18\n" +
 	"\acontent\x184 \x01(\tR\acontent\x1a6\n" +
 	"\x05Extra\"-\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\v\n" +
-	"\aCONTENT\x10\x01\"\x04\b\x02\x10\x02\x1a\xd8\x01\n" +
+	"\aCONTENT\x10\x01\"\x04\b\x02\x10\x02\x1a\xd2\x01\n" +
 	"\x05Patch\x12\x15\n" +
 	"\x03key\x18\n" +
 	" \x01(\tH\x00R\x03key\x88\x01\x01\x12\x19\n" +
@@ -334,7 +334,7 @@ const file_eolymp_mail_template_proto_rawDesc = "" +
 	"\n" +
 	"_automaticB\n" +
 	"\n" +
-	"\b_contentJ\x04\b3\x104J\x04\b3\x104B+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"\b_contentB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_template_proto_rawDescOnce sync.Once

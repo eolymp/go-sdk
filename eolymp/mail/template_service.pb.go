@@ -596,7 +596,6 @@ type ListTemplatesInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
 	Key           []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=key,proto3" json:"key,omitempty"`
-	Locale        []*wellknown.ExpressionEnum   `protobuf:"bytes,4,rep,name=locale,proto3" json:"locale,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -645,13 +644,6 @@ func (x *ListTemplatesInput_Filter) GetKey() []*wellknown.ExpressionString {
 	return nil
 }
 
-func (x *ListTemplatesInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Locale
-	}
-	return nil
-}
-
 var File_eolymp_mail_template_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_template_service_proto_rawDesc = "" +
@@ -679,7 +671,7 @@ const file_eolymp_mail_template_service_proto_rawDesc = "" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.mail.Template.Extra.FieldR\x05extra\"K\n" +
 	"\x16DescribeTemplateOutput\x121\n" +
-	"\btemplate\x18\x01 \x01(\v2\x15.eolymp.mail.TemplateR\btemplate\"\xa3\x04\n" +
+	"\btemplate\x18\x01 \x01(\v2\x15.eolymp.mail.TemplateR\btemplate\"\xe8\x03\n" +
 	"\x12ListTemplatesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -688,11 +680,10 @@ const file_eolymp_mail_template_service_proto_rawDesc = "" +
 	"\x04sort\x182 \x01(\x0e2(.eolymp.mail.ListTemplatesInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.mail.Template.Extra.FieldR\x05extra\x1a\xa8\x01\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.mail.Template.Extra.FieldR\x05extra\x1an\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x124\n" +
-	"\x03key\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x03key\x128\n" +
-	"\x06locale\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"0\n" +
+	"\x03key\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x03key\"0\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\a\n" +
 	"\x03KEY\x10\x01\x12\x0e\n" +
@@ -766,7 +757,6 @@ var file_eolymp_mail_template_service_proto_goTypes = []any{
 	(wellknown.Direction)(0),           // 15: eolymp.wellknown.Direction
 	(*wellknown.ExpressionID)(nil),     // 16: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil), // 17: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 18: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_mail_template_service_proto_depIdxs = []int32{
 	12, // 0: eolymp.mail.CreateTemplateInput.template:type_name -> eolymp.mail.Template
@@ -780,22 +770,21 @@ var file_eolymp_mail_template_service_proto_depIdxs = []int32{
 	12, // 8: eolymp.mail.ListTemplatesOutput.items:type_name -> eolymp.mail.Template
 	16, // 9: eolymp.mail.ListTemplatesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	17, // 10: eolymp.mail.ListTemplatesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionString
-	18, // 11: eolymp.mail.ListTemplatesInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	1,  // 12: eolymp.mail.TemplateService.CreateTemplate:input_type -> eolymp.mail.CreateTemplateInput
-	3,  // 13: eolymp.mail.TemplateService.UpdateTemplate:input_type -> eolymp.mail.UpdateTemplateInput
-	5,  // 14: eolymp.mail.TemplateService.DeleteTemplate:input_type -> eolymp.mail.DeleteTemplateInput
-	7,  // 15: eolymp.mail.TemplateService.DescribeTemplate:input_type -> eolymp.mail.DescribeTemplateInput
-	9,  // 16: eolymp.mail.TemplateService.ListTemplates:input_type -> eolymp.mail.ListTemplatesInput
-	2,  // 17: eolymp.mail.TemplateService.CreateTemplate:output_type -> eolymp.mail.CreateTemplateOutput
-	4,  // 18: eolymp.mail.TemplateService.UpdateTemplate:output_type -> eolymp.mail.UpdateTemplateOutput
-	6,  // 19: eolymp.mail.TemplateService.DeleteTemplate:output_type -> eolymp.mail.DeleteTemplateOutput
-	8,  // 20: eolymp.mail.TemplateService.DescribeTemplate:output_type -> eolymp.mail.DescribeTemplateOutput
-	10, // 21: eolymp.mail.TemplateService.ListTemplates:output_type -> eolymp.mail.ListTemplatesOutput
-	17, // [17:22] is the sub-list for method output_type
-	12, // [12:17] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	1,  // 11: eolymp.mail.TemplateService.CreateTemplate:input_type -> eolymp.mail.CreateTemplateInput
+	3,  // 12: eolymp.mail.TemplateService.UpdateTemplate:input_type -> eolymp.mail.UpdateTemplateInput
+	5,  // 13: eolymp.mail.TemplateService.DeleteTemplate:input_type -> eolymp.mail.DeleteTemplateInput
+	7,  // 14: eolymp.mail.TemplateService.DescribeTemplate:input_type -> eolymp.mail.DescribeTemplateInput
+	9,  // 15: eolymp.mail.TemplateService.ListTemplates:input_type -> eolymp.mail.ListTemplatesInput
+	2,  // 16: eolymp.mail.TemplateService.CreateTemplate:output_type -> eolymp.mail.CreateTemplateOutput
+	4,  // 17: eolymp.mail.TemplateService.UpdateTemplate:output_type -> eolymp.mail.UpdateTemplateOutput
+	6,  // 18: eolymp.mail.TemplateService.DeleteTemplate:output_type -> eolymp.mail.DeleteTemplateOutput
+	8,  // 19: eolymp.mail.TemplateService.DescribeTemplate:output_type -> eolymp.mail.DescribeTemplateOutput
+	10, // 20: eolymp.mail.TemplateService.ListTemplates:output_type -> eolymp.mail.ListTemplatesOutput
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_mail_template_service_proto_init() }
