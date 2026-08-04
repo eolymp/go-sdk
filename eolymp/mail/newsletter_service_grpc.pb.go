@@ -27,11 +27,6 @@ const (
 	NewsletterService_TestNewsletter_FullMethodName      = "/eolymp.mail.NewsletterService/TestNewsletter"
 	NewsletterService_SendNewsletter_FullMethodName      = "/eolymp.mail.NewsletterService/SendNewsletter"
 	NewsletterService_TranslateNewsletter_FullMethodName = "/eolymp.mail.NewsletterService/TranslateNewsletter"
-	NewsletterService_CreateTranslation_FullMethodName   = "/eolymp.mail.NewsletterService/CreateTranslation"
-	NewsletterService_UpdateTranslation_FullMethodName   = "/eolymp.mail.NewsletterService/UpdateTranslation"
-	NewsletterService_DeleteTranslation_FullMethodName   = "/eolymp.mail.NewsletterService/DeleteTranslation"
-	NewsletterService_DescribeTranslation_FullMethodName = "/eolymp.mail.NewsletterService/DescribeTranslation"
-	NewsletterService_ListTranslations_FullMethodName    = "/eolymp.mail.NewsletterService/ListTranslations"
 	NewsletterService_CreateRecipient_FullMethodName     = "/eolymp.mail.NewsletterService/CreateRecipient"
 	NewsletterService_ImportRecipient_FullMethodName     = "/eolymp.mail.NewsletterService/ImportRecipient"
 	NewsletterService_DeleteRecipient_FullMethodName     = "/eolymp.mail.NewsletterService/DeleteRecipient"
@@ -51,11 +46,6 @@ type NewsletterServiceClient interface {
 	TestNewsletter(ctx context.Context, in *TestNewsletterInput, opts ...grpc.CallOption) (*TestNewsletterOutput, error)
 	SendNewsletter(ctx context.Context, in *SendNewsletterInput, opts ...grpc.CallOption) (*SendNewsletterOutput, error)
 	TranslateNewsletter(ctx context.Context, in *TranslateNewsletterInput, opts ...grpc.CallOption) (*TranslateNewsletterOutput, error)
-	CreateTranslation(ctx context.Context, in *CreateTranslationInput, opts ...grpc.CallOption) (*CreateTranslationOutput, error)
-	UpdateTranslation(ctx context.Context, in *UpdateTranslationInput, opts ...grpc.CallOption) (*UpdateTranslationOutput, error)
-	DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error)
-	DescribeTranslation(ctx context.Context, in *DescribeTranslationInput, opts ...grpc.CallOption) (*DescribeTranslationOutput, error)
-	ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error)
 	CreateRecipient(ctx context.Context, in *CreateRecipientInput, opts ...grpc.CallOption) (*CreateRecipientOutput, error)
 	ImportRecipient(ctx context.Context, in *ImportRecipientInput, opts ...grpc.CallOption) (*ImportRecipientOutput, error)
 	DeleteRecipient(ctx context.Context, in *DeleteRecipientInput, opts ...grpc.CallOption) (*DeleteRecipientOutput, error)
@@ -151,56 +141,6 @@ func (c *newsletterServiceClient) TranslateNewsletter(ctx context.Context, in *T
 	return out, nil
 }
 
-func (c *newsletterServiceClient) CreateTranslation(ctx context.Context, in *CreateTranslationInput, opts ...grpc.CallOption) (*CreateTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateTranslationOutput)
-	err := c.cc.Invoke(ctx, NewsletterService_CreateTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsletterServiceClient) UpdateTranslation(ctx context.Context, in *UpdateTranslationInput, opts ...grpc.CallOption) (*UpdateTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateTranslationOutput)
-	err := c.cc.Invoke(ctx, NewsletterService_UpdateTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsletterServiceClient) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput, opts ...grpc.CallOption) (*DeleteTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteTranslationOutput)
-	err := c.cc.Invoke(ctx, NewsletterService_DeleteTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsletterServiceClient) DescribeTranslation(ctx context.Context, in *DescribeTranslationInput, opts ...grpc.CallOption) (*DescribeTranslationOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeTranslationOutput)
-	err := c.cc.Invoke(ctx, NewsletterService_DescribeTranslation_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsletterServiceClient) ListTranslations(ctx context.Context, in *ListTranslationsInput, opts ...grpc.CallOption) (*ListTranslationsOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListTranslationsOutput)
-	err := c.cc.Invoke(ctx, NewsletterService_ListTranslations_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *newsletterServiceClient) CreateRecipient(ctx context.Context, in *CreateRecipientInput, opts ...grpc.CallOption) (*CreateRecipientOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateRecipientOutput)
@@ -263,11 +203,6 @@ type NewsletterServiceServer interface {
 	TestNewsletter(context.Context, *TestNewsletterInput) (*TestNewsletterOutput, error)
 	SendNewsletter(context.Context, *SendNewsletterInput) (*SendNewsletterOutput, error)
 	TranslateNewsletter(context.Context, *TranslateNewsletterInput) (*TranslateNewsletterOutput, error)
-	CreateTranslation(context.Context, *CreateTranslationInput) (*CreateTranslationOutput, error)
-	UpdateTranslation(context.Context, *UpdateTranslationInput) (*UpdateTranslationOutput, error)
-	DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error)
-	DescribeTranslation(context.Context, *DescribeTranslationInput) (*DescribeTranslationOutput, error)
-	ListTranslations(context.Context, *ListTranslationsInput) (*ListTranslationsOutput, error)
 	CreateRecipient(context.Context, *CreateRecipientInput) (*CreateRecipientOutput, error)
 	ImportRecipient(context.Context, *ImportRecipientInput) (*ImportRecipientOutput, error)
 	DeleteRecipient(context.Context, *DeleteRecipientInput) (*DeleteRecipientOutput, error)
@@ -305,21 +240,6 @@ func (UnimplementedNewsletterServiceServer) SendNewsletter(context.Context, *Sen
 }
 func (UnimplementedNewsletterServiceServer) TranslateNewsletter(context.Context, *TranslateNewsletterInput) (*TranslateNewsletterOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method TranslateNewsletter not implemented")
-}
-func (UnimplementedNewsletterServiceServer) CreateTranslation(context.Context, *CreateTranslationInput) (*CreateTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateTranslation not implemented")
-}
-func (UnimplementedNewsletterServiceServer) UpdateTranslation(context.Context, *UpdateTranslationInput) (*UpdateTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateTranslation not implemented")
-}
-func (UnimplementedNewsletterServiceServer) DeleteTranslation(context.Context, *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteTranslation not implemented")
-}
-func (UnimplementedNewsletterServiceServer) DescribeTranslation(context.Context, *DescribeTranslationInput) (*DescribeTranslationOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeTranslation not implemented")
-}
-func (UnimplementedNewsletterServiceServer) ListTranslations(context.Context, *ListTranslationsInput) (*ListTranslationsOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListTranslations not implemented")
 }
 func (UnimplementedNewsletterServiceServer) CreateRecipient(context.Context, *CreateRecipientInput) (*CreateRecipientOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateRecipient not implemented")
@@ -500,96 +420,6 @@ func _NewsletterService_TranslateNewsletter_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NewsletterService_CreateTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsletterServiceServer).CreateTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsletterService_CreateTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsletterServiceServer).CreateTranslation(ctx, req.(*CreateTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsletterService_UpdateTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsletterServiceServer).UpdateTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsletterService_UpdateTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsletterServiceServer).UpdateTranslation(ctx, req.(*UpdateTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsletterService_DeleteTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsletterServiceServer).DeleteTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsletterService_DeleteTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsletterServiceServer).DeleteTranslation(ctx, req.(*DeleteTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsletterService_DescribeTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeTranslationInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsletterServiceServer).DescribeTranslation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsletterService_DescribeTranslation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsletterServiceServer).DescribeTranslation(ctx, req.(*DescribeTranslationInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsletterService_ListTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTranslationsInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsletterServiceServer).ListTranslations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsletterService_ListTranslations_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsletterServiceServer).ListTranslations(ctx, req.(*ListTranslationsInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _NewsletterService_CreateRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRecipientInput)
 	if err := dec(in); err != nil {
@@ -718,26 +548,6 @@ var NewsletterService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TranslateNewsletter",
 			Handler:    _NewsletterService_TranslateNewsletter_Handler,
-		},
-		{
-			MethodName: "CreateTranslation",
-			Handler:    _NewsletterService_CreateTranslation_Handler,
-		},
-		{
-			MethodName: "UpdateTranslation",
-			Handler:    _NewsletterService_UpdateTranslation_Handler,
-		},
-		{
-			MethodName: "DeleteTranslation",
-			Handler:    _NewsletterService_DeleteTranslation_Handler,
-		},
-		{
-			MethodName: "DescribeTranslation",
-			Handler:    _NewsletterService_DescribeTranslation_Handler,
-		},
-		{
-			MethodName: "ListTranslations",
-			Handler:    _NewsletterService_ListTranslations_Handler,
 		},
 		{
 			MethodName: "CreateRecipient",

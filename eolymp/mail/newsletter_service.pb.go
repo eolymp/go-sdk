@@ -155,10 +155,10 @@ func (x *CreateNewsletterOutput) GetNewsletterId() string {
 }
 
 type UpdateNewsletterInput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Patch         []Newsletter_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch_Field" json:"patch,omitempty"`
-	NewsletterId  string                   `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Newsletter    *Newsletter              `protobuf:"bytes,3,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NewsletterId  string                 `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Newsletter    *Newsletter_Patch      `protobuf:"bytes,4,opt,name=newsletter,proto3" json:"newsletter,omitempty"`
+	Locale        string                 `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -193,13 +193,6 @@ func (*UpdateNewsletterInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateNewsletterInput) GetPatch() []Newsletter_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateNewsletterInput) GetNewsletterId() string {
 	if x != nil {
 		return x.NewsletterId
@@ -207,11 +200,18 @@ func (x *UpdateNewsletterInput) GetNewsletterId() string {
 	return ""
 }
 
-func (x *UpdateNewsletterInput) GetNewsletter() *Newsletter {
+func (x *UpdateNewsletterInput) GetNewsletter() *Newsletter_Patch {
 	if x != nil {
 		return x.Newsletter
 	}
 	return nil
+}
+
+func (x *UpdateNewsletterInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
 }
 
 type UpdateNewsletterOutput struct {
@@ -253,6 +253,7 @@ func (*UpdateNewsletterOutput) Descriptor() ([]byte, []int) {
 type DeleteNewsletterInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NewsletterId  string                 `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Locale        string                 `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -290,6 +291,13 @@ func (*DeleteNewsletterInput) Descriptor() ([]byte, []int) {
 func (x *DeleteNewsletterInput) GetNewsletterId() string {
 	if x != nil {
 		return x.NewsletterId
+	}
+	return ""
+}
+
+func (x *DeleteNewsletterInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
 	}
 	return ""
 }
@@ -333,6 +341,7 @@ func (*DeleteNewsletterOutput) Descriptor() ([]byte, []int) {
 type DescribeNewsletterInput struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	NewsletterId  string                   `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
+	Locale        string                   `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
 	Extra         []Newsletter_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -371,6 +380,13 @@ func (*DescribeNewsletterInput) Descriptor() ([]byte, []int) {
 func (x *DescribeNewsletterInput) GetNewsletterId() string {
 	if x != nil {
 		return x.NewsletterId
+	}
+	return ""
+}
+
+func (x *DescribeNewsletterInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
 	}
 	return ""
 }
@@ -781,10 +797,10 @@ func (*SendNewsletterOutput) Descriptor() ([]byte, []int) {
 type TranslateNewsletterInput struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	NewsletterId    string                 `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Source          string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`                                           // source language (by default newsletter content is used)
-	Target          []string               `protobuf:"bytes,3,rep,name=target,proto3" json:"target,omitempty"`                                           // list of target languages, if statement exists and it has automatic=true (or override_manual=true) it will be updated
-	TargetAutomatic bool                   `protobuf:"varint,4,opt,name=target_automatic,json=targetAutomatic,proto3" json:"target_automatic,omitempty"` // add to targets all editorials with automatic=true
-	OverrideManual  bool                   `protobuf:"varint,5,opt,name=override_manual,json=overrideManual,proto3" json:"override_manual,omitempty"`    // update editorials even if automatic=false
+	Source          string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`                                           // source locale (by default the newsletter itself is used)
+	Target          []string               `protobuf:"bytes,3,rep,name=target,proto3" json:"target,omitempty"`                                           // target locales, an existing translation is replaced when it has automatic=true (or override_manual=true)
+	TargetAutomatic bool                   `protobuf:"varint,4,opt,name=target_automatic,json=targetAutomatic,proto3" json:"target_automatic,omitempty"` // add every translation with automatic=true to the targets
+	OverrideManual  bool                   `protobuf:"varint,5,opt,name=override_manual,json=overrideManual,proto3" json:"override_manual,omitempty"`    // replace translations even when automatic=false
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -898,528 +914,6 @@ func (x *TranslateNewsletterOutput) GetTaskId() string {
 	return ""
 }
 
-type CreateTranslationInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	NewsletterId  string                  `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	Translation   *Newsletter_Translation `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateTranslationInput) Reset() {
-	*x = CreateTranslationInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateTranslationInput) ProtoMessage() {}
-
-func (x *CreateTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateTranslationInput.ProtoReflect.Descriptor instead.
-func (*CreateTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *CreateTranslationInput) GetNewsletterId() string {
-	if x != nil {
-		return x.NewsletterId
-	}
-	return ""
-}
-
-func (x *CreateTranslationInput) GetTranslation() *Newsletter_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type CreateTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TranslationId string                 `protobuf:"bytes,1,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateTranslationOutput) Reset() {
-	*x = CreateTranslationOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateTranslationOutput) ProtoMessage() {}
-
-func (x *CreateTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateTranslationOutput.ProtoReflect.Descriptor instead.
-func (*CreateTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *CreateTranslationOutput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-type UpdateTranslationInput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Patch         []Newsletter_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.mail.Newsletter_Patch_Field" json:"patch,omitempty"`
-	NewsletterId  string                   `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	TranslationId string                   `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Translation   *Newsletter_Translation  `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateTranslationInput) Reset() {
-	*x = UpdateTranslationInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateTranslationInput) ProtoMessage() {}
-
-func (x *UpdateTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateTranslationInput.ProtoReflect.Descriptor instead.
-func (*UpdateTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *UpdateTranslationInput) GetPatch() []Newsletter_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateTranslationInput) GetNewsletterId() string {
-	if x != nil {
-		return x.NewsletterId
-	}
-	return ""
-}
-
-func (x *UpdateTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-func (x *UpdateTranslationInput) GetTranslation() *Newsletter_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type UpdateTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateTranslationOutput) Reset() {
-	*x = UpdateTranslationOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateTranslationOutput) ProtoMessage() {}
-
-func (x *UpdateTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateTranslationOutput.ProtoReflect.Descriptor instead.
-func (*UpdateTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{19}
-}
-
-type DeleteTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	NewsletterId  string                 `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteTranslationInput) Reset() {
-	*x = DeleteTranslationInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteTranslationInput) ProtoMessage() {}
-
-func (x *DeleteTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteTranslationInput.ProtoReflect.Descriptor instead.
-func (*DeleteTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *DeleteTranslationInput) GetNewsletterId() string {
-	if x != nil {
-		return x.NewsletterId
-	}
-	return ""
-}
-
-func (x *DeleteTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-type DeleteTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteTranslationOutput) Reset() {
-	*x = DeleteTranslationOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteTranslationOutput) ProtoMessage() {}
-
-func (x *DeleteTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteTranslationOutput.ProtoReflect.Descriptor instead.
-func (*DeleteTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{21}
-}
-
-type DescribeTranslationInput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	NewsletterId  string                   `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	TranslationId string                   `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Extra         []Newsletter_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra_Field" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeTranslationInput) Reset() {
-	*x = DescribeTranslationInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeTranslationInput) ProtoMessage() {}
-
-func (x *DescribeTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeTranslationInput.ProtoReflect.Descriptor instead.
-func (*DescribeTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *DescribeTranslationInput) GetNewsletterId() string {
-	if x != nil {
-		return x.NewsletterId
-	}
-	return ""
-}
-
-func (x *DescribeTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-func (x *DescribeTranslationInput) GetExtra() []Newsletter_Extra_Field {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type DescribeTranslationOutput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Translation   *Newsletter_Translation `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeTranslationOutput) Reset() {
-	*x = DescribeTranslationOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeTranslationOutput) ProtoMessage() {}
-
-func (x *DescribeTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeTranslationOutput.ProtoReflect.Descriptor instead.
-func (*DescribeTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *DescribeTranslationOutput) GetTranslation() *Newsletter_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type ListTranslationsInput struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	NewsletterId string                 `protobuf:"bytes,2,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
-	// pagination
-	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	// data filters
-	Filters       *ListTranslationsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Extra         []Newsletter_Extra_Field      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.mail.Newsletter_Extra_Field" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListTranslationsInput) Reset() {
-	*x = ListTranslationsInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListTranslationsInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListTranslationsInput) ProtoMessage() {}
-
-func (x *ListTranslationsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListTranslationsInput.ProtoReflect.Descriptor instead.
-func (*ListTranslationsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *ListTranslationsInput) GetNewsletterId() string {
-	if x != nil {
-		return x.NewsletterId
-	}
-	return ""
-}
-
-func (x *ListTranslationsInput) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListTranslationsInput) GetSize() int32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-func (x *ListTranslationsInput) GetFilters() *ListTranslationsInput_Filter {
-	if x != nil {
-		return x.Filters
-	}
-	return nil
-}
-
-func (x *ListTranslationsInput) GetExtra() []Newsletter_Extra_Field {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type ListTranslationsOutput struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	Total         int32                     `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Newsletter_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListTranslationsOutput) Reset() {
-	*x = ListTranslationsOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListTranslationsOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListTranslationsOutput) ProtoMessage() {}
-
-func (x *ListTranslationsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListTranslationsOutput.ProtoReflect.Descriptor instead.
-func (*ListTranslationsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *ListTranslationsOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListTranslationsOutput) GetItems() []*Newsletter_Translation {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
 type CreateRecipientInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NewsletterId  string                 `protobuf:"bytes,1,opt,name=newsletter_id,json=newsletterId,proto3" json:"newsletter_id,omitempty"`
@@ -1431,7 +925,7 @@ type CreateRecipientInput struct {
 
 func (x *CreateRecipientInput) Reset() {
 	*x = CreateRecipientInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[26]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1443,7 +937,7 @@ func (x *CreateRecipientInput) String() string {
 func (*CreateRecipientInput) ProtoMessage() {}
 
 func (x *CreateRecipientInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[26]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1456,7 +950,7 @@ func (x *CreateRecipientInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRecipientInput.ProtoReflect.Descriptor instead.
 func (*CreateRecipientInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{26}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *CreateRecipientInput) GetNewsletterId() string {
@@ -1489,7 +983,7 @@ type CreateRecipientOutput struct {
 
 func (x *CreateRecipientOutput) Reset() {
 	*x = CreateRecipientOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[27]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1501,7 +995,7 @@ func (x *CreateRecipientOutput) String() string {
 func (*CreateRecipientOutput) ProtoMessage() {}
 
 func (x *CreateRecipientOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[27]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1514,7 +1008,7 @@ func (x *CreateRecipientOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRecipientOutput.ProtoReflect.Descriptor instead.
 func (*CreateRecipientOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{27}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *CreateRecipientOutput) GetRecipientId() string {
@@ -1535,7 +1029,7 @@ type ImportRecipientInput struct {
 
 func (x *ImportRecipientInput) Reset() {
 	*x = ImportRecipientInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[28]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1547,7 +1041,7 @@ func (x *ImportRecipientInput) String() string {
 func (*ImportRecipientInput) ProtoMessage() {}
 
 func (x *ImportRecipientInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[28]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1560,7 +1054,7 @@ func (x *ImportRecipientInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportRecipientInput.ProtoReflect.Descriptor instead.
 func (*ImportRecipientInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{28}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ImportRecipientInput) GetNewsletterId() string {
@@ -1592,7 +1086,7 @@ type ImportRecipientOutput struct {
 
 func (x *ImportRecipientOutput) Reset() {
 	*x = ImportRecipientOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[29]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1604,7 +1098,7 @@ func (x *ImportRecipientOutput) String() string {
 func (*ImportRecipientOutput) ProtoMessage() {}
 
 func (x *ImportRecipientOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[29]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1617,7 +1111,7 @@ func (x *ImportRecipientOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportRecipientOutput.ProtoReflect.Descriptor instead.
 func (*ImportRecipientOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{29}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{19}
 }
 
 type DeleteRecipientInput struct {
@@ -1630,7 +1124,7 @@ type DeleteRecipientInput struct {
 
 func (x *DeleteRecipientInput) Reset() {
 	*x = DeleteRecipientInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[30]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1642,7 +1136,7 @@ func (x *DeleteRecipientInput) String() string {
 func (*DeleteRecipientInput) ProtoMessage() {}
 
 func (x *DeleteRecipientInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[30]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1655,7 +1149,7 @@ func (x *DeleteRecipientInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRecipientInput.ProtoReflect.Descriptor instead.
 func (*DeleteRecipientInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *DeleteRecipientInput) GetNewsletterId() string {
@@ -1680,7 +1174,7 @@ type DeleteRecipientOutput struct {
 
 func (x *DeleteRecipientOutput) Reset() {
 	*x = DeleteRecipientOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[31]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1692,7 +1186,7 @@ func (x *DeleteRecipientOutput) String() string {
 func (*DeleteRecipientOutput) ProtoMessage() {}
 
 func (x *DeleteRecipientOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[31]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1705,7 +1199,7 @@ func (x *DeleteRecipientOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRecipientOutput.ProtoReflect.Descriptor instead.
 func (*DeleteRecipientOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{31}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{21}
 }
 
 type ListRecipientsInput struct {
@@ -1722,7 +1216,7 @@ type ListRecipientsInput struct {
 
 func (x *ListRecipientsInput) Reset() {
 	*x = ListRecipientsInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[32]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1734,7 +1228,7 @@ func (x *ListRecipientsInput) String() string {
 func (*ListRecipientsInput) ProtoMessage() {}
 
 func (x *ListRecipientsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[32]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1747,7 +1241,7 @@ func (x *ListRecipientsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecipientsInput.ProtoReflect.Descriptor instead.
 func (*ListRecipientsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{32}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ListRecipientsInput) GetNewsletterId() string {
@@ -1788,7 +1282,7 @@ type ListRecipientsOutput struct {
 
 func (x *ListRecipientsOutput) Reset() {
 	*x = ListRecipientsOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[33]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1800,7 +1294,7 @@ func (x *ListRecipientsOutput) String() string {
 func (*ListRecipientsOutput) ProtoMessage() {}
 
 func (x *ListRecipientsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[33]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1813,7 +1307,7 @@ func (x *ListRecipientsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecipientsOutput.ProtoReflect.Descriptor instead.
 func (*ListRecipientsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{33}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ListRecipientsOutput) GetTotal() int32 {
@@ -1840,7 +1334,7 @@ type DescribeRecipientInput struct {
 
 func (x *DescribeRecipientInput) Reset() {
 	*x = DescribeRecipientInput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[34]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1852,7 +1346,7 @@ func (x *DescribeRecipientInput) String() string {
 func (*DescribeRecipientInput) ProtoMessage() {}
 
 func (x *DescribeRecipientInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[34]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1865,7 +1359,7 @@ func (x *DescribeRecipientInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRecipientInput.ProtoReflect.Descriptor instead.
 func (*DescribeRecipientInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{34}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *DescribeRecipientInput) GetNewsletterId() string {
@@ -1891,7 +1385,7 @@ type DescribeRecipientOutput struct {
 
 func (x *DescribeRecipientOutput) Reset() {
 	*x = DescribeRecipientOutput{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[35]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1903,7 +1397,7 @@ func (x *DescribeRecipientOutput) String() string {
 func (*DescribeRecipientOutput) ProtoMessage() {}
 
 func (x *DescribeRecipientOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[35]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1916,7 +1410,7 @@ func (x *DescribeRecipientOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRecipientOutput.ProtoReflect.Descriptor instead.
 func (*DescribeRecipientOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{35}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *DescribeRecipientOutput) GetRecipient() *Recipient {
@@ -1936,7 +1430,7 @@ type ListNewslettersInput_Filter struct {
 
 func (x *ListNewslettersInput_Filter) Reset() {
 	*x = ListNewslettersInput_Filter{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[36]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1948,7 +1442,7 @@ func (x *ListNewslettersInput_Filter) String() string {
 func (*ListNewslettersInput_Filter) ProtoMessage() {}
 
 func (x *ListNewslettersInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[36]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1978,58 +1472,6 @@ func (x *ListNewslettersInput_Filter) GetType() []*wellknown.ExpressionEnum {
 	return nil
 }
 
-type ListTranslationsInput_Filter struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Id            []*wellknown.ExpressionID   `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
-	Locale        []*wellknown.ExpressionEnum `protobuf:"bytes,4,rep,name=locale,proto3" json:"locale,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListTranslationsInput_Filter) Reset() {
-	*x = ListTranslationsInput_Filter{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[38]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListTranslationsInput_Filter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListTranslationsInput_Filter) ProtoMessage() {}
-
-func (x *ListTranslationsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[38]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListTranslationsInput_Filter.ProtoReflect.Descriptor instead.
-func (*ListTranslationsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{24, 0}
-}
-
-func (x *ListTranslationsInput_Filter) GetId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.Id
-	}
-	return nil
-}
-
-func (x *ListTranslationsInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Locale
-	}
-	return nil
-}
-
 type ImportRecipientInput_Filter struct {
 	state         protoimpl.MessageState                             `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID                          `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -2052,7 +1494,7 @@ type ImportRecipientInput_Filter struct {
 
 func (x *ImportRecipientInput_Filter) Reset() {
 	*x = ImportRecipientInput_Filter{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[41]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2064,7 +1506,7 @@ func (x *ImportRecipientInput_Filter) String() string {
 func (*ImportRecipientInput_Filter) ProtoMessage() {}
 
 func (x *ImportRecipientInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[41]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2077,7 +1519,7 @@ func (x *ImportRecipientInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportRecipientInput_Filter.ProtoReflect.Descriptor instead.
 func (*ImportRecipientInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{28, 1}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{18, 1}
 }
 
 func (x *ImportRecipientInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -2189,7 +1631,7 @@ type ImportRecipientInput_Filter_ExpressionAttribute struct {
 
 func (x *ImportRecipientInput_Filter_ExpressionAttribute) Reset() {
 	*x = ImportRecipientInput_Filter_ExpressionAttribute{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[42]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2201,7 +1643,7 @@ func (x *ImportRecipientInput_Filter_ExpressionAttribute) String() string {
 func (*ImportRecipientInput_Filter_ExpressionAttribute) ProtoMessage() {}
 
 func (x *ImportRecipientInput_Filter_ExpressionAttribute) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[42]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2214,7 +1656,7 @@ func (x *ImportRecipientInput_Filter_ExpressionAttribute) ProtoReflect() protore
 
 // Deprecated: Use ImportRecipientInput_Filter_ExpressionAttribute.ProtoReflect.Descriptor instead.
 func (*ImportRecipientInput_Filter_ExpressionAttribute) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{28, 1, 0}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{18, 1, 0}
 }
 
 func (x *ImportRecipientInput_Filter_ExpressionAttribute) GetAttributeKey() string {
@@ -2249,7 +1691,7 @@ type ListRecipientsInput_Filter struct {
 
 func (x *ListRecipientsInput_Filter) Reset() {
 	*x = ListRecipientsInput_Filter{}
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[43]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2261,7 +1703,7 @@ func (x *ListRecipientsInput_Filter) String() string {
 func (*ListRecipientsInput_Filter) ProtoMessage() {}
 
 func (x *ListRecipientsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[43]
+	mi := &file_eolymp_mail_newsletter_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2274,7 +1716,7 @@ func (x *ListRecipientsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecipientsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListRecipientsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{32, 0}
+	return file_eolymp_mail_newsletter_service_proto_rawDescGZIP(), []int{22, 0}
 }
 
 func (x *ListRecipientsInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -2308,19 +1750,21 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"newsletter\x18\x01 \x01(\v2\x17.eolymp.mail.NewsletterR\n" +
 	"newsletter\"=\n" +
 	"\x16CreateNewsletterOutput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\"\xb0\x01\n" +
-	"\x15UpdateNewsletterInput\x129\n" +
-	"\x05patch\x18\x01 \x03(\x0e2#.eolymp.mail.Newsletter.Patch.FieldR\x05patch\x12#\n" +
-	"\rnewsletter_id\x18\x02 \x01(\tR\fnewsletterId\x127\n" +
+	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\"\xa0\x01\n" +
+	"\x15UpdateNewsletterInput\x12#\n" +
+	"\rnewsletter_id\x18\x02 \x01(\tR\fnewsletterId\x12=\n" +
 	"\n" +
-	"newsletter\x18\x03 \x01(\v2\x17.eolymp.mail.NewsletterR\n" +
-	"newsletter\"\x18\n" +
-	"\x16UpdateNewsletterOutput\"<\n" +
+	"newsletter\x18\x04 \x01(\v2\x1d.eolymp.mail.Newsletter.PatchR\n" +
+	"newsletter\x12\x17\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06localeJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x18\n" +
+	"\x16UpdateNewsletterOutput\"U\n" +
 	"\x15DeleteNewsletterInput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\"\x18\n" +
-	"\x16DeleteNewsletterOutput\"z\n" +
+	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12\x17\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\"\x18\n" +
+	"\x16DeleteNewsletterOutput\"\x93\x01\n" +
 	"\x17DescribeNewsletterInput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12:\n" +
+	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12\x17\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12:\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.mail.Newsletter.Extra.FieldR\x05extra\"S\n" +
 	"\x18DescribeNewsletterOutput\x127\n" +
 	"\n" +
@@ -2368,41 +1812,7 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"4\n" +
 	"\x19TranslateNewsletterOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x84\x01\n" +
-	"\x16CreateTranslationInput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12E\n" +
-	"\vtranslation\x18\x02 \x01(\v2#.eolymp.mail.Newsletter.TranslationR\vtranslation\"@\n" +
-	"\x17CreateTranslationOutput\x12%\n" +
-	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\xe6\x01\n" +
-	"\x16UpdateTranslationInput\x129\n" +
-	"\x05patch\x18\x01 \x03(\x0e2#.eolymp.mail.Newsletter.Patch.FieldR\x05patch\x12#\n" +
-	"\rnewsletter_id\x18\x02 \x01(\tR\fnewsletterId\x12%\n" +
-	"\x0etranslation_id\x18\x03 \x01(\tR\rtranslationId\x12E\n" +
-	"\vtranslation\x18\x04 \x01(\v2#.eolymp.mail.Newsletter.TranslationR\vtranslation\"\x19\n" +
-	"\x17UpdateTranslationOutput\"d\n" +
-	"\x16DeleteTranslationInput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"\x19\n" +
-	"\x17DeleteTranslationOutput\"\xa2\x01\n" +
-	"\x18DescribeTranslationInput\x12#\n" +
-	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\x12:\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.mail.Newsletter.Extra.FieldR\x05extra\"b\n" +
-	"\x19DescribeTranslationOutput\x12E\n" +
-	"\vtranslation\x18\x01 \x01(\v2#.eolymp.mail.Newsletter.TranslationR\vtranslation\"\xdd\x02\n" +
-	"\x15ListTranslationsInput\x12#\n" +
-	"\rnewsletter_id\x18\x02 \x01(\tR\fnewsletterId\x12\x16\n" +
-	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
-	"\afilters\x18( \x01(\v2).eolymp.mail.ListTranslationsInput.FilterR\afilters\x12:\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.mail.Newsletter.Extra.FieldR\x05extra\x1ar\n" +
-	"\x06Filter\x12.\n" +
-	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x128\n" +
-	"\x06locale\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"i\n" +
-	"\x16ListTranslationsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x129\n" +
-	"\x05items\x18\x02 \x03(\v2#.eolymp.mail.Newsletter.TranslationR\x05items\"\xea\x01\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\xea\x01\n" +
 	"\x14CreateRecipientInput\x12#\n" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12\x1b\n" +
 	"\tmember_id\x18\v \x01(\tR\bmemberId\x12Q\n" +
@@ -2472,7 +1882,7 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12!\n" +
 	"\frecipient_id\x18\x02 \x01(\tR\vrecipientId\"O\n" +
 	"\x17DescribeRecipientOutput\x124\n" +
-	"\trecipient\x18\x01 \x01(\v2\x16.eolymp.mail.RecipientR\trecipient2\xff\x1a\n" +
+	"\trecipient\x18\x01 \x01(\v2\x16.eolymp.mail.RecipientR\trecipient2\xec\x12\n" +
 	"\x11NewsletterService\x12\xa3\x01\n" +
 	"\x10CreateNewsletter\x12\".eolymp.mail.CreateNewsletterInput\x1a#.eolymp.mail.CreateNewsletterOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2517,37 +1927,7 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02(\"&/newsletters/{newsletter_id}/translate\x12\xc3\x01\n" +
-	"\x11CreateTranslation\x12#.eolymp.mail.CreateTranslationInput\x1a$.eolymp.mail.CreateTranslationOutput\"c\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02+\")/newsletters/{newsletter_id}/translations\x12\xd4\x01\n" +
-	"\x11UpdateTranslation\x12#.eolymp.mail.UpdateTranslationInput\x1a$.eolymp.mail.UpdateTranslationOutput\"t\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02<\x1a:/newsletters/{newsletter_id}/translations/{translation_id}\x12\xd4\x01\n" +
-	"\x11DeleteTranslation\x12#.eolymp.mail.DeleteTranslationInput\x1a$.eolymp.mail.DeleteTranslationOutput\"t\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02<*:/newsletters/{newsletter_id}/translations/{translation_id}\x12\xda\x01\n" +
-	"\x13DescribeTranslation\x12%.eolymp.mail.DescribeTranslationInput\x1a&.eolymp.mail.DescribeTranslationOutput\"t\xea\xe2\n" +
-	"\f\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xf4\x03\x82\xe3\n" +
-	"\x1e\x8a\xe3\n" +
-	"\x1anewsletter:newsletter:read\x82\xd3\xe4\x93\x02<\x12:/newsletters/{newsletter_id}/translations/{translation_id}\x12\xbf\x01\n" +
-	"\x10ListTranslations\x12\".eolymp.mail.ListTranslationsInput\x1a#.eolymp.mail.ListTranslationsOutput\"b\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x1e\x8a\xe3\n" +
-	"\x1anewsletter:newsletter:read\x82\xd3\xe4\x93\x02+\x12)/newsletters/{newsletter_id}/translations\x12\xbb\x01\n" +
+	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02(\"&/newsletters/{newsletter_id}/translate\x12\xbb\x01\n" +
 	"\x0fCreateRecipient\x12!.eolymp.mail.CreateRecipientInput\x1a\".eolymp.mail.CreateRecipientOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -2592,7 +1972,7 @@ func file_eolymp_mail_newsletter_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_mail_newsletter_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_mail_newsletter_service_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
+var file_eolymp_mail_newsletter_service_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
 var file_eolymp_mail_newsletter_service_proto_goTypes = []any{
 	(ListNewslettersInput_Sort)(0),                          // 0: eolymp.mail.ListNewslettersInput.Sort
 	(*CreateNewsletterInput)(nil),                           // 1: eolymp.mail.CreateNewsletterInput
@@ -2611,137 +1991,104 @@ var file_eolymp_mail_newsletter_service_proto_goTypes = []any{
 	(*SendNewsletterOutput)(nil),                            // 14: eolymp.mail.SendNewsletterOutput
 	(*TranslateNewsletterInput)(nil),                        // 15: eolymp.mail.TranslateNewsletterInput
 	(*TranslateNewsletterOutput)(nil),                       // 16: eolymp.mail.TranslateNewsletterOutput
-	(*CreateTranslationInput)(nil),                          // 17: eolymp.mail.CreateTranslationInput
-	(*CreateTranslationOutput)(nil),                         // 18: eolymp.mail.CreateTranslationOutput
-	(*UpdateTranslationInput)(nil),                          // 19: eolymp.mail.UpdateTranslationInput
-	(*UpdateTranslationOutput)(nil),                         // 20: eolymp.mail.UpdateTranslationOutput
-	(*DeleteTranslationInput)(nil),                          // 21: eolymp.mail.DeleteTranslationInput
-	(*DeleteTranslationOutput)(nil),                         // 22: eolymp.mail.DeleteTranslationOutput
-	(*DescribeTranslationInput)(nil),                        // 23: eolymp.mail.DescribeTranslationInput
-	(*DescribeTranslationOutput)(nil),                       // 24: eolymp.mail.DescribeTranslationOutput
-	(*ListTranslationsInput)(nil),                           // 25: eolymp.mail.ListTranslationsInput
-	(*ListTranslationsOutput)(nil),                          // 26: eolymp.mail.ListTranslationsOutput
-	(*CreateRecipientInput)(nil),                            // 27: eolymp.mail.CreateRecipientInput
-	(*CreateRecipientOutput)(nil),                           // 28: eolymp.mail.CreateRecipientOutput
-	(*ImportRecipientInput)(nil),                            // 29: eolymp.mail.ImportRecipientInput
-	(*ImportRecipientOutput)(nil),                           // 30: eolymp.mail.ImportRecipientOutput
-	(*DeleteRecipientInput)(nil),                            // 31: eolymp.mail.DeleteRecipientInput
-	(*DeleteRecipientOutput)(nil),                           // 32: eolymp.mail.DeleteRecipientOutput
-	(*ListRecipientsInput)(nil),                             // 33: eolymp.mail.ListRecipientsInput
-	(*ListRecipientsOutput)(nil),                            // 34: eolymp.mail.ListRecipientsOutput
-	(*DescribeRecipientInput)(nil),                          // 35: eolymp.mail.DescribeRecipientInput
-	(*DescribeRecipientOutput)(nil),                         // 36: eolymp.mail.DescribeRecipientOutput
-	(*ListNewslettersInput_Filter)(nil),                     // 37: eolymp.mail.ListNewslettersInput.Filter
-	nil,                                                     // 38: eolymp.mail.TestNewsletterInput.ParametersEntry
-	(*ListTranslationsInput_Filter)(nil),                    // 39: eolymp.mail.ListTranslationsInput.Filter
-	nil,                                                     // 40: eolymp.mail.CreateRecipientInput.ParametersEntry
-	nil,                                                     // 41: eolymp.mail.ImportRecipientInput.ParametersEntry
-	(*ImportRecipientInput_Filter)(nil),                     // 42: eolymp.mail.ImportRecipientInput.Filter
-	(*ImportRecipientInput_Filter_ExpressionAttribute)(nil), // 43: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute
-	(*ListRecipientsInput_Filter)(nil),                      // 44: eolymp.mail.ListRecipientsInput.Filter
-	(*Newsletter)(nil),                                      // 45: eolymp.mail.Newsletter
-	(Newsletter_Patch_Field)(0),                             // 46: eolymp.mail.Newsletter.Patch.Field
-	(Newsletter_Extra_Field)(0),                             // 47: eolymp.mail.Newsletter.Extra.Field
-	(wellknown.Direction)(0),                                // 48: eolymp.wellknown.Direction
-	(*Newsletter_Translation)(nil),                          // 49: eolymp.mail.Newsletter.Translation
-	(*Recipient)(nil),                                       // 50: eolymp.mail.Recipient
-	(*wellknown.ExpressionID)(nil),                          // 51: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),                        // 52: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionBool)(nil),                        // 53: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionTimestamp)(nil),                   // 54: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionInt)(nil),                         // 55: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionString)(nil),                      // 56: eolymp.wellknown.ExpressionString
+	(*CreateRecipientInput)(nil),                            // 17: eolymp.mail.CreateRecipientInput
+	(*CreateRecipientOutput)(nil),                           // 18: eolymp.mail.CreateRecipientOutput
+	(*ImportRecipientInput)(nil),                            // 19: eolymp.mail.ImportRecipientInput
+	(*ImportRecipientOutput)(nil),                           // 20: eolymp.mail.ImportRecipientOutput
+	(*DeleteRecipientInput)(nil),                            // 21: eolymp.mail.DeleteRecipientInput
+	(*DeleteRecipientOutput)(nil),                           // 22: eolymp.mail.DeleteRecipientOutput
+	(*ListRecipientsInput)(nil),                             // 23: eolymp.mail.ListRecipientsInput
+	(*ListRecipientsOutput)(nil),                            // 24: eolymp.mail.ListRecipientsOutput
+	(*DescribeRecipientInput)(nil),                          // 25: eolymp.mail.DescribeRecipientInput
+	(*DescribeRecipientOutput)(nil),                         // 26: eolymp.mail.DescribeRecipientOutput
+	(*ListNewslettersInput_Filter)(nil),                     // 27: eolymp.mail.ListNewslettersInput.Filter
+	nil,                                                     // 28: eolymp.mail.TestNewsletterInput.ParametersEntry
+	nil,                                                     // 29: eolymp.mail.CreateRecipientInput.ParametersEntry
+	nil,                                                     // 30: eolymp.mail.ImportRecipientInput.ParametersEntry
+	(*ImportRecipientInput_Filter)(nil),                     // 31: eolymp.mail.ImportRecipientInput.Filter
+	(*ImportRecipientInput_Filter_ExpressionAttribute)(nil), // 32: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute
+	(*ListRecipientsInput_Filter)(nil),                      // 33: eolymp.mail.ListRecipientsInput.Filter
+	(*Newsletter)(nil),                                      // 34: eolymp.mail.Newsletter
+	(*Newsletter_Patch)(nil),                                // 35: eolymp.mail.Newsletter.Patch
+	(Newsletter_Extra_Field)(0),                             // 36: eolymp.mail.Newsletter.Extra.Field
+	(wellknown.Direction)(0),                                // 37: eolymp.wellknown.Direction
+	(*Recipient)(nil),                                       // 38: eolymp.mail.Recipient
+	(*wellknown.ExpressionID)(nil),                          // 39: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),                        // 40: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionBool)(nil),                        // 41: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionTimestamp)(nil),                   // 42: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionInt)(nil),                         // 43: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionString)(nil),                      // 44: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_mail_newsletter_service_proto_depIdxs = []int32{
-	45, // 0: eolymp.mail.CreateNewsletterInput.newsletter:type_name -> eolymp.mail.Newsletter
-	46, // 1: eolymp.mail.UpdateNewsletterInput.patch:type_name -> eolymp.mail.Newsletter.Patch.Field
-	45, // 2: eolymp.mail.UpdateNewsletterInput.newsletter:type_name -> eolymp.mail.Newsletter
-	47, // 3: eolymp.mail.DescribeNewsletterInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
-	45, // 4: eolymp.mail.DescribeNewsletterOutput.newsletter:type_name -> eolymp.mail.Newsletter
-	37, // 5: eolymp.mail.ListNewslettersInput.filters:type_name -> eolymp.mail.ListNewslettersInput.Filter
-	0,  // 6: eolymp.mail.ListNewslettersInput.sort:type_name -> eolymp.mail.ListNewslettersInput.Sort
-	48, // 7: eolymp.mail.ListNewslettersInput.order:type_name -> eolymp.wellknown.Direction
-	47, // 8: eolymp.mail.ListNewslettersInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
-	45, // 9: eolymp.mail.ListNewslettersOutput.items:type_name -> eolymp.mail.Newsletter
-	38, // 10: eolymp.mail.TestNewsletterInput.parameters:type_name -> eolymp.mail.TestNewsletterInput.ParametersEntry
-	49, // 11: eolymp.mail.CreateTranslationInput.translation:type_name -> eolymp.mail.Newsletter.Translation
-	46, // 12: eolymp.mail.UpdateTranslationInput.patch:type_name -> eolymp.mail.Newsletter.Patch.Field
-	49, // 13: eolymp.mail.UpdateTranslationInput.translation:type_name -> eolymp.mail.Newsletter.Translation
-	47, // 14: eolymp.mail.DescribeTranslationInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
-	49, // 15: eolymp.mail.DescribeTranslationOutput.translation:type_name -> eolymp.mail.Newsletter.Translation
-	39, // 16: eolymp.mail.ListTranslationsInput.filters:type_name -> eolymp.mail.ListTranslationsInput.Filter
-	47, // 17: eolymp.mail.ListTranslationsInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
-	49, // 18: eolymp.mail.ListTranslationsOutput.items:type_name -> eolymp.mail.Newsletter.Translation
-	40, // 19: eolymp.mail.CreateRecipientInput.parameters:type_name -> eolymp.mail.CreateRecipientInput.ParametersEntry
-	42, // 20: eolymp.mail.ImportRecipientInput.filters:type_name -> eolymp.mail.ImportRecipientInput.Filter
-	41, // 21: eolymp.mail.ImportRecipientInput.parameters:type_name -> eolymp.mail.ImportRecipientInput.ParametersEntry
-	44, // 22: eolymp.mail.ListRecipientsInput.filters:type_name -> eolymp.mail.ListRecipientsInput.Filter
-	50, // 23: eolymp.mail.ListRecipientsOutput.items:type_name -> eolymp.mail.Recipient
-	50, // 24: eolymp.mail.DescribeRecipientOutput.recipient:type_name -> eolymp.mail.Recipient
-	51, // 25: eolymp.mail.ListNewslettersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	52, // 26: eolymp.mail.ListNewslettersInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	51, // 27: eolymp.mail.ListTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	52, // 28: eolymp.mail.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	51, // 29: eolymp.mail.ImportRecipientInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	51, // 30: eolymp.mail.ImportRecipientInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
-	52, // 31: eolymp.mail.ImportRecipientInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	53, // 32: eolymp.mail.ImportRecipientInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
-	53, // 33: eolymp.mail.ImportRecipientInput.Filter.incomplete:type_name -> eolymp.wellknown.ExpressionBool
-	53, // 34: eolymp.mail.ImportRecipientInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
-	53, // 35: eolymp.mail.ImportRecipientInput.Filter.seated:type_name -> eolymp.wellknown.ExpressionBool
-	51, // 36: eolymp.mail.ImportRecipientInput.Filter.team_id:type_name -> eolymp.wellknown.ExpressionID
-	51, // 37: eolymp.mail.ImportRecipientInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
-	54, // 38: eolymp.mail.ImportRecipientInput.Filter.birthday:type_name -> eolymp.wellknown.ExpressionTimestamp
-	51, // 39: eolymp.mail.ImportRecipientInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
-	55, // 40: eolymp.mail.ImportRecipientInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
-	54, // 41: eolymp.mail.ImportRecipientInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	43, // 42: eolymp.mail.ImportRecipientInput.Filter.attribute:type_name -> eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute
-	55, // 43: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
-	56, // 44: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
-	51, // 45: eolymp.mail.ListRecipientsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	52, // 46: eolymp.mail.ListRecipientsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	51, // 47: eolymp.mail.ListRecipientsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	1,  // 48: eolymp.mail.NewsletterService.CreateNewsletter:input_type -> eolymp.mail.CreateNewsletterInput
-	3,  // 49: eolymp.mail.NewsletterService.UpdateNewsletter:input_type -> eolymp.mail.UpdateNewsletterInput
-	5,  // 50: eolymp.mail.NewsletterService.DeleteNewsletter:input_type -> eolymp.mail.DeleteNewsletterInput
-	7,  // 51: eolymp.mail.NewsletterService.DescribeNewsletter:input_type -> eolymp.mail.DescribeNewsletterInput
-	9,  // 52: eolymp.mail.NewsletterService.ListNewsletters:input_type -> eolymp.mail.ListNewslettersInput
-	11, // 53: eolymp.mail.NewsletterService.TestNewsletter:input_type -> eolymp.mail.TestNewsletterInput
-	13, // 54: eolymp.mail.NewsletterService.SendNewsletter:input_type -> eolymp.mail.SendNewsletterInput
-	15, // 55: eolymp.mail.NewsletterService.TranslateNewsletter:input_type -> eolymp.mail.TranslateNewsletterInput
-	17, // 56: eolymp.mail.NewsletterService.CreateTranslation:input_type -> eolymp.mail.CreateTranslationInput
-	19, // 57: eolymp.mail.NewsletterService.UpdateTranslation:input_type -> eolymp.mail.UpdateTranslationInput
-	21, // 58: eolymp.mail.NewsletterService.DeleteTranslation:input_type -> eolymp.mail.DeleteTranslationInput
-	23, // 59: eolymp.mail.NewsletterService.DescribeTranslation:input_type -> eolymp.mail.DescribeTranslationInput
-	25, // 60: eolymp.mail.NewsletterService.ListTranslations:input_type -> eolymp.mail.ListTranslationsInput
-	27, // 61: eolymp.mail.NewsletterService.CreateRecipient:input_type -> eolymp.mail.CreateRecipientInput
-	29, // 62: eolymp.mail.NewsletterService.ImportRecipient:input_type -> eolymp.mail.ImportRecipientInput
-	31, // 63: eolymp.mail.NewsletterService.DeleteRecipient:input_type -> eolymp.mail.DeleteRecipientInput
-	33, // 64: eolymp.mail.NewsletterService.ListRecipients:input_type -> eolymp.mail.ListRecipientsInput
-	35, // 65: eolymp.mail.NewsletterService.DescribeRecipient:input_type -> eolymp.mail.DescribeRecipientInput
-	2,  // 66: eolymp.mail.NewsletterService.CreateNewsletter:output_type -> eolymp.mail.CreateNewsletterOutput
-	4,  // 67: eolymp.mail.NewsletterService.UpdateNewsletter:output_type -> eolymp.mail.UpdateNewsletterOutput
-	6,  // 68: eolymp.mail.NewsletterService.DeleteNewsletter:output_type -> eolymp.mail.DeleteNewsletterOutput
-	8,  // 69: eolymp.mail.NewsletterService.DescribeNewsletter:output_type -> eolymp.mail.DescribeNewsletterOutput
-	10, // 70: eolymp.mail.NewsletterService.ListNewsletters:output_type -> eolymp.mail.ListNewslettersOutput
-	12, // 71: eolymp.mail.NewsletterService.TestNewsletter:output_type -> eolymp.mail.TestNewsletterOutput
-	14, // 72: eolymp.mail.NewsletterService.SendNewsletter:output_type -> eolymp.mail.SendNewsletterOutput
-	16, // 73: eolymp.mail.NewsletterService.TranslateNewsletter:output_type -> eolymp.mail.TranslateNewsletterOutput
-	18, // 74: eolymp.mail.NewsletterService.CreateTranslation:output_type -> eolymp.mail.CreateTranslationOutput
-	20, // 75: eolymp.mail.NewsletterService.UpdateTranslation:output_type -> eolymp.mail.UpdateTranslationOutput
-	22, // 76: eolymp.mail.NewsletterService.DeleteTranslation:output_type -> eolymp.mail.DeleteTranslationOutput
-	24, // 77: eolymp.mail.NewsletterService.DescribeTranslation:output_type -> eolymp.mail.DescribeTranslationOutput
-	26, // 78: eolymp.mail.NewsletterService.ListTranslations:output_type -> eolymp.mail.ListTranslationsOutput
-	28, // 79: eolymp.mail.NewsletterService.CreateRecipient:output_type -> eolymp.mail.CreateRecipientOutput
-	30, // 80: eolymp.mail.NewsletterService.ImportRecipient:output_type -> eolymp.mail.ImportRecipientOutput
-	32, // 81: eolymp.mail.NewsletterService.DeleteRecipient:output_type -> eolymp.mail.DeleteRecipientOutput
-	34, // 82: eolymp.mail.NewsletterService.ListRecipients:output_type -> eolymp.mail.ListRecipientsOutput
-	36, // 83: eolymp.mail.NewsletterService.DescribeRecipient:output_type -> eolymp.mail.DescribeRecipientOutput
-	66, // [66:84] is the sub-list for method output_type
-	48, // [48:66] is the sub-list for method input_type
-	48, // [48:48] is the sub-list for extension type_name
-	48, // [48:48] is the sub-list for extension extendee
-	0,  // [0:48] is the sub-list for field type_name
+	34, // 0: eolymp.mail.CreateNewsletterInput.newsletter:type_name -> eolymp.mail.Newsletter
+	35, // 1: eolymp.mail.UpdateNewsletterInput.newsletter:type_name -> eolymp.mail.Newsletter.Patch
+	36, // 2: eolymp.mail.DescribeNewsletterInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
+	34, // 3: eolymp.mail.DescribeNewsletterOutput.newsletter:type_name -> eolymp.mail.Newsletter
+	27, // 4: eolymp.mail.ListNewslettersInput.filters:type_name -> eolymp.mail.ListNewslettersInput.Filter
+	0,  // 5: eolymp.mail.ListNewslettersInput.sort:type_name -> eolymp.mail.ListNewslettersInput.Sort
+	37, // 6: eolymp.mail.ListNewslettersInput.order:type_name -> eolymp.wellknown.Direction
+	36, // 7: eolymp.mail.ListNewslettersInput.extra:type_name -> eolymp.mail.Newsletter.Extra.Field
+	34, // 8: eolymp.mail.ListNewslettersOutput.items:type_name -> eolymp.mail.Newsletter
+	28, // 9: eolymp.mail.TestNewsletterInput.parameters:type_name -> eolymp.mail.TestNewsletterInput.ParametersEntry
+	29, // 10: eolymp.mail.CreateRecipientInput.parameters:type_name -> eolymp.mail.CreateRecipientInput.ParametersEntry
+	31, // 11: eolymp.mail.ImportRecipientInput.filters:type_name -> eolymp.mail.ImportRecipientInput.Filter
+	30, // 12: eolymp.mail.ImportRecipientInput.parameters:type_name -> eolymp.mail.ImportRecipientInput.ParametersEntry
+	33, // 13: eolymp.mail.ListRecipientsInput.filters:type_name -> eolymp.mail.ListRecipientsInput.Filter
+	38, // 14: eolymp.mail.ListRecipientsOutput.items:type_name -> eolymp.mail.Recipient
+	38, // 15: eolymp.mail.DescribeRecipientOutput.recipient:type_name -> eolymp.mail.Recipient
+	39, // 16: eolymp.mail.ListNewslettersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	40, // 17: eolymp.mail.ListNewslettersInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 18: eolymp.mail.ImportRecipientInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	39, // 19: eolymp.mail.ImportRecipientInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
+	40, // 20: eolymp.mail.ImportRecipientInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	41, // 21: eolymp.mail.ImportRecipientInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
+	41, // 22: eolymp.mail.ImportRecipientInput.Filter.incomplete:type_name -> eolymp.wellknown.ExpressionBool
+	41, // 23: eolymp.mail.ImportRecipientInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
+	41, // 24: eolymp.mail.ImportRecipientInput.Filter.seated:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 25: eolymp.mail.ImportRecipientInput.Filter.team_id:type_name -> eolymp.wellknown.ExpressionID
+	39, // 26: eolymp.mail.ImportRecipientInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
+	42, // 27: eolymp.mail.ImportRecipientInput.Filter.birthday:type_name -> eolymp.wellknown.ExpressionTimestamp
+	39, // 28: eolymp.mail.ImportRecipientInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
+	43, // 29: eolymp.mail.ImportRecipientInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
+	42, // 30: eolymp.mail.ImportRecipientInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	32, // 31: eolymp.mail.ImportRecipientInput.Filter.attribute:type_name -> eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute
+	43, // 32: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
+	44, // 33: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
+	39, // 34: eolymp.mail.ListRecipientsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	40, // 35: eolymp.mail.ListRecipientsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 36: eolymp.mail.ListRecipientsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 37: eolymp.mail.NewsletterService.CreateNewsletter:input_type -> eolymp.mail.CreateNewsletterInput
+	3,  // 38: eolymp.mail.NewsletterService.UpdateNewsletter:input_type -> eolymp.mail.UpdateNewsletterInput
+	5,  // 39: eolymp.mail.NewsletterService.DeleteNewsletter:input_type -> eolymp.mail.DeleteNewsletterInput
+	7,  // 40: eolymp.mail.NewsletterService.DescribeNewsletter:input_type -> eolymp.mail.DescribeNewsletterInput
+	9,  // 41: eolymp.mail.NewsletterService.ListNewsletters:input_type -> eolymp.mail.ListNewslettersInput
+	11, // 42: eolymp.mail.NewsletterService.TestNewsletter:input_type -> eolymp.mail.TestNewsletterInput
+	13, // 43: eolymp.mail.NewsletterService.SendNewsletter:input_type -> eolymp.mail.SendNewsletterInput
+	15, // 44: eolymp.mail.NewsletterService.TranslateNewsletter:input_type -> eolymp.mail.TranslateNewsletterInput
+	17, // 45: eolymp.mail.NewsletterService.CreateRecipient:input_type -> eolymp.mail.CreateRecipientInput
+	19, // 46: eolymp.mail.NewsletterService.ImportRecipient:input_type -> eolymp.mail.ImportRecipientInput
+	21, // 47: eolymp.mail.NewsletterService.DeleteRecipient:input_type -> eolymp.mail.DeleteRecipientInput
+	23, // 48: eolymp.mail.NewsletterService.ListRecipients:input_type -> eolymp.mail.ListRecipientsInput
+	25, // 49: eolymp.mail.NewsletterService.DescribeRecipient:input_type -> eolymp.mail.DescribeRecipientInput
+	2,  // 50: eolymp.mail.NewsletterService.CreateNewsletter:output_type -> eolymp.mail.CreateNewsletterOutput
+	4,  // 51: eolymp.mail.NewsletterService.UpdateNewsletter:output_type -> eolymp.mail.UpdateNewsletterOutput
+	6,  // 52: eolymp.mail.NewsletterService.DeleteNewsletter:output_type -> eolymp.mail.DeleteNewsletterOutput
+	8,  // 53: eolymp.mail.NewsletterService.DescribeNewsletter:output_type -> eolymp.mail.DescribeNewsletterOutput
+	10, // 54: eolymp.mail.NewsletterService.ListNewsletters:output_type -> eolymp.mail.ListNewslettersOutput
+	12, // 55: eolymp.mail.NewsletterService.TestNewsletter:output_type -> eolymp.mail.TestNewsletterOutput
+	14, // 56: eolymp.mail.NewsletterService.SendNewsletter:output_type -> eolymp.mail.SendNewsletterOutput
+	16, // 57: eolymp.mail.NewsletterService.TranslateNewsletter:output_type -> eolymp.mail.TranslateNewsletterOutput
+	18, // 58: eolymp.mail.NewsletterService.CreateRecipient:output_type -> eolymp.mail.CreateRecipientOutput
+	20, // 59: eolymp.mail.NewsletterService.ImportRecipient:output_type -> eolymp.mail.ImportRecipientOutput
+	22, // 60: eolymp.mail.NewsletterService.DeleteRecipient:output_type -> eolymp.mail.DeleteRecipientOutput
+	24, // 61: eolymp.mail.NewsletterService.ListRecipients:output_type -> eolymp.mail.ListRecipientsOutput
+	26, // 62: eolymp.mail.NewsletterService.DescribeRecipient:output_type -> eolymp.mail.DescribeRecipientOutput
+	50, // [50:63] is the sub-list for method output_type
+	37, // [37:50] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_mail_newsletter_service_proto_init() }
@@ -2757,7 +2104,7 @@ func file_eolymp_mail_newsletter_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_mail_newsletter_service_proto_rawDesc), len(file_eolymp_mail_newsletter_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   44,
+			NumMessages:   33,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
