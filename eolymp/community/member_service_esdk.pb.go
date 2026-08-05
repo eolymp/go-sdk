@@ -220,6 +220,22 @@ func (s *MemberServiceService) UnassignMember(ctx context.Context, in *UnassignM
 	return out, nil
 }
 
+func (s *MemberServiceService) CreateMemberLoginLink(ctx context.Context, in *CreateMemberLoginLinkInput) (*CreateMemberLoginLinkOutput, error) {
+	out := &CreateMemberLoginLinkOutput{}
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/login-link"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *MemberServiceService) DescribeMemberUsage(ctx context.Context, in *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error) {
 	out := &DescribeMemberUsageOutput{}
 	path := "/usage/members"

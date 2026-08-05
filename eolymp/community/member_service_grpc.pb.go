@@ -27,6 +27,7 @@ const (
 	MemberService_ListMembers_FullMethodName            = "/eolymp.community.MemberService/ListMembers"
 	MemberService_AssignMember_FullMethodName           = "/eolymp.community.MemberService/AssignMember"
 	MemberService_UnassignMember_FullMethodName         = "/eolymp.community.MemberService/UnassignMember"
+	MemberService_CreateMemberLoginLink_FullMethodName  = "/eolymp.community.MemberService/CreateMemberLoginLink"
 	MemberService_DescribeMemberUsage_FullMethodName    = "/eolymp.community.MemberService/DescribeMemberUsage"
 	MemberService_StreamMemberReferences_FullMethodName = "/eolymp.community.MemberService/StreamMemberReferences"
 )
@@ -92,6 +93,12 @@ type MemberServiceClient interface {
 	// place. Since a member can only be in one team, the call simply empties whichever assignment the member
 	// currently has.
 	UnassignMember(ctx context.Context, in *UnassignMemberInput, opts ...grpc.CallOption) (*UnassignMemberOutput, error)
+	// CreateMemberLoginLink mints a single-use link that signs the member in without a password, for handing
+	// to someone who cannot sign in the usual way. The link is valid for fifteen minutes and may be used once,
+	// and issuing a new one invalidates the member's previous link. It works only where the space keeps its
+	// own identities; a member owned by an external identity provider signs in through that provider and the
+	// call is refused.
+	CreateMemberLoginLink(ctx context.Context, in *CreateMemberLoginLinkInput, opts ...grpc.CallOption) (*CreateMemberLoginLinkOutput, error)
 	// DescribeMemberUsage reports how many seats the space consumes, for billing and quota screens rather
 	// than for looking members up; only users are counted, so teams and ghosts are free. The active count
 	// covers the members seated during a period, which defaults to the space's current quota period, or to
@@ -194,6 +201,16 @@ func (c *memberServiceClient) UnassignMember(ctx context.Context, in *UnassignMe
 	return out, nil
 }
 
+func (c *memberServiceClient) CreateMemberLoginLink(ctx context.Context, in *CreateMemberLoginLinkInput, opts ...grpc.CallOption) (*CreateMemberLoginLinkOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateMemberLoginLinkOutput)
+	err := c.cc.Invoke(ctx, MemberService_CreateMemberLoginLink_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *memberServiceClient) DescribeMemberUsage(ctx context.Context, in *DescribeMemberUsageInput, opts ...grpc.CallOption) (*DescribeMemberUsageOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeMemberUsageOutput)
@@ -284,6 +301,12 @@ type MemberServiceServer interface {
 	// place. Since a member can only be in one team, the call simply empties whichever assignment the member
 	// currently has.
 	UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error)
+	// CreateMemberLoginLink mints a single-use link that signs the member in without a password, for handing
+	// to someone who cannot sign in the usual way. The link is valid for fifteen minutes and may be used once,
+	// and issuing a new one invalidates the member's previous link. It works only where the space keeps its
+	// own identities; a member owned by an external identity provider signs in through that provider and the
+	// call is refused.
+	CreateMemberLoginLink(context.Context, *CreateMemberLoginLinkInput) (*CreateMemberLoginLinkOutput, error)
 	// DescribeMemberUsage reports how many seats the space consumes, for billing and quota screens rather
 	// than for looking members up; only users are counted, so teams and ghosts are free. The active count
 	// covers the members seated during a period, which defaults to the space's current quota period, or to
@@ -328,6 +351,9 @@ func (UnimplementedMemberServiceServer) AssignMember(context.Context, *AssignMem
 }
 func (UnimplementedMemberServiceServer) UnassignMember(context.Context, *UnassignMemberInput) (*UnassignMemberOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UnassignMember not implemented")
+}
+func (UnimplementedMemberServiceServer) CreateMemberLoginLink(context.Context, *CreateMemberLoginLinkInput) (*CreateMemberLoginLinkOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateMemberLoginLink not implemented")
 }
 func (UnimplementedMemberServiceServer) DescribeMemberUsage(context.Context, *DescribeMemberUsageInput) (*DescribeMemberUsageOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeMemberUsage not implemented")
@@ -499,6 +525,24 @@ func _MemberService_UnassignMember_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MemberService_CreateMemberLoginLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMemberLoginLinkInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemberServiceServer).CreateMemberLoginLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemberService_CreateMemberLoginLink_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemberServiceServer).CreateMemberLoginLink(ctx, req.(*CreateMemberLoginLinkInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MemberService_DescribeMemberUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeMemberUsageInput)
 	if err := dec(in); err != nil {
@@ -566,6 +610,10 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnassignMember",
 			Handler:    _MemberService_UnassignMember_Handler,
+		},
+		{
+			MethodName: "CreateMemberLoginLink",
+			Handler:    _MemberService_CreateMemberLoginLink_Handler,
 		},
 		{
 			MethodName: "DescribeMemberUsage",

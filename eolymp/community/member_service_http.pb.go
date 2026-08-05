@@ -225,6 +225,9 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/members/{team_id}/users/{member_id}", _MemberService_UnassignMember_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.MemberService.UnassignMember")
+	router.Handle(prefix+"/members/{member_id}/login-link", _MemberService_CreateMemberLoginLink_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.MemberService.CreateMemberLoginLink")
 	router.Handle(prefix+"/usage/members", _MemberService_DescribeMemberUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MemberService.DescribeMemberUsage")
@@ -414,6 +417,30 @@ func _MemberService_UnassignMember_Rule0(cli MemberServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UnassignMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MemberService_CreateMemberLoginLink_Rule0(cli MemberServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateMemberLoginLinkInput{}
+
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateMemberLoginLink(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return
