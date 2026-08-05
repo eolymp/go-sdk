@@ -343,10 +343,11 @@ func (x *Scoreboard_Column) GetFilterable() bool {
 }
 
 type Scoreboard_Row struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	Id       string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	MemberId string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	Index    uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	ParticipantId string                 `protobuf:"bytes,3,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
+	Index         uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
 	// Rank among officially ranked participants only; zero when the row itself is unofficial or disqualified.
 	Rank       uint32 `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
 	RankLength uint32 `protobuf:"varint,12,opt,name=rank_length,json=rankLength,proto3" json:"rank_length,omitempty"`
@@ -404,6 +405,13 @@ func (x *Scoreboard_Row) GetId() string {
 func (x *Scoreboard_Row) GetMemberId() string {
 	if x != nil {
 		return x.MemberId
+	}
+	return ""
+}
+
+func (x *Scoreboard_Row) GetParticipantId() string {
+	if x != nil {
+		return x.ParticipantId
 	}
 	return ""
 }
@@ -805,7 +813,7 @@ var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\"\xfc\r\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\"\xa3\x0e\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -842,10 +850,11 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\aCOUNTRY\x10\x10\x12\n" +
 	"\n" +
 	"\x06REGION\x10\x11\x12\x0f\n" +
-	"\vINSTITUTION\x10\x12\x1a\xf8\b\n" +
+	"\vINSTITUTION\x10\x12\x1a\x9f\t\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x14\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12%\n" +
+	"\x0eparticipant_id\x18\x03 \x01(\tR\rparticipantId\x12\x14\n" +
 	"\x05index\x18\n" +
 	" \x01(\rR\x05index\x12\x12\n" +
 	"\x04rank\x18\v \x01(\rR\x04rank\x12\x1f\n" +
