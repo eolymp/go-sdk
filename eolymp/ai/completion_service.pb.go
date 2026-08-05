@@ -74,6 +74,67 @@ func (CompleteInput_ToolChoice) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_ai_completion_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
+// Effort is how hard the model should think before answering. The values are
+// ours, not a provider's: the service maps them onto whatever the backend
+// understands, clamping where a backend offers a narrower range.
+type CompleteInput_Effort int32
+
+const (
+	CompleteInput_UNKNOWN_EFFORT CompleteInput_Effort = 0
+	CompleteInput_LOW            CompleteInput_Effort = 1
+	CompleteInput_MEDIUM         CompleteInput_Effort = 2
+	CompleteInput_HIGH           CompleteInput_Effort = 3
+	CompleteInput_XHIGH          CompleteInput_Effort = 4
+	CompleteInput_MAX            CompleteInput_Effort = 5
+)
+
+// Enum value maps for CompleteInput_Effort.
+var (
+	CompleteInput_Effort_name = map[int32]string{
+		0: "UNKNOWN_EFFORT",
+		1: "LOW",
+		2: "MEDIUM",
+		3: "HIGH",
+		4: "XHIGH",
+		5: "MAX",
+	}
+	CompleteInput_Effort_value = map[string]int32{
+		"UNKNOWN_EFFORT": 0,
+		"LOW":            1,
+		"MEDIUM":         2,
+		"HIGH":           3,
+		"XHIGH":          4,
+		"MAX":            5,
+	}
+)
+
+func (x CompleteInput_Effort) Enum() *CompleteInput_Effort {
+	p := new(CompleteInput_Effort)
+	*p = x
+	return p
+}
+
+func (x CompleteInput_Effort) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CompleteInput_Effort) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_ai_completion_service_proto_enumTypes[1].Descriptor()
+}
+
+func (CompleteInput_Effort) Type() protoreflect.EnumType {
+	return &file_eolymp_ai_completion_service_proto_enumTypes[1]
+}
+
+func (x CompleteInput_Effort) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CompleteInput_Effort.Descriptor instead.
+func (CompleteInput_Effort) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_ai_completion_service_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type CompleteChunk_ChunkType int32
 
 const (
@@ -131,11 +192,11 @@ func (x CompleteChunk_ChunkType) String() string {
 }
 
 func (CompleteChunk_ChunkType) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_ai_completion_service_proto_enumTypes[1].Descriptor()
+	return file_eolymp_ai_completion_service_proto_enumTypes[2].Descriptor()
 }
 
 func (CompleteChunk_ChunkType) Type() protoreflect.EnumType {
-	return &file_eolymp_ai_completion_service_proto_enumTypes[1]
+	return &file_eolymp_ai_completion_service_proto_enumTypes[2]
 }
 
 func (x CompleteChunk_ChunkType) Number() protoreflect.EnumNumber {
@@ -162,8 +223,12 @@ type CompleteInput struct {
 	Container         *CompleteInput_Container `protobuf:"bytes,11,opt,name=container,proto3" json:"container,omitempty"`
 	Betas             []string                 `protobuf:"bytes,12,rep,name=betas,proto3" json:"betas,omitempty"`
 	Reasoning         *CompleteInput_Reasoning `protobuf:"bytes,13,opt,name=reasoning,proto3" json:"reasoning,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Kept out of Reasoning so that setting an effort does not also decide whether
+	// thinking is enabled — Reasoning.enabled cannot tell "off" apart from
+	// "unset", so an effort sent there disables thinking.
+	Effort        CompleteInput_Effort `protobuf:"varint,14,opt,name=effort,proto3,enum=eolymp.ai.CompleteInput_Effort" json:"effort,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CompleteInput) Reset() {
@@ -285,6 +350,13 @@ func (x *CompleteInput) GetReasoning() *CompleteInput_Reasoning {
 		return x.Reasoning
 	}
 	return nil
+}
+
+func (x *CompleteInput) GetEffort() CompleteInput_Effort {
+	if x != nil {
+		return x.Effort
+	}
+	return CompleteInput_UNKNOWN_EFFORT
 }
 
 type CompleteOutput struct {
@@ -543,7 +615,7 @@ type CompleteInput_Reasoning struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Enabled       bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	Budget        int32                  `protobuf:"varint,2,opt,name=budget,proto3" json:"budget,omitempty"`
-	Effort        string                 `protobuf:"bytes,3,opt,name=effort,proto3" json:"effort,omitempty"`
+	Effort        string                 `protobuf:"bytes,3,opt,name=effort,proto3" json:"effort,omitempty"` // deprecated: use CompleteInput.effort
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -715,7 +787,8 @@ var File_eolymp_ai_completion_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/ai/completion_service.proto\x12\teolymp.ai\x1a\x1deolymp/ai/finish_reason.proto\x1a\x17eolymp/ai/message.proto\x1a\x15eolymp/ai/usage.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x8e\t\n" +
+	"\"eolymp/ai/completion_service.proto\x12\teolymp.ai\x1a\x1deolymp/ai/finish_reason.proto\x1a\x17eolymp/ai/message.proto\x1a\x15eolymp/ai/usage.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x98\n" +
+	"\n" +
 	"\rCompleteInput\x12\x14\n" +
 	"\x05model\x18\x01 \x01(\tR\x05model\x12.\n" +
 	"\bmessages\x18\x02 \x03(\v2\x12.eolymp.ai.MessageR\bmessages\x123\n" +
@@ -732,7 +805,8 @@ const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	" \x01(\bH\x04R\buseCache\x88\x01\x01\x12@\n" +
 	"\tcontainer\x18\v \x01(\v2\".eolymp.ai.CompleteInput.ContainerR\tcontainer\x12\x14\n" +
 	"\x05betas\x18\f \x03(\tR\x05betas\x12@\n" +
-	"\treasoning\x18\r \x01(\v2\".eolymp.ai.CompleteInput.ReasoningR\treasoning\x1a\xbd\x01\n" +
+	"\treasoning\x18\r \x01(\v2\".eolymp.ai.CompleteInput.ReasoningR\treasoning\x127\n" +
+	"\x06effort\x18\x0e \x01(\x0e2\x1f.eolymp.ai.CompleteInput.EffortR\x06effort\x1a\xbd\x01\n" +
 	"\x04Tool\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12 \n" +
@@ -756,7 +830,15 @@ const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\x13UNKNOWN_TOOL_CHOICE\x10\x00\x12\b\n" +
 	"\x04AUTO\x10\x01\x12\f\n" +
 	"\bREQUIRED\x10\x02\x12\b\n" +
-	"\x04NONE\x10\x03B\r\n" +
+	"\x04NONE\x10\x03\"O\n" +
+	"\x06Effort\x12\x12\n" +
+	"\x0eUNKNOWN_EFFORT\x10\x00\x12\a\n" +
+	"\x03LOW\x10\x01\x12\n" +
+	"\n" +
+	"\x06MEDIUM\x10\x02\x12\b\n" +
+	"\x04HIGH\x10\x03\x12\t\n" +
+	"\x05XHIGH\x10\x04\x12\a\n" +
+	"\x03MAX\x10\x05B\r\n" +
 	"\v_max_tokensB\x0e\n" +
 	"\f_temperatureB\b\n" +
 	"\x06_top_pB\b\n" +
@@ -817,49 +899,51 @@ func file_eolymp_ai_completion_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_ai_completion_service_proto_rawDescData
 }
 
-var file_eolymp_ai_completion_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_ai_completion_service_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_ai_completion_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_ai_completion_service_proto_goTypes = []any{
 	(CompleteInput_ToolChoice)(0),         // 0: eolymp.ai.CompleteInput.ToolChoice
-	(CompleteChunk_ChunkType)(0),          // 1: eolymp.ai.CompleteChunk.ChunkType
-	(*CompleteInput)(nil),                 // 2: eolymp.ai.CompleteInput
-	(*CompleteOutput)(nil),                // 3: eolymp.ai.CompleteOutput
-	(*CompleteChunk)(nil),                 // 4: eolymp.ai.CompleteChunk
-	(*CompleteInput_Tool)(nil),            // 5: eolymp.ai.CompleteInput.Tool
-	(*CompleteInput_Reasoning)(nil),       // 6: eolymp.ai.CompleteInput.Reasoning
-	(*CompleteInput_Container)(nil),       // 7: eolymp.ai.CompleteInput.Container
-	(*CompleteInput_Container_Skill)(nil), // 8: eolymp.ai.CompleteInput.Container.Skill
-	(*Message)(nil),                       // 9: eolymp.ai.Message
-	(*Message_ContentBlock)(nil),          // 10: eolymp.ai.Message.ContentBlock
-	(FinishReason)(0),                     // 11: eolymp.ai.FinishReason
-	(*Usage)(nil),                         // 12: eolymp.ai.Usage
-	(*Message_ToolCall)(nil),              // 13: eolymp.ai.Message.ToolCall
-	(*Message_ToolResult)(nil),            // 14: eolymp.ai.Message.ToolResult
+	(CompleteInput_Effort)(0),             // 1: eolymp.ai.CompleteInput.Effort
+	(CompleteChunk_ChunkType)(0),          // 2: eolymp.ai.CompleteChunk.ChunkType
+	(*CompleteInput)(nil),                 // 3: eolymp.ai.CompleteInput
+	(*CompleteOutput)(nil),                // 4: eolymp.ai.CompleteOutput
+	(*CompleteChunk)(nil),                 // 5: eolymp.ai.CompleteChunk
+	(*CompleteInput_Tool)(nil),            // 6: eolymp.ai.CompleteInput.Tool
+	(*CompleteInput_Reasoning)(nil),       // 7: eolymp.ai.CompleteInput.Reasoning
+	(*CompleteInput_Container)(nil),       // 8: eolymp.ai.CompleteInput.Container
+	(*CompleteInput_Container_Skill)(nil), // 9: eolymp.ai.CompleteInput.Container.Skill
+	(*Message)(nil),                       // 10: eolymp.ai.Message
+	(*Message_ContentBlock)(nil),          // 11: eolymp.ai.Message.ContentBlock
+	(FinishReason)(0),                     // 12: eolymp.ai.FinishReason
+	(*Usage)(nil),                         // 13: eolymp.ai.Usage
+	(*Message_ToolCall)(nil),              // 14: eolymp.ai.Message.ToolCall
+	(*Message_ToolResult)(nil),            // 15: eolymp.ai.Message.ToolResult
 }
 var file_eolymp_ai_completion_service_proto_depIdxs = []int32{
-	9,  // 0: eolymp.ai.CompleteInput.messages:type_name -> eolymp.ai.Message
-	5,  // 1: eolymp.ai.CompleteInput.tools:type_name -> eolymp.ai.CompleteInput.Tool
+	10, // 0: eolymp.ai.CompleteInput.messages:type_name -> eolymp.ai.Message
+	6,  // 1: eolymp.ai.CompleteInput.tools:type_name -> eolymp.ai.CompleteInput.Tool
 	0,  // 2: eolymp.ai.CompleteInput.tool_choice:type_name -> eolymp.ai.CompleteInput.ToolChoice
-	7,  // 3: eolymp.ai.CompleteInput.container:type_name -> eolymp.ai.CompleteInput.Container
-	6,  // 4: eolymp.ai.CompleteInput.reasoning:type_name -> eolymp.ai.CompleteInput.Reasoning
-	10, // 5: eolymp.ai.CompleteOutput.content:type_name -> eolymp.ai.Message.ContentBlock
-	11, // 6: eolymp.ai.CompleteOutput.finish_reason:type_name -> eolymp.ai.FinishReason
-	12, // 7: eolymp.ai.CompleteOutput.usage:type_name -> eolymp.ai.Usage
-	1,  // 8: eolymp.ai.CompleteChunk.type:type_name -> eolymp.ai.CompleteChunk.ChunkType
-	13, // 9: eolymp.ai.CompleteChunk.call:type_name -> eolymp.ai.Message.ToolCall
-	14, // 10: eolymp.ai.CompleteChunk.result:type_name -> eolymp.ai.Message.ToolResult
-	12, // 11: eolymp.ai.CompleteChunk.usage:type_name -> eolymp.ai.Usage
-	11, // 12: eolymp.ai.CompleteChunk.finish_reason:type_name -> eolymp.ai.FinishReason
-	8,  // 13: eolymp.ai.CompleteInput.Container.skills:type_name -> eolymp.ai.CompleteInput.Container.Skill
-	2,  // 14: eolymp.ai.CompletionService.Complete:input_type -> eolymp.ai.CompleteInput
-	2,  // 15: eolymp.ai.CompletionService.CompleteStream:input_type -> eolymp.ai.CompleteInput
-	3,  // 16: eolymp.ai.CompletionService.Complete:output_type -> eolymp.ai.CompleteOutput
-	4,  // 17: eolymp.ai.CompletionService.CompleteStream:output_type -> eolymp.ai.CompleteChunk
-	16, // [16:18] is the sub-list for method output_type
-	14, // [14:16] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	8,  // 3: eolymp.ai.CompleteInput.container:type_name -> eolymp.ai.CompleteInput.Container
+	7,  // 4: eolymp.ai.CompleteInput.reasoning:type_name -> eolymp.ai.CompleteInput.Reasoning
+	1,  // 5: eolymp.ai.CompleteInput.effort:type_name -> eolymp.ai.CompleteInput.Effort
+	11, // 6: eolymp.ai.CompleteOutput.content:type_name -> eolymp.ai.Message.ContentBlock
+	12, // 7: eolymp.ai.CompleteOutput.finish_reason:type_name -> eolymp.ai.FinishReason
+	13, // 8: eolymp.ai.CompleteOutput.usage:type_name -> eolymp.ai.Usage
+	2,  // 9: eolymp.ai.CompleteChunk.type:type_name -> eolymp.ai.CompleteChunk.ChunkType
+	14, // 10: eolymp.ai.CompleteChunk.call:type_name -> eolymp.ai.Message.ToolCall
+	15, // 11: eolymp.ai.CompleteChunk.result:type_name -> eolymp.ai.Message.ToolResult
+	13, // 12: eolymp.ai.CompleteChunk.usage:type_name -> eolymp.ai.Usage
+	12, // 13: eolymp.ai.CompleteChunk.finish_reason:type_name -> eolymp.ai.FinishReason
+	9,  // 14: eolymp.ai.CompleteInput.Container.skills:type_name -> eolymp.ai.CompleteInput.Container.Skill
+	3,  // 15: eolymp.ai.CompletionService.Complete:input_type -> eolymp.ai.CompleteInput
+	3,  // 16: eolymp.ai.CompletionService.CompleteStream:input_type -> eolymp.ai.CompleteInput
+	4,  // 17: eolymp.ai.CompletionService.Complete:output_type -> eolymp.ai.CompleteOutput
+	5,  // 18: eolymp.ai.CompletionService.CompleteStream:output_type -> eolymp.ai.CompleteChunk
+	17, // [17:19] is the sub-list for method output_type
+	15, // [15:17] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ai_completion_service_proto_init() }
@@ -876,7 +960,7 @@ func file_eolymp_ai_completion_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_ai_completion_service_proto_rawDesc), len(file_eolymp_ai_completion_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
