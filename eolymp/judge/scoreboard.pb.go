@@ -24,22 +24,34 @@ const (
 type Scoreboard_Mode int32
 
 const (
-	Scoreboard_RESULT  Scoreboard_Mode = 0
-	Scoreboard_FROZEN  Scoreboard_Mode = 1
+	// Mode is not set, the main scoreboard available to the caller is served.
+	Scoreboard_UNKNOWN_MODE Scoreboard_Mode = 0
+	// Standing as it stood at the freezing time, available when the contest configures a freezing time.
+	Scoreboard_FROZEN Scoreboard_Mode = 1
+	// Standing counting upsolve submissions, available when the contest allows upsolving.
 	Scoreboard_UPSOLVE Scoreboard_Mode = 2
+	// Standing on the participant's own clock, available while competing on an individual start time.
+	// Sorting, first-to-solve marks, pending/changed marks and the second rank space are not available.
+	Scoreboard_VIRTUAL Scoreboard_Mode = 3
+	// Standing scored during the main contest time.
+	Scoreboard_MAIN Scoreboard_Mode = 4
 )
 
 // Enum value maps for Scoreboard_Mode.
 var (
 	Scoreboard_Mode_name = map[int32]string{
-		0: "RESULT",
+		0: "UNKNOWN_MODE",
 		1: "FROZEN",
 		2: "UPSOLVE",
+		3: "VIRTUAL",
+		4: "MAIN",
 	}
 	Scoreboard_Mode_value = map[string]int32{
-		"RESULT":  0,
-		"FROZEN":  1,
-		"UPSOLVE": 2,
+		"UNKNOWN_MODE": 0,
+		"FROZEN":       1,
+		"UPSOLVE":      2,
+		"VIRTUAL":      3,
+		"MAIN":         4,
 	}
 )
 
@@ -805,7 +817,7 @@ var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\"\xfc\r\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a\x18eolymp/judge/medal.proto\"\x99\x0e\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -893,13 +905,14 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\x04time\x18\x05 \x01(\rR\x04time\x12\x18\n" +
 	"\apending\x18\x06 \x01(\rR\apending\x12\x18\n" +
 	"\achanged\x18\a \x01(\bR\achanged\x12$\n" +
-	"\x0efirst_to_solve\x18\b \x01(\bR\ffirstToSolve\"+\n" +
-	"\x04Mode\x12\n" +
-	"\n" +
-	"\x06RESULT\x10\x00\x12\n" +
+	"\x0efirst_to_solve\x18\b \x01(\bR\ffirstToSolve\"H\n" +
+	"\x04Mode\x12\x10\n" +
+	"\fUNKNOWN_MODE\x10\x00\x12\n" +
 	"\n" +
 	"\x06FROZEN\x10\x01\x12\v\n" +
-	"\aUPSOLVE\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\aUPSOLVE\x10\x02\x12\v\n" +
+	"\aVIRTUAL\x10\x03\x12\b\n" +
+	"\x04MAIN\x10\x04B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_scoreboard_proto_rawDescOnce sync.Once

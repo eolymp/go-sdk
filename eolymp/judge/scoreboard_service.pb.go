@@ -158,7 +158,7 @@ func (x *ListScoreboardRowsInput) GetMode() Scoreboard_Mode {
 	if x != nil {
 		return x.Mode
 	}
-	return Scoreboard_RESULT
+	return Scoreboard_UNKNOWN_MODE
 }
 
 func (x *ListScoreboardRowsInput) GetRoundId() string {
