@@ -322,6 +322,7 @@ type Problem_Test struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Index         uint32                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
 	Example       bool                   `protobuf:"varint,2,opt,name=example,proto3" json:"example,omitempty"`
+	Id            string                 `protobuf:"bytes,3,opt,name=id,proto3" json:"id,omitempty"` // test unique identifier, lets contest examples be referenced by id like archive and course examples
 	InputUrl      string                 `protobuf:"bytes,13,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
 	AnswerUrl     string                 `protobuf:"bytes,14,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
 	Score         float32                `protobuf:"fixed32,5,opt,name=score,proto3" json:"score,omitempty"`
@@ -371,6 +372,13 @@ func (x *Problem_Test) GetExample() bool {
 		return x.Example
 	}
 	return false
+}
+
+func (x *Problem_Test) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 func (x *Problem_Test) GetInputUrl() string {
@@ -459,7 +467,7 @@ var File_eolymp_judge_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\x87\r\n" +
+	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\x97\r\n" +
 	"\aProblem\x12!\n" +
 	"\n" +
 	"contest_id\x18\x05 \x01(\tB\x02\x18\x01R\tcontestId\x12\x0e\n" +
@@ -490,10 +498,11 @@ const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12*\n" +
 	"\acontent\x18\x04 \x01(\v2\x10.eolymp.ecm.NodeR\acontent\x12#\n" +
-	"\rdownload_link\x18\x06 \x01(\tR\fdownloadLink\x1a\x88\x01\n" +
+	"\rdownload_link\x18\x06 \x01(\tR\fdownloadLink\x1a\x98\x01\n" +
 	"\x04Test\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x18\n" +
-	"\aexample\x18\x02 \x01(\bR\aexample\x12\x1b\n" +
+	"\aexample\x18\x02 \x01(\bR\aexample\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\tR\x02id\x12\x1b\n" +
 	"\tinput_url\x18\r \x01(\tR\binputUrl\x12\x1d\n" +
 	"\n" +
 	"answer_url\x18\x0e \x01(\tR\tanswerUrl\x12\x14\n" +

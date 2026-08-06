@@ -31,6 +31,7 @@ type CreateRunInput struct {
 	//
 	//	*CreateRunInput_InputData
 	//	*CreateRunInput_InputRef
+	//	*CreateRunInput_ExampleId
 	Input         isCreateRunInput_Input `protobuf_oneof:"input"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -112,6 +113,15 @@ func (x *CreateRunInput) GetInputRef() string {
 	return ""
 }
 
+func (x *CreateRunInput) GetExampleId() string {
+	if x != nil {
+		if x, ok := x.Input.(*CreateRunInput_ExampleId); ok {
+			return x.ExampleId
+		}
+	}
+	return ""
+}
+
 type isCreateRunInput_Input interface {
 	isCreateRunInput_Input()
 }
@@ -124,9 +134,15 @@ type CreateRunInput_InputRef struct {
 	InputRef string `protobuf:"bytes,102,opt,name=input_ref,json=inputRef,proto3,oneof"`
 }
 
+type CreateRunInput_ExampleId struct {
+	ExampleId string `protobuf:"bytes,103,opt,name=example_id,json=exampleId,proto3,oneof"` // run against this example test of the problem; for interactive problems this is the only accepted input and the problem's interactor is attached
+}
+
 func (*CreateRunInput_InputData) isCreateRunInput_Input() {}
 
 func (*CreateRunInput_InputRef) isCreateRunInput_Input() {}
+
+func (*CreateRunInput_ExampleId) isCreateRunInput_Input() {}
 
 type CreateRunOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -352,14 +368,16 @@ var File_eolymp_playground_playground_proto protoreflect.FileDescriptor
 
 const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\xa1\x01\n" +
+	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\xc2\x01\n" +
 	"\x0eCreateRunInput\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x14\n" +
 	"\x05trace\x18\x03 \x01(\bR\x05trace\x12\x16\n" +
 	"\x06source\x18d \x01(\tR\x06source\x12\x1f\n" +
 	"\n" +
 	"input_data\x18e \x01(\fH\x00R\tinputData\x12\x1d\n" +
-	"\tinput_ref\x18f \x01(\tH\x00R\binputRefB\a\n" +
+	"\tinput_ref\x18f \x01(\tH\x00R\binputRef\x12\x1f\n" +
+	"\n" +
+	"example_id\x18g \x01(\tH\x00R\texampleIdB\a\n" +
 	"\x05input\"(\n" +
 	"\x0fCreateRunOutput\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\")\n" +
@@ -442,6 +460,7 @@ func file_eolymp_playground_playground_proto_init() {
 	file_eolymp_playground_playground_proto_msgTypes[0].OneofWrappers = []any{
 		(*CreateRunInput_InputData)(nil),
 		(*CreateRunInput_InputRef)(nil),
+		(*CreateRunInput_ExampleId)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

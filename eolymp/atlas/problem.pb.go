@@ -33,6 +33,7 @@ const (
 	Problem_SQL          Problem_Type = 4
 	Problem_ML           Problem_Type = 5
 	Problem_QUIZ         Problem_Type = 6
+	Problem_INTERACTIVE  Problem_Type = 7
 )
 
 // Enum value maps for Problem_Type.
@@ -45,6 +46,7 @@ var (
 		4: "SQL",
 		5: "ML",
 		6: "QUIZ",
+		7: "INTERACTIVE",
 	}
 	Problem_Type_value = map[string]int32{
 		"UNKNOWN_TYPE": 0,
@@ -54,6 +56,7 @@ var (
 		"SQL":          4,
 		"ML":           5,
 		"QUIZ":         6,
+		"INTERACTIVE":  7,
 	}
 )
 
@@ -654,7 +657,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\xdb\x0f\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a\x18eolymp/ecm/content.proto\"\xdf\x10\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12.\n" +
@@ -714,7 +717,7 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x1b\n" +
 	"\tinput_url\x18\x02 \x01(\tR\binputUrl\x12\x1d\n" +
 	"\n" +
-	"answer_url\x18\x03 \x01(\tR\tanswerUrl\"\xc8\x03\n" +
+	"answer_url\x18\x03 \x01(\tR\tanswerUrl\"\xcc\x04\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12K\n" +
 	"\aPROGRAM\x10\x01\x1a>\x9a\xf0\xf0\xe4\x018program problem, user should write a program to solve it\x12N\n" +
@@ -722,7 +725,8 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\x06OUTPUT\x10\x03\x1aE\x9a\xf0\xf0\xe4\x01?output-only problem, user should upload answer file to solve it\x12E\n" +
 	"\x03SQL\x10\x04\x1a<\x9a\xf0\xf0\xe4\x016SQL problem, user should write SQL queries to solve it\x12&\n" +
 	"\x02ML\x10\x05\x1a\x1e\x9a\xf0\xf0\xe4\x01\x18Machine learning problem\x12O\n" +
-	"\x04QUIZ\x10\x06\x1aE\x9a\xf0\xf0\xe4\x01?quiz problem, user should answer a set of questions to solve itB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x04QUIZ\x10\x06\x1aE\x9a\xf0\xf0\xe4\x01?quiz problem, user should answer a set of questions to solve it\x12\x81\x01\n" +
+	"\vINTERACTIVE\x10\a\x1ap\x9a\xf0\xf0\xe4\x01jinteractive problem, user's program communicates with an interactor instead of reading a static input fileB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_problem_proto_rawDescOnce sync.Once
