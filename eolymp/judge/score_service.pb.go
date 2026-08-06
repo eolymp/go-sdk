@@ -202,8 +202,12 @@ type WatchScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Mode for fetching score value (see enum description).
-	Mode          Score_FetchingMode `protobuf:"varint,3,opt,name=mode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"mode,omitempty"`
+	// Deprecated: use mode.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	FetchingMode Score_FetchingMode `protobuf:"varint,3,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
+	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
+	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -252,11 +256,19 @@ func (x *WatchScoreInput) GetParticipantId() string {
 	return ""
 }
 
-func (x *WatchScoreInput) GetMode() Score_FetchingMode {
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+func (x *WatchScoreInput) GetFetchingMode() Score_FetchingMode {
+	if x != nil {
+		return x.FetchingMode
+	}
+	return Score_ACTUAL
+}
+
+func (x *WatchScoreInput) GetMode() Scoreboard_Mode {
 	if x != nil {
 		return x.Mode
 	}
-	return Score_ACTUAL
+	return Scoreboard_UNKNOWN_MODE
 }
 
 type WatchScoreOutput struct {
@@ -307,12 +319,16 @@ type DescribeScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Mode for fetching score value (see enum description).
-	Mode Score_FetchingMode `protobuf:"varint,3,opt,name=mode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"mode,omitempty"`
-	// Time offset allows to fetch score at particular moment in the competition. Time offset is specified as number of
-	// seconds since the participant has started the competition. When time offset is 0, the latest score is returned.
-	// This value is ignored if mode is not PUNCTUAL.
-	TimeOffset    int32 `protobuf:"varint,4,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Deprecated: use mode.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	FetchingMode Score_FetchingMode `protobuf:"varint,3,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
+	// Deprecated: replaying a scoreboard is not part of this API.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	TimeOffset int32 `protobuf:"varint,4,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
+	Mode          Scoreboard_Mode `protobuf:"varint,5,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -361,18 +377,27 @@ func (x *DescribeScoreInput) GetParticipantId() string {
 	return ""
 }
 
-func (x *DescribeScoreInput) GetMode() Score_FetchingMode {
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+func (x *DescribeScoreInput) GetFetchingMode() Score_FetchingMode {
 	if x != nil {
-		return x.Mode
+		return x.FetchingMode
 	}
 	return Score_ACTUAL
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
 func (x *DescribeScoreInput) GetTimeOffset() int32 {
 	if x != nil {
 		return x.TimeOffset
 	}
 	return 0
+}
+
+func (x *DescribeScoreInput) GetMode() Scoreboard_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Scoreboard_UNKNOWN_MODE
 }
 
 type DescribeScoreOutput struct {
@@ -422,12 +447,16 @@ func (x *DescribeScoreOutput) GetScore() *Score {
 type DescribeResultInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ParticipantId string                 `protobuf:"bytes,1,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Mode for fetching score value (see enum description).
-	Mode Score_FetchingMode `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"mode,omitempty"`
-	// Time offset allows to fetch score at particular moment in the competition. Time offset is specified as number of
-	// seconds since the participant has started the competition. When time offset is 0, the latest score is returned.
-	// This value is ignored if mode is not PUNCTUAL.
-	TimeOffset    int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Deprecated: use mode.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	FetchingMode Score_FetchingMode `protobuf:"varint,2,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
+	// Deprecated: replaying a scoreboard is not part of this API.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	TimeOffset int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
+	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -469,18 +498,27 @@ func (x *DescribeResultInput) GetParticipantId() string {
 	return ""
 }
 
-func (x *DescribeResultInput) GetMode() Score_FetchingMode {
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+func (x *DescribeResultInput) GetFetchingMode() Score_FetchingMode {
 	if x != nil {
-		return x.Mode
+		return x.FetchingMode
 	}
 	return Score_ACTUAL
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
 func (x *DescribeResultInput) GetTimeOffset() int32 {
 	if x != nil {
 		return x.TimeOffset
 	}
 	return 0
+}
+
+func (x *DescribeResultInput) GetMode() Scoreboard_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Scoreboard_UNKNOWN_MODE
 }
 
 type DescribeResultOutput struct {
@@ -738,14 +776,18 @@ func (x *ExportScoreOutput) GetScores() []*Score {
 type ListResultInput struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	// Mode for fetching score value (see enum description).
-	Mode Score_FetchingMode `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"mode,omitempty"`
-	// Time offset allows to fetch score at particular moment in the competition. Time offset is specified as number of
-	// seconds since the participant has started the competition. When time offset is 0, the latest score is returned.
-	// This value is ignored if mode is not PUNCTUAL.
-	TimeOffset    int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
-	Offset        int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	// Deprecated: use mode.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	FetchingMode Score_FetchingMode `protobuf:"varint,2,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
+	// Deprecated: replaying a scoreboard is not part of this API.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	TimeOffset int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
+	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
+	Offset        int32           `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32           `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -787,18 +829,27 @@ func (x *ListResultInput) GetContestId() string {
 	return ""
 }
 
-func (x *ListResultInput) GetMode() Score_FetchingMode {
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+func (x *ListResultInput) GetFetchingMode() Score_FetchingMode {
 	if x != nil {
-		return x.Mode
+		return x.FetchingMode
 	}
 	return Score_ACTUAL
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
 func (x *ListResultInput) GetTimeOffset() int32 {
 	if x != nil {
 		return x.TimeOffset
 	}
 	return 0
+}
+
+func (x *ListResultInput) GetMode() Scoreboard_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Scoreboard_UNKNOWN_MODE
 }
 
 func (x *ListResultInput) GetOffset() int32 {
@@ -870,12 +921,16 @@ func (x *ListResultOutput) GetItems() []*Result {
 type ExportResultInput struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	// Mode for fetching score value (see enum description).
-	Mode Score_FetchingMode `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"mode,omitempty"`
-	// Time offset allows to fetch score at particular moment in the competition. Time offset is specified as number of
-	// seconds since the participant has started the competition. When time offset is 0, the latest score is returned.
-	// This value is ignored if mode is not PUNCTUAL.
-	TimeOffset    int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Deprecated: use mode.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	FetchingMode Score_FetchingMode `protobuf:"varint,2,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
+	// Deprecated: replaying a scoreboard is not part of this API.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	TimeOffset int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
+	// Scoreboard to export. When unset the caller is served the main scoreboard available to them.
+	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -917,18 +972,27 @@ func (x *ExportResultInput) GetContestId() string {
 	return ""
 }
 
-func (x *ExportResultInput) GetMode() Score_FetchingMode {
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+func (x *ExportResultInput) GetFetchingMode() Score_FetchingMode {
 	if x != nil {
-		return x.Mode
+		return x.FetchingMode
 	}
 	return Score_ACTUAL
 }
 
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
 func (x *ExportResultInput) GetTimeOffset() int32 {
 	if x != nil {
 		return x.TimeOffset
 	}
 	return 0
+}
+
+func (x *ExportResultInput) GetMode() Scoreboard_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Scoreboard_UNKNOWN_MODE
 }
 
 type ExportResultOutput struct {
@@ -979,9 +1043,12 @@ type ListScoreTimelineInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Mode controls which score points are returned.
-	// Only LATEST (official contest time) and UPSOLVE (including post-contest) are meaningful here.
-	Mode          Score_FetchingMode `protobuf:"varint,3,opt,name=mode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"mode,omitempty"`
+	// Deprecated: use mode.
+	//
+	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+	FetchingMode Score_FetchingMode `protobuf:"varint,3,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
+	// Scoreboard to read the timeline of. Only MAIN and UPSOLVE are meaningful here.
+	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1030,11 +1097,19 @@ func (x *ListScoreTimelineInput) GetParticipantId() string {
 	return ""
 }
 
-func (x *ListScoreTimelineInput) GetMode() Score_FetchingMode {
+// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
+func (x *ListScoreTimelineInput) GetFetchingMode() Score_FetchingMode {
+	if x != nil {
+		return x.FetchingMode
+	}
+	return Score_ACTUAL
+}
+
+func (x *ListScoreTimelineInput) GetMode() Scoreboard_Mode {
 	if x != nil {
 		return x.Mode
 	}
-	return Score_ACTUAL
+	return Scoreboard_UNKNOWN_MODE
 }
 
 type ListScoreTimelineOutput struct {
@@ -1085,7 +1160,7 @@ var File_eolymp_judge_score_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\"2\n" +
+	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a!eolymp/judge/score_timeline.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"-\n" +
@@ -1095,28 +1170,31 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"B\n" +
 	"\x15IntrospectScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x8d\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xd5\x01\n" +
 	"\x0fWatchScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x124\n" +
-	"\x04mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\"=\n" +
+	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12I\n" +
+	"\rfetching_mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x121\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"=\n" +
 	"\x10WatchScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xb9\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x83\x02\n" +
 	"\x12DescribeScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x124\n" +
-	"\x04mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12'\n" +
-	"\vtime_offset\x18\x04 \x01(\x05B\x06\xb0\xf0\xf0\xe4\x01\x01R\n" +
-	"timeOffset\"@\n" +
+	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12I\n" +
+	"\rfetching_mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12)\n" +
+	"\vtime_offset\x18\x04 \x01(\x05B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\n" +
+	"timeOffset\x121\n" +
+	"\x04mode\x18\x05 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"@\n" +
 	"\x13DescribeScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x9b\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xe5\x01\n" +
 	"\x13DescribeResultInput\x12%\n" +
-	"\x0eparticipant_id\x18\x01 \x01(\tR\rparticipantId\x124\n" +
-	"\x04mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12'\n" +
-	"\vtime_offset\x18\x03 \x01(\x05B\x06\xb0\xf0\xf0\xe4\x01\x01R\n" +
-	"timeOffset\"D\n" +
+	"\x0eparticipant_id\x18\x01 \x01(\tR\rparticipantId\x12I\n" +
+	"\rfetching_mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12)\n" +
+	"\vtime_offset\x18\x03 \x01(\x05B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\n" +
+	"timeOffset\x121\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"D\n" +
 	"\x14DescribeResultOutput\x12,\n" +
 	"\x06result\x18\x01 \x01(\v2\x14.eolymp.judge.ResultR\x06result\"\x85\x01\n" +
 	"\x10ImportScoreInput\x12\x1d\n" +
@@ -1132,33 +1210,36 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"@\n" +
 	"\x11ExportScoreOutput\x12+\n" +
 	"\x06scores\x18\n" +
-	" \x03(\v2\x13.eolymp.judge.ScoreR\x06scores\"\xbb\x01\n" +
+	" \x03(\v2\x13.eolymp.judge.ScoreR\x06scores\"\x85\x02\n" +
 	"\x0fListResultInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x124\n" +
-	"\x04mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12'\n" +
-	"\vtime_offset\x18\x03 \x01(\x05B\x06\xb0\xf0\xf0\xe4\x01\x01R\n" +
-	"timeOffset\x12\x16\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12I\n" +
+	"\rfetching_mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12)\n" +
+	"\vtime_offset\x18\x03 \x01(\x05B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\n" +
+	"timeOffset\x121\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\"T\n" +
 	"\x10ListResultOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12*\n" +
-	"\x05items\x18\x02 \x03(\v2\x14.eolymp.judge.ResultR\x05items\"\x89\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\x14.eolymp.judge.ResultR\x05items\"\xd5\x01\n" +
 	"\x11ExportResultInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x124\n" +
-	"\x04mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\x12\x1f\n" +
-	"\vtime_offset\x18\x03 \x01(\x05R\n" +
-	"timeOffset\"3\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12I\n" +
+	"\rfetching_mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12#\n" +
+	"\vtime_offset\x18\x03 \x01(\x05B\x02\x18\x01R\n" +
+	"timeOffset\x121\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"3\n" +
 	"\x12ExportResultOutput\x12\x1d\n" +
 	"\n" +
-	"export_url\x18\x01 \x01(\tR\texportUrl\"\x94\x01\n" +
+	"export_url\x18\x01 \x01(\tR\texportUrl\"\xdc\x01\n" +
 	"\x16ListScoreTimelineInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x124\n" +
-	"\x04mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeR\x04mode\"Q\n" +
+	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12I\n" +
+	"\rfetching_mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x121\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"Q\n" +
 	"\x17ListScoreTimelineOutput\x126\n" +
 	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\xc6\f\n" +
 	"\fScoreService\x12\x84\x01\n" +
@@ -1259,49 +1340,56 @@ var file_eolymp_judge_score_service_proto_goTypes = []any{
 	(*ListScoreTimelineOutput)(nil), // 19: eolymp.judge.ListScoreTimelineOutput
 	(*Score)(nil),                   // 20: eolymp.judge.Score
 	(Score_FetchingMode)(0),         // 21: eolymp.judge.Score.FetchingMode
-	(*Result)(nil),                  // 22: eolymp.judge.Result
-	(*ScoreTimelinePoint)(nil),      // 23: eolymp.judge.ScoreTimelinePoint
+	(Scoreboard_Mode)(0),            // 22: eolymp.judge.Scoreboard.Mode
+	(*Result)(nil),                  // 23: eolymp.judge.Result
+	(*ScoreTimelinePoint)(nil),      // 24: eolymp.judge.ScoreTimelinePoint
 }
 var file_eolymp_judge_score_service_proto_depIdxs = []int32{
 	20, // 0: eolymp.judge.IntrospectScoreOutput.score:type_name -> eolymp.judge.Score
-	21, // 1: eolymp.judge.WatchScoreInput.mode:type_name -> eolymp.judge.Score.FetchingMode
-	20, // 2: eolymp.judge.WatchScoreOutput.score:type_name -> eolymp.judge.Score
-	21, // 3: eolymp.judge.DescribeScoreInput.mode:type_name -> eolymp.judge.Score.FetchingMode
-	20, // 4: eolymp.judge.DescribeScoreOutput.score:type_name -> eolymp.judge.Score
-	21, // 5: eolymp.judge.DescribeResultInput.mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 6: eolymp.judge.DescribeResultOutput.result:type_name -> eolymp.judge.Result
-	20, // 7: eolymp.judge.ImportScoreInput.scores:type_name -> eolymp.judge.Score
-	20, // 8: eolymp.judge.ExportScoreOutput.scores:type_name -> eolymp.judge.Score
-	21, // 9: eolymp.judge.ListResultInput.mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 10: eolymp.judge.ListResultOutput.items:type_name -> eolymp.judge.Result
-	21, // 11: eolymp.judge.ExportResultInput.mode:type_name -> eolymp.judge.Score.FetchingMode
-	21, // 12: eolymp.judge.ListScoreTimelineInput.mode:type_name -> eolymp.judge.Score.FetchingMode
-	23, // 13: eolymp.judge.ListScoreTimelineOutput.items:type_name -> eolymp.judge.ScoreTimelinePoint
-	2,  // 14: eolymp.judge.ScoreService.IntrospectScore:input_type -> eolymp.judge.IntrospectScoreInput
-	4,  // 15: eolymp.judge.ScoreService.WatchScore:input_type -> eolymp.judge.WatchScoreInput
-	6,  // 16: eolymp.judge.ScoreService.DescribeScore:input_type -> eolymp.judge.DescribeScoreInput
-	8,  // 17: eolymp.judge.ScoreService.DescribeResult:input_type -> eolymp.judge.DescribeResultInput
-	18, // 18: eolymp.judge.ScoreService.ListScoreTimeline:input_type -> eolymp.judge.ListScoreTimelineInput
-	10, // 19: eolymp.judge.ScoreService.ImportScore:input_type -> eolymp.judge.ImportScoreInput
-	12, // 20: eolymp.judge.ScoreService.ExportScore:input_type -> eolymp.judge.ExportScoreInput
-	14, // 21: eolymp.judge.ScoreService.ListResult:input_type -> eolymp.judge.ListResultInput
-	16, // 22: eolymp.judge.ScoreService.ExportResult:input_type -> eolymp.judge.ExportResultInput
-	0,  // 23: eolymp.judge.ScoreService.RebuildScore:input_type -> eolymp.judge.RebuildScoreInput
-	3,  // 24: eolymp.judge.ScoreService.IntrospectScore:output_type -> eolymp.judge.IntrospectScoreOutput
-	5,  // 25: eolymp.judge.ScoreService.WatchScore:output_type -> eolymp.judge.WatchScoreOutput
-	7,  // 26: eolymp.judge.ScoreService.DescribeScore:output_type -> eolymp.judge.DescribeScoreOutput
-	9,  // 27: eolymp.judge.ScoreService.DescribeResult:output_type -> eolymp.judge.DescribeResultOutput
-	19, // 28: eolymp.judge.ScoreService.ListScoreTimeline:output_type -> eolymp.judge.ListScoreTimelineOutput
-	11, // 29: eolymp.judge.ScoreService.ImportScore:output_type -> eolymp.judge.ImportScoreOutput
-	13, // 30: eolymp.judge.ScoreService.ExportScore:output_type -> eolymp.judge.ExportScoreOutput
-	15, // 31: eolymp.judge.ScoreService.ListResult:output_type -> eolymp.judge.ListResultOutput
-	17, // 32: eolymp.judge.ScoreService.ExportResult:output_type -> eolymp.judge.ExportResultOutput
-	1,  // 33: eolymp.judge.ScoreService.RebuildScore:output_type -> eolymp.judge.RebuildScoreOutput
-	24, // [24:34] is the sub-list for method output_type
-	14, // [14:24] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	21, // 1: eolymp.judge.WatchScoreInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
+	22, // 2: eolymp.judge.WatchScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	20, // 3: eolymp.judge.WatchScoreOutput.score:type_name -> eolymp.judge.Score
+	21, // 4: eolymp.judge.DescribeScoreInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
+	22, // 5: eolymp.judge.DescribeScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	20, // 6: eolymp.judge.DescribeScoreOutput.score:type_name -> eolymp.judge.Score
+	21, // 7: eolymp.judge.DescribeResultInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
+	22, // 8: eolymp.judge.DescribeResultInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	23, // 9: eolymp.judge.DescribeResultOutput.result:type_name -> eolymp.judge.Result
+	20, // 10: eolymp.judge.ImportScoreInput.scores:type_name -> eolymp.judge.Score
+	20, // 11: eolymp.judge.ExportScoreOutput.scores:type_name -> eolymp.judge.Score
+	21, // 12: eolymp.judge.ListResultInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
+	22, // 13: eolymp.judge.ListResultInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	23, // 14: eolymp.judge.ListResultOutput.items:type_name -> eolymp.judge.Result
+	21, // 15: eolymp.judge.ExportResultInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
+	22, // 16: eolymp.judge.ExportResultInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	21, // 17: eolymp.judge.ListScoreTimelineInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
+	22, // 18: eolymp.judge.ListScoreTimelineInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	24, // 19: eolymp.judge.ListScoreTimelineOutput.items:type_name -> eolymp.judge.ScoreTimelinePoint
+	2,  // 20: eolymp.judge.ScoreService.IntrospectScore:input_type -> eolymp.judge.IntrospectScoreInput
+	4,  // 21: eolymp.judge.ScoreService.WatchScore:input_type -> eolymp.judge.WatchScoreInput
+	6,  // 22: eolymp.judge.ScoreService.DescribeScore:input_type -> eolymp.judge.DescribeScoreInput
+	8,  // 23: eolymp.judge.ScoreService.DescribeResult:input_type -> eolymp.judge.DescribeResultInput
+	18, // 24: eolymp.judge.ScoreService.ListScoreTimeline:input_type -> eolymp.judge.ListScoreTimelineInput
+	10, // 25: eolymp.judge.ScoreService.ImportScore:input_type -> eolymp.judge.ImportScoreInput
+	12, // 26: eolymp.judge.ScoreService.ExportScore:input_type -> eolymp.judge.ExportScoreInput
+	14, // 27: eolymp.judge.ScoreService.ListResult:input_type -> eolymp.judge.ListResultInput
+	16, // 28: eolymp.judge.ScoreService.ExportResult:input_type -> eolymp.judge.ExportResultInput
+	0,  // 29: eolymp.judge.ScoreService.RebuildScore:input_type -> eolymp.judge.RebuildScoreInput
+	3,  // 30: eolymp.judge.ScoreService.IntrospectScore:output_type -> eolymp.judge.IntrospectScoreOutput
+	5,  // 31: eolymp.judge.ScoreService.WatchScore:output_type -> eolymp.judge.WatchScoreOutput
+	7,  // 32: eolymp.judge.ScoreService.DescribeScore:output_type -> eolymp.judge.DescribeScoreOutput
+	9,  // 33: eolymp.judge.ScoreService.DescribeResult:output_type -> eolymp.judge.DescribeResultOutput
+	19, // 34: eolymp.judge.ScoreService.ListScoreTimeline:output_type -> eolymp.judge.ListScoreTimelineOutput
+	11, // 35: eolymp.judge.ScoreService.ImportScore:output_type -> eolymp.judge.ImportScoreOutput
+	13, // 36: eolymp.judge.ScoreService.ExportScore:output_type -> eolymp.judge.ExportScoreOutput
+	15, // 37: eolymp.judge.ScoreService.ListResult:output_type -> eolymp.judge.ListResultOutput
+	17, // 38: eolymp.judge.ScoreService.ExportResult:output_type -> eolymp.judge.ExportResultOutput
+	1,  // 39: eolymp.judge.ScoreService.RebuildScore:output_type -> eolymp.judge.RebuildScoreOutput
+	30, // [30:40] is the sub-list for method output_type
+	20, // [20:30] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_score_service_proto_init() }
@@ -1311,6 +1399,7 @@ func file_eolymp_judge_score_service_proto_init() {
 	}
 	file_eolymp_judge_result_proto_init()
 	file_eolymp_judge_score_proto_init()
+	file_eolymp_judge_scoreboard_proto_init()
 	file_eolymp_judge_score_timeline_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
