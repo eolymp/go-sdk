@@ -139,13 +139,16 @@ type Post struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Url        string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	SourceId   string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                          // if set, marks this post as translation for a post specified in this field
+	SourceId   string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                          // if set when creating the post, marks it as a translation of the post specified here
 	SourceUrl  string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                       // populated if source_id is set
 	Draft      bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                               // marked as draft and only shown to author
 	Public     bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                             // visible and available to everyone (ie. published and passed moderation)
 	Featured   bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                         // marked as featured (shown on home page)
 	Pinned     bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                            // pinned on top of the page
 	Moderation Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.content.Post_Moderation" json:"moderation,omitempty"` // moderation status
+	// author of the post. A service caller may set either identity, or leave it unset for a system post; a user
+	// or member caller authors the post as themselves and cannot set another author.
+	//
 	// Types that are valid to be assigned to Author:
 	//
 	//	*Post_UserId
@@ -406,11 +409,11 @@ type isPost_Author interface {
 }
 
 type Post_UserId struct {
-	UserId string `protobuf:"bytes,10,opt,name=user_id,json=userId,proto3,oneof"`
+	UserId string `protobuf:"bytes,10,opt,name=user_id,json=userId,proto3,oneof"` // author by user
 }
 
 type Post_MemberId struct {
-	MemberId string `protobuf:"bytes,11,opt,name=member_id,json=memberId,proto3,oneof"`
+	MemberId string `protobuf:"bytes,11,opt,name=member_id,json=memberId,proto3,oneof"` // author by member
 }
 
 func (*Post_UserId) isPost_Author() {}
@@ -641,11 +644,11 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe1\r\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc9\r\n" +
 	"\x04Post\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
-	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12#\n" +
-	"\tsource_id\x18\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bsourceId\x12%\n" +
+	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x1b\n" +
+	"\tsource_id\x18\a \x01(\tR\bsourceId\x12%\n" +
 	"\n" +
 	"source_url\x18\b \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tsourceUrl\x12\x14\n" +
 	"\x05draft\x18\x03 \x01(\bR\x05draft\x12\x1e\n" +
@@ -654,10 +657,10 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\x06pinned\x18\r \x01(\bR\x06pinned\x12G\n" +
 	"\n" +
 	"moderation\x18\x05 \x01(\x0e2\x1f.eolymp.content.Post.ModerationB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
-	"moderation\x12!\n" +
+	"moderation\x12\x19\n" +
 	"\auser_id\x18\n" +
-	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\x06userId\x12%\n" +
-	"\tmember_id\x18\v \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\bmemberId\x12A\n" +
+	" \x01(\tH\x00R\x06userId\x12\x1d\n" +
+	"\tmember_id\x18\v \x01(\tH\x00R\bmemberId\x12A\n" +
 	"\n" +
 	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12E\n" +
 	"\fpublished_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vpublishedAt\x12A\n" +

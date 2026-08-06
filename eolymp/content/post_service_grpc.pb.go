@@ -60,8 +60,10 @@ type PostServiceClient interface {
 	// for the rendered excerpt here saves describing every post separately just to render the listing.
 	ListPosts(ctx context.Context, in *ListPostsInput, opts ...grpc.CallOption) (*ListPostsOutput, error)
 	// CreatePost stores a new post and returns its id. There is no title to set: the title and the image shown
-	// for the post are derived from its content. Making the post visible is not part of this call, see
-	// PublishPost.
+	// for the post are derived from its content. A user or member caller authors the post as themselves and
+	// cannot set another author; a service caller may set the author to any user or member, or leave it unset
+	// for a system post, and may mark the post as a translation of another through its source. Making the post
+	// visible is not part of this call, see PublishPost.
 	CreatePost(ctx context.Context, in *CreatePostInput, opts ...grpc.CallOption) (*CreatePostOutput, error)
 	// UpdatePost writes new values into a post, and is also how a post is featured on the home page or pinned on
 	// top of the listing. Fields left out of the patch keep the values they already have. The title and the image
@@ -232,8 +234,10 @@ type PostServiceServer interface {
 	// for the rendered excerpt here saves describing every post separately just to render the listing.
 	ListPosts(context.Context, *ListPostsInput) (*ListPostsOutput, error)
 	// CreatePost stores a new post and returns its id. There is no title to set: the title and the image shown
-	// for the post are derived from its content. Making the post visible is not part of this call, see
-	// PublishPost.
+	// for the post are derived from its content. A user or member caller authors the post as themselves and
+	// cannot set another author; a service caller may set the author to any user or member, or leave it unset
+	// for a system post, and may mark the post as a translation of another through its source. Making the post
+	// visible is not part of this call, see PublishPost.
 	CreatePost(context.Context, *CreatePostInput) (*CreatePostOutput, error)
 	// UpdatePost writes new values into a post, and is also how a post is featured on the home page or pinned on
 	// top of the listing. Fields left out of the patch keep the values they already have. The title and the image
