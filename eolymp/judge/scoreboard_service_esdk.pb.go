@@ -121,3 +121,30 @@ func (s *ScoreboardServiceService) ListScoreboardRows(ctx context.Context, in *L
 
 	return out, nil
 }
+
+func (s *ScoreboardServiceService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+	out := &DescribeScoreboardRowOutput{}
+	path := "/scoreboard/rows/" + url.PathEscape(in.GetParticipantId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ParticipantId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ScoreboardServiceService) ExportScoreboard(ctx context.Context, in *ExportScoreboardInput) (*ExportScoreboardOutput, error) {
+	out := &ExportScoreboardOutput{}
+	path := "/scoreboard/export"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

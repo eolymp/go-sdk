@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ScoreboardService_DescribeScoreboard_FullMethodName = "/eolymp.judge.ScoreboardService/DescribeScoreboard"
-	ScoreboardService_ListScoreboardRows_FullMethodName = "/eolymp.judge.ScoreboardService/ListScoreboardRows"
+	ScoreboardService_DescribeScoreboard_FullMethodName    = "/eolymp.judge.ScoreboardService/DescribeScoreboard"
+	ScoreboardService_ListScoreboardRows_FullMethodName    = "/eolymp.judge.ScoreboardService/ListScoreboardRows"
+	ScoreboardService_DescribeScoreboardRow_FullMethodName = "/eolymp.judge.ScoreboardService/DescribeScoreboardRow"
+	ScoreboardService_ExportScoreboard_FullMethodName      = "/eolymp.judge.ScoreboardService/ExportScoreboard"
 )
 
 // ScoreboardServiceClient is the client API for ScoreboardService service.
@@ -44,6 +46,8 @@ type ScoreboardServiceClient interface {
 	// response only makes sense alongside the layout from DescribeScoreboard. The requested mode decides which
 	// recorded scores the rows are built on, and a row's rank spans several positions when participants tie.
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
+	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
+	ExportScoreboard(ctx context.Context, in *ExportScoreboardInput, opts ...grpc.CallOption) (*ExportScoreboardOutput, error)
 }
 
 type scoreboardServiceClient struct {
@@ -74,6 +78,26 @@ func (c *scoreboardServiceClient) ListScoreboardRows(ctx context.Context, in *Li
 	return out, nil
 }
 
+func (c *scoreboardServiceClient) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeScoreboardRowOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_DescribeScoreboardRow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scoreboardServiceClient) ExportScoreboard(ctx context.Context, in *ExportScoreboardInput, opts ...grpc.CallOption) (*ExportScoreboardOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExportScoreboardOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_ExportScoreboard_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ScoreboardServiceServer is the server API for ScoreboardService service.
 // All implementations should embed UnimplementedScoreboardServiceServer
 // for forward compatibility.
@@ -95,6 +119,8 @@ type ScoreboardServiceServer interface {
 	// response only makes sense alongside the layout from DescribeScoreboard. The requested mode decides which
 	// recorded scores the rows are built on, and a row's rank spans several positions when participants tie.
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
+	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
+	ExportScoreboard(context.Context, *ExportScoreboardInput) (*ExportScoreboardOutput, error)
 }
 
 // UnimplementedScoreboardServiceServer should be embedded to have
@@ -109,6 +135,12 @@ func (UnimplementedScoreboardServiceServer) DescribeScoreboard(context.Context, 
 }
 func (UnimplementedScoreboardServiceServer) ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListScoreboardRows not implemented")
+}
+func (UnimplementedScoreboardServiceServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
+}
+func (UnimplementedScoreboardServiceServer) ExportScoreboard(context.Context, *ExportScoreboardInput) (*ExportScoreboardOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ExportScoreboard not implemented")
 }
 func (UnimplementedScoreboardServiceServer) testEmbeddedByValue() {}
 
@@ -166,6 +198,42 @@ func _ScoreboardService_ListScoreboardRows_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ScoreboardService_DescribeScoreboardRow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardRowInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).DescribeScoreboardRow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_DescribeScoreboardRow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).DescribeScoreboardRow(ctx, req.(*DescribeScoreboardRowInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreboardService_ExportScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportScoreboardInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).ExportScoreboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_ExportScoreboard_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).ExportScoreboard(ctx, req.(*ExportScoreboardInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ScoreboardService_ServiceDesc is the grpc.ServiceDesc for ScoreboardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +248,14 @@ var ScoreboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListScoreboardRows",
 			Handler:    _ScoreboardService_ListScoreboardRows_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboardRow",
+			Handler:    _ScoreboardService_DescribeScoreboardRow_Handler,
+		},
+		{
+			MethodName: "ExportScoreboard",
+			Handler:    _ScoreboardService_ExportScoreboard_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

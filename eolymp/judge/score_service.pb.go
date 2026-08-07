@@ -110,27 +110,27 @@ func (x *RebuildScoreOutput) GetTaskId() string {
 	return ""
 }
 
-type IntrospectScoreInput struct {
+type DescribeViewerScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *IntrospectScoreInput) Reset() {
-	*x = IntrospectScoreInput{}
+func (x *DescribeViewerScoreInput) Reset() {
+	*x = DescribeViewerScoreInput{}
 	mi := &file_eolymp_judge_score_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *IntrospectScoreInput) String() string {
+func (x *DescribeViewerScoreInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*IntrospectScoreInput) ProtoMessage() {}
+func (*DescribeViewerScoreInput) ProtoMessage() {}
 
-func (x *IntrospectScoreInput) ProtoReflect() protoreflect.Message {
+func (x *DescribeViewerScoreInput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_judge_score_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -142,39 +142,39 @@ func (x *IntrospectScoreInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IntrospectScoreInput.ProtoReflect.Descriptor instead.
-func (*IntrospectScoreInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DescribeViewerScoreInput.ProtoReflect.Descriptor instead.
+func (*DescribeViewerScoreInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *IntrospectScoreInput) GetContestId() string {
+func (x *DescribeViewerScoreInput) GetContestId() string {
 	if x != nil {
 		return x.ContestId
 	}
 	return ""
 }
 
-type IntrospectScoreOutput struct {
+type DescribeViewerScoreOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Score         *Score                 `protobuf:"bytes,1,opt,name=score,proto3" json:"score,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *IntrospectScoreOutput) Reset() {
-	*x = IntrospectScoreOutput{}
+func (x *DescribeViewerScoreOutput) Reset() {
+	*x = DescribeViewerScoreOutput{}
 	mi := &file_eolymp_judge_score_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *IntrospectScoreOutput) String() string {
+func (x *DescribeViewerScoreOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*IntrospectScoreOutput) ProtoMessage() {}
+func (*DescribeViewerScoreOutput) ProtoMessage() {}
 
-func (x *IntrospectScoreOutput) ProtoReflect() protoreflect.Message {
+func (x *DescribeViewerScoreOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_judge_score_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -186,12 +186,12 @@ func (x *IntrospectScoreOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IntrospectScoreOutput.ProtoReflect.Descriptor instead.
-func (*IntrospectScoreOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DescribeViewerScoreOutput.ProtoReflect.Descriptor instead.
+func (*DescribeViewerScoreOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *IntrospectScoreOutput) GetScore() *Score {
+func (x *DescribeViewerScoreOutput) GetScore() *Score {
 	if x != nil {
 		return x.Score
 	}
@@ -202,12 +202,7 @@ type WatchScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Deprecated: use mode.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	FetchingMode Score_FetchingMode `protobuf:"varint,3,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
-	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
-	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
+	Mode          Scoreboard_Mode        `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -254,14 +249,6 @@ func (x *WatchScoreInput) GetParticipantId() string {
 		return x.ParticipantId
 	}
 	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *WatchScoreInput) GetFetchingMode() Score_FetchingMode {
-	if x != nil {
-		return x.FetchingMode
-	}
-	return Score_ACTUAL
 }
 
 func (x *WatchScoreInput) GetMode() Scoreboard_Mode {
@@ -319,16 +306,7 @@ type DescribeScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Deprecated: use mode.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	FetchingMode Score_FetchingMode `protobuf:"varint,3,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
-	// Deprecated: replaying a scoreboard is not part of this API.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	TimeOffset int32 `protobuf:"varint,4,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
-	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
-	Mode          Scoreboard_Mode `protobuf:"varint,5,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
+	Mode          Scoreboard_Mode        `protobuf:"varint,5,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -375,22 +353,6 @@ func (x *DescribeScoreInput) GetParticipantId() string {
 		return x.ParticipantId
 	}
 	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *DescribeScoreInput) GetFetchingMode() Score_FetchingMode {
-	if x != nil {
-		return x.FetchingMode
-	}
-	return Score_ACTUAL
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *DescribeScoreInput) GetTimeOffset() int32 {
-	if x != nil {
-		return x.TimeOffset
-	}
-	return 0
 }
 
 func (x *DescribeScoreInput) GetMode() Scoreboard_Mode {
@@ -444,127 +406,6 @@ func (x *DescribeScoreOutput) GetScore() *Score {
 	return nil
 }
 
-type DescribeResultInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ParticipantId string                 `protobuf:"bytes,1,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Deprecated: use mode.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	FetchingMode Score_FetchingMode `protobuf:"varint,2,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
-	// Deprecated: replaying a scoreboard is not part of this API.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	TimeOffset int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
-	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
-	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeResultInput) Reset() {
-	*x = DescribeResultInput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeResultInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeResultInput) ProtoMessage() {}
-
-func (x *DescribeResultInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeResultInput.ProtoReflect.Descriptor instead.
-func (*DescribeResultInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *DescribeResultInput) GetParticipantId() string {
-	if x != nil {
-		return x.ParticipantId
-	}
-	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *DescribeResultInput) GetFetchingMode() Score_FetchingMode {
-	if x != nil {
-		return x.FetchingMode
-	}
-	return Score_ACTUAL
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *DescribeResultInput) GetTimeOffset() int32 {
-	if x != nil {
-		return x.TimeOffset
-	}
-	return 0
-}
-
-func (x *DescribeResultInput) GetMode() Scoreboard_Mode {
-	if x != nil {
-		return x.Mode
-	}
-	return Scoreboard_UNKNOWN_MODE
-}
-
-type DescribeResultOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Result        *Result                `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeResultOutput) Reset() {
-	*x = DescribeResultOutput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeResultOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeResultOutput) ProtoMessage() {}
-
-func (x *DescribeResultOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeResultOutput.ProtoReflect.Descriptor instead.
-func (*DescribeResultOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *DescribeResultOutput) GetResult() *Result {
-	if x != nil {
-		return x.Result
-	}
-	return nil
-}
-
 type ImportScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
@@ -592,7 +433,7 @@ type ImportScoreInput struct {
 
 func (x *ImportScoreInput) Reset() {
 	*x = ImportScoreInput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[10]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -604,7 +445,7 @@ func (x *ImportScoreInput) String() string {
 func (*ImportScoreInput) ProtoMessage() {}
 
 func (x *ImportScoreInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[10]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -617,7 +458,7 @@ func (x *ImportScoreInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportScoreInput.ProtoReflect.Descriptor instead.
 func (*ImportScoreInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ImportScoreInput) GetContestId() string {
@@ -649,7 +490,7 @@ type ImportScoreOutput struct {
 
 func (x *ImportScoreOutput) Reset() {
 	*x = ImportScoreOutput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[11]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -661,7 +502,7 @@ func (x *ImportScoreOutput) String() string {
 func (*ImportScoreOutput) ProtoMessage() {}
 
 func (x *ImportScoreOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[11]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -674,7 +515,7 @@ func (x *ImportScoreOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportScoreOutput.ProtoReflect.Descriptor instead.
 func (*ImportScoreOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{9}
 }
 
 type ExportScoreInput struct {
@@ -687,7 +528,7 @@ type ExportScoreInput struct {
 
 func (x *ExportScoreInput) Reset() {
 	*x = ExportScoreInput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[12]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -699,7 +540,7 @@ func (x *ExportScoreInput) String() string {
 func (*ExportScoreInput) ProtoMessage() {}
 
 func (x *ExportScoreInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[12]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -712,7 +553,7 @@ func (x *ExportScoreInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportScoreInput.ProtoReflect.Descriptor instead.
 func (*ExportScoreInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ExportScoreInput) GetContestId() string {
@@ -738,7 +579,7 @@ type ExportScoreOutput struct {
 
 func (x *ExportScoreOutput) Reset() {
 	*x = ExportScoreOutput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[13]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -750,7 +591,7 @@ func (x *ExportScoreOutput) String() string {
 func (*ExportScoreOutput) ProtoMessage() {}
 
 func (x *ExportScoreOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[13]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -763,7 +604,7 @@ func (x *ExportScoreOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportScoreOutput.ProtoReflect.Descriptor instead.
 func (*ExportScoreOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ExportScoreOutput) GetScores() []*Score {
@@ -773,280 +614,10 @@ func (x *ExportScoreOutput) GetScores() []*Score {
 	return nil
 }
 
-type ListResultInput struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	// Deprecated: use mode.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	FetchingMode Score_FetchingMode `protobuf:"varint,2,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
-	// Deprecated: replaying a scoreboard is not part of this API.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	TimeOffset int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
-	// Scoreboard to read. When unset the caller is served the main scoreboard available to them.
-	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
-	Offset        int32           `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32           `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListResultInput) Reset() {
-	*x = ListResultInput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListResultInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListResultInput) ProtoMessage() {}
-
-func (x *ListResultInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListResultInput.ProtoReflect.Descriptor instead.
-func (*ListResultInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *ListResultInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *ListResultInput) GetFetchingMode() Score_FetchingMode {
-	if x != nil {
-		return x.FetchingMode
-	}
-	return Score_ACTUAL
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *ListResultInput) GetTimeOffset() int32 {
-	if x != nil {
-		return x.TimeOffset
-	}
-	return 0
-}
-
-func (x *ListResultInput) GetMode() Scoreboard_Mode {
-	if x != nil {
-		return x.Mode
-	}
-	return Scoreboard_UNKNOWN_MODE
-}
-
-func (x *ListResultInput) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListResultInput) GetSize() int32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-type ListResultOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Result              `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListResultOutput) Reset() {
-	*x = ListResultOutput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListResultOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListResultOutput) ProtoMessage() {}
-
-func (x *ListResultOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListResultOutput.ProtoReflect.Descriptor instead.
-func (*ListResultOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *ListResultOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListResultOutput) GetItems() []*Result {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
-type ExportResultInput struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
-	// Deprecated: use mode.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	FetchingMode Score_FetchingMode `protobuf:"varint,2,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
-	// Deprecated: replaying a scoreboard is not part of this API.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	TimeOffset int32 `protobuf:"varint,3,opt,name=time_offset,json=timeOffset,proto3" json:"time_offset,omitempty"`
-	// Scoreboard to export. When unset the caller is served the main scoreboard available to them.
-	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ExportResultInput) Reset() {
-	*x = ExportResultInput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ExportResultInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ExportResultInput) ProtoMessage() {}
-
-func (x *ExportResultInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ExportResultInput.ProtoReflect.Descriptor instead.
-func (*ExportResultInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *ExportResultInput) GetContestId() string {
-	if x != nil {
-		return x.ContestId
-	}
-	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *ExportResultInput) GetFetchingMode() Score_FetchingMode {
-	if x != nil {
-		return x.FetchingMode
-	}
-	return Score_ACTUAL
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *ExportResultInput) GetTimeOffset() int32 {
-	if x != nil {
-		return x.TimeOffset
-	}
-	return 0
-}
-
-func (x *ExportResultInput) GetMode() Scoreboard_Mode {
-	if x != nil {
-		return x.Mode
-	}
-	return Scoreboard_UNKNOWN_MODE
-}
-
-type ExportResultOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ExportUrl     string                 `protobuf:"bytes,1,opt,name=export_url,json=exportUrl,proto3" json:"export_url,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ExportResultOutput) Reset() {
-	*x = ExportResultOutput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ExportResultOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ExportResultOutput) ProtoMessage() {}
-
-func (x *ExportResultOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ExportResultOutput.ProtoReflect.Descriptor instead.
-func (*ExportResultOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *ExportResultOutput) GetExportUrl() string {
-	if x != nil {
-		return x.ExportUrl
-	}
-	return ""
-}
-
 type ListScoreTimelineInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,2,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	// Deprecated: use mode.
-	//
-	// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-	FetchingMode Score_FetchingMode `protobuf:"varint,3,opt,name=fetching_mode,json=fetchingMode,proto3,enum=eolymp.judge.Score_FetchingMode" json:"fetching_mode,omitempty"`
 	// Scoreboard to read the timeline of. Only MAIN and UPSOLVE are meaningful here.
 	Mode          Scoreboard_Mode `protobuf:"varint,4,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1055,7 +626,7 @@ type ListScoreTimelineInput struct {
 
 func (x *ListScoreTimelineInput) Reset() {
 	*x = ListScoreTimelineInput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[18]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1067,7 +638,7 @@ func (x *ListScoreTimelineInput) String() string {
 func (*ListScoreTimelineInput) ProtoMessage() {}
 
 func (x *ListScoreTimelineInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[18]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1080,7 +651,7 @@ func (x *ListScoreTimelineInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListScoreTimelineInput.ProtoReflect.Descriptor instead.
 func (*ListScoreTimelineInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListScoreTimelineInput) GetContestId() string {
@@ -1095,14 +666,6 @@ func (x *ListScoreTimelineInput) GetParticipantId() string {
 		return x.ParticipantId
 	}
 	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/score_service.proto.
-func (x *ListScoreTimelineInput) GetFetchingMode() Score_FetchingMode {
-	if x != nil {
-		return x.FetchingMode
-	}
-	return Score_ACTUAL
 }
 
 func (x *ListScoreTimelineInput) GetMode() Scoreboard_Mode {
@@ -1121,7 +684,7 @@ type ListScoreTimelineOutput struct {
 
 func (x *ListScoreTimelineOutput) Reset() {
 	*x = ListScoreTimelineOutput{}
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[19]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1133,7 +696,7 @@ func (x *ListScoreTimelineOutput) String() string {
 func (*ListScoreTimelineOutput) ProtoMessage() {}
 
 func (x *ListScoreTimelineOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_score_service_proto_msgTypes[19]
+	mi := &file_eolymp_judge_score_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1146,7 +709,7 @@ func (x *ListScoreTimelineOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListScoreTimelineOutput.ProtoReflect.Descriptor instead.
 func (*ListScoreTimelineOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_judge_score_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListScoreTimelineOutput) GetItems() []*ScoreTimelinePoint {
@@ -1160,43 +723,31 @@ var File_eolymp_judge_score_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\x1a\x1deolymp/judge/scoreboard.proto\"2\n" +
+	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\x1a\x1deolymp/judge/scoreboard.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"-\n" +
 	"\x12RebuildScoreOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\"5\n" +
-	"\x14IntrospectScoreInput\x12\x1d\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"9\n" +
+	"\x18DescribeViewerScoreInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\"B\n" +
-	"\x15IntrospectScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xd5\x01\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"F\n" +
+	"\x19DescribeViewerScoreOutput\x12)\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x8a\x01\n" +
 	"\x0fWatchScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12I\n" +
-	"\rfetching_mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x121\n" +
+	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x121\n" +
 	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"=\n" +
 	"\x10WatchScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x83\x02\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x8d\x01\n" +
 	"\x12DescribeScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12I\n" +
-	"\rfetching_mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12)\n" +
-	"\vtime_offset\x18\x04 \x01(\x05B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\n" +
-	"timeOffset\x121\n" +
+	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x121\n" +
 	"\x04mode\x18\x05 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"@\n" +
 	"\x13DescribeScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\xe5\x01\n" +
-	"\x13DescribeResultInput\x12%\n" +
-	"\x0eparticipant_id\x18\x01 \x01(\tR\rparticipantId\x12I\n" +
-	"\rfetching_mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12)\n" +
-	"\vtime_offset\x18\x03 \x01(\x05B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\n" +
-	"timeOffset\x121\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"D\n" +
-	"\x14DescribeResultOutput\x12,\n" +
-	"\x06result\x18\x01 \x01(\v2\x14.eolymp.judge.ResultR\x06result\"\x85\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x85\x01\n" +
 	"\x10ImportScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
@@ -1210,40 +761,16 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"@\n" +
 	"\x11ExportScoreOutput\x12+\n" +
 	"\x06scores\x18\n" +
-	" \x03(\v2\x13.eolymp.judge.ScoreR\x06scores\"\x85\x02\n" +
-	"\x0fListResultInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12I\n" +
-	"\rfetching_mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12)\n" +
-	"\vtime_offset\x18\x03 \x01(\x05B\b\xb0\xf0\xf0\xe4\x01\x01\x18\x01R\n" +
-	"timeOffset\x121\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\x12\x16\n" +
-	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\"T\n" +
-	"\x10ListResultOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x12*\n" +
-	"\x05items\x18\x02 \x03(\v2\x14.eolymp.judge.ResultR\x05items\"\xd5\x01\n" +
-	"\x11ExportResultInput\x12\x1d\n" +
-	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\x12I\n" +
-	"\rfetching_mode\x18\x02 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x12#\n" +
-	"\vtime_offset\x18\x03 \x01(\x05B\x02\x18\x01R\n" +
-	"timeOffset\x121\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"3\n" +
-	"\x12ExportResultOutput\x12\x1d\n" +
-	"\n" +
-	"export_url\x18\x01 \x01(\tR\texportUrl\"\xdc\x01\n" +
+	" \x03(\v2\x13.eolymp.judge.ScoreR\x06scores\"\x91\x01\n" +
 	"\x16ListScoreTimelineInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
-	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x12I\n" +
-	"\rfetching_mode\x18\x03 \x01(\x0e2 .eolymp.judge.Score.FetchingModeB\x02\x18\x01R\ffetchingMode\x121\n" +
+	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x121\n" +
 	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"Q\n" +
 	"\x17ListScoreTimelineOutput\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\xc6\f\n" +
-	"\fScoreService\x12\x84\x01\n" +
-	"\x0fIntrospectScore\x12\".eolymp.judge.IntrospectScoreInput\x1a#.eolymp.judge.IntrospectScoreOutput\"(\xea\xe2\n" +
+	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\xff\b\n" +
+	"\fScoreService\x12\x90\x01\n" +
+	"\x13DescribeViewerScore\x12&.eolymp.judge.DescribeViewerScoreInput\x1a'.eolymp.judge.DescribeViewerScoreOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xd3\xe4\x93\x02\x13\x12\x11/introspect/score\x12i\n" +
@@ -1256,13 +783,7 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02&\x12$/participants/{participant_id}/score\x12\xb0\x01\n" +
-	"\x0eDescribeResult\x12!.eolymp.judge.DescribeResultInput\x1a\".eolymp.judge.DescribeResultOutput\"W\xea\xe2\n" +
-	"\f\xf5\xe2\n" +
-	"\x00\x00HB\xf8\xe2\n" +
-	"\xc8\x01\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02'\x12%/participants/{participant_id}/result\x12\xc1\x01\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02&\x12$/participants/{participant_id}/score\x12\xc1\x01\n" +
 	"\x11ListScoreTimeline\x12$.eolymp.judge.ListScoreTimelineInput\x1a%.eolymp.judge.ListScoreTimelineOutput\"_\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
@@ -1280,21 +801,7 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02'\x12%/participants/{participant_id}/scores\x12\x87\x01\n" +
-	"\n" +
-	"ListResult\x12\x1d.eolymp.judge.ListResultInput\x1a\x1e.eolymp.judge.ListResultOutput\":\xea\xe2\n" +
-	"\f\xf5\xe2\n" +
-	"\x00\x00HB\xf8\xe2\n" +
-	"\xc8\x01\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/results\x12\x93\x01\n" +
-	"\fExportResult\x12\x1f.eolymp.judge.ExportResultInput\x1a .eolymp.judge.ExportResultOutput\"@\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\x00@\xf8\xe2\n" +
-	"\x05\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x11\"\x0f/results-export\x12\x8d\x01\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02'\x12%/participants/{participant_id}/scores\x12\x8d\x01\n" +
 	"\fRebuildScore\x12\x1f.eolymp.judge.RebuildScoreInput\x1a .eolymp.judge.RebuildScoreOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
@@ -1316,80 +823,55 @@ func file_eolymp_judge_score_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_score_service_proto_rawDescData
 }
 
-var file_eolymp_judge_score_service_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_eolymp_judge_score_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_eolymp_judge_score_service_proto_goTypes = []any{
-	(*RebuildScoreInput)(nil),       // 0: eolymp.judge.RebuildScoreInput
-	(*RebuildScoreOutput)(nil),      // 1: eolymp.judge.RebuildScoreOutput
-	(*IntrospectScoreInput)(nil),    // 2: eolymp.judge.IntrospectScoreInput
-	(*IntrospectScoreOutput)(nil),   // 3: eolymp.judge.IntrospectScoreOutput
-	(*WatchScoreInput)(nil),         // 4: eolymp.judge.WatchScoreInput
-	(*WatchScoreOutput)(nil),        // 5: eolymp.judge.WatchScoreOutput
-	(*DescribeScoreInput)(nil),      // 6: eolymp.judge.DescribeScoreInput
-	(*DescribeScoreOutput)(nil),     // 7: eolymp.judge.DescribeScoreOutput
-	(*DescribeResultInput)(nil),     // 8: eolymp.judge.DescribeResultInput
-	(*DescribeResultOutput)(nil),    // 9: eolymp.judge.DescribeResultOutput
-	(*ImportScoreInput)(nil),        // 10: eolymp.judge.ImportScoreInput
-	(*ImportScoreOutput)(nil),       // 11: eolymp.judge.ImportScoreOutput
-	(*ExportScoreInput)(nil),        // 12: eolymp.judge.ExportScoreInput
-	(*ExportScoreOutput)(nil),       // 13: eolymp.judge.ExportScoreOutput
-	(*ListResultInput)(nil),         // 14: eolymp.judge.ListResultInput
-	(*ListResultOutput)(nil),        // 15: eolymp.judge.ListResultOutput
-	(*ExportResultInput)(nil),       // 16: eolymp.judge.ExportResultInput
-	(*ExportResultOutput)(nil),      // 17: eolymp.judge.ExportResultOutput
-	(*ListScoreTimelineInput)(nil),  // 18: eolymp.judge.ListScoreTimelineInput
-	(*ListScoreTimelineOutput)(nil), // 19: eolymp.judge.ListScoreTimelineOutput
-	(*Score)(nil),                   // 20: eolymp.judge.Score
-	(Score_FetchingMode)(0),         // 21: eolymp.judge.Score.FetchingMode
-	(Scoreboard_Mode)(0),            // 22: eolymp.judge.Scoreboard.Mode
-	(*Result)(nil),                  // 23: eolymp.judge.Result
-	(*ScoreTimelinePoint)(nil),      // 24: eolymp.judge.ScoreTimelinePoint
+	(*RebuildScoreInput)(nil),         // 0: eolymp.judge.RebuildScoreInput
+	(*RebuildScoreOutput)(nil),        // 1: eolymp.judge.RebuildScoreOutput
+	(*DescribeViewerScoreInput)(nil),  // 2: eolymp.judge.DescribeViewerScoreInput
+	(*DescribeViewerScoreOutput)(nil), // 3: eolymp.judge.DescribeViewerScoreOutput
+	(*WatchScoreInput)(nil),           // 4: eolymp.judge.WatchScoreInput
+	(*WatchScoreOutput)(nil),          // 5: eolymp.judge.WatchScoreOutput
+	(*DescribeScoreInput)(nil),        // 6: eolymp.judge.DescribeScoreInput
+	(*DescribeScoreOutput)(nil),       // 7: eolymp.judge.DescribeScoreOutput
+	(*ImportScoreInput)(nil),          // 8: eolymp.judge.ImportScoreInput
+	(*ImportScoreOutput)(nil),         // 9: eolymp.judge.ImportScoreOutput
+	(*ExportScoreInput)(nil),          // 10: eolymp.judge.ExportScoreInput
+	(*ExportScoreOutput)(nil),         // 11: eolymp.judge.ExportScoreOutput
+	(*ListScoreTimelineInput)(nil),    // 12: eolymp.judge.ListScoreTimelineInput
+	(*ListScoreTimelineOutput)(nil),   // 13: eolymp.judge.ListScoreTimelineOutput
+	(*Score)(nil),                     // 14: eolymp.judge.Score
+	(Scoreboard_Mode)(0),              // 15: eolymp.judge.Scoreboard.Mode
+	(*ScoreTimelinePoint)(nil),        // 16: eolymp.judge.ScoreTimelinePoint
 }
 var file_eolymp_judge_score_service_proto_depIdxs = []int32{
-	20, // 0: eolymp.judge.IntrospectScoreOutput.score:type_name -> eolymp.judge.Score
-	21, // 1: eolymp.judge.WatchScoreInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 2: eolymp.judge.WatchScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	20, // 3: eolymp.judge.WatchScoreOutput.score:type_name -> eolymp.judge.Score
-	21, // 4: eolymp.judge.DescribeScoreInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 5: eolymp.judge.DescribeScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	20, // 6: eolymp.judge.DescribeScoreOutput.score:type_name -> eolymp.judge.Score
-	21, // 7: eolymp.judge.DescribeResultInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 8: eolymp.judge.DescribeResultInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	23, // 9: eolymp.judge.DescribeResultOutput.result:type_name -> eolymp.judge.Result
-	20, // 10: eolymp.judge.ImportScoreInput.scores:type_name -> eolymp.judge.Score
-	20, // 11: eolymp.judge.ExportScoreOutput.scores:type_name -> eolymp.judge.Score
-	21, // 12: eolymp.judge.ListResultInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 13: eolymp.judge.ListResultInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	23, // 14: eolymp.judge.ListResultOutput.items:type_name -> eolymp.judge.Result
-	21, // 15: eolymp.judge.ExportResultInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 16: eolymp.judge.ExportResultInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	21, // 17: eolymp.judge.ListScoreTimelineInput.fetching_mode:type_name -> eolymp.judge.Score.FetchingMode
-	22, // 18: eolymp.judge.ListScoreTimelineInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	24, // 19: eolymp.judge.ListScoreTimelineOutput.items:type_name -> eolymp.judge.ScoreTimelinePoint
-	2,  // 20: eolymp.judge.ScoreService.IntrospectScore:input_type -> eolymp.judge.IntrospectScoreInput
-	4,  // 21: eolymp.judge.ScoreService.WatchScore:input_type -> eolymp.judge.WatchScoreInput
-	6,  // 22: eolymp.judge.ScoreService.DescribeScore:input_type -> eolymp.judge.DescribeScoreInput
-	8,  // 23: eolymp.judge.ScoreService.DescribeResult:input_type -> eolymp.judge.DescribeResultInput
-	18, // 24: eolymp.judge.ScoreService.ListScoreTimeline:input_type -> eolymp.judge.ListScoreTimelineInput
-	10, // 25: eolymp.judge.ScoreService.ImportScore:input_type -> eolymp.judge.ImportScoreInput
-	12, // 26: eolymp.judge.ScoreService.ExportScore:input_type -> eolymp.judge.ExportScoreInput
-	14, // 27: eolymp.judge.ScoreService.ListResult:input_type -> eolymp.judge.ListResultInput
-	16, // 28: eolymp.judge.ScoreService.ExportResult:input_type -> eolymp.judge.ExportResultInput
-	0,  // 29: eolymp.judge.ScoreService.RebuildScore:input_type -> eolymp.judge.RebuildScoreInput
-	3,  // 30: eolymp.judge.ScoreService.IntrospectScore:output_type -> eolymp.judge.IntrospectScoreOutput
-	5,  // 31: eolymp.judge.ScoreService.WatchScore:output_type -> eolymp.judge.WatchScoreOutput
-	7,  // 32: eolymp.judge.ScoreService.DescribeScore:output_type -> eolymp.judge.DescribeScoreOutput
-	9,  // 33: eolymp.judge.ScoreService.DescribeResult:output_type -> eolymp.judge.DescribeResultOutput
-	19, // 34: eolymp.judge.ScoreService.ListScoreTimeline:output_type -> eolymp.judge.ListScoreTimelineOutput
-	11, // 35: eolymp.judge.ScoreService.ImportScore:output_type -> eolymp.judge.ImportScoreOutput
-	13, // 36: eolymp.judge.ScoreService.ExportScore:output_type -> eolymp.judge.ExportScoreOutput
-	15, // 37: eolymp.judge.ScoreService.ListResult:output_type -> eolymp.judge.ListResultOutput
-	17, // 38: eolymp.judge.ScoreService.ExportResult:output_type -> eolymp.judge.ExportResultOutput
-	1,  // 39: eolymp.judge.ScoreService.RebuildScore:output_type -> eolymp.judge.RebuildScoreOutput
-	30, // [30:40] is the sub-list for method output_type
-	20, // [20:30] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	14, // 0: eolymp.judge.DescribeViewerScoreOutput.score:type_name -> eolymp.judge.Score
+	15, // 1: eolymp.judge.WatchScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	14, // 2: eolymp.judge.WatchScoreOutput.score:type_name -> eolymp.judge.Score
+	15, // 3: eolymp.judge.DescribeScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	14, // 4: eolymp.judge.DescribeScoreOutput.score:type_name -> eolymp.judge.Score
+	14, // 5: eolymp.judge.ImportScoreInput.scores:type_name -> eolymp.judge.Score
+	14, // 6: eolymp.judge.ExportScoreOutput.scores:type_name -> eolymp.judge.Score
+	15, // 7: eolymp.judge.ListScoreTimelineInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	16, // 8: eolymp.judge.ListScoreTimelineOutput.items:type_name -> eolymp.judge.ScoreTimelinePoint
+	2,  // 9: eolymp.judge.ScoreService.DescribeViewerScore:input_type -> eolymp.judge.DescribeViewerScoreInput
+	4,  // 10: eolymp.judge.ScoreService.WatchScore:input_type -> eolymp.judge.WatchScoreInput
+	6,  // 11: eolymp.judge.ScoreService.DescribeScore:input_type -> eolymp.judge.DescribeScoreInput
+	12, // 12: eolymp.judge.ScoreService.ListScoreTimeline:input_type -> eolymp.judge.ListScoreTimelineInput
+	8,  // 13: eolymp.judge.ScoreService.ImportScore:input_type -> eolymp.judge.ImportScoreInput
+	10, // 14: eolymp.judge.ScoreService.ExportScore:input_type -> eolymp.judge.ExportScoreInput
+	0,  // 15: eolymp.judge.ScoreService.RebuildScore:input_type -> eolymp.judge.RebuildScoreInput
+	3,  // 16: eolymp.judge.ScoreService.DescribeViewerScore:output_type -> eolymp.judge.DescribeViewerScoreOutput
+	5,  // 17: eolymp.judge.ScoreService.WatchScore:output_type -> eolymp.judge.WatchScoreOutput
+	7,  // 18: eolymp.judge.ScoreService.DescribeScore:output_type -> eolymp.judge.DescribeScoreOutput
+	13, // 19: eolymp.judge.ScoreService.ListScoreTimeline:output_type -> eolymp.judge.ListScoreTimelineOutput
+	9,  // 20: eolymp.judge.ScoreService.ImportScore:output_type -> eolymp.judge.ImportScoreOutput
+	11, // 21: eolymp.judge.ScoreService.ExportScore:output_type -> eolymp.judge.ExportScoreOutput
+	1,  // 22: eolymp.judge.ScoreService.RebuildScore:output_type -> eolymp.judge.RebuildScoreOutput
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_score_service_proto_init() }
@@ -1397,7 +879,6 @@ func file_eolymp_judge_score_service_proto_init() {
 	if File_eolymp_judge_score_service_proto != nil {
 		return
 	}
-	file_eolymp_judge_result_proto_init()
 	file_eolymp_judge_score_proto_init()
 	file_eolymp_judge_score_timeline_proto_init()
 	file_eolymp_judge_scoreboard_proto_init()
@@ -1407,7 +888,7 @@ func file_eolymp_judge_score_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_score_service_proto_rawDesc), len(file_eolymp_judge_score_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

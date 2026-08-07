@@ -19,16 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ScoreService_IntrospectScore_FullMethodName   = "/eolymp.judge.ScoreService/IntrospectScore"
-	ScoreService_WatchScore_FullMethodName        = "/eolymp.judge.ScoreService/WatchScore"
-	ScoreService_DescribeScore_FullMethodName     = "/eolymp.judge.ScoreService/DescribeScore"
-	ScoreService_DescribeResult_FullMethodName    = "/eolymp.judge.ScoreService/DescribeResult"
-	ScoreService_ListScoreTimeline_FullMethodName = "/eolymp.judge.ScoreService/ListScoreTimeline"
-	ScoreService_ImportScore_FullMethodName       = "/eolymp.judge.ScoreService/ImportScore"
-	ScoreService_ExportScore_FullMethodName       = "/eolymp.judge.ScoreService/ExportScore"
-	ScoreService_ListResult_FullMethodName        = "/eolymp.judge.ScoreService/ListResult"
-	ScoreService_ExportResult_FullMethodName      = "/eolymp.judge.ScoreService/ExportResult"
-	ScoreService_RebuildScore_FullMethodName      = "/eolymp.judge.ScoreService/RebuildScore"
+	ScoreService_DescribeViewerScore_FullMethodName = "/eolymp.judge.ScoreService/DescribeViewerScore"
+	ScoreService_WatchScore_FullMethodName          = "/eolymp.judge.ScoreService/WatchScore"
+	ScoreService_DescribeScore_FullMethodName       = "/eolymp.judge.ScoreService/DescribeScore"
+	ScoreService_ListScoreTimeline_FullMethodName   = "/eolymp.judge.ScoreService/ListScoreTimeline"
+	ScoreService_ImportScore_FullMethodName         = "/eolymp.judge.ScoreService/ImportScore"
+	ScoreService_ExportScore_FullMethodName         = "/eolymp.judge.ScoreService/ExportScore"
+	ScoreService_RebuildScore_FullMethodName        = "/eolymp.judge.ScoreService/RebuildScore"
 )
 
 // ScoreServiceClient is the client API for ScoreService service.
@@ -45,26 +42,18 @@ const (
 // a contest can be frozen towards its end so that participants stop seeing the ranking move, and upsolve
 // scores are recorded apart from the official ones and never affect the official ranking.
 type ScoreServiceClient interface {
-	// IntrospectScore returns the caller's own score in the contest. It names neither a participant nor a mode:
+	// DescribeViewerScore returns the caller's own score in the contest. It names neither a participant nor a mode:
 	// the participation is resolved from the authenticated caller and the score comes back the way that
 	// participant is allowed to see it. Unlike the other reads here, it carries no scope requirement.
-	IntrospectScore(ctx context.Context, in *IntrospectScoreInput, opts ...grpc.CallOption) (*IntrospectScoreOutput, error)
+	DescribeViewerScore(ctx context.Context, in *DescribeViewerScoreInput, opts ...grpc.CallOption) (*DescribeViewerScoreOutput, error)
 	// WatchScore streams a participant's score in the requested mode and pushes a new value whenever it
 	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Server streaming only:
 	// there is no HTTP binding, the method is reachable through the SDKs.
 	WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchScoreOutput], error)
-	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank — reach for
-	// DescribeResult when the standing within the contest is what is wanted. One of the modes reads the score
-	// as it stood at a chosen point of the participation rather than now, which is how a historical snapshot is
-	// taken.
+	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank.
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
-	// DescribeResult returns one participant's row of the ranking: the score DescribeScore reports, plus the
-	// rank it earns among the others and the identity shown next to it on the board. It saves paging through
-	// ListResult to find a single participant.
-	DescribeResult(ctx context.Context, in *DescribeResultInput, opts ...grpc.CallOption) (*DescribeResultOutput, error)
 	// ListScoreTimeline returns how a participant's score built up during the contest, as points measured from
-	// the moment their participation started — enough to draw a progression chart. Only the modes that span a
-	// whole stretch of time are meaningful here, since a timeline is a history and not a snapshot.
+	// the moment their participation started — enough to draw a progression chart.
 	ListScoreTimeline(ctx context.Context, in *ListScoreTimelineInput, opts ...grpc.CallOption) (*ListScoreTimelineOutput, error)
 	// ImportScore loads the score of a ghost participant: a result taken from another system so that a
 	// contestant who is not a member of the space still shows up in the ranking. Snapshots are timed relative
@@ -72,18 +61,8 @@ type ScoreServiceClient interface {
 	// score.
 	ImportScore(ctx context.Context, in *ImportScoreInput, opts ...grpc.CallOption) (*ImportScoreOutput, error)
 	// ExportScore reads back the snapshots imported for a ghost participant, in the same shape ImportScore
-	// accepts, so a load can be reviewed or replayed elsewhere. It is not a way to download the standings —
-	// that is ExportResult.
+	// accepts, so a load can be reviewed or replayed elsewhere.
 	ExportScore(ctx context.Context, in *ExportScoreInput, opts ...grpc.CallOption) (*ExportScoreOutput, error)
-	// ListResult returns the ranking of the contest a page of participants at a time, which is what a
-	// scoreboard screen is built from. The mode decides which of the recorded scores the ranking is built on,
-	// and one of the modes reconstructs the ranking as it stood at a chosen point of the contest.
-	ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error)
-	// ExportResult renders the ranking into a file and hands back a URL to download it, for the cases where the
-	// standings have to leave the platform. It is rate limited far more tightly than the reading methods, and
-	// it exports the ranking itself, unlike ExportScore which deals with the snapshots of one ghost
-	// participant.
-	ExportResult(ctx context.Context, in *ExportResultInput, opts ...grpc.CallOption) (*ExportResultOutput, error)
 	// RebuildScore recomputes the score of every participant from their submissions. It is the repair for a
 	// ranking that has drifted from the submissions behind it, after a problem was retested or its tests were
 	// edited — a full recomputation and not a cache refresh, so it takes time on a large contest. The work runs
@@ -100,10 +79,10 @@ func NewScoreServiceClient(cc grpc.ClientConnInterface) ScoreServiceClient {
 	return &scoreServiceClient{cc}
 }
 
-func (c *scoreServiceClient) IntrospectScore(ctx context.Context, in *IntrospectScoreInput, opts ...grpc.CallOption) (*IntrospectScoreOutput, error) {
+func (c *scoreServiceClient) DescribeViewerScore(ctx context.Context, in *DescribeViewerScoreInput, opts ...grpc.CallOption) (*DescribeViewerScoreOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(IntrospectScoreOutput)
-	err := c.cc.Invoke(ctx, ScoreService_IntrospectScore_FullMethodName, in, out, cOpts...)
+	out := new(DescribeViewerScoreOutput)
+	err := c.cc.Invoke(ctx, ScoreService_DescribeViewerScore_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -133,16 +112,6 @@ func (c *scoreServiceClient) DescribeScore(ctx context.Context, in *DescribeScor
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeScoreOutput)
 	err := c.cc.Invoke(ctx, ScoreService_DescribeScore_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *scoreServiceClient) DescribeResult(ctx context.Context, in *DescribeResultInput, opts ...grpc.CallOption) (*DescribeResultOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeResultOutput)
-	err := c.cc.Invoke(ctx, ScoreService_DescribeResult_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -179,26 +148,6 @@ func (c *scoreServiceClient) ExportScore(ctx context.Context, in *ExportScoreInp
 	return out, nil
 }
 
-func (c *scoreServiceClient) ListResult(ctx context.Context, in *ListResultInput, opts ...grpc.CallOption) (*ListResultOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListResultOutput)
-	err := c.cc.Invoke(ctx, ScoreService_ListResult_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *scoreServiceClient) ExportResult(ctx context.Context, in *ExportResultInput, opts ...grpc.CallOption) (*ExportResultOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExportResultOutput)
-	err := c.cc.Invoke(ctx, ScoreService_ExportResult_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *scoreServiceClient) RebuildScore(ctx context.Context, in *RebuildScoreInput, opts ...grpc.CallOption) (*RebuildScoreOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RebuildScoreOutput)
@@ -223,26 +172,18 @@ func (c *scoreServiceClient) RebuildScore(ctx context.Context, in *RebuildScoreI
 // a contest can be frozen towards its end so that participants stop seeing the ranking move, and upsolve
 // scores are recorded apart from the official ones and never affect the official ranking.
 type ScoreServiceServer interface {
-	// IntrospectScore returns the caller's own score in the contest. It names neither a participant nor a mode:
+	// DescribeViewerScore returns the caller's own score in the contest. It names neither a participant nor a mode:
 	// the participation is resolved from the authenticated caller and the score comes back the way that
 	// participant is allowed to see it. Unlike the other reads here, it carries no scope requirement.
-	IntrospectScore(context.Context, *IntrospectScoreInput) (*IntrospectScoreOutput, error)
+	DescribeViewerScore(context.Context, *DescribeViewerScoreInput) (*DescribeViewerScoreOutput, error)
 	// WatchScore streams a participant's score in the requested mode and pushes a new value whenever it
 	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Server streaming only:
 	// there is no HTTP binding, the method is reachable through the SDKs.
 	WatchScore(*WatchScoreInput, grpc.ServerStreamingServer[WatchScoreOutput]) error
-	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank — reach for
-	// DescribeResult when the standing within the contest is what is wanted. One of the modes reads the score
-	// as it stood at a chosen point of the participation rather than now, which is how a historical snapshot is
-	// taken.
+	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank.
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)
-	// DescribeResult returns one participant's row of the ranking: the score DescribeScore reports, plus the
-	// rank it earns among the others and the identity shown next to it on the board. It saves paging through
-	// ListResult to find a single participant.
-	DescribeResult(context.Context, *DescribeResultInput) (*DescribeResultOutput, error)
 	// ListScoreTimeline returns how a participant's score built up during the contest, as points measured from
-	// the moment their participation started — enough to draw a progression chart. Only the modes that span a
-	// whole stretch of time are meaningful here, since a timeline is a history and not a snapshot.
+	// the moment their participation started — enough to draw a progression chart.
 	ListScoreTimeline(context.Context, *ListScoreTimelineInput) (*ListScoreTimelineOutput, error)
 	// ImportScore loads the score of a ghost participant: a result taken from another system so that a
 	// contestant who is not a member of the space still shows up in the ranking. Snapshots are timed relative
@@ -250,18 +191,8 @@ type ScoreServiceServer interface {
 	// score.
 	ImportScore(context.Context, *ImportScoreInput) (*ImportScoreOutput, error)
 	// ExportScore reads back the snapshots imported for a ghost participant, in the same shape ImportScore
-	// accepts, so a load can be reviewed or replayed elsewhere. It is not a way to download the standings —
-	// that is ExportResult.
+	// accepts, so a load can be reviewed or replayed elsewhere.
 	ExportScore(context.Context, *ExportScoreInput) (*ExportScoreOutput, error)
-	// ListResult returns the ranking of the contest a page of participants at a time, which is what a
-	// scoreboard screen is built from. The mode decides which of the recorded scores the ranking is built on,
-	// and one of the modes reconstructs the ranking as it stood at a chosen point of the contest.
-	ListResult(context.Context, *ListResultInput) (*ListResultOutput, error)
-	// ExportResult renders the ranking into a file and hands back a URL to download it, for the cases where the
-	// standings have to leave the platform. It is rate limited far more tightly than the reading methods, and
-	// it exports the ranking itself, unlike ExportScore which deals with the snapshots of one ghost
-	// participant.
-	ExportResult(context.Context, *ExportResultInput) (*ExportResultOutput, error)
 	// RebuildScore recomputes the score of every participant from their submissions. It is the repair for a
 	// ranking that has drifted from the submissions behind it, after a problem was retested or its tests were
 	// edited — a full recomputation and not a cache refresh, so it takes time on a large contest. The work runs
@@ -277,17 +208,14 @@ type ScoreServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedScoreServiceServer struct{}
 
-func (UnimplementedScoreServiceServer) IntrospectScore(context.Context, *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method IntrospectScore not implemented")
+func (UnimplementedScoreServiceServer) DescribeViewerScore(context.Context, *DescribeViewerScoreInput) (*DescribeViewerScoreOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeViewerScore not implemented")
 }
 func (UnimplementedScoreServiceServer) WatchScore(*WatchScoreInput, grpc.ServerStreamingServer[WatchScoreOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchScore not implemented")
 }
 func (UnimplementedScoreServiceServer) DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeScore not implemented")
-}
-func (UnimplementedScoreServiceServer) DescribeResult(context.Context, *DescribeResultInput) (*DescribeResultOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeResult not implemented")
 }
 func (UnimplementedScoreServiceServer) ListScoreTimeline(context.Context, *ListScoreTimelineInput) (*ListScoreTimelineOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListScoreTimeline not implemented")
@@ -297,12 +225,6 @@ func (UnimplementedScoreServiceServer) ImportScore(context.Context, *ImportScore
 }
 func (UnimplementedScoreServiceServer) ExportScore(context.Context, *ExportScoreInput) (*ExportScoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExportScore not implemented")
-}
-func (UnimplementedScoreServiceServer) ListResult(context.Context, *ListResultInput) (*ListResultOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListResult not implemented")
-}
-func (UnimplementedScoreServiceServer) ExportResult(context.Context, *ExportResultInput) (*ExportResultOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ExportResult not implemented")
 }
 func (UnimplementedScoreServiceServer) RebuildScore(context.Context, *RebuildScoreInput) (*RebuildScoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RebuildScore not implemented")
@@ -327,20 +249,20 @@ func RegisterScoreServiceServer(s grpc.ServiceRegistrar, srv ScoreServiceServer)
 	s.RegisterService(&ScoreService_ServiceDesc, srv)
 }
 
-func _ScoreService_IntrospectScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IntrospectScoreInput)
+func _ScoreService_DescribeViewerScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeViewerScoreInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ScoreServiceServer).IntrospectScore(ctx, in)
+		return srv.(ScoreServiceServer).DescribeViewerScore(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ScoreService_IntrospectScore_FullMethodName,
+		FullMethod: ScoreService_DescribeViewerScore_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoreServiceServer).IntrospectScore(ctx, req.(*IntrospectScoreInput))
+		return srv.(ScoreServiceServer).DescribeViewerScore(ctx, req.(*DescribeViewerScoreInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -370,24 +292,6 @@ func _ScoreService_DescribeScore_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScoreServiceServer).DescribeScore(ctx, req.(*DescribeScoreInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ScoreService_DescribeResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeResultInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScoreServiceServer).DescribeResult(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScoreService_DescribeResult_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoreServiceServer).DescribeResult(ctx, req.(*DescribeResultInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -446,42 +350,6 @@ func _ScoreService_ExportScore_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ScoreService_ListResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListResultInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScoreServiceServer).ListResult(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScoreService_ListResult_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoreServiceServer).ListResult(ctx, req.(*ListResultInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ScoreService_ExportResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExportResultInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScoreServiceServer).ExportResult(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScoreService_ExportResult_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScoreServiceServer).ExportResult(ctx, req.(*ExportResultInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ScoreService_RebuildScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RebuildScoreInput)
 	if err := dec(in); err != nil {
@@ -508,16 +376,12 @@ var ScoreService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ScoreServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "IntrospectScore",
-			Handler:    _ScoreService_IntrospectScore_Handler,
+			MethodName: "DescribeViewerScore",
+			Handler:    _ScoreService_DescribeViewerScore_Handler,
 		},
 		{
 			MethodName: "DescribeScore",
 			Handler:    _ScoreService_DescribeScore_Handler,
-		},
-		{
-			MethodName: "DescribeResult",
-			Handler:    _ScoreService_DescribeResult_Handler,
 		},
 		{
 			MethodName: "ListScoreTimeline",
@@ -530,14 +394,6 @@ var ScoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExportScore",
 			Handler:    _ScoreService_ExportScore_Handler,
-		},
-		{
-			MethodName: "ListResult",
-			Handler:    _ScoreService_ListResult_Handler,
-		},
-		{
-			MethodName: "ExportResult",
-			Handler:    _ScoreService_ExportResult_Handler,
 		},
 		{
 			MethodName: "RebuildScore",

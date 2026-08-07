@@ -7,7 +7,6 @@
 package judge
 
 import (
-	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -22,77 +21,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-type Score_FetchingMode int32
-
-const (
-	// Actual score returns score at the moment of participation. This mode is intended to show scoreboard to
-	// participants. This mode returns score following these rules:
-	//   - During scoreboard freezing time, frozen scores are reported.
-	//   - In virtual contests (everyone can start at different time), score values are returned relatively to the
-	//     starting time. For instance, authenticated user who has been participating for 1 hour, will receive scores at 1
-	//     hour mark, as user progresses further, more score updates will be revealed.
-	//   - If authenticated user is not participating in the contest, an error will be returned (even if requested by a
-	//     user with admin permissions)
-	Score_ACTUAL Score_FetchingMode = 0
-	// Punctual score returns score at particular moment, use time_offset parameter to specify time. This mode is
-	// intended to show historical score at a given moment. Value for time_offset will be capped by the freezing time
-	// for participants.
-	Score_PUNCTUAL Score_FetchingMode = 1
-	// Latest score returns the latest score recorded. This mode is intended for admins to see current scoreboard.
-	// Users without admin permissions will get PermissionDenied error when requesting score in latest mode.
-	Score_LATEST Score_FetchingMode = 2
-	// Frozen score returns the latest score recorded before freezing time. This mode is intended for admins to see
-	// frozen scoreboard.
-	Score_FROZEN Score_FetchingMode = 3
-	// Upsolve score returns score counting upsolve time.
-	Score_UPSOLVE Score_FetchingMode = 4
-)
-
-// Enum value maps for Score_FetchingMode.
-var (
-	Score_FetchingMode_name = map[int32]string{
-		0: "ACTUAL",
-		1: "PUNCTUAL",
-		2: "LATEST",
-		3: "FROZEN",
-		4: "UPSOLVE",
-	}
-	Score_FetchingMode_value = map[string]int32{
-		"ACTUAL":   0,
-		"PUNCTUAL": 1,
-		"LATEST":   2,
-		"FROZEN":   3,
-		"UPSOLVE":  4,
-	}
-)
-
-func (x Score_FetchingMode) Enum() *Score_FetchingMode {
-	p := new(Score_FetchingMode)
-	*p = x
-	return p
-}
-
-func (x Score_FetchingMode) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Score_FetchingMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_score_proto_enumTypes[0].Descriptor()
-}
-
-func (Score_FetchingMode) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_score_proto_enumTypes[0]
-}
-
-func (x Score_FetchingMode) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Score_FetchingMode.Descriptor instead.
-func (Score_FetchingMode) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_score_proto_rawDescGZIP(), []int{0, 0}
-}
 
 type Score struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -382,7 +310,7 @@ var File_eolymp_judge_score_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/judge/score.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa5\a\n" +
+	"\x18eolymp/judge/score.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\xed\x05\n" +
 	"\x05Score\x12\x1f\n" +
 	"\vvalid_after\x18\x01 \x01(\rR\n" +
 	"validAfter\x12\x1f\n" +
@@ -417,13 +345,7 @@ const file_eolymp_judge_score_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12\x12\n" +
 	"\x04cost\x18\n" +
 	" \x01(\x02R\x04cost\x12\x14\n" +
-	"\x05score\x18\v \x01(\x02R\x05score\"\xb5\x01\n" +
-	"\fFetchingMode\x12\x12\n" +
-	"\x06ACTUAL\x10\x00\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12\x14\n" +
-	"\bPUNCTUAL\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x125\n" +
-	"\x06LATEST\x10\x02\x1a)\x9a\xf0\xf0\xe4\x01#score received during official time\x12\x12\n" +
-	"\x06FROZEN\x10\x03\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x120\n" +
-	"\aUPSOLVE\x10\x04\x1a#\x9a\xf0\xf0\xe4\x01\x1dscore received during upsolveB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x05score\x18\v \x01(\x02R\x05scoreB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_score_proto_rawDescOnce sync.Once
@@ -437,20 +359,18 @@ func file_eolymp_judge_score_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_score_proto_rawDescData
 }
 
-var file_eolymp_judge_score_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_judge_score_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_judge_score_proto_goTypes = []any{
-	(Score_FetchingMode)(0),       // 0: eolymp.judge.Score.FetchingMode
-	(*Score)(nil),                 // 1: eolymp.judge.Score
-	(*Score_Problem)(nil),         // 2: eolymp.judge.Score.Problem
-	(*Score_Testset)(nil),         // 3: eolymp.judge.Score.Testset
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Score)(nil),                 // 0: eolymp.judge.Score
+	(*Score_Problem)(nil),         // 1: eolymp.judge.Score.Problem
+	(*Score_Testset)(nil),         // 2: eolymp.judge.Score.Testset
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_judge_score_proto_depIdxs = []int32{
-	4, // 0: eolymp.judge.Score.timestamp:type_name -> google.protobuf.Timestamp
-	2, // 1: eolymp.judge.Score.breakdown:type_name -> eolymp.judge.Score.Problem
-	4, // 2: eolymp.judge.Score.Problem.solved_at:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.judge.Score.Problem.breakdown:type_name -> eolymp.judge.Score.Testset
+	3, // 0: eolymp.judge.Score.timestamp:type_name -> google.protobuf.Timestamp
+	1, // 1: eolymp.judge.Score.breakdown:type_name -> eolymp.judge.Score.Problem
+	3, // 2: eolymp.judge.Score.Problem.solved_at:type_name -> google.protobuf.Timestamp
+	2, // 3: eolymp.judge.Score.Problem.breakdown:type_name -> eolymp.judge.Score.Testset
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -468,14 +388,13 @@ func file_eolymp_judge_score_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_score_proto_rawDesc), len(file_eolymp_judge_score_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_judge_score_proto_goTypes,
 		DependencyIndexes: file_eolymp_judge_score_proto_depIdxs,
-		EnumInfos:         file_eolymp_judge_score_proto_enumTypes,
 		MessageInfos:      file_eolymp_judge_score_proto_msgTypes,
 	}.Build()
 	File_eolymp_judge_score_proto = out.File

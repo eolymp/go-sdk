@@ -100,8 +100,8 @@ func (s *ScoreServiceService) do(ctx context.Context, verb, path string, in, out
 	return nil
 }
 
-func (s *ScoreServiceService) IntrospectScore(ctx context.Context, in *IntrospectScoreInput) (*IntrospectScoreOutput, error) {
-	out := &IntrospectScoreOutput{}
+func (s *ScoreServiceService) DescribeViewerScore(ctx context.Context, in *DescribeViewerScoreInput) (*DescribeViewerScoreOutput, error) {
+	out := &DescribeViewerScoreOutput{}
 	path := "/introspect/score"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
@@ -114,22 +114,6 @@ func (s *ScoreServiceService) IntrospectScore(ctx context.Context, in *Introspec
 func (s *ScoreServiceService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
 	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ParticipantId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ScoreServiceService) DescribeResult(ctx context.Context, in *DescribeResultInput) (*DescribeResultOutput, error) {
-	out := &DescribeResultOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/result"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
@@ -185,28 +169,6 @@ func (s *ScoreServiceService) ExportScore(ctx context.Context, in *ExportScoreIn
 	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ScoreServiceService) ListResult(ctx context.Context, in *ListResultInput) (*ListResultOutput, error) {
-	out := &ListResultOutput{}
-	path := "/results"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *ScoreServiceService) ExportResult(ctx context.Context, in *ExportResultInput) (*ExportResultOutput, error) {
-	out := &ExportResultOutput{}
-	path := "/results-export"
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
 	}
 

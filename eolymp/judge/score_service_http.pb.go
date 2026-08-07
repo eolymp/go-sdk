@@ -201,15 +201,12 @@ func _ScoreService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterScoreServiceHttpHandlers adds handlers for for ScoreServiceClient
 func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreServiceClient) {
-	router.Handle(prefix+"/introspect/score", _ScoreService_IntrospectScore_Rule0(cli)).
+	router.Handle(prefix+"/introspect/score", _ScoreService_DescribeViewerScore_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.judge.ScoreService.IntrospectScore")
+		Name("eolymp.judge.ScoreService.DescribeViewerScore")
 	router.Handle(prefix+"/participants/{participant_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeScore")
-	router.Handle(prefix+"/participants/{participant_id}/result", _ScoreService_DescribeResult_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ScoreService.DescribeResult")
 	router.Handle(prefix+"/participants/{participant_id}/score-timeline", _ScoreService_ListScoreTimeline_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ListScoreTimeline")
@@ -219,12 +216,6 @@ func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sco
 	router.Handle(prefix+"/participants/{participant_id}/scores", _ScoreService_ExportScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ExportScore")
-	router.Handle(prefix+"/results", _ScoreService_ListResult_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ScoreService.ListResult")
-	router.Handle(prefix+"/results-export", _ScoreService_ExportResult_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ScoreService.ExportResult")
 	router.Handle(prefix+"/rebuild", _ScoreService_RebuildScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreService.RebuildScore")
@@ -235,9 +226,9 @@ func RegisterScoreServiceHttpProxy(router *mux.Router, prefix string, conn grpc.
 	RegisterScoreServiceHttpHandlers(router, prefix, NewScoreServiceClient(conn))
 }
 
-func _ScoreService_IntrospectScore_Rule0(cli ScoreServiceClient) http.Handler {
+func _ScoreService_DescribeViewerScore_Rule0(cli ScoreServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &IntrospectScoreInput{}
+		in := &DescribeViewerScoreInput{}
 
 		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
@@ -246,7 +237,7 @@ func _ScoreService_IntrospectScore_Rule0(cli ScoreServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.IntrospectScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DescribeViewerScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
@@ -271,30 +262,6 @@ func _ScoreService_DescribeScore_Rule0(cli ScoreServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ScoreService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ScoreService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ScoreService_DescribeResult_Rule0(cli ScoreServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeResultInput{}
-
-		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
-			_ScoreService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
@@ -367,48 +334,6 @@ func _ScoreService_ExportScore_Rule0(cli ScoreServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ExportScore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ScoreService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ScoreService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ScoreService_ListResult_Rule0(cli ScoreServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListResultInput{}
-
-		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
-			_ScoreService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ScoreService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ScoreService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ScoreService_ExportResult_Rule0(cli ScoreServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ExportResultInput{}
-
-		if err := _ScoreService_HTTPReadRequestBody(r, in, 1048576); err != nil {
-			_ScoreService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ExportResult(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return

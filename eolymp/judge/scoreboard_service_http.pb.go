@@ -207,6 +207,12 @@ func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/scoreboard/rows", _ScoreboardService_ListScoreboardRows_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.ListScoreboardRows")
+	router.Handle(prefix+"/scoreboard/rows/{participant_id}", _ScoreboardService_DescribeScoreboardRow_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ScoreboardService.DescribeScoreboardRow")
+	router.Handle(prefix+"/scoreboard/export", _ScoreboardService_ExportScoreboard_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ScoreboardService.ExportScoreboard")
 }
 
 // RegisterScoreboardServiceHttpProxy adds proxy handlers for for ScoreboardServiceClient
@@ -247,6 +253,51 @@ func _ScoreboardService_ListScoreboardRows_Rule0(cli ScoreboardServiceClient) ht
 		var header, trailer metadata.MD
 
 		out, err := cli.ListScoreboardRows(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreboardService_DescribeScoreboardRow_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoreboardRowInput{}
+
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ParticipantId = vars["participant_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScoreboardRow(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreboardService_ExportScoreboard_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportScoreboardInput{}
+
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
