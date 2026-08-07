@@ -1160,7 +1160,7 @@ var File_eolymp_judge_score_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a!eolymp/judge/score_timeline.proto\"2\n" +
+	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/judge/result.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\x1a\x1deolymp/judge/scoreboard.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"-\n" +
@@ -1399,8 +1399,8 @@ func file_eolymp_judge_score_service_proto_init() {
 	}
 	file_eolymp_judge_result_proto_init()
 	file_eolymp_judge_score_proto_init()
-	file_eolymp_judge_scoreboard_proto_init()
 	file_eolymp_judge_score_timeline_proto_init()
+	file_eolymp_judge_scoreboard_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -29,6 +29,7 @@ const (
 	FinishReason_LENGTH                FinishReason = 2
 	FinishReason_TOOL_CALLS            FinishReason = 3
 	FinishReason_CONTENT_FILTER        FinishReason = 4
+	FinishReason_REFUSAL               FinishReason = 5
 )
 
 // Enum value maps for FinishReason.
@@ -39,6 +40,7 @@ var (
 		2: "LENGTH",
 		3: "TOOL_CALLS",
 		4: "CONTENT_FILTER",
+		5: "REFUSAL",
 	}
 	FinishReason_value = map[string]int32{
 		"UNKNOWN_FINISH_REASON": 0,
@@ -46,6 +48,7 @@ var (
 		"LENGTH":                2,
 		"TOOL_CALLS":            3,
 		"CONTENT_FILTER":        4,
+		"REFUSAL":               5,
 	}
 )
 
@@ -80,7 +83,7 @@ var File_eolymp_ai_finish_reason_proto protoreflect.FileDescriptor
 
 const file_eolymp_ai_finish_reason_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/ai/finish_reason.proto\x12\teolymp.ai*c\n" +
+	"\x1deolymp/ai/finish_reason.proto\x12\teolymp.ai*p\n" +
 	"\fFinishReason\x12\x19\n" +
 	"\x15UNKNOWN_FINISH_REASON\x10\x00\x12\b\n" +
 	"\x04STOP\x10\x01\x12\n" +
@@ -88,7 +91,8 @@ const file_eolymp_ai_finish_reason_proto_rawDesc = "" +
 	"\x06LENGTH\x10\x02\x12\x0e\n" +
 	"\n" +
 	"TOOL_CALLS\x10\x03\x12\x12\n" +
-	"\x0eCONTENT_FILTER\x10\x04B'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
+	"\x0eCONTENT_FILTER\x10\x04\x12\v\n" +
+	"\aREFUSAL\x10\x05B'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
 
 var (
 	file_eolymp_ai_finish_reason_proto_rawDescOnce sync.Once
