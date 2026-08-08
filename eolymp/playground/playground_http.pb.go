@@ -18,6 +18,7 @@ import (
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
+	time "time"
 )
 
 var errPlaygroundRequestTooLarge = errors.New("request too large")
@@ -199,6 +200,100 @@ func _Playground_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _Playground_HTTPWriteEventStream streams messages from recv to HTTP response as server-sent events
+func _Playground_HTTPWriteEventStream(w http.ResponseWriter, r *http.Request, recv func() (proto.Message, error)) {
+	ctrl := http.NewResponseController(w)
+
+	_ = ctrl.SetWriteDeadline(time.Time{})
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache, no-transform")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no")
+
+	if err := ctrl.Flush(); err != nil {
+		_Playground_HTTPWriteErrorResponse(w, status.Error(codes.Internal, "event streams are not supported by this server"))
+		return
+	}
+
+	type event struct {
+		out proto.Message
+		err error
+	}
+
+	queue := make(chan event)
+
+	go func() {
+		defer close(queue)
+
+		for {
+			out, err := recv()
+
+			select {
+			case queue <- event{out, err}:
+			case <-r.Context().Done():
+				return
+			}
+
+			if err != nil {
+				return
+			}
+		}
+	}()
+
+	heartbeat := time.NewTicker(20 * time.Second)
+	defer heartbeat.Stop()
+
+	for {
+		select {
+		case <-r.Context().Done():
+			return
+		case <-heartbeat.C:
+			if _, err := w.Write([]byte(": ping\n\n")); err != nil {
+				return
+			}
+
+			_ = ctrl.Flush()
+		case e, ok := <-queue:
+			if !ok {
+				return
+			}
+
+			if e.err != nil {
+				if errors.Is(e.err, io.EOF) {
+					_, _ = w.Write([]byte("event: eof\ndata: {}\n\n"))
+				} else {
+					_Playground_HTTPWriteEvent(w, "error", status.Convert(e.err).Proto())
+				}
+
+				_ = ctrl.Flush()
+
+				return
+			}
+
+			_Playground_HTTPWriteEvent(w, "", e.out)
+
+			_ = ctrl.Flush()
+		}
+	}
+}
+
+// _Playground_HTTPWriteEvent writes single server-sent event, unnamed when name is empty
+func _Playground_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.Message) {
+	data, err := protojson.Marshal(v)
+	if err != nil {
+		return
+	}
+
+	if name != "" {
+		_, _ = w.Write([]byte("event: " + name + "\n"))
+	}
+
+	_, _ = w.Write([]byte("data: "))
+	_, _ = w.Write(data)
+	_, _ = w.Write([]byte("\n\n"))
+}
+
 // RegisterPlaygroundHttpHandlers adds handlers for for PlaygroundClient
 func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, cli PlaygroundClient) {
 	router.Handle(prefix+"/runs", _Playground_CreateRun_Rule0(cli)).
@@ -207,6 +302,9 @@ func RegisterPlaygroundHttpHandlers(router *mux.Router, prefix string, cli Playg
 	router.Handle(prefix+"/runs/{run_id}", _Playground_DescribeRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.playground.Playground.DescribeRun")
+	router.Handle(prefix+"/runs/{run_id}/watch", _Playground_WatchRun_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.playground.Playground.WatchRun")
 }
 
 // RegisterPlaygroundHttpProxy adds proxy handlers for for PlaygroundClient
@@ -256,5 +354,27 @@ func _Playground_DescribeRun_Rule0(cli PlaygroundClient) http.Handler {
 		}
 
 		_Playground_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _Playground_WatchRun_Rule0(cli PlaygroundClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchRunInput{}
+
+		if err := _Playground_HTTPReadQueryString(r, in, 131072); err != nil {
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.RunId = vars["run_id"]
+
+		stream, err := cli.WatchRun(r.Context(), in)
+		if err != nil {
+			_Playground_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_Playground_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }

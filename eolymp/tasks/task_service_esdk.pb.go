@@ -127,22 +127,6 @@ func (s *TaskServiceService) DescribeTask(ctx context.Context, in *DescribeTaskI
 	return out, nil
 }
 
-func (s *TaskServiceService) WatchTask(ctx context.Context, in *WatchTaskInput) (*WatchTaskOutput, error) {
-	out := &WatchTaskOutput{}
-	path := "/tasks/" + url.PathEscape(in.GetTaskId()) + "/watch"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.TaskId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *TaskServiceService) CancelTask(ctx context.Context, in *CancelTaskInput) (*CancelTaskOutput, error) {
 	out := &CancelTaskOutput{}
 	path := "/tasks/" + url.PathEscape(in.GetTaskId()) + "/cancel"

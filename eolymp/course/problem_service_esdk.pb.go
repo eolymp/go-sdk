@@ -209,22 +209,6 @@ func (s *ProblemServiceService) DescribeRun(ctx context.Context, in *DescribeRun
 	return out, nil
 }
 
-func (s *ProblemServiceService) WatchRun(ctx context.Context, in *WatchRunInput) (*WatchRunOutput, error) {
-	out := &WatchRunOutput{}
-	path := "/runs/" + url.PathEscape(in.GetRunId()) + "/watch"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.RunId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntimesInput) (*ListRuntimesOutput, error) {
 	out := &ListRuntimesOutput{}
 	path := "/runtime"
