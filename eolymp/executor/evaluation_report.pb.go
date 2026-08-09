@@ -388,6 +388,7 @@ type EvaluationReport_Run struct {
 	AnswerUrl       string                      `protobuf:"bytes,12,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
 	// Execution trace (JSONL), set only when task requested tracing and the runtime supports it.
 	TraceUrl        string `protobuf:"bytes,13,opt,name=trace_url,json=traceUrl,proto3" json:"trace_url,omitempty"`
+	InteractionUrl  string `protobuf:"bytes,15,opt,name=interaction_url,json=interactionUrl,proto3" json:"interaction_url,omitempty"`
 	DebugStats      *Stats `protobuf:"bytes,90,opt,name=debug_stats,json=debugStats,proto3" json:"debug_stats,omitempty"`                // execution stats
 	CheckerStats    *Stats `protobuf:"bytes,35,opt,name=checker_stats,json=checkerStats,proto3" json:"checker_stats,omitempty"`          // checker stats
 	InteractorStats *Stats `protobuf:"bytes,45,opt,name=interactor_stats,json=interactorStats,proto3" json:"interactor_stats,omitempty"` // interactor stats
@@ -530,6 +531,13 @@ func (x *EvaluationReport_Run) GetTraceUrl() string {
 	return ""
 }
 
+func (x *EvaluationReport_Run) GetInteractionUrl() string {
+	if x != nil {
+		return x.InteractionUrl
+	}
+	return ""
+}
+
 func (x *EvaluationReport_Run) GetDebugStats() *Stats {
 	if x != nil {
 		return x.DebugStats
@@ -555,7 +563,7 @@ var File_eolymp_executor_evaluation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\x8c\r\n" +
+	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xb5\r\n" +
 	"\x10EvaluationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -568,7 +576,7 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	" \x01(\x0e2&.eolymp.executor.EvaluationReport.TypeR\x04type\x12@\n" +
 	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.EvaluationReport.StatusR\x06status\x12#\n" +
 	"\rerror_message\x18\x14 \x01(\tR\ferrorMessage\x129\n" +
-	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\xa1\a\n" +
+	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\xca\a\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
 	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.EvaluationReport.Run.StatusR\x06status\x12\x14\n" +
@@ -589,7 +597,8 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"output_url\x18\v \x01(\tR\toutputUrl\x12\x1d\n" +
 	"\n" +
 	"answer_url\x18\f \x01(\tR\tanswerUrl\x12\x1b\n" +
-	"\ttrace_url\x18\r \x01(\tR\btraceUrl\x127\n" +
+	"\ttrace_url\x18\r \x01(\tR\btraceUrl\x12'\n" +
+	"\x0finteraction_url\x18\x0f \x01(\tR\x0einteractionUrl\x127\n" +
 	"\vdebug_stats\x18Z \x01(\v2\x16.eolymp.executor.StatsR\n" +
 	"debugStats\x12;\n" +
 	"\rchecker_stats\x18# \x01(\v2\x16.eolymp.executor.StatsR\fcheckerStats\x12A\n" +

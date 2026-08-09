@@ -561,6 +561,7 @@ type Submission_Run struct {
 	InputUrl        string                 `protobuf:"bytes,8,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
 	OutputUrl       string                 `protobuf:"bytes,6,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"`
 	AnswerUrl       string                 `protobuf:"bytes,9,opt,name=answer_url,json=answerUrl,proto3" json:"answer_url,omitempty"`
+	InteractionUrl  string                 `protobuf:"bytes,15,opt,name=interaction_url,json=interactionUrl,proto3" json:"interaction_url,omitempty"`
 	Cost            float32                `protobuf:"fixed32,12,opt,name=cost,proto3" json:"cost,omitempty"`
 	Score           float32                `protobuf:"fixed32,13,opt,name=score,proto3" json:"score,omitempty"`
 	Status          Submission_Status      `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Submission_Status" json:"status,omitempty"`
@@ -661,6 +662,13 @@ func (x *Submission_Run) GetOutputUrl() string {
 func (x *Submission_Run) GetAnswerUrl() string {
 	if x != nil {
 		return x.AnswerUrl
+	}
+	return ""
+}
+
+func (x *Submission_Run) GetInteractionUrl() string {
+	if x != nil {
+		return x.InteractionUrl
 	}
 	return ""
 }
@@ -1028,7 +1036,7 @@ var File_eolymp_atlas_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\x16\n" +
+	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x17eolymp/atlas/form.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x16\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
@@ -1069,7 +1077,7 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\n" +
 	"\n" +
 	"\x06GROUPS\x10\x03\x12\b\n" +
-	"\x04RUNS\x10\x04\x1a\xe4\x04\n" +
+	"\x04RUNS\x10\x04\x1a\x8d\x05\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\n" +
@@ -1083,7 +1091,8 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
 	"output_url\x18\x06 \x01(\tR\toutputUrl\x12\x1d\n" +
 	"\n" +
-	"answer_url\x18\t \x01(\tR\tanswerUrl\x12\x12\n" +
+	"answer_url\x18\t \x01(\tR\tanswerUrl\x12'\n" +
+	"\x0finteraction_url\x18\x0f \x01(\tR\x0einteractionUrl\x12\x12\n" +
 	"\x04cost\x18\f \x01(\x02R\x04cost\x12\x14\n" +
 	"\x05score\x18\r \x01(\x02R\x05score\x127\n" +
 	"\x06status\x18\x14 \x01(\x0e2\x1f.eolymp.atlas.Submission.StatusR\x06status\x12:\n" +
