@@ -1647,7 +1647,7 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"8\n" +
 	"\x13ExportProblemOutput\x12!\n" +
-	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xdf\f\n" +
+	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xee\f\n" +
 	"\x0eProblemService\x12\x91\x01\n" +
 	"\rCreateProblem\x12 .eolymp.atlas.CreateProblemInput\x1a!.eolymp.atlas.CreateProblemOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1693,8 +1693,11 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/vote\x12\x95\x01\n" +
-	"\fListVersions\x12\x1f.eolymp.atlas.ListVersionsInput\x1a .eolymp.atlas.ListVersionsOutput\"B\x82\xe3\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/vote\x12\xa4\x01\n" +
+	"\fListVersions\x12\x1f.eolymp.atlas.ListVersionsInput\x1a .eolymp.atlas.ListVersionsOutput\"Q\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/versions\x12\xa2\x01\n" +
 	"\fListRuntimes\x12\x1f.eolymp.atlas.ListRuntimesInput\x1a .eolymp.atlas.ListRuntimesOutput\"O\xea\xe2\n" +

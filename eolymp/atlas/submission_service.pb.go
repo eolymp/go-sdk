@@ -1669,7 +1669,7 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"dimensions\x18\x02 \x03(\tR\n" +
 	"dimensions\x12\x14\n" +
 	"\x05count\x18\n" +
-	" \x01(\rR\x05count2\xfc\v\n" +
+	" \x01(\rR\x05count2\xaa\f\n" +
 	"\x11SubmissionService\x12\xa7\x01\n" +
 	"\x10CreateSubmission\x12#.eolymp.atlas.CreateSubmissionInput\x1a$.eolymp.atlas.CreateSubmissionOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1692,11 +1692,17 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12{\n" +
-	"\x0fWatchSubmission\x12\".eolymp.atlas.WatchSubmissionInput\x1a#.eolymp.atlas.WatchSubmissionOutput\"\x1d\x82\xe3\n" +
+	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\x8a\x01\n" +
+	"\x0fWatchSubmission\x12\".eolymp.atlas.WatchSubmissionInput\x1a#.eolymp.atlas.WatchSubmissionOutput\",\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read0\x01\x12\x87\x01\n" +
-	"\x13WatchSubmissionList\x12&.eolymp.atlas.WatchSubmissionListInput\x1a'.eolymp.atlas.WatchSubmissionListOutput\"\x1d\x82\xe3\n" +
+	"\x15atlas:submission:read0\x01\x12\x96\x01\n" +
+	"\x13WatchSubmissionList\x12&.eolymp.atlas.WatchSubmissionListInput\x1a'.eolymp.atlas.WatchSubmissionListOutput\",\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15atlas:submission:read0\x01\x12\x9c\x01\n" +
 	"\x0fListSubmissions\x12\".eolymp.atlas.ListSubmissionsInput\x1a#.eolymp.atlas.ListSubmissionsOutput\"@\xea\xe2\n" +
@@ -1711,8 +1717,11 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x14\x12\x12/usage/submissions\x12\x95\x01\n" +
-	"\x0eListProblemTop\x12!.eolymp.atlas.ListProblemTopInput\x1a\".eolymp.atlas.ListProblemTopOutput\"<\x82\xe3\n" +
+	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x14\x12\x12/usage/submissions\x12\xa4\x01\n" +
+	"\x0eListProblemTop\x12!.eolymp.atlas.ListProblemTopInput\x1a\".eolymp.atlas.ListProblemTopOutput\"K\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/problems/{problem_id}/top\x12\xb2\x01\n" +
 	"\x14AggregateSubmissions\x12'.eolymp.atlas.AggregateSubmissionsInput\x1a(.eolymp.atlas.AggregateSubmissionsOutput\"G\xea\xe2\n" +

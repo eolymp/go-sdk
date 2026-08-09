@@ -833,7 +833,7 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xde\x0e\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xee\x0e\n" +
 	"\x0eProblemService\x12\x97\x01\n" +
 	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -874,8 +874,11 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12z\n" +
-	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"\x1a\x82\xe3\n" +
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\x89\x01\n" +
+	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read0\x01\x12\xa1\x01\n" +
 	"\x12LookupCodeTemplate\x12&.eolymp.course.LookupCodeTemplateInput\x1a'.eolymp.course.LookupCodeTemplateOutput\":\xea\xe2\n" +

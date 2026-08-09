@@ -768,14 +768,17 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x121\n" +
 	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"Q\n" +
 	"\x17ListScoreTimelineOutput\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\xff\b\n" +
+	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\x8e\t\n" +
 	"\fScoreService\x12\x90\x01\n" +
 	"\x13DescribeViewerScore\x12&.eolymp.judge.DescribeViewerScoreInput\x1a'.eolymp.judge.DescribeViewerScoreOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x13\x12\x11/introspect/score\x12i\n" +
+	"2\x82\xd3\xe4\x93\x02\x13\x12\x11/introspect/score\x12x\n" +
 	"\n" +
-	"WatchScore\x12\x1d.eolymp.judge.WatchScoreInput\x1a\x1e.eolymp.judge.WatchScoreOutput\"\x1a\x82\xe3\n" +
+	"WatchScore\x12\x1d.eolymp.judge.WatchScoreInput\x1a\x1e.eolymp.judge.WatchScoreOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read0\x01\x12\xac\x01\n" +
 	"\rDescribeScore\x12 .eolymp.judge.DescribeScoreInput\x1a!.eolymp.judge.DescribeScoreOutput\"V\xea\xe2\n" +

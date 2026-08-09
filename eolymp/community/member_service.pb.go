@@ -1885,7 +1885,7 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	" \x01(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x12:\n" +
 	"\x06string\x18\v \x01(\v2\".eolymp.wellknown.ExpressionStringR\x06string\"X\n" +
 	"\x1cStreamMemberReferencesOutput\x128\n" +
-	"\x05items\x18\x01 \x03(\v2\".eolymp.community.Member.ReferenceR\x05items2\xad\x0f\n" +
+	"\x05items\x18\x01 \x03(\v2\".eolymp.community.Member.ReferenceR\x05items2\xbc\x0f\n" +
 	"\rMemberService\x12\x98\x01\n" +
 	"\fCreateMember\x12#.eolymp.community.CreateMemberInput\x1a$.eolymp.community.CreateMemberOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1948,8 +1948,11 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/usage/members\x12\x98\x01\n" +
-	"\x16StreamMemberReferences\x12-.eolymp.community.StreamMemberReferencesInput\x1a..eolymp.community.StreamMemberReferencesOutput\"\x1d\x82\xe3\n" +
+	"\x15community:member:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/usage/members\x12\xa7\x01\n" +
+	"\x16StreamMemberReferences\x12-.eolymp.community.StreamMemberReferencesInput\x1a..eolymp.community.StreamMemberReferencesOutput\",\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 

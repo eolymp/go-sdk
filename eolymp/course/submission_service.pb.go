@@ -588,7 +588,7 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\x15WatchSubmissionOutput\x128\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
-	"submission2\xaa\x05\n" +
+	"submission2\xba\x05\n" +
 	"\x11SubmissionService\x12\xa7\x01\n" +
 	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -611,8 +611,11 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12z\n" +
-	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"\x1a\x82\xe3\n" +
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\x89\x01\n" +
+	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 

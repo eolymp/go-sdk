@@ -1096,7 +1096,7 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\aDELETED\x10\x03\"\x1f\n" +
 	"\x1dWatchAnnouncementSummaryInput\"C\n" +
 	"\x1eWatchAnnouncementSummaryOutput\x12!\n" +
-	"\funread_count\x18\x01 \x01(\rR\vunreadCount2\xda\r\n" +
+	"\funread_count\x18\x01 \x01(\rR\vunreadCount2\x88\x0e\n" +
 	"\x13AnnouncementService\x12\xa5\x01\n" +
 	"\x12CreateAnnouncement\x12%.eolymp.judge.CreateAnnouncementInput\x1a&.eolymp.judge.CreateAnnouncementOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1143,14 +1143,23 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/announcements\x12~\n" +
-	"\x11WatchAnnouncement\x12$.eolymp.judge.WatchAnnouncementInput\x1a%.eolymp.judge.WatchAnnouncementOutput\"\x1a\x82\xe3\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/announcements\x12\x8d\x01\n" +
+	"\x11WatchAnnouncement\x12$.eolymp.judge.WatchAnnouncementInput\x1a%.eolymp.judge.WatchAnnouncementOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12\x81\x01\n" +
-	"\x12WatchAnnouncements\x12%.eolymp.judge.WatchAnnouncementsInput\x1a&.eolymp.judge.WatchAnnouncementsOutput\"\x1a\x82\xe3\n" +
+	"\x12judge:contest:read0\x01\x12\x90\x01\n" +
+	"\x12WatchAnnouncements\x12%.eolymp.judge.WatchAnnouncementsInput\x1a&.eolymp.judge.WatchAnnouncementsOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12\x93\x01\n" +
-	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\"\x1a\x82\xe3\n" +
+	"\x12judge:contest:read0\x01\x12\xa2\x01\n" +
+	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 

@@ -2036,7 +2036,7 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x12FinishContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13FinishContestOutput2\xa7\x13\n" +
+	"\x13FinishContestOutput2\xb7\x13\n" +
 	"\x12ParticipantService\x12\xa1\x01\n" +
 	"\x11AssignParticipant\x12$.eolymp.judge.AssignParticipantInput\x1a%.eolymp.judge.AssignParticipantOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2091,8 +2091,11 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x0f\x12\r/participants\x12{\n" +
-	"\x10WatchParticipant\x12#.eolymp.judge.WatchParticipantInput\x1a$.eolymp.judge.WatchParticipantOutput\"\x1a\x82\xe3\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x0f\x12\r/participants\x12\x8a\x01\n" +
+	"\x10WatchParticipant\x12#.eolymp.judge.WatchParticipantInput\x1a$.eolymp.judge.WatchParticipantOutput\")\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read0\x01\x12l\n" +
 	"\vJoinContest\x12\x1e.eolymp.judge.JoinContestInput\x1a\x1f.eolymp.judge.JoinContestOutput\"\x1c\xea\xe2\n" +
