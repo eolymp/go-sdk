@@ -22,6 +22,7 @@ const (
 	EditorService_DescribeEditor_FullMethodName      = "/eolymp.atlas.EditorService/DescribeEditor"
 	EditorService_DescribeEditorState_FullMethodName = "/eolymp.atlas.EditorService/DescribeEditorState"
 	EditorService_UpdateEditorState_FullMethodName   = "/eolymp.atlas.EditorService/UpdateEditorState"
+	EditorService_ListInputs_FullMethodName          = "/eolymp.atlas.EditorService/ListInputs"
 	EditorService_PrintEditorCode_FullMethodName     = "/eolymp.atlas.EditorService/PrintEditorCode"
 )
 
@@ -45,9 +46,14 @@ type EditorServiceClient interface {
 	// an empty draft, not an error.
 	DescribeEditorState(ctx context.Context, in *DescribeEditorStateInput, opts ...grpc.CallOption) (*DescribeEditorStateOutput, error)
 	// UpdateEditorState replaces the current user's draft; there is no field mask, so anything omitted from
-	// the request is cleared rather than kept. Submitted values are only kept when they are file uploads
-	// naming a field the problem's submission form declares, the rest are silently dropped.
+	// the request is cleared rather than kept. An answer in the output payload is only kept when it names a
+	// test the problem actually has, the rest are silently dropped.
 	UpdateEditorState(ctx context.Context, in *UpdateEditorStateInput, opts ...grpc.CallOption) (*UpdateEditorStateOutput, error)
+	// ListInputs returns the inputs of an output-only problem, one per test, and nothing at all for any other
+	// problem type. It is the one way to read a test which is not an example; the answer a test is checked
+	// against is never filled in for a caller who may not edit the problem, since that is what the participant
+	// is being asked to compute.
+	ListInputs(ctx context.Context, in *ListInputsInput, opts ...grpc.CallOption) (*ListInputsOutput, error)
 	// PrintEditorCode queues the code passed in for printing on behalf of the current user, on the printer
 	// of the contest being solved; the code is printed as given and is not submitted or saved as a draft.
 	// Printing is only available where a printer is configured and fails as a precondition error otherwise,
@@ -93,6 +99,16 @@ func (c *editorServiceClient) UpdateEditorState(ctx context.Context, in *UpdateE
 	return out, nil
 }
 
+func (c *editorServiceClient) ListInputs(ctx context.Context, in *ListInputsInput, opts ...grpc.CallOption) (*ListInputsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListInputsOutput)
+	err := c.cc.Invoke(ctx, EditorService_ListInputs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *editorServiceClient) PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput, opts ...grpc.CallOption) (*PrintEditorCodeOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PrintEditorCodeOutput)
@@ -123,9 +139,14 @@ type EditorServiceServer interface {
 	// an empty draft, not an error.
 	DescribeEditorState(context.Context, *DescribeEditorStateInput) (*DescribeEditorStateOutput, error)
 	// UpdateEditorState replaces the current user's draft; there is no field mask, so anything omitted from
-	// the request is cleared rather than kept. Submitted values are only kept when they are file uploads
-	// naming a field the problem's submission form declares, the rest are silently dropped.
+	// the request is cleared rather than kept. An answer in the output payload is only kept when it names a
+	// test the problem actually has, the rest are silently dropped.
 	UpdateEditorState(context.Context, *UpdateEditorStateInput) (*UpdateEditorStateOutput, error)
+	// ListInputs returns the inputs of an output-only problem, one per test, and nothing at all for any other
+	// problem type. It is the one way to read a test which is not an example; the answer a test is checked
+	// against is never filled in for a caller who may not edit the problem, since that is what the participant
+	// is being asked to compute.
+	ListInputs(context.Context, *ListInputsInput) (*ListInputsOutput, error)
 	// PrintEditorCode queues the code passed in for printing on behalf of the current user, on the printer
 	// of the contest being solved; the code is printed as given and is not submitted or saved as a draft.
 	// Printing is only available where a printer is configured and fails as a precondition error otherwise,
@@ -148,6 +169,9 @@ func (UnimplementedEditorServiceServer) DescribeEditorState(context.Context, *De
 }
 func (UnimplementedEditorServiceServer) UpdateEditorState(context.Context, *UpdateEditorStateInput) (*UpdateEditorStateOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateEditorState not implemented")
+}
+func (UnimplementedEditorServiceServer) ListInputs(context.Context, *ListInputsInput) (*ListInputsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListInputs not implemented")
 }
 func (UnimplementedEditorServiceServer) PrintEditorCode(context.Context, *PrintEditorCodeInput) (*PrintEditorCodeOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method PrintEditorCode not implemented")
@@ -226,6 +250,24 @@ func _EditorService_UpdateEditorState_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EditorService_ListInputs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInputsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EditorServiceServer).ListInputs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EditorService_ListInputs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EditorServiceServer).ListInputs(ctx, req.(*ListInputsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _EditorService_PrintEditorCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PrintEditorCodeInput)
 	if err := dec(in); err != nil {
@@ -262,6 +304,10 @@ var EditorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateEditorState",
 			Handler:    _EditorService_UpdateEditorState_Handler,
+		},
+		{
+			MethodName: "ListInputs",
+			Handler:    _EditorService_ListInputs_Handler,
 		},
 		{
 			MethodName: "PrintEditorCode",

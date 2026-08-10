@@ -44,8 +44,9 @@ const (
 type SubmissionServiceClient interface {
 	// CreateSubmission queues a program for evaluation and returns its ID; follow it with DescribeSubmission
 	// or WatchSubmission. What travels in the request depends on the type of the problem: a program in `source`
-	// for the programming types, files in `values` for an output-only problem, and the answers in `quiz` for a
-	// quiz — a quiz is graded while the call is being served, so its submission comes back already judged.
+	// for the programming types, a file per test in `output` for an output-only problem, and the answers in
+	// `quiz` for a quiz — a quiz is graded while the call is being served, so its submission comes back already
+	// judged.
 	// Submissions are rate limited per account and, when the space configures it through the atlas
 	// ConfigurationService, per client IP.
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
@@ -214,8 +215,9 @@ func (c *submissionServiceClient) AggregateSubmissions(ctx context.Context, in *
 type SubmissionServiceServer interface {
 	// CreateSubmission queues a program for evaluation and returns its ID; follow it with DescribeSubmission
 	// or WatchSubmission. What travels in the request depends on the type of the problem: a program in `source`
-	// for the programming types, files in `values` for an output-only problem, and the answers in `quiz` for a
-	// quiz — a quiz is graded while the call is being served, so its submission comes back already judged.
+	// for the programming types, a file per test in `output` for an output-only problem, and the answers in
+	// `quiz` for a quiz — a quiz is graded while the call is being served, so its submission comes back already
+	// judged.
 	// Submissions are rate limited per account and, when the space configures it through the atlas
 	// ConfigurationService, per client IP.
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)

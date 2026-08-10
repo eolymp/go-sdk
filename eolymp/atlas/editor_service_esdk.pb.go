@@ -133,6 +133,17 @@ func (s *EditorServiceService) UpdateEditorState(ctx context.Context, in *Update
 	return out, nil
 }
 
+func (s *EditorServiceService) ListInputs(ctx context.Context, in *ListInputsInput) (*ListInputsOutput, error) {
+	out := &ListInputsOutput{}
+	path := "/inputs"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *EditorServiceService) PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput) (*PrintEditorCodeOutput, error) {
 	out := &PrintEditorCodeOutput{}
 	path := "/editor/print"

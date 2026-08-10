@@ -210,6 +210,9 @@ func RegisterEditorServiceHttpHandlers(router *mux.Router, prefix string, cli Ed
 	router.Handle(prefix+"/editor/state", _EditorService_UpdateEditorState_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorService.UpdateEditorState")
+	router.Handle(prefix+"/inputs", _EditorService_ListInputs_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.EditorService.ListInputs")
 	router.Handle(prefix+"/editor/print", _EditorService_PrintEditorCode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorService.PrintEditorCode")
@@ -274,6 +277,27 @@ func _EditorService_UpdateEditorState_Rule0(cli EditorServiceClient) http.Handle
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateEditorState(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_EditorService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_EditorService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _EditorService_ListInputs_Rule0(cli EditorServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListInputsInput{}
+
+		if err := _EditorService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_EditorService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListInputs(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_EditorService_HTTPWriteErrorResponse(w, err)
 			return
