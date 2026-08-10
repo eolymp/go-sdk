@@ -11,6 +11,7 @@ import (
 	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	playground "github.com/eolymp/go-sdk/eolymp/playground"
 	runtime "github.com/eolymp/go-sdk/eolymp/runtime"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -660,8 +661,9 @@ func (x *WatchRunInput) GetRunId() string {
 }
 
 type WatchRunOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Run           *playground.Run        `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Run           *playground.Run          `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -701,6 +703,13 @@ func (x *WatchRunOutput) GetRun() *playground.Run {
 		return x.Run
 	}
 	return nil
+}
+
+func (x *WatchRunOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
 }
 
 type ListRuntimesInput struct {
@@ -795,7 +804,7 @@ var File_eolymp_course_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a&eolymp/course/submission_service.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
+	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a&eolymp/course/submission_service.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x15\n" +
 	"\x13ListStatementsInput\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -827,9 +836,10 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x11DescribeRunOutput\x12(\n" +
 	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\"&\n" +
 	"\rWatchRunInput\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\":\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\"r\n" +
 	"\x0eWatchRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\"\x13\n" +
+	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"\x13\n" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -950,15 +960,16 @@ var file_eolymp_course_problem_service_proto_goTypes = []any{
 	(*atlas.Test)(nil),               // 17: eolymp.atlas.Test
 	(*atlas.Template)(nil),           // 18: eolymp.atlas.Template
 	(*playground.Run)(nil),           // 19: eolymp.playground.Run
-	(*runtime.Runtime)(nil),          // 20: eolymp.runtime.Runtime
-	(*CreateSubmissionInput)(nil),    // 21: eolymp.course.CreateSubmissionInput
-	(*ListSubmissionsInput)(nil),     // 22: eolymp.course.ListSubmissionsInput
-	(*DescribeSubmissionInput)(nil),  // 23: eolymp.course.DescribeSubmissionInput
-	(*WatchSubmissionInput)(nil),     // 24: eolymp.course.WatchSubmissionInput
-	(*CreateSubmissionOutput)(nil),   // 25: eolymp.course.CreateSubmissionOutput
-	(*ListSubmissionsOutput)(nil),    // 26: eolymp.course.ListSubmissionsOutput
-	(*DescribeSubmissionOutput)(nil), // 27: eolymp.course.DescribeSubmissionOutput
-	(*WatchSubmissionOutput)(nil),    // 28: eolymp.course.WatchSubmissionOutput
+	(wellknown.WatchEventType)(0),    // 20: eolymp.wellknown.WatchEventType
+	(*runtime.Runtime)(nil),          // 21: eolymp.runtime.Runtime
+	(*CreateSubmissionInput)(nil),    // 22: eolymp.course.CreateSubmissionInput
+	(*ListSubmissionsInput)(nil),     // 23: eolymp.course.ListSubmissionsInput
+	(*DescribeSubmissionInput)(nil),  // 24: eolymp.course.DescribeSubmissionInput
+	(*WatchSubmissionInput)(nil),     // 25: eolymp.course.WatchSubmissionInput
+	(*CreateSubmissionOutput)(nil),   // 26: eolymp.course.CreateSubmissionOutput
+	(*ListSubmissionsOutput)(nil),    // 27: eolymp.course.ListSubmissionsOutput
+	(*DescribeSubmissionOutput)(nil), // 28: eolymp.course.DescribeSubmissionOutput
+	(*WatchSubmissionOutput)(nil),    // 29: eolymp.course.WatchSubmissionOutput
 }
 var file_eolymp_course_problem_service_proto_depIdxs = []int32{
 	16, // 0: eolymp.course.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
@@ -967,36 +978,37 @@ var file_eolymp_course_problem_service_proto_depIdxs = []int32{
 	18, // 3: eolymp.course.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
 	19, // 4: eolymp.course.DescribeRunOutput.run:type_name -> eolymp.playground.Run
 	19, // 5: eolymp.course.WatchRunOutput.run:type_name -> eolymp.playground.Run
-	20, // 6: eolymp.course.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
-	0,  // 7: eolymp.course.ProblemService.ListStatements:input_type -> eolymp.course.ListStatementsInput
-	2,  // 8: eolymp.course.ProblemService.LookupStatement:input_type -> eolymp.course.LookupStatementInput
-	4,  // 9: eolymp.course.ProblemService.ListExamples:input_type -> eolymp.course.ListExamplesInput
-	21, // 10: eolymp.course.ProblemService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
-	22, // 11: eolymp.course.ProblemService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
-	23, // 12: eolymp.course.ProblemService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
-	24, // 13: eolymp.course.ProblemService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
-	6,  // 14: eolymp.course.ProblemService.LookupCodeTemplate:input_type -> eolymp.course.LookupCodeTemplateInput
-	8,  // 15: eolymp.course.ProblemService.CreateRun:input_type -> eolymp.course.CreateRunInput
-	10, // 16: eolymp.course.ProblemService.DescribeRun:input_type -> eolymp.course.DescribeRunInput
-	12, // 17: eolymp.course.ProblemService.WatchRun:input_type -> eolymp.course.WatchRunInput
-	14, // 18: eolymp.course.ProblemService.ListRuntimes:input_type -> eolymp.course.ListRuntimesInput
-	1,  // 19: eolymp.course.ProblemService.ListStatements:output_type -> eolymp.course.ListStatementsOutput
-	3,  // 20: eolymp.course.ProblemService.LookupStatement:output_type -> eolymp.course.LookupStatementOutput
-	5,  // 21: eolymp.course.ProblemService.ListExamples:output_type -> eolymp.course.ListExamplesOutput
-	25, // 22: eolymp.course.ProblemService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
-	26, // 23: eolymp.course.ProblemService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
-	27, // 24: eolymp.course.ProblemService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
-	28, // 25: eolymp.course.ProblemService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
-	7,  // 26: eolymp.course.ProblemService.LookupCodeTemplate:output_type -> eolymp.course.LookupCodeTemplateOutput
-	9,  // 27: eolymp.course.ProblemService.CreateRun:output_type -> eolymp.course.CreateRunOutput
-	11, // 28: eolymp.course.ProblemService.DescribeRun:output_type -> eolymp.course.DescribeRunOutput
-	13, // 29: eolymp.course.ProblemService.WatchRun:output_type -> eolymp.course.WatchRunOutput
-	15, // 30: eolymp.course.ProblemService.ListRuntimes:output_type -> eolymp.course.ListRuntimesOutput
-	19, // [19:31] is the sub-list for method output_type
-	7,  // [7:19] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	20, // 6: eolymp.course.WatchRunOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	21, // 7: eolymp.course.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	0,  // 8: eolymp.course.ProblemService.ListStatements:input_type -> eolymp.course.ListStatementsInput
+	2,  // 9: eolymp.course.ProblemService.LookupStatement:input_type -> eolymp.course.LookupStatementInput
+	4,  // 10: eolymp.course.ProblemService.ListExamples:input_type -> eolymp.course.ListExamplesInput
+	22, // 11: eolymp.course.ProblemService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
+	23, // 12: eolymp.course.ProblemService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
+	24, // 13: eolymp.course.ProblemService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
+	25, // 14: eolymp.course.ProblemService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
+	6,  // 15: eolymp.course.ProblemService.LookupCodeTemplate:input_type -> eolymp.course.LookupCodeTemplateInput
+	8,  // 16: eolymp.course.ProblemService.CreateRun:input_type -> eolymp.course.CreateRunInput
+	10, // 17: eolymp.course.ProblemService.DescribeRun:input_type -> eolymp.course.DescribeRunInput
+	12, // 18: eolymp.course.ProblemService.WatchRun:input_type -> eolymp.course.WatchRunInput
+	14, // 19: eolymp.course.ProblemService.ListRuntimes:input_type -> eolymp.course.ListRuntimesInput
+	1,  // 20: eolymp.course.ProblemService.ListStatements:output_type -> eolymp.course.ListStatementsOutput
+	3,  // 21: eolymp.course.ProblemService.LookupStatement:output_type -> eolymp.course.LookupStatementOutput
+	5,  // 22: eolymp.course.ProblemService.ListExamples:output_type -> eolymp.course.ListExamplesOutput
+	26, // 23: eolymp.course.ProblemService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
+	27, // 24: eolymp.course.ProblemService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
+	28, // 25: eolymp.course.ProblemService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
+	29, // 26: eolymp.course.ProblemService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
+	7,  // 27: eolymp.course.ProblemService.LookupCodeTemplate:output_type -> eolymp.course.LookupCodeTemplateOutput
+	9,  // 28: eolymp.course.ProblemService.CreateRun:output_type -> eolymp.course.CreateRunOutput
+	11, // 29: eolymp.course.ProblemService.DescribeRun:output_type -> eolymp.course.DescribeRunOutput
+	13, // 30: eolymp.course.ProblemService.WatchRun:output_type -> eolymp.course.WatchRunOutput
+	15, // 31: eolymp.course.ProblemService.ListRuntimes:output_type -> eolymp.course.ListRuntimesOutput
+	20, // [20:32] is the sub-list for method output_type
+	8,  // [8:20] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_problem_service_proto_init() }

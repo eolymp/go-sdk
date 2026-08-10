@@ -308,9 +308,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/submissions/{submission_id}/watch", _SubmissionService_WatchSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.WatchSubmission")
-	router.Handle(prefix+"/submissions:watch", _SubmissionService_WatchSubmissionList_Rule0(cli)).
+	router.Handle(prefix+"/submissions:watch", _SubmissionService_WatchSubmissionsList_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.atlas.SubmissionService.WatchSubmissionList")
+		Name("eolymp.atlas.SubmissionService.WatchSubmissionsList")
 	router.Handle(prefix+"/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.ListSubmissions")
@@ -421,16 +421,16 @@ func _SubmissionService_WatchSubmission_Rule0(cli SubmissionServiceClient) http.
 	})
 }
 
-func _SubmissionService_WatchSubmissionList_Rule0(cli SubmissionServiceClient) http.Handler {
+func _SubmissionService_WatchSubmissionsList_Rule0(cli SubmissionServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &WatchSubmissionListInput{}
+		in := &WatchSubmissionsListInput{}
 
 		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		stream, err := cli.WatchSubmissionList(r.Context(), in)
+		stream, err := cli.WatchSubmissionsList(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return

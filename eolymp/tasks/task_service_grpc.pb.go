@@ -35,6 +35,7 @@ const (
 type TaskServiceClient interface {
 	ListTasks(ctx context.Context, in *ListTasksInput, opts ...grpc.CallOption) (*ListTasksOutput, error)
 	DescribeTask(ctx context.Context, in *DescribeTaskInput, opts ...grpc.CallOption) (*DescribeTaskOutput, error)
+	// WatchTask streams the task's state until it reaches a terminal state.
 	WatchTask(ctx context.Context, in *WatchTaskInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTaskOutput], error)
 	CancelTask(ctx context.Context, in *CancelTaskInput, opts ...grpc.CallOption) (*CancelTaskOutput, error)
 	RetryTask(ctx context.Context, in *RetryTaskInput, opts ...grpc.CallOption) (*RetryTaskOutput, error)
@@ -116,6 +117,7 @@ func (c *taskServiceClient) RetryTask(ctx context.Context, in *RetryTaskInput, o
 type TaskServiceServer interface {
 	ListTasks(context.Context, *ListTasksInput) (*ListTasksOutput, error)
 	DescribeTask(context.Context, *DescribeTaskInput) (*DescribeTaskOutput, error)
+	// WatchTask streams the task's state until it reaches a terminal state.
 	WatchTask(*WatchTaskInput, grpc.ServerStreamingServer[WatchTaskOutput]) error
 	CancelTask(context.Context, *CancelTaskInput) (*CancelTaskOutput, error)
 	RetryTask(context.Context, *RetryTaskInput) (*RetryTaskOutput, error)

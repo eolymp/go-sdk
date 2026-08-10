@@ -692,8 +692,9 @@ func (x *WatchStudentInput) GetExtra() []Student_Extra {
 }
 
 type WatchStudentOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Student       *Student               `protobuf:"bytes,1,opt,name=student,proto3" json:"student,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Student       *Student                 `protobuf:"bytes,1,opt,name=student,proto3" json:"student,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -733,6 +734,13 @@ func (x *WatchStudentOutput) GetStudent() *Student {
 		return x.Student
 	}
 	return nil
+}
+
+func (x *WatchStudentOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
 }
 
 type JoinCourseInput struct {
@@ -1533,7 +1541,7 @@ var File_eolymp_course_student_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/student_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x1ceolymp/course/material.proto\x1a\x1aeolymp/course/module.proto\x1a\x1beolymp/course/student.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
+	"#eolymp/course/student_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x1ceolymp/course/material.proto\x1a\x1aeolymp/course/module.proto\x1a\x1beolymp/course/student.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
 	"\x12CreateStudentInput\x120\n" +
 	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"4\n" +
 	"\x13CreateStudentOutput\x12\x1d\n" +
@@ -1580,9 +1588,10 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\"e\n" +
 	"\x11WatchStudentInput\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x123\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1c.eolymp.course.Student.ExtraR\x05extra\"F\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1c.eolymp.course.Student.ExtraR\x05extra\"~\n" +
 	"\x12WatchStudentOutput\x120\n" +
-	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"\x11\n" +
+	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"\x11\n" +
 	"\x0fJoinCourseInput\"\x12\n" +
 	"\x10JoinCourseOutput\"J\n" +
 	"\x13DescribeViewerInput\x123\n" +
@@ -1755,11 +1764,12 @@ var file_eolymp_course_student_service_proto_goTypes = []any{
 	(*Student)(nil),                            // 30: eolymp.course.Student
 	(Student_Extra)(0),                         // 31: eolymp.course.Student.Extra
 	(wellknown.Direction)(0),                   // 32: eolymp.wellknown.Direction
-	(*Assignment)(nil),                         // 33: eolymp.course.Assignment
-	(*timestamppb.Timestamp)(nil),              // 34: google.protobuf.Timestamp
-	(*Module_Progress)(nil),                    // 35: eolymp.course.Module.Progress
-	(*Material_Progress)(nil),                  // 36: eolymp.course.Material.Progress
-	(*wellknown.ExpressionID)(nil),             // 37: eolymp.wellknown.ExpressionID
+	(wellknown.WatchEventType)(0),              // 33: eolymp.wellknown.WatchEventType
+	(*Assignment)(nil),                         // 34: eolymp.course.Assignment
+	(*timestamppb.Timestamp)(nil),              // 35: google.protobuf.Timestamp
+	(*Module_Progress)(nil),                    // 36: eolymp.course.Module.Progress
+	(*Material_Progress)(nil),                  // 37: eolymp.course.Material.Progress
+	(*wellknown.ExpressionID)(nil),             // 38: eolymp.wellknown.ExpressionID
 }
 var file_eolymp_course_student_service_proto_depIdxs = []int32{
 	30, // 0: eolymp.course.CreateStudentInput.student:type_name -> eolymp.course.Student
@@ -1774,50 +1784,51 @@ var file_eolymp_course_student_service_proto_depIdxs = []int32{
 	30, // 9: eolymp.course.ListStudentsOutput.items:type_name -> eolymp.course.Student
 	31, // 10: eolymp.course.WatchStudentInput.extra:type_name -> eolymp.course.Student.Extra
 	30, // 11: eolymp.course.WatchStudentOutput.student:type_name -> eolymp.course.Student
-	31, // 12: eolymp.course.DescribeViewerInput.extra:type_name -> eolymp.course.Student.Extra
-	30, // 13: eolymp.course.DescribeViewerOutput.student:type_name -> eolymp.course.Student
-	29, // 14: eolymp.course.ListStudentAssignmentsInput.filters:type_name -> eolymp.course.ListStudentAssignmentsInput.Filter
-	33, // 15: eolymp.course.ListStudentAssignmentsOutput.items:type_name -> eolymp.course.Assignment
-	34, // 16: eolymp.course.UpdateStudentAssignmentInput.start_after:type_name -> google.protobuf.Timestamp
-	34, // 17: eolymp.course.UpdateStudentAssignmentInput.complete_before:type_name -> google.protobuf.Timestamp
-	35, // 18: eolymp.course.ListStudentGradesOutput.items:type_name -> eolymp.course.Module.Progress
-	36, // 19: eolymp.course.ListModuleGradesOutput.items:type_name -> eolymp.course.Material.Progress
-	37, // 20: eolymp.course.ListStudentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 21: eolymp.course.ListStudentsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 22: eolymp.course.ListStudentsInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 23: eolymp.course.ListStudentAssignmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	37, // 24: eolymp.course.ListStudentAssignmentsInput.Filter.module_id:type_name -> eolymp.wellknown.ExpressionID
-	2,  // 25: eolymp.course.StudentService.CreateStudent:input_type -> eolymp.course.CreateStudentInput
-	4,  // 26: eolymp.course.StudentService.UpdateStudent:input_type -> eolymp.course.UpdateStudentInput
-	6,  // 27: eolymp.course.StudentService.DeleteStudent:input_type -> eolymp.course.DeleteStudentInput
-	8,  // 28: eolymp.course.StudentService.DescribeStudent:input_type -> eolymp.course.DescribeStudentInput
-	10, // 29: eolymp.course.StudentService.ListStudents:input_type -> eolymp.course.ListStudentsInput
-	12, // 30: eolymp.course.StudentService.WatchStudent:input_type -> eolymp.course.WatchStudentInput
-	14, // 31: eolymp.course.StudentService.JoinCourse:input_type -> eolymp.course.JoinCourseInput
-	16, // 32: eolymp.course.StudentService.DescribeViewer:input_type -> eolymp.course.DescribeViewerInput
-	18, // 33: eolymp.course.StudentService.ListStudentAssignments:input_type -> eolymp.course.ListStudentAssignmentsInput
-	20, // 34: eolymp.course.StudentService.UpdateStudentAssignment:input_type -> eolymp.course.UpdateStudentAssignmentInput
-	22, // 35: eolymp.course.StudentService.DeleteStudentAssignment:input_type -> eolymp.course.DeleteStudentAssignmentInput
-	24, // 36: eolymp.course.StudentService.ListStudentGrades:input_type -> eolymp.course.ListStudentGradesInput
-	26, // 37: eolymp.course.StudentService.ListModuleGrades:input_type -> eolymp.course.ListModuleGradesInput
-	3,  // 38: eolymp.course.StudentService.CreateStudent:output_type -> eolymp.course.CreateStudentOutput
-	5,  // 39: eolymp.course.StudentService.UpdateStudent:output_type -> eolymp.course.UpdateStudentOutput
-	7,  // 40: eolymp.course.StudentService.DeleteStudent:output_type -> eolymp.course.DeleteStudentOutput
-	9,  // 41: eolymp.course.StudentService.DescribeStudent:output_type -> eolymp.course.DescribeStudentOutput
-	11, // 42: eolymp.course.StudentService.ListStudents:output_type -> eolymp.course.ListStudentsOutput
-	13, // 43: eolymp.course.StudentService.WatchStudent:output_type -> eolymp.course.WatchStudentOutput
-	15, // 44: eolymp.course.StudentService.JoinCourse:output_type -> eolymp.course.JoinCourseOutput
-	17, // 45: eolymp.course.StudentService.DescribeViewer:output_type -> eolymp.course.DescribeViewerOutput
-	19, // 46: eolymp.course.StudentService.ListStudentAssignments:output_type -> eolymp.course.ListStudentAssignmentsOutput
-	21, // 47: eolymp.course.StudentService.UpdateStudentAssignment:output_type -> eolymp.course.UpdateStudentAssignmentOutput
-	23, // 48: eolymp.course.StudentService.DeleteStudentAssignment:output_type -> eolymp.course.DeleteStudentAssignmentOutput
-	25, // 49: eolymp.course.StudentService.ListStudentGrades:output_type -> eolymp.course.ListStudentGradesOutput
-	27, // 50: eolymp.course.StudentService.ListModuleGrades:output_type -> eolymp.course.ListModuleGradesOutput
-	38, // [38:51] is the sub-list for method output_type
-	25, // [25:38] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	33, // 12: eolymp.course.WatchStudentOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	31, // 13: eolymp.course.DescribeViewerInput.extra:type_name -> eolymp.course.Student.Extra
+	30, // 14: eolymp.course.DescribeViewerOutput.student:type_name -> eolymp.course.Student
+	29, // 15: eolymp.course.ListStudentAssignmentsInput.filters:type_name -> eolymp.course.ListStudentAssignmentsInput.Filter
+	34, // 16: eolymp.course.ListStudentAssignmentsOutput.items:type_name -> eolymp.course.Assignment
+	35, // 17: eolymp.course.UpdateStudentAssignmentInput.start_after:type_name -> google.protobuf.Timestamp
+	35, // 18: eolymp.course.UpdateStudentAssignmentInput.complete_before:type_name -> google.protobuf.Timestamp
+	36, // 19: eolymp.course.ListStudentGradesOutput.items:type_name -> eolymp.course.Module.Progress
+	37, // 20: eolymp.course.ListModuleGradesOutput.items:type_name -> eolymp.course.Material.Progress
+	38, // 21: eolymp.course.ListStudentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 22: eolymp.course.ListStudentsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 23: eolymp.course.ListStudentsInput.Filter.group_id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 24: eolymp.course.ListStudentAssignmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 25: eolymp.course.ListStudentAssignmentsInput.Filter.module_id:type_name -> eolymp.wellknown.ExpressionID
+	2,  // 26: eolymp.course.StudentService.CreateStudent:input_type -> eolymp.course.CreateStudentInput
+	4,  // 27: eolymp.course.StudentService.UpdateStudent:input_type -> eolymp.course.UpdateStudentInput
+	6,  // 28: eolymp.course.StudentService.DeleteStudent:input_type -> eolymp.course.DeleteStudentInput
+	8,  // 29: eolymp.course.StudentService.DescribeStudent:input_type -> eolymp.course.DescribeStudentInput
+	10, // 30: eolymp.course.StudentService.ListStudents:input_type -> eolymp.course.ListStudentsInput
+	12, // 31: eolymp.course.StudentService.WatchStudent:input_type -> eolymp.course.WatchStudentInput
+	14, // 32: eolymp.course.StudentService.JoinCourse:input_type -> eolymp.course.JoinCourseInput
+	16, // 33: eolymp.course.StudentService.DescribeViewer:input_type -> eolymp.course.DescribeViewerInput
+	18, // 34: eolymp.course.StudentService.ListStudentAssignments:input_type -> eolymp.course.ListStudentAssignmentsInput
+	20, // 35: eolymp.course.StudentService.UpdateStudentAssignment:input_type -> eolymp.course.UpdateStudentAssignmentInput
+	22, // 36: eolymp.course.StudentService.DeleteStudentAssignment:input_type -> eolymp.course.DeleteStudentAssignmentInput
+	24, // 37: eolymp.course.StudentService.ListStudentGrades:input_type -> eolymp.course.ListStudentGradesInput
+	26, // 38: eolymp.course.StudentService.ListModuleGrades:input_type -> eolymp.course.ListModuleGradesInput
+	3,  // 39: eolymp.course.StudentService.CreateStudent:output_type -> eolymp.course.CreateStudentOutput
+	5,  // 40: eolymp.course.StudentService.UpdateStudent:output_type -> eolymp.course.UpdateStudentOutput
+	7,  // 41: eolymp.course.StudentService.DeleteStudent:output_type -> eolymp.course.DeleteStudentOutput
+	9,  // 42: eolymp.course.StudentService.DescribeStudent:output_type -> eolymp.course.DescribeStudentOutput
+	11, // 43: eolymp.course.StudentService.ListStudents:output_type -> eolymp.course.ListStudentsOutput
+	13, // 44: eolymp.course.StudentService.WatchStudent:output_type -> eolymp.course.WatchStudentOutput
+	15, // 45: eolymp.course.StudentService.JoinCourse:output_type -> eolymp.course.JoinCourseOutput
+	17, // 46: eolymp.course.StudentService.DescribeViewer:output_type -> eolymp.course.DescribeViewerOutput
+	19, // 47: eolymp.course.StudentService.ListStudentAssignments:output_type -> eolymp.course.ListStudentAssignmentsOutput
+	21, // 48: eolymp.course.StudentService.UpdateStudentAssignment:output_type -> eolymp.course.UpdateStudentAssignmentOutput
+	23, // 49: eolymp.course.StudentService.DeleteStudentAssignment:output_type -> eolymp.course.DeleteStudentAssignmentOutput
+	25, // 50: eolymp.course.StudentService.ListStudentGrades:output_type -> eolymp.course.ListStudentGradesOutput
+	27, // 51: eolymp.course.StudentService.ListModuleGrades:output_type -> eolymp.course.ListModuleGradesOutput
+	39, // [39:52] is the sub-list for method output_type
+	26, // [26:39] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_student_service_proto_init() }

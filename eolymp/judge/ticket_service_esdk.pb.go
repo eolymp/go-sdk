@@ -202,6 +202,17 @@ func (s *TicketServiceService) ReplyTicket(ctx context.Context, in *ReplyTicketI
 	return out, nil
 }
 
+func (s *TicketServiceService) DescribeTicketSummary(ctx context.Context, in *DescribeTicketSummaryInput) (*DescribeTicketSummaryOutput, error) {
+	out := &DescribeTicketSummaryOutput{}
+	path := "/summary/tickets"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *TicketServiceService) ListReplies(ctx context.Context, in *ListRepliesInput) (*ListRepliesOutput, error) {
 	out := &ListRepliesOutput{}
 	path := "/tickets/" + url.PathEscape(in.GetTicketId()) + "/replies"

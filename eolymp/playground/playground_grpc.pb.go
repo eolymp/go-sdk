@@ -30,6 +30,7 @@ const (
 type PlaygroundClient interface {
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
+	// WatchRun streams a run as it is compiled and executed, closing once it finishes.
 	WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRunOutput], error)
 }
 
@@ -86,6 +87,7 @@ type Playground_WatchRunClient = grpc.ServerStreamingClient[WatchRunOutput]
 type PlaygroundServer interface {
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
+	// WatchRun streams a run as it is compiled and executed, closing once it finishes.
 	WatchRun(*WatchRunInput, grpc.ServerStreamingServer[WatchRunOutput]) error
 }
 

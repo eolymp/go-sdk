@@ -201,3 +201,14 @@ func (s *AnnouncementServiceService) ListAnnouncements(ctx context.Context, in *
 
 	return out, nil
 }
+
+func (s *AnnouncementServiceService) DescribeAnnouncementSummary(ctx context.Context, in *DescribeAnnouncementSummaryInput) (*DescribeAnnouncementSummaryOutput, error) {
+	out := &DescribeAnnouncementSummaryOutput{}
+	path := "/summary/announcements"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

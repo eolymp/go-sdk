@@ -8,6 +8,7 @@ package atlas
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -251,8 +252,9 @@ func (x *WatchValidationInput) GetValidationId() string {
 }
 
 type WatchValidationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Validation    *Validation            `protobuf:"bytes,1,opt,name=validation,proto3" json:"validation,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Validation    *Validation              `protobuf:"bytes,1,opt,name=validation,proto3" json:"validation,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -294,11 +296,18 @@ func (x *WatchValidationOutput) GetValidation() *Validation {
 	return nil
 }
 
+func (x *WatchValidationOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
+}
+
 var File_eolymp_atlas_validation_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/validation_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/atlas/testing_validator.proto\x1a\x1deolymp/atlas/validation.proto\"K\n" +
+	"%eolymp/atlas/validation_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/atlas/testing_validator.proto\x1a\x1deolymp/atlas/validation.proto\x1a\x1ceolymp/wellknown/watch.proto\"K\n" +
 	"\x12RunValidationInput\x125\n" +
 	"\tvalidator\x18\x01 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"t\n" +
 	"\x13RunValidationOutput\x12#\n" +
@@ -313,11 +322,12 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
 	"validation\";\n" +
 	"\x14WatchValidationInput\x12#\n" +
-	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\"Q\n" +
+	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\"\x89\x01\n" +
 	"\x15WatchValidationOutput\x128\n" +
 	"\n" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
-	"validation2\xaf\x04\n" +
+	"validation\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xaf\x04\n" +
 	"\x11ValidationService\x12\x94\x01\n" +
 	"\rRunValidation\x12 .eolymp.atlas.RunValidationInput\x1a!.eolymp.atlas.RunValidationOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -360,23 +370,25 @@ var file_eolymp_atlas_validation_service_proto_goTypes = []any{
 	(*WatchValidationOutput)(nil),    // 5: eolymp.atlas.WatchValidationOutput
 	(*Validator)(nil),                // 6: eolymp.atlas.Validator
 	(*Validation)(nil),               // 7: eolymp.atlas.Validation
+	(wellknown.WatchEventType)(0),    // 8: eolymp.wellknown.WatchEventType
 }
 var file_eolymp_atlas_validation_service_proto_depIdxs = []int32{
 	6, // 0: eolymp.atlas.RunValidationInput.validator:type_name -> eolymp.atlas.Validator
 	7, // 1: eolymp.atlas.RunValidationOutput.validation:type_name -> eolymp.atlas.Validation
 	7, // 2: eolymp.atlas.DescribeValidationOutput.validation:type_name -> eolymp.atlas.Validation
 	7, // 3: eolymp.atlas.WatchValidationOutput.validation:type_name -> eolymp.atlas.Validation
-	0, // 4: eolymp.atlas.ValidationService.RunValidation:input_type -> eolymp.atlas.RunValidationInput
-	2, // 5: eolymp.atlas.ValidationService.DescribeValidation:input_type -> eolymp.atlas.DescribeValidationInput
-	4, // 6: eolymp.atlas.ValidationService.WatchValidation:input_type -> eolymp.atlas.WatchValidationInput
-	1, // 7: eolymp.atlas.ValidationService.RunValidation:output_type -> eolymp.atlas.RunValidationOutput
-	3, // 8: eolymp.atlas.ValidationService.DescribeValidation:output_type -> eolymp.atlas.DescribeValidationOutput
-	5, // 9: eolymp.atlas.ValidationService.WatchValidation:output_type -> eolymp.atlas.WatchValidationOutput
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8, // 4: eolymp.atlas.WatchValidationOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	0, // 5: eolymp.atlas.ValidationService.RunValidation:input_type -> eolymp.atlas.RunValidationInput
+	2, // 6: eolymp.atlas.ValidationService.DescribeValidation:input_type -> eolymp.atlas.DescribeValidationInput
+	4, // 7: eolymp.atlas.ValidationService.WatchValidation:input_type -> eolymp.atlas.WatchValidationInput
+	1, // 8: eolymp.atlas.ValidationService.RunValidation:output_type -> eolymp.atlas.RunValidationOutput
+	3, // 9: eolymp.atlas.ValidationService.DescribeValidation:output_type -> eolymp.atlas.DescribeValidationOutput
+	5, // 10: eolymp.atlas.ValidationService.WatchValidation:output_type -> eolymp.atlas.WatchValidationOutput
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_validation_service_proto_init() }

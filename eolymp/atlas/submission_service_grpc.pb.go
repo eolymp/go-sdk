@@ -23,7 +23,7 @@ const (
 	SubmissionService_RetestSubmission_FullMethodName        = "/eolymp.atlas.SubmissionService/RetestSubmission"
 	SubmissionService_DescribeSubmission_FullMethodName      = "/eolymp.atlas.SubmissionService/DescribeSubmission"
 	SubmissionService_WatchSubmission_FullMethodName         = "/eolymp.atlas.SubmissionService/WatchSubmission"
-	SubmissionService_WatchSubmissionList_FullMethodName     = "/eolymp.atlas.SubmissionService/WatchSubmissionList"
+	SubmissionService_WatchSubmissionsList_FullMethodName    = "/eolymp.atlas.SubmissionService/WatchSubmissionsList"
 	SubmissionService_ListSubmissions_FullMethodName         = "/eolymp.atlas.SubmissionService/ListSubmissions"
 	SubmissionService_DescribeSubmissionUsage_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmissionUsage"
 	SubmissionService_ListProblemTop_FullMethodName          = "/eolymp.atlas.SubmissionService/ListProblemTop"
@@ -58,16 +58,12 @@ type SubmissionServiceClient interface {
 	// request: callers who may edit the problem always get every run, a participant may see much less. Source
 	// code and debug output are omitted for callers who are not allowed to see them.
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
-	// WatchSubmission streams the submission every time its evaluation advances, beginning with the state it
-	// is in when the stream opens, and closes the stream once the submission reaches a final status. This is
-	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Being
-	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchSubmission streams the submission as its evaluation advances, starting from the state it is in
+	// when the stream opens and closing once it is judged.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
-	// WatchSubmissionList streams every submission of the space as it is created, updated or deleted, and
-	// keeps the stream open until the client goes away. It feeds live judge and monitoring screens, and unlike
-	// ListSubmissions it cannot be narrowed down and requires the space-wide permission to read submissions.
-	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
-	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
+	// WatchSubmissionsList streams every submission of the space as it is created, updated or deleted. Unlike
+	// ListSubmissions it cannot be narrowed down and needs the space-wide permission to read submissions.
+	WatchSubmissionsList(ctx context.Context, in *WatchSubmissionsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionsListOutput], error)
 	// ListSubmissions returns submissions of the space, newest first. A caller without the space-wide
 	// permission to read submissions gets only their own, silently. Deep listings are best walked by feeding
 	// the previous page's cursor back into the next request, which skips counting the total.
@@ -145,13 +141,13 @@ func (c *submissionServiceClient) WatchSubmission(ctx context.Context, in *Watch
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionClient = grpc.ServerStreamingClient[WatchSubmissionOutput]
 
-func (c *submissionServiceClient) WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error) {
+func (c *submissionServiceClient) WatchSubmissionsList(ctx context.Context, in *WatchSubmissionsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionsListOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[1], SubmissionService_WatchSubmissionList_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[1], SubmissionService_WatchSubmissionsList_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ClientStream: stream}
+	x := &grpc.GenericClientStream[WatchSubmissionsListInput, WatchSubmissionsListOutput]{ClientStream: stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -162,7 +158,7 @@ func (c *submissionServiceClient) WatchSubmissionList(ctx context.Context, in *W
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type SubmissionService_WatchSubmissionListClient = grpc.ServerStreamingClient[WatchSubmissionListOutput]
+type SubmissionService_WatchSubmissionsListClient = grpc.ServerStreamingClient[WatchSubmissionsListOutput]
 
 func (c *submissionServiceClient) ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -232,16 +228,12 @@ type SubmissionServiceServer interface {
 	// request: callers who may edit the problem always get every run, a participant may see much less. Source
 	// code and debug output are omitted for callers who are not allowed to see them.
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
-	// WatchSubmission streams the submission every time its evaluation advances, beginning with the state it
-	// is in when the stream opens, and closes the stream once the submission reaches a final status. This is
-	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Being
-	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchSubmission streams the submission as its evaluation advances, starting from the state it is in
+	// when the stream opens and closing once it is judged.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
-	// WatchSubmissionList streams every submission of the space as it is created, updated or deleted, and
-	// keeps the stream open until the client goes away. It feeds live judge and monitoring screens, and unlike
-	// ListSubmissions it cannot be narrowed down and requires the space-wide permission to read submissions.
-	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
-	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
+	// WatchSubmissionsList streams every submission of the space as it is created, updated or deleted. Unlike
+	// ListSubmissions it cannot be narrowed down and needs the space-wide permission to read submissions.
+	WatchSubmissionsList(*WatchSubmissionsListInput, grpc.ServerStreamingServer[WatchSubmissionsListOutput]) error
 	// ListSubmissions returns submissions of the space, newest first. A caller without the space-wide
 	// permission to read submissions gets only their own, silently. Deep listings are best walked by feeding
 	// the previous page's cursor back into the next request, which skips counting the total.
@@ -281,8 +273,8 @@ func (UnimplementedSubmissionServiceServer) DescribeSubmission(context.Context, 
 func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchSubmission not implemented")
 }
-func (UnimplementedSubmissionServiceServer) WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error {
-	return status.Error(codes.Unimplemented, "method WatchSubmissionList not implemented")
+func (UnimplementedSubmissionServiceServer) WatchSubmissionsList(*WatchSubmissionsListInput, grpc.ServerStreamingServer[WatchSubmissionsListOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchSubmissionsList not implemented")
 }
 func (UnimplementedSubmissionServiceServer) ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListSubmissions not implemented")
@@ -381,16 +373,16 @@ func _SubmissionService_WatchSubmission_Handler(srv interface{}, stream grpc.Ser
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionServer = grpc.ServerStreamingServer[WatchSubmissionOutput]
 
-func _SubmissionService_WatchSubmissionList_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchSubmissionListInput)
+func _SubmissionService_WatchSubmissionsList_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchSubmissionsListInput)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(SubmissionServiceServer).WatchSubmissionList(m, &grpc.GenericServerStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ServerStream: stream})
+	return srv.(SubmissionServiceServer).WatchSubmissionsList(m, &grpc.GenericServerStream[WatchSubmissionsListInput, WatchSubmissionsListOutput]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type SubmissionService_WatchSubmissionListServer = grpc.ServerStreamingServer[WatchSubmissionListOutput]
+type SubmissionService_WatchSubmissionsListServer = grpc.ServerStreamingServer[WatchSubmissionsListOutput]
 
 func _SubmissionService_ListSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListSubmissionsInput)
@@ -507,8 +499,8 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "WatchSubmissionList",
-			Handler:       _SubmissionService_WatchSubmissionList_Handler,
+			StreamName:    "WatchSubmissionsList",
+			Handler:       _SubmissionService_WatchSubmissionsList_Handler,
 			ServerStreams: true,
 		},
 	},

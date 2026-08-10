@@ -19,22 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TicketService_CreateTicket_FullMethodName       = "/eolymp.judge.TicketService/CreateTicket"
-	TicketService_UpdateTicket_FullMethodName       = "/eolymp.judge.TicketService/UpdateTicket"
-	TicketService_ReadTicket_FullMethodName         = "/eolymp.judge.TicketService/ReadTicket"
-	TicketService_DeleteTicket_FullMethodName       = "/eolymp.judge.TicketService/DeleteTicket"
-	TicketService_DescribeTicket_FullMethodName     = "/eolymp.judge.TicketService/DescribeTicket"
-	TicketService_ListTickets_FullMethodName        = "/eolymp.judge.TicketService/ListTickets"
-	TicketService_ReplyTicket_FullMethodName        = "/eolymp.judge.TicketService/ReplyTicket"
-	TicketService_WatchTicket_FullMethodName        = "/eolymp.judge.TicketService/WatchTicket"
-	TicketService_WatchTickets_FullMethodName       = "/eolymp.judge.TicketService/WatchTickets"
-	TicketService_WatchTicketSummary_FullMethodName = "/eolymp.judge.TicketService/WatchTicketSummary"
-	TicketService_ListReplies_FullMethodName        = "/eolymp.judge.TicketService/ListReplies"
-	TicketService_DescribeReply_FullMethodName      = "/eolymp.judge.TicketService/DescribeReply"
-	TicketService_DeleteReply_FullMethodName        = "/eolymp.judge.TicketService/DeleteReply"
-	TicketService_UpdateReply_FullMethodName        = "/eolymp.judge.TicketService/UpdateReply"
-	TicketService_SuggestReply_FullMethodName       = "/eolymp.judge.TicketService/SuggestReply"
-	TicketService_WatchReplies_FullMethodName       = "/eolymp.judge.TicketService/WatchReplies"
+	TicketService_CreateTicket_FullMethodName          = "/eolymp.judge.TicketService/CreateTicket"
+	TicketService_UpdateTicket_FullMethodName          = "/eolymp.judge.TicketService/UpdateTicket"
+	TicketService_ReadTicket_FullMethodName            = "/eolymp.judge.TicketService/ReadTicket"
+	TicketService_DeleteTicket_FullMethodName          = "/eolymp.judge.TicketService/DeleteTicket"
+	TicketService_DescribeTicket_FullMethodName        = "/eolymp.judge.TicketService/DescribeTicket"
+	TicketService_ListTickets_FullMethodName           = "/eolymp.judge.TicketService/ListTickets"
+	TicketService_ReplyTicket_FullMethodName           = "/eolymp.judge.TicketService/ReplyTicket"
+	TicketService_WatchTicket_FullMethodName           = "/eolymp.judge.TicketService/WatchTicket"
+	TicketService_WatchTicketsList_FullMethodName      = "/eolymp.judge.TicketService/WatchTicketsList"
+	TicketService_DescribeTicketSummary_FullMethodName = "/eolymp.judge.TicketService/DescribeTicketSummary"
+	TicketService_WatchTicketSummary_FullMethodName    = "/eolymp.judge.TicketService/WatchTicketSummary"
+	TicketService_ListReplies_FullMethodName           = "/eolymp.judge.TicketService/ListReplies"
+	TicketService_DescribeReply_FullMethodName         = "/eolymp.judge.TicketService/DescribeReply"
+	TicketService_DeleteReply_FullMethodName           = "/eolymp.judge.TicketService/DeleteReply"
+	TicketService_UpdateReply_FullMethodName           = "/eolymp.judge.TicketService/UpdateReply"
+	TicketService_SuggestReply_FullMethodName          = "/eolymp.judge.TicketService/SuggestReply"
 )
 
 // TicketServiceClient is the client API for TicketService service.
@@ -83,17 +83,16 @@ type TicketServiceClient interface {
 	// answers and resolves a question in one round trip; this is the only way to add a reply, replies have
 	// no create rpc.
 	ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error)
-	// WatchTicket keeps a stream open for one ticket and pushes a fresh copy of it every time it changes,
-	// so an open conversation stays current without polling. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchTicket streams one ticket and its replies. A conversation is read as a whole, so both travel in
+	// one stream rather than two the client has to merge.
 	WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketOutput], error)
-	// WatchTickets is the live counterpart of ListTickets: it streams an event whenever a matching question
-	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
-	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketsOutput], error)
-	// WatchTicketSummary streams running totals of how much of the inbox is unread and how much still waits
-	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchTicketsList streams matching questions as they appear, change and disappear, which is what keeps a
+	// jury inbox current.
+	WatchTicketsList(ctx context.Context, in *WatchTicketsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketsListOutput], error)
+	// DescribeTicketSummary returns how much of the inbox is unread and how much still waits for an answer,
+	// which is enough to draw a badge without listing any tickets.
+	DescribeTicketSummary(ctx context.Context, in *DescribeTicketSummaryInput, opts ...grpc.CallOption) (*DescribeTicketSummaryOutput, error)
+	// WatchTicketSummary streams the same totals and sends them again whenever they change.
 	WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketSummaryOutput], error)
 	// ListReplies returns the conversation held on one ticket, each message attributed either to the
 	// participant who asked or to the jury member who answered. In a contest configured to hide jury
@@ -115,11 +114,6 @@ type TicketServiceClient interface {
 	// the thread. The jury is expected to review or edit the suggestion and then post it with ReplyTicket,
 	// so nothing reaches the participant until that happens.
 	SuggestReply(ctx context.Context, in *SuggestReplyInput, opts ...grpc.CallOption) (*SuggestReplyOutput, error)
-	// WatchReplies streams the conversation of one ticket as it unfolds, which is how a chat view stays
-	// live while both sides are writing. A client that already holds part of the thread can resume after
-	// the last reply it received; being server-streaming, the call has no HTTP binding and is reachable
-	// only through the SDKs.
-	WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRepliesOutput], error)
 }
 
 type ticketServiceClient struct {
@@ -219,13 +213,13 @@ func (c *ticketServiceClient) WatchTicket(ctx context.Context, in *WatchTicketIn
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TicketService_WatchTicketClient = grpc.ServerStreamingClient[WatchTicketOutput]
 
-func (c *ticketServiceClient) WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketsOutput], error) {
+func (c *ticketServiceClient) WatchTicketsList(ctx context.Context, in *WatchTicketsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketsListOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[1], TicketService_WatchTickets_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[1], TicketService_WatchTicketsList_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[WatchTicketsInput, WatchTicketsOutput]{ClientStream: stream}
+	x := &grpc.GenericClientStream[WatchTicketsListInput, WatchTicketsListOutput]{ClientStream: stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -236,7 +230,17 @@ func (c *ticketServiceClient) WatchTickets(ctx context.Context, in *WatchTickets
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type TicketService_WatchTicketsClient = grpc.ServerStreamingClient[WatchTicketsOutput]
+type TicketService_WatchTicketsListClient = grpc.ServerStreamingClient[WatchTicketsListOutput]
+
+func (c *ticketServiceClient) DescribeTicketSummary(ctx context.Context, in *DescribeTicketSummaryInput, opts ...grpc.CallOption) (*DescribeTicketSummaryOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeTicketSummaryOutput)
+	err := c.cc.Invoke(ctx, TicketService_DescribeTicketSummary_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
 func (c *ticketServiceClient) WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketSummaryOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -307,25 +311,6 @@ func (c *ticketServiceClient) SuggestReply(ctx context.Context, in *SuggestReply
 	return out, nil
 }
 
-func (c *ticketServiceClient) WatchReplies(ctx context.Context, in *WatchRepliesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRepliesOutput], error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &TicketService_ServiceDesc.Streams[3], TicketService_WatchReplies_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[WatchRepliesInput, WatchRepliesOutput]{ClientStream: stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type TicketService_WatchRepliesClient = grpc.ServerStreamingClient[WatchRepliesOutput]
-
 // TicketServiceServer is the server API for TicketService service.
 // All implementations should embed UnimplementedTicketServiceServer
 // for forward compatibility.
@@ -372,17 +357,16 @@ type TicketServiceServer interface {
 	// answers and resolves a question in one round trip; this is the only way to add a reply, replies have
 	// no create rpc.
 	ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error)
-	// WatchTicket keeps a stream open for one ticket and pushes a fresh copy of it every time it changes,
-	// so an open conversation stays current without polling. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchTicket streams one ticket and its replies. A conversation is read as a whole, so both travel in
+	// one stream rather than two the client has to merge.
 	WatchTicket(*WatchTicketInput, grpc.ServerStreamingServer[WatchTicketOutput]) error
-	// WatchTickets is the live counterpart of ListTickets: it streams an event whenever a matching question
-	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
-	WatchTickets(*WatchTicketsInput, grpc.ServerStreamingServer[WatchTicketsOutput]) error
-	// WatchTicketSummary streams running totals of how much of the inbox is unread and how much still waits
-	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchTicketsList streams matching questions as they appear, change and disappear, which is what keeps a
+	// jury inbox current.
+	WatchTicketsList(*WatchTicketsListInput, grpc.ServerStreamingServer[WatchTicketsListOutput]) error
+	// DescribeTicketSummary returns how much of the inbox is unread and how much still waits for an answer,
+	// which is enough to draw a badge without listing any tickets.
+	DescribeTicketSummary(context.Context, *DescribeTicketSummaryInput) (*DescribeTicketSummaryOutput, error)
+	// WatchTicketSummary streams the same totals and sends them again whenever they change.
 	WatchTicketSummary(*WatchTicketSummaryInput, grpc.ServerStreamingServer[WatchTicketSummaryOutput]) error
 	// ListReplies returns the conversation held on one ticket, each message attributed either to the
 	// participant who asked or to the jury member who answered. In a contest configured to hide jury
@@ -404,11 +388,6 @@ type TicketServiceServer interface {
 	// the thread. The jury is expected to review or edit the suggestion and then post it with ReplyTicket,
 	// so nothing reaches the participant until that happens.
 	SuggestReply(context.Context, *SuggestReplyInput) (*SuggestReplyOutput, error)
-	// WatchReplies streams the conversation of one ticket as it unfolds, which is how a chat view stays
-	// live while both sides are writing. A client that already holds part of the thread can resume after
-	// the last reply it received; being server-streaming, the call has no HTTP binding and is reachable
-	// only through the SDKs.
-	WatchReplies(*WatchRepliesInput, grpc.ServerStreamingServer[WatchRepliesOutput]) error
 }
 
 // UnimplementedTicketServiceServer should be embedded to have
@@ -442,8 +421,11 @@ func (UnimplementedTicketServiceServer) ReplyTicket(context.Context, *ReplyTicke
 func (UnimplementedTicketServiceServer) WatchTicket(*WatchTicketInput, grpc.ServerStreamingServer[WatchTicketOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchTicket not implemented")
 }
-func (UnimplementedTicketServiceServer) WatchTickets(*WatchTicketsInput, grpc.ServerStreamingServer[WatchTicketsOutput]) error {
-	return status.Error(codes.Unimplemented, "method WatchTickets not implemented")
+func (UnimplementedTicketServiceServer) WatchTicketsList(*WatchTicketsListInput, grpc.ServerStreamingServer[WatchTicketsListOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchTicketsList not implemented")
+}
+func (UnimplementedTicketServiceServer) DescribeTicketSummary(context.Context, *DescribeTicketSummaryInput) (*DescribeTicketSummaryOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeTicketSummary not implemented")
 }
 func (UnimplementedTicketServiceServer) WatchTicketSummary(*WatchTicketSummaryInput, grpc.ServerStreamingServer[WatchTicketSummaryOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchTicketSummary not implemented")
@@ -462,9 +444,6 @@ func (UnimplementedTicketServiceServer) UpdateReply(context.Context, *UpdateRepl
 }
 func (UnimplementedTicketServiceServer) SuggestReply(context.Context, *SuggestReplyInput) (*SuggestReplyOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method SuggestReply not implemented")
-}
-func (UnimplementedTicketServiceServer) WatchReplies(*WatchRepliesInput, grpc.ServerStreamingServer[WatchRepliesOutput]) error {
-	return status.Error(codes.Unimplemented, "method WatchReplies not implemented")
 }
 func (UnimplementedTicketServiceServer) testEmbeddedByValue() {}
 
@@ -623,16 +602,34 @@ func _TicketService_WatchTicket_Handler(srv interface{}, stream grpc.ServerStrea
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TicketService_WatchTicketServer = grpc.ServerStreamingServer[WatchTicketOutput]
 
-func _TicketService_WatchTickets_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchTicketsInput)
+func _TicketService_WatchTicketsList_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchTicketsListInput)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(TicketServiceServer).WatchTickets(m, &grpc.GenericServerStream[WatchTicketsInput, WatchTicketsOutput]{ServerStream: stream})
+	return srv.(TicketServiceServer).WatchTicketsList(m, &grpc.GenericServerStream[WatchTicketsListInput, WatchTicketsListOutput]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type TicketService_WatchTicketsServer = grpc.ServerStreamingServer[WatchTicketsOutput]
+type TicketService_WatchTicketsListServer = grpc.ServerStreamingServer[WatchTicketsListOutput]
+
+func _TicketService_DescribeTicketSummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTicketSummaryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketServiceServer).DescribeTicketSummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TicketService_DescribeTicketSummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketServiceServer).DescribeTicketSummary(ctx, req.(*DescribeTicketSummaryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 
 func _TicketService_WatchTicketSummary_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(WatchTicketSummaryInput)
@@ -735,17 +732,6 @@ func _TicketService_SuggestReply_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TicketService_WatchReplies_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchRepliesInput)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(TicketServiceServer).WatchReplies(m, &grpc.GenericServerStream[WatchRepliesInput, WatchRepliesOutput]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type TicketService_WatchRepliesServer = grpc.ServerStreamingServer[WatchRepliesOutput]
-
 // TicketService_ServiceDesc is the grpc.ServiceDesc for TicketService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -782,6 +768,10 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TicketService_ReplyTicket_Handler,
 		},
 		{
+			MethodName: "DescribeTicketSummary",
+			Handler:    _TicketService_DescribeTicketSummary_Handler,
+		},
+		{
 			MethodName: "ListReplies",
 			Handler:    _TicketService_ListReplies_Handler,
 		},
@@ -809,18 +799,13 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "WatchTickets",
-			Handler:       _TicketService_WatchTickets_Handler,
+			StreamName:    "WatchTicketsList",
+			Handler:       _TicketService_WatchTicketsList_Handler,
 			ServerStreams: true,
 		},
 		{
 			StreamName:    "WatchTicketSummary",
 			Handler:       _TicketService_WatchTicketSummary_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "WatchReplies",
-			Handler:       _TicketService_WatchReplies_Handler,
 			ServerStreams: true,
 		},
 	},

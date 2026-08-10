@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AnnouncementService_CreateAnnouncement_FullMethodName         = "/eolymp.judge.AnnouncementService/CreateAnnouncement"
-	AnnouncementService_UpdateAnnouncement_FullMethodName         = "/eolymp.judge.AnnouncementService/UpdateAnnouncement"
-	AnnouncementService_DeleteAnnouncement_FullMethodName         = "/eolymp.judge.AnnouncementService/DeleteAnnouncement"
-	AnnouncementService_ReadAnnouncement_FullMethodName           = "/eolymp.judge.AnnouncementService/ReadAnnouncement"
-	AnnouncementService_DescribeAnnouncement_FullMethodName       = "/eolymp.judge.AnnouncementService/DescribeAnnouncement"
-	AnnouncementService_DescribeAnnouncementStatus_FullMethodName = "/eolymp.judge.AnnouncementService/DescribeAnnouncementStatus"
-	AnnouncementService_ListAnnouncements_FullMethodName          = "/eolymp.judge.AnnouncementService/ListAnnouncements"
-	AnnouncementService_WatchAnnouncement_FullMethodName          = "/eolymp.judge.AnnouncementService/WatchAnnouncement"
-	AnnouncementService_WatchAnnouncements_FullMethodName         = "/eolymp.judge.AnnouncementService/WatchAnnouncements"
-	AnnouncementService_WatchAnnouncementSummary_FullMethodName   = "/eolymp.judge.AnnouncementService/WatchAnnouncementSummary"
+	AnnouncementService_CreateAnnouncement_FullMethodName          = "/eolymp.judge.AnnouncementService/CreateAnnouncement"
+	AnnouncementService_UpdateAnnouncement_FullMethodName          = "/eolymp.judge.AnnouncementService/UpdateAnnouncement"
+	AnnouncementService_DeleteAnnouncement_FullMethodName          = "/eolymp.judge.AnnouncementService/DeleteAnnouncement"
+	AnnouncementService_ReadAnnouncement_FullMethodName            = "/eolymp.judge.AnnouncementService/ReadAnnouncement"
+	AnnouncementService_DescribeAnnouncement_FullMethodName        = "/eolymp.judge.AnnouncementService/DescribeAnnouncement"
+	AnnouncementService_DescribeAnnouncementStatus_FullMethodName  = "/eolymp.judge.AnnouncementService/DescribeAnnouncementStatus"
+	AnnouncementService_ListAnnouncements_FullMethodName           = "/eolymp.judge.AnnouncementService/ListAnnouncements"
+	AnnouncementService_WatchAnnouncement_FullMethodName           = "/eolymp.judge.AnnouncementService/WatchAnnouncement"
+	AnnouncementService_WatchAnnouncementsList_FullMethodName      = "/eolymp.judge.AnnouncementService/WatchAnnouncementsList"
+	AnnouncementService_DescribeAnnouncementSummary_FullMethodName = "/eolymp.judge.AnnouncementService/DescribeAnnouncementSummary"
+	AnnouncementService_WatchAnnouncementSummary_FullMethodName    = "/eolymp.judge.AnnouncementService/WatchAnnouncementSummary"
 )
 
 // AnnouncementServiceClient is the client API for AnnouncementService service.
@@ -73,18 +74,15 @@ type AnnouncementServiceClient interface {
 	// panel and the organiser's list. The result can be narrowed to what the calling participant has not read
 	// yet, which is how a client shows only what is new to the person in front of it.
 	ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput, opts ...grpc.CallOption) (*ListAnnouncementsOutput, error)
-	// WatchAnnouncement streams one announcement again whenever it changes, so a client showing it picks up
-	// a correction the organiser makes without polling. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchAnnouncement streams one announcement whenever it changes, so a correction reaches a reader who
+	// already has it open.
 	WatchAnnouncement(ctx context.Context, in *WatchAnnouncementInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementOutput], error)
-	// WatchAnnouncements streams the contest's announcements as they are published, changed and withdrawn,
-	// which is how a participant sees an announcement appear mid-contest instead of polling
-	// ListAnnouncements. Being server-streaming, its HTTP binding responds with an event stream rather
-	// than a single JSON body.
-	WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementsOutput], error)
-	// WatchAnnouncementSummary streams how many announcements the calling participant has not read yet, so
-	// a UI can keep an unread badge current without listing anything. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchAnnouncementsList streams the contest's announcements as they are published, changed and withdrawn.
+	WatchAnnouncementsList(ctx context.Context, in *WatchAnnouncementsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementsListOutput], error)
+	// DescribeAnnouncementSummary returns how many announcements the caller has not read yet, which is enough
+	// to draw a badge without listing anything.
+	DescribeAnnouncementSummary(ctx context.Context, in *DescribeAnnouncementSummaryInput, opts ...grpc.CallOption) (*DescribeAnnouncementSummaryOutput, error)
+	// WatchAnnouncementSummary streams the same count and sends it again whenever it changes.
 	WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementSummaryOutput], error)
 }
 
@@ -185,13 +183,13 @@ func (c *announcementServiceClient) WatchAnnouncement(ctx context.Context, in *W
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type AnnouncementService_WatchAnnouncementClient = grpc.ServerStreamingClient[WatchAnnouncementOutput]
 
-func (c *announcementServiceClient) WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementsOutput], error) {
+func (c *announcementServiceClient) WatchAnnouncementsList(ctx context.Context, in *WatchAnnouncementsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementsListOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &AnnouncementService_ServiceDesc.Streams[1], AnnouncementService_WatchAnnouncements_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &AnnouncementService_ServiceDesc.Streams[1], AnnouncementService_WatchAnnouncementsList_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[WatchAnnouncementsInput, WatchAnnouncementsOutput]{ClientStream: stream}
+	x := &grpc.GenericClientStream[WatchAnnouncementsListInput, WatchAnnouncementsListOutput]{ClientStream: stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -202,7 +200,17 @@ func (c *announcementServiceClient) WatchAnnouncements(ctx context.Context, in *
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type AnnouncementService_WatchAnnouncementsClient = grpc.ServerStreamingClient[WatchAnnouncementsOutput]
+type AnnouncementService_WatchAnnouncementsListClient = grpc.ServerStreamingClient[WatchAnnouncementsListOutput]
+
+func (c *announcementServiceClient) DescribeAnnouncementSummary(ctx context.Context, in *DescribeAnnouncementSummaryInput, opts ...grpc.CallOption) (*DescribeAnnouncementSummaryOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeAnnouncementSummaryOutput)
+	err := c.cc.Invoke(ctx, AnnouncementService_DescribeAnnouncementSummary_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
 func (c *announcementServiceClient) WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementSummaryOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -265,18 +273,15 @@ type AnnouncementServiceServer interface {
 	// panel and the organiser's list. The result can be narrowed to what the calling participant has not read
 	// yet, which is how a client shows only what is new to the person in front of it.
 	ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error)
-	// WatchAnnouncement streams one announcement again whenever it changes, so a client showing it picks up
-	// a correction the organiser makes without polling. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchAnnouncement streams one announcement whenever it changes, so a correction reaches a reader who
+	// already has it open.
 	WatchAnnouncement(*WatchAnnouncementInput, grpc.ServerStreamingServer[WatchAnnouncementOutput]) error
-	// WatchAnnouncements streams the contest's announcements as they are published, changed and withdrawn,
-	// which is how a participant sees an announcement appear mid-contest instead of polling
-	// ListAnnouncements. Being server-streaming, its HTTP binding responds with an event stream rather
-	// than a single JSON body.
-	WatchAnnouncements(*WatchAnnouncementsInput, grpc.ServerStreamingServer[WatchAnnouncementsOutput]) error
-	// WatchAnnouncementSummary streams how many announcements the calling participant has not read yet, so
-	// a UI can keep an unread badge current without listing anything. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchAnnouncementsList streams the contest's announcements as they are published, changed and withdrawn.
+	WatchAnnouncementsList(*WatchAnnouncementsListInput, grpc.ServerStreamingServer[WatchAnnouncementsListOutput]) error
+	// DescribeAnnouncementSummary returns how many announcements the caller has not read yet, which is enough
+	// to draw a badge without listing anything.
+	DescribeAnnouncementSummary(context.Context, *DescribeAnnouncementSummaryInput) (*DescribeAnnouncementSummaryOutput, error)
+	// WatchAnnouncementSummary streams the same count and sends it again whenever it changes.
 	WatchAnnouncementSummary(*WatchAnnouncementSummaryInput, grpc.ServerStreamingServer[WatchAnnouncementSummaryOutput]) error
 }
 
@@ -311,8 +316,11 @@ func (UnimplementedAnnouncementServiceServer) ListAnnouncements(context.Context,
 func (UnimplementedAnnouncementServiceServer) WatchAnnouncement(*WatchAnnouncementInput, grpc.ServerStreamingServer[WatchAnnouncementOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchAnnouncement not implemented")
 }
-func (UnimplementedAnnouncementServiceServer) WatchAnnouncements(*WatchAnnouncementsInput, grpc.ServerStreamingServer[WatchAnnouncementsOutput]) error {
-	return status.Error(codes.Unimplemented, "method WatchAnnouncements not implemented")
+func (UnimplementedAnnouncementServiceServer) WatchAnnouncementsList(*WatchAnnouncementsListInput, grpc.ServerStreamingServer[WatchAnnouncementsListOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchAnnouncementsList not implemented")
+}
+func (UnimplementedAnnouncementServiceServer) DescribeAnnouncementSummary(context.Context, *DescribeAnnouncementSummaryInput) (*DescribeAnnouncementSummaryOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeAnnouncementSummary not implemented")
 }
 func (UnimplementedAnnouncementServiceServer) WatchAnnouncementSummary(*WatchAnnouncementSummaryInput, grpc.ServerStreamingServer[WatchAnnouncementSummaryOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchAnnouncementSummary not implemented")
@@ -474,16 +482,34 @@ func _AnnouncementService_WatchAnnouncement_Handler(srv interface{}, stream grpc
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type AnnouncementService_WatchAnnouncementServer = grpc.ServerStreamingServer[WatchAnnouncementOutput]
 
-func _AnnouncementService_WatchAnnouncements_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchAnnouncementsInput)
+func _AnnouncementService_WatchAnnouncementsList_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchAnnouncementsListInput)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(AnnouncementServiceServer).WatchAnnouncements(m, &grpc.GenericServerStream[WatchAnnouncementsInput, WatchAnnouncementsOutput]{ServerStream: stream})
+	return srv.(AnnouncementServiceServer).WatchAnnouncementsList(m, &grpc.GenericServerStream[WatchAnnouncementsListInput, WatchAnnouncementsListOutput]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type AnnouncementService_WatchAnnouncementsServer = grpc.ServerStreamingServer[WatchAnnouncementsOutput]
+type AnnouncementService_WatchAnnouncementsListServer = grpc.ServerStreamingServer[WatchAnnouncementsListOutput]
+
+func _AnnouncementService_DescribeAnnouncementSummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeAnnouncementSummaryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnnouncementServiceServer).DescribeAnnouncementSummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnnouncementService_DescribeAnnouncementSummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnnouncementServiceServer).DescribeAnnouncementSummary(ctx, req.(*DescribeAnnouncementSummaryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 
 func _AnnouncementService_WatchAnnouncementSummary_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(WatchAnnouncementSummaryInput)
@@ -531,6 +557,10 @@ var AnnouncementService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ListAnnouncements",
 			Handler:    _AnnouncementService_ListAnnouncements_Handler,
 		},
+		{
+			MethodName: "DescribeAnnouncementSummary",
+			Handler:    _AnnouncementService_DescribeAnnouncementSummary_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -539,8 +569,8 @@ var AnnouncementService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "WatchAnnouncements",
-			Handler:       _AnnouncementService_WatchAnnouncements_Handler,
+			StreamName:    "WatchAnnouncementsList",
+			Handler:       _AnnouncementService_WatchAnnouncementsList_Handler,
 			ServerStreams: true,
 		},
 		{

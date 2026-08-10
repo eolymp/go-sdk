@@ -8,6 +8,7 @@ package playground
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -321,8 +322,9 @@ func (x *WatchRunInput) GetRunId() string {
 }
 
 type WatchRunOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Run           *Run                   `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Run           *Run                     `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -364,11 +366,18 @@ func (x *WatchRunOutput) GetRun() *Run {
 	return nil
 }
 
+func (x *WatchRunOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
+}
+
 var File_eolymp_playground_playground_proto protoreflect.FileDescriptor
 
 const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\"\xc2\x01\n" +
+	"\"eolymp/playground/playground.proto\x12\x11eolymp.playground\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xc2\x01\n" +
 	"\x0eCreateRunInput\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x14\n" +
 	"\x05trace\x18\x03 \x01(\bR\x05trace\x12\x16\n" +
@@ -386,9 +395,10 @@ const file_eolymp_playground_playground_proto_rawDesc = "" +
 	"\x11DescribeRunOutput\x12(\n" +
 	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\"&\n" +
 	"\rWatchRunInput\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\":\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\"r\n" +
 	"\x0eWatchRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xf0\x03\n" +
+	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xf0\x03\n" +
 	"\n" +
 	"Playground\x12\x8c\x01\n" +
 	"\tCreateRun\x12!.eolymp.playground.CreateRunInput\x1a\".eolymp.playground.CreateRunOutput\"8\xea\xe2\n" +
@@ -427,28 +437,30 @@ func file_eolymp_playground_playground_proto_rawDescGZIP() []byte {
 
 var file_eolymp_playground_playground_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_playground_playground_proto_goTypes = []any{
-	(*CreateRunInput)(nil),    // 0: eolymp.playground.CreateRunInput
-	(*CreateRunOutput)(nil),   // 1: eolymp.playground.CreateRunOutput
-	(*DescribeRunInput)(nil),  // 2: eolymp.playground.DescribeRunInput
-	(*DescribeRunOutput)(nil), // 3: eolymp.playground.DescribeRunOutput
-	(*WatchRunInput)(nil),     // 4: eolymp.playground.WatchRunInput
-	(*WatchRunOutput)(nil),    // 5: eolymp.playground.WatchRunOutput
-	(*Run)(nil),               // 6: eolymp.playground.Run
+	(*CreateRunInput)(nil),        // 0: eolymp.playground.CreateRunInput
+	(*CreateRunOutput)(nil),       // 1: eolymp.playground.CreateRunOutput
+	(*DescribeRunInput)(nil),      // 2: eolymp.playground.DescribeRunInput
+	(*DescribeRunOutput)(nil),     // 3: eolymp.playground.DescribeRunOutput
+	(*WatchRunInput)(nil),         // 4: eolymp.playground.WatchRunInput
+	(*WatchRunOutput)(nil),        // 5: eolymp.playground.WatchRunOutput
+	(*Run)(nil),                   // 6: eolymp.playground.Run
+	(wellknown.WatchEventType)(0), // 7: eolymp.wellknown.WatchEventType
 }
 var file_eolymp_playground_playground_proto_depIdxs = []int32{
 	6, // 0: eolymp.playground.DescribeRunOutput.run:type_name -> eolymp.playground.Run
 	6, // 1: eolymp.playground.WatchRunOutput.run:type_name -> eolymp.playground.Run
-	0, // 2: eolymp.playground.Playground.CreateRun:input_type -> eolymp.playground.CreateRunInput
-	2, // 3: eolymp.playground.Playground.DescribeRun:input_type -> eolymp.playground.DescribeRunInput
-	4, // 4: eolymp.playground.Playground.WatchRun:input_type -> eolymp.playground.WatchRunInput
-	1, // 5: eolymp.playground.Playground.CreateRun:output_type -> eolymp.playground.CreateRunOutput
-	3, // 6: eolymp.playground.Playground.DescribeRun:output_type -> eolymp.playground.DescribeRunOutput
-	5, // 7: eolymp.playground.Playground.WatchRun:output_type -> eolymp.playground.WatchRunOutput
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	7, // 2: eolymp.playground.WatchRunOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	0, // 3: eolymp.playground.Playground.CreateRun:input_type -> eolymp.playground.CreateRunInput
+	2, // 4: eolymp.playground.Playground.DescribeRun:input_type -> eolymp.playground.DescribeRunInput
+	4, // 5: eolymp.playground.Playground.WatchRun:input_type -> eolymp.playground.WatchRunInput
+	1, // 6: eolymp.playground.Playground.CreateRun:output_type -> eolymp.playground.CreateRunOutput
+	3, // 7: eolymp.playground.Playground.DescribeRun:output_type -> eolymp.playground.DescribeRunOutput
+	5, // 8: eolymp.playground.Playground.WatchRun:output_type -> eolymp.playground.WatchRunOutput
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_playground_playground_proto_init() }

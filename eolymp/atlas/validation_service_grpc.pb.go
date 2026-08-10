@@ -47,10 +47,8 @@ type ValidationServiceClient interface {
 	// status settles. A per-test verdict distinguishes an input the validator rejected from one which could not
 	// be produced at all, because a generator or a download failed.
 	DescribeValidation(ctx context.Context, in *DescribeValidationInput, opts ...grpc.CallOption) (*DescribeValidationOutput, error)
-	// WatchValidation streams a validation as it progresses instead of having the caller poll DescribeValidation.
-	// Every message carries a whole snapshot and the version only ever increases, so a snapshot older than the
-	// last one seen can be discarded. Being server-streaming, its HTTP binding responds with an
-	// event stream rather than a single JSON body.
+	// WatchValidation streams a validation as it progresses. Every message is a whole snapshot and the version
+	// only ever increases, so an older snapshot can be discarded.
 	WatchValidation(ctx context.Context, in *WatchValidationInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchValidationOutput], error)
 }
 
@@ -124,10 +122,8 @@ type ValidationServiceServer interface {
 	// status settles. A per-test verdict distinguishes an input the validator rejected from one which could not
 	// be produced at all, because a generator or a download failed.
 	DescribeValidation(context.Context, *DescribeValidationInput) (*DescribeValidationOutput, error)
-	// WatchValidation streams a validation as it progresses instead of having the caller poll DescribeValidation.
-	// Every message carries a whole snapshot and the version only ever increases, so a snapshot older than the
-	// last one seen can be discarded. Being server-streaming, its HTTP binding responds with an
-	// event stream rather than a single JSON body.
+	// WatchValidation streams a validation as it progresses. Every message is a whole snapshot and the version
+	// only ever increases, so an older snapshot can be discarded.
 	WatchValidation(*WatchValidationInput, grpc.ServerStreamingServer[WatchValidationOutput]) error
 }
 

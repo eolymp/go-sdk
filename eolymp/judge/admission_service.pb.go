@@ -9,6 +9,7 @@ package judge
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	community "github.com/eolymp/go-sdk/eolymp/community"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -22,55 +23,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-type WatchAdmissionOutput_Status int32
-
-const (
-	WatchAdmissionOutput_UNKNOWN_STATUS WatchAdmissionOutput_Status = 0
-	WatchAdmissionOutput_ACCEPTED       WatchAdmissionOutput_Status = 1
-	WatchAdmissionOutput_EXPIRED        WatchAdmissionOutput_Status = 2
-)
-
-// Enum value maps for WatchAdmissionOutput_Status.
-var (
-	WatchAdmissionOutput_Status_name = map[int32]string{
-		0: "UNKNOWN_STATUS",
-		1: "ACCEPTED",
-		2: "EXPIRED",
-	}
-	WatchAdmissionOutput_Status_value = map[string]int32{
-		"UNKNOWN_STATUS": 0,
-		"ACCEPTED":       1,
-		"EXPIRED":        2,
-	}
-)
-
-func (x WatchAdmissionOutput_Status) Enum() *WatchAdmissionOutput_Status {
-	p := new(WatchAdmissionOutput_Status)
-	*p = x
-	return p
-}
-
-func (x WatchAdmissionOutput_Status) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (WatchAdmissionOutput_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_admission_service_proto_enumTypes[0].Descriptor()
-}
-
-func (WatchAdmissionOutput_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_admission_service_proto_enumTypes[0]
-}
-
-func (x WatchAdmissionOutput_Status) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use WatchAdmissionOutput_Status.Descriptor instead.
-func (WatchAdmissionOutput_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_admission_service_proto_rawDescGZIP(), []int{7, 0}
-}
 
 type RequestAdmissionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -389,8 +341,9 @@ func (x *WatchAdmissionInput) GetCode() string {
 }
 
 type WatchAdmissionOutput struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Status        WatchAdmissionOutput_Status `protobuf:"varint,1,opt,name=status,proto3,enum=eolymp.judge.WatchAdmissionOutput_Status" json:"status,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Admission     *Admission               `protobuf:"bytes,3,opt,name=admission,proto3" json:"admission,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -425,18 +378,25 @@ func (*WatchAdmissionOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_admission_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *WatchAdmissionOutput) GetStatus() WatchAdmissionOutput_Status {
+func (x *WatchAdmissionOutput) GetAdmission() *Admission {
 	if x != nil {
-		return x.Status
+		return x.Admission
 	}
-	return WatchAdmissionOutput_UNKNOWN_STATUS
+	return nil
+}
+
+func (x *WatchAdmissionOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
 }
 
 var File_eolymp_judge_admission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_admission_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/judge/admission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/member.proto\"\x17\n" +
+	"$eolymp/judge/admission_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/member.proto\x1a\x1ceolymp/judge/admission.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x17\n" +
 	"\x15RequestAdmissionInput\"H\n" +
 	"\x16RequestAdmissionOutput\x12\x1a\n" +
 	"\brequired\x18\x01 \x01(\bR\brequired\x12\x12\n" +
@@ -452,13 +412,10 @@ const file_eolymp_judge_admission_service_proto_rawDesc = "" +
 	"session_id\x18\x02 \x01(\tR\tsessionId\x120\n" +
 	"\x06member\x18\x03 \x01(\v2\x18.eolymp.community.MemberR\x06member\")\n" +
 	"\x13WatchAdmissionInput\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\tR\x04code\"\x92\x01\n" +
-	"\x14WatchAdmissionOutput\x12A\n" +
-	"\x06status\x18\x01 \x01(\x0e2).eolymp.judge.WatchAdmissionOutput.StatusR\x06status\"7\n" +
-	"\x06Status\x12\x12\n" +
-	"\x0eUNKNOWN_STATUS\x10\x00\x12\f\n" +
-	"\bACCEPTED\x10\x01\x12\v\n" +
-	"\aEXPIRED\x10\x022\xcb\x05\n" +
+	"\x04code\x18\x01 \x01(\tR\x04code\"\x85\x01\n" +
+	"\x14WatchAdmissionOutput\x125\n" +
+	"\tadmission\x18\x03 \x01(\v2\x17.eolymp.judge.AdmissionR\tadmission\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xcb\x05\n" +
 	"\x10AdmissionService\x12\xa9\x01\n" +
 	"\x10RequestAdmission\x12#.eolymp.judge.RequestAdmissionInput\x1a$.eolymp.judge.RequestAdmissionOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -497,36 +454,37 @@ func file_eolymp_judge_admission_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_admission_service_proto_rawDescData
 }
 
-var file_eolymp_judge_admission_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_judge_admission_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_judge_admission_service_proto_goTypes = []any{
-	(WatchAdmissionOutput_Status)(0), // 0: eolymp.judge.WatchAdmissionOutput.Status
-	(*RequestAdmissionInput)(nil),    // 1: eolymp.judge.RequestAdmissionInput
-	(*RequestAdmissionOutput)(nil),   // 2: eolymp.judge.RequestAdmissionOutput
-	(*AcceptAdmissionInput)(nil),     // 3: eolymp.judge.AcceptAdmissionInput
-	(*AcceptAdmissionOutput)(nil),    // 4: eolymp.judge.AcceptAdmissionOutput
-	(*DescribeAdmissionInput)(nil),   // 5: eolymp.judge.DescribeAdmissionInput
-	(*DescribeAdmissionOutput)(nil),  // 6: eolymp.judge.DescribeAdmissionOutput
-	(*WatchAdmissionInput)(nil),      // 7: eolymp.judge.WatchAdmissionInput
-	(*WatchAdmissionOutput)(nil),     // 8: eolymp.judge.WatchAdmissionOutput
-	(*community.Member)(nil),         // 9: eolymp.community.Member
+	(*RequestAdmissionInput)(nil),   // 0: eolymp.judge.RequestAdmissionInput
+	(*RequestAdmissionOutput)(nil),  // 1: eolymp.judge.RequestAdmissionOutput
+	(*AcceptAdmissionInput)(nil),    // 2: eolymp.judge.AcceptAdmissionInput
+	(*AcceptAdmissionOutput)(nil),   // 3: eolymp.judge.AcceptAdmissionOutput
+	(*DescribeAdmissionInput)(nil),  // 4: eolymp.judge.DescribeAdmissionInput
+	(*DescribeAdmissionOutput)(nil), // 5: eolymp.judge.DescribeAdmissionOutput
+	(*WatchAdmissionInput)(nil),     // 6: eolymp.judge.WatchAdmissionInput
+	(*WatchAdmissionOutput)(nil),    // 7: eolymp.judge.WatchAdmissionOutput
+	(*community.Member)(nil),        // 8: eolymp.community.Member
+	(*Admission)(nil),               // 9: eolymp.judge.Admission
+	(wellknown.WatchEventType)(0),   // 10: eolymp.wellknown.WatchEventType
 }
 var file_eolymp_judge_admission_service_proto_depIdxs = []int32{
-	9, // 0: eolymp.judge.DescribeAdmissionOutput.member:type_name -> eolymp.community.Member
-	0, // 1: eolymp.judge.WatchAdmissionOutput.status:type_name -> eolymp.judge.WatchAdmissionOutput.Status
-	1, // 2: eolymp.judge.AdmissionService.RequestAdmission:input_type -> eolymp.judge.RequestAdmissionInput
-	7, // 3: eolymp.judge.AdmissionService.WatchAdmission:input_type -> eolymp.judge.WatchAdmissionInput
-	5, // 4: eolymp.judge.AdmissionService.DescribeAdmission:input_type -> eolymp.judge.DescribeAdmissionInput
-	3, // 5: eolymp.judge.AdmissionService.AcceptAdmission:input_type -> eolymp.judge.AcceptAdmissionInput
-	2, // 6: eolymp.judge.AdmissionService.RequestAdmission:output_type -> eolymp.judge.RequestAdmissionOutput
-	8, // 7: eolymp.judge.AdmissionService.WatchAdmission:output_type -> eolymp.judge.WatchAdmissionOutput
-	6, // 8: eolymp.judge.AdmissionService.DescribeAdmission:output_type -> eolymp.judge.DescribeAdmissionOutput
-	4, // 9: eolymp.judge.AdmissionService.AcceptAdmission:output_type -> eolymp.judge.AcceptAdmissionOutput
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	8,  // 0: eolymp.judge.DescribeAdmissionOutput.member:type_name -> eolymp.community.Member
+	9,  // 1: eolymp.judge.WatchAdmissionOutput.admission:type_name -> eolymp.judge.Admission
+	10, // 2: eolymp.judge.WatchAdmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	0,  // 3: eolymp.judge.AdmissionService.RequestAdmission:input_type -> eolymp.judge.RequestAdmissionInput
+	6,  // 4: eolymp.judge.AdmissionService.WatchAdmission:input_type -> eolymp.judge.WatchAdmissionInput
+	4,  // 5: eolymp.judge.AdmissionService.DescribeAdmission:input_type -> eolymp.judge.DescribeAdmissionInput
+	2,  // 6: eolymp.judge.AdmissionService.AcceptAdmission:input_type -> eolymp.judge.AcceptAdmissionInput
+	1,  // 7: eolymp.judge.AdmissionService.RequestAdmission:output_type -> eolymp.judge.RequestAdmissionOutput
+	7,  // 8: eolymp.judge.AdmissionService.WatchAdmission:output_type -> eolymp.judge.WatchAdmissionOutput
+	5,  // 9: eolymp.judge.AdmissionService.DescribeAdmission:output_type -> eolymp.judge.DescribeAdmissionOutput
+	3,  // 10: eolymp.judge.AdmissionService.AcceptAdmission:output_type -> eolymp.judge.AcceptAdmissionOutput
+	7,  // [7:11] is the sub-list for method output_type
+	3,  // [3:7] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_admission_service_proto_init() }
@@ -534,19 +492,19 @@ func file_eolymp_judge_admission_service_proto_init() {
 	if File_eolymp_judge_admission_service_proto != nil {
 		return
 	}
+	file_eolymp_judge_admission_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_admission_service_proto_rawDesc), len(file_eolymp_judge_admission_service_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_judge_admission_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_judge_admission_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_judge_admission_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_judge_admission_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_judge_admission_service_proto = out.File

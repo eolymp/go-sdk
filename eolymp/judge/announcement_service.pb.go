@@ -23,58 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type WatchAnnouncementsOutput_Event int32
-
-const (
-	WatchAnnouncementsOutput_UNKNOWN_EVENT WatchAnnouncementsOutput_Event = 0
-	WatchAnnouncementsOutput_CREATED       WatchAnnouncementsOutput_Event = 1
-	WatchAnnouncementsOutput_UPDATED       WatchAnnouncementsOutput_Event = 2
-	WatchAnnouncementsOutput_DELETED       WatchAnnouncementsOutput_Event = 3
-)
-
-// Enum value maps for WatchAnnouncementsOutput_Event.
-var (
-	WatchAnnouncementsOutput_Event_name = map[int32]string{
-		0: "UNKNOWN_EVENT",
-		1: "CREATED",
-		2: "UPDATED",
-		3: "DELETED",
-	}
-	WatchAnnouncementsOutput_Event_value = map[string]int32{
-		"UNKNOWN_EVENT": 0,
-		"CREATED":       1,
-		"UPDATED":       2,
-		"DELETED":       3,
-	}
-)
-
-func (x WatchAnnouncementsOutput_Event) Enum() *WatchAnnouncementsOutput_Event {
-	p := new(WatchAnnouncementsOutput_Event)
-	*p = x
-	return p
-}
-
-func (x WatchAnnouncementsOutput_Event) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (WatchAnnouncementsOutput_Event) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_announcement_service_proto_enumTypes[0].Descriptor()
-}
-
-func (WatchAnnouncementsOutput_Event) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_announcement_service_proto_enumTypes[0]
-}
-
-func (x WatchAnnouncementsOutput_Event) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use WatchAnnouncementsOutput_Event.Descriptor instead.
-func (WatchAnnouncementsOutput_Event) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{17, 0}
-}
-
 type CreateAnnouncementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Announcement  *Announcement          `protobuf:"bytes,2,opt,name=announcement,proto3" json:"announcement,omitempty"`
@@ -768,8 +716,9 @@ func (x *WatchAnnouncementInput) GetExtra() []Announcement_Extra {
 }
 
 type WatchAnnouncementOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Announcement  *Announcement          `protobuf:"bytes,1,opt,name=announcement,proto3" json:"announcement,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Announcement  *Announcement            `protobuf:"bytes,1,opt,name=announcement,proto3" json:"announcement,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -811,27 +760,34 @@ func (x *WatchAnnouncementOutput) GetAnnouncement() *Announcement {
 	return nil
 }
 
-type WatchAnnouncementsInput struct {
+func (x *WatchAnnouncementOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
+}
+
+type WatchAnnouncementsListInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Extra         []Announcement_Extra   `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.judge.Announcement_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *WatchAnnouncementsInput) Reset() {
-	*x = WatchAnnouncementsInput{}
+func (x *WatchAnnouncementsListInput) Reset() {
+	*x = WatchAnnouncementsListInput{}
 	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *WatchAnnouncementsInput) String() string {
+func (x *WatchAnnouncementsListInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*WatchAnnouncementsInput) ProtoMessage() {}
+func (*WatchAnnouncementsListInput) ProtoMessage() {}
 
-func (x *WatchAnnouncementsInput) ProtoReflect() protoreflect.Message {
+func (x *WatchAnnouncementsListInput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -843,40 +799,40 @@ func (x *WatchAnnouncementsInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WatchAnnouncementsInput.ProtoReflect.Descriptor instead.
-func (*WatchAnnouncementsInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use WatchAnnouncementsListInput.ProtoReflect.Descriptor instead.
+func (*WatchAnnouncementsListInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *WatchAnnouncementsInput) GetExtra() []Announcement_Extra {
+func (x *WatchAnnouncementsListInput) GetExtra() []Announcement_Extra {
 	if x != nil {
 		return x.Extra
 	}
 	return nil
 }
 
-type WatchAnnouncementsOutput struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Event         WatchAnnouncementsOutput_Event `protobuf:"varint,1,opt,name=event,proto3,enum=eolymp.judge.WatchAnnouncementsOutput_Event" json:"event,omitempty"`
-	Announcement  *Announcement                  `protobuf:"bytes,2,opt,name=announcement,proto3" json:"announcement,omitempty"`
+type WatchAnnouncementsListOutput struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Event         wellknown.WatchEventType `protobuf:"varint,1,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
+	Announcement  *Announcement            `protobuf:"bytes,2,opt,name=announcement,proto3" json:"announcement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *WatchAnnouncementsOutput) Reset() {
-	*x = WatchAnnouncementsOutput{}
+func (x *WatchAnnouncementsListOutput) Reset() {
+	*x = WatchAnnouncementsListOutput{}
 	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *WatchAnnouncementsOutput) String() string {
+func (x *WatchAnnouncementsListOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*WatchAnnouncementsOutput) ProtoMessage() {}
+func (*WatchAnnouncementsListOutput) ProtoMessage() {}
 
-func (x *WatchAnnouncementsOutput) ProtoReflect() protoreflect.Message {
+func (x *WatchAnnouncementsListOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -888,21 +844,101 @@ func (x *WatchAnnouncementsOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WatchAnnouncementsOutput.ProtoReflect.Descriptor instead.
-func (*WatchAnnouncementsOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use WatchAnnouncementsListOutput.ProtoReflect.Descriptor instead.
+func (*WatchAnnouncementsListOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *WatchAnnouncementsOutput) GetEvent() WatchAnnouncementsOutput_Event {
+func (x *WatchAnnouncementsListOutput) GetEvent() wellknown.WatchEventType {
 	if x != nil {
 		return x.Event
 	}
-	return WatchAnnouncementsOutput_UNKNOWN_EVENT
+	return wellknown.WatchEventType(0)
 }
 
-func (x *WatchAnnouncementsOutput) GetAnnouncement() *Announcement {
+func (x *WatchAnnouncementsListOutput) GetAnnouncement() *Announcement {
 	if x != nil {
 		return x.Announcement
+	}
+	return nil
+}
+
+type DescribeAnnouncementSummaryInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeAnnouncementSummaryInput) Reset() {
+	*x = DescribeAnnouncementSummaryInput{}
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeAnnouncementSummaryInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeAnnouncementSummaryInput) ProtoMessage() {}
+
+func (x *DescribeAnnouncementSummaryInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeAnnouncementSummaryInput.ProtoReflect.Descriptor instead.
+func (*DescribeAnnouncementSummaryInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{18}
+}
+
+type DescribeAnnouncementSummaryOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Summary       *AnnouncementSummary   `protobuf:"bytes,1,opt,name=summary,proto3" json:"summary,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeAnnouncementSummaryOutput) Reset() {
+	*x = DescribeAnnouncementSummaryOutput{}
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeAnnouncementSummaryOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeAnnouncementSummaryOutput) ProtoMessage() {}
+
+func (x *DescribeAnnouncementSummaryOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeAnnouncementSummaryOutput.ProtoReflect.Descriptor instead.
+func (*DescribeAnnouncementSummaryOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *DescribeAnnouncementSummaryOutput) GetSummary() *AnnouncementSummary {
+	if x != nil {
+		return x.Summary
 	}
 	return nil
 }
@@ -915,7 +951,7 @@ type WatchAnnouncementSummaryInput struct {
 
 func (x *WatchAnnouncementSummaryInput) Reset() {
 	*x = WatchAnnouncementSummaryInput{}
-	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[18]
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -927,7 +963,7 @@ func (x *WatchAnnouncementSummaryInput) String() string {
 func (*WatchAnnouncementSummaryInput) ProtoMessage() {}
 
 func (x *WatchAnnouncementSummaryInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[18]
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -940,19 +976,20 @@ func (x *WatchAnnouncementSummaryInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchAnnouncementSummaryInput.ProtoReflect.Descriptor instead.
 func (*WatchAnnouncementSummaryInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{20}
 }
 
 type WatchAnnouncementSummaryOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UnreadCount   uint32                 `protobuf:"varint,1,opt,name=unread_count,json=unreadCount,proto3" json:"unread_count,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Summary       *AnnouncementSummary     `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WatchAnnouncementSummaryOutput) Reset() {
 	*x = WatchAnnouncementSummaryOutput{}
-	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[19]
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -964,7 +1001,7 @@ func (x *WatchAnnouncementSummaryOutput) String() string {
 func (*WatchAnnouncementSummaryOutput) ProtoMessage() {}
 
 func (x *WatchAnnouncementSummaryOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[19]
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -977,14 +1014,21 @@ func (x *WatchAnnouncementSummaryOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchAnnouncementSummaryOutput.ProtoReflect.Descriptor instead.
 func (*WatchAnnouncementSummaryOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_judge_announcement_service_proto_rawDescGZIP(), []int{21}
 }
 
-func (x *WatchAnnouncementSummaryOutput) GetUnreadCount() uint32 {
+func (x *WatchAnnouncementSummaryOutput) GetSummary() *AnnouncementSummary {
 	if x != nil {
-		return x.UnreadCount
+		return x.Summary
 	}
-	return 0
+	return nil
+}
+
+func (x *WatchAnnouncementSummaryOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
 }
 
 type ListAnnouncementsInput_Filter struct {
@@ -997,7 +1041,7 @@ type ListAnnouncementsInput_Filter struct {
 
 func (x *ListAnnouncementsInput_Filter) Reset() {
 	*x = ListAnnouncementsInput_Filter{}
-	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[20]
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1009,7 +1053,7 @@ func (x *ListAnnouncementsInput_Filter) String() string {
 func (*ListAnnouncementsInput_Filter) ProtoMessage() {}
 
 func (x *ListAnnouncementsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[20]
+	mi := &file_eolymp_judge_announcement_service_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1043,7 +1087,7 @@ var File_eolymp_judge_announcement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\"Y\n" +
+	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"Y\n" +
 	"\x17CreateAnnouncementInput\x12>\n" +
 	"\fannouncement\x18\x02 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"*\n" +
 	"\x18CreateAnnouncementOutput\x12\x0e\n" +
@@ -1081,22 +1125,22 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.judge.AnnouncementR\x05items\"z\n" +
 	"\x16WatchAnnouncementInput\x12'\n" +
 	"\x0fannouncement_id\x18\x01 \x01(\tR\x0eannouncementId\x127\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.judge.Announcement.ExtraR\x05extra\"Y\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.judge.Announcement.ExtraR\x05extra\"\x91\x01\n" +
 	"\x17WatchAnnouncementOutput\x12>\n" +
-	"\fannouncement\x18\x01 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"R\n" +
-	"\x17WatchAnnouncementsInput\x127\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.judge.Announcement.ExtraR\x05extra\"\xe1\x01\n" +
-	"\x18WatchAnnouncementsOutput\x12B\n" +
-	"\x05event\x18\x01 \x01(\x0e2,.eolymp.judge.WatchAnnouncementsOutput.EventR\x05event\x12>\n" +
-	"\fannouncement\x18\x02 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"A\n" +
-	"\x05Event\x12\x11\n" +
-	"\rUNKNOWN_EVENT\x10\x00\x12\v\n" +
-	"\aCREATED\x10\x01\x12\v\n" +
-	"\aUPDATED\x10\x02\x12\v\n" +
-	"\aDELETED\x10\x03\"\x1f\n" +
-	"\x1dWatchAnnouncementSummaryInput\"C\n" +
-	"\x1eWatchAnnouncementSummaryOutput\x12!\n" +
-	"\funread_count\x18\x01 \x01(\rR\vunreadCount2\xf6\x0e\n" +
+	"\fannouncement\x18\x01 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"V\n" +
+	"\x1bWatchAnnouncementsListInput\x127\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.judge.Announcement.ExtraR\x05extra\"\x96\x01\n" +
+	"\x1cWatchAnnouncementsListOutput\x126\n" +
+	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12>\n" +
+	"\fannouncement\x18\x02 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"\"\n" +
+	" DescribeAnnouncementSummaryInput\"`\n" +
+	"!DescribeAnnouncementSummaryOutput\x12;\n" +
+	"\asummary\x18\x01 \x01(\v2!.eolymp.judge.AnnouncementSummaryR\asummary\"\x1f\n" +
+	"\x1dWatchAnnouncementSummaryInput\"\x95\x01\n" +
+	"\x1eWatchAnnouncementSummaryOutput\x12;\n" +
+	"\asummary\x18\x03 \x01(\v2!.eolymp.judge.AnnouncementSummaryR\asummary\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xcc\x10\n" +
 	"\x13AnnouncementService\x12\xa5\x01\n" +
 	"\x12CreateAnnouncement\x12%.eolymp.judge.CreateAnnouncementInput\x1a&.eolymp.judge.CreateAnnouncementOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1149,13 +1193,19 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02(\x12&/announcements/{announcement_id}/watch0\x01\x12\xac\x01\n" +
-	"\x12WatchAnnouncements\x12%.eolymp.judge.WatchAnnouncementsInput\x1a&.eolymp.judge.WatchAnnouncementsOutput\"E\xea\xe2\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02(\x12&/announcements/{announcement_id}/watch0\x01\x12\xb8\x01\n" +
+	"\x16WatchAnnouncementsList\x12).eolymp.judge.WatchAnnouncementsListInput\x1a*.eolymp.judge.WatchAnnouncementsListOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x16\x12\x14/announcements:watch0\x01\x12\xc6\x01\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x16\x12\x14/announcements:watch0\x01\x12\xc7\x01\n" +
+	"\x1bDescribeAnnouncementSummary\x12..eolymp.judge.DescribeAnnouncementSummaryInput\x1a/.eolymp.judge.DescribeAnnouncementSummaryOutput\"G\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x16\x8a\xe3\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/announcements\x12\xc6\x01\n" +
 	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -1175,76 +1225,84 @@ func file_eolymp_judge_announcement_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_announcement_service_proto_rawDescData
 }
 
-var file_eolymp_judge_announcement_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_judge_announcement_service_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_eolymp_judge_announcement_service_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_eolymp_judge_announcement_service_proto_goTypes = []any{
-	(WatchAnnouncementsOutput_Event)(0),      // 0: eolymp.judge.WatchAnnouncementsOutput.Event
-	(*CreateAnnouncementInput)(nil),          // 1: eolymp.judge.CreateAnnouncementInput
-	(*CreateAnnouncementOutput)(nil),         // 2: eolymp.judge.CreateAnnouncementOutput
-	(*UpdateAnnouncementInput)(nil),          // 3: eolymp.judge.UpdateAnnouncementInput
-	(*UpdateAnnouncementOutput)(nil),         // 4: eolymp.judge.UpdateAnnouncementOutput
-	(*DeleteAnnouncementInput)(nil),          // 5: eolymp.judge.DeleteAnnouncementInput
-	(*DeleteAnnouncementOutput)(nil),         // 6: eolymp.judge.DeleteAnnouncementOutput
-	(*ReadAnnouncementInput)(nil),            // 7: eolymp.judge.ReadAnnouncementInput
-	(*ReadAnnouncementOutput)(nil),           // 8: eolymp.judge.ReadAnnouncementOutput
-	(*DescribeAnnouncementInput)(nil),        // 9: eolymp.judge.DescribeAnnouncementInput
-	(*DescribeAnnouncementOutput)(nil),       // 10: eolymp.judge.DescribeAnnouncementOutput
-	(*DescribeAnnouncementStatusInput)(nil),  // 11: eolymp.judge.DescribeAnnouncementStatusInput
-	(*DescribeAnnouncementStatusOutput)(nil), // 12: eolymp.judge.DescribeAnnouncementStatusOutput
-	(*ListAnnouncementsInput)(nil),           // 13: eolymp.judge.ListAnnouncementsInput
-	(*ListAnnouncementsOutput)(nil),          // 14: eolymp.judge.ListAnnouncementsOutput
-	(*WatchAnnouncementInput)(nil),           // 15: eolymp.judge.WatchAnnouncementInput
-	(*WatchAnnouncementOutput)(nil),          // 16: eolymp.judge.WatchAnnouncementOutput
-	(*WatchAnnouncementsInput)(nil),          // 17: eolymp.judge.WatchAnnouncementsInput
-	(*WatchAnnouncementsOutput)(nil),         // 18: eolymp.judge.WatchAnnouncementsOutput
-	(*WatchAnnouncementSummaryInput)(nil),    // 19: eolymp.judge.WatchAnnouncementSummaryInput
-	(*WatchAnnouncementSummaryOutput)(nil),   // 20: eolymp.judge.WatchAnnouncementSummaryOutput
-	(*ListAnnouncementsInput_Filter)(nil),    // 21: eolymp.judge.ListAnnouncementsInput.Filter
-	(*Announcement)(nil),                     // 22: eolymp.judge.Announcement
-	(Announcement_Extra)(0),                  // 23: eolymp.judge.Announcement.Extra
-	(*wellknown.ExpressionID)(nil),           // 24: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionBool)(nil),         // 25: eolymp.wellknown.ExpressionBool
+	(*CreateAnnouncementInput)(nil),           // 0: eolymp.judge.CreateAnnouncementInput
+	(*CreateAnnouncementOutput)(nil),          // 1: eolymp.judge.CreateAnnouncementOutput
+	(*UpdateAnnouncementInput)(nil),           // 2: eolymp.judge.UpdateAnnouncementInput
+	(*UpdateAnnouncementOutput)(nil),          // 3: eolymp.judge.UpdateAnnouncementOutput
+	(*DeleteAnnouncementInput)(nil),           // 4: eolymp.judge.DeleteAnnouncementInput
+	(*DeleteAnnouncementOutput)(nil),          // 5: eolymp.judge.DeleteAnnouncementOutput
+	(*ReadAnnouncementInput)(nil),             // 6: eolymp.judge.ReadAnnouncementInput
+	(*ReadAnnouncementOutput)(nil),            // 7: eolymp.judge.ReadAnnouncementOutput
+	(*DescribeAnnouncementInput)(nil),         // 8: eolymp.judge.DescribeAnnouncementInput
+	(*DescribeAnnouncementOutput)(nil),        // 9: eolymp.judge.DescribeAnnouncementOutput
+	(*DescribeAnnouncementStatusInput)(nil),   // 10: eolymp.judge.DescribeAnnouncementStatusInput
+	(*DescribeAnnouncementStatusOutput)(nil),  // 11: eolymp.judge.DescribeAnnouncementStatusOutput
+	(*ListAnnouncementsInput)(nil),            // 12: eolymp.judge.ListAnnouncementsInput
+	(*ListAnnouncementsOutput)(nil),           // 13: eolymp.judge.ListAnnouncementsOutput
+	(*WatchAnnouncementInput)(nil),            // 14: eolymp.judge.WatchAnnouncementInput
+	(*WatchAnnouncementOutput)(nil),           // 15: eolymp.judge.WatchAnnouncementOutput
+	(*WatchAnnouncementsListInput)(nil),       // 16: eolymp.judge.WatchAnnouncementsListInput
+	(*WatchAnnouncementsListOutput)(nil),      // 17: eolymp.judge.WatchAnnouncementsListOutput
+	(*DescribeAnnouncementSummaryInput)(nil),  // 18: eolymp.judge.DescribeAnnouncementSummaryInput
+	(*DescribeAnnouncementSummaryOutput)(nil), // 19: eolymp.judge.DescribeAnnouncementSummaryOutput
+	(*WatchAnnouncementSummaryInput)(nil),     // 20: eolymp.judge.WatchAnnouncementSummaryInput
+	(*WatchAnnouncementSummaryOutput)(nil),    // 21: eolymp.judge.WatchAnnouncementSummaryOutput
+	(*ListAnnouncementsInput_Filter)(nil),     // 22: eolymp.judge.ListAnnouncementsInput.Filter
+	(*Announcement)(nil),                      // 23: eolymp.judge.Announcement
+	(Announcement_Extra)(0),                   // 24: eolymp.judge.Announcement.Extra
+	(wellknown.WatchEventType)(0),             // 25: eolymp.wellknown.WatchEventType
+	(*AnnouncementSummary)(nil),               // 26: eolymp.judge.AnnouncementSummary
+	(*wellknown.ExpressionID)(nil),            // 27: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionBool)(nil),          // 28: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_judge_announcement_service_proto_depIdxs = []int32{
-	22, // 0: eolymp.judge.CreateAnnouncementInput.announcement:type_name -> eolymp.judge.Announcement
-	22, // 1: eolymp.judge.UpdateAnnouncementInput.announcement:type_name -> eolymp.judge.Announcement
-	23, // 2: eolymp.judge.DescribeAnnouncementInput.extra:type_name -> eolymp.judge.Announcement.Extra
-	22, // 3: eolymp.judge.DescribeAnnouncementOutput.announcement:type_name -> eolymp.judge.Announcement
-	21, // 4: eolymp.judge.ListAnnouncementsInput.filters:type_name -> eolymp.judge.ListAnnouncementsInput.Filter
-	23, // 5: eolymp.judge.ListAnnouncementsInput.extra:type_name -> eolymp.judge.Announcement.Extra
-	22, // 6: eolymp.judge.ListAnnouncementsOutput.items:type_name -> eolymp.judge.Announcement
-	23, // 7: eolymp.judge.WatchAnnouncementInput.extra:type_name -> eolymp.judge.Announcement.Extra
-	22, // 8: eolymp.judge.WatchAnnouncementOutput.announcement:type_name -> eolymp.judge.Announcement
-	23, // 9: eolymp.judge.WatchAnnouncementsInput.extra:type_name -> eolymp.judge.Announcement.Extra
-	0,  // 10: eolymp.judge.WatchAnnouncementsOutput.event:type_name -> eolymp.judge.WatchAnnouncementsOutput.Event
-	22, // 11: eolymp.judge.WatchAnnouncementsOutput.announcement:type_name -> eolymp.judge.Announcement
-	24, // 12: eolymp.judge.ListAnnouncementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	25, // 13: eolymp.judge.ListAnnouncementsInput.Filter.is_read:type_name -> eolymp.wellknown.ExpressionBool
-	1,  // 14: eolymp.judge.AnnouncementService.CreateAnnouncement:input_type -> eolymp.judge.CreateAnnouncementInput
-	3,  // 15: eolymp.judge.AnnouncementService.UpdateAnnouncement:input_type -> eolymp.judge.UpdateAnnouncementInput
-	5,  // 16: eolymp.judge.AnnouncementService.DeleteAnnouncement:input_type -> eolymp.judge.DeleteAnnouncementInput
-	7,  // 17: eolymp.judge.AnnouncementService.ReadAnnouncement:input_type -> eolymp.judge.ReadAnnouncementInput
-	9,  // 18: eolymp.judge.AnnouncementService.DescribeAnnouncement:input_type -> eolymp.judge.DescribeAnnouncementInput
-	11, // 19: eolymp.judge.AnnouncementService.DescribeAnnouncementStatus:input_type -> eolymp.judge.DescribeAnnouncementStatusInput
-	13, // 20: eolymp.judge.AnnouncementService.ListAnnouncements:input_type -> eolymp.judge.ListAnnouncementsInput
-	15, // 21: eolymp.judge.AnnouncementService.WatchAnnouncement:input_type -> eolymp.judge.WatchAnnouncementInput
-	17, // 22: eolymp.judge.AnnouncementService.WatchAnnouncements:input_type -> eolymp.judge.WatchAnnouncementsInput
-	19, // 23: eolymp.judge.AnnouncementService.WatchAnnouncementSummary:input_type -> eolymp.judge.WatchAnnouncementSummaryInput
-	2,  // 24: eolymp.judge.AnnouncementService.CreateAnnouncement:output_type -> eolymp.judge.CreateAnnouncementOutput
-	4,  // 25: eolymp.judge.AnnouncementService.UpdateAnnouncement:output_type -> eolymp.judge.UpdateAnnouncementOutput
-	6,  // 26: eolymp.judge.AnnouncementService.DeleteAnnouncement:output_type -> eolymp.judge.DeleteAnnouncementOutput
-	8,  // 27: eolymp.judge.AnnouncementService.ReadAnnouncement:output_type -> eolymp.judge.ReadAnnouncementOutput
-	10, // 28: eolymp.judge.AnnouncementService.DescribeAnnouncement:output_type -> eolymp.judge.DescribeAnnouncementOutput
-	12, // 29: eolymp.judge.AnnouncementService.DescribeAnnouncementStatus:output_type -> eolymp.judge.DescribeAnnouncementStatusOutput
-	14, // 30: eolymp.judge.AnnouncementService.ListAnnouncements:output_type -> eolymp.judge.ListAnnouncementsOutput
-	16, // 31: eolymp.judge.AnnouncementService.WatchAnnouncement:output_type -> eolymp.judge.WatchAnnouncementOutput
-	18, // 32: eolymp.judge.AnnouncementService.WatchAnnouncements:output_type -> eolymp.judge.WatchAnnouncementsOutput
-	20, // 33: eolymp.judge.AnnouncementService.WatchAnnouncementSummary:output_type -> eolymp.judge.WatchAnnouncementSummaryOutput
-	24, // [24:34] is the sub-list for method output_type
-	14, // [14:24] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	23, // 0: eolymp.judge.CreateAnnouncementInput.announcement:type_name -> eolymp.judge.Announcement
+	23, // 1: eolymp.judge.UpdateAnnouncementInput.announcement:type_name -> eolymp.judge.Announcement
+	24, // 2: eolymp.judge.DescribeAnnouncementInput.extra:type_name -> eolymp.judge.Announcement.Extra
+	23, // 3: eolymp.judge.DescribeAnnouncementOutput.announcement:type_name -> eolymp.judge.Announcement
+	22, // 4: eolymp.judge.ListAnnouncementsInput.filters:type_name -> eolymp.judge.ListAnnouncementsInput.Filter
+	24, // 5: eolymp.judge.ListAnnouncementsInput.extra:type_name -> eolymp.judge.Announcement.Extra
+	23, // 6: eolymp.judge.ListAnnouncementsOutput.items:type_name -> eolymp.judge.Announcement
+	24, // 7: eolymp.judge.WatchAnnouncementInput.extra:type_name -> eolymp.judge.Announcement.Extra
+	23, // 8: eolymp.judge.WatchAnnouncementOutput.announcement:type_name -> eolymp.judge.Announcement
+	25, // 9: eolymp.judge.WatchAnnouncementOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	24, // 10: eolymp.judge.WatchAnnouncementsListInput.extra:type_name -> eolymp.judge.Announcement.Extra
+	25, // 11: eolymp.judge.WatchAnnouncementsListOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	23, // 12: eolymp.judge.WatchAnnouncementsListOutput.announcement:type_name -> eolymp.judge.Announcement
+	26, // 13: eolymp.judge.DescribeAnnouncementSummaryOutput.summary:type_name -> eolymp.judge.AnnouncementSummary
+	26, // 14: eolymp.judge.WatchAnnouncementSummaryOutput.summary:type_name -> eolymp.judge.AnnouncementSummary
+	25, // 15: eolymp.judge.WatchAnnouncementSummaryOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	27, // 16: eolymp.judge.ListAnnouncementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	28, // 17: eolymp.judge.ListAnnouncementsInput.Filter.is_read:type_name -> eolymp.wellknown.ExpressionBool
+	0,  // 18: eolymp.judge.AnnouncementService.CreateAnnouncement:input_type -> eolymp.judge.CreateAnnouncementInput
+	2,  // 19: eolymp.judge.AnnouncementService.UpdateAnnouncement:input_type -> eolymp.judge.UpdateAnnouncementInput
+	4,  // 20: eolymp.judge.AnnouncementService.DeleteAnnouncement:input_type -> eolymp.judge.DeleteAnnouncementInput
+	6,  // 21: eolymp.judge.AnnouncementService.ReadAnnouncement:input_type -> eolymp.judge.ReadAnnouncementInput
+	8,  // 22: eolymp.judge.AnnouncementService.DescribeAnnouncement:input_type -> eolymp.judge.DescribeAnnouncementInput
+	10, // 23: eolymp.judge.AnnouncementService.DescribeAnnouncementStatus:input_type -> eolymp.judge.DescribeAnnouncementStatusInput
+	12, // 24: eolymp.judge.AnnouncementService.ListAnnouncements:input_type -> eolymp.judge.ListAnnouncementsInput
+	14, // 25: eolymp.judge.AnnouncementService.WatchAnnouncement:input_type -> eolymp.judge.WatchAnnouncementInput
+	16, // 26: eolymp.judge.AnnouncementService.WatchAnnouncementsList:input_type -> eolymp.judge.WatchAnnouncementsListInput
+	18, // 27: eolymp.judge.AnnouncementService.DescribeAnnouncementSummary:input_type -> eolymp.judge.DescribeAnnouncementSummaryInput
+	20, // 28: eolymp.judge.AnnouncementService.WatchAnnouncementSummary:input_type -> eolymp.judge.WatchAnnouncementSummaryInput
+	1,  // 29: eolymp.judge.AnnouncementService.CreateAnnouncement:output_type -> eolymp.judge.CreateAnnouncementOutput
+	3,  // 30: eolymp.judge.AnnouncementService.UpdateAnnouncement:output_type -> eolymp.judge.UpdateAnnouncementOutput
+	5,  // 31: eolymp.judge.AnnouncementService.DeleteAnnouncement:output_type -> eolymp.judge.DeleteAnnouncementOutput
+	7,  // 32: eolymp.judge.AnnouncementService.ReadAnnouncement:output_type -> eolymp.judge.ReadAnnouncementOutput
+	9,  // 33: eolymp.judge.AnnouncementService.DescribeAnnouncement:output_type -> eolymp.judge.DescribeAnnouncementOutput
+	11, // 34: eolymp.judge.AnnouncementService.DescribeAnnouncementStatus:output_type -> eolymp.judge.DescribeAnnouncementStatusOutput
+	13, // 35: eolymp.judge.AnnouncementService.ListAnnouncements:output_type -> eolymp.judge.ListAnnouncementsOutput
+	15, // 36: eolymp.judge.AnnouncementService.WatchAnnouncement:output_type -> eolymp.judge.WatchAnnouncementOutput
+	17, // 37: eolymp.judge.AnnouncementService.WatchAnnouncementsList:output_type -> eolymp.judge.WatchAnnouncementsListOutput
+	19, // 38: eolymp.judge.AnnouncementService.DescribeAnnouncementSummary:output_type -> eolymp.judge.DescribeAnnouncementSummaryOutput
+	21, // 39: eolymp.judge.AnnouncementService.WatchAnnouncementSummary:output_type -> eolymp.judge.WatchAnnouncementSummaryOutput
+	29, // [29:40] is the sub-list for method output_type
+	18, // [18:29] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_announcement_service_proto_init() }
@@ -1258,14 +1316,13 @@ func file_eolymp_judge_announcement_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_announcement_service_proto_rawDesc), len(file_eolymp_judge_announcement_service_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   21,
+			NumEnums:      0,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_judge_announcement_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_judge_announcement_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_judge_announcement_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_judge_announcement_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_judge_announcement_service_proto = out.File

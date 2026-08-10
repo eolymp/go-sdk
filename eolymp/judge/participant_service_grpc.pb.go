@@ -93,9 +93,8 @@ type ParticipantServiceClient interface {
 	// competitors are wanted. Disqualified, inactive and unofficial records belong to the roster too
 	// and are returned by default.
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
-	// WatchParticipant streams a fresh copy of the record every time it changes, so a client can follow
-	// a start, a pause, a completion or an organiser's intervention without polling. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchParticipant streams the record whenever it changes, so a client follows a start, a pause, a
+	// completion or an organiser's intervention without polling.
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchParticipantOutput], error)
 	// deprecated
 	//
@@ -346,9 +345,8 @@ type ParticipantServiceServer interface {
 	// competitors are wanted. Disqualified, inactive and unofficial records belong to the roster too
 	// and are returned by default.
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
-	// WatchParticipant streams a fresh copy of the record every time it changes, so a client can follow
-	// a start, a pause, a completion or an organiser's intervention without polling. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchParticipant streams the record whenever it changes, so a client follows a start, a pause, a
+	// completion or an organiser's intervention without polling.
 	WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error
 	// deprecated
 	//

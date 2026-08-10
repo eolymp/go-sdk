@@ -43,6 +43,7 @@ type StudentServiceClient interface {
 	DeleteStudent(ctx context.Context, in *DeleteStudentInput, opts ...grpc.CallOption) (*DeleteStudentOutput, error)
 	DescribeStudent(ctx context.Context, in *DescribeStudentInput, opts ...grpc.CallOption) (*DescribeStudentOutput, error)
 	ListStudents(ctx context.Context, in *ListStudentsInput, opts ...grpc.CallOption) (*ListStudentsOutput, error)
+	// WatchStudent streams a student's record as their progress through the course changes.
 	WatchStudent(ctx context.Context, in *WatchStudentInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchStudentOutput], error)
 	JoinCourse(ctx context.Context, in *JoinCourseInput, opts ...grpc.CallOption) (*JoinCourseOutput, error)
 	DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error)
@@ -209,6 +210,7 @@ type StudentServiceServer interface {
 	DeleteStudent(context.Context, *DeleteStudentInput) (*DeleteStudentOutput, error)
 	DescribeStudent(context.Context, *DescribeStudentInput) (*DescribeStudentOutput, error)
 	ListStudents(context.Context, *ListStudentsInput) (*ListStudentsOutput, error)
+	// WatchStudent streams a student's record as their progress through the course changes.
 	WatchStudent(*WatchStudentInput, grpc.ServerStreamingServer[WatchStudentOutput]) error
 	JoinCourse(context.Context, *JoinCourseInput) (*JoinCourseOutput, error)
 	DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error)

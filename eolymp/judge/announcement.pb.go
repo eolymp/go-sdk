@@ -154,6 +154,52 @@ func (x *Announcement) GetMessage() *ecm.Content {
 	return nil
 }
 
+// AnnouncementSummary counts what a participant has not caught up with, which is what a badge needs.
+type AnnouncementSummary struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Announcements the caller has not read yet.
+	UnreadCount   uint32 `protobuf:"varint,1,opt,name=unread_count,json=unreadCount,proto3" json:"unread_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnnouncementSummary) Reset() {
+	*x = AnnouncementSummary{}
+	mi := &file_eolymp_judge_announcement_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnnouncementSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnnouncementSummary) ProtoMessage() {}
+
+func (x *AnnouncementSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_announcement_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnnouncementSummary.ProtoReflect.Descriptor instead.
+func (*AnnouncementSummary) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_announcement_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AnnouncementSummary) GetUnreadCount() uint32 {
+	if x != nil {
+		return x.UnreadCount
+	}
+	return 0
+}
+
 var File_eolymp_judge_announcement_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_announcement_proto_rawDesc = "" +
@@ -171,7 +217,9 @@ const file_eolymp_judge_announcement_proto_rawDesc = "" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x1a\n" +
 	"\x0eMESSAGE_RENDER\x10\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12\x11\n" +
-	"\rMESSAGE_VALUE\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\rMESSAGE_VALUE\x10\x02\"@\n" +
+	"\x13AnnouncementSummary\x12)\n" +
+	"\funread_count\x18\x01 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\vunreadCountB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_announcement_proto_rawDescOnce sync.Once
@@ -186,16 +234,17 @@ func file_eolymp_judge_announcement_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_announcement_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_judge_announcement_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_judge_announcement_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_judge_announcement_proto_goTypes = []any{
 	(Announcement_Extra)(0),       // 0: eolymp.judge.Announcement.Extra
 	(*Announcement)(nil),          // 1: eolymp.judge.Announcement
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(*ecm.Content)(nil),           // 3: eolymp.ecm.Content
+	(*AnnouncementSummary)(nil),   // 2: eolymp.judge.AnnouncementSummary
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*ecm.Content)(nil),           // 4: eolymp.ecm.Content
 }
 var file_eolymp_judge_announcement_proto_depIdxs = []int32{
-	2, // 0: eolymp.judge.Announcement.created_at:type_name -> google.protobuf.Timestamp
-	3, // 1: eolymp.judge.Announcement.message:type_name -> eolymp.ecm.Content
+	3, // 0: eolymp.judge.Announcement.created_at:type_name -> google.protobuf.Timestamp
+	4, // 1: eolymp.judge.Announcement.message:type_name -> eolymp.ecm.Content
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -214,7 +263,7 @@ func file_eolymp_judge_announcement_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_announcement_proto_rawDesc), len(file_eolymp_judge_announcement_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

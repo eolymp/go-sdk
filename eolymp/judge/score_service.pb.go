@@ -8,6 +8,7 @@ package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -259,8 +260,9 @@ func (x *WatchScoreInput) GetMode() Scoreboard_Mode {
 }
 
 type WatchScoreOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Score         *Score                 `protobuf:"bytes,1,opt,name=score,proto3" json:"score,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Score         *Score                   `protobuf:"bytes,1,opt,name=score,proto3" json:"score,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -300,6 +302,13 @@ func (x *WatchScoreOutput) GetScore() *Score {
 		return x.Score
 	}
 	return nil
+}
+
+func (x *WatchScoreOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
 }
 
 type DescribeScoreInput struct {
@@ -723,7 +732,7 @@ var File_eolymp_judge_score_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\x1a\x1deolymp/judge/scoreboard.proto\"2\n" +
+	" eolymp/judge/score_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/judge/score.proto\x1a!eolymp/judge/score_timeline.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a\x1ceolymp/wellknown/watch.proto\"2\n" +
 	"\x11RebuildScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"-\n" +
@@ -738,9 +747,10 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x121\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"=\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"u\n" +
 	"\x10WatchScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\"\x8d\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.judge.ScoreR\x05score\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"\x8d\x01\n" +
 	"\x12DescribeScoreInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
@@ -844,37 +854,39 @@ var file_eolymp_judge_score_service_proto_goTypes = []any{
 	(*ListScoreTimelineOutput)(nil),   // 13: eolymp.judge.ListScoreTimelineOutput
 	(*Score)(nil),                     // 14: eolymp.judge.Score
 	(Scoreboard_Mode)(0),              // 15: eolymp.judge.Scoreboard.Mode
-	(*ScoreTimelinePoint)(nil),        // 16: eolymp.judge.ScoreTimelinePoint
+	(wellknown.WatchEventType)(0),     // 16: eolymp.wellknown.WatchEventType
+	(*ScoreTimelinePoint)(nil),        // 17: eolymp.judge.ScoreTimelinePoint
 }
 var file_eolymp_judge_score_service_proto_depIdxs = []int32{
 	14, // 0: eolymp.judge.DescribeViewerScoreOutput.score:type_name -> eolymp.judge.Score
 	15, // 1: eolymp.judge.WatchScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
 	14, // 2: eolymp.judge.WatchScoreOutput.score:type_name -> eolymp.judge.Score
-	15, // 3: eolymp.judge.DescribeScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	14, // 4: eolymp.judge.DescribeScoreOutput.score:type_name -> eolymp.judge.Score
-	14, // 5: eolymp.judge.ImportScoreInput.scores:type_name -> eolymp.judge.Score
-	14, // 6: eolymp.judge.ExportScoreOutput.scores:type_name -> eolymp.judge.Score
-	15, // 7: eolymp.judge.ListScoreTimelineInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
-	16, // 8: eolymp.judge.ListScoreTimelineOutput.items:type_name -> eolymp.judge.ScoreTimelinePoint
-	2,  // 9: eolymp.judge.ScoreService.DescribeViewerScore:input_type -> eolymp.judge.DescribeViewerScoreInput
-	4,  // 10: eolymp.judge.ScoreService.WatchScore:input_type -> eolymp.judge.WatchScoreInput
-	6,  // 11: eolymp.judge.ScoreService.DescribeScore:input_type -> eolymp.judge.DescribeScoreInput
-	12, // 12: eolymp.judge.ScoreService.ListScoreTimeline:input_type -> eolymp.judge.ListScoreTimelineInput
-	8,  // 13: eolymp.judge.ScoreService.ImportScore:input_type -> eolymp.judge.ImportScoreInput
-	10, // 14: eolymp.judge.ScoreService.ExportScore:input_type -> eolymp.judge.ExportScoreInput
-	0,  // 15: eolymp.judge.ScoreService.RebuildScore:input_type -> eolymp.judge.RebuildScoreInput
-	3,  // 16: eolymp.judge.ScoreService.DescribeViewerScore:output_type -> eolymp.judge.DescribeViewerScoreOutput
-	5,  // 17: eolymp.judge.ScoreService.WatchScore:output_type -> eolymp.judge.WatchScoreOutput
-	7,  // 18: eolymp.judge.ScoreService.DescribeScore:output_type -> eolymp.judge.DescribeScoreOutput
-	13, // 19: eolymp.judge.ScoreService.ListScoreTimeline:output_type -> eolymp.judge.ListScoreTimelineOutput
-	9,  // 20: eolymp.judge.ScoreService.ImportScore:output_type -> eolymp.judge.ImportScoreOutput
-	11, // 21: eolymp.judge.ScoreService.ExportScore:output_type -> eolymp.judge.ExportScoreOutput
-	1,  // 22: eolymp.judge.ScoreService.RebuildScore:output_type -> eolymp.judge.RebuildScoreOutput
-	16, // [16:23] is the sub-list for method output_type
-	9,  // [9:16] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	16, // 3: eolymp.judge.WatchScoreOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	15, // 4: eolymp.judge.DescribeScoreInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	14, // 5: eolymp.judge.DescribeScoreOutput.score:type_name -> eolymp.judge.Score
+	14, // 6: eolymp.judge.ImportScoreInput.scores:type_name -> eolymp.judge.Score
+	14, // 7: eolymp.judge.ExportScoreOutput.scores:type_name -> eolymp.judge.Score
+	15, // 8: eolymp.judge.ListScoreTimelineInput.mode:type_name -> eolymp.judge.Scoreboard.Mode
+	17, // 9: eolymp.judge.ListScoreTimelineOutput.items:type_name -> eolymp.judge.ScoreTimelinePoint
+	2,  // 10: eolymp.judge.ScoreService.DescribeViewerScore:input_type -> eolymp.judge.DescribeViewerScoreInput
+	4,  // 11: eolymp.judge.ScoreService.WatchScore:input_type -> eolymp.judge.WatchScoreInput
+	6,  // 12: eolymp.judge.ScoreService.DescribeScore:input_type -> eolymp.judge.DescribeScoreInput
+	12, // 13: eolymp.judge.ScoreService.ListScoreTimeline:input_type -> eolymp.judge.ListScoreTimelineInput
+	8,  // 14: eolymp.judge.ScoreService.ImportScore:input_type -> eolymp.judge.ImportScoreInput
+	10, // 15: eolymp.judge.ScoreService.ExportScore:input_type -> eolymp.judge.ExportScoreInput
+	0,  // 16: eolymp.judge.ScoreService.RebuildScore:input_type -> eolymp.judge.RebuildScoreInput
+	3,  // 17: eolymp.judge.ScoreService.DescribeViewerScore:output_type -> eolymp.judge.DescribeViewerScoreOutput
+	5,  // 18: eolymp.judge.ScoreService.WatchScore:output_type -> eolymp.judge.WatchScoreOutput
+	7,  // 19: eolymp.judge.ScoreService.DescribeScore:output_type -> eolymp.judge.DescribeScoreOutput
+	13, // 20: eolymp.judge.ScoreService.ListScoreTimeline:output_type -> eolymp.judge.ListScoreTimelineOutput
+	9,  // 21: eolymp.judge.ScoreService.ImportScore:output_type -> eolymp.judge.ImportScoreOutput
+	11, // 22: eolymp.judge.ScoreService.ExportScore:output_type -> eolymp.judge.ExportScoreOutput
+	1,  // 23: eolymp.judge.ScoreService.RebuildScore:output_type -> eolymp.judge.RebuildScoreOutput
+	17, // [17:24] is the sub-list for method output_type
+	10, // [10:17] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_score_service_proto_init() }

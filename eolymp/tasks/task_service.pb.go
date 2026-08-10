@@ -270,8 +270,9 @@ func (x *WatchTaskInput) GetTaskId() string {
 }
 
 type WatchTaskOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Task          *Task                  `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Task          *Task                    `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -311,6 +312,13 @@ func (x *WatchTaskOutput) GetTask() *Task {
 		return x.Task
 	}
 	return nil
+}
+
+func (x *WatchTaskOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
 }
 
 type CancelTaskInput struct {
@@ -545,7 +553,7 @@ var File_eolymp_tasks_task_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_task_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/tasks/task_service.proto\x12\feolymp.tasks\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/tasks/task.proto\x1a!eolymp/wellknown/expression.proto\"\xea\x02\n" +
+	"\x1feolymp/tasks/task_service.proto\x12\feolymp.tasks\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/tasks/task.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xea\x02\n" +
 	"\x0eListTasksInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -564,9 +572,10 @@ const file_eolymp_tasks_task_service_proto_rawDesc = "" +
 	"\x12DescribeTaskOutput\x12&\n" +
 	"\x04task\x18\x01 \x01(\v2\x12.eolymp.tasks.TaskR\x04task\")\n" +
 	"\x0eWatchTaskInput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\"9\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"q\n" +
 	"\x0fWatchTaskOutput\x12&\n" +
-	"\x04task\x18\x01 \x01(\v2\x12.eolymp.tasks.TaskR\x04task\"*\n" +
+	"\x04task\x18\x01 \x01(\v2\x12.eolymp.tasks.TaskR\x04task\x126\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"*\n" +
 	"\x0fCancelTaskInput\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x12\n" +
 	"\x10CancelTaskOutput\")\n" +
@@ -633,34 +642,36 @@ var file_eolymp_tasks_task_service_proto_goTypes = []any{
 	(*RetryTaskOutput)(nil),            // 9: eolymp.tasks.RetryTaskOutput
 	(*ListTasksInput_Filter)(nil),      // 10: eolymp.tasks.ListTasksInput.Filter
 	(*Task)(nil),                       // 11: eolymp.tasks.Task
-	(*wellknown.ExpressionID)(nil),     // 12: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 13: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 14: eolymp.wellknown.ExpressionEnum
+	(wellknown.WatchEventType)(0),      // 12: eolymp.wellknown.WatchEventType
+	(*wellknown.ExpressionID)(nil),     // 13: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 14: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 15: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_tasks_task_service_proto_depIdxs = []int32{
 	10, // 0: eolymp.tasks.ListTasksInput.filters:type_name -> eolymp.tasks.ListTasksInput.Filter
 	11, // 1: eolymp.tasks.ListTasksOutput.items:type_name -> eolymp.tasks.Task
 	11, // 2: eolymp.tasks.DescribeTaskOutput.task:type_name -> eolymp.tasks.Task
 	11, // 3: eolymp.tasks.WatchTaskOutput.task:type_name -> eolymp.tasks.Task
-	12, // 4: eolymp.tasks.ListTasksInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	13, // 5: eolymp.tasks.ListTasksInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionString
-	13, // 6: eolymp.tasks.ListTasksInput.Filter.type:type_name -> eolymp.wellknown.ExpressionString
-	14, // 7: eolymp.tasks.ListTasksInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	0,  // 8: eolymp.tasks.TaskService.ListTasks:input_type -> eolymp.tasks.ListTasksInput
-	2,  // 9: eolymp.tasks.TaskService.DescribeTask:input_type -> eolymp.tasks.DescribeTaskInput
-	4,  // 10: eolymp.tasks.TaskService.WatchTask:input_type -> eolymp.tasks.WatchTaskInput
-	6,  // 11: eolymp.tasks.TaskService.CancelTask:input_type -> eolymp.tasks.CancelTaskInput
-	8,  // 12: eolymp.tasks.TaskService.RetryTask:input_type -> eolymp.tasks.RetryTaskInput
-	1,  // 13: eolymp.tasks.TaskService.ListTasks:output_type -> eolymp.tasks.ListTasksOutput
-	3,  // 14: eolymp.tasks.TaskService.DescribeTask:output_type -> eolymp.tasks.DescribeTaskOutput
-	5,  // 15: eolymp.tasks.TaskService.WatchTask:output_type -> eolymp.tasks.WatchTaskOutput
-	7,  // 16: eolymp.tasks.TaskService.CancelTask:output_type -> eolymp.tasks.CancelTaskOutput
-	9,  // 17: eolymp.tasks.TaskService.RetryTask:output_type -> eolymp.tasks.RetryTaskOutput
-	13, // [13:18] is the sub-list for method output_type
-	8,  // [8:13] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	12, // 4: eolymp.tasks.WatchTaskOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	13, // 5: eolymp.tasks.ListTasksInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 6: eolymp.tasks.ListTasksInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionString
+	14, // 7: eolymp.tasks.ListTasksInput.Filter.type:type_name -> eolymp.wellknown.ExpressionString
+	15, // 8: eolymp.tasks.ListTasksInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 9: eolymp.tasks.TaskService.ListTasks:input_type -> eolymp.tasks.ListTasksInput
+	2,  // 10: eolymp.tasks.TaskService.DescribeTask:input_type -> eolymp.tasks.DescribeTaskInput
+	4,  // 11: eolymp.tasks.TaskService.WatchTask:input_type -> eolymp.tasks.WatchTaskInput
+	6,  // 12: eolymp.tasks.TaskService.CancelTask:input_type -> eolymp.tasks.CancelTaskInput
+	8,  // 13: eolymp.tasks.TaskService.RetryTask:input_type -> eolymp.tasks.RetryTaskInput
+	1,  // 14: eolymp.tasks.TaskService.ListTasks:output_type -> eolymp.tasks.ListTasksOutput
+	3,  // 15: eolymp.tasks.TaskService.DescribeTask:output_type -> eolymp.tasks.DescribeTaskOutput
+	5,  // 16: eolymp.tasks.TaskService.WatchTask:output_type -> eolymp.tasks.WatchTaskOutput
+	7,  // 17: eolymp.tasks.TaskService.CancelTask:output_type -> eolymp.tasks.CancelTaskOutput
+	9,  // 18: eolymp.tasks.TaskService.RetryTask:output_type -> eolymp.tasks.RetryTaskOutput
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_tasks_task_service_proto_init() }

@@ -19,17 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SubmissionService_CreateSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/CreateSubmission"
-	SubmissionService_ListSubmissions_FullMethodName     = "/eolymp.judge.SubmissionService/ListSubmissions"
-	SubmissionService_DescribeSubmission_FullMethodName  = "/eolymp.judge.SubmissionService/DescribeSubmission"
-	SubmissionService_PrintSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/PrintSubmission"
-	SubmissionService_WatchSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/WatchSubmission"
-	SubmissionService_WatchSubmissionList_FullMethodName = "/eolymp.judge.SubmissionService/WatchSubmissionList"
-	SubmissionService_RetestSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/RetestSubmission"
-	SubmissionService_DeleteSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/DeleteSubmission"
-	SubmissionService_RestoreSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/RestoreSubmission"
-	SubmissionService_RetestProblem_FullMethodName       = "/eolymp.judge.SubmissionService/RetestProblem"
-	SubmissionService_AnalyzeSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/AnalyzeSubmission"
+	SubmissionService_CreateSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/CreateSubmission"
+	SubmissionService_ListSubmissions_FullMethodName      = "/eolymp.judge.SubmissionService/ListSubmissions"
+	SubmissionService_DescribeSubmission_FullMethodName   = "/eolymp.judge.SubmissionService/DescribeSubmission"
+	SubmissionService_PrintSubmission_FullMethodName      = "/eolymp.judge.SubmissionService/PrintSubmission"
+	SubmissionService_WatchSubmission_FullMethodName      = "/eolymp.judge.SubmissionService/WatchSubmission"
+	SubmissionService_WatchSubmissionsList_FullMethodName = "/eolymp.judge.SubmissionService/WatchSubmissionsList"
+	SubmissionService_RetestSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/RetestSubmission"
+	SubmissionService_DeleteSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/DeleteSubmission"
+	SubmissionService_RestoreSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/RestoreSubmission"
+	SubmissionService_RetestProblem_FullMethodName        = "/eolymp.judge.SubmissionService/RetestProblem"
+	SubmissionService_AnalyzeSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/AnalyzeSubmission"
 )
 
 // SubmissionServiceClient is the client API for SubmissionService service.
@@ -65,14 +65,11 @@ type SubmissionServiceClient interface {
 	// configured with, and does nothing else to the submission. Contests without a printer cannot print; to
 	// print code a participant has not submitted, use atlas EditorService.PrintEditorCode instead.
 	PrintSubmission(ctx context.Context, in *PrintSubmissionInput, opts ...grpc.CallOption) (*PrintSubmissionOutput, error)
-	// WatchSubmission streams one submission again every time its evaluation advances, which is how a client
-	// shows a verdict appearing live instead of polling DescribeSubmission. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchSubmission streams one submission as its evaluation advances.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
-	// WatchSubmissionList streams the contest's submissions as they are created, updated and deleted, which is
-	// what live jury and monitoring screens are built on; unlike ListSubmissions it cannot be narrowed down.
-	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
-	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
+	// WatchSubmissionsList streams the contest's submissions as they are created, updated and deleted, which
+	// is what live jury and monitoring screens are built on. Unlike ListSubmissions it cannot be narrowed down.
+	WatchSubmissionsList(ctx context.Context, in *WatchSubmissionsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionsListOutput], error)
 	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
 	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
 	// and its position in listings. The score it contributes can come out different, so the participant's
@@ -167,13 +164,13 @@ func (c *submissionServiceClient) WatchSubmission(ctx context.Context, in *Watch
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionClient = grpc.ServerStreamingClient[WatchSubmissionOutput]
 
-func (c *submissionServiceClient) WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error) {
+func (c *submissionServiceClient) WatchSubmissionsList(ctx context.Context, in *WatchSubmissionsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionsListOutput], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[1], SubmissionService_WatchSubmissionList_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &SubmissionService_ServiceDesc.Streams[1], SubmissionService_WatchSubmissionsList_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ClientStream: stream}
+	x := &grpc.GenericClientStream[WatchSubmissionsListInput, WatchSubmissionsListOutput]{ClientStream: stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -184,7 +181,7 @@ func (c *submissionServiceClient) WatchSubmissionList(ctx context.Context, in *W
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type SubmissionService_WatchSubmissionListClient = grpc.ServerStreamingClient[WatchSubmissionListOutput]
+type SubmissionService_WatchSubmissionsListClient = grpc.ServerStreamingClient[WatchSubmissionsListOutput]
 
 func (c *submissionServiceClient) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -269,14 +266,11 @@ type SubmissionServiceServer interface {
 	// configured with, and does nothing else to the submission. Contests without a printer cannot print; to
 	// print code a participant has not submitted, use atlas EditorService.PrintEditorCode instead.
 	PrintSubmission(context.Context, *PrintSubmissionInput) (*PrintSubmissionOutput, error)
-	// WatchSubmission streams one submission again every time its evaluation advances, which is how a client
-	// shows a verdict appearing live instead of polling DescribeSubmission. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchSubmission streams one submission as its evaluation advances.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
-	// WatchSubmissionList streams the contest's submissions as they are created, updated and deleted, which is
-	// what live jury and monitoring screens are built on; unlike ListSubmissions it cannot be narrowed down.
-	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
-	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
+	// WatchSubmissionsList streams the contest's submissions as they are created, updated and deleted, which
+	// is what live jury and monitoring screens are built on. Unlike ListSubmissions it cannot be narrowed down.
+	WatchSubmissionsList(*WatchSubmissionsListInput, grpc.ServerStreamingServer[WatchSubmissionsListOutput]) error
 	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
 	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
 	// and its position in listings. The score it contributes can come out different, so the participant's
@@ -326,8 +320,8 @@ func (UnimplementedSubmissionServiceServer) PrintSubmission(context.Context, *Pr
 func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchSubmission not implemented")
 }
-func (UnimplementedSubmissionServiceServer) WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error {
-	return status.Error(codes.Unimplemented, "method WatchSubmissionList not implemented")
+func (UnimplementedSubmissionServiceServer) WatchSubmissionsList(*WatchSubmissionsListInput, grpc.ServerStreamingServer[WatchSubmissionsListOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchSubmissionsList not implemented")
 }
 func (UnimplementedSubmissionServiceServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RetestSubmission not implemented")
@@ -447,16 +441,16 @@ func _SubmissionService_WatchSubmission_Handler(srv interface{}, stream grpc.Ser
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionServer = grpc.ServerStreamingServer[WatchSubmissionOutput]
 
-func _SubmissionService_WatchSubmissionList_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchSubmissionListInput)
+func _SubmissionService_WatchSubmissionsList_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchSubmissionsListInput)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(SubmissionServiceServer).WatchSubmissionList(m, &grpc.GenericServerStream[WatchSubmissionListInput, WatchSubmissionListOutput]{ServerStream: stream})
+	return srv.(SubmissionServiceServer).WatchSubmissionsList(m, &grpc.GenericServerStream[WatchSubmissionsListInput, WatchSubmissionsListOutput]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type SubmissionService_WatchSubmissionListServer = grpc.ServerStreamingServer[WatchSubmissionListOutput]
+type SubmissionService_WatchSubmissionsListServer = grpc.ServerStreamingServer[WatchSubmissionsListOutput]
 
 func _SubmissionService_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RetestSubmissionInput)
@@ -599,8 +593,8 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "WatchSubmissionList",
-			Handler:       _SubmissionService_WatchSubmissionList_Handler,
+			StreamName:    "WatchSubmissionsList",
+			Handler:       _SubmissionService_WatchSubmissionsList_Handler,
 			ServerStreams: true,
 		},
 	},

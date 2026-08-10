@@ -32,6 +32,7 @@ type SubmissionServiceClient interface {
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	// WatchSubmission streams the submission as its evaluation advances, closing once it is judged.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 }
 
@@ -99,6 +100,7 @@ type SubmissionServiceServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	// WatchSubmission streams the submission as its evaluation advances, closing once it is judged.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 }
 

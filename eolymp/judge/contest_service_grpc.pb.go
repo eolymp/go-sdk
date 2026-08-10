@@ -120,9 +120,8 @@ type ContestServiceClient interface {
 	// supports plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress
 	// as an activity, and read what was found as automatically detected violations through ViolationService.
 	AnalyzeContest(ctx context.Context, in *AnalyzeContestInput, opts ...grpc.CallOption) (*AnalyzeContestOutput, error)
-	// WatchContest streams the contest again every time it changes, which keeps a participant or jury interface
-	// in step with status transitions and setting changes without polling DescribeContest. It has no HTTP
-	// binding, so it is reachable over gRPC rather than through the REST API and the generated HTTP clients.
+	// WatchContest streams the contest whenever it changes, which keeps an interface in step with status
+	// transitions and setting changes without polling.
 	WatchContest(ctx context.Context, in *WatchContestInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchContestOutput], error)
 	// ListActivities returns a page of the long-running background jobs of one contest — problem retests,
 	// scoreboard rebuilds, plagiarism analysis — with the progress each made and the error which stopped it.
@@ -395,9 +394,8 @@ type ContestServiceServer interface {
 	// supports plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress
 	// as an activity, and read what was found as automatically detected violations through ViolationService.
 	AnalyzeContest(context.Context, *AnalyzeContestInput) (*AnalyzeContestOutput, error)
-	// WatchContest streams the contest again every time it changes, which keeps a participant or jury interface
-	// in step with status transitions and setting changes without polling DescribeContest. It has no HTTP
-	// binding, so it is reachable over gRPC rather than through the REST API and the generated HTTP clients.
+	// WatchContest streams the contest whenever it changes, which keeps an interface in step with status
+	// transitions and setting changes without polling.
 	WatchContest(*WatchContestInput, grpc.ServerStreamingServer[WatchContestOutput]) error
 	// ListActivities returns a page of the long-running background jobs of one contest — problem retests,
 	// scoreboard rebuilds, plagiarism analysis — with the progress each made and the error which stopped it.

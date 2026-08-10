@@ -320,9 +320,12 @@ func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/announcements/{announcement_id}/watch", _AnnouncementService_WatchAnnouncement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.WatchAnnouncement")
-	router.Handle(prefix+"/announcements:watch", _AnnouncementService_WatchAnnouncements_Rule0(cli)).
+	router.Handle(prefix+"/announcements:watch", _AnnouncementService_WatchAnnouncementsList_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.judge.AnnouncementService.WatchAnnouncements")
+		Name("eolymp.judge.AnnouncementService.WatchAnnouncementsList")
+	router.Handle(prefix+"/summary/announcements", _AnnouncementService_DescribeAnnouncementSummary_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.AnnouncementService.DescribeAnnouncementSummary")
 	router.Handle(prefix+"/summary/announcements/watch", _AnnouncementService_WatchAnnouncementSummary_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.WatchAnnouncementSummary")
@@ -517,22 +520,43 @@ func _AnnouncementService_WatchAnnouncement_Rule0(cli AnnouncementServiceClient)
 	})
 }
 
-func _AnnouncementService_WatchAnnouncements_Rule0(cli AnnouncementServiceClient) http.Handler {
+func _AnnouncementService_WatchAnnouncementsList_Rule0(cli AnnouncementServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &WatchAnnouncementsInput{}
+		in := &WatchAnnouncementsListInput{}
 
 		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		stream, err := cli.WatchAnnouncements(r.Context(), in)
+		stream, err := cli.WatchAnnouncementsList(r.Context(), in)
 		if err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		_AnnouncementService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
+	})
+}
+
+func _AnnouncementService_DescribeAnnouncementSummary_Rule0(cli AnnouncementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeAnnouncementSummaryInput{}
+
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeAnnouncementSummary(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AnnouncementService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

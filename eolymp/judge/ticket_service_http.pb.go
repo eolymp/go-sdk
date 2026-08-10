@@ -320,9 +320,12 @@ func RegisterTicketServiceHttpHandlers(router *mux.Router, prefix string, cli Ti
 	router.Handle(prefix+"/tickets/{ticket_id}/watch", _TicketService_WatchTicket_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.TicketService.WatchTicket")
-	router.Handle(prefix+"/tickets:watch", _TicketService_WatchTickets_Rule0(cli)).
+	router.Handle(prefix+"/tickets:watch", _TicketService_WatchTicketsList_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.judge.TicketService.WatchTickets")
+		Name("eolymp.judge.TicketService.WatchTicketsList")
+	router.Handle(prefix+"/summary/tickets", _TicketService_DescribeTicketSummary_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.TicketService.DescribeTicketSummary")
 	router.Handle(prefix+"/summary/tickets/watch", _TicketService_WatchTicketSummary_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.TicketService.WatchTicketSummary")
@@ -532,22 +535,43 @@ func _TicketService_WatchTicket_Rule0(cli TicketServiceClient) http.Handler {
 	})
 }
 
-func _TicketService_WatchTickets_Rule0(cli TicketServiceClient) http.Handler {
+func _TicketService_WatchTicketsList_Rule0(cli TicketServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &WatchTicketsInput{}
+		in := &WatchTicketsListInput{}
 
 		if err := _TicketService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
-		stream, err := cli.WatchTickets(r.Context(), in)
+		stream, err := cli.WatchTicketsList(r.Context(), in)
 		if err != nil {
 			_TicketService_HTTPWriteErrorResponse(w, err)
 			return
 		}
 
 		_TicketService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
+	})
+}
+
+func _TicketService_DescribeTicketSummary_Rule0(cli TicketServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTicketSummaryInput{}
+
+		if err := _TicketService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_TicketService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTicketSummary(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TicketService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TicketService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

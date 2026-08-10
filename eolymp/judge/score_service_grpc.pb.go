@@ -46,9 +46,7 @@ type ScoreServiceClient interface {
 	// the participation is resolved from the authenticated caller and the score comes back the way that
 	// participant is allowed to see it. Unlike the other reads here, it carries no scope requirement.
 	DescribeViewerScore(ctx context.Context, in *DescribeViewerScoreInput, opts ...grpc.CallOption) (*DescribeViewerScoreOutput, error)
-	// WatchScore streams a participant's score in the requested mode and pushes a new value whenever it
-	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Being
-	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchScore streams a participant's score in the requested mode and sends it again whenever it changes.
 	WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchScoreOutput], error)
 	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank.
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
@@ -176,9 +174,7 @@ type ScoreServiceServer interface {
 	// the participation is resolved from the authenticated caller and the score comes back the way that
 	// participant is allowed to see it. Unlike the other reads here, it carries no scope requirement.
 	DescribeViewerScore(context.Context, *DescribeViewerScoreInput) (*DescribeViewerScoreOutput, error)
-	// WatchScore streams a participant's score in the requested mode and pushes a new value whenever it
-	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Being
-	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
+	// WatchScore streams a participant's score in the requested mode and sends it again whenever it changes.
 	WatchScore(*WatchScoreInput, grpc.ServerStreamingServer[WatchScoreOutput]) error
 	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank.
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)

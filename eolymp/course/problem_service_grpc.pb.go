@@ -43,10 +43,12 @@ type ProblemServiceClient interface {
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
 	ListSubmissions(ctx context.Context, in *ListSubmissionsInput, opts ...grpc.CallOption) (*ListSubmissionsOutput, error)
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
+	// WatchSubmission streams the submission as its evaluation advances, closing once it is judged.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
+	// WatchRun streams a test run as it is compiled and executed, closing once it finishes.
 	WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRunOutput], error)
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
 }
@@ -207,10 +209,12 @@ type ProblemServiceServer interface {
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
 	ListSubmissions(context.Context, *ListSubmissionsInput) (*ListSubmissionsOutput, error)
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
+	// WatchSubmission streams the submission as its evaluation advances, closing once it is judged.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
+	// WatchRun streams a test run as it is compiled and executed, closing once it finishes.
 	WatchRun(*WatchRunInput, grpc.ServerStreamingServer[WatchRunOutput]) error
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
 }

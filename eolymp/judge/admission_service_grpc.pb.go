@@ -44,9 +44,7 @@ type AdmissionServiceClient interface {
 	// it, or a session already admitted, comes back with no code. Asking again from the same session hands
 	// back the same code for as long as it lives.
 	RequestAdmission(ctx context.Context, in *RequestAdmissionInput, opts ...grpc.CallOption) (*RequestAdmissionOutput, error)
-	// WatchAdmission is the streaming counterpart of RequestAdmission, meant to tell a waiting participant
-	// that their code has been accepted or has expired without polling for it. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body. The server
+	// WatchAdmission tells a waiting participant that their code has been accepted or has expired. The server
 	// currently ends the stream at once without reporting anything, so a client cannot rely on it yet.
 	WatchAdmission(ctx context.Context, in *WatchAdmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAdmissionOutput], error)
 	// DescribeAdmission resolves a code a participant is presenting into the participant behind it and their
@@ -136,9 +134,7 @@ type AdmissionServiceServer interface {
 	// it, or a session already admitted, comes back with no code. Asking again from the same session hands
 	// back the same code for as long as it lives.
 	RequestAdmission(context.Context, *RequestAdmissionInput) (*RequestAdmissionOutput, error)
-	// WatchAdmission is the streaming counterpart of RequestAdmission, meant to tell a waiting participant
-	// that their code has been accepted or has expired without polling for it. Being server-streaming,
-	// its HTTP binding responds with an event stream rather than a single JSON body. The server
+	// WatchAdmission tells a waiting participant that their code has been accepted or has expired. The server
 	// currently ends the stream at once without reporting anything, so a client cannot rely on it yet.
 	WatchAdmission(*WatchAdmissionInput, grpc.ServerStreamingServer[WatchAdmissionOutput]) error
 	// DescribeAdmission resolves a code a participant is presenting into the participant behind it and their
