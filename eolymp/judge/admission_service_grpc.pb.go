@@ -45,9 +45,9 @@ type AdmissionServiceClient interface {
 	// back the same code for as long as it lives.
 	RequestAdmission(ctx context.Context, in *RequestAdmissionInput, opts ...grpc.CallOption) (*RequestAdmissionOutput, error)
 	// WatchAdmission is the streaming counterpart of RequestAdmission, meant to tell a waiting participant
-	// that their code has been accepted or has expired without polling for it. It has no HTTP binding, and
-	// the server currently ends the stream at once without reporting anything, so a client cannot rely on
-	// it yet.
+	// that their code has been accepted or has expired without polling for it. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body. The server
+	// currently ends the stream at once without reporting anything, so a client cannot rely on it yet.
 	WatchAdmission(ctx context.Context, in *WatchAdmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAdmissionOutput], error)
 	// DescribeAdmission resolves a code a participant is presenting into the participant behind it and their
 	// member profile, so an organiser can check the identity of the person in front of them before letting them
@@ -137,9 +137,9 @@ type AdmissionServiceServer interface {
 	// back the same code for as long as it lives.
 	RequestAdmission(context.Context, *RequestAdmissionInput) (*RequestAdmissionOutput, error)
 	// WatchAdmission is the streaming counterpart of RequestAdmission, meant to tell a waiting participant
-	// that their code has been accepted or has expired without polling for it. It has no HTTP binding, and
-	// the server currently ends the stream at once without reporting anything, so a client cannot rely on
-	// it yet.
+	// that their code has been accepted or has expired without polling for it. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body. The server
+	// currently ends the stream at once without reporting anything, so a client cannot rely on it yet.
 	WatchAdmission(*WatchAdmissionInput, grpc.ServerStreamingServer[WatchAdmissionOutput]) error
 	// DescribeAdmission resolves a code a participant is presenting into the participant behind it and their
 	// member profile, so an organiser can check the identity of the person in front of them before letting them

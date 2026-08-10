@@ -74,17 +74,17 @@ type AnnouncementServiceClient interface {
 	// yet, which is how a client shows only what is new to the person in front of it.
 	ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput, opts ...grpc.CallOption) (*ListAnnouncementsOutput, error)
 	// WatchAnnouncement streams one announcement again whenever it changes, so a client showing it picks up
-	// a correction the organiser makes without polling. Server streaming only: there is no HTTP binding,
-	// the method is reachable through the SDKs.
+	// a correction the organiser makes without polling. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchAnnouncement(ctx context.Context, in *WatchAnnouncementInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementOutput], error)
 	// WatchAnnouncements streams the contest's announcements as they are published, changed and withdrawn,
 	// which is how a participant sees an announcement appear mid-contest instead of polling
-	// ListAnnouncements. Server streaming only: there is no HTTP binding, the method is reachable through
-	// the SDKs.
+	// ListAnnouncements. Being server-streaming, its HTTP binding responds with an event stream rather
+	// than a single JSON body.
 	WatchAnnouncements(ctx context.Context, in *WatchAnnouncementsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementsOutput], error)
 	// WatchAnnouncementSummary streams how many announcements the calling participant has not read yet, so
-	// a UI can keep an unread badge current without listing anything. Server streaming only: there is no
-	// HTTP binding, the method is reachable through the SDKs.
+	// a UI can keep an unread badge current without listing anything. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchAnnouncementSummary(ctx context.Context, in *WatchAnnouncementSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchAnnouncementSummaryOutput], error)
 }
 
@@ -266,17 +266,17 @@ type AnnouncementServiceServer interface {
 	// yet, which is how a client shows only what is new to the person in front of it.
 	ListAnnouncements(context.Context, *ListAnnouncementsInput) (*ListAnnouncementsOutput, error)
 	// WatchAnnouncement streams one announcement again whenever it changes, so a client showing it picks up
-	// a correction the organiser makes without polling. Server streaming only: there is no HTTP binding,
-	// the method is reachable through the SDKs.
+	// a correction the organiser makes without polling. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchAnnouncement(*WatchAnnouncementInput, grpc.ServerStreamingServer[WatchAnnouncementOutput]) error
 	// WatchAnnouncements streams the contest's announcements as they are published, changed and withdrawn,
 	// which is how a participant sees an announcement appear mid-contest instead of polling
-	// ListAnnouncements. Server streaming only: there is no HTTP binding, the method is reachable through
-	// the SDKs.
+	// ListAnnouncements. Being server-streaming, its HTTP binding responds with an event stream rather
+	// than a single JSON body.
 	WatchAnnouncements(*WatchAnnouncementsInput, grpc.ServerStreamingServer[WatchAnnouncementsOutput]) error
 	// WatchAnnouncementSummary streams how many announcements the calling participant has not read yet, so
-	// a UI can keep an unread badge current without listing anything. Server streaming only: there is no
-	// HTTP binding, the method is reachable through the SDKs.
+	// a UI can keep an unread badge current without listing anything. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchAnnouncementSummary(*WatchAnnouncementSummaryInput, grpc.ServerStreamingServer[WatchAnnouncementSummaryOutput]) error
 }
 

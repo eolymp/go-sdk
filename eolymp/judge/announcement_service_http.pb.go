@@ -18,6 +18,7 @@ import (
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
+	time "time"
 )
 
 var errAnnouncementServiceRequestTooLarge = errors.New("request too large")
@@ -199,6 +200,100 @@ func _AnnouncementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 	_, _ = w.Write(data)
 }
 
+// _AnnouncementService_HTTPWriteEventStream streams messages from recv to HTTP response as server-sent events
+func _AnnouncementService_HTTPWriteEventStream(w http.ResponseWriter, r *http.Request, recv func() (proto.Message, error)) {
+	ctrl := http.NewResponseController(w)
+
+	_ = ctrl.SetWriteDeadline(time.Time{})
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache, no-transform")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no")
+
+	if err := ctrl.Flush(); err != nil {
+		_AnnouncementService_HTTPWriteErrorResponse(w, status.Error(codes.Internal, "event streams are not supported by this server"))
+		return
+	}
+
+	type event struct {
+		out proto.Message
+		err error
+	}
+
+	queue := make(chan event)
+
+	go func() {
+		defer close(queue)
+
+		for {
+			out, err := recv()
+
+			select {
+			case queue <- event{out, err}:
+			case <-r.Context().Done():
+				return
+			}
+
+			if err != nil {
+				return
+			}
+		}
+	}()
+
+	heartbeat := time.NewTicker(20 * time.Second)
+	defer heartbeat.Stop()
+
+	for {
+		select {
+		case <-r.Context().Done():
+			return
+		case <-heartbeat.C:
+			if _, err := w.Write([]byte(": ping\n\n")); err != nil {
+				return
+			}
+
+			_ = ctrl.Flush()
+		case e, ok := <-queue:
+			if !ok {
+				return
+			}
+
+			if e.err != nil {
+				if errors.Is(e.err, io.EOF) {
+					_, _ = w.Write([]byte("event: eof\ndata: {}\n\n"))
+				} else {
+					_AnnouncementService_HTTPWriteEvent(w, "error", status.Convert(e.err).Proto())
+				}
+
+				_ = ctrl.Flush()
+
+				return
+			}
+
+			_AnnouncementService_HTTPWriteEvent(w, "", e.out)
+
+			_ = ctrl.Flush()
+		}
+	}
+}
+
+// _AnnouncementService_HTTPWriteEvent writes single server-sent event, unnamed when name is empty
+func _AnnouncementService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.Message) {
+	data, err := protojson.Marshal(v)
+	if err != nil {
+		return
+	}
+
+	if name != "" {
+		_, _ = w.Write([]byte("event: " + name + "\n"))
+	}
+
+	_, _ = w.Write([]byte("data: "))
+	_, _ = w.Write(data)
+	_, _ = w.Write([]byte("\n\n"))
+}
+
 // RegisterAnnouncementServiceHttpHandlers adds handlers for for AnnouncementServiceClient
 func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, cli AnnouncementServiceClient) {
 	router.Handle(prefix+"/announcements", _AnnouncementService_CreateAnnouncement_Rule0(cli)).
@@ -222,6 +317,15 @@ func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/announcements", _AnnouncementService_ListAnnouncements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.ListAnnouncements")
+	router.Handle(prefix+"/announcements/{announcement_id}/watch", _AnnouncementService_WatchAnnouncement_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.AnnouncementService.WatchAnnouncement")
+	router.Handle(prefix+"/announcements:watch", _AnnouncementService_WatchAnnouncements_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.AnnouncementService.WatchAnnouncements")
+	router.Handle(prefix+"/summary/announcements/watch", _AnnouncementService_WatchAnnouncementSummary_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.AnnouncementService.WatchAnnouncementSummary")
 }
 
 // RegisterAnnouncementServiceHttpProxy adds proxy handlers for for AnnouncementServiceClient
@@ -388,5 +492,65 @@ func _AnnouncementService_ListAnnouncements_Rule0(cli AnnouncementServiceClient)
 		}
 
 		_AnnouncementService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AnnouncementService_WatchAnnouncement_Rule0(cli AnnouncementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchAnnouncementInput{}
+
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AnnouncementId = vars["announcement_id"]
+
+		stream, err := cli.WatchAnnouncement(r.Context(), in)
+		if err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AnnouncementService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
+	})
+}
+
+func _AnnouncementService_WatchAnnouncements_Rule0(cli AnnouncementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchAnnouncementsInput{}
+
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		stream, err := cli.WatchAnnouncements(r.Context(), in)
+		if err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AnnouncementService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
+	})
+}
+
+func _AnnouncementService_WatchAnnouncementSummary_Rule0(cli AnnouncementServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchAnnouncementSummaryInput{}
+
+		if err := _AnnouncementService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		stream, err := cli.WatchAnnouncementSummary(r.Context(), in)
+		if err != nil {
+			_AnnouncementService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AnnouncementService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }

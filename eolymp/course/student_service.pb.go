@@ -1624,7 +1624,7 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"P\n" +
 	"\x16ListModuleGradesOutput\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .eolymp.course.Material.ProgressR\x05items2\xb7\x11\n" +
+	"\x05items\x18\x01 \x03(\v2 .eolymp.course.Material.ProgressR\x05items2\xda\x11\n" +
 	"\x0eStudentService\x12\x93\x01\n" +
 	"\rCreateStudent\x12!.eolymp.course.CreateStudentInput\x1a\".eolymp.course.CreateStudentOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1655,13 +1655,13 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\v\x12\t/students\x12\x80\x01\n" +
-	"\fWatchStudent\x12 .eolymp.course.WatchStudentInput\x1a!.eolymp.course.WatchStudentOutput\")\xea\xe2\n" +
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\v\x12\t/students\x12\xa3\x01\n" +
+	"\fWatchStudent\x12 .eolymp.course.WatchStudentInput\x1a!.eolymp.course.WatchStudentOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read0\x01\x12\x85\x01\n" +
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1d\x12\x1b/students/{member_id}/watch0\x01\x12\x85\x01\n" +
 	"\n" +
 	"JoinCourse\x12\x1e.eolymp.course.JoinCourseInput\x1a\x1f.eolymp.course.JoinCourseOutput\"6\xea\xe2\n" +
 	"\v\xf5\xe2\n" +

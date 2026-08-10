@@ -18,6 +18,7 @@ import (
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
+	time "time"
 )
 
 var errScoreServiceRequestTooLarge = errors.New("request too large")
@@ -199,11 +200,108 @@ func _ScoreService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _ScoreService_HTTPWriteEventStream streams messages from recv to HTTP response as server-sent events
+func _ScoreService_HTTPWriteEventStream(w http.ResponseWriter, r *http.Request, recv func() (proto.Message, error)) {
+	ctrl := http.NewResponseController(w)
+
+	_ = ctrl.SetWriteDeadline(time.Time{})
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache, no-transform")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no")
+
+	if err := ctrl.Flush(); err != nil {
+		_ScoreService_HTTPWriteErrorResponse(w, status.Error(codes.Internal, "event streams are not supported by this server"))
+		return
+	}
+
+	type event struct {
+		out proto.Message
+		err error
+	}
+
+	queue := make(chan event)
+
+	go func() {
+		defer close(queue)
+
+		for {
+			out, err := recv()
+
+			select {
+			case queue <- event{out, err}:
+			case <-r.Context().Done():
+				return
+			}
+
+			if err != nil {
+				return
+			}
+		}
+	}()
+
+	heartbeat := time.NewTicker(20 * time.Second)
+	defer heartbeat.Stop()
+
+	for {
+		select {
+		case <-r.Context().Done():
+			return
+		case <-heartbeat.C:
+			if _, err := w.Write([]byte(": ping\n\n")); err != nil {
+				return
+			}
+
+			_ = ctrl.Flush()
+		case e, ok := <-queue:
+			if !ok {
+				return
+			}
+
+			if e.err != nil {
+				if errors.Is(e.err, io.EOF) {
+					_, _ = w.Write([]byte("event: eof\ndata: {}\n\n"))
+				} else {
+					_ScoreService_HTTPWriteEvent(w, "error", status.Convert(e.err).Proto())
+				}
+
+				_ = ctrl.Flush()
+
+				return
+			}
+
+			_ScoreService_HTTPWriteEvent(w, "", e.out)
+
+			_ = ctrl.Flush()
+		}
+	}
+}
+
+// _ScoreService_HTTPWriteEvent writes single server-sent event, unnamed when name is empty
+func _ScoreService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.Message) {
+	data, err := protojson.Marshal(v)
+	if err != nil {
+		return
+	}
+
+	if name != "" {
+		_, _ = w.Write([]byte("event: " + name + "\n"))
+	}
+
+	_, _ = w.Write([]byte("data: "))
+	_, _ = w.Write(data)
+	_, _ = w.Write([]byte("\n\n"))
+}
+
 // RegisterScoreServiceHttpHandlers adds handlers for for ScoreServiceClient
 func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreServiceClient) {
 	router.Handle(prefix+"/introspect/score", _ScoreService_DescribeViewerScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeViewerScore")
+	router.Handle(prefix+"/participants/{participant_id}/score/watch", _ScoreService_WatchScore_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ScoreService.WatchScore")
 	router.Handle(prefix+"/participants/{participant_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeScore")
@@ -244,6 +342,28 @@ func _ScoreService_DescribeViewerScore_Rule0(cli ScoreServiceClient) http.Handle
 		}
 
 		_ScoreService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreService_WatchScore_Rule0(cli ScoreServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchScoreInput{}
+
+		if err := _ScoreService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ScoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ParticipantId = vars["participant_id"]
+
+		stream, err := cli.WatchScore(r.Context(), in)
+		if err != nil {
+			_ScoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }
 

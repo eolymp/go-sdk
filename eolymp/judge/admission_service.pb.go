@@ -458,20 +458,20 @@ const file_eolymp_judge_admission_service_proto_rawDesc = "" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\f\n" +
 	"\bACCEPTED\x10\x01\x12\v\n" +
-	"\aEXPIRED\x10\x022\xb3\x05\n" +
+	"\aEXPIRED\x10\x022\xcb\x05\n" +
 	"\x10AdmissionService\x12\xa9\x01\n" +
 	"\x10RequestAdmission\x12#.eolymp.judge.RequestAdmissionInput\x1a$.eolymp.judge.RequestAdmissionOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x14\"\x12/admission:request\x12\x8b\x01\n" +
-	"\x0eWatchAdmission\x12!.eolymp.judge.WatchAdmissionInput\x1a\".eolymp.judge.WatchAdmissionOutput\"0\xea\xe2\n" +
+	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x14\"\x12/admission:request\x12\xa3\x01\n" +
+	"\x0eWatchAdmission\x12!.eolymp.judge.WatchAdmissionInput\x1a\".eolymp.judge.WatchAdmissionOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate0\x01\x12\xa6\x01\n" +
+	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x12\x12\x10/admission:watch0\x01\x12\xa6\x01\n" +
 	"\x11DescribeAdmission\x12$.eolymp.judge.DescribeAdmissionInput\x1a%.eolymp.judge.DescribeAdmissionOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +

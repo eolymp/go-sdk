@@ -84,16 +84,16 @@ type TicketServiceClient interface {
 	// no create rpc.
 	ReplyTicket(ctx context.Context, in *ReplyTicketInput, opts ...grpc.CallOption) (*ReplyTicketOutput, error)
 	// WatchTicket keeps a stream open for one ticket and pushes a fresh copy of it every time it changes,
-	// so an open conversation stays current without polling. Being server-streaming it has no HTTP binding
-	// and is reachable only through the SDKs.
+	// so an open conversation stays current without polling. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchTicket(ctx context.Context, in *WatchTicketInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketOutput], error)
 	// WatchTickets is the live counterpart of ListTickets: it streams an event whenever a matching question
-	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming
-	// it has no HTTP binding and is reachable only through the SDKs.
+	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchTickets(ctx context.Context, in *WatchTicketsInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketsOutput], error)
 	// WatchTicketSummary streams running totals of how much of the inbox is unread and how much still waits
-	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming
-	// it has no HTTP binding and is reachable only through the SDKs.
+	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchTicketSummary(ctx context.Context, in *WatchTicketSummaryInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchTicketSummaryOutput], error)
 	// ListReplies returns the conversation held on one ticket, each message attributed either to the
 	// participant who asked or to the jury member who answered. In a contest configured to hide jury
@@ -373,16 +373,16 @@ type TicketServiceServer interface {
 	// no create rpc.
 	ReplyTicket(context.Context, *ReplyTicketInput) (*ReplyTicketOutput, error)
 	// WatchTicket keeps a stream open for one ticket and pushes a fresh copy of it every time it changes,
-	// so an open conversation stays current without polling. Being server-streaming it has no HTTP binding
-	// and is reachable only through the SDKs.
+	// so an open conversation stays current without polling. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchTicket(*WatchTicketInput, grpc.ServerStreamingServer[WatchTicketOutput]) error
 	// WatchTickets is the live counterpart of ListTickets: it streams an event whenever a matching question
-	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming
-	// it has no HTTP binding and is reachable only through the SDKs.
+	// appears, changes or disappears, which is what keeps a jury inbox up to date. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchTickets(*WatchTicketsInput, grpc.ServerStreamingServer[WatchTicketsOutput]) error
 	// WatchTicketSummary streams running totals of how much of the inbox is unread and how much still waits
-	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming
-	// it has no HTTP binding and is reachable only through the SDKs.
+	// for an answer, which is enough to drive a badge without listing any tickets. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchTicketSummary(*WatchTicketSummaryInput, grpc.ServerStreamingServer[WatchTicketSummaryOutput]) error
 	// ListReplies returns the conversation held on one ticket, each message attributed either to the
 	// participant who asked or to the jury member who answered. In a contest configured to hide jury

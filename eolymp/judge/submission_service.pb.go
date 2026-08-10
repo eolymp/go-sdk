@@ -1405,7 +1405,7 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x16AnalyzeSubmissionInput\x12#\n" +
 	"\rsubmission_id\x18\n" +
 	" \x01(\tR\fsubmissionId\"\x19\n" +
-	"\x17AnalyzeSubmissionOutput2\x9a\x0f\n" +
+	"\x17AnalyzeSubmissionOutput2\xde\x0f\n" +
 	"\x11SubmissionService\x12\xc0\x01\n" +
 	"\x10CreateSubmission\x12#.eolymp.judge.CreateSubmissionInput\x1a$.eolymp.judge.CreateSubmissionOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1434,19 +1434,19 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02$\"\"/submissions/{submission_id}/print\x12\x87\x01\n" +
-	"\x0fWatchSubmission\x12\".eolymp.judge.WatchSubmissionInput\x1a#.eolymp.judge.WatchSubmissionOutput\")\xea\xe2\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02$\"\"/submissions/{submission_id}/print\x12\xb1\x01\n" +
+	"\x0fWatchSubmission\x12\".eolymp.judge.WatchSubmissionInput\x1a#.eolymp.judge.WatchSubmissionOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12\x93\x01\n" +
-	"\x13WatchSubmissionList\x12&.eolymp.judge.WatchSubmissionListInput\x1a'.eolymp.judge.WatchSubmissionListOutput\")\xea\xe2\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x12\xad\x01\n" +
+	"\x13WatchSubmissionList\x12&.eolymp.judge.WatchSubmissionListInput\x1a'.eolymp.judge.WatchSubmissionListOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12\xb4\x01\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x14\x12\x12/submissions:watch0\x01\x12\xb4\x01\n" +
 	"\x10RetestSubmission\x12#.eolymp.judge.RetestSubmissionInput\x1a$.eolymp.judge.RetestSubmissionOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +

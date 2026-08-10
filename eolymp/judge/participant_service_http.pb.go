@@ -18,6 +18,7 @@ import (
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
+	time "time"
 )
 
 var errParticipantServiceRequestTooLarge = errors.New("request too large")
@@ -199,6 +200,100 @@ func _ParticipantService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) 
 	_, _ = w.Write(data)
 }
 
+// _ParticipantService_HTTPWriteEventStream streams messages from recv to HTTP response as server-sent events
+func _ParticipantService_HTTPWriteEventStream(w http.ResponseWriter, r *http.Request, recv func() (proto.Message, error)) {
+	ctrl := http.NewResponseController(w)
+
+	_ = ctrl.SetWriteDeadline(time.Time{})
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache, no-transform")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no")
+
+	if err := ctrl.Flush(); err != nil {
+		_ParticipantService_HTTPWriteErrorResponse(w, status.Error(codes.Internal, "event streams are not supported by this server"))
+		return
+	}
+
+	type event struct {
+		out proto.Message
+		err error
+	}
+
+	queue := make(chan event)
+
+	go func() {
+		defer close(queue)
+
+		for {
+			out, err := recv()
+
+			select {
+			case queue <- event{out, err}:
+			case <-r.Context().Done():
+				return
+			}
+
+			if err != nil {
+				return
+			}
+		}
+	}()
+
+	heartbeat := time.NewTicker(20 * time.Second)
+	defer heartbeat.Stop()
+
+	for {
+		select {
+		case <-r.Context().Done():
+			return
+		case <-heartbeat.C:
+			if _, err := w.Write([]byte(": ping\n\n")); err != nil {
+				return
+			}
+
+			_ = ctrl.Flush()
+		case e, ok := <-queue:
+			if !ok {
+				return
+			}
+
+			if e.err != nil {
+				if errors.Is(e.err, io.EOF) {
+					_, _ = w.Write([]byte("event: eof\ndata: {}\n\n"))
+				} else {
+					_ParticipantService_HTTPWriteEvent(w, "error", status.Convert(e.err).Proto())
+				}
+
+				_ = ctrl.Flush()
+
+				return
+			}
+
+			_ParticipantService_HTTPWriteEvent(w, "", e.out)
+
+			_ = ctrl.Flush()
+		}
+	}
+}
+
+// _ParticipantService_HTTPWriteEvent writes single server-sent event, unnamed when name is empty
+func _ParticipantService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.Message) {
+	data, err := protojson.Marshal(v)
+	if err != nil {
+		return
+	}
+
+	if name != "" {
+		_, _ = w.Write([]byte("event: " + name + "\n"))
+	}
+
+	_, _ = w.Write([]byte("data: "))
+	_, _ = w.Write(data)
+	_, _ = w.Write([]byte("\n\n"))
+}
+
 // RegisterParticipantServiceHttpHandlers adds handlers for for ParticipantServiceClient
 func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, cli ParticipantServiceClient) {
 	router.Handle(prefix+"/participants", _ParticipantService_AssignParticipant_Rule0(cli)).
@@ -228,6 +323,9 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/participants", _ParticipantService_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.ListParticipants")
+	router.Handle(prefix+"/participants/{participant_id}/watch", _ParticipantService_WatchParticipant_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ParticipantService.WatchParticipant")
 	router.Handle(prefix+"/join", _ParticipantService_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.JoinContest")
@@ -457,6 +555,28 @@ func _ParticipantService_ListParticipants_Rule0(cli ParticipantServiceClient) ht
 		}
 
 		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_WatchParticipant_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchParticipantInput{}
+
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ParticipantId = vars["participant_id"]
+
+		stream, err := cli.WatchParticipant(r.Context(), in)
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }
 

@@ -18,6 +18,7 @@ import (
 	http "net/http"
 	url "net/url"
 	strconv "strconv"
+	time "time"
 )
 
 var errContestServiceRequestTooLarge = errors.New("request too large")
@@ -199,6 +200,100 @@ func _ContestService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 	_, _ = w.Write(data)
 }
 
+// _ContestService_HTTPWriteEventStream streams messages from recv to HTTP response as server-sent events
+func _ContestService_HTTPWriteEventStream(w http.ResponseWriter, r *http.Request, recv func() (proto.Message, error)) {
+	ctrl := http.NewResponseController(w)
+
+	_ = ctrl.SetWriteDeadline(time.Time{})
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache, no-transform")
+	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no")
+
+	if err := ctrl.Flush(); err != nil {
+		_ContestService_HTTPWriteErrorResponse(w, status.Error(codes.Internal, "event streams are not supported by this server"))
+		return
+	}
+
+	type event struct {
+		out proto.Message
+		err error
+	}
+
+	queue := make(chan event)
+
+	go func() {
+		defer close(queue)
+
+		for {
+			out, err := recv()
+
+			select {
+			case queue <- event{out, err}:
+			case <-r.Context().Done():
+				return
+			}
+
+			if err != nil {
+				return
+			}
+		}
+	}()
+
+	heartbeat := time.NewTicker(20 * time.Second)
+	defer heartbeat.Stop()
+
+	for {
+		select {
+		case <-r.Context().Done():
+			return
+		case <-heartbeat.C:
+			if _, err := w.Write([]byte(": ping\n\n")); err != nil {
+				return
+			}
+
+			_ = ctrl.Flush()
+		case e, ok := <-queue:
+			if !ok {
+				return
+			}
+
+			if e.err != nil {
+				if errors.Is(e.err, io.EOF) {
+					_, _ = w.Write([]byte("event: eof\ndata: {}\n\n"))
+				} else {
+					_ContestService_HTTPWriteEvent(w, "error", status.Convert(e.err).Proto())
+				}
+
+				_ = ctrl.Flush()
+
+				return
+			}
+
+			_ContestService_HTTPWriteEvent(w, "", e.out)
+
+			_ = ctrl.Flush()
+		}
+	}
+}
+
+// _ContestService_HTTPWriteEvent writes single server-sent event, unnamed when name is empty
+func _ContestService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.Message) {
+	data, err := protojson.Marshal(v)
+	if err != nil {
+		return
+	}
+
+	if name != "" {
+		_, _ = w.Write([]byte("event: " + name + "\n"))
+	}
+
+	_, _ = w.Write([]byte("data: "))
+	_, _ = w.Write(data)
+	_, _ = w.Write([]byte("\n\n"))
+}
+
 // RegisterContestServiceHttpHandlers adds handlers for for ContestServiceClient
 func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli ContestServiceClient) {
 	router.Handle(prefix+"/contests", _ContestService_CreateContest_Rule0(cli)).
@@ -240,6 +335,9 @@ func RegisterContestServiceHttpHandlers(router *mux.Router, prefix string, cli C
 	router.Handle(prefix+"/contests/{contest_id}/analyze", _ContestService_AnalyzeContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ContestService.AnalyzeContest")
+	router.Handle(prefix+"/contests/{contest_id}/watch", _ContestService_WatchContest_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ContestService.WatchContest")
 	router.Handle(prefix+"/contests/{contest_id}/activities", _ContestService_ListActivities_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ContestService.ListActivities")
@@ -556,6 +654,28 @@ func _ContestService_AnalyzeContest_Rule0(cli ContestServiceClient) http.Handler
 		}
 
 		_ContestService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ContestService_WatchContest_Rule0(cli ContestServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchContestInput{}
+
+		if err := _ContestService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		stream, err := cli.WatchContest(r.Context(), in)
+		if err != nil {
+			_ContestService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ContestService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }
 

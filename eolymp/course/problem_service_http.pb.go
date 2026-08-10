@@ -314,6 +314,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/submissions/{submission_id}", _ProblemService_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.DescribeSubmission")
+	router.Handle(prefix+"/submissions/{submission_id}/watch", _ProblemService_WatchSubmission_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.WatchSubmission")
 	router.Handle(prefix+"/template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.LookupCodeTemplate")
@@ -462,6 +465,28 @@ func _ProblemService_DescribeSubmission_Rule0(cli ProblemServiceClient) http.Han
 		}
 
 		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_WatchSubmission_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchSubmissionInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		stream, err := cli.WatchSubmission(r.Context(), in)
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }
 

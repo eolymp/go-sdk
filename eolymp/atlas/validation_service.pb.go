@@ -317,7 +317,7 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\x15WatchValidationOutput\x128\n" +
 	"\n" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
-	"validation2\x85\x04\n" +
+	"validation2\xaf\x04\n" +
 	"\x11ValidationService\x12\x94\x01\n" +
 	"\rRunValidation\x12 .eolymp.atlas.RunValidationInput\x1a!.eolymp.atlas.RunValidationOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -330,13 +330,13 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/validations/{validation_id}\x12\x87\x01\n" +
-	"\x0fWatchValidation\x12\".eolymp.atlas.WatchValidationInput\x1a#.eolymp.atlas.WatchValidationOutput\")\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/validations/{validation_id}\x12\xb1\x01\n" +
+	"\x0fWatchValidation\x12\".eolymp.atlas.WatchValidationInput\x1a#.eolymp.atlas.WatchValidationOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02$\x12\"/validations/{validation_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_validation_service_proto_rawDescOnce sync.Once

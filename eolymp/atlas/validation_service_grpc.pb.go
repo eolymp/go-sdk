@@ -49,8 +49,8 @@ type ValidationServiceClient interface {
 	DescribeValidation(ctx context.Context, in *DescribeValidationInput, opts ...grpc.CallOption) (*DescribeValidationOutput, error)
 	// WatchValidation streams a validation as it progresses instead of having the caller poll DescribeValidation.
 	// Every message carries a whole snapshot and the version only ever increases, so a snapshot older than the
-	// last one seen can be discarded. It has no HTTP binding and is therefore available through the gRPC and SDK
-	// clients only, not in the REST reference.
+	// last one seen can be discarded. Being server-streaming, its HTTP binding responds with an
+	// event stream rather than a single JSON body.
 	WatchValidation(ctx context.Context, in *WatchValidationInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchValidationOutput], error)
 }
 
@@ -126,8 +126,8 @@ type ValidationServiceServer interface {
 	DescribeValidation(context.Context, *DescribeValidationInput) (*DescribeValidationOutput, error)
 	// WatchValidation streams a validation as it progresses instead of having the caller poll DescribeValidation.
 	// Every message carries a whole snapshot and the version only ever increases, so a snapshot older than the
-	// last one seen can be discarded. It has no HTTP binding and is therefore available through the gRPC and SDK
-	// clients only, not in the REST reference.
+	// last one seen can be discarded. Being server-streaming, its HTTP binding responds with an
+	// event stream rather than a single JSON body.
 	WatchValidation(*WatchValidationInput, grpc.ServerStreamingServer[WatchValidationOutput]) error
 }
 

@@ -60,13 +60,13 @@ type SubmissionServiceClient interface {
 	DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput, opts ...grpc.CallOption) (*DescribeSubmissionOutput, error)
 	// WatchSubmission streams the submission every time its evaluation advances, beginning with the state it
 	// is in when the stream opens, and closes the stream once the submission reaches a final status. This is
-	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only:
-	// there is no HTTP binding, the method is reachable through the SDKs.
+	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Being
+	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 	// WatchSubmissionList streams every submission of the space as it is created, updated or deleted, and
 	// keeps the stream open until the client goes away. It feeds live judge and monitoring screens, and unlike
 	// ListSubmissions it cannot be narrowed down and requires the space-wide permission to read submissions.
-	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
+	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
 	// ListSubmissions returns submissions of the space, newest first. A caller without the space-wide
 	// permission to read submissions gets only their own, silently. Deep listings are best walked by feeding
@@ -234,13 +234,13 @@ type SubmissionServiceServer interface {
 	DescribeSubmission(context.Context, *DescribeSubmissionInput) (*DescribeSubmissionOutput, error)
 	// WatchSubmission streams the submission every time its evaluation advances, beginning with the state it
 	// is in when the stream opens, and closes the stream once the submission reaches a final status. This is
-	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only:
-	// there is no HTTP binding, the method is reachable through the SDKs.
+	// how a UI shows a verdict appearing live instead of polling DescribeSubmission. Being
+	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 	// WatchSubmissionList streams every submission of the space as it is created, updated or deleted, and
 	// keeps the stream open until the client goes away. It feeds live judge and monitoring screens, and unlike
 	// ListSubmissions it cannot be narrowed down and requires the space-wide permission to read submissions.
-	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
+	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
 	// ListSubmissions returns submissions of the space, newest first. A caller without the space-wide
 	// permission to read submissions gets only their own, silently. Deep listings are best walked by feeding

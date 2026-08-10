@@ -2280,7 +2280,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\rUNKNOWN_EVENT\x10\x00\x12\v\n" +
 	"\aCREATED\x10\x01\x12\v\n" +
 	"\aUPDATED\x10\x02\x12\v\n" +
-	"\aDELETED\x10\x032\xcd\x13\n" +
+	"\aDELETED\x10\x032\xa5\x14\n" +
 	"\rTicketService\x12\x93\x01\n" +
 	"\fCreateTicket\x12\x1f.eolymp.judge.CreateTicketInput\x1a .eolymp.judge.CreateTicketOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2330,25 +2330,25 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x1e\"\x1c/tickets/{ticket_id}/replies\x12{\n" +
-	"\vWatchTicket\x12\x1e.eolymp.judge.WatchTicketInput\x1a\x1f.eolymp.judge.WatchTicketOutput\")\xea\xe2\n" +
+	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x1e\"\x1c/tickets/{ticket_id}/replies\x12\x9d\x01\n" +
+	"\vWatchTicket\x12\x1e.eolymp.judge.WatchTicketInput\x1a\x1f.eolymp.judge.WatchTicketOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12~\n" +
-	"\fWatchTickets\x12\x1f.eolymp.judge.WatchTicketsInput\x1a .eolymp.judge.WatchTicketsOutput\")\xea\xe2\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/tickets/{ticket_id}/watch0\x01\x12\x94\x01\n" +
+	"\fWatchTickets\x12\x1f.eolymp.judge.WatchTicketsInput\x1a .eolymp.judge.WatchTicketsOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12\x90\x01\n" +
-	"\x12WatchTicketSummary\x12%.eolymp.judge.WatchTicketSummaryInput\x1a&.eolymp.judge.WatchTicketSummaryOutput\")\xea\xe2\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/tickets:watch0\x01\x12\xae\x01\n" +
+	"\x12WatchTicketSummary\x12%.eolymp.judge.WatchTicketSummaryInput\x1a&.eolymp.judge.WatchTicketSummaryOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read0\x01\x12\x9d\x01\n" +
+	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/tickets/watch0\x01\x12\x9d\x01\n" +
 	"\vListReplies\x12\x1e.eolymp.judge.ListRepliesInput\x1a\x1f.eolymp.judge.ListRepliesOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +

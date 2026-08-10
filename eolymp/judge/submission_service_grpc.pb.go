@@ -66,12 +66,12 @@ type SubmissionServiceClient interface {
 	// print code a participant has not submitted, use atlas EditorService.PrintEditorCode instead.
 	PrintSubmission(ctx context.Context, in *PrintSubmissionInput, opts ...grpc.CallOption) (*PrintSubmissionOutput, error)
 	// WatchSubmission streams one submission again every time its evaluation advances, which is how a client
-	// shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only: there is no
-	// HTTP binding, the method is reachable through the SDKs.
+	// shows a verdict appearing live instead of polling DescribeSubmission. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 	// WatchSubmissionList streams the contest's submissions as they are created, updated and deleted, which is
 	// what live jury and monitoring screens are built on; unlike ListSubmissions it cannot be narrowed down.
-	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
+	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmissionList(ctx context.Context, in *WatchSubmissionListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionListOutput], error)
 	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
 	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
@@ -270,12 +270,12 @@ type SubmissionServiceServer interface {
 	// print code a participant has not submitted, use atlas EditorService.PrintEditorCode instead.
 	PrintSubmission(context.Context, *PrintSubmissionInput) (*PrintSubmissionOutput, error)
 	// WatchSubmission streams one submission again every time its evaluation advances, which is how a client
-	// shows a verdict appearing live instead of polling DescribeSubmission. Server streaming only: there is no
-	// HTTP binding, the method is reachable through the SDKs.
+	// shows a verdict appearing live instead of polling DescribeSubmission. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 	// WatchSubmissionList streams the contest's submissions as they are created, updated and deleted, which is
 	// what live jury and monitoring screens are built on; unlike ListSubmissions it cannot be narrowed down.
-	// Server streaming only: there is no HTTP binding, the method is reachable through the SDKs.
+	// Being server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchSubmissionList(*WatchSubmissionListInput, grpc.ServerStreamingServer[WatchSubmissionListOutput]) error
 	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
 	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time

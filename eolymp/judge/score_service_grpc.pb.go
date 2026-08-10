@@ -47,8 +47,8 @@ type ScoreServiceClient interface {
 	// participant is allowed to see it. Unlike the other reads here, it carries no scope requirement.
 	DescribeViewerScore(ctx context.Context, in *DescribeViewerScoreInput, opts ...grpc.CallOption) (*DescribeViewerScoreOutput, error)
 	// WatchScore streams a participant's score in the requested mode and pushes a new value whenever it
-	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Server streaming only:
-	// there is no HTTP binding, the method is reachable through the SDKs.
+	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Being
+	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchScore(ctx context.Context, in *WatchScoreInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchScoreOutput], error)
 	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank.
 	DescribeScore(ctx context.Context, in *DescribeScoreInput, opts ...grpc.CallOption) (*DescribeScoreOutput, error)
@@ -177,8 +177,8 @@ type ScoreServiceServer interface {
 	// participant is allowed to see it. Unlike the other reads here, it carries no scope requirement.
 	DescribeViewerScore(context.Context, *DescribeViewerScoreInput) (*DescribeViewerScoreOutput, error)
 	// WatchScore streams a participant's score in the requested mode and pushes a new value whenever it
-	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Server streaming only:
-	// there is no HTTP binding, the method is reachable through the SDKs.
+	// changes, so a screen can follow the ranking live instead of polling DescribeScore. Being
+	// server-streaming, its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchScore(*WatchScoreInput, grpc.ServerStreamingServer[WatchScoreOutput]) error
 	// DescribeScore returns one participant's score and its breakdown by problem, but not the rank.
 	DescribeScore(context.Context, *DescribeScoreInput) (*DescribeScoreOutput, error)

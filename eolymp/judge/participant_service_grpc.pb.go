@@ -94,8 +94,8 @@ type ParticipantServiceClient interface {
 	// and are returned by default.
 	ListParticipants(ctx context.Context, in *ListParticipantsInput, opts ...grpc.CallOption) (*ListParticipantsOutput, error)
 	// WatchParticipant streams a fresh copy of the record every time it changes, so a client can follow
-	// a start, a pause, a completion or an organiser's intervention without polling. Unlike the rest of
-	// the service it carries no HTTP binding.
+	// a start, a pause, a completion or an organiser's intervention without polling. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchParticipantOutput], error)
 	// deprecated
 	//
@@ -347,8 +347,8 @@ type ParticipantServiceServer interface {
 	// and are returned by default.
 	ListParticipants(context.Context, *ListParticipantsInput) (*ListParticipantsOutput, error)
 	// WatchParticipant streams a fresh copy of the record every time it changes, so a client can follow
-	// a start, a pause, a completion or an organiser's intervention without polling. Unlike the rest of
-	// the service it carries no HTTP binding.
+	// a start, a pause, a completion or an organiser's intervention without polling. Being server-streaming,
+	// its HTTP binding responds with an event stream rather than a single JSON body.
 	WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error
 	// deprecated
 	//
