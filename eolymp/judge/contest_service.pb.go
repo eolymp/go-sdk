@@ -1260,6 +1260,7 @@ func (x *AnalyzeContestInput) GetContestId() string {
 
 type AnalyzeContestOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"` // analysis runs in the background, follow it by this task
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1292,6 +1293,13 @@ func (x *AnalyzeContestOutput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use AnalyzeContestOutput.ProtoReflect.Descriptor instead.
 func (*AnalyzeContestOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_contest_service_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *AnalyzeContestOutput) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
 }
 
 type WatchContestInput struct {
@@ -1899,8 +1907,9 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x13ResumeContestOutput\"4\n" +
 	"\x13AnalyzeContestInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x16\n" +
-	"\x14AnalyzeContestOutput\"l\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"/\n" +
+	"\x14AnalyzeContestOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"l\n" +
 	"\x11WatchContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x128\n" +

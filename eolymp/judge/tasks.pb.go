@@ -121,6 +121,51 @@ func (x *RebuildScoreTask) GetContestId() string {
 	return ""
 }
 
+// AnalyzeContestTask is the payload of the background task which looks a contest over for cheating.
+type AnalyzeContestTask struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnalyzeContestTask) Reset() {
+	*x = AnalyzeContestTask{}
+	mi := &file_eolymp_judge_tasks_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnalyzeContestTask) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnalyzeContestTask) ProtoMessage() {}
+
+func (x *AnalyzeContestTask) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_tasks_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnalyzeContestTask.ProtoReflect.Descriptor instead.
+func (*AnalyzeContestTask) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_tasks_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *AnalyzeContestTask) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
+}
+
 // Checkpoint records how far the retest got, so a restarted task resumes instead of re-submitting
 // everything from the beginning.
 type RetestProblemTask_Checkpoint struct {
@@ -136,7 +181,7 @@ type RetestProblemTask_Checkpoint struct {
 
 func (x *RetestProblemTask_Checkpoint) Reset() {
 	*x = RetestProblemTask_Checkpoint{}
-	mi := &file_eolymp_judge_tasks_proto_msgTypes[2]
+	mi := &file_eolymp_judge_tasks_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -148,7 +193,7 @@ func (x *RetestProblemTask_Checkpoint) String() string {
 func (*RetestProblemTask_Checkpoint) ProtoMessage() {}
 
 func (x *RetestProblemTask_Checkpoint) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_tasks_proto_msgTypes[2]
+	mi := &file_eolymp_judge_tasks_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -194,6 +239,9 @@ const file_eolymp_judge_tasks_proto_rawDesc = "" +
 	"\bretested\x18\x02 \x01(\rR\bretested\"1\n" +
 	"\x10RebuildScoreTask\x12\x1d\n" +
 	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"3\n" +
+	"\x12AnalyzeContestTask\x12\x1d\n" +
+	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestIdB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
@@ -208,15 +256,16 @@ func file_eolymp_judge_tasks_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_tasks_proto_rawDescData
 }
 
-var file_eolymp_judge_tasks_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_judge_tasks_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_judge_tasks_proto_goTypes = []any{
 	(*RetestProblemTask)(nil),            // 0: eolymp.judge.RetestProblemTask
 	(*RebuildScoreTask)(nil),             // 1: eolymp.judge.RebuildScoreTask
-	(*RetestProblemTask_Checkpoint)(nil), // 2: eolymp.judge.RetestProblemTask.Checkpoint
-	(*timestamppb.Timestamp)(nil),        // 3: google.protobuf.Timestamp
+	(*AnalyzeContestTask)(nil),           // 2: eolymp.judge.AnalyzeContestTask
+	(*RetestProblemTask_Checkpoint)(nil), // 3: eolymp.judge.RetestProblemTask.Checkpoint
+	(*timestamppb.Timestamp)(nil),        // 4: google.protobuf.Timestamp
 }
 var file_eolymp_judge_tasks_proto_depIdxs = []int32{
-	3, // 0: eolymp.judge.RetestProblemTask.Checkpoint.submitted_before:type_name -> google.protobuf.Timestamp
+	4, // 0: eolymp.judge.RetestProblemTask.Checkpoint.submitted_before:type_name -> google.protobuf.Timestamp
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -235,7 +284,7 @@ func file_eolymp_judge_tasks_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_tasks_proto_rawDesc), len(file_eolymp_judge_tasks_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
