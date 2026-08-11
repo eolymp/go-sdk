@@ -26,19 +26,22 @@ const (
 type ListViolationsInput_Sort int32
 
 const (
-	ListViolationsInput_CREATED_AT ListViolationsInput_Sort = 0
-	ListViolationsInput_CONFIDENCE ListViolationsInput_Sort = 1
+	ListViolationsInput_DEFAULT    ListViolationsInput_Sort = 0
+	ListViolationsInput_CREATED_AT ListViolationsInput_Sort = 1
+	ListViolationsInput_CONFIDENCE ListViolationsInput_Sort = 2
 )
 
 // Enum value maps for ListViolationsInput_Sort.
 var (
 	ListViolationsInput_Sort_name = map[int32]string{
-		0: "CREATED_AT",
-		1: "CONFIDENCE",
+		0: "DEFAULT",
+		1: "CREATED_AT",
+		2: "CONFIDENCE",
 	}
 	ListViolationsInput_Sort_value = map[string]int32{
-		"CREATED_AT": 0,
-		"CONFIDENCE": 1,
+		"DEFAULT":    0,
+		"CREATED_AT": 1,
+		"CONFIDENCE": 2,
 	}
 )
 
@@ -495,7 +498,7 @@ func (x *ListViolationsInput) GetSort() ListViolationsInput_Sort {
 	if x != nil {
 		return x.Sort
 	}
-	return ListViolationsInput_CREATED_AT
+	return ListViolationsInput_DEFAULT
 }
 
 func (x *ListViolationsInput) GetOrder() wellknown.Direction {
@@ -695,7 +698,7 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\x16DescribeViolationInput\x12!\n" +
 	"\fviolation_id\x18\x01 \x01(\tR\vviolationId\"P\n" +
 	"\x17DescribeViolationOutput\x125\n" +
-	"\tviolation\x18\x01 \x01(\v2\x17.eolymp.judge.ViolationR\tviolation\"\xc5\b\n" +
+	"\tviolation\x18\x01 \x01(\v2\x17.eolymp.judge.ViolationR\tviolation\"\xd2\b\n" +
 	"\x13ListViolationsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -717,12 +720,13 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\rsubmission_id\x18\b \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\fsubmissionId\x12=\n" +
 	"\n" +
 	"created_by\x18\a \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tcreatedBy\x12A\n" +
-	"\fconfirmed_by\x18\t \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vconfirmedBy\"&\n" +
-	"\x04Sort\x12\x0e\n" +
+	"\fconfirmed_by\x18\t \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vconfirmedBy\"3\n" +
+	"\x04Sort\x12\v\n" +
+	"\aDEFAULT\x10\x00\x12\x0e\n" +
 	"\n" +
-	"CREATED_AT\x10\x00\x12\x0e\n" +
+	"CREATED_AT\x10\x01\x12\x0e\n" +
 	"\n" +
-	"CONFIDENCE\x10\x01\"[\n" +
+	"CONFIDENCE\x10\x02\"[\n" +
 	"\x14ListViolationsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
 	"\x05items\x18\x02 \x03(\v2\x17.eolymp.judge.ViolationR\x05items2\xe8\x06\n" +
