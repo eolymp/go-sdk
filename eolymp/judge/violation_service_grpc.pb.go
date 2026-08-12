@@ -35,8 +35,8 @@ const (
 // what kind of misconduct it was, and carries a short written summary of the case.
 //
 // A violation is either raised by the jury or detected automatically by the platform's analysis (see
-// ContestService.AnalyzeContest), which flags it as automatic and can link the submissions it was found
-// in. Its status tracks the review — pending until somebody confirms or cancels it — and the record keeps
+// ContestService.AnalyzeContest), which leaves nobody as its author and attaches the submissions the case
+// rests on as evidence. Its status tracks the review — pending until somebody confirms or cancels it — and the record keeps
 // who created it and who confirmed it, with a timestamp for each. Recording a violation does not by
 // itself remove anyone from the contest: disqualification is a separate flag on the participant, managed
 // through ParticipantService, which can also filter participants by whether they have violations at all.
@@ -143,8 +143,8 @@ func (c *violationServiceClient) ListViolations(ctx context.Context, in *ListVio
 // what kind of misconduct it was, and carries a short written summary of the case.
 //
 // A violation is either raised by the jury or detected automatically by the platform's analysis (see
-// ContestService.AnalyzeContest), which flags it as automatic and can link the submissions it was found
-// in. Its status tracks the review — pending until somebody confirms or cancels it — and the record keeps
+// ContestService.AnalyzeContest), which leaves nobody as its author and attaches the submissions the case
+// rests on as evidence. Its status tracks the review — pending until somebody confirms or cancels it — and the record keeps
 // who created it and who confirmed it, with a timestamp for each. Recording a violation does not by
 // itself remove anyone from the contest: disqualification is a separate flag on the participant, managed
 // through ParticipantService, which can also filter participants by whether they have violations at all.

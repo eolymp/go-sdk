@@ -186,7 +186,6 @@ const (
 	Violation_Patch_UNSPECIFIED Violation_Patch_Field = 0
 	Violation_Patch_SUMMARY     Violation_Patch_Field = 1
 	Violation_Patch_STATUS      Violation_Patch_Field = 2
-	Violation_Patch_AUTOMATIC   Violation_Patch_Field = 3
 )
 
 // Enum value maps for Violation_Patch_Field.
@@ -195,13 +194,11 @@ var (
 		0: "UNSPECIFIED",
 		1: "SUMMARY",
 		2: "STATUS",
-		3: "AUTOMATIC",
 	}
 	Violation_Patch_Field_value = map[string]int32{
 		"UNSPECIFIED": 0,
 		"SUMMARY":     1,
 		"STATUS":      2,
-		"AUTOMATIC":   3,
 	}
 )
 
@@ -404,7 +401,7 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x06\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xee\x06\n" +
 	"\tViolation\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12-\n" +
 	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12>\n" +
@@ -423,14 +420,13 @@ const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12)\n" +
 	"\fconfirmed_by\x18\f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedBy\x12E\n" +
-	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedAt\x1aI\n" +
-	"\x05Patch\"@\n" +
+	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedAt\x1a:\n" +
+	"\x05Patch\"1\n" +
 	"\x05Field\x12\x0f\n" +
 	"\vUNSPECIFIED\x10\x00\x12\v\n" +
 	"\aSUMMARY\x10\x01\x12\n" +
 	"\n" +
-	"\x06STATUS\x10\x02\x12\r\n" +
-	"\tAUTOMATIC\x10\x03\"G\n" +
+	"\x06STATUS\x10\x02\"G\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +

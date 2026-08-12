@@ -683,7 +683,6 @@ type ListViolationsInput_Filter struct {
 	CaseRef       []*wellknown.ExpressionID     `protobuf:"bytes,12,rep,name=case_ref,json=caseRef,proto3" json:"case_ref,omitempty"`
 	ProblemId     []*wellknown.ExpressionID     `protobuf:"bytes,13,rep,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ParticipantId []*wellknown.ExpressionID     `protobuf:"bytes,6,rep,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
-	SubmissionId  []*wellknown.ExpressionID     `protobuf:"bytes,8,rep,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
 	CreatedBy     []*wellknown.ExpressionID     `protobuf:"bytes,7,rep,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`
 	ConfirmedBy   []*wellknown.ExpressionID     `protobuf:"bytes,9,rep,name=confirmed_by,json=confirmedBy,proto3" json:"confirmed_by,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -783,13 +782,6 @@ func (x *ListViolationsInput_Filter) GetParticipantId() []*wellknown.ExpressionI
 	return nil
 }
 
-func (x *ListViolationsInput_Filter) GetSubmissionId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.SubmissionId
-	}
-	return nil
-}
-
 func (x *ListViolationsInput_Filter) GetCreatedBy() []*wellknown.ExpressionID {
 	if x != nil {
 		return x.CreatedBy
@@ -834,14 +826,14 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\x04size\x18\v \x01(\x05R\x04size\"a\n" +
 	"\x1bListViolationEvidenceOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.judge.EvidenceR\x05items\"\xcc\t\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.judge.EvidenceR\x05items\"\x87\t\n" +
 	"\x13ListViolationsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
 	"\afilters\x18( \x01(\v2(.eolymp.judge.ListViolationsInput.FilterR\afilters\x12:\n" +
 	"\x04sort\x182 \x01(\x0e2&.eolymp.judge.ListViolationsInput.SortR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xa0\a\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xdb\x06\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12\x81\x01\n" +
 	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumBG\xa2\xf0\xf0\xe4\x01Avalid values `PENDING` (pending review), `CONFIRMED`, `CANCELLED`R\x06status\x12n\n" +
@@ -855,8 +847,7 @@ const file_eolymp_judge_violation_service_proto_rawDesc = "" +
 	"\bcase_ref\x18\f \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\acaseRef\x12=\n" +
 	"\n" +
 	"problem_id\x18\r \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tproblemId\x12E\n" +
-	"\x0eparticipant_id\x18\x06 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\rparticipantId\x12C\n" +
-	"\rsubmission_id\x18\b \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\fsubmissionId\x12=\n" +
+	"\x0eparticipant_id\x18\x06 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\rparticipantId\x12=\n" +
 	"\n" +
 	"created_by\x18\a \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tcreatedBy\x12A\n" +
 	"\fconfirmed_by\x18\t \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vconfirmedBy\"3\n" +
@@ -964,26 +955,25 @@ var file_eolymp_judge_violation_service_proto_depIdxs = []int32{
 	18, // 15: eolymp.judge.ListViolationsInput.Filter.case_ref:type_name -> eolymp.wellknown.ExpressionID
 	18, // 16: eolymp.judge.ListViolationsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
 	18, // 17: eolymp.judge.ListViolationsInput.Filter.participant_id:type_name -> eolymp.wellknown.ExpressionID
-	18, // 18: eolymp.judge.ListViolationsInput.Filter.submission_id:type_name -> eolymp.wellknown.ExpressionID
-	18, // 19: eolymp.judge.ListViolationsInput.Filter.created_by:type_name -> eolymp.wellknown.ExpressionID
-	18, // 20: eolymp.judge.ListViolationsInput.Filter.confirmed_by:type_name -> eolymp.wellknown.ExpressionID
-	1,  // 21: eolymp.judge.ViolationService.CreateViolation:input_type -> eolymp.judge.CreateViolationInput
-	3,  // 22: eolymp.judge.ViolationService.UpdateViolation:input_type -> eolymp.judge.UpdateViolationInput
-	5,  // 23: eolymp.judge.ViolationService.DeleteViolation:input_type -> eolymp.judge.DeleteViolationInput
-	7,  // 24: eolymp.judge.ViolationService.DescribeViolation:input_type -> eolymp.judge.DescribeViolationInput
-	9,  // 25: eolymp.judge.ViolationService.ListViolationEvidence:input_type -> eolymp.judge.ListViolationEvidenceInput
-	11, // 26: eolymp.judge.ViolationService.ListViolations:input_type -> eolymp.judge.ListViolationsInput
-	2,  // 27: eolymp.judge.ViolationService.CreateViolation:output_type -> eolymp.judge.CreateViolationOutput
-	4,  // 28: eolymp.judge.ViolationService.UpdateViolation:output_type -> eolymp.judge.UpdateViolationOutput
-	6,  // 29: eolymp.judge.ViolationService.DeleteViolation:output_type -> eolymp.judge.DeleteViolationOutput
-	8,  // 30: eolymp.judge.ViolationService.DescribeViolation:output_type -> eolymp.judge.DescribeViolationOutput
-	10, // 31: eolymp.judge.ViolationService.ListViolationEvidence:output_type -> eolymp.judge.ListViolationEvidenceOutput
-	12, // 32: eolymp.judge.ViolationService.ListViolations:output_type -> eolymp.judge.ListViolationsOutput
-	27, // [27:33] is the sub-list for method output_type
-	21, // [21:27] is the sub-list for method input_type
-	21, // [21:21] is the sub-list for extension type_name
-	21, // [21:21] is the sub-list for extension extendee
-	0,  // [0:21] is the sub-list for field type_name
+	18, // 18: eolymp.judge.ListViolationsInput.Filter.created_by:type_name -> eolymp.wellknown.ExpressionID
+	18, // 19: eolymp.judge.ListViolationsInput.Filter.confirmed_by:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 20: eolymp.judge.ViolationService.CreateViolation:input_type -> eolymp.judge.CreateViolationInput
+	3,  // 21: eolymp.judge.ViolationService.UpdateViolation:input_type -> eolymp.judge.UpdateViolationInput
+	5,  // 22: eolymp.judge.ViolationService.DeleteViolation:input_type -> eolymp.judge.DeleteViolationInput
+	7,  // 23: eolymp.judge.ViolationService.DescribeViolation:input_type -> eolymp.judge.DescribeViolationInput
+	9,  // 24: eolymp.judge.ViolationService.ListViolationEvidence:input_type -> eolymp.judge.ListViolationEvidenceInput
+	11, // 25: eolymp.judge.ViolationService.ListViolations:input_type -> eolymp.judge.ListViolationsInput
+	2,  // 26: eolymp.judge.ViolationService.CreateViolation:output_type -> eolymp.judge.CreateViolationOutput
+	4,  // 27: eolymp.judge.ViolationService.UpdateViolation:output_type -> eolymp.judge.UpdateViolationOutput
+	6,  // 28: eolymp.judge.ViolationService.DeleteViolation:output_type -> eolymp.judge.DeleteViolationOutput
+	8,  // 29: eolymp.judge.ViolationService.DescribeViolation:output_type -> eolymp.judge.DescribeViolationOutput
+	10, // 30: eolymp.judge.ViolationService.ListViolationEvidence:output_type -> eolymp.judge.ListViolationEvidenceOutput
+	12, // 31: eolymp.judge.ViolationService.ListViolations:output_type -> eolymp.judge.ListViolationsOutput
+	26, // [26:32] is the sub-list for method output_type
+	20, // [20:26] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_violation_service_proto_init() }
