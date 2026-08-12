@@ -8,7 +8,6 @@ package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	_ "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -290,7 +289,7 @@ var File_eolymp_judge_evidence_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x96\x04\n" +
+	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x96\x04\n" +
 	"\bEvidence\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12C\n" +
 	"\n" +

@@ -115,10 +115,9 @@ type ContestServiceClient interface {
 	// accepting submissions again; it is the counterpart of both SuspendContest and FreezeContest. It resumes a
 	// contest which is still running and does not reopen one which has already finished.
 	ResumeContest(ctx context.Context, in *ResumeContestInput, opts ...grpc.CallOption) (*ResumeContestOutput, error)
-	// AnalyzeContest examines the contest's submissions for plagiarism and, when the contest's plagiarism
-	// configuration asks for it, for signs that code was produced by generative AI; it requires a space which
-	// supports plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress
-	// as an activity, and read what was found as automatically detected violations through ViolationService.
+	// AnalyzeContest examines the contest's submissions for plagiarism; it requires a space which supports
+	// plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress as an
+	// activity, and read what was found as automatically detected violations through ViolationService.
 	AnalyzeContest(ctx context.Context, in *AnalyzeContestInput, opts ...grpc.CallOption) (*AnalyzeContestOutput, error)
 	// WatchContest streams the contest whenever it changes, which keeps an interface in step with status
 	// transitions and setting changes without polling.
@@ -389,10 +388,9 @@ type ContestServiceServer interface {
 	// accepting submissions again; it is the counterpart of both SuspendContest and FreezeContest. It resumes a
 	// contest which is still running and does not reopen one which has already finished.
 	ResumeContest(context.Context, *ResumeContestInput) (*ResumeContestOutput, error)
-	// AnalyzeContest examines the contest's submissions for plagiarism and, when the contest's plagiarism
-	// configuration asks for it, for signs that code was produced by generative AI; it requires a space which
-	// supports plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress
-	// as an activity, and read what was found as automatically detected violations through ViolationService.
+	// AnalyzeContest examines the contest's submissions for plagiarism; it requires a space which supports
+	// plagiarism detection. The work is asynchronous, so this call only starts it: follow the progress as an
+	// activity, and read what was found as automatically detected violations through ViolationService.
 	AnalyzeContest(context.Context, *AnalyzeContestInput) (*AnalyzeContestOutput, error)
 	// WatchContest streams the contest whenever it changes, which keeps an interface in step with status
 	// transitions and setting changes without polling.
