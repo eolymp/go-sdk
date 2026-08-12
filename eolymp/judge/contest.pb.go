@@ -319,7 +319,6 @@ const (
 	Contest_Patch_SCOREBOARD_CONFIG        Contest_Patch_Field = 150
 	Contest_Patch_CERTIFICATION_CONFIG     Contest_Patch_Field = 151
 	Contest_Patch_ENVIRONMENT_CONFIG       Contest_Patch_Field = 152
-	Contest_Patch_PLAGIARISM_CONFIG        Contest_Patch_Field = 153
 	Contest_Patch_RATING_CONFIG            Contest_Patch_Field = 154
 )
 
@@ -355,7 +354,6 @@ var (
 		150: "SCOREBOARD_CONFIG",
 		151: "CERTIFICATION_CONFIG",
 		152: "ENVIRONMENT_CONFIG",
-		153: "PLAGIARISM_CONFIG",
 		154: "RATING_CONFIG",
 	}
 	Contest_Patch_Field_value = map[string]int32{
@@ -388,7 +386,6 @@ var (
 		"SCOREBOARD_CONFIG":        150,
 		"CERTIFICATION_CONFIG":     151,
 		"ENVIRONMENT_CONFIG":       152,
-		"PLAGIARISM_CONFIG":        153,
 		"RATING_CONFIG":            154,
 	}
 )
@@ -429,7 +426,6 @@ const (
 	Contest_Extra_SCOREBOARD_CONFIG    Contest_Extra_Field = 2
 	Contest_Extra_CERTIFICATION_CONFIG Contest_Extra_Field = 3
 	Contest_Extra_ENVIRONMENT_CONFIG   Contest_Extra_Field = 4
-	Contest_Extra_PLAGIARISM_CONFIG    Contest_Extra_Field = 6
 	Contest_Extra_RATING_CONFIG        Contest_Extra_Field = 7
 )
 
@@ -442,7 +438,6 @@ var (
 		2: "SCOREBOARD_CONFIG",
 		3: "CERTIFICATION_CONFIG",
 		4: "ENVIRONMENT_CONFIG",
-		6: "PLAGIARISM_CONFIG",
 		7: "RATING_CONFIG",
 	}
 	Contest_Extra_Field_value = map[string]int32{
@@ -452,7 +447,6 @@ var (
 		"SCOREBOARD_CONFIG":    2,
 		"CERTIFICATION_CONFIG": 3,
 		"ENVIRONMENT_CONFIG":   4,
-		"PLAGIARISM_CONFIG":    6,
 		"RATING_CONFIG":        7,
 	}
 )
@@ -1484,7 +1478,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa1)\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf2(\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x12\n" +
@@ -1527,8 +1521,8 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x129\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xef\x04\n" +
-	"\x05Patch\"\xe5\x04\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xd7\x04\n" +
+	"\x05Patch\"\xcd\x04\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\r\n" +
@@ -1561,18 +1555,16 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x0eCLASSIFICATION\x10d\x12\x16\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x96\x01\x12\x19\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x97\x01\x12\x17\n" +
-	"\x12ENVIRONMENT_CONFIG\x10\x98\x01\x12\x16\n" +
-	"\x11PLAGIARISM_CONFIG\x10\x99\x01\x12\x12\n" +
-	"\rRATING_CONFIG\x10\x9a\x01\x1a\xb0\x01\n" +
-	"\x05Extra\"\xa6\x01\n" +
+	"\x12ENVIRONMENT_CONFIG\x10\x98\x01\x12\x12\n" +
+	"\rRATING_CONFIG\x10\x9a\x01\x1a\x99\x01\n" +
+	"\x05Extra\"\x8f\x01\n" +
 	"\x05Field\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\t\n" +
 	"\x05STAFF\x10\x05\x12\x12\n" +
 	"\x0eCLASSIFICATION\x10\x01\x12\x15\n" +
 	"\x11SCOREBOARD_CONFIG\x10\x02\x12\x18\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x03\x12\x16\n" +
-	"\x12ENVIRONMENT_CONFIG\x10\x04\x12\x15\n" +
-	"\x11PLAGIARISM_CONFIG\x10\x06\x12\x11\n" +
+	"\x12ENVIRONMENT_CONFIG\x10\x04\x12\x11\n" +
 	"\rRATING_CONFIG\x10\a\x1a\xba\x02\n" +
 	"\x0eClassification\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\rR\x04year\x12\x16\n" +
