@@ -76,10 +76,6 @@ func (Violation_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_violation_proto_rawDescGZIP(), []int{0, 0}
 }
 
-// Confidence is how sure detection is, so that a review queue sorts a near-certainty above a hint. The
-// house position is that a dismissed case costs less than a case never raised, which only works if the
-// jury can tell the two apart. It is unset on a violation a jury filed: reporting one is not a
-// probabilistic claim.
 type Violation_Confidence int32
 
 const (
@@ -138,7 +134,7 @@ const (
 	Violation_UNKNOWN_TYPE Violation_Type = 0
 	Violation_OTHER        Violation_Type = 1
 	Violation_PLAGIARISM   Violation_Type = 2 // plagiarism violation, e.g. system detected code similarity between multiple participants
-	Violation_GEN_AI_USAGE Violation_Type = 3 // usage of generative AI tools, e.g. ChatGPT, Copilot, etc.
+	Violation_GEN_AI_USAGE Violation_Type = 3 // usage of generative AI tools, e.g. ChatGPT, Claude, etc.
 )
 
 // Enum value maps for Violation_Type.
@@ -239,18 +235,14 @@ func (Violation_Patch_Field) EnumDescriptor() ([]byte, []int) {
 type Violation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ParticipantId string                 `protobuf:"bytes,5,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // participant who received the violation
 	Status        Violation_Status       `protobuf:"varint,7,opt,name=status,proto3,enum=eolymp.judge.Violation_Status" json:"status,omitempty"`
 	Type          Violation_Type         `protobuf:"varint,8,opt,name=type,proto3,enum=eolymp.judge.Violation_Type" json:"type,omitempty"`
 	Confidence    Violation_Confidence   `protobuf:"varint,15,opt,name=confidence,proto3,enum=eolymp.judge.Violation_Confidence" json:"confidence,omitempty"` // how sure detection is, unset when a jury filed it
-	Summary       *ecm.Content           `protobuf:"bytes,14,opt,name=summary,proto3" json:"summary,omitempty"`                                               // short summary of the violation
-	Automatic     bool                   `protobuf:"varint,4,opt,name=automatic,proto3" json:"automatic,omitempty"`                                           // whether the violation was automatically detected by the system
-	ParticipantId string                 `protobuf:"bytes,5,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`               // participant who received the violation
-	// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
-	SubmissionId string   `protobuf:"bytes,6,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"` // submission ID, if applicable
-	Submissions  []string `protobuf:"bytes,9,rep,name=submissions,proto3" json:"submissions,omitempty"`                       // submission IDs, if applicable
-	// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
-	SummaryText   string                 `protobuf:"bytes,3,opt,name=summary_text,json=summaryText,proto3" json:"summary_text,omitempty"` // short summary of the violation
-	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`      // user ID of the person who created the violation
+	ProblemId     string                 `protobuf:"bytes,17,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	CaseRef       string                 `protobuf:"bytes,16,opt,name=case_ref,json=caseRef,proto3" json:"case_ref,omitempty"`
+	Summary       *ecm.Content           `protobuf:"bytes,14,opt,name=summary,proto3" json:"summary,omitempty"`                      // short summary of the violation
+	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"` // user ID of the person who created the violation
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	ConfirmedBy   string                 `protobuf:"bytes,12,opt,name=confirmed_by,json=confirmedBy,proto3" json:"confirmed_by,omitempty"` // user ID of the person who confirmed the violation
 	ConfirmedAt   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=confirmed_at,json=confirmedAt,proto3" json:"confirmed_at,omitempty"`
@@ -295,6 +287,13 @@ func (x *Violation) GetId() string {
 	return ""
 }
 
+func (x *Violation) GetParticipantId() string {
+	if x != nil {
+		return x.ParticipantId
+	}
+	return ""
+}
+
 func (x *Violation) GetStatus() Violation_Status {
 	if x != nil {
 		return x.Status
@@ -316,48 +315,25 @@ func (x *Violation) GetConfidence() Violation_Confidence {
 	return Violation_UNKNOWN_CONFIDENCE
 }
 
+func (x *Violation) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *Violation) GetCaseRef() string {
+	if x != nil {
+		return x.CaseRef
+	}
+	return ""
+}
+
 func (x *Violation) GetSummary() *ecm.Content {
 	if x != nil {
 		return x.Summary
 	}
 	return nil
-}
-
-func (x *Violation) GetAutomatic() bool {
-	if x != nil {
-		return x.Automatic
-	}
-	return false
-}
-
-func (x *Violation) GetParticipantId() string {
-	if x != nil {
-		return x.ParticipantId
-	}
-	return ""
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
-func (x *Violation) GetSubmissionId() string {
-	if x != nil {
-		return x.SubmissionId
-	}
-	return ""
-}
-
-func (x *Violation) GetSubmissions() []string {
-	if x != nil {
-		return x.Submissions
-	}
-	return nil
-}
-
-// Deprecated: Marked as deprecated in eolymp/judge/violation.proto.
-func (x *Violation) GetSummaryText() string {
-	if x != nil {
-		return x.SummaryText
-	}
-	return ""
 }
 
 func (x *Violation) GetCreatedBy() string {
@@ -428,20 +404,19 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd9\a\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x06\n" +
 	"\tViolation\x12\x16\n" +
-	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12>\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12-\n" +
+	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12>\n" +
 	"\x06status\x18\a \x01(\x0e2\x1e.eolymp.judge.Violation.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x120\n" +
 	"\x04type\x18\b \x01(\x0e2\x1c.eolymp.judge.Violation.TypeR\x04type\x12J\n" +
 	"\n" +
 	"confidence\x18\x0f \x01(\x0e2\".eolymp.judge.Violation.ConfidenceB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
-	"confidence\x12-\n" +
-	"\asummary\x18\x0e \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12\x1c\n" +
-	"\tautomatic\x18\x04 \x01(\bR\tautomatic\x12-\n" +
-	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12-\n" +
-	"\rsubmission_id\x18\x06 \x01(\tB\b\xa8\xf0\xf0\xe4\x01\x01\x18\x01R\fsubmissionId\x12(\n" +
-	"\vsubmissions\x18\t \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vsubmissions\x12%\n" +
-	"\fsummary_text\x18\x03 \x01(\tB\x02\x18\x01R\vsummaryText\x12%\n" +
+	"confidence\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x11 \x01(\tR\tproblemId\x12!\n" +
+	"\bcase_ref\x18\x10 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\acaseRef\x12-\n" +
+	"\asummary\x18\x0e \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12%\n" +
 	"\n" +
 	"created_by\x18\n" +
 	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedBy\x12A\n" +

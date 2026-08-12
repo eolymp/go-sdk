@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ViolationService_CreateViolation_FullMethodName   = "/eolymp.judge.ViolationService/CreateViolation"
-	ViolationService_UpdateViolation_FullMethodName   = "/eolymp.judge.ViolationService/UpdateViolation"
-	ViolationService_DeleteViolation_FullMethodName   = "/eolymp.judge.ViolationService/DeleteViolation"
-	ViolationService_DescribeViolation_FullMethodName = "/eolymp.judge.ViolationService/DescribeViolation"
-	ViolationService_ListViolations_FullMethodName    = "/eolymp.judge.ViolationService/ListViolations"
+	ViolationService_CreateViolation_FullMethodName       = "/eolymp.judge.ViolationService/CreateViolation"
+	ViolationService_UpdateViolation_FullMethodName       = "/eolymp.judge.ViolationService/UpdateViolation"
+	ViolationService_DeleteViolation_FullMethodName       = "/eolymp.judge.ViolationService/DeleteViolation"
+	ViolationService_DescribeViolation_FullMethodName     = "/eolymp.judge.ViolationService/DescribeViolation"
+	ViolationService_ListViolationEvidence_FullMethodName = "/eolymp.judge.ViolationService/ListViolationEvidence"
+	ViolationService_ListViolations_FullMethodName        = "/eolymp.judge.ViolationService/ListViolations"
 )
 
 // ViolationServiceClient is the client API for ViolationService service.
@@ -62,6 +63,7 @@ type ViolationServiceClient interface {
 	// separates cases still waiting for a decision from cases already dealt with. To find the participants
 	// concerned rather than the violations themselves, ParticipantService lists participants and can filter
 	// them by having violations.
+	ListViolationEvidence(ctx context.Context, in *ListViolationEvidenceInput, opts ...grpc.CallOption) (*ListViolationEvidenceOutput, error)
 	ListViolations(ctx context.Context, in *ListViolationsInput, opts ...grpc.CallOption) (*ListViolationsOutput, error)
 }
 
@@ -107,6 +109,16 @@ func (c *violationServiceClient) DescribeViolation(ctx context.Context, in *Desc
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeViolationOutput)
 	err := c.cc.Invoke(ctx, ViolationService_DescribeViolation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *violationServiceClient) ListViolationEvidence(ctx context.Context, in *ListViolationEvidenceInput, opts ...grpc.CallOption) (*ListViolationEvidenceOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListViolationEvidenceOutput)
+	err := c.cc.Invoke(ctx, ViolationService_ListViolationEvidence_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -159,6 +171,7 @@ type ViolationServiceServer interface {
 	// separates cases still waiting for a decision from cases already dealt with. To find the participants
 	// concerned rather than the violations themselves, ParticipantService lists participants and can filter
 	// them by having violations.
+	ListViolationEvidence(context.Context, *ListViolationEvidenceInput) (*ListViolationEvidenceOutput, error)
 	ListViolations(context.Context, *ListViolationsInput) (*ListViolationsOutput, error)
 }
 
@@ -180,6 +193,9 @@ func (UnimplementedViolationServiceServer) DeleteViolation(context.Context, *Del
 }
 func (UnimplementedViolationServiceServer) DescribeViolation(context.Context, *DescribeViolationInput) (*DescribeViolationOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeViolation not implemented")
+}
+func (UnimplementedViolationServiceServer) ListViolationEvidence(context.Context, *ListViolationEvidenceInput) (*ListViolationEvidenceOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListViolationEvidence not implemented")
 }
 func (UnimplementedViolationServiceServer) ListViolations(context.Context, *ListViolationsInput) (*ListViolationsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListViolations not implemented")
@@ -276,6 +292,24 @@ func _ViolationService_DescribeViolation_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ViolationService_ListViolationEvidence_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListViolationEvidenceInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ViolationServiceServer).ListViolationEvidence(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ViolationService_ListViolationEvidence_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ViolationServiceServer).ListViolationEvidence(ctx, req.(*ListViolationEvidenceInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ViolationService_ListViolations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListViolationsInput)
 	if err := dec(in); err != nil {
@@ -316,6 +350,10 @@ var ViolationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeViolation",
 			Handler:    _ViolationService_DescribeViolation_Handler,
+		},
+		{
+			MethodName: "ListViolationEvidence",
+			Handler:    _ViolationService_ListViolationEvidence_Handler,
 		},
 		{
 			MethodName: "ListViolations",

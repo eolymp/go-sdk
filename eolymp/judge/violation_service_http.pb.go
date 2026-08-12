@@ -213,6 +213,9 @@ func RegisterViolationServiceHttpHandlers(router *mux.Router, prefix string, cli
 	router.Handle(prefix+"/violations/{violation_id}", _ViolationService_DescribeViolation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ViolationService.DescribeViolation")
+	router.Handle(prefix+"/violations/{violation_id}/evidence", _ViolationService_ListViolationEvidence_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ViolationService.ListViolationEvidence")
 	router.Handle(prefix+"/violations", _ViolationService_ListViolations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ViolationService.ListViolations")
@@ -307,6 +310,30 @@ func _ViolationService_DescribeViolation_Rule0(cli ViolationServiceClient) http.
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeViolation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ViolationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ViolationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ViolationService_ListViolationEvidence_Rule0(cli ViolationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListViolationEvidenceInput{}
+
+		if err := _ViolationService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ViolationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ViolationId = vars["violation_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListViolationEvidence(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ViolationService_HTTPWriteErrorResponse(w, err)
 			return

@@ -159,6 +159,22 @@ func (s *ViolationServiceService) DescribeViolation(ctx context.Context, in *Des
 	return out, nil
 }
 
+func (s *ViolationServiceService) ListViolationEvidence(ctx context.Context, in *ListViolationEvidenceInput) (*ListViolationEvidenceOutput, error) {
+	out := &ListViolationEvidenceOutput{}
+	path := "/violations/" + url.PathEscape(in.GetViolationId()) + "/evidence"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ViolationId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ViolationServiceService) ListViolations(ctx context.Context, in *ListViolationsInput) (*ListViolationsOutput, error) {
 	out := &ListViolationsOutput{}
 	path := "/violations"
