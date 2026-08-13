@@ -25,6 +25,7 @@ const (
 	SubmissionService_PrintSubmission_FullMethodName      = "/eolymp.judge.SubmissionService/PrintSubmission"
 	SubmissionService_WatchSubmission_FullMethodName      = "/eolymp.judge.SubmissionService/WatchSubmission"
 	SubmissionService_WatchSubmissionsList_FullMethodName = "/eolymp.judge.SubmissionService/WatchSubmissionsList"
+	SubmissionService_CompareSubmissions_FullMethodName   = "/eolymp.judge.SubmissionService/CompareSubmissions"
 	SubmissionService_RetestSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/RetestSubmission"
 	SubmissionService_DeleteSubmission_FullMethodName     = "/eolymp.judge.SubmissionService/DeleteSubmission"
 	SubmissionService_RestoreSubmission_FullMethodName    = "/eolymp.judge.SubmissionService/RestoreSubmission"
@@ -69,6 +70,16 @@ type SubmissionServiceClient interface {
 	// WatchSubmissionsList streams the contest's submissions as they are created, updated and deleted, which
 	// is what live jury and monitoring screens are built on. Unlike ListSubmissions it cannot be narrowed down.
 	WatchSubmissionsList(ctx context.Context, in *WatchSubmissionsListInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionsListOutput], error)
+	// CompareSubmissions returns two of the contest's submissions and where they say the same thing: both
+	// sources, and the runs their normalised token streams share as line ranges on each side, longest first.
+	//
+	// It is what a copying case is read with. The case names two submissions and how much of the shorter one
+	// they share; this says which part, without a reviewer hunting for it in two files.
+	//
+	// Both submissions must belong to the contest, and the permission asked for is the contest's: whoever may
+	// review its submissions may compare them. Nobody needs rights over the submissions anywhere else, which
+	// is the point of asking judge rather than atlas.
+	CompareSubmissions(ctx context.Context, in *CompareSubmissionsInput, opts ...grpc.CallOption) (*CompareSubmissionsOutput, error)
 	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
 	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
 	// and its position in listings. The score it contributes can come out different, so the participant's
@@ -176,6 +187,16 @@ func (c *submissionServiceClient) WatchSubmissionsList(ctx context.Context, in *
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionsListClient = grpc.ServerStreamingClient[WatchSubmissionsListOutput]
 
+func (c *submissionServiceClient) CompareSubmissions(ctx context.Context, in *CompareSubmissionsInput, opts ...grpc.CallOption) (*CompareSubmissionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompareSubmissionsOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_CompareSubmissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *submissionServiceClient) RetestSubmission(ctx context.Context, in *RetestSubmissionInput, opts ...grpc.CallOption) (*RetestSubmissionOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RetestSubmissionOutput)
@@ -254,6 +275,16 @@ type SubmissionServiceServer interface {
 	// WatchSubmissionsList streams the contest's submissions as they are created, updated and deleted, which
 	// is what live jury and monitoring screens are built on. Unlike ListSubmissions it cannot be narrowed down.
 	WatchSubmissionsList(*WatchSubmissionsListInput, grpc.ServerStreamingServer[WatchSubmissionsListOutput]) error
+	// CompareSubmissions returns two of the contest's submissions and where they say the same thing: both
+	// sources, and the runs their normalised token streams share as line ranges on each side, longest first.
+	//
+	// It is what a copying case is read with. The case names two submissions and how much of the shorter one
+	// they share; this says which part, without a reviewer hunting for it in two files.
+	//
+	// Both submissions must belong to the contest, and the permission asked for is the contest's: whoever may
+	// review its submissions may compare them. Nobody needs rights over the submissions anywhere else, which
+	// is the point of asking judge rather than atlas.
+	CompareSubmissions(context.Context, *CompareSubmissionsInput) (*CompareSubmissionsOutput, error)
 	// RetestSubmission re-evaluates an existing submission in place, which is what the console calls
 	// "rejudge": the previous results are discarded while the submission keeps its ID, its submission time
 	// and its position in listings. The score it contributes can come out different, so the participant's
@@ -299,6 +330,9 @@ func (UnimplementedSubmissionServiceServer) WatchSubmission(*WatchSubmissionInpu
 }
 func (UnimplementedSubmissionServiceServer) WatchSubmissionsList(*WatchSubmissionsListInput, grpc.ServerStreamingServer[WatchSubmissionsListOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchSubmissionsList not implemented")
+}
+func (UnimplementedSubmissionServiceServer) CompareSubmissions(context.Context, *CompareSubmissionsInput) (*CompareSubmissionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CompareSubmissions not implemented")
 }
 func (UnimplementedSubmissionServiceServer) RetestSubmission(context.Context, *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RetestSubmission not implemented")
@@ -426,6 +460,24 @@ func _SubmissionService_WatchSubmissionsList_Handler(srv interface{}, stream grp
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SubmissionService_WatchSubmissionsListServer = grpc.ServerStreamingServer[WatchSubmissionsListOutput]
 
+func _SubmissionService_CompareSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompareSubmissionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).CompareSubmissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_CompareSubmissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).CompareSubmissions(ctx, req.(*CompareSubmissionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SubmissionService_RetestSubmission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RetestSubmissionInput)
 	if err := dec(in); err != nil {
@@ -520,6 +572,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PrintSubmission",
 			Handler:    _SubmissionService_PrintSubmission_Handler,
+		},
+		{
+			MethodName: "CompareSubmissions",
+			Handler:    _SubmissionService_CompareSubmissions_Handler,
 		},
 		{
 			MethodName: "RetestSubmission",

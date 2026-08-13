@@ -320,6 +320,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/problems/{problem_id}/top", _SubmissionService_ListProblemTop_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.ListProblemTop")
+	router.Handle(prefix+"/submissions/{submission_id}/compare", _SubmissionService_CompareSubmissions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.SubmissionService.CompareSubmissions")
 	router.Handle(prefix+"/submissions:aggregate", _SubmissionService_AggregateSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SubmissionService.AggregateSubmissions")
@@ -497,6 +500,30 @@ func _SubmissionService_ListProblemTop_Rule0(cli SubmissionServiceClient) http.H
 		var header, trailer metadata.MD
 
 		out, err := cli.ListProblemTop(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SubmissionService_CompareSubmissions_Rule0(cli SubmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CompareSubmissionsInput{}
+
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CompareSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return

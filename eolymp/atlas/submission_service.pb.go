@@ -67,7 +67,7 @@ func (x AggregateSubmissionsInput_Metric) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AggregateSubmissionsInput_Metric.Descriptor instead.
 func (AggregateSubmissionsInput_Metric) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{18, 0}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{20, 0}
 }
 
 type AggregateSubmissionsInput_Dimension int32
@@ -125,7 +125,119 @@ func (x AggregateSubmissionsInput_Dimension) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AggregateSubmissionsInput_Dimension.Descriptor instead.
 func (AggregateSubmissionsInput_Dimension) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{18, 1}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{20, 1}
+}
+
+type CompareSubmissionsInput struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	SubmissionId      string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	OtherSubmissionId string                 `protobuf:"bytes,2,opt,name=other_submission_id,json=otherSubmissionId,proto3" json:"other_submission_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CompareSubmissionsInput) Reset() {
+	*x = CompareSubmissionsInput{}
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareSubmissionsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareSubmissionsInput) ProtoMessage() {}
+
+func (x *CompareSubmissionsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareSubmissionsInput.ProtoReflect.Descriptor instead.
+func (*CompareSubmissionsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CompareSubmissionsInput) GetSubmissionId() string {
+	if x != nil {
+		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *CompareSubmissionsInput) GetOtherSubmissionId() string {
+	if x != nil {
+		return x.OtherSubmissionId
+	}
+	return ""
+}
+
+type CompareSubmissionsOutput struct {
+	state           protoimpl.MessageState            `protogen:"open.v1"`
+	Submission      *CompareSubmissionsOutput_Source  `protobuf:"bytes,1,opt,name=submission,proto3" json:"submission,omitempty"`
+	OtherSubmission *CompareSubmissionsOutput_Source  `protobuf:"bytes,2,opt,name=other_submission,json=otherSubmission,proto3" json:"other_submission,omitempty"`
+	Matches         []*CompareSubmissionsOutput_Match `protobuf:"bytes,3,rep,name=matches,proto3" json:"matches,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CompareSubmissionsOutput) Reset() {
+	*x = CompareSubmissionsOutput{}
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareSubmissionsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareSubmissionsOutput) ProtoMessage() {}
+
+func (x *CompareSubmissionsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareSubmissionsOutput.ProtoReflect.Descriptor instead.
+func (*CompareSubmissionsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CompareSubmissionsOutput) GetSubmission() *CompareSubmissionsOutput_Source {
+	if x != nil {
+		return x.Submission
+	}
+	return nil
+}
+
+func (x *CompareSubmissionsOutput) GetOtherSubmission() *CompareSubmissionsOutput_Source {
+	if x != nil {
+		return x.OtherSubmission
+	}
+	return nil
+}
+
+func (x *CompareSubmissionsOutput) GetMatches() []*CompareSubmissionsOutput_Match {
+	if x != nil {
+		return x.Matches
+	}
+	return nil
 }
 
 type SubmissionChangedEvent struct {
@@ -138,7 +250,7 @@ type SubmissionChangedEvent struct {
 
 func (x *SubmissionChangedEvent) Reset() {
 	*x = SubmissionChangedEvent{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -150,7 +262,7 @@ func (x *SubmissionChangedEvent) String() string {
 func (*SubmissionChangedEvent) ProtoMessage() {}
 
 func (x *SubmissionChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -163,7 +275,7 @@ func (x *SubmissionChangedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmissionChangedEvent.ProtoReflect.Descriptor instead.
 func (*SubmissionChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SubmissionChangedEvent) GetBefore() *Submission {
@@ -190,7 +302,7 @@ type SubmissionCompleteEvent struct {
 
 func (x *SubmissionCompleteEvent) Reset() {
 	*x = SubmissionCompleteEvent{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -202,7 +314,7 @@ func (x *SubmissionCompleteEvent) String() string {
 func (*SubmissionCompleteEvent) ProtoMessage() {}
 
 func (x *SubmissionCompleteEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -215,7 +327,7 @@ func (x *SubmissionCompleteEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmissionCompleteEvent.ProtoReflect.Descriptor instead.
 func (*SubmissionCompleteEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SubmissionCompleteEvent) GetSubmission() *Submission {
@@ -248,7 +360,7 @@ type CreateSubmissionInput struct {
 
 func (x *CreateSubmissionInput) Reset() {
 	*x = CreateSubmissionInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -260,7 +372,7 @@ func (x *CreateSubmissionInput) String() string {
 func (*CreateSubmissionInput) ProtoMessage() {}
 
 func (x *CreateSubmissionInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -273,7 +385,7 @@ func (x *CreateSubmissionInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubmissionInput.ProtoReflect.Descriptor instead.
 func (*CreateSubmissionInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateSubmissionInput) GetProblemId() string {
@@ -347,7 +459,7 @@ type CreateSubmissionOutput struct {
 
 func (x *CreateSubmissionOutput) Reset() {
 	*x = CreateSubmissionOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -359,7 +471,7 @@ func (x *CreateSubmissionOutput) String() string {
 func (*CreateSubmissionOutput) ProtoMessage() {}
 
 func (x *CreateSubmissionOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,7 +484,7 @@ func (x *CreateSubmissionOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSubmissionOutput.ProtoReflect.Descriptor instead.
 func (*CreateSubmissionOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateSubmissionOutput) GetSubmissionId() string {
@@ -392,7 +504,7 @@ type DescribeSubmissionInput struct {
 
 func (x *DescribeSubmissionInput) Reset() {
 	*x = DescribeSubmissionInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -404,7 +516,7 @@ func (x *DescribeSubmissionInput) String() string {
 func (*DescribeSubmissionInput) ProtoMessage() {}
 
 func (x *DescribeSubmissionInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -417,7 +529,7 @@ func (x *DescribeSubmissionInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeSubmissionInput.ProtoReflect.Descriptor instead.
 func (*DescribeSubmissionInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DescribeSubmissionInput) GetSubmissionId() string {
@@ -443,7 +555,7 @@ type DescribeSubmissionOutput struct {
 
 func (x *DescribeSubmissionOutput) Reset() {
 	*x = DescribeSubmissionOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -455,7 +567,7 @@ func (x *DescribeSubmissionOutput) String() string {
 func (*DescribeSubmissionOutput) ProtoMessage() {}
 
 func (x *DescribeSubmissionOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -468,7 +580,7 @@ func (x *DescribeSubmissionOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeSubmissionOutput.ProtoReflect.Descriptor instead.
 func (*DescribeSubmissionOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DescribeSubmissionOutput) GetSubmission() *Submission {
@@ -488,7 +600,7 @@ type WatchSubmissionInput struct {
 
 func (x *WatchSubmissionInput) Reset() {
 	*x = WatchSubmissionInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -500,7 +612,7 @@ func (x *WatchSubmissionInput) String() string {
 func (*WatchSubmissionInput) ProtoMessage() {}
 
 func (x *WatchSubmissionInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -513,7 +625,7 @@ func (x *WatchSubmissionInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchSubmissionInput.ProtoReflect.Descriptor instead.
 func (*WatchSubmissionInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *WatchSubmissionInput) GetSubmissionId() string {
@@ -540,7 +652,7 @@ type WatchSubmissionOutput struct {
 
 func (x *WatchSubmissionOutput) Reset() {
 	*x = WatchSubmissionOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +664,7 @@ func (x *WatchSubmissionOutput) String() string {
 func (*WatchSubmissionOutput) ProtoMessage() {}
 
 func (x *WatchSubmissionOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -565,7 +677,7 @@ func (x *WatchSubmissionOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchSubmissionOutput.ProtoReflect.Descriptor instead.
 func (*WatchSubmissionOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *WatchSubmissionOutput) GetSubmission() *Submission {
@@ -591,7 +703,7 @@ type WatchSubmissionsListInput struct {
 
 func (x *WatchSubmissionsListInput) Reset() {
 	*x = WatchSubmissionsListInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -603,7 +715,7 @@ func (x *WatchSubmissionsListInput) String() string {
 func (*WatchSubmissionsListInput) ProtoMessage() {}
 
 func (x *WatchSubmissionsListInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -616,7 +728,7 @@ func (x *WatchSubmissionsListInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchSubmissionsListInput.ProtoReflect.Descriptor instead.
 func (*WatchSubmissionsListInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *WatchSubmissionsListInput) GetExtra() []Submission_Extra_Field {
@@ -636,7 +748,7 @@ type WatchSubmissionsListOutput struct {
 
 func (x *WatchSubmissionsListOutput) Reset() {
 	*x = WatchSubmissionsListOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -648,7 +760,7 @@ func (x *WatchSubmissionsListOutput) String() string {
 func (*WatchSubmissionsListOutput) ProtoMessage() {}
 
 func (x *WatchSubmissionsListOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -661,7 +773,7 @@ func (x *WatchSubmissionsListOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchSubmissionsListOutput.ProtoReflect.Descriptor instead.
 func (*WatchSubmissionsListOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *WatchSubmissionsListOutput) GetEvent() wellknown.WatchEventType {
@@ -688,7 +800,7 @@ type RetestSubmissionInput struct {
 
 func (x *RetestSubmissionInput) Reset() {
 	*x = RetestSubmissionInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[10]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -700,7 +812,7 @@ func (x *RetestSubmissionInput) String() string {
 func (*RetestSubmissionInput) ProtoMessage() {}
 
 func (x *RetestSubmissionInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[10]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -713,7 +825,7 @@ func (x *RetestSubmissionInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetestSubmissionInput.ProtoReflect.Descriptor instead.
 func (*RetestSubmissionInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *RetestSubmissionInput) GetSubmissionId() string {
@@ -738,7 +850,7 @@ type RetestSubmissionOutput struct {
 
 func (x *RetestSubmissionOutput) Reset() {
 	*x = RetestSubmissionOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[11]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -750,7 +862,7 @@ func (x *RetestSubmissionOutput) String() string {
 func (*RetestSubmissionOutput) ProtoMessage() {}
 
 func (x *RetestSubmissionOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[11]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -763,7 +875,7 @@ func (x *RetestSubmissionOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetestSubmissionOutput.ProtoReflect.Descriptor instead.
 func (*RetestSubmissionOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{13}
 }
 
 type ListSubmissionsInput struct {
@@ -781,7 +893,7 @@ type ListSubmissionsInput struct {
 
 func (x *ListSubmissionsInput) Reset() {
 	*x = ListSubmissionsInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[12]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -793,7 +905,7 @@ func (x *ListSubmissionsInput) String() string {
 func (*ListSubmissionsInput) ProtoMessage() {}
 
 func (x *ListSubmissionsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[12]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -806,7 +918,7 @@ func (x *ListSubmissionsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSubmissionsInput.ProtoReflect.Descriptor instead.
 func (*ListSubmissionsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ListSubmissionsInput) GetAfter() string {
@@ -855,7 +967,7 @@ type ListSubmissionsOutput struct {
 
 func (x *ListSubmissionsOutput) Reset() {
 	*x = ListSubmissionsOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[13]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -867,7 +979,7 @@ func (x *ListSubmissionsOutput) String() string {
 func (*ListSubmissionsOutput) ProtoMessage() {}
 
 func (x *ListSubmissionsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[13]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -880,7 +992,7 @@ func (x *ListSubmissionsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSubmissionsOutput.ProtoReflect.Descriptor instead.
 func (*ListSubmissionsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListSubmissionsOutput) GetTotal() int32 {
@@ -914,7 +1026,7 @@ type DescribeSubmissionUsageInput struct {
 
 func (x *DescribeSubmissionUsageInput) Reset() {
 	*x = DescribeSubmissionUsageInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[14]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -926,7 +1038,7 @@ func (x *DescribeSubmissionUsageInput) String() string {
 func (*DescribeSubmissionUsageInput) ProtoMessage() {}
 
 func (x *DescribeSubmissionUsageInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[14]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -939,7 +1051,7 @@ func (x *DescribeSubmissionUsageInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeSubmissionUsageInput.ProtoReflect.Descriptor instead.
 func (*DescribeSubmissionUsageInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DescribeSubmissionUsageInput) GetPeriodStart() *timestamppb.Timestamp {
@@ -968,7 +1080,7 @@ type DescribeSubmissionUsageOutput struct {
 
 func (x *DescribeSubmissionUsageOutput) Reset() {
 	*x = DescribeSubmissionUsageOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[15]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -980,7 +1092,7 @@ func (x *DescribeSubmissionUsageOutput) String() string {
 func (*DescribeSubmissionUsageOutput) ProtoMessage() {}
 
 func (x *DescribeSubmissionUsageOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[15]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -993,7 +1105,7 @@ func (x *DescribeSubmissionUsageOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeSubmissionUsageOutput.ProtoReflect.Descriptor instead.
 func (*DescribeSubmissionUsageOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *DescribeSubmissionUsageOutput) GetTotalSubmissions() uint32 {
@@ -1033,7 +1145,7 @@ type ListProblemTopInput struct {
 
 func (x *ListProblemTopInput) Reset() {
 	*x = ListProblemTopInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[16]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1045,7 +1157,7 @@ func (x *ListProblemTopInput) String() string {
 func (*ListProblemTopInput) ProtoMessage() {}
 
 func (x *ListProblemTopInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[16]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1058,7 +1170,7 @@ func (x *ListProblemTopInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProblemTopInput.ProtoReflect.Descriptor instead.
 func (*ListProblemTopInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{16}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ListProblemTopInput) GetProblemId() string {
@@ -1077,7 +1189,7 @@ type ListProblemTopOutput struct {
 
 func (x *ListProblemTopOutput) Reset() {
 	*x = ListProblemTopOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[17]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1089,7 +1201,7 @@ func (x *ListProblemTopOutput) String() string {
 func (*ListProblemTopOutput) ProtoMessage() {}
 
 func (x *ListProblemTopOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[17]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1102,7 +1214,7 @@ func (x *ListProblemTopOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProblemTopOutput.ProtoReflect.Descriptor instead.
 func (*ListProblemTopOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{17}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ListProblemTopOutput) GetItems() []*Submission {
@@ -1125,7 +1237,7 @@ type AggregateSubmissionsInput struct {
 
 func (x *AggregateSubmissionsInput) Reset() {
 	*x = AggregateSubmissionsInput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[18]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1137,7 +1249,7 @@ func (x *AggregateSubmissionsInput) String() string {
 func (*AggregateSubmissionsInput) ProtoMessage() {}
 
 func (x *AggregateSubmissionsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[18]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1150,7 +1262,7 @@ func (x *AggregateSubmissionsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AggregateSubmissionsInput.ProtoReflect.Descriptor instead.
 func (*AggregateSubmissionsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *AggregateSubmissionsInput) GetMetric() AggregateSubmissionsInput_Metric {
@@ -1197,7 +1309,7 @@ type AggregateSubmissionsOutput struct {
 
 func (x *AggregateSubmissionsOutput) Reset() {
 	*x = AggregateSubmissionsOutput{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[19]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1209,7 +1321,7 @@ func (x *AggregateSubmissionsOutput) String() string {
 func (*AggregateSubmissionsOutput) ProtoMessage() {}
 
 func (x *AggregateSubmissionsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[19]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1222,7 +1334,7 @@ func (x *AggregateSubmissionsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AggregateSubmissionsOutput.ProtoReflect.Descriptor instead.
 func (*AggregateSubmissionsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *AggregateSubmissionsOutput) GetBuckets() []*AggregateSubmissionsOutput_Bucket {
@@ -1230,6 +1342,178 @@ func (x *AggregateSubmissionsOutput) GetBuckets() []*AggregateSubmissionsOutput_
 		return x.Buckets
 	}
 	return nil
+}
+
+type CompareSubmissionsOutput_Source struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SubmissionId  string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	Runtime       string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"` // runtime the source was submitted for, which is how a client knows to colour it
+	Source        string                 `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CompareSubmissionsOutput_Source) Reset() {
+	*x = CompareSubmissionsOutput_Source{}
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareSubmissionsOutput_Source) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareSubmissionsOutput_Source) ProtoMessage() {}
+
+func (x *CompareSubmissionsOutput_Source) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareSubmissionsOutput_Source.ProtoReflect.Descriptor instead.
+func (*CompareSubmissionsOutput_Source) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *CompareSubmissionsOutput_Source) GetSubmissionId() string {
+	if x != nil {
+		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *CompareSubmissionsOutput_Source) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
+	}
+	return ""
+}
+
+func (x *CompareSubmissionsOutput_Source) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+type CompareSubmissionsOutput_Span struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FromLine      int32                  `protobuf:"varint,1,opt,name=from_line,json=fromLine,proto3" json:"from_line,omitempty"` // first line of the run, 1-based
+	ToLine        int32                  `protobuf:"varint,2,opt,name=to_line,json=toLine,proto3" json:"to_line,omitempty"`       // last line of the run, inclusive
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CompareSubmissionsOutput_Span) Reset() {
+	*x = CompareSubmissionsOutput_Span{}
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareSubmissionsOutput_Span) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareSubmissionsOutput_Span) ProtoMessage() {}
+
+func (x *CompareSubmissionsOutput_Span) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareSubmissionsOutput_Span.ProtoReflect.Descriptor instead.
+func (*CompareSubmissionsOutput_Span) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{1, 1}
+}
+
+func (x *CompareSubmissionsOutput_Span) GetFromLine() int32 {
+	if x != nil {
+		return x.FromLine
+	}
+	return 0
+}
+
+func (x *CompareSubmissionsOutput_Span) GetToLine() int32 {
+	if x != nil {
+		return x.ToLine
+	}
+	return 0
+}
+
+type CompareSubmissionsOutput_Match struct {
+	state           protoimpl.MessageState         `protogen:"open.v1"`
+	Submission      *CompareSubmissionsOutput_Span `protobuf:"bytes,1,opt,name=submission,proto3" json:"submission,omitempty"`
+	OtherSubmission *CompareSubmissionsOutput_Span `protobuf:"bytes,2,opt,name=other_submission,json=otherSubmission,proto3" json:"other_submission,omitempty"`
+	Tokens          int32                          `protobuf:"varint,3,opt,name=tokens,proto3" json:"tokens,omitempty"` // how long the shared run is, which is what ranks one match above another
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CompareSubmissionsOutput_Match) Reset() {
+	*x = CompareSubmissionsOutput_Match{}
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareSubmissionsOutput_Match) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareSubmissionsOutput_Match) ProtoMessage() {}
+
+func (x *CompareSubmissionsOutput_Match) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareSubmissionsOutput_Match.ProtoReflect.Descriptor instead.
+func (*CompareSubmissionsOutput_Match) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{1, 2}
+}
+
+func (x *CompareSubmissionsOutput_Match) GetSubmission() *CompareSubmissionsOutput_Span {
+	if x != nil {
+		return x.Submission
+	}
+	return nil
+}
+
+func (x *CompareSubmissionsOutput_Match) GetOtherSubmission() *CompareSubmissionsOutput_Span {
+	if x != nil {
+		return x.OtherSubmission
+	}
+	return nil
+}
+
+func (x *CompareSubmissionsOutput_Match) GetTokens() int32 {
+	if x != nil {
+		return x.Tokens
+	}
+	return 0
 }
 
 type ListSubmissionsInput_Filter struct {
@@ -1250,7 +1534,7 @@ type ListSubmissionsInput_Filter struct {
 
 func (x *ListSubmissionsInput_Filter) Reset() {
 	*x = ListSubmissionsInput_Filter{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[20]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1262,7 +1546,7 @@ func (x *ListSubmissionsInput_Filter) String() string {
 func (*ListSubmissionsInput_Filter) ProtoMessage() {}
 
 func (x *ListSubmissionsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[20]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1275,7 +1559,7 @@ func (x *ListSubmissionsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSubmissionsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListSubmissionsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{12, 0}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{14, 0}
 }
 
 func (x *ListSubmissionsInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -1365,7 +1649,7 @@ type AggregateSubmissionsInput_Filter struct {
 
 func (x *AggregateSubmissionsInput_Filter) Reset() {
 	*x = AggregateSubmissionsInput_Filter{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[21]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1377,7 +1661,7 @@ func (x *AggregateSubmissionsInput_Filter) String() string {
 func (*AggregateSubmissionsInput_Filter) ProtoMessage() {}
 
 func (x *AggregateSubmissionsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[21]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1390,7 +1674,7 @@ func (x *AggregateSubmissionsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AggregateSubmissionsInput_Filter.ProtoReflect.Descriptor instead.
 func (*AggregateSubmissionsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{18, 0}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{20, 0}
 }
 
 func (x *AggregateSubmissionsInput_Filter) GetProblemId() []*wellknown.ExpressionID {
@@ -1460,7 +1744,7 @@ type AggregateSubmissionsOutput_Bucket struct {
 
 func (x *AggregateSubmissionsOutput_Bucket) Reset() {
 	*x = AggregateSubmissionsOutput_Bucket{}
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[22]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1472,7 +1756,7 @@ func (x *AggregateSubmissionsOutput_Bucket) String() string {
 func (*AggregateSubmissionsOutput_Bucket) ProtoMessage() {}
 
 func (x *AggregateSubmissionsOutput_Bucket) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[22]
+	mi := &file_eolymp_atlas_submission_service_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1485,7 +1769,7 @@ func (x *AggregateSubmissionsOutput_Bucket) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use AggregateSubmissionsOutput_Bucket.ProtoReflect.Descriptor instead.
 func (*AggregateSubmissionsOutput_Bucket) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{19, 0}
+	return file_eolymp_atlas_submission_service_proto_rawDescGZIP(), []int{21, 0}
 }
 
 func (x *AggregateSubmissionsOutput_Bucket) GetDimensions() []string {
@@ -1506,7 +1790,29 @@ var File_eolymp_atlas_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/submission_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"z\n" +
+	"%eolymp/atlas/submission_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"n\n" +
+	"\x17CompareSubmissionsInput\x12#\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12.\n" +
+	"\x13other_submission_id\x18\x02 \x01(\tR\x11otherSubmissionId\"\xf1\x04\n" +
+	"\x18CompareSubmissionsOutput\x12M\n" +
+	"\n" +
+	"submission\x18\x01 \x01(\v2-.eolymp.atlas.CompareSubmissionsOutput.SourceR\n" +
+	"submission\x12X\n" +
+	"\x10other_submission\x18\x02 \x01(\v2-.eolymp.atlas.CompareSubmissionsOutput.SourceR\x0fotherSubmission\x12F\n" +
+	"\amatches\x18\x03 \x03(\v2,.eolymp.atlas.CompareSubmissionsOutput.MatchR\amatches\x1a_\n" +
+	"\x06Source\x12#\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x18\n" +
+	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
+	"\x06source\x18\x03 \x01(\tR\x06source\x1a<\n" +
+	"\x04Span\x12\x1b\n" +
+	"\tfrom_line\x18\x01 \x01(\x05R\bfromLine\x12\x17\n" +
+	"\ato_line\x18\x02 \x01(\x05R\x06toLine\x1a\xc4\x01\n" +
+	"\x05Match\x12K\n" +
+	"\n" +
+	"submission\x18\x01 \x01(\v2+.eolymp.atlas.CompareSubmissionsOutput.SpanR\n" +
+	"submission\x12V\n" +
+	"\x10other_submission\x18\x02 \x01(\v2+.eolymp.atlas.CompareSubmissionsOutput.SpanR\x0fotherSubmission\x12\x16\n" +
+	"\x06tokens\x18\x03 \x01(\x05R\x06tokens\"z\n" +
 	"\x16SubmissionChangedEvent\x120\n" +
 	"\x06before\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\x06before\x12.\n" +
 	"\x05after\x18\x02 \x01(\v2\x18.eolymp.atlas.SubmissionR\x05after\"k\n" +
@@ -1629,7 +1935,7 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"dimensions\x18\x02 \x03(\tR\n" +
 	"dimensions\x12\x14\n" +
 	"\x05count\x18\n" +
-	" \x01(\rR\x05count2\xf1\f\n" +
+	" \x01(\rR\x05count2\xb1\x0e\n" +
 	"\x11SubmissionService\x12\xa7\x01\n" +
 	"\x10CreateSubmission\x12#.eolymp.atlas.CreateSubmissionInput\x1a$.eolymp.atlas.CreateSubmissionOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1683,7 +1989,13 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/problems/{problem_id}/top\x12\xb2\x01\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/problems/{problem_id}/top\x12\xbd\x01\n" +
+	"\x12CompareSubmissions\x12%.eolymp.atlas.CompareSubmissionsInput\x1a&.eolymp.atlas.CompareSubmissionsOutput\"X\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x19\x8a\xe3\n" +
+	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02&\x12$/submissions/{submission_id}/compare\x12\xb2\x01\n" +
 	"\x14AggregateSubmissions\x12'.eolymp.atlas.AggregateSubmissionsInput\x1a(.eolymp.atlas.AggregateSubmissionsOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -1704,111 +2016,123 @@ func file_eolymp_atlas_submission_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_submission_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_submission_service_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_eolymp_atlas_submission_service_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_eolymp_atlas_submission_service_proto_goTypes = []any{
 	(AggregateSubmissionsInput_Metric)(0),     // 0: eolymp.atlas.AggregateSubmissionsInput.Metric
 	(AggregateSubmissionsInput_Dimension)(0),  // 1: eolymp.atlas.AggregateSubmissionsInput.Dimension
-	(*SubmissionChangedEvent)(nil),            // 2: eolymp.atlas.SubmissionChangedEvent
-	(*SubmissionCompleteEvent)(nil),           // 3: eolymp.atlas.SubmissionCompleteEvent
-	(*CreateSubmissionInput)(nil),             // 4: eolymp.atlas.CreateSubmissionInput
-	(*CreateSubmissionOutput)(nil),            // 5: eolymp.atlas.CreateSubmissionOutput
-	(*DescribeSubmissionInput)(nil),           // 6: eolymp.atlas.DescribeSubmissionInput
-	(*DescribeSubmissionOutput)(nil),          // 7: eolymp.atlas.DescribeSubmissionOutput
-	(*WatchSubmissionInput)(nil),              // 8: eolymp.atlas.WatchSubmissionInput
-	(*WatchSubmissionOutput)(nil),             // 9: eolymp.atlas.WatchSubmissionOutput
-	(*WatchSubmissionsListInput)(nil),         // 10: eolymp.atlas.WatchSubmissionsListInput
-	(*WatchSubmissionsListOutput)(nil),        // 11: eolymp.atlas.WatchSubmissionsListOutput
-	(*RetestSubmissionInput)(nil),             // 12: eolymp.atlas.RetestSubmissionInput
-	(*RetestSubmissionOutput)(nil),            // 13: eolymp.atlas.RetestSubmissionOutput
-	(*ListSubmissionsInput)(nil),              // 14: eolymp.atlas.ListSubmissionsInput
-	(*ListSubmissionsOutput)(nil),             // 15: eolymp.atlas.ListSubmissionsOutput
-	(*DescribeSubmissionUsageInput)(nil),      // 16: eolymp.atlas.DescribeSubmissionUsageInput
-	(*DescribeSubmissionUsageOutput)(nil),     // 17: eolymp.atlas.DescribeSubmissionUsageOutput
-	(*ListProblemTopInput)(nil),               // 18: eolymp.atlas.ListProblemTopInput
-	(*ListProblemTopOutput)(nil),              // 19: eolymp.atlas.ListProblemTopOutput
-	(*AggregateSubmissionsInput)(nil),         // 20: eolymp.atlas.AggregateSubmissionsInput
-	(*AggregateSubmissionsOutput)(nil),        // 21: eolymp.atlas.AggregateSubmissionsOutput
-	(*ListSubmissionsInput_Filter)(nil),       // 22: eolymp.atlas.ListSubmissionsInput.Filter
-	(*AggregateSubmissionsInput_Filter)(nil),  // 23: eolymp.atlas.AggregateSubmissionsInput.Filter
-	(*AggregateSubmissionsOutput_Bucket)(nil), // 24: eolymp.atlas.AggregateSubmissionsOutput.Bucket
-	(*Submission)(nil),                        // 25: eolymp.atlas.Submission
-	(*Submission_Quiz)(nil),                   // 26: eolymp.atlas.Submission.Quiz
-	(*Submission_Output)(nil),                 // 27: eolymp.atlas.Submission.Output
-	(Submission_Extra_Field)(0),               // 28: eolymp.atlas.Submission.Extra.Field
-	(wellknown.WatchEventType)(0),             // 29: eolymp.wellknown.WatchEventType
-	(*timestamppb.Timestamp)(nil),             // 30: google.protobuf.Timestamp
-	(*wellknown.ExpressionID)(nil),            // 31: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionTimestamp)(nil),     // 32: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionEnum)(nil),          // 33: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionFloat)(nil),         // 34: eolymp.wellknown.ExpressionFloat
+	(*CompareSubmissionsInput)(nil),           // 2: eolymp.atlas.CompareSubmissionsInput
+	(*CompareSubmissionsOutput)(nil),          // 3: eolymp.atlas.CompareSubmissionsOutput
+	(*SubmissionChangedEvent)(nil),            // 4: eolymp.atlas.SubmissionChangedEvent
+	(*SubmissionCompleteEvent)(nil),           // 5: eolymp.atlas.SubmissionCompleteEvent
+	(*CreateSubmissionInput)(nil),             // 6: eolymp.atlas.CreateSubmissionInput
+	(*CreateSubmissionOutput)(nil),            // 7: eolymp.atlas.CreateSubmissionOutput
+	(*DescribeSubmissionInput)(nil),           // 8: eolymp.atlas.DescribeSubmissionInput
+	(*DescribeSubmissionOutput)(nil),          // 9: eolymp.atlas.DescribeSubmissionOutput
+	(*WatchSubmissionInput)(nil),              // 10: eolymp.atlas.WatchSubmissionInput
+	(*WatchSubmissionOutput)(nil),             // 11: eolymp.atlas.WatchSubmissionOutput
+	(*WatchSubmissionsListInput)(nil),         // 12: eolymp.atlas.WatchSubmissionsListInput
+	(*WatchSubmissionsListOutput)(nil),        // 13: eolymp.atlas.WatchSubmissionsListOutput
+	(*RetestSubmissionInput)(nil),             // 14: eolymp.atlas.RetestSubmissionInput
+	(*RetestSubmissionOutput)(nil),            // 15: eolymp.atlas.RetestSubmissionOutput
+	(*ListSubmissionsInput)(nil),              // 16: eolymp.atlas.ListSubmissionsInput
+	(*ListSubmissionsOutput)(nil),             // 17: eolymp.atlas.ListSubmissionsOutput
+	(*DescribeSubmissionUsageInput)(nil),      // 18: eolymp.atlas.DescribeSubmissionUsageInput
+	(*DescribeSubmissionUsageOutput)(nil),     // 19: eolymp.atlas.DescribeSubmissionUsageOutput
+	(*ListProblemTopInput)(nil),               // 20: eolymp.atlas.ListProblemTopInput
+	(*ListProblemTopOutput)(nil),              // 21: eolymp.atlas.ListProblemTopOutput
+	(*AggregateSubmissionsInput)(nil),         // 22: eolymp.atlas.AggregateSubmissionsInput
+	(*AggregateSubmissionsOutput)(nil),        // 23: eolymp.atlas.AggregateSubmissionsOutput
+	(*CompareSubmissionsOutput_Source)(nil),   // 24: eolymp.atlas.CompareSubmissionsOutput.Source
+	(*CompareSubmissionsOutput_Span)(nil),     // 25: eolymp.atlas.CompareSubmissionsOutput.Span
+	(*CompareSubmissionsOutput_Match)(nil),    // 26: eolymp.atlas.CompareSubmissionsOutput.Match
+	(*ListSubmissionsInput_Filter)(nil),       // 27: eolymp.atlas.ListSubmissionsInput.Filter
+	(*AggregateSubmissionsInput_Filter)(nil),  // 28: eolymp.atlas.AggregateSubmissionsInput.Filter
+	(*AggregateSubmissionsOutput_Bucket)(nil), // 29: eolymp.atlas.AggregateSubmissionsOutput.Bucket
+	(*Submission)(nil),                        // 30: eolymp.atlas.Submission
+	(*Submission_Quiz)(nil),                   // 31: eolymp.atlas.Submission.Quiz
+	(*Submission_Output)(nil),                 // 32: eolymp.atlas.Submission.Output
+	(Submission_Extra_Field)(0),               // 33: eolymp.atlas.Submission.Extra.Field
+	(wellknown.WatchEventType)(0),             // 34: eolymp.wellknown.WatchEventType
+	(*timestamppb.Timestamp)(nil),             // 35: google.protobuf.Timestamp
+	(*wellknown.ExpressionID)(nil),            // 36: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionTimestamp)(nil),     // 37: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionEnum)(nil),          // 38: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionFloat)(nil),         // 39: eolymp.wellknown.ExpressionFloat
 }
 var file_eolymp_atlas_submission_service_proto_depIdxs = []int32{
-	25, // 0: eolymp.atlas.SubmissionChangedEvent.before:type_name -> eolymp.atlas.Submission
-	25, // 1: eolymp.atlas.SubmissionChangedEvent.after:type_name -> eolymp.atlas.Submission
-	25, // 2: eolymp.atlas.SubmissionCompleteEvent.submission:type_name -> eolymp.atlas.Submission
-	26, // 3: eolymp.atlas.CreateSubmissionInput.quiz:type_name -> eolymp.atlas.Submission.Quiz
-	27, // 4: eolymp.atlas.CreateSubmissionInput.output:type_name -> eolymp.atlas.Submission.Output
-	28, // 5: eolymp.atlas.DescribeSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
-	25, // 6: eolymp.atlas.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	28, // 7: eolymp.atlas.WatchSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
-	25, // 8: eolymp.atlas.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	29, // 9: eolymp.atlas.WatchSubmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	28, // 10: eolymp.atlas.WatchSubmissionsListInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
-	29, // 11: eolymp.atlas.WatchSubmissionsListOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	25, // 12: eolymp.atlas.WatchSubmissionsListOutput.submission:type_name -> eolymp.atlas.Submission
-	22, // 13: eolymp.atlas.ListSubmissionsInput.filters:type_name -> eolymp.atlas.ListSubmissionsInput.Filter
-	28, // 14: eolymp.atlas.ListSubmissionsInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
-	25, // 15: eolymp.atlas.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
-	30, // 16: eolymp.atlas.DescribeSubmissionUsageInput.period_start:type_name -> google.protobuf.Timestamp
-	30, // 17: eolymp.atlas.DescribeSubmissionUsageInput.period_end:type_name -> google.protobuf.Timestamp
-	25, // 18: eolymp.atlas.ListProblemTopOutput.items:type_name -> eolymp.atlas.Submission
-	0,  // 19: eolymp.atlas.AggregateSubmissionsInput.metric:type_name -> eolymp.atlas.AggregateSubmissionsInput.Metric
-	1,  // 20: eolymp.atlas.AggregateSubmissionsInput.group_by:type_name -> eolymp.atlas.AggregateSubmissionsInput.Dimension
-	30, // 21: eolymp.atlas.AggregateSubmissionsInput.range_start:type_name -> google.protobuf.Timestamp
-	30, // 22: eolymp.atlas.AggregateSubmissionsInput.range_end:type_name -> google.protobuf.Timestamp
-	23, // 23: eolymp.atlas.AggregateSubmissionsInput.filters:type_name -> eolymp.atlas.AggregateSubmissionsInput.Filter
-	24, // 24: eolymp.atlas.AggregateSubmissionsOutput.buckets:type_name -> eolymp.atlas.AggregateSubmissionsOutput.Bucket
-	31, // 25: eolymp.atlas.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 26: eolymp.atlas.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 27: eolymp.atlas.ListSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 28: eolymp.atlas.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	32, // 29: eolymp.atlas.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	33, // 30: eolymp.atlas.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 31: eolymp.atlas.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 32: eolymp.atlas.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	34, // 33: eolymp.atlas.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	34, // 34: eolymp.atlas.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	31, // 35: eolymp.atlas.AggregateSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 36: eolymp.atlas.AggregateSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 37: eolymp.atlas.AggregateSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	33, // 38: eolymp.atlas.AggregateSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 39: eolymp.atlas.AggregateSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 40: eolymp.atlas.AggregateSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	34, // 41: eolymp.atlas.AggregateSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	34, // 42: eolymp.atlas.AggregateSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	4,  // 43: eolymp.atlas.SubmissionService.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
-	12, // 44: eolymp.atlas.SubmissionService.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
-	6,  // 45: eolymp.atlas.SubmissionService.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
-	8,  // 46: eolymp.atlas.SubmissionService.WatchSubmission:input_type -> eolymp.atlas.WatchSubmissionInput
-	10, // 47: eolymp.atlas.SubmissionService.WatchSubmissionsList:input_type -> eolymp.atlas.WatchSubmissionsListInput
-	14, // 48: eolymp.atlas.SubmissionService.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
-	16, // 49: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:input_type -> eolymp.atlas.DescribeSubmissionUsageInput
-	18, // 50: eolymp.atlas.SubmissionService.ListProblemTop:input_type -> eolymp.atlas.ListProblemTopInput
-	20, // 51: eolymp.atlas.SubmissionService.AggregateSubmissions:input_type -> eolymp.atlas.AggregateSubmissionsInput
-	5,  // 52: eolymp.atlas.SubmissionService.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
-	13, // 53: eolymp.atlas.SubmissionService.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
-	7,  // 54: eolymp.atlas.SubmissionService.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
-	9,  // 55: eolymp.atlas.SubmissionService.WatchSubmission:output_type -> eolymp.atlas.WatchSubmissionOutput
-	11, // 56: eolymp.atlas.SubmissionService.WatchSubmissionsList:output_type -> eolymp.atlas.WatchSubmissionsListOutput
-	15, // 57: eolymp.atlas.SubmissionService.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
-	17, // 58: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:output_type -> eolymp.atlas.DescribeSubmissionUsageOutput
-	19, // 59: eolymp.atlas.SubmissionService.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
-	21, // 60: eolymp.atlas.SubmissionService.AggregateSubmissions:output_type -> eolymp.atlas.AggregateSubmissionsOutput
-	52, // [52:61] is the sub-list for method output_type
-	43, // [43:52] is the sub-list for method input_type
-	43, // [43:43] is the sub-list for extension type_name
-	43, // [43:43] is the sub-list for extension extendee
-	0,  // [0:43] is the sub-list for field type_name
+	24, // 0: eolymp.atlas.CompareSubmissionsOutput.submission:type_name -> eolymp.atlas.CompareSubmissionsOutput.Source
+	24, // 1: eolymp.atlas.CompareSubmissionsOutput.other_submission:type_name -> eolymp.atlas.CompareSubmissionsOutput.Source
+	26, // 2: eolymp.atlas.CompareSubmissionsOutput.matches:type_name -> eolymp.atlas.CompareSubmissionsOutput.Match
+	30, // 3: eolymp.atlas.SubmissionChangedEvent.before:type_name -> eolymp.atlas.Submission
+	30, // 4: eolymp.atlas.SubmissionChangedEvent.after:type_name -> eolymp.atlas.Submission
+	30, // 5: eolymp.atlas.SubmissionCompleteEvent.submission:type_name -> eolymp.atlas.Submission
+	31, // 6: eolymp.atlas.CreateSubmissionInput.quiz:type_name -> eolymp.atlas.Submission.Quiz
+	32, // 7: eolymp.atlas.CreateSubmissionInput.output:type_name -> eolymp.atlas.Submission.Output
+	33, // 8: eolymp.atlas.DescribeSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
+	30, // 9: eolymp.atlas.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
+	33, // 10: eolymp.atlas.WatchSubmissionInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
+	30, // 11: eolymp.atlas.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
+	34, // 12: eolymp.atlas.WatchSubmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	33, // 13: eolymp.atlas.WatchSubmissionsListInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
+	34, // 14: eolymp.atlas.WatchSubmissionsListOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	30, // 15: eolymp.atlas.WatchSubmissionsListOutput.submission:type_name -> eolymp.atlas.Submission
+	27, // 16: eolymp.atlas.ListSubmissionsInput.filters:type_name -> eolymp.atlas.ListSubmissionsInput.Filter
+	33, // 17: eolymp.atlas.ListSubmissionsInput.extra:type_name -> eolymp.atlas.Submission.Extra.Field
+	30, // 18: eolymp.atlas.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
+	35, // 19: eolymp.atlas.DescribeSubmissionUsageInput.period_start:type_name -> google.protobuf.Timestamp
+	35, // 20: eolymp.atlas.DescribeSubmissionUsageInput.period_end:type_name -> google.protobuf.Timestamp
+	30, // 21: eolymp.atlas.ListProblemTopOutput.items:type_name -> eolymp.atlas.Submission
+	0,  // 22: eolymp.atlas.AggregateSubmissionsInput.metric:type_name -> eolymp.atlas.AggregateSubmissionsInput.Metric
+	1,  // 23: eolymp.atlas.AggregateSubmissionsInput.group_by:type_name -> eolymp.atlas.AggregateSubmissionsInput.Dimension
+	35, // 24: eolymp.atlas.AggregateSubmissionsInput.range_start:type_name -> google.protobuf.Timestamp
+	35, // 25: eolymp.atlas.AggregateSubmissionsInput.range_end:type_name -> google.protobuf.Timestamp
+	28, // 26: eolymp.atlas.AggregateSubmissionsInput.filters:type_name -> eolymp.atlas.AggregateSubmissionsInput.Filter
+	29, // 27: eolymp.atlas.AggregateSubmissionsOutput.buckets:type_name -> eolymp.atlas.AggregateSubmissionsOutput.Bucket
+	25, // 28: eolymp.atlas.CompareSubmissionsOutput.Match.submission:type_name -> eolymp.atlas.CompareSubmissionsOutput.Span
+	25, // 29: eolymp.atlas.CompareSubmissionsOutput.Match.other_submission:type_name -> eolymp.atlas.CompareSubmissionsOutput.Span
+	36, // 30: eolymp.atlas.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 31: eolymp.atlas.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 32: eolymp.atlas.ListSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 33: eolymp.atlas.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	37, // 34: eolymp.atlas.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	38, // 35: eolymp.atlas.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	38, // 36: eolymp.atlas.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	38, // 37: eolymp.atlas.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 38: eolymp.atlas.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	39, // 39: eolymp.atlas.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	36, // 40: eolymp.atlas.AggregateSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 41: eolymp.atlas.AggregateSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 42: eolymp.atlas.AggregateSubmissionsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 43: eolymp.atlas.AggregateSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	38, // 44: eolymp.atlas.AggregateSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	38, // 45: eolymp.atlas.AggregateSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 46: eolymp.atlas.AggregateSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	39, // 47: eolymp.atlas.AggregateSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	6,  // 48: eolymp.atlas.SubmissionService.CreateSubmission:input_type -> eolymp.atlas.CreateSubmissionInput
+	14, // 49: eolymp.atlas.SubmissionService.RetestSubmission:input_type -> eolymp.atlas.RetestSubmissionInput
+	8,  // 50: eolymp.atlas.SubmissionService.DescribeSubmission:input_type -> eolymp.atlas.DescribeSubmissionInput
+	10, // 51: eolymp.atlas.SubmissionService.WatchSubmission:input_type -> eolymp.atlas.WatchSubmissionInput
+	12, // 52: eolymp.atlas.SubmissionService.WatchSubmissionsList:input_type -> eolymp.atlas.WatchSubmissionsListInput
+	16, // 53: eolymp.atlas.SubmissionService.ListSubmissions:input_type -> eolymp.atlas.ListSubmissionsInput
+	18, // 54: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:input_type -> eolymp.atlas.DescribeSubmissionUsageInput
+	20, // 55: eolymp.atlas.SubmissionService.ListProblemTop:input_type -> eolymp.atlas.ListProblemTopInput
+	2,  // 56: eolymp.atlas.SubmissionService.CompareSubmissions:input_type -> eolymp.atlas.CompareSubmissionsInput
+	22, // 57: eolymp.atlas.SubmissionService.AggregateSubmissions:input_type -> eolymp.atlas.AggregateSubmissionsInput
+	7,  // 58: eolymp.atlas.SubmissionService.CreateSubmission:output_type -> eolymp.atlas.CreateSubmissionOutput
+	15, // 59: eolymp.atlas.SubmissionService.RetestSubmission:output_type -> eolymp.atlas.RetestSubmissionOutput
+	9,  // 60: eolymp.atlas.SubmissionService.DescribeSubmission:output_type -> eolymp.atlas.DescribeSubmissionOutput
+	11, // 61: eolymp.atlas.SubmissionService.WatchSubmission:output_type -> eolymp.atlas.WatchSubmissionOutput
+	13, // 62: eolymp.atlas.SubmissionService.WatchSubmissionsList:output_type -> eolymp.atlas.WatchSubmissionsListOutput
+	17, // 63: eolymp.atlas.SubmissionService.ListSubmissions:output_type -> eolymp.atlas.ListSubmissionsOutput
+	19, // 64: eolymp.atlas.SubmissionService.DescribeSubmissionUsage:output_type -> eolymp.atlas.DescribeSubmissionUsageOutput
+	21, // 65: eolymp.atlas.SubmissionService.ListProblemTop:output_type -> eolymp.atlas.ListProblemTopOutput
+	3,  // 66: eolymp.atlas.SubmissionService.CompareSubmissions:output_type -> eolymp.atlas.CompareSubmissionsOutput
+	23, // 67: eolymp.atlas.SubmissionService.AggregateSubmissions:output_type -> eolymp.atlas.AggregateSubmissionsOutput
+	58, // [58:68] is the sub-list for method output_type
+	48, // [48:58] is the sub-list for method input_type
+	48, // [48:48] is the sub-list for extension type_name
+	48, // [48:48] is the sub-list for extension extendee
+	0,  // [0:48] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_submission_service_proto_init() }
@@ -1817,7 +2141,7 @@ func file_eolymp_atlas_submission_service_proto_init() {
 		return
 	}
 	file_eolymp_atlas_submission_proto_init()
-	file_eolymp_atlas_submission_service_proto_msgTypes[2].OneofWrappers = []any{
+	file_eolymp_atlas_submission_service_proto_msgTypes[4].OneofWrappers = []any{
 		(*CreateSubmissionInput_Quiz)(nil),
 		(*CreateSubmissionInput_Output)(nil),
 	}
@@ -1827,7 +2151,7 @@ func file_eolymp_atlas_submission_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_submission_service_proto_rawDesc), len(file_eolymp_atlas_submission_service_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   23,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

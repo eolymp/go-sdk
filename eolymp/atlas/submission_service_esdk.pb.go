@@ -181,6 +181,22 @@ func (s *SubmissionServiceService) ListProblemTop(ctx context.Context, in *ListP
 	return out, nil
 }
 
+func (s *SubmissionServiceService) CompareSubmissions(ctx context.Context, in *CompareSubmissionsInput) (*CompareSubmissionsOutput, error) {
+	out := &CompareSubmissionsOutput{}
+	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/compare"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SubmissionId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *SubmissionServiceService) AggregateSubmissions(ctx context.Context, in *AggregateSubmissionsInput) (*AggregateSubmissionsOutput, error) {
 	out := &AggregateSubmissionsOutput{}
 	path := "/submissions:aggregate"

@@ -27,6 +27,7 @@ const (
 	SubmissionService_ListSubmissions_FullMethodName         = "/eolymp.atlas.SubmissionService/ListSubmissions"
 	SubmissionService_DescribeSubmissionUsage_FullMethodName = "/eolymp.atlas.SubmissionService/DescribeSubmissionUsage"
 	SubmissionService_ListProblemTop_FullMethodName          = "/eolymp.atlas.SubmissionService/ListProblemTop"
+	SubmissionService_CompareSubmissions_FullMethodName      = "/eolymp.atlas.SubmissionService/CompareSubmissions"
 	SubmissionService_AggregateSubmissions_FullMethodName    = "/eolymp.atlas.SubmissionService/AggregateSubmissions"
 )
 
@@ -78,6 +79,19 @@ type SubmissionServiceClient interface {
 	// boards; partially scored and unfinished submissions never appear, and the list can be neither filtered
 	// nor paged, so use ListSubmissions for anything else.
 	ListProblemTop(ctx context.Context, in *ListProblemTopInput, opts ...grpc.CallOption) (*ListProblemTopOutput, error)
+	// CompareSubmissions returns two programs and where they say the same thing: both sources, and the runs
+	// their normalised token streams share as line ranges on each side, longest first.
+	//
+	// The sources come back with the ranges because the ranges are useless without them, and because line
+	// numbers only mean something against the exact text they were measured on. It answers "where do these two
+	// match", which is what somebody reading a copying case needs, and it is computed on request rather than
+	// stored: a match follows from two sources which never change. The comparison is lexical rather than
+	// textual — identifiers and literals have already collapsed by the time it runs, so a passage that was
+	// renamed and reformatted still lines up, which a line diff cannot do.
+	//
+	// The sources are returned whatever the languages are; matches are not, for submissions in different
+	// language families or in a language with no tokeniser spec, since neither can be compared at all.
+	CompareSubmissions(ctx context.Context, in *CompareSubmissionsInput, opts ...grpc.CallOption) (*CompareSubmissionsOutput, error)
 	// AggregateSubmissions reports a metric per group over a time range and is what charts use instead of
 	// listing every submission. Up to two grouping dimensions are allowed, and time buckets with no
 	// submissions come back as zeroes rather than being skipped. Reading analytics needs its own permission,
@@ -191,6 +205,16 @@ func (c *submissionServiceClient) ListProblemTop(ctx context.Context, in *ListPr
 	return out, nil
 }
 
+func (c *submissionServiceClient) CompareSubmissions(ctx context.Context, in *CompareSubmissionsInput, opts ...grpc.CallOption) (*CompareSubmissionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompareSubmissionsOutput)
+	err := c.cc.Invoke(ctx, SubmissionService_CompareSubmissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *submissionServiceClient) AggregateSubmissions(ctx context.Context, in *AggregateSubmissionsInput, opts ...grpc.CallOption) (*AggregateSubmissionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AggregateSubmissionsOutput)
@@ -249,6 +273,19 @@ type SubmissionServiceServer interface {
 	// boards; partially scored and unfinished submissions never appear, and the list can be neither filtered
 	// nor paged, so use ListSubmissions for anything else.
 	ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error)
+	// CompareSubmissions returns two programs and where they say the same thing: both sources, and the runs
+	// their normalised token streams share as line ranges on each side, longest first.
+	//
+	// The sources come back with the ranges because the ranges are useless without them, and because line
+	// numbers only mean something against the exact text they were measured on. It answers "where do these two
+	// match", which is what somebody reading a copying case needs, and it is computed on request rather than
+	// stored: a match follows from two sources which never change. The comparison is lexical rather than
+	// textual — identifiers and literals have already collapsed by the time it runs, so a passage that was
+	// renamed and reformatted still lines up, which a line diff cannot do.
+	//
+	// The sources are returned whatever the languages are; matches are not, for submissions in different
+	// language families or in a language with no tokeniser spec, since neither can be compared at all.
+	CompareSubmissions(context.Context, *CompareSubmissionsInput) (*CompareSubmissionsOutput, error)
 	// AggregateSubmissions reports a metric per group over a time range and is what charts use instead of
 	// listing every submission. Up to two grouping dimensions are allowed, and time buckets with no
 	// submissions come back as zeroes rather than being skipped. Reading analytics needs its own permission,
@@ -286,6 +323,9 @@ func (UnimplementedSubmissionServiceServer) DescribeSubmissionUsage(context.Cont
 }
 func (UnimplementedSubmissionServiceServer) ListProblemTop(context.Context, *ListProblemTopInput) (*ListProblemTopOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListProblemTop not implemented")
+}
+func (UnimplementedSubmissionServiceServer) CompareSubmissions(context.Context, *CompareSubmissionsInput) (*CompareSubmissionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CompareSubmissions not implemented")
 }
 func (UnimplementedSubmissionServiceServer) AggregateSubmissions(context.Context, *AggregateSubmissionsInput) (*AggregateSubmissionsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method AggregateSubmissions not implemented")
@@ -440,6 +480,24 @@ func _SubmissionService_ListProblemTop_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubmissionService_CompareSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompareSubmissionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubmissionServiceServer).CompareSubmissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubmissionService_CompareSubmissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubmissionServiceServer).CompareSubmissions(ctx, req.(*CompareSubmissionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SubmissionService_AggregateSubmissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AggregateSubmissionsInput)
 	if err := dec(in); err != nil {
@@ -488,6 +546,10 @@ var SubmissionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProblemTop",
 			Handler:    _SubmissionService_ListProblemTop_Handler,
+		},
+		{
+			MethodName: "CompareSubmissions",
+			Handler:    _SubmissionService_CompareSubmissions_Handler,
 		},
 		{
 			MethodName: "AggregateSubmissions",

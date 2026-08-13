@@ -314,6 +314,9 @@ func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/submissions:watch", _SubmissionService_WatchSubmissionsList_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.WatchSubmissionsList")
+	router.Handle(prefix+"/submissions/{submission_id}/compare", _SubmissionService_CompareSubmissions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.SubmissionService.CompareSubmissions")
 	router.Handle(prefix+"/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.SubmissionService.RetestSubmission")
@@ -464,6 +467,30 @@ func _SubmissionService_WatchSubmissionsList_Rule0(cli SubmissionServiceClient) 
 		}
 
 		_SubmissionService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
+	})
+}
+
+func _SubmissionService_CompareSubmissions_Rule0(cli SubmissionServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CompareSubmissionsInput{}
+
+		if err := _SubmissionService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SubmissionId = vars["submission_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CompareSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SubmissionService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SubmissionService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
 

@@ -113,70 +113,17 @@ func (*Evidence_Submission_) isEvidence_Value() {}
 
 func (*Evidence_Pair_) isEvidence_Value() {}
 
-type Evidence_Span struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FromLine      int32                  `protobuf:"varint,1,opt,name=from_line,json=fromLine,proto3" json:"from_line,omitempty"`
-	ToLine        int32                  `protobuf:"varint,2,opt,name=to_line,json=toLine,proto3" json:"to_line,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Evidence_Span) Reset() {
-	*x = Evidence_Span{}
-	mi := &file_eolymp_judge_evidence_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Evidence_Span) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Evidence_Span) ProtoMessage() {}
-
-func (x *Evidence_Span) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_evidence_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Evidence_Span.ProtoReflect.Descriptor instead.
-func (*Evidence_Span) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *Evidence_Span) GetFromLine() int32 {
-	if x != nil {
-		return x.FromLine
-	}
-	return 0
-}
-
-func (x *Evidence_Span) GetToLine() int32 {
-	if x != nil {
-		return x.ToLine
-	}
-	return 0
-}
-
 type Evidence_Submission struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SubmissionId  string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
 	SubmittedAt   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
-	Spans         []*Evidence_Span       `protobuf:"bytes,3,rep,name=spans,proto3" json:"spans,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Evidence_Submission) Reset() {
 	*x = Evidence_Submission{}
-	mi := &file_eolymp_judge_evidence_proto_msgTypes[2]
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -188,7 +135,7 @@ func (x *Evidence_Submission) String() string {
 func (*Evidence_Submission) ProtoMessage() {}
 
 func (x *Evidence_Submission) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_evidence_proto_msgTypes[2]
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -201,7 +148,7 @@ func (x *Evidence_Submission) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Evidence_Submission.ProtoReflect.Descriptor instead.
 func (*Evidence_Submission) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *Evidence_Submission) GetSubmissionId() string {
@@ -218,13 +165,6 @@ func (x *Evidence_Submission) GetSubmittedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Evidence_Submission) GetSpans() []*Evidence_Span {
-	if x != nil {
-		return x.Spans
-	}
-	return nil
-}
-
 type Evidence_Pair struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Left          *Evidence_Submission   `protobuf:"bytes,1,opt,name=left,proto3" json:"left,omitempty"`
@@ -236,7 +176,7 @@ type Evidence_Pair struct {
 
 func (x *Evidence_Pair) Reset() {
 	*x = Evidence_Pair{}
-	mi := &file_eolymp_judge_evidence_proto_msgTypes[3]
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -248,7 +188,7 @@ func (x *Evidence_Pair) String() string {
 func (*Evidence_Pair) ProtoMessage() {}
 
 func (x *Evidence_Pair) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_evidence_proto_msgTypes[3]
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -261,7 +201,7 @@ func (x *Evidence_Pair) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Evidence_Pair.ProtoReflect.Descriptor instead.
 func (*Evidence_Pair) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Evidence_Pair) GetLeft() *Evidence_Submission {
@@ -289,22 +229,18 @@ var File_eolymp_judge_evidence_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x96\x04\n" +
+	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x03\n" +
 	"\bEvidence\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12C\n" +
 	"\n" +
 	"submission\x18\n" +
 	" \x01(\v2!.eolymp.judge.Evidence.SubmissionH\x00R\n" +
 	"submission\x121\n" +
-	"\x04pair\x18\v \x01(\v2\x1b.eolymp.judge.Evidence.PairH\x00R\x04pair\x1a<\n" +
-	"\x04Span\x12\x1b\n" +
-	"\tfrom_line\x18\x01 \x01(\x05R\bfromLine\x12\x17\n" +
-	"\ato_line\x18\x02 \x01(\x05R\x06toLine\x1a\xa3\x01\n" +
+	"\x04pair\x18\v \x01(\v2\x1b.eolymp.judge.Evidence.PairH\x00R\x04pair\x1ap\n" +
 	"\n" +
 	"Submission\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12=\n" +
-	"\fsubmitted_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x121\n" +
-	"\x05spans\x18\x03 \x03(\v2\x1b.eolymp.judge.Evidence.SpanR\x05spans\x1a\x8c\x01\n" +
+	"\fsubmitted_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x1a\x8c\x01\n" +
 	"\x04Pair\x125\n" +
 	"\x04left\x18\x01 \x01(\v2!.eolymp.judge.Evidence.SubmissionR\x04left\x127\n" +
 	"\x05right\x18\x02 \x01(\v2!.eolymp.judge.Evidence.SubmissionR\x05right\x12\x14\n" +
@@ -323,26 +259,24 @@ func file_eolymp_judge_evidence_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_evidence_proto_rawDescData
 }
 
-var file_eolymp_judge_evidence_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_judge_evidence_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_judge_evidence_proto_goTypes = []any{
 	(*Evidence)(nil),              // 0: eolymp.judge.Evidence
-	(*Evidence_Span)(nil),         // 1: eolymp.judge.Evidence.Span
-	(*Evidence_Submission)(nil),   // 2: eolymp.judge.Evidence.Submission
-	(*Evidence_Pair)(nil),         // 3: eolymp.judge.Evidence.Pair
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Evidence_Submission)(nil),   // 1: eolymp.judge.Evidence.Submission
+	(*Evidence_Pair)(nil),         // 2: eolymp.judge.Evidence.Pair
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_judge_evidence_proto_depIdxs = []int32{
-	2, // 0: eolymp.judge.Evidence.submission:type_name -> eolymp.judge.Evidence.Submission
-	3, // 1: eolymp.judge.Evidence.pair:type_name -> eolymp.judge.Evidence.Pair
-	4, // 2: eolymp.judge.Evidence.Submission.submitted_at:type_name -> google.protobuf.Timestamp
-	1, // 3: eolymp.judge.Evidence.Submission.spans:type_name -> eolymp.judge.Evidence.Span
-	2, // 4: eolymp.judge.Evidence.Pair.left:type_name -> eolymp.judge.Evidence.Submission
-	2, // 5: eolymp.judge.Evidence.Pair.right:type_name -> eolymp.judge.Evidence.Submission
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	1, // 0: eolymp.judge.Evidence.submission:type_name -> eolymp.judge.Evidence.Submission
+	2, // 1: eolymp.judge.Evidence.pair:type_name -> eolymp.judge.Evidence.Pair
+	3, // 2: eolymp.judge.Evidence.Submission.submitted_at:type_name -> google.protobuf.Timestamp
+	1, // 3: eolymp.judge.Evidence.Pair.left:type_name -> eolymp.judge.Evidence.Submission
+	1, // 4: eolymp.judge.Evidence.Pair.right:type_name -> eolymp.judge.Evidence.Submission
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_evidence_proto_init() }
@@ -360,7 +294,7 @@ func file_eolymp_judge_evidence_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_evidence_proto_rawDesc), len(file_eolymp_judge_evidence_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
