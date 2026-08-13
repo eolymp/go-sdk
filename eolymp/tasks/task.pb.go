@@ -86,17 +86,16 @@ func (Task_Status) EnumDescriptor() ([]byte, []int) {
 
 // Task represents a unit of background work executed by a service.
 //
-// Tasks are created and executed internally by the owning service; this API exposes them as a
-// read-only projection for monitoring, cancellation and retries. Each service serves the shared
-// TaskService via the tasks library and the gateway proxies it under a per-resource path.
+// Tasks are created and executed by the service which owns the work; this API exposes them for
+// monitoring, cancellation and retries.
 type Task struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Full proto message name of the payload; used as the task type for dispatch.
 	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	// Reference to the resource the task belongs to, e.g. "problem/42"; used for per-resource listing.
-	Reference string      `protobuf:"bytes,3,opt,name=reference,proto3" json:"reference,omitempty"`
-	Status    Task_Status `protobuf:"varint,4,opt,name=status,proto3,enum=eolymp.tasks.Task_Status" json:"status,omitempty"`
+	// Resource the task belongs to, e.g. "/problems/42". "/" means the space itself.
+	Resource string      `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
+	Status   Task_Status `protobuf:"varint,4,opt,name=status,proto3,enum=eolymp.tasks.Task_Status" json:"status,omitempty"`
 	// Display-only representation of the typed payload. The payload is a typed proto message internally;
 	// it is exposed here as a Struct because the gateway's protojson cannot render an unknown Any type.
 	Payload       *structpb.Struct       `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
@@ -158,9 +157,9 @@ func (x *Task) GetType() string {
 	return ""
 }
 
-func (x *Task) GetReference() string {
+func (x *Task) GetResource() string {
 	if x != nil {
-		return x.Reference
+		return x.Resource
 	}
 	return ""
 }
@@ -253,11 +252,11 @@ var File_eolymp_tasks_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_task_proto_rawDesc = "" +
 	"\n" +
-	"\x17eolymp/tasks/task.proto\x12\feolymp.tasks\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x89\x05\n" +
+	"\x17eolymp/tasks/task.proto\x12\feolymp.tasks\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x87\x05\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\x12\x1c\n" +
-	"\treference\x18\x03 \x01(\tR\treference\x121\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x1a\n" +
+	"\bresource\x18\x03 \x01(\tR\bresource\x121\n" +
 	"\x06status\x18\x04 \x01(\x0e2\x19.eolymp.tasks.Task.StatusR\x06status\x121\n" +
 	"\apayload\x18\x05 \x01(\v2\x17.google.protobuf.StructR\apayload\x12\x1a\n" +
 	"\bprogress\x18\x06 \x01(\rR\bprogress\x12\x14\n" +

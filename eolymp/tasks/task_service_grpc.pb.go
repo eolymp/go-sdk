@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	TaskService_CreateTask_FullMethodName   = "/eolymp.tasks.TaskService/CreateTask"
 	TaskService_ListTasks_FullMethodName    = "/eolymp.tasks.TaskService/ListTasks"
 	TaskService_DescribeTask_FullMethodName = "/eolymp.tasks.TaskService/DescribeTask"
 	TaskService_WatchTask_FullMethodName    = "/eolymp.tasks.TaskService/WatchTask"
@@ -30,9 +31,12 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// TaskService is the shared API for background tasks. It is served by each service via the tasks
-// library and proxied by the gateway under a per-resource path (e.g. /contests/{contest_id}/tasks).
+// TaskService lists background tasks in a space. Narrowing to a single entity is a filter, e.g.
+// filters.resource=/problems/42.
 type TaskServiceClient interface {
+	// CreateTask schedules a task and dispatches it for execution. It is internal: a service schedules
+	// tasks for itself, so the executing service is the caller.
+	CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error)
 	ListTasks(ctx context.Context, in *ListTasksInput, opts ...grpc.CallOption) (*ListTasksOutput, error)
 	DescribeTask(ctx context.Context, in *DescribeTaskInput, opts ...grpc.CallOption) (*DescribeTaskOutput, error)
 	// WatchTask streams the task's state until it reaches a terminal state.
@@ -47,6 +51,16 @@ type taskServiceClient struct {
 
 func NewTaskServiceClient(cc grpc.ClientConnInterface) TaskServiceClient {
 	return &taskServiceClient{cc}
+}
+
+func (c *taskServiceClient) CreateTask(ctx context.Context, in *CreateTaskInput, opts ...grpc.CallOption) (*CreateTaskOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateTaskOutput)
+	err := c.cc.Invoke(ctx, TaskService_CreateTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *taskServiceClient) ListTasks(ctx context.Context, in *ListTasksInput, opts ...grpc.CallOption) (*ListTasksOutput, error) {
@@ -112,9 +126,12 @@ func (c *taskServiceClient) RetryTask(ctx context.Context, in *RetryTaskInput, o
 // All implementations should embed UnimplementedTaskServiceServer
 // for forward compatibility.
 //
-// TaskService is the shared API for background tasks. It is served by each service via the tasks
-// library and proxied by the gateway under a per-resource path (e.g. /contests/{contest_id}/tasks).
+// TaskService lists background tasks in a space. Narrowing to a single entity is a filter, e.g.
+// filters.resource=/problems/42.
 type TaskServiceServer interface {
+	// CreateTask schedules a task and dispatches it for execution. It is internal: a service schedules
+	// tasks for itself, so the executing service is the caller.
+	CreateTask(context.Context, *CreateTaskInput) (*CreateTaskOutput, error)
 	ListTasks(context.Context, *ListTasksInput) (*ListTasksOutput, error)
 	DescribeTask(context.Context, *DescribeTaskInput) (*DescribeTaskOutput, error)
 	// WatchTask streams the task's state until it reaches a terminal state.
@@ -130,6 +147,9 @@ type TaskServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedTaskServiceServer struct{}
 
+func (UnimplementedTaskServiceServer) CreateTask(context.Context, *CreateTaskInput) (*CreateTaskOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateTask not implemented")
+}
 func (UnimplementedTaskServiceServer) ListTasks(context.Context, *ListTasksInput) (*ListTasksOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListTasks not implemented")
 }
@@ -163,6 +183,24 @@ func RegisterTaskServiceServer(s grpc.ServiceRegistrar, srv TaskServiceServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&TaskService_ServiceDesc, srv)
+}
+
+func _TaskService_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTaskInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).CreateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_CreateTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).CreateTask(ctx, req.(*CreateTaskInput))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _TaskService_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -255,6 +293,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "eolymp.tasks.TaskService",
 	HandlerType: (*TaskServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTask",
+			Handler:    _TaskService_CreateTask_Handler,
+		},
 		{
 			MethodName: "ListTasks",
 			Handler:    _TaskService_ListTasks_Handler,

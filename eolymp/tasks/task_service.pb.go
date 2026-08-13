@@ -11,6 +11,7 @@ import (
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,6 +23,130 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+type CreateTaskInput struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The task to execute: its type selects the handler, its fields are the parameters.
+	Task *anypb.Any `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	// Resource the task belongs to, e.g. "/problems/42". "/" means the space itself.
+	Resource string `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
+	// Caller's identifier for the task, which also makes it a singleton: creating a second task with
+	// the same reference while one is pending or running fails with an already-exists error.
+	Reference     string `protobuf:"bytes,3,opt,name=reference,proto3" json:"reference,omitempty"`
+	MaxAttempts   uint32 `protobuf:"varint,4,opt,name=max_attempts,json=maxAttempts,proto3" json:"max_attempts,omitempty"` // defaults to 3
+	Total         uint32 `protobuf:"varint,5,opt,name=total,proto3" json:"total,omitempty"`                                // total units of work, when known upfront
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTaskInput) Reset() {
+	*x = CreateTaskInput{}
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTaskInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTaskInput) ProtoMessage() {}
+
+func (x *CreateTaskInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTaskInput.ProtoReflect.Descriptor instead.
+func (*CreateTaskInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateTaskInput) GetTask() *anypb.Any {
+	if x != nil {
+		return x.Task
+	}
+	return nil
+}
+
+func (x *CreateTaskInput) GetResource() string {
+	if x != nil {
+		return x.Resource
+	}
+	return ""
+}
+
+func (x *CreateTaskInput) GetReference() string {
+	if x != nil {
+		return x.Reference
+	}
+	return ""
+}
+
+func (x *CreateTaskInput) GetMaxAttempts() uint32 {
+	if x != nil {
+		return x.MaxAttempts
+	}
+	return 0
+}
+
+func (x *CreateTaskInput) GetTotal() uint32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type CreateTaskOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateTaskOutput) Reset() {
+	*x = CreateTaskOutput{}
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateTaskOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateTaskOutput) ProtoMessage() {}
+
+func (x *CreateTaskOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateTaskOutput.ProtoReflect.Descriptor instead.
+func (*CreateTaskOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateTaskOutput) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
 
 type ListTasksInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -36,7 +161,7 @@ type ListTasksInput struct {
 
 func (x *ListTasksInput) Reset() {
 	*x = ListTasksInput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[0]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +173,7 @@ func (x *ListTasksInput) String() string {
 func (*ListTasksInput) ProtoMessage() {}
 
 func (x *ListTasksInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[0]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +186,7 @@ func (x *ListTasksInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTasksInput.ProtoReflect.Descriptor instead.
 func (*ListTasksInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListTasksInput) GetOffset() int32 {
@@ -95,7 +220,7 @@ type ListTasksOutput struct {
 
 func (x *ListTasksOutput) Reset() {
 	*x = ListTasksOutput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[1]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -107,7 +232,7 @@ func (x *ListTasksOutput) String() string {
 func (*ListTasksOutput) ProtoMessage() {}
 
 func (x *ListTasksOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[1]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -120,7 +245,7 @@ func (x *ListTasksOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTasksOutput.ProtoReflect.Descriptor instead.
 func (*ListTasksOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListTasksOutput) GetTotal() int32 {
@@ -146,7 +271,7 @@ type DescribeTaskInput struct {
 
 func (x *DescribeTaskInput) Reset() {
 	*x = DescribeTaskInput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[2]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -158,7 +283,7 @@ func (x *DescribeTaskInput) String() string {
 func (*DescribeTaskInput) ProtoMessage() {}
 
 func (x *DescribeTaskInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[2]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -171,7 +296,7 @@ func (x *DescribeTaskInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTaskInput.ProtoReflect.Descriptor instead.
 func (*DescribeTaskInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeTaskInput) GetTaskId() string {
@@ -190,7 +315,7 @@ type DescribeTaskOutput struct {
 
 func (x *DescribeTaskOutput) Reset() {
 	*x = DescribeTaskOutput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[3]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -202,7 +327,7 @@ func (x *DescribeTaskOutput) String() string {
 func (*DescribeTaskOutput) ProtoMessage() {}
 
 func (x *DescribeTaskOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[3]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -215,7 +340,7 @@ func (x *DescribeTaskOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTaskOutput.ProtoReflect.Descriptor instead.
 func (*DescribeTaskOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DescribeTaskOutput) GetTask() *Task {
@@ -234,7 +359,7 @@ type WatchTaskInput struct {
 
 func (x *WatchTaskInput) Reset() {
 	*x = WatchTaskInput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[4]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -246,7 +371,7 @@ func (x *WatchTaskInput) String() string {
 func (*WatchTaskInput) ProtoMessage() {}
 
 func (x *WatchTaskInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[4]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -259,7 +384,7 @@ func (x *WatchTaskInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchTaskInput.ProtoReflect.Descriptor instead.
 func (*WatchTaskInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *WatchTaskInput) GetTaskId() string {
@@ -279,7 +404,7 @@ type WatchTaskOutput struct {
 
 func (x *WatchTaskOutput) Reset() {
 	*x = WatchTaskOutput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[5]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -291,7 +416,7 @@ func (x *WatchTaskOutput) String() string {
 func (*WatchTaskOutput) ProtoMessage() {}
 
 func (x *WatchTaskOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[5]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +429,7 @@ func (x *WatchTaskOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchTaskOutput.ProtoReflect.Descriptor instead.
 func (*WatchTaskOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *WatchTaskOutput) GetTask() *Task {
@@ -330,7 +455,7 @@ type CancelTaskInput struct {
 
 func (x *CancelTaskInput) Reset() {
 	*x = CancelTaskInput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[6]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -342,7 +467,7 @@ func (x *CancelTaskInput) String() string {
 func (*CancelTaskInput) ProtoMessage() {}
 
 func (x *CancelTaskInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[6]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -355,7 +480,7 @@ func (x *CancelTaskInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelTaskInput.ProtoReflect.Descriptor instead.
 func (*CancelTaskInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CancelTaskInput) GetTaskId() string {
@@ -373,7 +498,7 @@ type CancelTaskOutput struct {
 
 func (x *CancelTaskOutput) Reset() {
 	*x = CancelTaskOutput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[7]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -385,7 +510,7 @@ func (x *CancelTaskOutput) String() string {
 func (*CancelTaskOutput) ProtoMessage() {}
 
 func (x *CancelTaskOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[7]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -398,7 +523,7 @@ func (x *CancelTaskOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelTaskOutput.ProtoReflect.Descriptor instead.
 func (*CancelTaskOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{9}
 }
 
 type RetryTaskInput struct {
@@ -410,7 +535,7 @@ type RetryTaskInput struct {
 
 func (x *RetryTaskInput) Reset() {
 	*x = RetryTaskInput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[8]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -422,7 +547,7 @@ func (x *RetryTaskInput) String() string {
 func (*RetryTaskInput) ProtoMessage() {}
 
 func (x *RetryTaskInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[8]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -435,7 +560,7 @@ func (x *RetryTaskInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetryTaskInput.ProtoReflect.Descriptor instead.
 func (*RetryTaskInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *RetryTaskInput) GetTaskId() string {
@@ -453,7 +578,7 @@ type RetryTaskOutput struct {
 
 func (x *RetryTaskOutput) Reset() {
 	*x = RetryTaskOutput{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[9]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -465,7 +590,7 @@ func (x *RetryTaskOutput) String() string {
 func (*RetryTaskOutput) ProtoMessage() {}
 
 func (x *RetryTaskOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[9]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,13 +603,13 @@ func (x *RetryTaskOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetryTaskOutput.ProtoReflect.Descriptor instead.
 func (*RetryTaskOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{11}
 }
 
 type ListTasksInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
-	Reference     []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=reference,proto3" json:"reference,omitempty"`
+	Resource      []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=resource,proto3" json:"resource,omitempty"`
 	Type          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=type,proto3" json:"type,omitempty"`
 	Status        []*wellknown.ExpressionEnum   `protobuf:"bytes,4,rep,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -493,7 +618,7 @@ type ListTasksInput_Filter struct {
 
 func (x *ListTasksInput_Filter) Reset() {
 	*x = ListTasksInput_Filter{}
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[10]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -505,7 +630,7 @@ func (x *ListTasksInput_Filter) String() string {
 func (*ListTasksInput_Filter) ProtoMessage() {}
 
 func (x *ListTasksInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_tasks_task_service_proto_msgTypes[10]
+	mi := &file_eolymp_tasks_task_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -518,7 +643,7 @@ func (x *ListTasksInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTasksInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListTasksInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_tasks_task_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
 func (x *ListTasksInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -528,9 +653,9 @@ func (x *ListTasksInput_Filter) GetId() []*wellknown.ExpressionID {
 	return nil
 }
 
-func (x *ListTasksInput_Filter) GetReference() []*wellknown.ExpressionString {
+func (x *ListTasksInput_Filter) GetResource() []*wellknown.ExpressionString {
 	if x != nil {
-		return x.Reference
+		return x.Resource
 	}
 	return nil
 }
@@ -553,15 +678,23 @@ var File_eolymp_tasks_task_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_task_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/tasks/task_service.proto\x12\feolymp.tasks\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/tasks/task.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xea\x02\n" +
+	"\x1feolymp/tasks/task_service.proto\x12\feolymp.tasks\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/tasks/task.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x19google/protobuf/any.proto\"\xae\x01\n" +
+	"\x0fCreateTaskInput\x12(\n" +
+	"\x04task\x18\x01 \x01(\v2\x14.google.protobuf.AnyR\x04task\x12\x1a\n" +
+	"\bresource\x18\x02 \x01(\tR\bresource\x12\x1c\n" +
+	"\treference\x18\x03 \x01(\tR\treference\x12!\n" +
+	"\fmax_attempts\x18\x04 \x01(\rR\vmaxAttempts\x12\x14\n" +
+	"\x05total\x18\x05 \x01(\rR\x05total\"+\n" +
+	"\x10CreateTaskOutput\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\xe8\x02\n" +
 	"\x0eListTasksInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12=\n" +
-	"\afilters\x18( \x01(\v2#.eolymp.tasks.ListTasksInput.FilterR\afilters\x1a\xec\x01\n" +
+	"\afilters\x18( \x01(\v2#.eolymp.tasks.ListTasksInput.FilterR\afilters\x1a\xea\x01\n" +
 	"\x06Filter\x12.\n" +
-	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12@\n" +
-	"\treference\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\treference\x126\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12>\n" +
+	"\bresource\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\bresource\x126\n" +
 	"\x04type\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04type\x128\n" +
 	"\x06status\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"Q\n" +
 	"\x0fListTasksOutput\x12\x14\n" +
@@ -581,8 +714,13 @@ const file_eolymp_tasks_task_service_proto_rawDesc = "" +
 	"\x10CancelTaskOutput\")\n" +
 	"\x0eRetryTaskInput\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x11\n" +
-	"\x0fRetryTaskOutput2\xf9\x05\n" +
-	"\vTaskService\x12~\n" +
+	"\x0fRetryTaskOutput2\xd8\x06\n" +
+	"\vTaskService\x12]\n" +
+	"\n" +
+	"CreateTask\x12\x1d.eolymp.tasks.CreateTaskInput\x1a\x1e.eolymp.tasks.CreateTaskOutput\"\x10\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"\xc8\x01\x12~\n" +
 	"\tListTasks\x12\x1c.eolymp.tasks.ListTasksInput\x1a\x1d.eolymp.tasks.ListTasksOutput\"4\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
@@ -628,50 +766,56 @@ func file_eolymp_tasks_task_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_tasks_task_service_proto_rawDescData
 }
 
-var file_eolymp_tasks_task_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_tasks_task_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_eolymp_tasks_task_service_proto_goTypes = []any{
-	(*ListTasksInput)(nil),             // 0: eolymp.tasks.ListTasksInput
-	(*ListTasksOutput)(nil),            // 1: eolymp.tasks.ListTasksOutput
-	(*DescribeTaskInput)(nil),          // 2: eolymp.tasks.DescribeTaskInput
-	(*DescribeTaskOutput)(nil),         // 3: eolymp.tasks.DescribeTaskOutput
-	(*WatchTaskInput)(nil),             // 4: eolymp.tasks.WatchTaskInput
-	(*WatchTaskOutput)(nil),            // 5: eolymp.tasks.WatchTaskOutput
-	(*CancelTaskInput)(nil),            // 6: eolymp.tasks.CancelTaskInput
-	(*CancelTaskOutput)(nil),           // 7: eolymp.tasks.CancelTaskOutput
-	(*RetryTaskInput)(nil),             // 8: eolymp.tasks.RetryTaskInput
-	(*RetryTaskOutput)(nil),            // 9: eolymp.tasks.RetryTaskOutput
-	(*ListTasksInput_Filter)(nil),      // 10: eolymp.tasks.ListTasksInput.Filter
-	(*Task)(nil),                       // 11: eolymp.tasks.Task
-	(wellknown.WatchEventType)(0),      // 12: eolymp.wellknown.WatchEventType
-	(*wellknown.ExpressionID)(nil),     // 13: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 14: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 15: eolymp.wellknown.ExpressionEnum
+	(*CreateTaskInput)(nil),            // 0: eolymp.tasks.CreateTaskInput
+	(*CreateTaskOutput)(nil),           // 1: eolymp.tasks.CreateTaskOutput
+	(*ListTasksInput)(nil),             // 2: eolymp.tasks.ListTasksInput
+	(*ListTasksOutput)(nil),            // 3: eolymp.tasks.ListTasksOutput
+	(*DescribeTaskInput)(nil),          // 4: eolymp.tasks.DescribeTaskInput
+	(*DescribeTaskOutput)(nil),         // 5: eolymp.tasks.DescribeTaskOutput
+	(*WatchTaskInput)(nil),             // 6: eolymp.tasks.WatchTaskInput
+	(*WatchTaskOutput)(nil),            // 7: eolymp.tasks.WatchTaskOutput
+	(*CancelTaskInput)(nil),            // 8: eolymp.tasks.CancelTaskInput
+	(*CancelTaskOutput)(nil),           // 9: eolymp.tasks.CancelTaskOutput
+	(*RetryTaskInput)(nil),             // 10: eolymp.tasks.RetryTaskInput
+	(*RetryTaskOutput)(nil),            // 11: eolymp.tasks.RetryTaskOutput
+	(*ListTasksInput_Filter)(nil),      // 12: eolymp.tasks.ListTasksInput.Filter
+	(*anypb.Any)(nil),                  // 13: google.protobuf.Any
+	(*Task)(nil),                       // 14: eolymp.tasks.Task
+	(wellknown.WatchEventType)(0),      // 15: eolymp.wellknown.WatchEventType
+	(*wellknown.ExpressionID)(nil),     // 16: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 17: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 18: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_tasks_task_service_proto_depIdxs = []int32{
-	10, // 0: eolymp.tasks.ListTasksInput.filters:type_name -> eolymp.tasks.ListTasksInput.Filter
-	11, // 1: eolymp.tasks.ListTasksOutput.items:type_name -> eolymp.tasks.Task
-	11, // 2: eolymp.tasks.DescribeTaskOutput.task:type_name -> eolymp.tasks.Task
-	11, // 3: eolymp.tasks.WatchTaskOutput.task:type_name -> eolymp.tasks.Task
-	12, // 4: eolymp.tasks.WatchTaskOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	13, // 5: eolymp.tasks.ListTasksInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 6: eolymp.tasks.ListTasksInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionString
-	14, // 7: eolymp.tasks.ListTasksInput.Filter.type:type_name -> eolymp.wellknown.ExpressionString
-	15, // 8: eolymp.tasks.ListTasksInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	0,  // 9: eolymp.tasks.TaskService.ListTasks:input_type -> eolymp.tasks.ListTasksInput
-	2,  // 10: eolymp.tasks.TaskService.DescribeTask:input_type -> eolymp.tasks.DescribeTaskInput
-	4,  // 11: eolymp.tasks.TaskService.WatchTask:input_type -> eolymp.tasks.WatchTaskInput
-	6,  // 12: eolymp.tasks.TaskService.CancelTask:input_type -> eolymp.tasks.CancelTaskInput
-	8,  // 13: eolymp.tasks.TaskService.RetryTask:input_type -> eolymp.tasks.RetryTaskInput
-	1,  // 14: eolymp.tasks.TaskService.ListTasks:output_type -> eolymp.tasks.ListTasksOutput
-	3,  // 15: eolymp.tasks.TaskService.DescribeTask:output_type -> eolymp.tasks.DescribeTaskOutput
-	5,  // 16: eolymp.tasks.TaskService.WatchTask:output_type -> eolymp.tasks.WatchTaskOutput
-	7,  // 17: eolymp.tasks.TaskService.CancelTask:output_type -> eolymp.tasks.CancelTaskOutput
-	9,  // 18: eolymp.tasks.TaskService.RetryTask:output_type -> eolymp.tasks.RetryTaskOutput
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	13, // 0: eolymp.tasks.CreateTaskInput.task:type_name -> google.protobuf.Any
+	12, // 1: eolymp.tasks.ListTasksInput.filters:type_name -> eolymp.tasks.ListTasksInput.Filter
+	14, // 2: eolymp.tasks.ListTasksOutput.items:type_name -> eolymp.tasks.Task
+	14, // 3: eolymp.tasks.DescribeTaskOutput.task:type_name -> eolymp.tasks.Task
+	14, // 4: eolymp.tasks.WatchTaskOutput.task:type_name -> eolymp.tasks.Task
+	15, // 5: eolymp.tasks.WatchTaskOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	16, // 6: eolymp.tasks.ListTasksInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	17, // 7: eolymp.tasks.ListTasksInput.Filter.resource:type_name -> eolymp.wellknown.ExpressionString
+	17, // 8: eolymp.tasks.ListTasksInput.Filter.type:type_name -> eolymp.wellknown.ExpressionString
+	18, // 9: eolymp.tasks.ListTasksInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 10: eolymp.tasks.TaskService.CreateTask:input_type -> eolymp.tasks.CreateTaskInput
+	2,  // 11: eolymp.tasks.TaskService.ListTasks:input_type -> eolymp.tasks.ListTasksInput
+	4,  // 12: eolymp.tasks.TaskService.DescribeTask:input_type -> eolymp.tasks.DescribeTaskInput
+	6,  // 13: eolymp.tasks.TaskService.WatchTask:input_type -> eolymp.tasks.WatchTaskInput
+	8,  // 14: eolymp.tasks.TaskService.CancelTask:input_type -> eolymp.tasks.CancelTaskInput
+	10, // 15: eolymp.tasks.TaskService.RetryTask:input_type -> eolymp.tasks.RetryTaskInput
+	1,  // 16: eolymp.tasks.TaskService.CreateTask:output_type -> eolymp.tasks.CreateTaskOutput
+	3,  // 17: eolymp.tasks.TaskService.ListTasks:output_type -> eolymp.tasks.ListTasksOutput
+	5,  // 18: eolymp.tasks.TaskService.DescribeTask:output_type -> eolymp.tasks.DescribeTaskOutput
+	7,  // 19: eolymp.tasks.TaskService.WatchTask:output_type -> eolymp.tasks.WatchTaskOutput
+	9,  // 20: eolymp.tasks.TaskService.CancelTask:output_type -> eolymp.tasks.CancelTaskOutput
+	11, // 21: eolymp.tasks.TaskService.RetryTask:output_type -> eolymp.tasks.RetryTaskOutput
+	16, // [16:22] is the sub-list for method output_type
+	10, // [10:16] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_tasks_task_service_proto_init() }
@@ -686,7 +830,7 @@ func file_eolymp_tasks_task_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_tasks_task_service_proto_rawDesc), len(file_eolymp_tasks_task_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
