@@ -8,6 +8,7 @@ package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -30,6 +31,7 @@ type Evidence struct {
 	//
 	//	*Evidence_Submission_
 	//	*Evidence_Pair_
+	//	*Evidence_Session_
 	Value         isEvidence_Value `protobuf_oneof:"value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -97,6 +99,15 @@ func (x *Evidence) GetPair() *Evidence_Pair {
 	return nil
 }
 
+func (x *Evidence) GetSession() *Evidence_Session {
+	if x != nil {
+		if x, ok := x.Value.(*Evidence_Session_); ok {
+			return x.Session
+		}
+	}
+	return nil
+}
+
 type isEvidence_Value interface {
 	isEvidence_Value()
 }
@@ -109,9 +120,15 @@ type Evidence_Pair_ struct {
 	Pair *Evidence_Pair `protobuf:"bytes,11,opt,name=pair,proto3,oneof"`
 }
 
+type Evidence_Session_ struct {
+	Session *Evidence_Session `protobuf:"bytes,12,opt,name=session,proto3,oneof"`
+}
+
 func (*Evidence_Submission_) isEvidence_Value() {}
 
 func (*Evidence_Pair_) isEvidence_Value() {}
+
+func (*Evidence_Session_) isEvidence_Value() {}
 
 type Evidence_Submission struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -225,18 +242,165 @@ func (x *Evidence_Pair) GetScore() float32 {
 	return 0
 }
 
+type Evidence_Attempt struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	SubmissionId  string                   `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	ProblemId     string                   `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	SubmittedAt   *timestamppb.Timestamp   `protobuf:"bytes,3,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
+	Verdict       atlas.Submission_Verdict `protobuf:"varint,4,opt,name=verdict,proto3,enum=eolymp.atlas.Submission_Verdict" json:"verdict,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Evidence_Attempt) Reset() {
+	*x = Evidence_Attempt{}
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Evidence_Attempt) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Evidence_Attempt) ProtoMessage() {}
+
+func (x *Evidence_Attempt) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Evidence_Attempt.ProtoReflect.Descriptor instead.
+func (*Evidence_Attempt) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Evidence_Attempt) GetSubmissionId() string {
+	if x != nil {
+		return x.SubmissionId
+	}
+	return ""
+}
+
+func (x *Evidence_Attempt) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *Evidence_Attempt) GetSubmittedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.SubmittedAt
+	}
+	return nil
+}
+
+func (x *Evidence_Attempt) GetVerdict() atlas.Submission_Verdict {
+	if x != nil {
+		return x.Verdict
+	}
+	return atlas.Submission_Verdict(0)
+}
+
+// Session is a stretch of a participant's contest, for a finding about how it was worked through rather than
+// about what any one program says.
+type Evidence_Session struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	From          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	To            *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
+	Value         float32                `protobuf:"fixed32,3,opt,name=value,proto3" json:"value,omitempty"`     // what this session did inside the window
+	Typical       float32                `protobuf:"fixed32,4,opt,name=typical,proto3" json:"typical,omitempty"` // what a typical session in this contest did
+	Attempts      []*Evidence_Attempt    `protobuf:"bytes,5,rep,name=attempts,proto3" json:"attempts,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Evidence_Session) Reset() {
+	*x = Evidence_Session{}
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Evidence_Session) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Evidence_Session) ProtoMessage() {}
+
+func (x *Evidence_Session) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_evidence_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Evidence_Session.ProtoReflect.Descriptor instead.
+func (*Evidence_Session) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Evidence_Session) GetFrom() *timestamppb.Timestamp {
+	if x != nil {
+		return x.From
+	}
+	return nil
+}
+
+func (x *Evidence_Session) GetTo() *timestamppb.Timestamp {
+	if x != nil {
+		return x.To
+	}
+	return nil
+}
+
+func (x *Evidence_Session) GetValue() float32 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+func (x *Evidence_Session) GetTypical() float32 {
+	if x != nil {
+		return x.Typical
+	}
+	return 0
+}
+
+func (x *Evidence_Session) GetAttempts() []*Evidence_Attempt {
+	if x != nil {
+		return x.Attempts
+	}
+	return nil
+}
+
 var File_eolymp_judge_evidence_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x03\n" +
+	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xff\x06\n" +
 	"\bEvidence\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12C\n" +
 	"\n" +
 	"submission\x18\n" +
 	" \x01(\v2!.eolymp.judge.Evidence.SubmissionH\x00R\n" +
 	"submission\x121\n" +
-	"\x04pair\x18\v \x01(\v2\x1b.eolymp.judge.Evidence.PairH\x00R\x04pair\x1ap\n" +
+	"\x04pair\x18\v \x01(\v2\x1b.eolymp.judge.Evidence.PairH\x00R\x04pair\x12:\n" +
+	"\asession\x18\f \x01(\v2\x1e.eolymp.judge.Evidence.SessionH\x00R\asession\x1ap\n" +
 	"\n" +
 	"Submission\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12=\n" +
@@ -244,7 +408,19 @@ const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\x04Pair\x125\n" +
 	"\x04left\x18\x01 \x01(\v2!.eolymp.judge.Evidence.SubmissionR\x04left\x127\n" +
 	"\x05right\x18\x02 \x01(\v2!.eolymp.judge.Evidence.SubmissionR\x05right\x12\x14\n" +
-	"\x05score\x18\x03 \x01(\x02R\x05scoreB\a\n" +
+	"\x05score\x18\x03 \x01(\x02R\x05score\x1a\xc8\x01\n" +
+	"\aAttempt\x12#\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12=\n" +
+	"\fsubmitted_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12:\n" +
+	"\averdict\x18\x04 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x1a\xd1\x01\n" +
+	"\aSession\x12.\n" +
+	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
+	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\x02R\x05value\x12\x18\n" +
+	"\atypical\x18\x04 \x01(\x02R\atypical\x12:\n" +
+	"\battempts\x18\x05 \x03(\v2\x1e.eolymp.judge.Evidence.AttemptR\battemptsB\a\n" +
 	"\x05valueB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
@@ -259,24 +435,33 @@ func file_eolymp_judge_evidence_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_evidence_proto_rawDescData
 }
 
-var file_eolymp_judge_evidence_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_judge_evidence_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_judge_evidence_proto_goTypes = []any{
 	(*Evidence)(nil),              // 0: eolymp.judge.Evidence
 	(*Evidence_Submission)(nil),   // 1: eolymp.judge.Evidence.Submission
 	(*Evidence_Pair)(nil),         // 2: eolymp.judge.Evidence.Pair
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*Evidence_Attempt)(nil),      // 3: eolymp.judge.Evidence.Attempt
+	(*Evidence_Session)(nil),      // 4: eolymp.judge.Evidence.Session
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(atlas.Submission_Verdict)(0), // 6: eolymp.atlas.Submission.Verdict
 }
 var file_eolymp_judge_evidence_proto_depIdxs = []int32{
-	1, // 0: eolymp.judge.Evidence.submission:type_name -> eolymp.judge.Evidence.Submission
-	2, // 1: eolymp.judge.Evidence.pair:type_name -> eolymp.judge.Evidence.Pair
-	3, // 2: eolymp.judge.Evidence.Submission.submitted_at:type_name -> google.protobuf.Timestamp
-	1, // 3: eolymp.judge.Evidence.Pair.left:type_name -> eolymp.judge.Evidence.Submission
-	1, // 4: eolymp.judge.Evidence.Pair.right:type_name -> eolymp.judge.Evidence.Submission
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	1,  // 0: eolymp.judge.Evidence.submission:type_name -> eolymp.judge.Evidence.Submission
+	2,  // 1: eolymp.judge.Evidence.pair:type_name -> eolymp.judge.Evidence.Pair
+	4,  // 2: eolymp.judge.Evidence.session:type_name -> eolymp.judge.Evidence.Session
+	5,  // 3: eolymp.judge.Evidence.Submission.submitted_at:type_name -> google.protobuf.Timestamp
+	1,  // 4: eolymp.judge.Evidence.Pair.left:type_name -> eolymp.judge.Evidence.Submission
+	1,  // 5: eolymp.judge.Evidence.Pair.right:type_name -> eolymp.judge.Evidence.Submission
+	5,  // 6: eolymp.judge.Evidence.Attempt.submitted_at:type_name -> google.protobuf.Timestamp
+	6,  // 7: eolymp.judge.Evidence.Attempt.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	5,  // 8: eolymp.judge.Evidence.Session.from:type_name -> google.protobuf.Timestamp
+	5,  // 9: eolymp.judge.Evidence.Session.to:type_name -> google.protobuf.Timestamp
+	3,  // 10: eolymp.judge.Evidence.Session.attempts:type_name -> eolymp.judge.Evidence.Attempt
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_evidence_proto_init() }
@@ -287,6 +472,7 @@ func file_eolymp_judge_evidence_proto_init() {
 	file_eolymp_judge_evidence_proto_msgTypes[0].OneofWrappers = []any{
 		(*Evidence_Submission_)(nil),
 		(*Evidence_Pair_)(nil),
+		(*Evidence_Session_)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -294,7 +480,7 @@ func file_eolymp_judge_evidence_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_evidence_proto_rawDesc), len(file_eolymp_judge_evidence_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
