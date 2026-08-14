@@ -203,6 +203,39 @@ func (s *ScoreboardServiceService) RemoveScoreboardContest(ctx context.Context, 
 	return out, nil
 }
 
+func (s *ScoreboardServiceService) AddScoreboardAttribute(ctx context.Context, in *AddScoreboardAttributeInput) (*AddScoreboardAttributeOutput, error) {
+	out := &AddScoreboardAttributeOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/attributes"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ScoreboardServiceService) RemoveScoreboardAttribute(ctx context.Context, in *RemoveScoreboardAttributeInput) (*RemoveScoreboardAttributeOutput, error) {
+	out := &RemoveScoreboardAttributeOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/attributes/" + url.PathEscape(in.GetAttributeKey())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+		in.AttributeKey = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ScoreboardServiceService) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	out := &ListScoreboardRowsOutput{}
 	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rows"
