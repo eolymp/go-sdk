@@ -144,6 +144,22 @@ func (s *AssetServiceService) LookupAsset(ctx context.Context, in *LookupAssetIn
 	return out, nil
 }
 
+func (s *AssetServiceService) DeleteAsset(ctx context.Context, in *DeleteAssetInput) (*DeleteAssetOutput, error) {
+	out := &DeleteAssetOutput{}
+	path := "/assets/" + url.PathEscape(in.GetAssetId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AssetId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AssetServiceService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	out := &StartMultipartUploadOutput{}
 	path := "/uploads"

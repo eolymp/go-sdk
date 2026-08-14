@@ -23,6 +23,7 @@ const (
 	AssetService_UploadFile_FullMethodName              = "/eolymp.asset.AssetService/UploadFile"
 	AssetService_UploadAsset_FullMethodName             = "/eolymp.asset.AssetService/UploadAsset"
 	AssetService_LookupAsset_FullMethodName             = "/eolymp.asset.AssetService/LookupAsset"
+	AssetService_DeleteAsset_FullMethodName             = "/eolymp.asset.AssetService/DeleteAsset"
 	AssetService_UseAsset_FullMethodName                = "/eolymp.asset.AssetService/UseAsset"
 	AssetService_StartMultipartUpload_FullMethodName    = "/eolymp.asset.AssetService/StartMultipartUpload"
 	AssetService_UploadPart_FullMethodName              = "/eolymp.asset.AssetService/UploadPart"
@@ -48,6 +49,12 @@ type AssetServiceClient interface {
 	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
 	// LookupAsset allows to lookup asset by the key
 	LookupAsset(ctx context.Context, in *LookupAssetInput, opts ...grpc.CallOption) (*LookupAssetOutput, error)
+	// DeleteAsset removes an asset and the object behind it, after which the asset URL stops resolving. Copies already
+	// cached by the CDN are still served until they expire.
+	//
+	// An asset in use, that is one some resource has been tagged with using UseAsset API, can not be deleted. Update or
+	// delete the resource referencing it first.
+	DeleteAsset(ctx context.Context, in *DeleteAssetInput, opts ...grpc.CallOption) (*DeleteAssetOutput, error)
 	// UseAsset allows to add and remove usage tags to an asset.
 	//
 	// This API is used internally to keep track of files used by the system, assets without usage tags are considered to
@@ -115,6 +122,16 @@ func (c *assetServiceClient) LookupAsset(ctx context.Context, in *LookupAssetInp
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LookupAssetOutput)
 	err := c.cc.Invoke(ctx, AssetService_LookupAsset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) DeleteAsset(ctx context.Context, in *DeleteAssetInput, opts ...grpc.CallOption) (*DeleteAssetOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteAssetOutput)
+	err := c.cc.Invoke(ctx, AssetService_DeleteAsset_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -207,6 +224,12 @@ type AssetServiceServer interface {
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
 	// LookupAsset allows to lookup asset by the key
 	LookupAsset(context.Context, *LookupAssetInput) (*LookupAssetOutput, error)
+	// DeleteAsset removes an asset and the object behind it, after which the asset URL stops resolving. Copies already
+	// cached by the CDN are still served until they expire.
+	//
+	// An asset in use, that is one some resource has been tagged with using UseAsset API, can not be deleted. Update or
+	// delete the resource referencing it first.
+	DeleteAsset(context.Context, *DeleteAssetInput) (*DeleteAssetOutput, error)
 	// UseAsset allows to add and remove usage tags to an asset.
 	//
 	// This API is used internally to keep track of files used by the system, assets without usage tags are considered to
@@ -250,6 +273,9 @@ func (UnimplementedAssetServiceServer) UploadAsset(context.Context, *UploadAsset
 }
 func (UnimplementedAssetServiceServer) LookupAsset(context.Context, *LookupAssetInput) (*LookupAssetOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method LookupAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) DeleteAsset(context.Context, *DeleteAssetInput) (*DeleteAssetOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteAsset not implemented")
 }
 func (UnimplementedAssetServiceServer) UseAsset(context.Context, *UseAssetInput) (*UseAssetOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UseAsset not implemented")
@@ -360,6 +386,24 @@ func _AssetService_LookupAsset_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AssetServiceServer).LookupAsset(ctx, req.(*LookupAssetInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_DeleteAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAssetInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).DeleteAsset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_DeleteAsset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).DeleteAsset(ctx, req.(*DeleteAssetInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -512,6 +556,10 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LookupAsset",
 			Handler:    _AssetService_LookupAsset_Handler,
+		},
+		{
+			MethodName: "DeleteAsset",
+			Handler:    _AssetService_DeleteAsset_Handler,
 		},
 		{
 			MethodName: "UseAsset",

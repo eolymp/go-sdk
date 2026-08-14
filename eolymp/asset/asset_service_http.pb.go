@@ -213,6 +213,9 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/assets:lookup", _AssetService_LookupAsset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.asset.AssetService.LookupAsset")
+	router.Handle(prefix+"/assets/{asset_id}", _AssetService_DeleteAsset_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.asset.AssetService.DeleteAsset")
 	router.Handle(prefix+"/uploads", _AssetService_StartMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.asset.AssetService.StartMultipartUpload")
@@ -313,6 +316,30 @@ func _AssetService_LookupAsset_Rule0(cli AssetServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupAsset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_DeleteAsset_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteAssetInput{}
+
+		if err := _AssetService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AssetId = vars["asset_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteAsset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return
