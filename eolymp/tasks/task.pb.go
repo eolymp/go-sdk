@@ -109,6 +109,7 @@ type Task struct {
 	StartedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`            // time the task started executing
 	FinishedAt    *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty"`         // time the task reached a terminal state
 	CreatedBy     string                 `protobuf:"bytes,15,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`            // user ID of the task creator, if created by a user
+	ResourceLink  string                 `protobuf:"bytes,16,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"`   // canonical URL of the resource, e.g. "https://api.eolymp.com/spaces/abc/problems/42"
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -248,11 +249,18 @@ func (x *Task) GetCreatedBy() string {
 	return ""
 }
 
+func (x *Task) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
 var File_eolymp_tasks_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_task_proto_rawDesc = "" +
 	"\n" +
-	"\x17eolymp/tasks/task.proto\x12\feolymp.tasks\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x87\x05\n" +
+	"\x17eolymp/tasks/task.proto\x12\feolymp.tasks\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xac\x05\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x1a\n" +
@@ -273,7 +281,8 @@ const file_eolymp_tasks_task_proto_rawDesc = "" +
 	"\vfinished_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"finishedAt\x12\x1d\n" +
 	"\n" +
-	"created_by\x18\x0f \x01(\tR\tcreatedBy\"e\n" +
+	"created_by\x18\x0f \x01(\tR\tcreatedBy\x12#\n" +
+	"\rresource_link\x18\x10 \x01(\tR\fresourceLink\"e\n" +
 	"\x06Status\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\v\n" +
