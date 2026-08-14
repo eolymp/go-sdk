@@ -1304,10 +1304,10 @@ func (x *ListScoreboardsInput_Filter) GetContestId() []*wellknown.ExpressionID {
 }
 
 type ListScoreboardRowsInput_ExpressionAttribute struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	AttributeKey  string                      `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
-	Number        *wellknown.ExpressionInt    `protobuf:"bytes,10,opt,name=number,proto3" json:"number,omitempty"`
-	String_       *wellknown.ExpressionString `protobuf:"bytes,11,opt,name=string,proto3" json:"string,omitempty"`
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	AttributeKey  string                        `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
+	Number        []*wellknown.ExpressionInt    `protobuf:"bytes,10,rep,name=number,proto3" json:"number,omitempty"`
+	String_       []*wellknown.ExpressionString `protobuf:"bytes,11,rep,name=string,proto3" json:"string,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1349,14 +1349,14 @@ func (x *ListScoreboardRowsInput_ExpressionAttribute) GetAttributeKey() string {
 	return ""
 }
 
-func (x *ListScoreboardRowsInput_ExpressionAttribute) GetNumber() *wellknown.ExpressionInt {
+func (x *ListScoreboardRowsInput_ExpressionAttribute) GetNumber() []*wellknown.ExpressionInt {
 	if x != nil {
 		return x.Number
 	}
 	return nil
 }
 
-func (x *ListScoreboardRowsInput_ExpressionAttribute) GetString_() *wellknown.ExpressionString {
+func (x *ListScoreboardRowsInput_ExpressionAttribute) GetString_() []*wellknown.ExpressionString {
 	if x != nil {
 		return x.String_
 	}
@@ -1498,8 +1498,8 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\x13ExpressionAttribute\x12#\n" +
 	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x127\n" +
 	"\x06number\x18\n" +
-	" \x01(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x12:\n" +
-	"\x06string\x18\v \x01(\v2\".eolymp.wellknown.ExpressionStringR\x06string\x1a\xf0\x01\n" +
+	" \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x12:\n" +
+	"\x06string\x18\v \x03(\v2\".eolymp.wellknown.ExpressionStringR\x06string\x1a\xf0\x01\n" +
 	"\x06Filter\x12@\n" +
 	"\n" +
 	"unofficial\x18\n" +
