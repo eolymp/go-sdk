@@ -1180,7 +1180,7 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"b\n" +
 	"\x1bListStatementVersionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items2\xc5\r\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items2\xc6\r\n" +
 	"\x10StatementService\x12\x99\x01\n" +
 	"\x0fCreateStatement\x12\".eolymp.atlas.CreateStatementInput\x1a#.eolymp.atlas.CreateStatementOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1205,11 +1205,11 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/statements/{statement_id}\x12\x97\x01\n" +
-	"\x0fLookupStatement\x12\".eolymp.atlas.LookupStatementInput\x1a#.eolymp.atlas.LookupStatementOutput\";\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/statements/{statement_id}\x12\x98\x01\n" +
+	"\x0fLookupStatement\x12\".eolymp.atlas.LookupStatementInput\x1a#.eolymp.atlas.LookupStatementOutput\"<\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
 	"/translate\x12\x98\x01\n" +

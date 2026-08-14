@@ -609,8 +609,8 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x16community:member:write\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xa8\x01\n" +
 	"\x10ListAchievements\x12'.eolymp.community.ListAchievementsInput\x1a(.eolymp.community.ListAchievementsOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 

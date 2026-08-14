@@ -843,18 +843,18 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\x98\x0f\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\x99\x0f\n" +
 	"\x0eProblemService\x12\x97\x01\n" +
 	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\r\x12\v/statements\x12\xa1\x01\n" +
-	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"C\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
+	"\x12course:course:read\x82\xd3\xe4\x93\x02\r\x12\v/statements\x12\xa2\x01\n" +
+	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"D\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x14\x12\x12/statements:lookup\x12\x8f\x01\n" +
 	"\fListExamples\x12 .eolymp.course.ListExamplesInput\x1a!.eolymp.course.ListExamplesOutput\":\xea\xe2\n" +

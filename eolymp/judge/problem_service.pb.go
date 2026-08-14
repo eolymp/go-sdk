@@ -1507,8 +1507,8 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\v\x12\t/problems\x12\xa4\x01\n" +
 	"\x0fDescribeProblem\x12\".eolymp.judge.DescribeProblemInput\x1a#.eolymp.judge.DescribeProblemOutput\"H\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xc8\x01\x82\xe3\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/problems/{problem_id}\x12\x9e\x01\n" +
 	"\rDeleteProblem\x12 .eolymp.judge.DeleteProblemInput\x1a!.eolymp.judge.DeleteProblemOutput\"H\xea\xe2\n" +

@@ -1962,7 +1962,7 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x12FinishContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13FinishContestOutput2\xa3\x12\n" +
+	"\x13FinishContestOutput2\xa4\x12\n" +
 	"\x12ParticipantService\x12\xa1\x01\n" +
 	"\x11AssignParticipant\x12$.eolymp.judge.AssignParticipantInput\x1a%.eolymp.judge.AssignParticipantOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2021,11 +2021,11 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\vJoinContest\x12\x1e.eolymp.judge.JoinContestInput\x1a\x1f.eolymp.judge.JoinContestOutput\"\x1c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x03\x82\xd3\xe4\x93\x02\a\"\x05/join\x12{\n" +
-	"\x0eDescribeViewer\x12!.eolymp.judge.DescribeViewerInput\x1a\".eolymp.judge.DescribeViewerOutput\"\"\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\r\x12\v/introspect\x12\x91\x01\n" +
+	"\x03\x82\xd3\xe4\x93\x02\a\"\x05/join\x12|\n" +
+	"\x0eDescribeViewer\x12!.eolymp.judge.DescribeViewerInput\x1a\".eolymp.judge.DescribeViewerOutput\"#\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xd3\xe4\x93\x02\r\x12\v/introspect\x12\x91\x01\n" +
 	"\fStartContest\x12\x1f.eolymp.judge.StartContestInput\x1a .eolymp.judge.StartContestOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +

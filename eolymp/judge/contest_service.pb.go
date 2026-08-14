@@ -1933,7 +1933,7 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x1aDescribeContestUsageOutput\x12%\n" +
 	"\x0etotal_contests\x18\x01 \x01(\rR\rtotalContests\x12'\n" +
 	"\x0factive_contests\x18\x02 \x01(\rR\x0eactiveContests\x12)\n" +
-	"\x10monthly_contests\x18\x03 \x01(\rR\x0fmonthlyContests2\xa7\x14\n" +
+	"\x10monthly_contests\x18\x03 \x01(\rR\x0fmonthlyContests2\xa8\x14\n" +
 	"\x0eContestService\x12\x91\x01\n" +
 	"\rCreateContest\x12 .eolymp.judge.CreateContestInput\x1a!.eolymp.judge.CreateContestOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1959,11 +1959,11 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/copy\x12\x89\x01\n" +
-	"\x0fDescribeContest\x12\".eolymp.judge.DescribeContestInput\x1a#.eolymp.judge.DescribeContestOutput\"-\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x18\x12\x16/contests/{contest_id}\x12s\n" +
+	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/copy\x12\x8a\x01\n" +
+	"\x0fDescribeContest\x12\".eolymp.judge.DescribeContestInput\x1a#.eolymp.judge.DescribeContestOutput\".\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/contests/{contest_id}\x12s\n" +
 	"\fListContests\x12\x1f.eolymp.judge.ListContestsInput\x1a .eolymp.judge.ListContestsOutput\" \xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +

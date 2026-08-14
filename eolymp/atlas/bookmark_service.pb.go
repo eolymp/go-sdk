@@ -266,12 +266,12 @@ const file_eolymp_atlas_bookmark_service_proto_rawDesc = "" +
 	"\x11SetBookmarkOutput\"\x12\n" +
 	"\x10GetBookmarkInput\"/\n" +
 	"\x11GetBookmarkOutput\x12\x1a\n" +
-	"\bbookmark\x18\x01 \x01(\bR\bbookmark2\x91\x02\n" +
-	"\x0fBookmarkService\x12p\n" +
-	"\vGetBookmark\x12\x1e.eolymp.atlas.GetBookmarkInput\x1a\x1f.eolymp.atlas.GetBookmarkOutput\" \xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xc8A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\v\x12\t/bookmark\x12p\n" +
+	"\bbookmark\x18\x01 \x01(\bR\bbookmark2\x92\x02\n" +
+	"\x0fBookmarkService\x12q\n" +
+	"\vGetBookmark\x12\x1e.eolymp.atlas.GetBookmarkInput\x1a\x1f.eolymp.atlas.GetBookmarkOutput\"!\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xd3\xe4\x93\x02\v\x12\t/bookmark\x12p\n" +
 	"\vSetBookmark\x12\x1e.eolymp.atlas.SetBookmarkInput\x1a\x1f.eolymp.atlas.SetBookmarkOutput\" \xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +

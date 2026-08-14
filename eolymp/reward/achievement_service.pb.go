@@ -1294,14 +1294,14 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\x16community:member:write\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xbc\x01\n" +
 	"\x13DescribeAchievement\x12'.eolymp.reward.DescribeAchievementInput\x1a(.eolymp.reward.DescribeAchievementOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read\x82\xd3\xe4\x93\x02 \x12\x1e/achievements/{achievement_id}\x12\xa2\x01\n" +
 	"\x10ListAchievements\x12$.eolymp.reward.ListAchievementsInput\x1a%.eolymp.reward.ListAchievementsOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x12\xff\x01\n" +
 	"\x1eDescribeAchievementTranslation\x122.eolymp.reward.DescribeAchievementTranslationInput\x1a3.eolymp.reward.DescribeAchievementTranslationOutput\"t\xea\xe2\n" +
