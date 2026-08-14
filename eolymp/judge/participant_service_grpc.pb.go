@@ -23,7 +23,6 @@ const (
 	ParticipantService_EnableParticipant_FullMethodName     = "/eolymp.judge.ParticipantService/EnableParticipant"
 	ParticipantService_DisableParticipant_FullMethodName    = "/eolymp.judge.ParticipantService/DisableParticipant"
 	ParticipantService_UpdateParticipant_FullMethodName     = "/eolymp.judge.ParticipantService/UpdateParticipant"
-	ParticipantService_AnalyzeParticipant_FullMethodName    = "/eolymp.judge.ParticipantService/AnalyzeParticipant"
 	ParticipantService_DisqualifyParticipant_FullMethodName = "/eolymp.judge.ParticipantService/DisqualifyParticipant"
 	ParticipantService_DeleteParticipant_FullMethodName     = "/eolymp.judge.ParticipantService/DeleteParticipant"
 	ParticipantService_DescribeParticipant_FullMethodName   = "/eolymp.judge.ParticipantService/DescribeParticipant"
@@ -72,10 +71,6 @@ type ParticipantServiceClient interface {
 	// minutes. Once a contest is finalized the results of its official participants are final, and
 	// organiser tooling stops offering edits for them.
 	UpdateParticipant(ctx context.Context, in *UpdateParticipantInput, opts ...grpc.CallOption) (*UpdateParticipantOutput, error)
-	// AnalyzeParticipant looks for plagiarism, cheating and other violations in this one participant's
-	// submissions, rather than across the whole contest as AnalyzeContest does. Whatever it finds is
-	// recorded as a violation against the participant instead of being returned in the response.
-	AnalyzeParticipant(ctx context.Context, in *AnalyzeParticipantInput, opts ...grpc.CallOption) (*AnalyzeParticipantOutput, error)
 	// DisqualifyParticipant marks a participant as disqualified and records the reason behind the
 	// decision, which stays with the record. There is no separate method to reverse it: call this one
 	// again with disqualification turned off to reinstate the participant.
@@ -163,16 +158,6 @@ func (c *participantServiceClient) UpdateParticipant(ctx context.Context, in *Up
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateParticipantOutput)
 	err := c.cc.Invoke(ctx, ParticipantService_UpdateParticipant_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *participantServiceClient) AnalyzeParticipant(ctx context.Context, in *AnalyzeParticipantInput, opts ...grpc.CallOption) (*AnalyzeParticipantOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AnalyzeParticipantOutput)
-	err := c.cc.Invoke(ctx, ParticipantService_AnalyzeParticipant_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -324,10 +309,6 @@ type ParticipantServiceServer interface {
 	// minutes. Once a contest is finalized the results of its official participants are final, and
 	// organiser tooling stops offering edits for them.
 	UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error)
-	// AnalyzeParticipant looks for plagiarism, cheating and other violations in this one participant's
-	// submissions, rather than across the whole contest as AnalyzeContest does. Whatever it finds is
-	// recorded as a violation against the participant instead of being returned in the response.
-	AnalyzeParticipant(context.Context, *AnalyzeParticipantInput) (*AnalyzeParticipantOutput, error)
 	// DisqualifyParticipant marks a participant as disqualified and records the reason behind the
 	// decision, which stays with the record. There is no separate method to reverse it: call this one
 	// again with disqualification turned off to reinstate the participant.
@@ -391,9 +372,6 @@ func (UnimplementedParticipantServiceServer) DisableParticipant(context.Context,
 }
 func (UnimplementedParticipantServiceServer) UpdateParticipant(context.Context, *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateParticipant not implemented")
-}
-func (UnimplementedParticipantServiceServer) AnalyzeParticipant(context.Context, *AnalyzeParticipantInput) (*AnalyzeParticipantOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method AnalyzeParticipant not implemented")
 }
 func (UnimplementedParticipantServiceServer) DisqualifyParticipant(context.Context, *DisqualifyParticipantInput) (*DisqualifyParticipantOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DisqualifyParticipant not implemented")
@@ -513,24 +491,6 @@ func _ParticipantService_UpdateParticipant_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ParticipantServiceServer).UpdateParticipant(ctx, req.(*UpdateParticipantInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ParticipantService_AnalyzeParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AnalyzeParticipantInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ParticipantServiceServer).AnalyzeParticipant(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ParticipantService_AnalyzeParticipant_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ParticipantServiceServer).AnalyzeParticipant(ctx, req.(*AnalyzeParticipantInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -730,10 +690,6 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateParticipant",
 			Handler:    _ParticipantService_UpdateParticipant_Handler,
-		},
-		{
-			MethodName: "AnalyzeParticipant",
-			Handler:    _ParticipantService_AnalyzeParticipant_Handler,
 		},
 		{
 			MethodName: "DisqualifyParticipant",
