@@ -872,13 +872,16 @@ type ListScoreboardRowsInput struct {
 	Offset       int32                           `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size         int32                           `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters      *ListScoreboardRowsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	// Order by this contest's score rather than by the total.
-	SortContestId string              `protobuf:"bytes,50,opt,name=sort_contest_id,json=sortContestId,proto3" json:"sort_contest_id,omitempty"`
-	Order         wellknown.Direction `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	// Order by this attribute's value. Mutually exclusive with sort_contest_id.
-	SortAttributeKey string `protobuf:"bytes,52,opt,name=sort_attribute_key,json=sortAttributeKey,proto3" json:"sort_attribute_key,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	Order        wellknown.Direction             `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
+	// Without either, rows are ordered by the total.
+	//
+	// Types that are valid to be assigned to Sort:
+	//
+	//	*ListScoreboardRowsInput_SortContestId
+	//	*ListScoreboardRowsInput_SortAttributeKey
+	Sort          isListScoreboardRowsInput_Sort `protobuf_oneof:"sort"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListScoreboardRowsInput) Reset() {
@@ -946,13 +949,6 @@ func (x *ListScoreboardRowsInput) GetFilters() *ListScoreboardRowsInput_Filter {
 	return nil
 }
 
-func (x *ListScoreboardRowsInput) GetSortContestId() string {
-	if x != nil {
-		return x.SortContestId
-	}
-	return ""
-}
-
 func (x *ListScoreboardRowsInput) GetOrder() wellknown.Direction {
 	if x != nil {
 		return x.Order
@@ -960,12 +956,48 @@ func (x *ListScoreboardRowsInput) GetOrder() wellknown.Direction {
 	return wellknown.Direction(0)
 }
 
-func (x *ListScoreboardRowsInput) GetSortAttributeKey() string {
+func (x *ListScoreboardRowsInput) GetSort() isListScoreboardRowsInput_Sort {
 	if x != nil {
-		return x.SortAttributeKey
+		return x.Sort
+	}
+	return nil
+}
+
+func (x *ListScoreboardRowsInput) GetSortContestId() string {
+	if x != nil {
+		if x, ok := x.Sort.(*ListScoreboardRowsInput_SortContestId); ok {
+			return x.SortContestId
+		}
 	}
 	return ""
 }
+
+func (x *ListScoreboardRowsInput) GetSortAttributeKey() string {
+	if x != nil {
+		if x, ok := x.Sort.(*ListScoreboardRowsInput_SortAttributeKey); ok {
+			return x.SortAttributeKey
+		}
+	}
+	return ""
+}
+
+type isListScoreboardRowsInput_Sort interface {
+	isListScoreboardRowsInput_Sort()
+}
+
+type ListScoreboardRowsInput_SortContestId struct {
+	// Order by this contest's score.
+	SortContestId string `protobuf:"bytes,50,opt,name=sort_contest_id,json=sortContestId,proto3,oneof"`
+}
+
+type ListScoreboardRowsInput_SortAttributeKey struct {
+	// Order by this attribute's value.
+	SortAttributeKey string `protobuf:"bytes,52,opt,name=sort_attribute_key,json=sortAttributeKey,proto3,oneof"`
+}
+
+func (*ListScoreboardRowsInput_SortContestId) isListScoreboardRowsInput_Sort() {}
+
+func (*ListScoreboardRowsInput_SortAttributeKey) isListScoreboardRowsInput_Sort() {}
 
 type ListScoreboardRowsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1452,17 +1484,17 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\x1eRemoveScoreboardAttributeInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12#\n" +
 	"\rattribute_key\x18\x02 \x01(\tR\fattributeKey\"!\n" +
-	"\x1fRemoveScoreboardAttributeOutput\"\x9d\x06\n" +
+	"\x1fRemoveScoreboardAttributeOutput\"\xa9\x06\n" +
 	"\x17ListScoreboardRowsInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x126\n" +
 	"\x04mode\x18\x02 \x01(\x0e2\".eolymp.scoreboard.Scoreboard.ModeR\x04mode\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12K\n" +
-	"\afilters\x18( \x01(\v21.eolymp.scoreboard.ListScoreboardRowsInput.FilterR\afilters\x12&\n" +
-	"\x0fsort_contest_id\x182 \x01(\tR\rsortContestId\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12,\n" +
-	"\x12sort_attribute_key\x184 \x01(\tR\x10sortAttributeKey\x1a\xaf\x01\n" +
+	"\afilters\x18( \x01(\v21.eolymp.scoreboard.ListScoreboardRowsInput.FilterR\afilters\x121\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12(\n" +
+	"\x0fsort_contest_id\x182 \x01(\tH\x00R\rsortContestId\x12.\n" +
+	"\x12sort_attribute_key\x184 \x01(\tH\x00R\x10sortAttributeKey\x1a\xaf\x01\n" +
 	"\x13ExpressionAttribute\x12#\n" +
 	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x127\n" +
 	"\x06number\x18\n" +
@@ -1476,7 +1508,8 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\fdisqualified\x18\v \x03(\v2 .eolymp.wellknown.ExpressionBoolR\fdisqualified\x12^\n" +
 	"\n" +
 	"attributes\x18\f \x03(\v2>.eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttributeR\n" +
-	"attributes\"^\n" +
+	"attributesB\x06\n" +
+	"\x04sort\"^\n" +
 	"\x18ListScoreboardRowsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
 	"\x05items\x18\x02 \x03(\v2\x16.eolymp.scoreboard.RowR\x05items\"\x96\x01\n" +
@@ -1674,6 +1707,10 @@ func file_eolymp_scoreboard_scoreboard_service_proto_init() {
 	}
 	file_eolymp_scoreboard_scoreboard_proto_init()
 	file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[10].OneofWrappers = []any{}
+	file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[18].OneofWrappers = []any{
+		(*ListScoreboardRowsInput_SortContestId)(nil),
+		(*ListScoreboardRowsInput_SortAttributeKey)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
