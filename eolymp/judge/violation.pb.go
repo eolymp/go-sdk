@@ -135,6 +135,7 @@ const (
 	Violation_OTHER        Violation_Type = 1
 	Violation_PLAGIARISM   Violation_Type = 2 // plagiarism violation, e.g. system detected code similarity between multiple participants
 	Violation_GEN_AI_USAGE Violation_Type = 3 // usage of generative AI tools, e.g. ChatGPT, Claude, etc.
+	Violation_BEHAVIOUR    Violation_Type = 4 // how the contest was worked through, e.g. a hard problem solved first try minutes after starting
 )
 
 // Enum value maps for Violation_Type.
@@ -144,12 +145,14 @@ var (
 		1: "OTHER",
 		2: "PLAGIARISM",
 		3: "GEN_AI_USAGE",
+		4: "BEHAVIOUR",
 	}
 	Violation_Type_value = map[string]int32{
 		"UNKNOWN_TYPE": 0,
 		"OTHER":        1,
 		"PLAGIARISM":   2,
 		"GEN_AI_USAGE": 3,
+		"BEHAVIOUR":    4,
 	}
 )
 
@@ -401,7 +404,7 @@ var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xee\x06\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x06\n" +
 	"\tViolation\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12-\n" +
 	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12>\n" +
@@ -438,13 +441,14 @@ const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\x03LOW\x10\x01\x12\n" +
 	"\n" +
 	"\x06MEDIUM\x10\x02\x12\b\n" +
-	"\x04HIGH\x10\x03\"E\n" +
+	"\x04HIGH\x10\x03\"T\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\t\n" +
 	"\x05OTHER\x10\x01\x12\x0e\n" +
 	"\n" +
 	"PLAGIARISM\x10\x02\x12\x10\n" +
-	"\fGEN_AI_USAGE\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\fGEN_AI_USAGE\x10\x03\x12\r\n" +
+	"\tBEHAVIOUR\x10\x04B-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_violation_proto_rawDescOnce sync.Once
