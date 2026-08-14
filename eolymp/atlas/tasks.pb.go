@@ -24,9 +24,13 @@ const (
 // ImportProblemTask is the payload of the background task which imports (synchronizes) a problem
 // from its origin.
 type ImportProblemTask struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	ProblemLink   string                 `protobuf:"bytes,2,opt,name=problem_link,json=problemLink,proto3" json:"problem_link,omitempty"` // origin link the problem is imported from
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId   string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	ProblemLink string                 `protobuf:"bytes,2,opt,name=problem_link,json=problemLink,proto3" json:"problem_link,omitempty"` // origin link the problem is imported from
+	// Whether everything the origin keeps behind PROBLEM_TESTING — tests, checker, validator,
+	// interactor, templates — is imported as secret. Decided from what the person asking for the import
+	// may see of the origin, so that importing cannot be used to read what they could not read directly.
+	Secret        bool `protobuf:"varint,3,opt,name=secret,proto3" json:"secret,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -73,6 +77,13 @@ func (x *ImportProblemTask) GetProblemLink() string {
 		return x.ProblemLink
 	}
 	return ""
+}
+
+func (x *ImportProblemTask) GetSecret() bool {
+	if x != nil {
+		return x.Secret
+	}
+	return false
 }
 
 // TranslateStatementsTask is the payload of the background task which translates problem statements
@@ -318,11 +329,12 @@ var File_eolymp_atlas_tasks_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_tasks_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/tasks.proto\x12\feolymp.atlas\"U\n" +
+	"\x18eolymp/atlas/tasks.proto\x12\feolymp.atlas\"m\n" +
 	"\x11ImportProblemTask\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
-	"\fproblem_link\x18\x02 \x01(\tR\vproblemLink\"\xad\x01\n" +
+	"\fproblem_link\x18\x02 \x01(\tR\vproblemLink\x12\x16\n" +
+	"\x06secret\x18\x03 \x01(\bR\x06secret\"\xad\x01\n" +
 	"\x17TranslateStatementsTask\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
