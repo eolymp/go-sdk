@@ -314,6 +314,7 @@ func (x *Evidence_Attempt) GetVerdict() atlas.Submission_Verdict {
 // about what any one program says.
 type Evidence_Session struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Rule          string                 `protobuf:"bytes,6,opt,name=rule,proto3" json:"rule,omitempty"` // which finding this is the evidence for, e.g. solved_in_burst
 	From          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
 	To            *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
 	Value         float32                `protobuf:"fixed32,3,opt,name=value,proto3" json:"value,omitempty"`     // what this session did inside the window
@@ -351,6 +352,13 @@ func (x *Evidence_Session) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Evidence_Session.ProtoReflect.Descriptor instead.
 func (*Evidence_Session) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_evidence_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Evidence_Session) GetRule() string {
+	if x != nil {
+		return x.Rule
+	}
+	return ""
 }
 
 func (x *Evidence_Session) GetFrom() *timestamppb.Timestamp {
@@ -392,7 +400,7 @@ var File_eolymp_judge_evidence_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xff\x06\n" +
+	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\a\n" +
 	"\bEvidence\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12C\n" +
 	"\n" +
@@ -414,8 +422,9 @@ const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12=\n" +
 	"\fsubmitted_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12:\n" +
-	"\averdict\x18\x04 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x1a\xd1\x01\n" +
-	"\aSession\x12.\n" +
+	"\averdict\x18\x04 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x1a\xe5\x01\n" +
+	"\aSession\x12\x12\n" +
+	"\x04rule\x18\x06 \x01(\tR\x04rule\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
 	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12\x14\n" +
 	"\x05value\x18\x03 \x01(\x02R\x05value\x12\x18\n" +
