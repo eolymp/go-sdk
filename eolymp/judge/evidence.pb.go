@@ -248,6 +248,7 @@ type Evidence_Attempt struct {
 	ProblemId     string                   `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SubmittedAt   *timestamppb.Timestamp   `protobuf:"bytes,3,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
 	Verdict       atlas.Submission_Verdict `protobuf:"varint,4,opt,name=verdict,proto3,enum=eolymp.atlas.Submission_Verdict" json:"verdict,omitempty"`
+	Changed       *float32                 `protobuf:"fixed32,5,opt,name=changed,proto3,oneof" json:"changed,omitempty"` // how much of the previous attempt at this problem this one replaced, in [0, 1]
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -308,6 +309,13 @@ func (x *Evidence_Attempt) GetVerdict() atlas.Submission_Verdict {
 		return x.Verdict
 	}
 	return atlas.Submission_Verdict(0)
+}
+
+func (x *Evidence_Attempt) GetChanged() float32 {
+	if x != nil && x.Changed != nil {
+		return *x.Changed
+	}
+	return 0
 }
 
 // Session is a stretch of a participant's contest, for a finding about how it was worked through rather than
@@ -400,7 +408,7 @@ var File_eolymp_judge_evidence_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\a\n" +
+	"\x1beolymp/judge/evidence.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbe\a\n" +
 	"\bEvidence\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12C\n" +
 	"\n" +
@@ -416,13 +424,16 @@ const file_eolymp_judge_evidence_proto_rawDesc = "" +
 	"\x04Pair\x125\n" +
 	"\x04left\x18\x01 \x01(\v2!.eolymp.judge.Evidence.SubmissionR\x04left\x127\n" +
 	"\x05right\x18\x02 \x01(\v2!.eolymp.judge.Evidence.SubmissionR\x05right\x12\x14\n" +
-	"\x05score\x18\x03 \x01(\x02R\x05score\x1a\xc8\x01\n" +
+	"\x05score\x18\x03 \x01(\x02R\x05score\x1a\xf3\x01\n" +
 	"\aAttempt\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12=\n" +
 	"\fsubmitted_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12:\n" +
-	"\averdict\x18\x04 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x1a\xe5\x01\n" +
+	"\averdict\x18\x04 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x12\x1d\n" +
+	"\achanged\x18\x05 \x01(\x02H\x00R\achanged\x88\x01\x01B\n" +
+	"\n" +
+	"\b_changed\x1a\xe5\x01\n" +
 	"\aSession\x12\x12\n" +
 	"\x04rule\x18\x06 \x01(\tR\x04rule\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
@@ -483,6 +494,7 @@ func file_eolymp_judge_evidence_proto_init() {
 		(*Evidence_Pair_)(nil),
 		(*Evidence_Session_)(nil),
 	}
+	file_eolymp_judge_evidence_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
