@@ -568,6 +568,7 @@ type TriggerRuleInput struct {
 	RuleId        string                 `protobuf:"bytes,1,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
 	References    map[string]string      `protobuf:"bytes,2,rep,name=references,proto3" json:"references,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	DryRun        bool                   `protobuf:"varint,3,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
+	LogId         string                 `protobuf:"bytes,4,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -623,8 +624,16 @@ func (x *TriggerRuleInput) GetDryRun() bool {
 	return false
 }
 
+func (x *TriggerRuleInput) GetLogId() string {
+	if x != nil {
+		return x.LogId
+	}
+	return ""
+}
+
 type TriggerRuleOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	LogId         string                 `protobuf:"bytes,1,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -657,6 +666,13 @@ func (x *TriggerRuleOutput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TriggerRuleOutput.ProtoReflect.Descriptor instead.
 func (*TriggerRuleOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_automation_rule_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *TriggerRuleOutput) GetLogId() string {
+	if x != nil {
+		return x.LogId
+	}
+	return ""
 }
 
 type ListActionsInput struct {
@@ -865,17 +881,19 @@ const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\x10UpdateRuleOutput\"*\n" +
 	"\x0fDeleteRuleInput\x12\x17\n" +
 	"\arule_id\x18\x01 \x01(\tR\x06ruleId\"\x12\n" +
-	"\x10DeleteRuleOutput\"\xd8\x01\n" +
+	"\x10DeleteRuleOutput\"\xef\x01\n" +
 	"\x10TriggerRuleInput\x12\x17\n" +
 	"\arule_id\x18\x01 \x01(\tR\x06ruleId\x12S\n" +
 	"\n" +
 	"references\x18\x02 \x03(\v23.eolymp.automation.TriggerRuleInput.ReferencesEntryR\n" +
 	"references\x12\x17\n" +
-	"\adry_run\x18\x03 \x01(\bR\x06dryRun\x1a=\n" +
+	"\adry_run\x18\x03 \x01(\bR\x06dryRun\x12\x15\n" +
+	"\x06log_id\x18\x04 \x01(\tR\x05logId\x1a=\n" +
 	"\x0fReferencesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x13\n" +
-	"\x11TriggerRuleOutput\"\xe1\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"*\n" +
+	"\x11TriggerRuleOutput\x12\x15\n" +
+	"\x06log_id\x18\x01 \x01(\tR\x05logId\"\xe1\x01\n" +
 	"\x10ListActionsInput\x12S\n" +
 	"\n" +
 	"references\x18\x01 \x03(\v23.eolymp.automation.ListActionsInput.ReferencesEntryR\n" +

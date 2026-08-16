@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	LogService_ListLogs_FullMethodName    = "/eolymp.automation.LogService/ListLogs"
 	LogService_DescribeLog_FullMethodName = "/eolymp.automation.LogService/DescribeLog"
+	LogService_WatchLog_FullMethodName    = "/eolymp.automation.LogService/WatchLog"
 )
 
 // LogServiceClient is the client API for LogService service.
@@ -29,6 +30,10 @@ const (
 type LogServiceClient interface {
 	ListLogs(ctx context.Context, in *ListLogsInput, opts ...grpc.CallOption) (*ListLogsOutput, error)
 	DescribeLog(ctx context.Context, in *DescribeLogInput, opts ...grpc.CallOption) (*DescribeLogOutput, error)
+	// WatchLog streams one log and the messages appended to it. The first message is the whole log,
+	// messages included, sent as UPDATED; every following message is a newly appended Log.Message, sent as
+	// CREATED. The stream closes once the log reaches COMPLETE or ERROR.
+	WatchLog(ctx context.Context, in *WatchLogInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchLogOutput], error)
 }
 
 type logServiceClient struct {
@@ -59,12 +64,35 @@ func (c *logServiceClient) DescribeLog(ctx context.Context, in *DescribeLogInput
 	return out, nil
 }
 
+func (c *logServiceClient) WatchLog(ctx context.Context, in *WatchLogInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchLogOutput], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &LogService_ServiceDesc.Streams[0], LogService_WatchLog_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[WatchLogInput, WatchLogOutput]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type LogService_WatchLogClient = grpc.ServerStreamingClient[WatchLogOutput]
+
 // LogServiceServer is the server API for LogService service.
 // All implementations should embed UnimplementedLogServiceServer
 // for forward compatibility.
 type LogServiceServer interface {
 	ListLogs(context.Context, *ListLogsInput) (*ListLogsOutput, error)
 	DescribeLog(context.Context, *DescribeLogInput) (*DescribeLogOutput, error)
+	// WatchLog streams one log and the messages appended to it. The first message is the whole log,
+	// messages included, sent as UPDATED; every following message is a newly appended Log.Message, sent as
+	// CREATED. The stream closes once the log reaches COMPLETE or ERROR.
+	WatchLog(*WatchLogInput, grpc.ServerStreamingServer[WatchLogOutput]) error
 }
 
 // UnimplementedLogServiceServer should be embedded to have
@@ -79,6 +107,9 @@ func (UnimplementedLogServiceServer) ListLogs(context.Context, *ListLogsInput) (
 }
 func (UnimplementedLogServiceServer) DescribeLog(context.Context, *DescribeLogInput) (*DescribeLogOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeLog not implemented")
+}
+func (UnimplementedLogServiceServer) WatchLog(*WatchLogInput, grpc.ServerStreamingServer[WatchLogOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchLog not implemented")
 }
 func (UnimplementedLogServiceServer) testEmbeddedByValue() {}
 
@@ -136,6 +167,17 @@ func _LogService_DescribeLog_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LogService_WatchLog_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchLogInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(LogServiceServer).WatchLog(m, &grpc.GenericServerStream[WatchLogInput, WatchLogOutput]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type LogService_WatchLogServer = grpc.ServerStreamingServer[WatchLogOutput]
+
 // LogService_ServiceDesc is the grpc.ServiceDesc for LogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +194,12 @@ var LogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LogService_DescribeLog_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchLog",
+			Handler:       _LogService_WatchLog_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/automation/log_service.proto",
 }

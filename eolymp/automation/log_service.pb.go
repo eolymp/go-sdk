@@ -285,6 +285,140 @@ func (x *DescribeLogOutput) GetLog() *Log {
 	return nil
 }
 
+type WatchLogInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LogId         string                 `protobuf:"bytes,1,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WatchLogInput) Reset() {
+	*x = WatchLogInput{}
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WatchLogInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WatchLogInput) ProtoMessage() {}
+
+func (x *WatchLogInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WatchLogInput.ProtoReflect.Descriptor instead.
+func (*WatchLogInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_automation_log_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *WatchLogInput) GetLogId() string {
+	if x != nil {
+		return x.LogId
+	}
+	return ""
+}
+
+type WatchLogOutput struct {
+	state protoimpl.MessageState   `protogen:"open.v1"`
+	Event wellknown.WatchEventType `protobuf:"varint,1,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
+	// Types that are valid to be assigned to Value:
+	//
+	//	*WatchLogOutput_Log
+	//	*WatchLogOutput_Message
+	Value         isWatchLogOutput_Value `protobuf_oneof:"value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WatchLogOutput) Reset() {
+	*x = WatchLogOutput{}
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WatchLogOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WatchLogOutput) ProtoMessage() {}
+
+func (x *WatchLogOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WatchLogOutput.ProtoReflect.Descriptor instead.
+func (*WatchLogOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_automation_log_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *WatchLogOutput) GetEvent() wellknown.WatchEventType {
+	if x != nil {
+		return x.Event
+	}
+	return wellknown.WatchEventType(0)
+}
+
+func (x *WatchLogOutput) GetValue() isWatchLogOutput_Value {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *WatchLogOutput) GetLog() *Log {
+	if x != nil {
+		if x, ok := x.Value.(*WatchLogOutput_Log); ok {
+			return x.Log
+		}
+	}
+	return nil
+}
+
+func (x *WatchLogOutput) GetMessage() *Log_Message {
+	if x != nil {
+		if x, ok := x.Value.(*WatchLogOutput_Message); ok {
+			return x.Message
+		}
+	}
+	return nil
+}
+
+type isWatchLogOutput_Value interface {
+	isWatchLogOutput_Value()
+}
+
+type WatchLogOutput_Log struct {
+	Log *Log `protobuf:"bytes,2,opt,name=log,proto3,oneof"`
+}
+
+type WatchLogOutput_Message struct {
+	Message *Log_Message `protobuf:"bytes,3,opt,name=message,proto3,oneof"`
+}
+
+func (*WatchLogOutput_Log) isWatchLogOutput_Value() {}
+
+func (*WatchLogOutput_Message) isWatchLogOutput_Value() {}
+
 type ListLogsInput_Filter struct {
 	state         protoimpl.MessageState           `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID        `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -292,13 +426,14 @@ type ListLogsInput_Filter struct {
 	Trigger       []*wellknown.ExpressionEnum      `protobuf:"bytes,3,rep,name=trigger,proto3" json:"trigger,omitempty"`
 	DryRun        []*wellknown.ExpressionBool      `protobuf:"bytes,4,rep,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
 	CreatedAt     []*wellknown.ExpressionTimestamp `protobuf:"bytes,5,rep,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Status        []*wellknown.ExpressionEnum      `protobuf:"bytes,6,rep,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListLogsInput_Filter) Reset() {
 	*x = ListLogsInput_Filter{}
-	mi := &file_eolymp_automation_log_service_proto_msgTypes[4]
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -310,7 +445,7 @@ func (x *ListLogsInput_Filter) String() string {
 func (*ListLogsInput_Filter) ProtoMessage() {}
 
 func (x *ListLogsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_automation_log_service_proto_msgTypes[4]
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -361,25 +496,33 @@ func (x *ListLogsInput_Filter) GetCreatedAt() []*wellknown.ExpressionTimestamp {
 	return nil
 }
 
+func (x *ListLogsInput_Filter) GetStatus() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
 var File_eolymp_automation_log_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_log_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/automation/log_service.proto\x12\x11eolymp.automation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/automation/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xca\x04\n" +
+	"#eolymp/automation/log_service.proto\x12\x11eolymp.automation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/automation/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x84\x05\n" +
 	"\rListLogsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12A\n" +
 	"\afilters\x18( \x01(\v2'.eolymp.automation.ListLogsInput.FilterR\afilters\x12=\n" +
 	"\x04sort\x182 \x01(\x0e2).eolymp.automation.ListLogsInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xae\x02\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xe8\x02\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x127\n" +
 	"\arule_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06ruleId\x12:\n" +
 	"\atrigger\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\atrigger\x129\n" +
 	"\adry_run\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06dryRun\x12D\n" +
 	"\n" +
-	"created_at\x18\x05 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\"'\n" +
+	"created_at\x18\x05 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x128\n" +
+	"\x06status\x18\x06 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"'\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -390,7 +533,14 @@ const file_eolymp_automation_log_service_proto_rawDesc = "" +
 	"\x10DescribeLogInput\x12\x15\n" +
 	"\x06log_id\x18\x01 \x01(\tR\x05logId\"=\n" +
 	"\x11DescribeLogOutput\x12(\n" +
-	"\x03log\x18\x01 \x01(\v2\x16.eolymp.automation.LogR\x03log2\xe7\x02\n" +
+	"\x03log\x18\x01 \x01(\v2\x16.eolymp.automation.LogR\x03log\"&\n" +
+	"\rWatchLogInput\x12\x15\n" +
+	"\x06log_id\x18\x01 \x01(\tR\x05logId\"\xb9\x01\n" +
+	"\x0eWatchLogOutput\x126\n" +
+	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12*\n" +
+	"\x03log\x18\x02 \x01(\v2\x16.eolymp.automation.LogH\x00R\x03log\x12:\n" +
+	"\amessage\x18\x03 \x01(\v2\x1e.eolymp.automation.Log.MessageH\x00R\amessageB\a\n" +
+	"\x05value2\x8e\x04\n" +
 	"\n" +
 	"LogService\x12\x93\x01\n" +
 	"\bListLogs\x12 .eolymp.automation.ListLogsInput\x1a!.eolymp.automation.ListLogsOutput\"B\xea\xe2\n" +
@@ -404,7 +554,13 @@ const file_eolymp_automation_log_service_proto_rawDesc = "" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13automation:log:read\x82\xd3\xe4\x93\x02\x1b\x12\x19/automation/logs/{log_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x13automation:log:read\x82\xd3\xe4\x93\x02\x1b\x12\x19/automation/logs/{log_id}\x12\xa4\x01\n" +
+	"\bWatchLog\x12 .eolymp.automation.WatchLogInput\x1a!.eolymp.automation.WatchLogOutput\"Q\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13automation:log:read\x82\xd3\xe4\x93\x02!\x12\x1f/automation/logs/{log_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_log_service_proto_rawDescOnce sync.Once
@@ -419,41 +575,51 @@ func file_eolymp_automation_log_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_automation_log_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_automation_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_automation_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_automation_log_service_proto_goTypes = []any{
 	(ListLogsInput_Sortable)(0),           // 0: eolymp.automation.ListLogsInput.Sortable
 	(*ListLogsInput)(nil),                 // 1: eolymp.automation.ListLogsInput
 	(*ListLogsOutput)(nil),                // 2: eolymp.automation.ListLogsOutput
 	(*DescribeLogInput)(nil),              // 3: eolymp.automation.DescribeLogInput
 	(*DescribeLogOutput)(nil),             // 4: eolymp.automation.DescribeLogOutput
-	(*ListLogsInput_Filter)(nil),          // 5: eolymp.automation.ListLogsInput.Filter
-	(wellknown.Direction)(0),              // 6: eolymp.wellknown.Direction
-	(*Log)(nil),                           // 7: eolymp.automation.Log
-	(*wellknown.ExpressionID)(nil),        // 8: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),      // 9: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionBool)(nil),      // 10: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionTimestamp)(nil), // 11: eolymp.wellknown.ExpressionTimestamp
+	(*WatchLogInput)(nil),                 // 5: eolymp.automation.WatchLogInput
+	(*WatchLogOutput)(nil),                // 6: eolymp.automation.WatchLogOutput
+	(*ListLogsInput_Filter)(nil),          // 7: eolymp.automation.ListLogsInput.Filter
+	(wellknown.Direction)(0),              // 8: eolymp.wellknown.Direction
+	(*Log)(nil),                           // 9: eolymp.automation.Log
+	(wellknown.WatchEventType)(0),         // 10: eolymp.wellknown.WatchEventType
+	(*Log_Message)(nil),                   // 11: eolymp.automation.Log.Message
+	(*wellknown.ExpressionID)(nil),        // 12: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),      // 13: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionBool)(nil),      // 14: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionTimestamp)(nil), // 15: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_automation_log_service_proto_depIdxs = []int32{
-	5,  // 0: eolymp.automation.ListLogsInput.filters:type_name -> eolymp.automation.ListLogsInput.Filter
+	7,  // 0: eolymp.automation.ListLogsInput.filters:type_name -> eolymp.automation.ListLogsInput.Filter
 	0,  // 1: eolymp.automation.ListLogsInput.sort:type_name -> eolymp.automation.ListLogsInput.Sortable
-	6,  // 2: eolymp.automation.ListLogsInput.order:type_name -> eolymp.wellknown.Direction
-	7,  // 3: eolymp.automation.ListLogsOutput.items:type_name -> eolymp.automation.Log
-	7,  // 4: eolymp.automation.DescribeLogOutput.log:type_name -> eolymp.automation.Log
-	8,  // 5: eolymp.automation.ListLogsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	8,  // 6: eolymp.automation.ListLogsInput.Filter.rule_id:type_name -> eolymp.wellknown.ExpressionID
-	9,  // 7: eolymp.automation.ListLogsInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
-	10, // 8: eolymp.automation.ListLogsInput.Filter.dry_run:type_name -> eolymp.wellknown.ExpressionBool
-	11, // 9: eolymp.automation.ListLogsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	1,  // 10: eolymp.automation.LogService.ListLogs:input_type -> eolymp.automation.ListLogsInput
-	3,  // 11: eolymp.automation.LogService.DescribeLog:input_type -> eolymp.automation.DescribeLogInput
-	2,  // 12: eolymp.automation.LogService.ListLogs:output_type -> eolymp.automation.ListLogsOutput
-	4,  // 13: eolymp.automation.LogService.DescribeLog:output_type -> eolymp.automation.DescribeLogOutput
-	12, // [12:14] is the sub-list for method output_type
-	10, // [10:12] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	8,  // 2: eolymp.automation.ListLogsInput.order:type_name -> eolymp.wellknown.Direction
+	9,  // 3: eolymp.automation.ListLogsOutput.items:type_name -> eolymp.automation.Log
+	9,  // 4: eolymp.automation.DescribeLogOutput.log:type_name -> eolymp.automation.Log
+	10, // 5: eolymp.automation.WatchLogOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	9,  // 6: eolymp.automation.WatchLogOutput.log:type_name -> eolymp.automation.Log
+	11, // 7: eolymp.automation.WatchLogOutput.message:type_name -> eolymp.automation.Log.Message
+	12, // 8: eolymp.automation.ListLogsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	12, // 9: eolymp.automation.ListLogsInput.Filter.rule_id:type_name -> eolymp.wellknown.ExpressionID
+	13, // 10: eolymp.automation.ListLogsInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
+	14, // 11: eolymp.automation.ListLogsInput.Filter.dry_run:type_name -> eolymp.wellknown.ExpressionBool
+	15, // 12: eolymp.automation.ListLogsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	13, // 13: eolymp.automation.ListLogsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	1,  // 14: eolymp.automation.LogService.ListLogs:input_type -> eolymp.automation.ListLogsInput
+	3,  // 15: eolymp.automation.LogService.DescribeLog:input_type -> eolymp.automation.DescribeLogInput
+	5,  // 16: eolymp.automation.LogService.WatchLog:input_type -> eolymp.automation.WatchLogInput
+	2,  // 17: eolymp.automation.LogService.ListLogs:output_type -> eolymp.automation.ListLogsOutput
+	4,  // 18: eolymp.automation.LogService.DescribeLog:output_type -> eolymp.automation.DescribeLogOutput
+	6,  // 19: eolymp.automation.LogService.WatchLog:output_type -> eolymp.automation.WatchLogOutput
+	17, // [17:20] is the sub-list for method output_type
+	14, // [14:17] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_automation_log_service_proto_init() }
@@ -462,13 +628,17 @@ func file_eolymp_automation_log_service_proto_init() {
 		return
 	}
 	file_eolymp_automation_log_proto_init()
+	file_eolymp_automation_log_service_proto_msgTypes[5].OneofWrappers = []any{
+		(*WatchLogOutput_Log)(nil),
+		(*WatchLogOutput_Message)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_automation_log_service_proto_rawDesc), len(file_eolymp_automation_log_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

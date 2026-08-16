@@ -22,6 +22,63 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Status is the log's lifecycle. A run that never reaches a terminal state (COMPLETE or ERROR) is swept
+// to ERROR after 15 minutes without progress.
+type Log_Status int32
+
+const (
+	Log_UNKNOWN_STATUS Log_Status = 0
+	Log_PENDING        Log_Status = 1 // log created, execution not started
+	Log_EXECUTING      Log_Status = 2 // execution in progress
+	Log_COMPLETE       Log_Status = 3 // execution finished, regardless of the outcome an agentic action reports
+	Log_ERROR          Log_Status = 4 // execution stopped because a script or agent failed at the infrastructure level
+)
+
+// Enum value maps for Log_Status.
+var (
+	Log_Status_name = map[int32]string{
+		0: "UNKNOWN_STATUS",
+		1: "PENDING",
+		2: "EXECUTING",
+		3: "COMPLETE",
+		4: "ERROR",
+	}
+	Log_Status_value = map[string]int32{
+		"UNKNOWN_STATUS": 0,
+		"PENDING":        1,
+		"EXECUTING":      2,
+		"COMPLETE":       3,
+		"ERROR":          4,
+	}
+)
+
+func (x Log_Status) Enum() *Log_Status {
+	p := new(Log_Status)
+	*p = x
+	return p
+}
+
+func (x Log_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Log_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_automation_log_proto_enumTypes[0].Descriptor()
+}
+
+func (Log_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_automation_log_proto_enumTypes[0]
+}
+
+func (x Log_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Log_Status.Descriptor instead.
+func (Log_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_automation_log_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Log_ToolCall_Status int32
 
 const (
@@ -58,11 +115,11 @@ func (x Log_ToolCall_Status) String() string {
 }
 
 func (Log_ToolCall_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_automation_log_proto_enumTypes[0].Descriptor()
+	return file_eolymp_automation_log_proto_enumTypes[1].Descriptor()
 }
 
 func (Log_ToolCall_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_automation_log_proto_enumTypes[0]
+	return &file_eolymp_automation_log_proto_enumTypes[1]
 }
 
 func (x Log_ToolCall_Status) Number() protoreflect.EnumNumber {
@@ -81,6 +138,7 @@ type Log struct {
 	Trigger       Rule_Trigger           `protobuf:"varint,4,opt,name=trigger,proto3,enum=eolymp.automation.Rule_Trigger" json:"trigger,omitempty"`
 	DryRun        bool                   `protobuf:"varint,5,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
 	Context       map[string]string      `protobuf:"bytes,6,rep,name=context,proto3" json:"context,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Status        Log_Status             `protobuf:"varint,7,opt,name=status,proto3,enum=eolymp.automation.Log_Status" json:"status,omitempty"`
 	Messages      []*Log_Message         `protobuf:"bytes,100,rep,name=messages,proto3" json:"messages,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,90,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -150,6 +208,13 @@ func (x *Log) GetContext() map[string]string {
 		return x.Context
 	}
 	return nil
+}
+
+func (x *Log) GetStatus() Log_Status {
+	if x != nil {
+		return x.Status
+	}
+	return Log_UNKNOWN_STATUS
 }
 
 func (x *Log) GetMessages() []*Log_Message {
@@ -352,13 +417,14 @@ var File_eolymp_automation_log_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_log_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/automation/log.proto\x12\x11eolymp.automation\x1a\x1ceolymp/automation/rule.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x06\n" +
+	"\x1beolymp/automation/log.proto\x12\x11eolymp.automation\x1a\x1ceolymp/automation/rule.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb9\a\n" +
 	"\x03Log\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\arule_id\x18\x02 \x01(\tR\x06ruleId\x129\n" +
 	"\atrigger\x18\x04 \x01(\x0e2\x1f.eolymp.automation.Rule.TriggerR\atrigger\x12\x17\n" +
 	"\adry_run\x18\x05 \x01(\bR\x06dryRun\x12=\n" +
-	"\acontext\x18\x06 \x03(\v2#.eolymp.automation.Log.ContextEntryR\acontext\x12:\n" +
+	"\acontext\x18\x06 \x03(\v2#.eolymp.automation.Log.ContextEntryR\acontext\x125\n" +
+	"\x06status\x18\a \x01(\x0e2\x1d.eolymp.automation.Log.StatusR\x06status\x12:\n" +
 	"\bmessages\x18d \x03(\v2\x1e.eolymp.automation.Log.MessageR\bmessages\x129\n" +
 	"\n" +
 	"created_at\x18Z \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x1a\xfd\x01\n" +
@@ -383,7 +449,13 @@ const file_eolymp_automation_log_proto_rawDesc = "" +
 	"\x05block\x1a:\n" +
 	"\fContextEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"Q\n" +
+	"\x06Status\x12\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
+	"\aPENDING\x10\x01\x12\r\n" +
+	"\tEXECUTING\x10\x02\x12\f\n" +
+	"\bCOMPLETE\x10\x03\x12\t\n" +
+	"\x05ERROR\x10\x04J\x04\b\x03\x10\x04B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_log_proto_rawDescOnce sync.Once
@@ -397,30 +469,32 @@ func file_eolymp_automation_log_proto_rawDescGZIP() []byte {
 	return file_eolymp_automation_log_proto_rawDescData
 }
 
-var file_eolymp_automation_log_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_automation_log_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_automation_log_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_automation_log_proto_goTypes = []any{
-	(Log_ToolCall_Status)(0),      // 0: eolymp.automation.Log.ToolCall.Status
-	(*Log)(nil),                   // 1: eolymp.automation.Log
-	(*Log_ToolCall)(nil),          // 2: eolymp.automation.Log.ToolCall
-	(*Log_Message)(nil),           // 3: eolymp.automation.Log.Message
-	nil,                           // 4: eolymp.automation.Log.ContextEntry
-	(Rule_Trigger)(0),             // 5: eolymp.automation.Rule.Trigger
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(Log_Status)(0),               // 0: eolymp.automation.Log.Status
+	(Log_ToolCall_Status)(0),      // 1: eolymp.automation.Log.ToolCall.Status
+	(*Log)(nil),                   // 2: eolymp.automation.Log
+	(*Log_ToolCall)(nil),          // 3: eolymp.automation.Log.ToolCall
+	(*Log_Message)(nil),           // 4: eolymp.automation.Log.Message
+	nil,                           // 5: eolymp.automation.Log.ContextEntry
+	(Rule_Trigger)(0),             // 6: eolymp.automation.Rule.Trigger
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_eolymp_automation_log_proto_depIdxs = []int32{
-	5, // 0: eolymp.automation.Log.trigger:type_name -> eolymp.automation.Rule.Trigger
-	4, // 1: eolymp.automation.Log.context:type_name -> eolymp.automation.Log.ContextEntry
-	3, // 2: eolymp.automation.Log.messages:type_name -> eolymp.automation.Log.Message
-	6, // 3: eolymp.automation.Log.created_at:type_name -> google.protobuf.Timestamp
-	0, // 4: eolymp.automation.Log.ToolCall.status:type_name -> eolymp.automation.Log.ToolCall.Status
-	6, // 5: eolymp.automation.Log.Message.timestamp:type_name -> google.protobuf.Timestamp
-	2, // 6: eolymp.automation.Log.Message.tool_call:type_name -> eolymp.automation.Log.ToolCall
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	6, // 0: eolymp.automation.Log.trigger:type_name -> eolymp.automation.Rule.Trigger
+	5, // 1: eolymp.automation.Log.context:type_name -> eolymp.automation.Log.ContextEntry
+	0, // 2: eolymp.automation.Log.status:type_name -> eolymp.automation.Log.Status
+	4, // 3: eolymp.automation.Log.messages:type_name -> eolymp.automation.Log.Message
+	7, // 4: eolymp.automation.Log.created_at:type_name -> google.protobuf.Timestamp
+	1, // 5: eolymp.automation.Log.ToolCall.status:type_name -> eolymp.automation.Log.ToolCall.Status
+	7, // 6: eolymp.automation.Log.Message.timestamp:type_name -> google.protobuf.Timestamp
+	3, // 7: eolymp.automation.Log.Message.tool_call:type_name -> eolymp.automation.Log.ToolCall
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_automation_log_proto_init() }
@@ -438,7 +512,7 @@ func file_eolymp_automation_log_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_automation_log_proto_rawDesc), len(file_eolymp_automation_log_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
