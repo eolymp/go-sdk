@@ -9,7 +9,6 @@ package copilot
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -432,9 +431,9 @@ type Message_ToolCall struct {
 	Id            string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // unique tool call ID, used to approve or reject the call
 	Name          string                  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Status        Message_ToolCall_Status `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.copilot.Message_ToolCall_Status" json:"status,omitempty"`
-	Arguments     *structpb.Struct        `protobuf:"bytes,4,opt,name=arguments,proto3" json:"arguments,omitempty"`
-	Result        *structpb.Value         `protobuf:"bytes,5,opt,name=result,proto3" json:"result,omitempty"` // returned by the tool when status is SUCCESS
-	Error         string                  `protobuf:"bytes,6,opt,name=error,proto3" json:"error,omitempty"`   // set when status is ERROR
+	Arguments     string                  `protobuf:"bytes,4,opt,name=arguments,proto3" json:"arguments,omitempty"` // JSON object, incomplete until the call is made
+	Result        string                  `protobuf:"bytes,5,opt,name=result,proto3" json:"result,omitempty"`       // JSON returned by the tool when status is SUCCESS
+	Error         string                  `protobuf:"bytes,6,opt,name=error,proto3" json:"error,omitempty"`         // set when status is ERROR
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -490,18 +489,18 @@ func (x *Message_ToolCall) GetStatus() Message_ToolCall_Status {
 	return Message_ToolCall_UNKNOWN_STATUS
 }
 
-func (x *Message_ToolCall) GetArguments() *structpb.Struct {
+func (x *Message_ToolCall) GetArguments() string {
 	if x != nil {
 		return x.Arguments
 	}
-	return nil
+	return ""
 }
 
-func (x *Message_ToolCall) GetResult() *structpb.Value {
+func (x *Message_ToolCall) GetResult() string {
 	if x != nil {
 		return x.Result
 	}
-	return nil
+	return ""
 }
 
 func (x *Message_ToolCall) GetError() string {
@@ -515,12 +514,12 @@ var File_eolymp_copilot_chat_proto protoreflect.FileDescriptor
 
 const file_eolymp_copilot_chat_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/copilot/chat.proto\x12\x0eeolymp.copilot\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x01\n" +
+	"\x19eolymp/copilot/chat.proto\x12\x0eeolymp.copilot\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x01\n" +
 	"\x04Chat\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x128\n" +
 	"\ttimestamp\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x1a\n" +
-	"\barchived\x18\x04 \x01(\bR\barchived\"\xd1\x06\n" +
+	"\barchived\x18\x04 \x01(\bR\barchived\"\xa0\x06\n" +
 	"\aMessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12H\n" +
@@ -535,13 +534,13 @@ const file_eolymp_copilot_chat_proto_rawDesc = "" +
 	"\x0eAssistantBlock\x12\x14\n" +
 	"\x04text\x18\x01 \x01(\tH\x00R\x04text\x12?\n" +
 	"\ttool_call\x18\x02 \x01(\v2 .eolymp.copilot.Message.ToolCallH\x00R\btoolCallB\a\n" +
-	"\x05block\x1a\xcc\x02\n" +
+	"\x05block\x1a\x9b\x02\n" +
 	"\bToolCall\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12?\n" +
-	"\x06status\x18\x03 \x01(\x0e2'.eolymp.copilot.Message.ToolCall.StatusR\x06status\x125\n" +
-	"\targuments\x18\x04 \x01(\v2\x17.google.protobuf.StructR\targuments\x12.\n" +
-	"\x06result\x18\x05 \x01(\v2\x16.google.protobuf.ValueR\x06result\x12\x14\n" +
+	"\x06status\x18\x03 \x01(\x0e2'.eolymp.copilot.Message.ToolCall.StatusR\x06status\x12\x1c\n" +
+	"\targuments\x18\x04 \x01(\tR\targuments\x12\x16\n" +
+	"\x06result\x18\x05 \x01(\tR\x06result\x12\x14\n" +
 	"\x05error\x18\x06 \x01(\tR\x05error\"^\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
@@ -575,8 +574,6 @@ var file_eolymp_copilot_chat_proto_goTypes = []any{
 	(*Message_AssistantBlock)(nil),   // 5: eolymp.copilot.Message.AssistantBlock
 	(*Message_ToolCall)(nil),         // 6: eolymp.copilot.Message.ToolCall
 	(*timestamppb.Timestamp)(nil),    // 7: google.protobuf.Timestamp
-	(*structpb.Struct)(nil),          // 8: google.protobuf.Struct
-	(*structpb.Value)(nil),           // 9: google.protobuf.Value
 }
 var file_eolymp_copilot_chat_proto_depIdxs = []int32{
 	7, // 0: eolymp.copilot.Chat.timestamp:type_name -> google.protobuf.Timestamp
@@ -586,13 +583,11 @@ var file_eolymp_copilot_chat_proto_depIdxs = []int32{
 	5, // 4: eolymp.copilot.Message.AssistantContent.content:type_name -> eolymp.copilot.Message.AssistantBlock
 	6, // 5: eolymp.copilot.Message.AssistantBlock.tool_call:type_name -> eolymp.copilot.Message.ToolCall
 	0, // 6: eolymp.copilot.Message.ToolCall.status:type_name -> eolymp.copilot.Message.ToolCall.Status
-	8, // 7: eolymp.copilot.Message.ToolCall.arguments:type_name -> google.protobuf.Struct
-	9, // 8: eolymp.copilot.Message.ToolCall.result:type_name -> google.protobuf.Value
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_copilot_chat_proto_init() }
