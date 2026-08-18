@@ -1109,6 +1109,7 @@ func (x *ListChatsInput_Filter) GetArchived() []*wellknown.ExpressionBool {
 type SendMessageInput_Message struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	Context       *Context               `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1148,6 +1149,13 @@ func (x *SendMessageInput_Message) GetText() string {
 		return x.Text
 	}
 	return ""
+}
+
+func (x *SendMessageInput_Message) GetContext() *Context {
+	if x != nil {
+		return x.Context
+	}
+	return nil
 }
 
 type SendMessageInput_Approval struct {
@@ -1336,15 +1344,16 @@ const file_eolymp_copilot_chat_service_proto_rawDesc = "" +
 	"\x11ArchiveChatOutput\"*\n" +
 	"\x0fDeleteChatInput\x12\x17\n" +
 	"\achat_id\x18\x01 \x01(\tR\x06chatId\"\x12\n" +
-	"\x10DeleteChatOutput\"\xb4\x02\n" +
+	"\x10DeleteChatOutput\"\xe7\x02\n" +
 	"\x10SendMessageInput\x12\x17\n" +
 	"\achat_id\x18\x01 \x01(\tR\x06chatId\x12\x14\n" +
 	"\x05model\x18\x02 \x01(\tR\x05model\x12D\n" +
 	"\amessage\x18\n" +
 	" \x01(\v2(.eolymp.copilot.SendMessageInput.MessageH\x00R\amessage\x12G\n" +
-	"\bapproval\x18\v \x01(\v2).eolymp.copilot.SendMessageInput.ApprovalH\x00R\bapproval\x1a\x1d\n" +
+	"\bapproval\x18\v \x01(\v2).eolymp.copilot.SendMessageInput.ApprovalH\x00R\bapproval\x1aP\n" +
 	"\aMessage\x12\x12\n" +
-	"\x04text\x18\x01 \x01(\tR\x04text\x1a8\n" +
+	"\x04text\x18\x01 \x01(\tR\x04text\x121\n" +
+	"\acontext\x18\x02 \x01(\v2\x17.eolymp.copilot.ContextR\acontext\x1a8\n" +
 	"\bApproval\x12\x14\n" +
 	"\x05allow\x18\x01 \x03(\tR\x05allow\x12\x16\n" +
 	"\x06reject\x18\x02 \x03(\tR\x06rejectB\t\n" +
@@ -1482,6 +1491,7 @@ var file_eolymp_copilot_chat_service_proto_goTypes = []any{
 	(*Message)(nil),                         // 26: eolymp.copilot.Message
 	(*wellknown.ExpressionID)(nil),          // 27: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionBool)(nil),        // 28: eolymp.wellknown.ExpressionBool
+	(*Context)(nil),                         // 29: eolymp.copilot.Context
 }
 var file_eolymp_copilot_chat_service_proto_depIdxs = []int32{
 	24, // 0: eolymp.copilot.DescribeChatOutput.chat:type_name -> eolymp.copilot.Chat
@@ -1501,28 +1511,29 @@ var file_eolymp_copilot_chat_service_proto_depIdxs = []int32{
 	23, // 14: eolymp.copilot.DescribeChatOptionsOutput.models:type_name -> eolymp.copilot.DescribeChatOptionsOutput.Model
 	27, // 15: eolymp.copilot.ListChatsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	28, // 16: eolymp.copilot.ListChatsInput.Filter.archived:type_name -> eolymp.wellknown.ExpressionBool
-	27, // 17: eolymp.copilot.ListMessagesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	3,  // 18: eolymp.copilot.ChatService.StartChat:input_type -> eolymp.copilot.StartChatInput
-	5,  // 19: eolymp.copilot.ChatService.DescribeChat:input_type -> eolymp.copilot.DescribeChatInput
-	7,  // 20: eolymp.copilot.ChatService.ListChats:input_type -> eolymp.copilot.ListChatsInput
-	9,  // 21: eolymp.copilot.ChatService.ArchiveChat:input_type -> eolymp.copilot.ArchiveChatInput
-	11, // 22: eolymp.copilot.ChatService.DeleteChat:input_type -> eolymp.copilot.DeleteChatInput
-	13, // 23: eolymp.copilot.ChatService.SendMessage:input_type -> eolymp.copilot.SendMessageInput
-	15, // 24: eolymp.copilot.ChatService.ListMessages:input_type -> eolymp.copilot.ListMessagesInput
-	17, // 25: eolymp.copilot.ChatService.DescribeChatOptions:input_type -> eolymp.copilot.DescribeChatOptionsInput
-	4,  // 26: eolymp.copilot.ChatService.StartChat:output_type -> eolymp.copilot.StartChatOutput
-	6,  // 27: eolymp.copilot.ChatService.DescribeChat:output_type -> eolymp.copilot.DescribeChatOutput
-	8,  // 28: eolymp.copilot.ChatService.ListChats:output_type -> eolymp.copilot.ListChatsOutput
-	10, // 29: eolymp.copilot.ChatService.ArchiveChat:output_type -> eolymp.copilot.ArchiveChatOutput
-	12, // 30: eolymp.copilot.ChatService.DeleteChat:output_type -> eolymp.copilot.DeleteChatOutput
-	14, // 31: eolymp.copilot.ChatService.SendMessage:output_type -> eolymp.copilot.SendMessageOutput
-	16, // 32: eolymp.copilot.ChatService.ListMessages:output_type -> eolymp.copilot.ListMessagesOutput
-	18, // 33: eolymp.copilot.ChatService.DescribeChatOptions:output_type -> eolymp.copilot.DescribeChatOptionsOutput
-	26, // [26:34] is the sub-list for method output_type
-	18, // [18:26] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	29, // 17: eolymp.copilot.SendMessageInput.Message.context:type_name -> eolymp.copilot.Context
+	27, // 18: eolymp.copilot.ListMessagesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	3,  // 19: eolymp.copilot.ChatService.StartChat:input_type -> eolymp.copilot.StartChatInput
+	5,  // 20: eolymp.copilot.ChatService.DescribeChat:input_type -> eolymp.copilot.DescribeChatInput
+	7,  // 21: eolymp.copilot.ChatService.ListChats:input_type -> eolymp.copilot.ListChatsInput
+	9,  // 22: eolymp.copilot.ChatService.ArchiveChat:input_type -> eolymp.copilot.ArchiveChatInput
+	11, // 23: eolymp.copilot.ChatService.DeleteChat:input_type -> eolymp.copilot.DeleteChatInput
+	13, // 24: eolymp.copilot.ChatService.SendMessage:input_type -> eolymp.copilot.SendMessageInput
+	15, // 25: eolymp.copilot.ChatService.ListMessages:input_type -> eolymp.copilot.ListMessagesInput
+	17, // 26: eolymp.copilot.ChatService.DescribeChatOptions:input_type -> eolymp.copilot.DescribeChatOptionsInput
+	4,  // 27: eolymp.copilot.ChatService.StartChat:output_type -> eolymp.copilot.StartChatOutput
+	6,  // 28: eolymp.copilot.ChatService.DescribeChat:output_type -> eolymp.copilot.DescribeChatOutput
+	8,  // 29: eolymp.copilot.ChatService.ListChats:output_type -> eolymp.copilot.ListChatsOutput
+	10, // 30: eolymp.copilot.ChatService.ArchiveChat:output_type -> eolymp.copilot.ArchiveChatOutput
+	12, // 31: eolymp.copilot.ChatService.DeleteChat:output_type -> eolymp.copilot.DeleteChatOutput
+	14, // 32: eolymp.copilot.ChatService.SendMessage:output_type -> eolymp.copilot.SendMessageOutput
+	16, // 33: eolymp.copilot.ChatService.ListMessages:output_type -> eolymp.copilot.ListMessagesOutput
+	18, // 34: eolymp.copilot.ChatService.DescribeChatOptions:output_type -> eolymp.copilot.DescribeChatOptionsOutput
+	27, // [27:35] is the sub-list for method output_type
+	19, // [19:27] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_copilot_chat_service_proto_init() }

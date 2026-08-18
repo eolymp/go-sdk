@@ -77,7 +77,7 @@ func (x Message_ToolCall_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Message_ToolCall_Status.Descriptor instead.
 func (Message_ToolCall_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1, 3, 0}
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{2, 3, 0}
 }
 
 // Chat is a conversation between a user and the assistant.
@@ -149,6 +149,68 @@ func (x *Chat) GetArchived() bool {
 	return false
 }
 
+// Context is what the user was looking at when they wrote, sent with a message and never shown in the
+// conversation. Every field is optional: a client which knows nothing about where it is sends none of them.
+type Context struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`                 // page the message was written from
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`             // what that page calls itself
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"` // anything else worth knowing: what is on the page, what is selected, what can be done
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Context) Reset() {
+	*x = Context{}
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Context) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Context) ProtoMessage() {}
+
+func (x *Context) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Context.ProtoReflect.Descriptor instead.
+func (*Context) Descriptor() ([]byte, []int) {
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Context) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *Context) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *Context) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
 // Message is one turn in a chat, written either by the user or by the assistant.
 type Message struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
@@ -165,7 +227,7 @@ type Message struct {
 
 func (x *Message) Reset() {
 	*x = Message{}
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[1]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -177,7 +239,7 @@ func (x *Message) String() string {
 func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[1]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -190,7 +252,7 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
-	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Message) GetId() string {
@@ -251,13 +313,14 @@ func (*Message_AssistantMessage) isMessage_Content() {}
 type Message_UserContent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	Context       *Context               `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Message_UserContent) Reset() {
 	*x = Message_UserContent{}
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[2]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -269,7 +332,7 @@ func (x *Message_UserContent) String() string {
 func (*Message_UserContent) ProtoMessage() {}
 
 func (x *Message_UserContent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[2]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -282,7 +345,7 @@ func (x *Message_UserContent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message_UserContent.ProtoReflect.Descriptor instead.
 func (*Message_UserContent) Descriptor() ([]byte, []int) {
-	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1, 0}
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{2, 0}
 }
 
 func (x *Message_UserContent) GetText() string {
@@ -290,6 +353,13 @@ func (x *Message_UserContent) GetText() string {
 		return x.Text
 	}
 	return ""
+}
+
+func (x *Message_UserContent) GetContext() *Context {
+	if x != nil {
+		return x.Context
+	}
+	return nil
 }
 
 type Message_AssistantContent struct {
@@ -302,7 +372,7 @@ type Message_AssistantContent struct {
 
 func (x *Message_AssistantContent) Reset() {
 	*x = Message_AssistantContent{}
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[3]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +384,7 @@ func (x *Message_AssistantContent) String() string {
 func (*Message_AssistantContent) ProtoMessage() {}
 
 func (x *Message_AssistantContent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[3]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +397,7 @@ func (x *Message_AssistantContent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message_AssistantContent.ProtoReflect.Descriptor instead.
 func (*Message_AssistantContent) Descriptor() ([]byte, []int) {
-	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1, 1}
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{2, 1}
 }
 
 func (x *Message_AssistantContent) GetContent() []*Message_AssistantBlock {
@@ -357,7 +427,7 @@ type Message_AssistantBlock struct {
 
 func (x *Message_AssistantBlock) Reset() {
 	*x = Message_AssistantBlock{}
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[4]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -369,7 +439,7 @@ func (x *Message_AssistantBlock) String() string {
 func (*Message_AssistantBlock) ProtoMessage() {}
 
 func (x *Message_AssistantBlock) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[4]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -382,7 +452,7 @@ func (x *Message_AssistantBlock) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message_AssistantBlock.ProtoReflect.Descriptor instead.
 func (*Message_AssistantBlock) Descriptor() ([]byte, []int) {
-	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1, 2}
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{2, 2}
 }
 
 func (x *Message_AssistantBlock) GetBlock() isMessage_AssistantBlock_Block {
@@ -440,7 +510,7 @@ type Message_ToolCall struct {
 
 func (x *Message_ToolCall) Reset() {
 	*x = Message_ToolCall{}
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[5]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -452,7 +522,7 @@ func (x *Message_ToolCall) String() string {
 func (*Message_ToolCall) ProtoMessage() {}
 
 func (x *Message_ToolCall) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_copilot_chat_proto_msgTypes[5]
+	mi := &file_eolymp_copilot_chat_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -465,7 +535,7 @@ func (x *Message_ToolCall) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message_ToolCall.ProtoReflect.Descriptor instead.
 func (*Message_ToolCall) Descriptor() ([]byte, []int) {
-	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{1, 3}
+	return file_eolymp_copilot_chat_proto_rawDescGZIP(), []int{2, 3}
 }
 
 func (x *Message_ToolCall) GetId() string {
@@ -519,15 +589,20 @@ const file_eolymp_copilot_chat_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x128\n" +
 	"\ttimestamp\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x1a\n" +
-	"\barchived\x18\x04 \x01(\bR\barchived\"\xa0\x06\n" +
+	"\barchived\x18\x04 \x01(\bR\barchived\"S\n" +
+	"\aContext\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"\xd3\x06\n" +
 	"\aMessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12H\n" +
 	"\fuser_message\x18\n" +
 	" \x01(\v2#.eolymp.copilot.Message.UserContentH\x00R\vuserMessage\x12W\n" +
-	"\x11assistant_message\x18\v \x01(\v2(.eolymp.copilot.Message.AssistantContentH\x00R\x10assistantMessage\x1a!\n" +
+	"\x11assistant_message\x18\v \x01(\v2(.eolymp.copilot.Message.AssistantContentH\x00R\x10assistantMessage\x1aT\n" +
 	"\vUserContent\x12\x12\n" +
-	"\x04text\x18\x01 \x01(\tR\x04text\x1aj\n" +
+	"\x04text\x18\x01 \x01(\tR\x04text\x121\n" +
+	"\acontext\x18\x02 \x01(\v2\x17.eolymp.copilot.ContextR\acontext\x1aj\n" +
 	"\x10AssistantContent\x12@\n" +
 	"\acontent\x18\x01 \x03(\v2&.eolymp.copilot.Message.AssistantBlockR\acontent\x12\x14\n" +
 	"\x05model\x18\x02 \x01(\tR\x05model\x1ap\n" +
@@ -564,30 +639,32 @@ func file_eolymp_copilot_chat_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_copilot_chat_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_copilot_chat_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_copilot_chat_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_copilot_chat_proto_goTypes = []any{
 	(Message_ToolCall_Status)(0),     // 0: eolymp.copilot.Message.ToolCall.Status
 	(*Chat)(nil),                     // 1: eolymp.copilot.Chat
-	(*Message)(nil),                  // 2: eolymp.copilot.Message
-	(*Message_UserContent)(nil),      // 3: eolymp.copilot.Message.UserContent
-	(*Message_AssistantContent)(nil), // 4: eolymp.copilot.Message.AssistantContent
-	(*Message_AssistantBlock)(nil),   // 5: eolymp.copilot.Message.AssistantBlock
-	(*Message_ToolCall)(nil),         // 6: eolymp.copilot.Message.ToolCall
-	(*timestamppb.Timestamp)(nil),    // 7: google.protobuf.Timestamp
+	(*Context)(nil),                  // 2: eolymp.copilot.Context
+	(*Message)(nil),                  // 3: eolymp.copilot.Message
+	(*Message_UserContent)(nil),      // 4: eolymp.copilot.Message.UserContent
+	(*Message_AssistantContent)(nil), // 5: eolymp.copilot.Message.AssistantContent
+	(*Message_AssistantBlock)(nil),   // 6: eolymp.copilot.Message.AssistantBlock
+	(*Message_ToolCall)(nil),         // 7: eolymp.copilot.Message.ToolCall
+	(*timestamppb.Timestamp)(nil),    // 8: google.protobuf.Timestamp
 }
 var file_eolymp_copilot_chat_proto_depIdxs = []int32{
-	7, // 0: eolymp.copilot.Chat.timestamp:type_name -> google.protobuf.Timestamp
-	7, // 1: eolymp.copilot.Message.timestamp:type_name -> google.protobuf.Timestamp
-	3, // 2: eolymp.copilot.Message.user_message:type_name -> eolymp.copilot.Message.UserContent
-	4, // 3: eolymp.copilot.Message.assistant_message:type_name -> eolymp.copilot.Message.AssistantContent
-	5, // 4: eolymp.copilot.Message.AssistantContent.content:type_name -> eolymp.copilot.Message.AssistantBlock
-	6, // 5: eolymp.copilot.Message.AssistantBlock.tool_call:type_name -> eolymp.copilot.Message.ToolCall
-	0, // 6: eolymp.copilot.Message.ToolCall.status:type_name -> eolymp.copilot.Message.ToolCall.Status
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	8, // 0: eolymp.copilot.Chat.timestamp:type_name -> google.protobuf.Timestamp
+	8, // 1: eolymp.copilot.Message.timestamp:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.copilot.Message.user_message:type_name -> eolymp.copilot.Message.UserContent
+	5, // 3: eolymp.copilot.Message.assistant_message:type_name -> eolymp.copilot.Message.AssistantContent
+	2, // 4: eolymp.copilot.Message.UserContent.context:type_name -> eolymp.copilot.Context
+	6, // 5: eolymp.copilot.Message.AssistantContent.content:type_name -> eolymp.copilot.Message.AssistantBlock
+	7, // 6: eolymp.copilot.Message.AssistantBlock.tool_call:type_name -> eolymp.copilot.Message.ToolCall
+	0, // 7: eolymp.copilot.Message.ToolCall.status:type_name -> eolymp.copilot.Message.ToolCall.Status
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_copilot_chat_proto_init() }
@@ -595,11 +672,11 @@ func file_eolymp_copilot_chat_proto_init() {
 	if File_eolymp_copilot_chat_proto != nil {
 		return
 	}
-	file_eolymp_copilot_chat_proto_msgTypes[1].OneofWrappers = []any{
+	file_eolymp_copilot_chat_proto_msgTypes[2].OneofWrappers = []any{
 		(*Message_UserMessage)(nil),
 		(*Message_AssistantMessage)(nil),
 	}
-	file_eolymp_copilot_chat_proto_msgTypes[4].OneofWrappers = []any{
+	file_eolymp_copilot_chat_proto_msgTypes[5].OneofWrappers = []any{
 		(*Message_AssistantBlock_Text)(nil),
 		(*Message_AssistantBlock_ToolCall)(nil),
 	}
@@ -609,7 +686,7 @@ func file_eolymp_copilot_chat_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_copilot_chat_proto_rawDesc), len(file_eolymp_copilot_chat_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
