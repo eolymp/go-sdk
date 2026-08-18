@@ -214,7 +214,10 @@ func (Member_Patch_Field) EnumDescriptor() ([]byte, []int) {
 type Member struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url               string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
+	Url               string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                                         // deprecated: use resource_link
+	ResourceLink      string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"`                // canonical URL of this resource in the API
+	SpaceLink         string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`                         // page on the space's own site, empty when it has none
+	ConsoleLink       string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`                   // page in the console
 	ExternalRef       string                 `protobuf:"bytes,4,opt,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"`                      // a member's ID in the external system
 	DisplayName       string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`                      // display name, readonly, users nickname, name, attribute, ghosts name or teams name
 	Rank              int32                  `protobuf:"varint,70,opt,name=rank,proto3" json:"rank,omitempty"`                                                     // User rank based on EloMMR rating
@@ -297,6 +300,27 @@ func (x *Member) GetId() string {
 func (x *Member) GetUrl() string {
 	if x != nil {
 		return x.Url
+	}
+	return ""
+}
+
+func (x *Member) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Member) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
+	}
+	return ""
+}
+
+func (x *Member) GetConsoleLink() string {
+	if x != nil {
+		return x.ConsoleLink
 	}
 	return ""
 }
@@ -701,10 +725,14 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf4\x10\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf6\x11\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
-	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12!\n" +
+	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12*\n" +
+	"\fconsole_link\x18\xeb\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconsoleLink\x12!\n" +
 	"\fexternal_ref\x18\x04 \x01(\tR\vexternalRef\x12)\n" +
 	"\fdisplay_name\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vdisplayName\x12\x1a\n" +
 	"\x04rank\x18F \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x04rank\x12%\n" +

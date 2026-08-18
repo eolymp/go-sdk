@@ -7,6 +7,7 @@
 package course
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -124,15 +125,18 @@ func (Course_Visibility) EnumDescriptor() ([]byte, []int) {
 }
 
 type Course struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url         string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	Locale      string                 `protobuf:"bytes,10,opt,name=locale,proto3" json:"locale,omitempty"`
-	Name        string                 `protobuf:"bytes,11,opt,name=name,proto3" json:"name,omitempty"`
-	Description *ecm.Content           `protobuf:"bytes,12,opt,name=description,proto3" json:"description,omitempty"`
-	ImageUrl    string                 `protobuf:"bytes,13,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
-	Visibility  Course_Visibility      `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.course.Course_Visibility" json:"visibility,omitempty"`
-	Duration    uint32                 `protobuf:"varint,15,opt,name=duration,proto3" json:"duration,omitempty"`
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url          string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`                                          // deprecated: use resource_link
+	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
+	ConsoleLink  string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
+	Locale       string                 `protobuf:"bytes,10,opt,name=locale,proto3" json:"locale,omitempty"`
+	Name         string                 `protobuf:"bytes,11,opt,name=name,proto3" json:"name,omitempty"`
+	Description  *ecm.Content           `protobuf:"bytes,12,opt,name=description,proto3" json:"description,omitempty"`
+	ImageUrl     string                 `protobuf:"bytes,13,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
+	Visibility   Course_Visibility      `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.course.Course_Visibility" json:"visibility,omitempty"`
+	Duration     uint32                 `protobuf:"varint,15,opt,name=duration,proto3" json:"duration,omitempty"`
 	// Problem topics (ID of topics from taxonomy.TopicService)
 	Topics        []string `protobuf:"bytes,16,rep,name=topics,proto3" json:"topics,omitempty"`
 	Estimate      uint32   `protobuf:"varint,20,opt,name=estimate,proto3" json:"estimate,omitempty"`
@@ -180,6 +184,27 @@ func (x *Course) GetId() string {
 func (x *Course) GetUrl() string {
 	if x != nil {
 		return x.Url
+	}
+	return ""
+}
+
+func (x *Course) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Course) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
+	}
+	return ""
+}
+
+func (x *Course) GetConsoleLink() string {
+	if x != nil {
+		return x.ConsoleLink
 	}
 	return ""
 }
@@ -244,10 +269,14 @@ var File_eolymp_course_course_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_course_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/course/course.proto\x12\reolymp.course\x1a\x18eolymp/ecm/content.proto\"\xd4\x03\n" +
+	"\x1aeolymp/course/course.proto\x12\reolymp.course\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xd6\x04\n" +
 	"\x06Course\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
-	"\x03url\x18\x02 \x01(\tR\x03url\x12\x16\n" +
+	"\x03url\x18\x02 \x01(\tR\x03url\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12*\n" +
+	"\fconsole_link\x18\xeb\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconsoleLink\x12\x16\n" +
 	"\x06locale\x18\n" +
 	" \x01(\tR\x06locale\x12\x12\n" +
 	"\x04name\x18\v \x01(\tR\x04name\x125\n" +

@@ -203,9 +203,12 @@ func (Problem_Patch_Field) EnumDescriptor() ([]byte, []int) {
 type Problem struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Unique identifier.
-	Id   string       `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url  string       `protobuf:"bytes,682,opt,name=url,proto3" json:"url,omitempty"`
-	Type Problem_Type `protobuf:"varint,23,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`
+	Id           string       `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url          string       `protobuf:"bytes,682,opt,name=url,proto3" json:"url,omitempty"`                                        // deprecated: use resource_link
+	ResourceLink string       `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink    string       `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
+	ConsoleLink  string       `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
+	Type         Problem_Type `protobuf:"varint,23,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`
 	// Index in the public problem catalog.
 	Number int32 `protobuf:"varint,10,opt,name=number,proto3" json:"number,omitempty"`
 	// Problem is visible to users in public catalog.
@@ -277,6 +280,27 @@ func (x *Problem) GetId() string {
 func (x *Problem) GetUrl() string {
 	if x != nil {
 		return x.Url
+	}
+	return ""
+}
+
+func (x *Problem) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Problem) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
+	}
+	return ""
+}
+
+func (x *Problem) GetConsoleLink() string {
+	if x != nil {
+		return x.ConsoleLink
 	}
 	return ""
 }
@@ -648,10 +672,14 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x9a\x10\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x9c\x11\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
-	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12.\n" +
+	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12*\n" +
+	"\fconsole_link\x18\xeb\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconsoleLink\x12.\n" +
 	"\x04type\x18\x17 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x12\x16\n" +
 	"\x06number\x18\n" +
 	" \x01(\x05R\x06number\x12\x18\n" +

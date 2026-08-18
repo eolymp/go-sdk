@@ -136,16 +136,19 @@ func (Post_Extra) EnumDescriptor() ([]byte, []int) {
 }
 
 type Post struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url        string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	SourceId   string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                          // if set when creating the post, marks it as a translation of the post specified here
-	SourceUrl  string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                       // populated if source_id is set
-	Draft      bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                               // marked as draft and only shown to author
-	Public     bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                             // visible and available to everyone (ie. published and passed moderation)
-	Featured   bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                         // marked as featured (shown on home page)
-	Pinned     bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                            // pinned on top of the page
-	Moderation Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.content.Post_Moderation" json:"moderation,omitempty"` // moderation status
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url          string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`                                                    // deprecated: use resource_link
+	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"`           // canonical URL of this resource in the API
+	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`                    // page on the space's own site, empty when it has none
+	ConsoleLink  string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`              // page in the console
+	SourceId     string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                          // if set when creating the post, marks it as a translation of the post specified here
+	SourceUrl    string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                       // populated if source_id is set
+	Draft        bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                               // marked as draft and only shown to author
+	Public       bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                             // visible and available to everyone (ie. published and passed moderation)
+	Featured     bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                         // marked as featured (shown on home page)
+	Pinned       bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                            // pinned on top of the page
+	Moderation   Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.content.Post_Moderation" json:"moderation,omitempty"` // moderation status
 	// author of the post. A service caller may set either identity, or leave it unset for a system post; a user
 	// or member caller authors the post as themselves and cannot set another author.
 	//
@@ -214,6 +217,27 @@ func (x *Post) GetId() string {
 func (x *Post) GetUrl() string {
 	if x != nil {
 		return x.Url
+	}
+	return ""
+}
+
+func (x *Post) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Post) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
+	}
+	return ""
+}
+
+func (x *Post) GetConsoleLink() string {
+	if x != nil {
+		return x.ConsoleLink
 	}
 	return ""
 }
@@ -644,10 +668,14 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc9\r\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x0e\n" +
 	"\x04Post\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
-	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12\x1b\n" +
+	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12*\n" +
+	"\fconsole_link\x18\xeb\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconsoleLink\x12\x1b\n" +
 	"\tsource_id\x18\a \x01(\tR\bsourceId\x12%\n" +
 	"\n" +
 	"source_url\x18\b \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tsourceUrl\x12\x14\n" +
