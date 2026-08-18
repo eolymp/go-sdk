@@ -149,6 +149,7 @@ const (
 	CompleteChunk_TOOL_RESULT            CompleteChunk_ChunkType = 8
 	CompleteChunk_USAGE                  CompleteChunk_ChunkType = 9
 	CompleteChunk_FINISH                 CompleteChunk_ChunkType = 10
+	CompleteChunk_SERVER_TOOL_RESULT     CompleteChunk_ChunkType = 11
 )
 
 // Enum value maps for CompleteChunk_ChunkType.
@@ -165,6 +166,7 @@ var (
 		8:  "TOOL_RESULT",
 		9:  "USAGE",
 		10: "FINISH",
+		11: "SERVER_TOOL_RESULT",
 	}
 	CompleteChunk_ChunkType_value = map[string]int32{
 		"UNKNOWN_CHUNK_TYPE":     0,
@@ -178,6 +180,7 @@ var (
 		"TOOL_RESULT":            8,
 		"USAGE":                  9,
 		"FINISH":                 10,
+		"SERVER_TOOL_RESULT":     11,
 	}
 )
 
@@ -445,17 +448,18 @@ func (x *CompleteOutput) GetModel() string {
 }
 
 type CompleteChunk struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Type          CompleteChunk_ChunkType `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.ai.CompleteChunk_ChunkType" json:"type,omitempty"`
-	Index         int32                   `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
-	Text          string                  `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty"`
-	Call          *Message_ToolCall       `protobuf:"bytes,4,opt,name=call,proto3" json:"call,omitempty"`
-	Signature     string                  `protobuf:"bytes,5,opt,name=signature,proto3" json:"signature,omitempty"`
-	Result        *Message_ToolResult     `protobuf:"bytes,6,opt,name=result,proto3" json:"result,omitempty"`
-	Usage         *Usage                  `protobuf:"bytes,7,opt,name=usage,proto3" json:"usage,omitempty"`
-	FinishReason  FinishReason            `protobuf:"varint,8,opt,name=finish_reason,json=finishReason,proto3,enum=eolymp.ai.FinishReason" json:"finish_reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState    `protogen:"open.v1"`
+	Type             CompleteChunk_ChunkType   `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.ai.CompleteChunk_ChunkType" json:"type,omitempty"`
+	Index            int32                     `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
+	Text             string                    `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty"`
+	Call             *Message_ToolCall         `protobuf:"bytes,4,opt,name=call,proto3" json:"call,omitempty"`
+	Signature        string                    `protobuf:"bytes,5,opt,name=signature,proto3" json:"signature,omitempty"`
+	Result           *Message_ToolResult       `protobuf:"bytes,6,opt,name=result,proto3" json:"result,omitempty"`
+	Usage            *Usage                    `protobuf:"bytes,7,opt,name=usage,proto3" json:"usage,omitempty"`
+	FinishReason     FinishReason              `protobuf:"varint,8,opt,name=finish_reason,json=finishReason,proto3,enum=eolymp.ai.FinishReason" json:"finish_reason,omitempty"`
+	ServerToolResult *Message_ServerToolResult `protobuf:"bytes,9,opt,name=server_tool_result,json=serverToolResult,proto3" json:"server_tool_result,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CompleteChunk) Reset() {
@@ -542,6 +546,13 @@ func (x *CompleteChunk) GetFinishReason() FinishReason {
 		return x.FinishReason
 	}
 	return FinishReason_UNKNOWN_FINISH_REASON
+}
+
+func (x *CompleteChunk) GetServerToolResult() *Message_ServerToolResult {
+	if x != nil {
+		return x.ServerToolResult
+	}
+	return nil
 }
 
 type CompleteInput_Tool struct {
@@ -928,7 +939,7 @@ const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\acontent\x18\x01 \x03(\v2\x1f.eolymp.ai.Message.ContentBlockR\acontent\x12<\n" +
 	"\rfinish_reason\x18\x02 \x01(\x0e2\x17.eolymp.ai.FinishReasonR\ffinishReason\x12&\n" +
 	"\x05usage\x18\x03 \x01(\v2\x10.eolymp.ai.UsageR\x05usage\x12\x14\n" +
-	"\x05model\x18\x04 \x01(\tR\x05model\"\xb5\x04\n" +
+	"\x05model\x18\x04 \x01(\tR\x05model\"\xa0\x05\n" +
 	"\rCompleteChunk\x126\n" +
 	"\x04type\x18\x01 \x01(\x0e2\".eolymp.ai.CompleteChunk.ChunkTypeR\x04type\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\x05R\x05index\x12\x12\n" +
@@ -937,7 +948,8 @@ const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\tsignature\x18\x05 \x01(\tR\tsignature\x125\n" +
 	"\x06result\x18\x06 \x01(\v2\x1d.eolymp.ai.Message.ToolResultR\x06result\x12&\n" +
 	"\x05usage\x18\a \x01(\v2\x10.eolymp.ai.UsageR\x05usage\x12<\n" +
-	"\rfinish_reason\x18\b \x01(\x0e2\x17.eolymp.ai.FinishReasonR\ffinishReason\"\xd5\x01\n" +
+	"\rfinish_reason\x18\b \x01(\x0e2\x17.eolymp.ai.FinishReasonR\ffinishReason\x12Q\n" +
+	"\x12server_tool_result\x18\t \x01(\v2#.eolymp.ai.Message.ServerToolResultR\x10serverToolResult\"\xed\x01\n" +
 	"\tChunkType\x12\x16\n" +
 	"\x12UNKNOWN_CHUNK_TYPE\x10\x00\x12\b\n" +
 	"\x04TEXT\x10\x01\x12\x13\n" +
@@ -951,7 +963,8 @@ const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\x05USAGE\x10\t\x12\n" +
 	"\n" +
 	"\x06FINISH\x10\n" +
-	"2\x93\x02\n" +
+	"\x12\x16\n" +
+	"\x12SERVER_TOOL_RESULT\x10\v2\x93\x02\n" +
 	"\x11CompletionService\x12l\n" +
 	"\bComplete\x12\x18.eolymp.ai.CompleteInput\x1a\x19.eolymp.ai.CompleteOutput\"+\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -998,6 +1011,7 @@ var file_eolymp_ai_completion_service_proto_goTypes = []any{
 	(*Usage)(nil),                         // 14: eolymp.ai.Usage
 	(*Message_ToolCall)(nil),              // 15: eolymp.ai.Message.ToolCall
 	(*Message_ToolResult)(nil),            // 16: eolymp.ai.Message.ToolResult
+	(*Message_ServerToolResult)(nil),      // 17: eolymp.ai.Message.ServerToolResult
 }
 var file_eolymp_ai_completion_service_proto_depIdxs = []int32{
 	11, // 0: eolymp.ai.CompleteInput.messages:type_name -> eolymp.ai.Message
@@ -1015,16 +1029,17 @@ var file_eolymp_ai_completion_service_proto_depIdxs = []int32{
 	16, // 12: eolymp.ai.CompleteChunk.result:type_name -> eolymp.ai.Message.ToolResult
 	14, // 13: eolymp.ai.CompleteChunk.usage:type_name -> eolymp.ai.Usage
 	13, // 14: eolymp.ai.CompleteChunk.finish_reason:type_name -> eolymp.ai.FinishReason
-	10, // 15: eolymp.ai.CompleteInput.Container.skills:type_name -> eolymp.ai.CompleteInput.Container.Skill
-	3,  // 16: eolymp.ai.CompletionService.Complete:input_type -> eolymp.ai.CompleteInput
-	3,  // 17: eolymp.ai.CompletionService.CompleteStream:input_type -> eolymp.ai.CompleteInput
-	4,  // 18: eolymp.ai.CompletionService.Complete:output_type -> eolymp.ai.CompleteOutput
-	5,  // 19: eolymp.ai.CompletionService.CompleteStream:output_type -> eolymp.ai.CompleteChunk
-	18, // [18:20] is the sub-list for method output_type
-	16, // [16:18] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	17, // 15: eolymp.ai.CompleteChunk.server_tool_result:type_name -> eolymp.ai.Message.ServerToolResult
+	10, // 16: eolymp.ai.CompleteInput.Container.skills:type_name -> eolymp.ai.CompleteInput.Container.Skill
+	3,  // 17: eolymp.ai.CompletionService.Complete:input_type -> eolymp.ai.CompleteInput
+	3,  // 18: eolymp.ai.CompletionService.CompleteStream:input_type -> eolymp.ai.CompleteInput
+	4,  // 19: eolymp.ai.CompletionService.Complete:output_type -> eolymp.ai.CompleteOutput
+	5,  // 20: eolymp.ai.CompletionService.CompleteStream:output_type -> eolymp.ai.CompleteChunk
+	19, // [19:21] is the sub-list for method output_type
+	17, // [17:19] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ai_completion_service_proto_init() }

@@ -88,6 +88,7 @@ const (
 	Message_SERVER_TOOL_CALL   Message_BlockType = 6
 	Message_COMPACTION         Message_BlockType = 7
 	Message_IMAGE              Message_BlockType = 8
+	Message_SERVER_TOOL_RESULT Message_BlockType = 9
 )
 
 // Enum value maps for Message_BlockType.
@@ -102,6 +103,7 @@ var (
 		6: "SERVER_TOOL_CALL",
 		7: "COMPACTION",
 		8: "IMAGE",
+		9: "SERVER_TOOL_RESULT",
 	}
 	Message_BlockType_value = map[string]int32{
 		"UNKNOWN_BLOCK_TYPE": 0,
@@ -113,6 +115,7 @@ var (
 		"SERVER_TOOL_CALL":   6,
 		"COMPACTION":         7,
 		"IMAGE":              8,
+		"SERVER_TOOL_RESULT": 9,
 	}
 )
 
@@ -196,15 +199,16 @@ func (x *Message) GetContent() []*Message_ContentBlock {
 }
 
 type Message_ContentBlock struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          Message_BlockType      `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.ai.Message_BlockType" json:"type,omitempty"`
-	Text          string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
-	Signature     string                 `protobuf:"bytes,3,opt,name=signature,proto3" json:"signature,omitempty"`
-	ToolCall      *Message_ToolCall      `protobuf:"bytes,4,opt,name=tool_call,json=toolCall,proto3" json:"tool_call,omitempty"`
-	ToolResult    *Message_ToolResult    `protobuf:"bytes,5,opt,name=tool_result,json=toolResult,proto3" json:"tool_result,omitempty"`
-	Image         *Message_Image         `protobuf:"bytes,6,opt,name=image,proto3" json:"image,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState    `protogen:"open.v1"`
+	Type             Message_BlockType         `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.ai.Message_BlockType" json:"type,omitempty"`
+	Text             string                    `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Signature        string                    `protobuf:"bytes,3,opt,name=signature,proto3" json:"signature,omitempty"`
+	ToolCall         *Message_ToolCall         `protobuf:"bytes,4,opt,name=tool_call,json=toolCall,proto3" json:"tool_call,omitempty"`
+	ToolResult       *Message_ToolResult       `protobuf:"bytes,5,opt,name=tool_result,json=toolResult,proto3" json:"tool_result,omitempty"`
+	Image            *Message_Image            `protobuf:"bytes,6,opt,name=image,proto3" json:"image,omitempty"`
+	ServerToolResult *Message_ServerToolResult `protobuf:"bytes,7,opt,name=server_tool_result,json=serverToolResult,proto3" json:"server_tool_result,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Message_ContentBlock) Reset() {
@@ -275,6 +279,13 @@ func (x *Message_ContentBlock) GetToolResult() *Message_ToolResult {
 func (x *Message_ContentBlock) GetImage() *Message_Image {
 	if x != nil {
 		return x.Image
+	}
+	return nil
+}
+
+func (x *Message_ContentBlock) GetServerToolResult() *Message_ServerToolResult {
+	if x != nil {
+		return x.ServerToolResult
 	}
 	return nil
 }
@@ -467,14 +478,74 @@ func (x *Message_ToolResult) GetImages() []*Message_Image {
 	return nil
 }
 
+type Message_ServerToolResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CallId        string                 `protobuf:"bytes,1,opt,name=call_id,json=callId,proto3" json:"call_id,omitempty"`
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Message_ServerToolResult) Reset() {
+	*x = Message_ServerToolResult{}
+	mi := &file_eolymp_ai_message_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Message_ServerToolResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Message_ServerToolResult) ProtoMessage() {}
+
+func (x *Message_ServerToolResult) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_ai_message_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Message_ServerToolResult.ProtoReflect.Descriptor instead.
+func (*Message_ServerToolResult) Descriptor() ([]byte, []int) {
+	return file_eolymp_ai_message_proto_rawDescGZIP(), []int{0, 4}
+}
+
+func (x *Message_ServerToolResult) GetCallId() string {
+	if x != nil {
+		return x.CallId
+	}
+	return ""
+}
+
+func (x *Message_ServerToolResult) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *Message_ServerToolResult) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
 var File_eolymp_ai_message_proto protoreflect.FileDescriptor
 
 const file_eolymp_ai_message_proto_rawDesc = "" +
 	"\n" +
-	"\x17eolymp/ai/message.proto\x12\teolymp.ai\"\xa5\a\n" +
+	"\x17eolymp/ai/message.proto\x12\teolymp.ai\"\xeb\b\n" +
 	"\aMessage\x12+\n" +
 	"\x04role\x18\x01 \x01(\x0e2\x17.eolymp.ai.Message.RoleR\x04role\x129\n" +
-	"\acontent\x18\x02 \x03(\v2\x1f.eolymp.ai.Message.ContentBlockR\acontent\x1a\x9c\x02\n" +
+	"\acontent\x18\x02 \x03(\v2\x1f.eolymp.ai.Message.ContentBlockR\acontent\x1a\xef\x02\n" +
 	"\fContentBlock\x120\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1c.eolymp.ai.Message.BlockTypeR\x04type\x12\x12\n" +
 	"\x04text\x18\x02 \x01(\tR\x04text\x12\x1c\n" +
@@ -482,7 +553,8 @@ const file_eolymp_ai_message_proto_rawDesc = "" +
 	"\ttool_call\x18\x04 \x01(\v2\x1b.eolymp.ai.Message.ToolCallR\btoolCall\x12>\n" +
 	"\vtool_result\x18\x05 \x01(\v2\x1d.eolymp.ai.Message.ToolResultR\n" +
 	"toolResult\x12.\n" +
-	"\x05image\x18\x06 \x01(\v2\x18.eolymp.ai.Message.ImageR\x05image\x1a:\n" +
+	"\x05image\x18\x06 \x01(\v2\x18.eolymp.ai.Message.ImageR\x05image\x12Q\n" +
+	"\x12server_tool_result\x18\a \x01(\v2#.eolymp.ai.Message.ServerToolResultR\x10serverToolResult\x1a:\n" +
 	"\x05Image\x12\x1d\n" +
 	"\n" +
 	"media_type\x18\x01 \x01(\tR\tmediaType\x12\x12\n" +
@@ -497,14 +569,18 @@ const file_eolymp_ai_message_proto_rawDesc = "" +
 	"\x06result\x18\x02 \x01(\tR\x06result\x12\x19\n" +
 	"\bis_error\x18\x03 \x01(\bR\aisError\x12\x14\n" +
 	"\x05error\x18\x04 \x01(\tR\x05error\x120\n" +
-	"\x06images\x18\x05 \x03(\v2\x18.eolymp.ai.Message.ImageR\x06images\"G\n" +
+	"\x06images\x18\x05 \x03(\v2\x18.eolymp.ai.Message.ImageR\x06images\x1aY\n" +
+	"\x10ServerToolResult\x12\x17\n" +
+	"\acall_id\x18\x01 \x01(\tR\x06callId\x12\x12\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x18\n" +
+	"\acontent\x18\x03 \x01(\tR\acontent\"G\n" +
 	"\x04Role\x12\x10\n" +
 	"\fUNKNOWN_ROLE\x10\x00\x12\n" +
 	"\n" +
 	"\x06SYSTEM\x10\x01\x12\b\n" +
 	"\x04USER\x10\x02\x12\r\n" +
 	"\tASSISTANT\x10\x03\x12\b\n" +
-	"\x04TOOL\x10\x04\"\x9c\x01\n" +
+	"\x04TOOL\x10\x04\"\xb4\x01\n" +
 	"\tBlockType\x12\x16\n" +
 	"\x12UNKNOWN_BLOCK_TYPE\x10\x00\x12\b\n" +
 	"\x04TEXT\x10\x01\x12\r\n" +
@@ -515,7 +591,8 @@ const file_eolymp_ai_message_proto_rawDesc = "" +
 	"\x10SERVER_TOOL_CALL\x10\x06\x12\x0e\n" +
 	"\n" +
 	"COMPACTION\x10\a\x12\t\n" +
-	"\x05IMAGE\x10\bB'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
+	"\x05IMAGE\x10\b\x12\x16\n" +
+	"\x12SERVER_TOOL_RESULT\x10\tB'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
 
 var (
 	file_eolymp_ai_message_proto_rawDescOnce sync.Once
@@ -530,15 +607,16 @@ func file_eolymp_ai_message_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_ai_message_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_ai_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_ai_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_ai_message_proto_goTypes = []any{
-	(Message_Role)(0),            // 0: eolymp.ai.Message.Role
-	(Message_BlockType)(0),       // 1: eolymp.ai.Message.BlockType
-	(*Message)(nil),              // 2: eolymp.ai.Message
-	(*Message_ContentBlock)(nil), // 3: eolymp.ai.Message.ContentBlock
-	(*Message_Image)(nil),        // 4: eolymp.ai.Message.Image
-	(*Message_ToolCall)(nil),     // 5: eolymp.ai.Message.ToolCall
-	(*Message_ToolResult)(nil),   // 6: eolymp.ai.Message.ToolResult
+	(Message_Role)(0),                // 0: eolymp.ai.Message.Role
+	(Message_BlockType)(0),           // 1: eolymp.ai.Message.BlockType
+	(*Message)(nil),                  // 2: eolymp.ai.Message
+	(*Message_ContentBlock)(nil),     // 3: eolymp.ai.Message.ContentBlock
+	(*Message_Image)(nil),            // 4: eolymp.ai.Message.Image
+	(*Message_ToolCall)(nil),         // 5: eolymp.ai.Message.ToolCall
+	(*Message_ToolResult)(nil),       // 6: eolymp.ai.Message.ToolResult
+	(*Message_ServerToolResult)(nil), // 7: eolymp.ai.Message.ServerToolResult
 }
 var file_eolymp_ai_message_proto_depIdxs = []int32{
 	0, // 0: eolymp.ai.Message.role:type_name -> eolymp.ai.Message.Role
@@ -547,12 +625,13 @@ var file_eolymp_ai_message_proto_depIdxs = []int32{
 	5, // 3: eolymp.ai.Message.ContentBlock.tool_call:type_name -> eolymp.ai.Message.ToolCall
 	6, // 4: eolymp.ai.Message.ContentBlock.tool_result:type_name -> eolymp.ai.Message.ToolResult
 	4, // 5: eolymp.ai.Message.ContentBlock.image:type_name -> eolymp.ai.Message.Image
-	4, // 6: eolymp.ai.Message.ToolResult.images:type_name -> eolymp.ai.Message.Image
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	7, // 6: eolymp.ai.Message.ContentBlock.server_tool_result:type_name -> eolymp.ai.Message.ServerToolResult
+	4, // 7: eolymp.ai.Message.ToolResult.images:type_name -> eolymp.ai.Message.Image
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_ai_message_proto_init() }
@@ -566,7 +645,7 @@ func file_eolymp_ai_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_ai_message_proto_rawDesc), len(file_eolymp_ai_message_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
