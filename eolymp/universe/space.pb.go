@@ -294,14 +294,18 @@ func (Space_Patch_Field) EnumDescriptor() ([]byte, []int) {
 
 type Space struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                    // space unique identifier
-	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                  // space url
-	HomeUrl        string                 `protobuf:"bytes,50,opt,name=home_url,json=homeUrl,proto3" json:"home_url,omitempty"`          // space home page URL
-	IssuerUrl      string                 `protobuf:"bytes,51,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`    // space issuer URL (used for issuing tokens)
-	GraphqlUrl     string                 `protobuf:"bytes,52,opt,name=graphql_url,json=graphqlUrl,proto3" json:"graphql_url,omitempty"` // space graphql endpoint
-	Key            string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`                                  // space key used to build URLs
-	Name           string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                               // human friendly name
-	Image          string                 `protobuf:"bytes,11,opt,name=image,proto3" json:"image,omitempty"`                             // space logo image
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                            // space unique identifier
+	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`                                          // deprecated: use resource_link
+	HomeUrl        string                 `protobuf:"bytes,50,opt,name=home_url,json=homeUrl,proto3" json:"home_url,omitempty"`                  // deprecated: use space_link
+	IssuerUrl      string                 `protobuf:"bytes,51,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`            // space issuer URL (used for issuing tokens)
+	GraphqlUrl     string                 `protobuf:"bytes,52,opt,name=graphql_url,json=graphqlUrl,proto3" json:"graphql_url,omitempty"`         // deprecated: use graphql_link
+	ResourceLink   string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink      string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // the space's own site, where its content is read
+	ConsoleLink    string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // where the space is administered in the console
+	GraphqlLink    string                 `protobuf:"bytes,1004,opt,name=graphql_link,json=graphqlLink,proto3" json:"graphql_link,omitempty"`    // the space's GraphQL endpoint
+	Key            string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`                                          // space key used to build URLs
+	Name           string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                                       // human friendly name
+	Image          string                 `protobuf:"bytes,11,opt,name=image,proto3" json:"image,omitempty"`                                     // space logo image
 	Visibility     Space_Visibility       `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.universe.Space_Visibility" json:"visibility,omitempty"`
 	Status         Space_Status           `protobuf:"varint,16,opt,name=status,proto3,enum=eolymp.universe.Space_Status" json:"status,omitempty"` // space status
 	Features       []Space_Feature        `protobuf:"varint,17,rep,packed,name=features,proto3,enum=eolymp.universe.Space_Feature" json:"features,omitempty"`
@@ -374,6 +378,34 @@ func (x *Space) GetIssuerUrl() string {
 func (x *Space) GetGraphqlUrl() string {
 	if x != nil {
 		return x.GraphqlUrl
+	}
+	return ""
+}
+
+func (x *Space) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Space) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
+	}
+	return ""
+}
+
+func (x *Space) GetConsoleLink() string {
+	if x != nil {
+		return x.ConsoleLink
+	}
+	return ""
+}
+
+func (x *Space) GetGraphqlLink() string {
+	if x != nil {
+		return x.GraphqlLink
 	}
 	return ""
 }
@@ -632,7 +664,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\v\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8e\r\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
@@ -640,7 +672,12 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
 	"issuer_url\x183 \x01(\tR\tissuerUrl\x12\x1f\n" +
 	"\vgraphql_url\x184 \x01(\tR\n" +
-	"graphqlUrl\x12\x10\n" +
+	"graphqlUrl\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12*\n" +
+	"\fconsole_link\x18\xeb\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconsoleLink\x12*\n" +
+	"\fgraphql_link\x18\xec\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vgraphqlLink\x12\x10\n" +
 	"\x03key\x18\x02 \x01(\tR\x03key\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x14\n" +
