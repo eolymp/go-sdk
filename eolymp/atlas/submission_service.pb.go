@@ -1954,9 +1954,8 @@ const file_eolymp_atlas_submission_service_proto_rawDesc = "" +
 	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02%\"#/submissions/{submission_id}/retest\x12\xb5\x01\n" +
 	"\x12DescribeSubmission\x12%.eolymp.atlas.DescribeSubmissionInput\x1a&.eolymp.atlas.DescribeSubmissionOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\n" +
-	"\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xb4\x01\n" +
 	"\x0fWatchSubmission\x12\".eolymp.atlas.WatchSubmissionInput\x1a#.eolymp.atlas.WatchSubmissionOutput\"V\xea\xe2\n" +

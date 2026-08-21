@@ -1208,8 +1208,8 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/announcements\x12\xc6\x01\n" +
 	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/summary/announcements/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 

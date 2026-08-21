@@ -693,7 +693,7 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"8\n" +
 	"\x1aGenerateCodeTemplatesInput\x12\x1a\n" +
 	"\blanguage\x18\x01 \x03(\tR\blanguage\"\x1d\n" +
-	"\x1bGenerateCodeTemplatesOutput2\xe8\t\n" +
+	"\x1bGenerateCodeTemplatesOutput2\xe9\t\n" +
 	"\x13CodeTemplateService\x12\xa1\x01\n" +
 	"\x12CreateCodeTemplate\x12%.eolymp.atlas.CreateCodeTemplateInput\x1a&.eolymp.atlas.CreateCodeTemplateOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -716,11 +716,11 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a*\x18/templates/{template_id}\x12\x9d\x01\n" +
-	"\x11ListCodeTemplates\x12$.eolymp.atlas.ListCodeTemplatesInput\x1a%.eolymp.atlas.ListCodeTemplatesOutput\";\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a*\x18/templates/{template_id}\x12\x9e\x01\n" +
+	"\x11ListCodeTemplates\x12$.eolymp.atlas.ListCodeTemplatesInput\x1a%.eolymp.atlas.ListCodeTemplatesOutput\"<\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
 	"/templates\x12\xb4\x01\n" +

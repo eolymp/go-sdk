@@ -840,8 +840,8 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x0f\x12\r/editor/state\x12\xa4\x01\n" +
 	"\x11UpdateEditorState\x12$.eolymp.atlas.UpdateEditorStateInput\x1a%.eolymp.atlas.UpdateEditorStateOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x02\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/state\x12\x88\x01\n" +
 	"\n" +

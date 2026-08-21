@@ -597,8 +597,8 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x12AchievementService\x12\xbd\x01\n" +
 	"\x11AssignAchievement\x12(.eolymp.community.AssignAchievementInput\x1a).eolymp.community.AssignAchievementOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16community:member:write\x82\xd3\xe4\x93\x02 \x1a\x1e/achievements/{achievement_id}\x12\xc3\x01\n" +
 	"\x13UnassignAchievement\x12*.eolymp.community.UnassignAchievementInput\x1a+.eolymp.community.UnassignAchievementOutput\"S\xea\xe2\n" +

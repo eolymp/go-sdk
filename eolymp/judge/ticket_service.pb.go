@@ -2279,8 +2279,8 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x12\x12\x10/summary/tickets\x12\xae\x01\n" +
 	"\x12WatchTicketSummary\x12%.eolymp.judge.WatchTicketSummaryInput\x1a&.eolymp.judge.WatchTicketSummaryOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/tickets/watch0\x01\x12\x9d\x01\n" +
 	"\vListReplies\x12\x1e.eolymp.judge.ListRepliesInput\x1a\x1f.eolymp.judge.ListRepliesOutput\"M\xea\xe2\n" +

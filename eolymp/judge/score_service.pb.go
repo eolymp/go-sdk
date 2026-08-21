@@ -787,8 +787,8 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\n" +
 	"WatchScore\x12\x1d.eolymp.judge.WatchScoreInput\x1a\x1e.eolymp.judge.WatchScoreOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02,\x12*/participants/{participant_id}/score/watch0\x01\x12\xac\x01\n" +
 	"\rDescribeScore\x12 .eolymp.judge.DescribeScoreInput\x1a!.eolymp.judge.DescribeScoreOutput\"V\xea\xe2\n" +

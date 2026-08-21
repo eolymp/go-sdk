@@ -1184,8 +1184,8 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x10StatementService\x12\x99\x01\n" +
 	"\x0fCreateStatement\x12\".eolymp.atlas.CreateStatementInput\x1a#.eolymp.atlas.CreateStatementOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xe3\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\r\x1a\v/statements\x12\xa8\x01\n" +
 	"\x0fUpdateStatement\x12\".eolymp.atlas.UpdateStatementInput\x1a#.eolymp.atlas.UpdateStatementOutput\"L\xea\xe2\n" +

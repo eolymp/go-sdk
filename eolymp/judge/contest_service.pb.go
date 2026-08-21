@@ -1966,9 +1966,8 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\xfa\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/contests/{contest_id}\x12s\n" +
 	"\fListContests\x12\x1f.eolymp.judge.ListContestsInput\x1a .eolymp.judge.ListContestsOutput\" \xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\n" +
-	"\x82\xd3\xe4\x93\x02\v\x12\t/contests\x12\x9d\x01\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xd3\xe4\x93\x02\v\x12\t/contests\x12\x9d\x01\n" +
 	"\vOpenContest\x12\x1e.eolymp.judge.OpenContestInput\x1a\x1f.eolymp.judge.OpenContestOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
@@ -2013,8 +2012,8 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x13judge:contest:write\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/analyze\x12\xa2\x01\n" +
 	"\fWatchContest\x12\x1f.eolymp.judge.WatchContestInput\x1a .eolymp.judge.WatchContestOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/contests/{contest_id}/watch0\x01\x12\xab\x01\n" +
 	"\x0eListActivities\x12!.eolymp.judge.ListActivitiesInput\x1a\".eolymp.judge.ListActivitiesOutput\"R\xea\xe2\n" +
