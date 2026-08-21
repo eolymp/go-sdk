@@ -1518,7 +1518,7 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\rUseAssetInput\x12\x1a\n" +
 	"\bresource\x18\x01 \x01(\tR\bresource\x12\x16\n" +
 	"\x06assets\x18\x02 \x03(\tR\x06assets\"\x10\n" +
-	"\x0eUseAssetOutput2\x8f\x0e\n" +
+	"\x0eUseAssetOutput2\x90\x0e\n" +
 	"\fAssetService\x12\x8e\x01\n" +
 	"\vUploadImage\x12\x1e.eolymp.asset.UploadImageInput\x1a\x1f.eolymp.asset.UploadImageOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1551,11 +1551,11 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x14*\x12/assets/{asset_id}\x12V\n" +
-	"\bUseAsset\x12\x1b.eolymp.asset.UseAssetInput\x1a\x1c.eolymp.asset.UseAssetOutput\"\x0f\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\x00@\xf8\xe2\n" +
-	"d\x12\xa3\x01\n" +
+	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x14*\x12/assets/{asset_id}\x12W\n" +
+	"\bUseAsset\x12\x1b.eolymp.asset.UseAssetInput\x1a\x1c.eolymp.asset.UseAssetOutput\"\x10\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00\xc8B\xf8\xe2\n" +
+	"\xf4\x03\x12\xa3\x01\n" +
 	"\x14StartMultipartUpload\x12'.eolymp.asset.StartMultipartUploadInput\x1a(.eolymp.asset.StartMultipartUploadOutput\"8\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
