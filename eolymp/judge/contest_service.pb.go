@@ -1847,14 +1847,14 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x128\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\"H\n" +
 	"\x15DescribeContestOutput\x12/\n" +
-	"\acontest\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xf1\f\n" +
+	"\acontest\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\acontest\"\xb0\r\n" +
 	"\x11ListContestsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12@\n" +
 	"\afilters\x18( \x01(\v2&.eolymp.judge.ListContestsInput.FilterR\afilters\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\x1a\x9b\v\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.judge.Contest.Extra.FieldR\x05extra\x1a\xda\v\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12B\n" +
@@ -1869,8 +1869,8 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	" \x03(\v2 .eolymp.wellknown.ExpressionEnumB\xad\x01\xa2\xf0\xf0\xe4\x01\xa6\x01valid values `SCHEDULED` (not started), `OPEN` (in progress), `ACTIVE` (current user participates), `COMPLETE` (finished), `UPSOLVE` (finished, but users can upsolve)R\x06status\x12<\n" +
 	"\bfeatured\x18\v \x03(\v2 .eolymp.wellknown.ExpressionBoolR\bfeatured\x123\n" +
 	"\x04year\x18d \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x04year\x126\n" +
-	"\x05scale\x18e \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05scale\x128\n" +
-	"\x06series\x18f \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06series\x12l\n" +
+	"\x05scale\x18e \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05scale\x12w\n" +
+	"\x06series\x18f \x03(\v2 .eolymp.wellknown.ExpressionEnumB=\xa2\xf0\xf0\xe4\x017contest series IDs, obtained from `list_contest_series`R\x06series\x12l\n" +
 	"\n" +
 	"difficulty\x18g \x03(\v2\x1f.eolymp.wellknown.ExpressionIntB+\xa2\xf0\xf0\xe4\x01%value from 1 (easiest) to 5 (hardest)R\n" +
 	"difficulty\x12:\n" +

@@ -1502,7 +1502,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf4)\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb2*\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -1593,10 +1593,10 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x11SCOREBOARD_CONFIG\x10\x02\x12\x18\n" +
 	"\x14CERTIFICATION_CONFIG\x10\x03\x12\x16\n" +
 	"\x12ENVIRONMENT_CONFIG\x10\x04\x12\x11\n" +
-	"\rRATING_CONFIG\x10\a\x1a\xba\x02\n" +
+	"\rRATING_CONFIG\x10\a\x1a\xf8\x02\n" +
 	"\x0eClassification\x12\x12\n" +
-	"\x04year\x18\x01 \x01(\rR\x04year\x12\x16\n" +
-	"\x06series\x18\x02 \x01(\tR\x06series\x12@\n" +
+	"\x04year\x18\x01 \x01(\rR\x04year\x12T\n" +
+	"\x06series\x18\x02 \x01(\tB<\xa2\xf0\xf0\xe4\x016contest series ID, obtained from `list_contest_series`R\x06series\x12@\n" +
 	"\x05scale\x18\x03 \x01(\x0e2*.eolymp.judge.Contest.Classification.ScaleR\x05scale\x12\x1e\n" +
 	"\n" +
 	"difficulty\x18\x04 \x01(\rR\n" +

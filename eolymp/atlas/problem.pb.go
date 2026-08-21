@@ -222,7 +222,7 @@ type Problem struct {
 	Author       string       `protobuf:"bytes,101,opt,name=author,proto3" json:"author,omitempty"`                               // Problem author name.
 	Source       string       `protobuf:"bytes,102,opt,name=source,proto3" json:"source,omitempty"`                               // Problem source, name of the contest or olympiad where this problem was initially published.
 	Languages    []string     `protobuf:"bytes,103,rep,name=languages,proto3" json:"languages,omitempty"`                         // list of languages the statement is available in
-	// Problem topics (ID of topics from taxonomy.TopicService)
+	// Problem topics (IDs of values in the "cs-topics" taxonomy enum)
 	Topics      []string             `protobuf:"bytes,20,rep,name=topics,proto3" json:"topics,omitempty"`
 	Score       float32              `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`           // Total score
 	Constraints *Problem_Constraints `protobuf:"bytes,30,opt,name=constraints,proto3" json:"constraints,omitempty"` // Constraints
@@ -672,7 +672,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x9c\x11\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xf2\x11\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -691,8 +691,8 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\rdownload_link\x18\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fdownloadLink\x12\x1e\n" +
 	"\x06author\x18e \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06author\x12\x1e\n" +
 	"\x06source\x18f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06source\x12\x1c\n" +
-	"\tlanguages\x18g \x03(\tR\tlanguages\x12\x16\n" +
-	"\x06topics\x18\x14 \x03(\tR\x06topics\x12\x1c\n" +
+	"\tlanguages\x18g \x03(\tR\tlanguages\x12l\n" +
+	"\x06topics\x18\x14 \x03(\tBT\xa2\xf0\xf0\xe4\x01Ntopic IDs, obtained from `list_topics`; a topic ID is opaque, do not guess oneR\x06topics\x12\x1c\n" +
 	"\x05score\x18\x1f \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x05score\x12K\n" +
 	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconstraints\x12/\n" +
 	"\x0facceptance_rate\x18( \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eacceptanceRate\x123\n" +

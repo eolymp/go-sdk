@@ -1534,7 +1534,7 @@ var File_eolymp_atlas_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/problem_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1aeolymp/atlas/version.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
+	"\"eolymp/atlas/problem_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1aeolymp/atlas/version.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
 	"\x13ProblemChangedEvent\x12-\n" +
 	"\x06before\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\x06before\x12+\n" +
 	"\x05after\x18\x02 \x01(\v2\x15.eolymp.atlas.ProblemR\x05after\x12/\n" +
@@ -1555,7 +1555,7 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\"H\n" +
 	"\x15DescribeProblemOutput\x12/\n" +
-	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\xbb\a\n" +
+	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\x8c\t\n" +
 	"\x11ListProblemsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1565,10 +1565,10 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x04sort\x182 \x01(\x0e2(.eolymp.atlas.ListProblemsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x128\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\x1a\xa9\x04\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2!.eolymp.atlas.Problem.Extra.FieldR\x05extra\x1a\xfa\x05\n" +
 	"\x06Filter\x12.\n" +
-	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x129\n" +
-	"\btopic_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\atopicId\x12?\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12\x89\x02\n" +
+	"\btopic_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDB\xcd\x01\xa2\xf0\xf0\xe4\x01\xc6\x01topic IDs, obtained from `list_topics`; a topic ID is opaque and a guessed one usually names a real topic of an unrelated subject, which answers with plausible but wrong problems instead of an errorR\atopicId\x12?\n" +
 	"\n" +
 	"is_visible\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\tisVisible\x12?\n" +
 	"\n" +
