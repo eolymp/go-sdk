@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestERN_Includes(t *testing.T) {
+func TestName_Includes(t *testing.T) {
 	tt := []struct {
 		ERN      string
 		Parent   string
@@ -31,7 +31,7 @@ func TestERN_Includes(t *testing.T) {
 	}
 }
 
-func TestERN_MarshalJSON(t *testing.T) {
+func TestName_MarshalJSON(t *testing.T) {
 	tt := []struct {
 		ERN  string
 		JSON string
@@ -57,7 +57,7 @@ func TestERN_MarshalJSON(t *testing.T) {
 	}
 }
 
-func TestERN_UnmarshalJSON(t *testing.T) {
+func TestName_UnmarshalJSON(t *testing.T) {
 	tt := []struct {
 		ERN  string
 		JSON string
@@ -83,7 +83,7 @@ func TestERN_UnmarshalJSON(t *testing.T) {
 	}
 }
 
-func TestERN_MarshalBinary(t *testing.T) {
+func TestName_MarshalBinary(t *testing.T) {
 	tt := []struct {
 		ERN    string
 		Binary string
@@ -109,7 +109,7 @@ func TestERN_MarshalBinary(t *testing.T) {
 	}
 }
 
-func TestERN_UnmarshalBinary(t *testing.T) {
+func TestName_UnmarshalBinary(t *testing.T) {
 	tt := []struct {
 		ERN    string
 		Binary string
