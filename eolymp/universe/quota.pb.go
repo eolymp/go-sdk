@@ -30,6 +30,7 @@ type Quota struct {
 	AttributesPerSpace       uint32 `protobuf:"varint,7,opt,name=attributes_per_space,json=attributesPerSpace,proto3" json:"attributes_per_space,omitempty"`                      // max number of custom profile fields for members
 	CustomerSupportReplyTime uint32 `protobuf:"varint,24,opt,name=customer_support_reply_time,json=customerSupportReplyTime,proto3" json:"customer_support_reply_time,omitempty"` // customer support reply time in hours
 	AllowDiscussions         bool   `protobuf:"varint,31,opt,name=allow_discussions,json=allowDiscussions,proto3" json:"allow_discussions,omitempty"`                             // enable discussion post and comment features
+	AuditLog                 bool   `protobuf:"varint,32,opt,name=audit_log,json=auditLog,proto3" json:"audit_log,omitempty"`                                                     // allow space administrators to query and export the space audit log
 	AchievementsPerSpace     uint32 `protobuf:"varint,15,opt,name=achievements_per_space,json=achievementsPerSpace,proto3" json:"achievements_per_space,omitempty"`               // max number of achievements
 	PrintersPerSpace         uint32 `protobuf:"varint,26,opt,name=printers_per_space,json=printersPerSpace,proto3" json:"printers_per_space,omitempty"`                           // max number of printers (0 - printers are disabled)
 	// submission evaluation quota and features
@@ -147,6 +148,13 @@ func (x *Quota) GetCustomerSupportReplyTime() uint32 {
 func (x *Quota) GetAllowDiscussions() bool {
 	if x != nil {
 		return x.AllowDiscussions
+	}
+	return false
+}
+
+func (x *Quota) GetAuditLog() bool {
+	if x != nil {
+		return x.AuditLog
 	}
 	return false
 }
@@ -407,14 +415,15 @@ var File_eolymp_universe_quota_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xf4\x10\n" +
+	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\x91\x11\n" +
 	"\x05Quota\x122\n" +
 	"\x15permissions_per_space\x18\x06 \x01(\rR\x13permissionsPerSpace\x12$\n" +
 	"\x0esingle_sing_on\x18\x16 \x01(\bR\fsingleSingOn\x126\n" +
 	"\x17dedicated_user_database\x18\x17 \x01(\bR\x15dedicatedUserDatabase\x120\n" +
 	"\x14attributes_per_space\x18\a \x01(\rR\x12attributesPerSpace\x12=\n" +
 	"\x1bcustomer_support_reply_time\x18\x18 \x01(\rR\x18customerSupportReplyTime\x12+\n" +
-	"\x11allow_discussions\x18\x1f \x01(\bR\x10allowDiscussions\x124\n" +
+	"\x11allow_discussions\x18\x1f \x01(\bR\x10allowDiscussions\x12\x1b\n" +
+	"\taudit_log\x18  \x01(\bR\bauditLog\x124\n" +
 	"\x16achievements_per_space\x18\x0f \x01(\rR\x14achievementsPerSpace\x12,\n" +
 	"\x12printers_per_space\x18\x1a \x01(\rR\x10printersPerSpace\x12@\n" +
 	"\x1devaluations_by_seat_per_month\x18\r \x01(\rR\x19evaluationsBySeatPerMonth\x12:\n" +
