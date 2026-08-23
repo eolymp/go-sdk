@@ -25,6 +25,7 @@ const (
 
 type DescribeBalanceInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -57,6 +58,13 @@ func (x *DescribeBalanceInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeBalanceInput.ProtoReflect.Descriptor instead.
 func (*DescribeBalanceInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DescribeBalanceInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 type DescribeBalanceOutput struct {
@@ -106,6 +114,7 @@ func (x *DescribeBalanceOutput) GetBalance() uint32 {
 type GrantCreditInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Grant         *Credit_Grant          `protobuf:"bytes,1,opt,name=grant,proto3" json:"grant,omitempty"`
+	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -145,6 +154,13 @@ func (x *GrantCreditInput) GetGrant() *Credit_Grant {
 		return x.Grant
 	}
 	return nil
+}
+
+func (x *GrantCreditInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 type GrantCreditOutput struct {
@@ -202,6 +218,7 @@ func (x *GrantCreditOutput) GetTransactionId() string {
 type CancelCreditInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GrantId       string                 `protobuf:"bytes,1,opt,name=grant_id,json=grantId,proto3" json:"grant_id,omitempty"`
+	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -239,6 +256,13 @@ func (*CancelCreditInput) Descriptor() ([]byte, []int) {
 func (x *CancelCreditInput) GetGrantId() string {
 	if x != nil {
 		return x.GrantId
+	}
+	return ""
+}
+
+func (x *CancelCreditInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
 	}
 	return ""
 }
@@ -281,6 +305,7 @@ func (*CancelCreditOutput) Descriptor() ([]byte, []int) {
 
 type ListCreditGrantsInput struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
+	MemberId      string                        `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Offset        int32                         `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                         `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters       *ListCreditGrantsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -316,6 +341,13 @@ func (x *ListCreditGrantsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListCreditGrantsInput.ProtoReflect.Descriptor instead.
 func (*ListCreditGrantsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListCreditGrantsInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 func (x *ListCreditGrantsInput) GetOffset() int32 {
@@ -396,6 +428,7 @@ type RedeemCreditInput struct {
 	Amount        uint32                 `protobuf:"varint,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	Reference     string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
 	Note          string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`
+	MemberId      string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -451,6 +484,13 @@ func (x *RedeemCreditInput) GetNote() string {
 	return ""
 }
 
+func (x *RedeemCreditInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
 type RedeemCreditOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TransactionId string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
@@ -497,6 +537,7 @@ func (x *RedeemCreditOutput) GetTransactionId() string {
 
 type ListCreditTransactionsInput struct {
 	state         protoimpl.MessageState              `protogen:"open.v1"`
+	MemberId      string                              `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Offset        int32                               `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                               `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters       *ListCreditTransactionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -532,6 +573,13 @@ func (x *ListCreditTransactionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListCreditTransactionsInput.ProtoReflect.Descriptor instead.
 func (*ListCreditTransactionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListCreditTransactionsInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 func (x *ListCreditTransactionsInput) GetOffset() int32 {
@@ -611,6 +659,7 @@ type RefundCreditInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TransactionId string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
 	Amount        uint32                 `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	MemberId      string                 `protobuf:"bytes,3,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -657,6 +706,13 @@ func (x *RefundCreditInput) GetAmount() uint32 {
 		return x.Amount
 	}
 	return 0
+}
+
+func (x *RefundCreditInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 type RefundCreditOutput struct {
@@ -819,19 +875,23 @@ var File_eolymp_community_credit_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/community/credit_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/credit.proto\x1a!eolymp/wellknown/expression.proto\"\x16\n" +
-	"\x14DescribeBalanceInput\"1\n" +
+	"%eolymp/community/credit_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/credit.proto\x1a!eolymp/wellknown/expression.proto\"3\n" +
+	"\x14DescribeBalanceInput\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\"1\n" +
 	"\x15DescribeBalanceOutput\x12\x18\n" +
-	"\abalance\x18\x01 \x01(\rR\abalance\"H\n" +
+	"\abalance\x18\x01 \x01(\rR\abalance\"e\n" +
 	"\x10GrantCreditInput\x124\n" +
-	"\x05grant\x18\x01 \x01(\v2\x1e.eolymp.community.Credit.GrantR\x05grant\"U\n" +
+	"\x05grant\x18\x01 \x01(\v2\x1e.eolymp.community.Credit.GrantR\x05grant\x12\x1b\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\"U\n" +
 	"\x11GrantCreditOutput\x12\x19\n" +
 	"\bgrant_id\x18\x01 \x01(\tR\agrantId\x12%\n" +
-	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\".\n" +
+	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\"K\n" +
 	"\x11CancelCreditInput\x12\x19\n" +
-	"\bgrant_id\x18\x01 \x01(\tR\agrantId\"\x14\n" +
-	"\x12CancelCreditOutput\"\xb1\x03\n" +
-	"\x15ListCreditGrantsInput\x12\x16\n" +
+	"\bgrant_id\x18\x01 \x01(\tR\agrantId\x12\x1b\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\"\x14\n" +
+	"\x12CancelCreditOutput\"\xce\x03\n" +
+	"\x15ListCreditGrantsInput\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12H\n" +
@@ -844,14 +904,16 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x06active\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06active\"d\n" +
 	"\x16ListCreditGrantsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x124\n" +
-	"\x05items\x18\x02 \x03(\v2\x1e.eolymp.community.Credit.GrantR\x05items\"]\n" +
+	"\x05items\x18\x02 \x03(\v2\x1e.eolymp.community.Credit.GrantR\x05items\"z\n" +
 	"\x11RedeemCreditInput\x12\x16\n" +
 	"\x06amount\x18\x01 \x01(\rR\x06amount\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x12\n" +
-	"\x04note\x18\x03 \x01(\tR\x04note\";\n" +
+	"\x04note\x18\x03 \x01(\tR\x04note\x12\x1b\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\";\n" +
 	"\x12RedeemCreditOutput\x12%\n" +
-	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"\xd3\x01\n" +
-	"\x1bListCreditTransactionsInput\x12\x16\n" +
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"\xf0\x01\n" +
+	"\x1bListCreditTransactionsInput\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12N\n" +
@@ -860,11 +922,13 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"p\n" +
 	"\x1cListCreditTransactionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12:\n" +
-	"\x05items\x18\x02 \x03(\v2$.eolymp.community.Credit.TransactionR\x05items\"R\n" +
+	"\x05items\x18\x02 \x03(\v2$.eolymp.community.Credit.TransactionR\x05items\"o\n" +
 	"\x11RefundCreditInput\x12%\n" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\rR\x06amount\"\x14\n" +
-	"\x12RefundCreditOutput2\xf2\t\n" +
+	"\x06amount\x18\x02 \x01(\rR\x06amount\x12\x1b\n" +
+	"\tmember_id\x18\x03 \x01(\tR\bmemberId\"\x14\n" +
+	"\x12RefundCreditOutput2\x8d\n" +
+	"\n" +
 	"\rCreditService\x12\xa7\x01\n" +
 	"\x0fDescribeBalance\x12&.eolymp.community.DescribeBalanceInput\x1a'.eolymp.community.DescribeBalanceOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -910,7 +974,7 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x16community:credit:write\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a8\x82\xf0\xf0\xe4\x01\x17eolymp.community.Member\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_service_proto_rawDescOnce sync.Once

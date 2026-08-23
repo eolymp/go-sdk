@@ -34,14 +34,16 @@ const (
 //
 // internal
 //
-// CreditService keeps one member's balance of credits, the points a space hands out as a reward and lets
-// members spend on rewards in return.
+// CreditService keeps the balances of credits a space hands out as a reward and lets members spend on
+// rewards in return.
 //
 // Credits come in as grants, each a separate lot with its own amount and expiry, and go out as
 // redemptions. Every movement in either direction is also written as a transaction, so the two listings
 // answer different questions: the grants say where a balance came from and how much of each lot is left,
-// the transactions are the history a member sees. Being member-scoped, these calls are addressed through
-// the base url a member carries in its read-only url field.
+// the transactions are the history a member sees.
+//
+// A call takes its member from the member url or from member_id, url first; a listing with neither spans
+// the space.
 type CreditServiceClient interface {
 	// DescribeBalance reports what the member can still spend, as a single unsigned number. It is a
 	// consequence of the grants, redemptions and refunds recorded for the member rather than a figure that
@@ -55,17 +57,17 @@ type CreditServiceClient interface {
 	// from the balance. Reserve it for mistakes: an ordinary correction belongs in the ledger as a
 	// redemption or a refund, where it stays visible.
 	CancelCredit(ctx context.Context, in *CancelCreditInput, opts ...grpc.CallOption) (*CancelCreditOutput, error)
-	// ListCreditGrants walks the lots the member's credits came from, spent and expired ones included, each
-	// showing how much of it has been drawn down. This is the accounting view behind a balance, and the
-	// place to check whether a grant made under a given reference already exists.
+	// ListCreditGrants walks the lots the credits came from, spent and expired ones included, each showing
+	// how much of it has been drawn down. This is the accounting view behind a balance, and the place to
+	// check whether a grant made under a given reference already exists.
 	ListCreditGrants(ctx context.Context, in *ListCreditGrantsInput, opts ...grpc.CallOption) (*ListCreditGrantsOutput, error)
 	// RedeemCredit spends credits on the member's behalf and returns the transaction that recorded it. The
 	// amount is unsigned, so this only ever takes credits away — putting them back is a grant or a refund —
 	// and it draws on the member's grants rather than naming one.
 	RedeemCredit(ctx context.Context, in *RedeemCreditInput, opts ...grpc.CallOption) (*RedeemCreditOutput, error)
-	// ListCreditTransactions walks every movement on the member's balance in either direction, each with a
-	// timestamp and a line of text describing it, which is what a member-facing credit history is built
-	// from. A refund appears as its own entry beside the movement it reverses, never in place of it.
+	// ListCreditTransactions walks every movement on a balance in either direction, each with a timestamp
+	// and a line of text describing it, which is what a member-facing credit history is built from. A
+	// refund appears as its own entry beside the movement it reverses, never in place of it.
 	ListCreditTransactions(ctx context.Context, in *ListCreditTransactionsInput, opts ...grpc.CallOption) (*ListCreditTransactionsOutput, error)
 	// RefundCredit reverses an earlier transaction by writing a compensating one against it, leaving the
 	// original untouched so the history stays append-only. Naming an amount smaller than the transaction's
@@ -157,14 +159,16 @@ func (c *creditServiceClient) RefundCredit(ctx context.Context, in *RefundCredit
 //
 // internal
 //
-// CreditService keeps one member's balance of credits, the points a space hands out as a reward and lets
-// members spend on rewards in return.
+// CreditService keeps the balances of credits a space hands out as a reward and lets members spend on
+// rewards in return.
 //
 // Credits come in as grants, each a separate lot with its own amount and expiry, and go out as
 // redemptions. Every movement in either direction is also written as a transaction, so the two listings
 // answer different questions: the grants say where a balance came from and how much of each lot is left,
-// the transactions are the history a member sees. Being member-scoped, these calls are addressed through
-// the base url a member carries in its read-only url field.
+// the transactions are the history a member sees.
+//
+// A call takes its member from the member url or from member_id, url first; a listing with neither spans
+// the space.
 type CreditServiceServer interface {
 	// DescribeBalance reports what the member can still spend, as a single unsigned number. It is a
 	// consequence of the grants, redemptions and refunds recorded for the member rather than a figure that
@@ -178,17 +182,17 @@ type CreditServiceServer interface {
 	// from the balance. Reserve it for mistakes: an ordinary correction belongs in the ledger as a
 	// redemption or a refund, where it stays visible.
 	CancelCredit(context.Context, *CancelCreditInput) (*CancelCreditOutput, error)
-	// ListCreditGrants walks the lots the member's credits came from, spent and expired ones included, each
-	// showing how much of it has been drawn down. This is the accounting view behind a balance, and the
-	// place to check whether a grant made under a given reference already exists.
+	// ListCreditGrants walks the lots the credits came from, spent and expired ones included, each showing
+	// how much of it has been drawn down. This is the accounting view behind a balance, and the place to
+	// check whether a grant made under a given reference already exists.
 	ListCreditGrants(context.Context, *ListCreditGrantsInput) (*ListCreditGrantsOutput, error)
 	// RedeemCredit spends credits on the member's behalf and returns the transaction that recorded it. The
 	// amount is unsigned, so this only ever takes credits away — putting them back is a grant or a refund —
 	// and it draws on the member's grants rather than naming one.
 	RedeemCredit(context.Context, *RedeemCreditInput) (*RedeemCreditOutput, error)
-	// ListCreditTransactions walks every movement on the member's balance in either direction, each with a
-	// timestamp and a line of text describing it, which is what a member-facing credit history is built
-	// from. A refund appears as its own entry beside the movement it reverses, never in place of it.
+	// ListCreditTransactions walks every movement on a balance in either direction, each with a timestamp
+	// and a line of text describing it, which is what a member-facing credit history is built from. A
+	// refund appears as its own entry beside the movement it reverses, never in place of it.
 	ListCreditTransactions(context.Context, *ListCreditTransactionsInput) (*ListCreditTransactionsOutput, error)
 	// RefundCredit reverses an earlier transaction by writing a compensating one against it, leaving the
 	// original untouched so the history stays append-only. Naming an amount smaller than the transaction's

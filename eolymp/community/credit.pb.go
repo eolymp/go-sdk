@@ -61,7 +61,8 @@ func (*Credit) Descriptor() ([]byte, []int) {
 
 type Credit_Grant struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                // unique grant ID (assigned by the system)
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // unique grant ID (assigned by the system)
+	MemberId       string                 `protobuf:"bytes,6,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Reference      string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`                                  // a unique grant reference, ensures the same grant is not granted twice
 	Note           string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`                                            // a note for the grant, describes why the credit was granted
 	Active         bool                   `protobuf:"varint,20,opt,name=active,proto3" json:"active,omitempty"`                                      // whether the grant is active (not redeemed or expired)
@@ -107,6 +108,13 @@ func (*Credit_Grant) Descriptor() ([]byte, []int) {
 func (x *Credit_Grant) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *Credit_Grant) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
 	}
 	return ""
 }
@@ -170,6 +178,7 @@ func (x *Credit_Grant) GetExpiresAt() *timestamppb.Timestamp {
 type Credit_Transaction struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	MemberId      string                 `protobuf:"bytes,5,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
 	Amount        int32                  `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"` // positive = credit/earn, negative = debit/spend/refund
@@ -214,6 +223,13 @@ func (x *Credit_Transaction) GetId() string {
 	return ""
 }
 
+func (x *Credit_Transaction) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
 func (x *Credit_Transaction) GetTimestamp() *timestamppb.Timestamp {
 	if x != nil {
 		return x.Timestamp
@@ -239,10 +255,11 @@ var File_eolymp_community_credit_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfc\x03\n" +
-	"\x06Credit\x1a\xe5\x02\n" +
+	"\x1deolymp/community/credit.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc6\x04\n" +
+	"\x06Credit\x1a\x8a\x03\n" +
 	"\x05Grant\x12\x16\n" +
-	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12#\n" +
+	"\tmember_id\x18\x06 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bmemberId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x12\n" +
 	"\x04note\x18\x03 \x01(\tR\x04note\x12\x1e\n" +
 	"\x06active\x18\x14 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06active\x12 \n" +
@@ -253,9 +270,10 @@ const file_eolymp_community_credit_proto_rawDesc = "" +
 	"granted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tgrantedAt\x129\n" +
 	"\n" +
-	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x1a\x89\x01\n" +
+	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x1a\xae\x01\n" +
 	"\vTransaction\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12#\n" +
+	"\tmember_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bmemberId\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x16\n" +
 	"\x06amount\x18\x04 \x01(\x05R\x06amountB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
