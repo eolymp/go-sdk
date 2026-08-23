@@ -123,7 +123,6 @@ func (Log_Actor_Type) EnumDescriptor() ([]byte, []int) {
 // Log is a single API call made in the space, as recorded by the gateway.
 type Log struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	Actor         *Log_Actor             `protobuf:"bytes,3,opt,name=actor,proto3" json:"actor,omitempty"` // unset when the call was made anonymously
 	IpAddress     string                 `protobuf:"bytes,4,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
@@ -164,13 +163,6 @@ func (x *Log) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Log.ProtoReflect.Descriptor instead.
 func (*Log) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Log) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
 }
 
 func (x *Log) GetTimestamp() *timestamppb.Timestamp {
@@ -329,9 +321,8 @@ var File_eolymp_audit_log_proto protoreflect.FileDescriptor
 
 const file_eolymp_audit_log_proto_rawDesc = "" +
 	"\n" +
-	"\x16eolymp/audit/log.proto\x12\feolymp.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf5\x03\n" +
-	"\x03Log\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
+	"\x16eolymp/audit/log.proto\x12\feolymp.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe5\x03\n" +
+	"\x03Log\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12-\n" +
 	"\x05actor\x18\x03 \x01(\v2\x17.eolymp.audit.Log.ActorR\x05actor\x12\x1d\n" +
 	"\n" +

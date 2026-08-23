@@ -204,9 +204,6 @@ func RegisterLogServiceHttpHandlers(router *mux.Router, prefix string, cli LogSe
 	router.Handle(prefix+"/audit/logs", _LogService_ListLogs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.audit.LogService.ListLogs")
-	router.Handle(prefix+"/audit/logs/{log_id}", _LogService_DescribeLog_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.audit.LogService.DescribeLog")
 	router.Handle(prefix+"/audit/logs:export", _LogService_ExportLogs_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.audit.LogService.ExportLogs")
@@ -229,30 +226,6 @@ func _LogService_ListLogs_Rule0(cli LogServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListLogs(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_LogService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_LogService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _LogService_DescribeLog_Rule0(cli LogServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeLogInput{}
-
-		if err := _LogService_HTTPReadQueryString(r, in, 131072); err != nil {
-			_LogService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.LogId = vars["log_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeLog(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LogService_HTTPWriteErrorResponse(w, err)
 			return

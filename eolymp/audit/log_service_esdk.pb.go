@@ -111,22 +111,6 @@ func (s *LogServiceService) ListLogs(ctx context.Context, in *ListLogsInput) (*L
 	return out, nil
 }
 
-func (s *LogServiceService) DescribeLog(ctx context.Context, in *DescribeLogInput) (*DescribeLogOutput, error) {
-	out := &DescribeLogOutput{}
-	path := "/audit/logs/" + url.PathEscape(in.GetLogId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.LogId = ""
-	}
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
 func (s *LogServiceService) ExportLogs(ctx context.Context, in *ExportLogsInput) (*ExportLogsOutput, error) {
 	out := &ExportLogsOutput{}
 	path := "/audit/logs:export"

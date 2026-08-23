@@ -19,9 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LogService_ListLogs_FullMethodName    = "/eolymp.audit.LogService/ListLogs"
-	LogService_DescribeLog_FullMethodName = "/eolymp.audit.LogService/DescribeLog"
-	LogService_ExportLogs_FullMethodName  = "/eolymp.audit.LogService/ExportLogs"
+	LogService_ListLogs_FullMethodName   = "/eolymp.audit.LogService/ListLogs"
+	LogService_ExportLogs_FullMethodName = "/eolymp.audit.LogService/ExportLogs"
 )
 
 // LogServiceClient is the client API for LogService service.
@@ -29,7 +28,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LogServiceClient interface {
 	ListLogs(ctx context.Context, in *ListLogsInput, opts ...grpc.CallOption) (*ListLogsOutput, error)
-	DescribeLog(ctx context.Context, in *DescribeLogInput, opts ...grpc.CallOption) (*DescribeLogOutput, error)
 	// ExportLogs writes the records matching the filters into a CSV file and returns a link to download it. The link
 	// expires shortly after it is issued, and the export is limited to 10000 records.
 	ExportLogs(ctx context.Context, in *ExportLogsInput, opts ...grpc.CallOption) (*ExportLogsOutput, error)
@@ -53,16 +51,6 @@ func (c *logServiceClient) ListLogs(ctx context.Context, in *ListLogsInput, opts
 	return out, nil
 }
 
-func (c *logServiceClient) DescribeLog(ctx context.Context, in *DescribeLogInput, opts ...grpc.CallOption) (*DescribeLogOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeLogOutput)
-	err := c.cc.Invoke(ctx, LogService_DescribeLog_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *logServiceClient) ExportLogs(ctx context.Context, in *ExportLogsInput, opts ...grpc.CallOption) (*ExportLogsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ExportLogsOutput)
@@ -78,7 +66,6 @@ func (c *logServiceClient) ExportLogs(ctx context.Context, in *ExportLogsInput, 
 // for forward compatibility.
 type LogServiceServer interface {
 	ListLogs(context.Context, *ListLogsInput) (*ListLogsOutput, error)
-	DescribeLog(context.Context, *DescribeLogInput) (*DescribeLogOutput, error)
 	// ExportLogs writes the records matching the filters into a CSV file and returns a link to download it. The link
 	// expires shortly after it is issued, and the export is limited to 10000 records.
 	ExportLogs(context.Context, *ExportLogsInput) (*ExportLogsOutput, error)
@@ -93,9 +80,6 @@ type UnimplementedLogServiceServer struct{}
 
 func (UnimplementedLogServiceServer) ListLogs(context.Context, *ListLogsInput) (*ListLogsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListLogs not implemented")
-}
-func (UnimplementedLogServiceServer) DescribeLog(context.Context, *DescribeLogInput) (*DescribeLogOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeLog not implemented")
 }
 func (UnimplementedLogServiceServer) ExportLogs(context.Context, *ExportLogsInput) (*ExportLogsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExportLogs not implemented")
@@ -138,24 +122,6 @@ func _LogService_ListLogs_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LogService_DescribeLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeLogInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(LogServiceServer).DescribeLog(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: LogService_DescribeLog_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LogServiceServer).DescribeLog(ctx, req.(*DescribeLogInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _LogService_ExportLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExportLogsInput)
 	if err := dec(in); err != nil {
@@ -184,10 +150,6 @@ var LogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListLogs",
 			Handler:    _LogService_ListLogs_Handler,
-		},
-		{
-			MethodName: "DescribeLog",
-			Handler:    _LogService_DescribeLog_Handler,
 		},
 		{
 			MethodName: "ExportLogs",

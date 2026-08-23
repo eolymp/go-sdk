@@ -205,102 +205,6 @@ func (x *ListLogsOutput) GetItems() []*Log {
 	return nil
 }
 
-type DescribeLogInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LogId         string                 `protobuf:"bytes,1,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
-	Extra         []Log_Extra_Field      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.audit.Log_Extra_Field" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeLogInput) Reset() {
-	*x = DescribeLogInput{}
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeLogInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeLogInput) ProtoMessage() {}
-
-func (x *DescribeLogInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeLogInput.ProtoReflect.Descriptor instead.
-func (*DescribeLogInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *DescribeLogInput) GetLogId() string {
-	if x != nil {
-		return x.LogId
-	}
-	return ""
-}
-
-func (x *DescribeLogInput) GetExtra() []Log_Extra_Field {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type DescribeLogOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Log           *Log                   `protobuf:"bytes,1,opt,name=log,proto3" json:"log,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeLogOutput) Reset() {
-	*x = DescribeLogOutput{}
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeLogOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeLogOutput) ProtoMessage() {}
-
-func (x *DescribeLogOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeLogOutput.ProtoReflect.Descriptor instead.
-func (*DescribeLogOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *DescribeLogOutput) GetLog() *Log {
-	if x != nil {
-		return x.Log
-	}
-	return nil
-}
-
 type ExportLogsInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Filters       *ExportLogsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -313,7 +217,7 @@ type ExportLogsInput struct {
 
 func (x *ExportLogsInput) Reset() {
 	*x = ExportLogsInput{}
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[4]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -325,7 +229,7 @@ func (x *ExportLogsInput) String() string {
 func (*ExportLogsInput) ProtoMessage() {}
 
 func (x *ExportLogsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[4]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,7 +242,7 @@ func (x *ExportLogsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportLogsInput.ProtoReflect.Descriptor instead.
 func (*ExportLogsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ExportLogsInput) GetFilters() *ExportLogsInput_Filter {
@@ -380,7 +284,7 @@ type ExportLogsOutput struct {
 
 func (x *ExportLogsOutput) Reset() {
 	*x = ExportLogsOutput{}
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[5]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -392,7 +296,7 @@ func (x *ExportLogsOutput) String() string {
 func (*ExportLogsOutput) ProtoMessage() {}
 
 func (x *ExportLogsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[5]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -405,7 +309,7 @@ func (x *ExportLogsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportLogsOutput.ProtoReflect.Descriptor instead.
 func (*ExportLogsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ExportLogsOutput) GetExportUrl() string {
@@ -444,7 +348,7 @@ type ListLogsInput_Filter struct {
 
 func (x *ListLogsInput_Filter) Reset() {
 	*x = ListLogsInput_Filter{}
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[6]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -456,7 +360,7 @@ func (x *ListLogsInput_Filter) String() string {
 func (*ListLogsInput_Filter) ProtoMessage() {}
 
 func (x *ListLogsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[6]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -536,7 +440,7 @@ type ExportLogsInput_Filter struct {
 
 func (x *ExportLogsInput_Filter) Reset() {
 	*x = ExportLogsInput_Filter{}
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[7]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -548,7 +452,7 @@ func (x *ExportLogsInput_Filter) String() string {
 func (*ExportLogsInput_Filter) ProtoMessage() {}
 
 func (x *ExportLogsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_service_proto_msgTypes[7]
+	mi := &file_eolymp_audit_log_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -561,7 +465,7 @@ func (x *ExportLogsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportLogsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ExportLogsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{4, 0}
+	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
 func (x *ExportLogsInput_Filter) GetTimestamp() []*wellknown.ExpressionTimestamp {
@@ -641,12 +545,7 @@ const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\tTIMESTAMP\x10\x01\"O\n" +
 	"\x0eListLogsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12'\n" +
-	"\x05items\x18\x02 \x03(\v2\x11.eolymp.audit.LogR\x05items\"_\n" +
-	"\x10DescribeLogInput\x12\x15\n" +
-	"\x06log_id\x18\x01 \x01(\tR\x05logId\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\"8\n" +
-	"\x11DescribeLogOutput\x12#\n" +
-	"\x03log\x18\x01 \x01(\v2\x11.eolymp.audit.LogR\x03log\"\xb8\x05\n" +
+	"\x05items\x18\x02 \x03(\v2\x11.eolymp.audit.LogR\x05items\"\xb8\x05\n" +
 	"\x0fExportLogsInput\x12>\n" +
 	"\afilters\x18( \x01(\v2$.eolymp.audit.ExportLogsInput.FilterR\afilters\x128\n" +
 	"\x04sort\x182 \x01(\x0e2$.eolymp.audit.ListLogsInput.SortableR\x04sort\x121\n" +
@@ -666,7 +565,7 @@ const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\n" +
 	"export_url\x18\x01 \x01(\tR\texportUrl\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x1c\n" +
-	"\ttruncated\x18\x03 \x01(\bR\ttruncated2\xcd\x03\n" +
+	"\ttruncated\x18\x03 \x01(\bR\ttruncated2\xb9\x02\n" +
 	"\n" +
 	"LogService\x12\x7f\n" +
 	"\bListLogs\x12\x1b.eolymp.audit.ListLogsInput\x1a\x1c.eolymp.audit.ListLogsOutput\"8\xea\xe2\n" +
@@ -674,13 +573,7 @@ const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
-	"\x0eaudit:log:read\x82\xd3\xe4\x93\x02\r\x12\v/audit/logs\x12\x91\x01\n" +
-	"\vDescribeLog\x12\x1e.eolymp.audit.DescribeLogInput\x1a\x1f.eolymp.audit.DescribeLogOutput\"A\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xe3\n" +
-	"\x12\x8a\xe3\n" +
-	"\x0eaudit:log:read\x82\xd3\xe4\x93\x02\x16\x12\x14/audit/logs/{log_id}\x12\x8c\x01\n" +
+	"\x0eaudit:log:read\x82\xd3\xe4\x93\x02\r\x12\v/audit/logs\x12\x8c\x01\n" +
 	"\n" +
 	"ExportLogs\x12\x1d.eolymp.audit.ExportLogsInput\x1a\x1e.eolymp.audit.ExportLogsOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -702,61 +595,55 @@ func file_eolymp_audit_log_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_audit_log_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_audit_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_eolymp_audit_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_audit_log_service_proto_goTypes = []any{
 	(ListLogsInput_Sortable)(0),           // 0: eolymp.audit.ListLogsInput.Sortable
 	(*ListLogsInput)(nil),                 // 1: eolymp.audit.ListLogsInput
 	(*ListLogsOutput)(nil),                // 2: eolymp.audit.ListLogsOutput
-	(*DescribeLogInput)(nil),              // 3: eolymp.audit.DescribeLogInput
-	(*DescribeLogOutput)(nil),             // 4: eolymp.audit.DescribeLogOutput
-	(*ExportLogsInput)(nil),               // 5: eolymp.audit.ExportLogsInput
-	(*ExportLogsOutput)(nil),              // 6: eolymp.audit.ExportLogsOutput
-	(*ListLogsInput_Filter)(nil),          // 7: eolymp.audit.ListLogsInput.Filter
-	(*ExportLogsInput_Filter)(nil),        // 8: eolymp.audit.ExportLogsInput.Filter
-	(wellknown.Direction)(0),              // 9: eolymp.wellknown.Direction
-	(Log_Extra_Field)(0),                  // 10: eolymp.audit.Log.Extra.Field
-	(*Log)(nil),                           // 11: eolymp.audit.Log
-	(*wellknown.ExpressionTimestamp)(nil), // 12: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionString)(nil),    // 13: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),      // 14: eolymp.wellknown.ExpressionBool
+	(*ExportLogsInput)(nil),               // 3: eolymp.audit.ExportLogsInput
+	(*ExportLogsOutput)(nil),              // 4: eolymp.audit.ExportLogsOutput
+	(*ListLogsInput_Filter)(nil),          // 5: eolymp.audit.ListLogsInput.Filter
+	(*ExportLogsInput_Filter)(nil),        // 6: eolymp.audit.ExportLogsInput.Filter
+	(wellknown.Direction)(0),              // 7: eolymp.wellknown.Direction
+	(Log_Extra_Field)(0),                  // 8: eolymp.audit.Log.Extra.Field
+	(*Log)(nil),                           // 9: eolymp.audit.Log
+	(*wellknown.ExpressionTimestamp)(nil), // 10: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionString)(nil),    // 11: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionBool)(nil),      // 12: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_audit_log_service_proto_depIdxs = []int32{
-	7,  // 0: eolymp.audit.ListLogsInput.filters:type_name -> eolymp.audit.ListLogsInput.Filter
+	5,  // 0: eolymp.audit.ListLogsInput.filters:type_name -> eolymp.audit.ListLogsInput.Filter
 	0,  // 1: eolymp.audit.ListLogsInput.sort:type_name -> eolymp.audit.ListLogsInput.Sortable
-	9,  // 2: eolymp.audit.ListLogsInput.order:type_name -> eolymp.wellknown.Direction
-	10, // 3: eolymp.audit.ListLogsInput.extra:type_name -> eolymp.audit.Log.Extra.Field
-	11, // 4: eolymp.audit.ListLogsOutput.items:type_name -> eolymp.audit.Log
-	10, // 5: eolymp.audit.DescribeLogInput.extra:type_name -> eolymp.audit.Log.Extra.Field
-	11, // 6: eolymp.audit.DescribeLogOutput.log:type_name -> eolymp.audit.Log
-	8,  // 7: eolymp.audit.ExportLogsInput.filters:type_name -> eolymp.audit.ExportLogsInput.Filter
-	0,  // 8: eolymp.audit.ExportLogsInput.sort:type_name -> eolymp.audit.ListLogsInput.Sortable
-	9,  // 9: eolymp.audit.ExportLogsInput.order:type_name -> eolymp.wellknown.Direction
-	10, // 10: eolymp.audit.ExportLogsInput.extra:type_name -> eolymp.audit.Log.Extra.Field
-	12, // 11: eolymp.audit.ListLogsInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
-	13, // 12: eolymp.audit.ListLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
-	13, // 13: eolymp.audit.ListLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
-	13, // 14: eolymp.audit.ListLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
-	13, // 15: eolymp.audit.ListLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
-	13, // 16: eolymp.audit.ListLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
-	14, // 17: eolymp.audit.ListLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
-	12, // 18: eolymp.audit.ExportLogsInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
-	13, // 19: eolymp.audit.ExportLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
-	13, // 20: eolymp.audit.ExportLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
-	13, // 21: eolymp.audit.ExportLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
-	13, // 22: eolymp.audit.ExportLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
-	13, // 23: eolymp.audit.ExportLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
-	14, // 24: eolymp.audit.ExportLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
-	1,  // 25: eolymp.audit.LogService.ListLogs:input_type -> eolymp.audit.ListLogsInput
-	3,  // 26: eolymp.audit.LogService.DescribeLog:input_type -> eolymp.audit.DescribeLogInput
-	5,  // 27: eolymp.audit.LogService.ExportLogs:input_type -> eolymp.audit.ExportLogsInput
-	2,  // 28: eolymp.audit.LogService.ListLogs:output_type -> eolymp.audit.ListLogsOutput
-	4,  // 29: eolymp.audit.LogService.DescribeLog:output_type -> eolymp.audit.DescribeLogOutput
-	6,  // 30: eolymp.audit.LogService.ExportLogs:output_type -> eolymp.audit.ExportLogsOutput
-	28, // [28:31] is the sub-list for method output_type
-	25, // [25:28] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	7,  // 2: eolymp.audit.ListLogsInput.order:type_name -> eolymp.wellknown.Direction
+	8,  // 3: eolymp.audit.ListLogsInput.extra:type_name -> eolymp.audit.Log.Extra.Field
+	9,  // 4: eolymp.audit.ListLogsOutput.items:type_name -> eolymp.audit.Log
+	6,  // 5: eolymp.audit.ExportLogsInput.filters:type_name -> eolymp.audit.ExportLogsInput.Filter
+	0,  // 6: eolymp.audit.ExportLogsInput.sort:type_name -> eolymp.audit.ListLogsInput.Sortable
+	7,  // 7: eolymp.audit.ExportLogsInput.order:type_name -> eolymp.wellknown.Direction
+	8,  // 8: eolymp.audit.ExportLogsInput.extra:type_name -> eolymp.audit.Log.Extra.Field
+	10, // 9: eolymp.audit.ListLogsInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
+	11, // 10: eolymp.audit.ListLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
+	11, // 11: eolymp.audit.ListLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
+	11, // 12: eolymp.audit.ListLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
+	11, // 13: eolymp.audit.ListLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
+	11, // 14: eolymp.audit.ListLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
+	12, // 15: eolymp.audit.ListLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
+	10, // 16: eolymp.audit.ExportLogsInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
+	11, // 17: eolymp.audit.ExportLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
+	11, // 18: eolymp.audit.ExportLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
+	11, // 19: eolymp.audit.ExportLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
+	11, // 20: eolymp.audit.ExportLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
+	11, // 21: eolymp.audit.ExportLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
+	12, // 22: eolymp.audit.ExportLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
+	1,  // 23: eolymp.audit.LogService.ListLogs:input_type -> eolymp.audit.ListLogsInput
+	3,  // 24: eolymp.audit.LogService.ExportLogs:input_type -> eolymp.audit.ExportLogsInput
+	2,  // 25: eolymp.audit.LogService.ListLogs:output_type -> eolymp.audit.ListLogsOutput
+	4,  // 26: eolymp.audit.LogService.ExportLogs:output_type -> eolymp.audit.ExportLogsOutput
+	25, // [25:27] is the sub-list for method output_type
+	23, // [23:25] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_audit_log_service_proto_init() }
@@ -771,7 +658,7 @@ func file_eolymp_audit_log_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_audit_log_service_proto_rawDesc), len(file_eolymp_audit_log_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
