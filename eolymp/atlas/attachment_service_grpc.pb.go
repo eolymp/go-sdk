@@ -33,8 +33,8 @@ const (
 // AttachmentService manages the extra files published with a problem, the console's "Additional files".
 //
 // Uploads happen outside this service: upload the file through eolymp.asset.AssetService first, then
-// register the link it returns here. Every method works on the problem addressed by the request path,
-// and attachments are never shared between problems. Read methods can also target an earlier problem
+// register the link it returns here. A call takes its problem from `problem_id`, or from the problem url when the field is empty. Attachments are never shared
+// between problems. Read methods can also target an earlier problem
 // version, which requires permission to read the problem history.
 type AttachmentServiceClient interface {
 	// CreateAttachment registers an already uploaded file with the problem. It uploads nothing itself:
@@ -120,8 +120,8 @@ func (c *attachmentServiceClient) DescribeAttachment(ctx context.Context, in *De
 // AttachmentService manages the extra files published with a problem, the console's "Additional files".
 //
 // Uploads happen outside this service: upload the file through eolymp.asset.AssetService first, then
-// register the link it returns here. Every method works on the problem addressed by the request path,
-// and attachments are never shared between problems. Read methods can also target an earlier problem
+// register the link it returns here. A call takes its problem from `problem_id`, or from the problem url when the field is empty. Attachments are never shared
+// between problems. Read methods can also target an earlier problem
 // version, which requires permission to read the problem history.
 type AttachmentServiceServer interface {
 	// CreateAttachment registers an already uploaded file with the problem. It uploads nothing itself:

@@ -444,6 +444,7 @@ func (x *TestBatchChangedEvent) GetAfter() []*Test {
 
 type UpdateTestingConfigInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Config        *TestingConfig         `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -477,6 +478,13 @@ func (x *UpdateTestingConfigInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateTestingConfigInput.ProtoReflect.Descriptor instead.
 func (*UpdateTestingConfigInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateTestingConfigInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateTestingConfigInput) GetConfig() *TestingConfig {
@@ -524,6 +532,7 @@ func (*UpdateTestingConfigOutput) Descriptor() ([]byte, []int) {
 
 type DescribeTestingConfigInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -557,6 +566,13 @@ func (x *DescribeTestingConfigInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeTestingConfigInput.ProtoReflect.Descriptor instead.
 func (*DescribeTestingConfigInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DescribeTestingConfigInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeTestingConfigInput) GetVersion() uint32 {
@@ -612,6 +628,7 @@ func (x *DescribeTestingConfigOutput) GetConfig() *TestingConfig {
 
 type UpdateCheckerInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Checker       *Checker               `protobuf:"bytes,2,opt,name=checker,proto3" json:"checker,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -645,6 +662,13 @@ func (x *UpdateCheckerInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateCheckerInput.ProtoReflect.Descriptor instead.
 func (*UpdateCheckerInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *UpdateCheckerInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateCheckerInput) GetChecker() *Checker {
@@ -692,6 +716,7 @@ func (*UpdateCheckerOutput) Descriptor() ([]byte, []int) {
 
 type DescribeCheckerInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -725,6 +750,13 @@ func (x *DescribeCheckerInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeCheckerInput.ProtoReflect.Descriptor instead.
 func (*DescribeCheckerInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DescribeCheckerInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeCheckerInput) GetVersion() uint32 {
@@ -780,6 +812,7 @@ func (x *DescribeCheckerOutput) GetChecker() *Checker {
 
 type UpdateInteractorInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Interactor    *Interactor            `protobuf:"bytes,2,opt,name=interactor,proto3" json:"interactor,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -813,6 +846,13 @@ func (x *UpdateInteractorInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateInteractorInput.ProtoReflect.Descriptor instead.
 func (*UpdateInteractorInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *UpdateInteractorInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateInteractorInput) GetInteractor() *Interactor {
@@ -860,6 +900,7 @@ func (*UpdateInteractorOutput) Descriptor() ([]byte, []int) {
 
 type DescribeInteractorInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -893,6 +934,13 @@ func (x *DescribeInteractorInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeInteractorInput.ProtoReflect.Descriptor instead.
 func (*DescribeInteractorInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *DescribeInteractorInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeInteractorInput) GetVersion() uint32 {
@@ -948,6 +996,7 @@ func (x *DescribeInteractorOutput) GetInteractor() *Interactor {
 
 type UpdateValidatorInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Validator     *Validator             `protobuf:"bytes,2,opt,name=validator,proto3" json:"validator,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -981,6 +1030,13 @@ func (x *UpdateValidatorInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateValidatorInput.ProtoReflect.Descriptor instead.
 func (*UpdateValidatorInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *UpdateValidatorInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateValidatorInput) GetValidator() *Validator {
@@ -1028,6 +1084,7 @@ func (*UpdateValidatorOutput) Descriptor() ([]byte, []int) {
 
 type DescribeValidatorInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1061,6 +1118,13 @@ func (x *DescribeValidatorInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeValidatorInput.ProtoReflect.Descriptor instead.
 func (*DescribeValidatorInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *DescribeValidatorInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeValidatorInput) GetVersion() uint32 {
@@ -1116,6 +1180,7 @@ func (x *DescribeValidatorOutput) GetValidator() *Validator {
 
 type ListTestsetsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
@@ -1151,6 +1216,13 @@ func (x *ListTestsetsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListTestsetsInput.ProtoReflect.Descriptor instead.
 func (*ListTestsetsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ListTestsetsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListTestsetsInput) GetOffset() int32 {
@@ -1228,6 +1300,7 @@ func (x *ListTestsetsOutput) GetItems() []*Testset {
 
 type DescribeTestsetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
@@ -1262,6 +1335,13 @@ func (x *DescribeTestsetInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeTestsetInput.ProtoReflect.Descriptor instead.
 func (*DescribeTestsetInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *DescribeTestsetInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeTestsetInput) GetTestsetId() string {
@@ -1324,6 +1404,7 @@ func (x *DescribeTestsetOutput) GetTestset() *Testset {
 
 type CreateTestsetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Testset       *Testset               `protobuf:"bytes,2,opt,name=testset,proto3" json:"testset,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1357,6 +1438,13 @@ func (x *CreateTestsetInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateTestsetInput.ProtoReflect.Descriptor instead.
 func (*CreateTestsetInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *CreateTestsetInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateTestsetInput) GetTestset() *Testset {
@@ -1412,6 +1500,7 @@ func (x *CreateTestsetOutput) GetId() string {
 
 type UpdateTestsetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	Testset       *Testset               `protobuf:"bytes,3,opt,name=testset,proto3" json:"testset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1446,6 +1535,13 @@ func (x *UpdateTestsetInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateTestsetInput.ProtoReflect.Descriptor instead.
 func (*UpdateTestsetInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *UpdateTestsetInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateTestsetInput) GetTestsetId() string {
@@ -1500,6 +1596,7 @@ func (*UpdateTestsetOutput) Descriptor() ([]byte, []int) {
 
 type DeleteTestsetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1533,6 +1630,13 @@ func (x *DeleteTestsetInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteTestsetInput.ProtoReflect.Descriptor instead.
 func (*DeleteTestsetInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *DeleteTestsetInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteTestsetInput) GetTestsetId() string {
@@ -1580,6 +1684,7 @@ func (*DeleteTestsetOutput) Descriptor() ([]byte, []int) {
 
 type ListExamplesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1613,6 +1718,13 @@ func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListExamplesInput.ProtoReflect.Descriptor instead.
 func (*ListExamplesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *ListExamplesInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListExamplesInput) GetVersion() uint32 {
@@ -1668,6 +1780,7 @@ func (x *ListExamplesOutput) GetExamples() []*Test {
 
 type ListTestsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
@@ -1702,6 +1815,13 @@ func (x *ListTestsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListTestsInput.ProtoReflect.Descriptor instead.
 func (*ListTestsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *ListTestsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListTestsInput) GetTestsetId() string {
@@ -1772,6 +1892,7 @@ func (x *ListTestsOutput) GetItems() []*Test {
 
 type DescribeTestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	TestId        string                 `protobuf:"bytes,3,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
@@ -1807,6 +1928,13 @@ func (x *DescribeTestInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeTestInput.ProtoReflect.Descriptor instead.
 func (*DescribeTestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *DescribeTestInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeTestInput) GetTestsetId() string {
@@ -1876,6 +2004,7 @@ func (x *DescribeTestOutput) GetTest() *Test {
 
 type CreateTestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	Test          *Test                  `protobuf:"bytes,3,opt,name=test,proto3" json:"test,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1910,6 +2039,13 @@ func (x *CreateTestInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateTestInput.ProtoReflect.Descriptor instead.
 func (*CreateTestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *CreateTestInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateTestInput) GetTestsetId() string {
@@ -1973,6 +2109,7 @@ func (x *CreateTestOutput) GetTestId() string {
 type UpdateTestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Patch         []Test_Patch_Field     `protobuf:"varint,5,rep,packed,name=patch,proto3,enum=eolymp.atlas.Test_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	TestId        string                 `protobuf:"bytes,3,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
 	Test          *Test                  `protobuf:"bytes,4,opt,name=test,proto3" json:"test,omitempty"`
@@ -2015,6 +2152,13 @@ func (x *UpdateTestInput) GetPatch() []Test_Patch_Field {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateTestInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateTestInput) GetTestsetId() string {
@@ -2076,6 +2220,7 @@ func (*UpdateTestOutput) Descriptor() ([]byte, []int) {
 
 type DeleteTestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	TestId        string                 `protobuf:"bytes,3,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -2110,6 +2255,13 @@ func (x *DeleteTestInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteTestInput.ProtoReflect.Descriptor instead.
 func (*DeleteTestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *DeleteTestInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteTestInput) GetTestsetId() string {
@@ -2201,102 +2353,140 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12*\n" +
 	"\x06before\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\x06before\x12(\n" +
-	"\x05after\x18\x03 \x03(\v2\x12.eolymp.atlas.TestR\x05after\"O\n" +
-	"\x18UpdateTestingConfigInput\x123\n" +
+	"\x05after\x18\x03 \x03(\v2\x12.eolymp.atlas.TestR\x05after\"n\n" +
+	"\x18UpdateTestingConfigInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x123\n" +
 	"\x06config\x18\x02 \x01(\v2\x1b.eolymp.atlas.TestingConfigR\x06config\"\x1b\n" +
-	"\x19UpdateTestingConfigOutput\"6\n" +
-	"\x1aDescribeTestingConfigInput\x12\x18\n" +
+	"\x19UpdateTestingConfigOutput\"U\n" +
+	"\x1aDescribeTestingConfigInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"R\n" +
 	"\x1bDescribeTestingConfigOutput\x123\n" +
-	"\x06config\x18\x02 \x01(\v2\x1b.eolymp.atlas.TestingConfigR\x06config\"E\n" +
-	"\x12UpdateCheckerInput\x12/\n" +
+	"\x06config\x18\x02 \x01(\v2\x1b.eolymp.atlas.TestingConfigR\x06config\"d\n" +
+	"\x12UpdateCheckerInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
 	"\achecker\x18\x02 \x01(\v2\x15.eolymp.atlas.CheckerR\achecker\"\x15\n" +
-	"\x13UpdateCheckerOutput\"0\n" +
-	"\x14DescribeCheckerInput\x12\x18\n" +
+	"\x13UpdateCheckerOutput\"O\n" +
+	"\x14DescribeCheckerInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"H\n" +
 	"\x15DescribeCheckerOutput\x12/\n" +
-	"\achecker\x18\x01 \x01(\v2\x15.eolymp.atlas.CheckerR\achecker\"Q\n" +
-	"\x15UpdateInteractorInput\x128\n" +
+	"\achecker\x18\x01 \x01(\v2\x15.eolymp.atlas.CheckerR\achecker\"p\n" +
+	"\x15UpdateInteractorInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x128\n" +
 	"\n" +
 	"interactor\x18\x02 \x01(\v2\x18.eolymp.atlas.InteractorR\n" +
 	"interactor\"\x18\n" +
-	"\x16UpdateInteractorOutput\"3\n" +
-	"\x17DescribeInteractorInput\x12\x18\n" +
+	"\x16UpdateInteractorOutput\"R\n" +
+	"\x17DescribeInteractorInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"T\n" +
 	"\x18DescribeInteractorOutput\x128\n" +
 	"\n" +
 	"interactor\x18\x01 \x01(\v2\x18.eolymp.atlas.InteractorR\n" +
-	"interactor\"M\n" +
-	"\x14UpdateValidatorInput\x125\n" +
+	"interactor\"l\n" +
+	"\x14UpdateValidatorInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\tvalidator\x18\x02 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"\x17\n" +
-	"\x15UpdateValidatorOutput\"2\n" +
-	"\x16DescribeValidatorInput\x12\x18\n" +
+	"\x15UpdateValidatorOutput\"Q\n" +
+	"\x16DescribeValidatorInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"P\n" +
 	"\x17DescribeValidatorOutput\x125\n" +
-	"\tvalidator\x18\x01 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"Y\n" +
-	"\x11ListTestsetsInput\x12\x16\n" +
+	"\tvalidator\x18\x01 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"x\n" +
+	"\x11ListTestsetsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"W\n" +
 	"\x12ListTestsetsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.atlas.TestsetR\x05items\"O\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.atlas.TestsetR\x05items\"n\n" +
 	"\x14DescribeTestsetInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"H\n" +
 	"\x15DescribeTestsetOutput\x12/\n" +
-	"\atestset\x18\x01 \x01(\v2\x15.eolymp.atlas.TestsetR\atestset\"E\n" +
-	"\x12CreateTestsetInput\x12/\n" +
+	"\atestset\x18\x01 \x01(\v2\x15.eolymp.atlas.TestsetR\atestset\"d\n" +
+	"\x12CreateTestsetInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
 	"\atestset\x18\x02 \x01(\v2\x15.eolymp.atlas.TestsetR\atestset\"%\n" +
 	"\x13CreateTestsetOutput\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"d\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\x83\x01\n" +
 	"\x12UpdateTestsetInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12/\n" +
 	"\atestset\x18\x03 \x01(\v2\x15.eolymp.atlas.TestsetR\atestset\"\x15\n" +
-	"\x13UpdateTestsetOutput\"3\n" +
+	"\x13UpdateTestsetOutput\"R\n" +
 	"\x12DeleteTestsetInput\x12\x1d\n" +
 	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
+	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\"\x15\n" +
-	"\x13DeleteTestsetOutput\"-\n" +
-	"\x11ListExamplesInput\x12\x18\n" +
+	"\x13DeleteTestsetOutput\"L\n" +
+	"\x11ListExamplesInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"D\n" +
 	"\x12ListExamplesOutput\x12.\n" +
-	"\bexamples\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\bexamples\"I\n" +
+	"\bexamples\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\bexamples\"h\n" +
 	"\x0eListTestsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"Q\n" +
 	"\x0fListTestsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
-	"\x05items\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\x05items\"e\n" +
+	"\x05items\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\x05items\"\x84\x01\n" +
 	"\x11DescribeTestInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
 	"\atest_id\x18\x03 \x01(\tR\x06testId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"<\n" +
 	"\x12DescribeTestOutput\x12&\n" +
-	"\x04test\x18\x01 \x01(\v2\x12.eolymp.atlas.TestR\x04test\"X\n" +
+	"\x04test\x18\x01 \x01(\v2\x12.eolymp.atlas.TestR\x04test\"w\n" +
 	"\x0fCreateTestInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12&\n" +
 	"\x04test\x18\x03 \x01(\v2\x12.eolymp.atlas.TestR\x04test\"+\n" +
 	"\x10CreateTestOutput\x12\x17\n" +
-	"\atest_id\x18\x01 \x01(\tR\x06testId\"\xa7\x01\n" +
+	"\atest_id\x18\x01 \x01(\tR\x06testId\"\xc6\x01\n" +
 	"\x0fUpdateTestInput\x124\n" +
 	"\x05patch\x18\x05 \x03(\x0e2\x1e.eolymp.atlas.Test.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
 	"\atest_id\x18\x03 \x01(\tR\x06testId\x12&\n" +
 	"\x04test\x18\x04 \x01(\v2\x12.eolymp.atlas.TestR\x04test\"\x12\n" +
-	"\x10UpdateTestOutput\"I\n" +
+	"\x10UpdateTestOutput\"h\n" +
 	"\x0fDeleteTestInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
 	"\atest_id\x18\x03 \x01(\tR\x06testId\"\x12\n" +
-	"\x10DeleteTestOutput2\xd0\x18\n" +
+	"\x10DeleteTestOutput2\xeb\x18\n" +
 	"\x0eTestingService\x12\xa2\x01\n" +
 	"\x13UpdateTestingConfig\x12&.eolymp.atlas.UpdateTestingConfigInput\x1a'.eolymp.atlas.UpdateTestingConfigOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2428,7 +2618,7 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/examples\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/examples\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_service_proto_rawDescOnce sync.Once

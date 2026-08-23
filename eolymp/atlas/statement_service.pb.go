@@ -84,6 +84,7 @@ func (x *StatementChangedEvent) GetAfter() *Statement {
 
 type ListStatementsInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Render        bool                    `protobuf:"varint,2,opt,name=render,proto3" json:"render,omitempty"`
@@ -121,6 +122,13 @@ func (x *ListStatementsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListStatementsInput.ProtoReflect.Descriptor instead.
 func (*ListStatementsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ListStatementsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListStatementsInput) GetOffset() int32 {
@@ -212,6 +220,7 @@ func (x *ListStatementsOutput) GetItems() []*Statement {
 
 type TranslateStatementsInput struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId       string                 `protobuf:"bytes,5,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Source          string                 `protobuf:"bytes,1,opt,name=source,proto3" json:"source,omitempty"`                                           // if empty, english translation will be used, if english translation is not available, first available translation will be used
 	Target          []string               `protobuf:"bytes,2,rep,name=target,proto3" json:"target,omitempty"`                                           // list of target languages, if statement exists and it has automatic=true (or override_manual=true) it will be updated
 	TargetAutomatic bool                   `protobuf:"varint,3,opt,name=target_automatic,json=targetAutomatic,proto3" json:"target_automatic,omitempty"` // add to targets all statements with automatic=true
@@ -248,6 +257,13 @@ func (x *TranslateStatementsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TranslateStatementsInput.ProtoReflect.Descriptor instead.
 func (*TranslateStatementsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *TranslateStatementsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *TranslateStatementsInput) GetSource() string {
@@ -324,6 +340,7 @@ func (x *TranslateStatementsOutput) GetJobId() string {
 
 type DescribeStatementInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	StatementId   string                  `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
 	Render        bool                    `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
 	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
@@ -360,6 +377,13 @@ func (x *DescribeStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeStatementInput.ProtoReflect.Descriptor instead.
 func (*DescribeStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DescribeStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeStatementInput) GetStatementId() string {
@@ -436,6 +460,7 @@ func (x *DescribeStatementOutput) GetStatement() *Statement {
 
 type LookupStatementInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Locale        string                  `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
 	Render        bool                    `protobuf:"varint,3,opt,name=render,proto3" json:"render,omitempty"`     // deprecated
 	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
@@ -472,6 +497,13 @@ func (x *LookupStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LookupStatementInput.ProtoReflect.Descriptor instead.
 func (*LookupStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *LookupStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *LookupStatementInput) GetLocale() string {
@@ -548,6 +580,7 @@ func (x *LookupStatementOutput) GetStatement() *Statement {
 
 type PreviewStatementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Statement     *Statement             `protobuf:"bytes,2,opt,name=statement,proto3" json:"statement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -581,6 +614,13 @@ func (x *PreviewStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use PreviewStatementInput.ProtoReflect.Descriptor instead.
 func (*PreviewStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *PreviewStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *PreviewStatementInput) GetStatement() *Statement {
@@ -636,6 +676,7 @@ func (x *PreviewStatementOutput) GetStatement() *Statement {
 
 type CreateStatementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Statement     *Statement             `protobuf:"bytes,2,opt,name=statement,proto3" json:"statement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -669,6 +710,13 @@ func (x *CreateStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateStatementInput.ProtoReflect.Descriptor instead.
 func (*CreateStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CreateStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateStatementInput) GetStatement() *Statement {
@@ -725,6 +773,7 @@ func (x *CreateStatementOutput) GetStatementId() string {
 type UpdateStatementInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Patch         []Statement_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Statement_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	StatementId   string                  `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
 	Statement     *Statement              `protobuf:"bytes,3,opt,name=statement,proto3" json:"statement,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -766,6 +815,13 @@ func (x *UpdateStatementInput) GetPatch() []Statement_Patch_Field {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateStatementInput) GetStatementId() string {
@@ -820,6 +876,7 @@ func (*UpdateStatementOutput) Descriptor() ([]byte, []int) {
 
 type DeleteStatementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	StatementId   string                 `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -853,6 +910,13 @@ func (x *DeleteStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteStatementInput.ProtoReflect.Descriptor instead.
 func (*DeleteStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DeleteStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteStatementInput) GetStatementId() string {
@@ -900,6 +964,7 @@ func (*DeleteStatementOutput) Descriptor() ([]byte, []int) {
 
 type ExportStatementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	StatementId   string                 `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -933,6 +998,13 @@ func (x *ExportStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ExportStatementInput.ProtoReflect.Descriptor instead.
 func (*ExportStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ExportStatementInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ExportStatementInput) GetStatementId() string {
@@ -988,6 +1060,7 @@ func (x *ExportStatementOutput) GetDownloadUrl() string {
 
 type ListStatementVersionsInput struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId   string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	StatementId string                 `protobuf:"bytes,1,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
 	// Pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -1026,6 +1099,13 @@ func (x *ListStatementVersionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListStatementVersionsInput.ProtoReflect.Descriptor instead.
 func (*ListStatementVersionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ListStatementVersionsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListStatementVersionsInput) GetStatementId() string {
@@ -1117,8 +1197,10 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
 	"\x06before\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\x06before\x12-\n" +
-	"\x05after\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\x05after\"\xaf\x01\n" +
-	"\x13ListStatementsInput\x12\x16\n" +
+	"\x05after\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\x05after\"\xce\x01\n" +
+	"\x13ListStatementsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
@@ -1127,52 +1209,70 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items\"\x9e\x01\n" +
-	"\x18TranslateStatementsInput\x12\x16\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items\"\xbd\x01\n" +
+	"\x18TranslateStatementsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x05 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06source\x18\x01 \x01(\tR\x06source\x12\x16\n" +
 	"\x06target\x18\x02 \x03(\tR\x06target\x12)\n" +
 	"\x10target_automatic\x18\x03 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x19TranslateStatementsOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\xa8\x01\n" +
-	"\x16DescribeStatementInput\x12!\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\xc7\x01\n" +
+	"\x16DescribeStatementInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x12\x16\n" +
 	"\x06render\x18\x03 \x01(\bR\x06render\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x129\n" +
 	"\x05extra\x18\n" +
 	" \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"P\n" +
 	"\x17DescribeStatementOutput\x125\n" +
-	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x9b\x01\n" +
-	"\x14LookupStatementInput\x12\x16\n" +
+	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\xba\x01\n" +
+	"\x14LookupStatementInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x16\n" +
 	"\x06render\x18\x03 \x01(\bR\x06render\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x129\n" +
 	"\x05extra\x18\n" +
 	" \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"N\n" +
 	"\x15LookupStatementOutput\x125\n" +
-	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"N\n" +
-	"\x15PreviewStatementInput\x125\n" +
+	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"m\n" +
+	"\x15PreviewStatementInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"O\n" +
 	"\x16PreviewStatementOutput\x125\n" +
-	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"M\n" +
-	"\x14CreateStatementInput\x125\n" +
+	"\tstatement\x18\x01 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"l\n" +
+	"\x14CreateStatementInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\":\n" +
 	"\x15CreateStatementOutput\x12!\n" +
-	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xab\x01\n" +
+	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xca\x01\n" +
 	"\x14UpdateStatementInput\x129\n" +
 	"\x05patch\x18\n" +
-	" \x03(\x0e2#.eolymp.atlas.Statement.Patch.FieldR\x05patch\x12!\n" +
+	" \x03(\x0e2#.eolymp.atlas.Statement.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x125\n" +
 	"\tstatement\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x17\n" +
-	"\x15UpdateStatementOutput\"9\n" +
-	"\x14DeleteStatementInput\x12!\n" +
+	"\x15UpdateStatementOutput\"X\n" +
+	"\x14DeleteStatementInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\"\x17\n" +
-	"\x15DeleteStatementOutput\"9\n" +
-	"\x14ExportStatementInput\x12!\n" +
+	"\x15DeleteStatementOutput\"X\n" +
+	"\x14ExportStatementInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\":\n" +
 	"\x15ExportStatementOutput\x12!\n" +
-	"\fdownload_url\x18\x02 \x01(\tR\vdownloadUrl\"\xa7\x01\n" +
-	"\x1aListStatementVersionsInput\x12!\n" +
+	"\fdownload_url\x18\x02 \x01(\tR\vdownloadUrl\"\xc6\x01\n" +
+	"\x1aListStatementVersionsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12!\n" +
 	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1180,7 +1280,7 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"b\n" +
 	"\x1bListStatementVersionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items2\xc6\r\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items2\xe1\r\n" +
 	"\x10StatementService\x12\x99\x01\n" +
 	"\x0fCreateStatement\x12\".eolymp.atlas.CreateStatementInput\x1a#.eolymp.atlas.CreateStatementOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1244,7 +1344,7 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02%\x12#/statements/{statement_id}/versions\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02%\x12#/statements/{statement_id}/versions\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_statement_service_proto_rawDescOnce sync.Once

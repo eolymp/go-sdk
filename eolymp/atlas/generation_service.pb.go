@@ -25,6 +25,7 @@ const (
 
 type DescribeGenerationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	GenerationId  string                 `protobuf:"bytes,1,opt,name=generation_id,json=generationId,proto3" json:"generation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -58,6 +59,13 @@ func (x *DescribeGenerationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeGenerationInput.ProtoReflect.Descriptor instead.
 func (*DescribeGenerationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_generation_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DescribeGenerationInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeGenerationInput) GetGenerationId() string {
@@ -113,6 +121,7 @@ func (x *DescribeGenerationOutput) GetGeneration() *Generation {
 
 type ListGenerationsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -147,6 +156,13 @@ func (x *ListGenerationsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListGenerationsInput.ProtoReflect.Descriptor instead.
 func (*ListGenerationsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_generation_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListGenerationsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListGenerationsInput) GetOffset() int32 {
@@ -217,6 +233,7 @@ func (x *ListGenerationsOutput) GetItems() []*Generation {
 
 type WatchGenerationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	GenerationId  string                 `protobuf:"bytes,1,opt,name=generation_id,json=generationId,proto3" json:"generation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -250,6 +267,13 @@ func (x *WatchGenerationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use WatchGenerationInput.ProtoReflect.Descriptor instead.
 func (*WatchGenerationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_generation_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *WatchGenerationInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *WatchGenerationInput) GetGenerationId() string {
@@ -315,27 +339,33 @@ var File_eolymp_atlas_generation_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_generation_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/generation_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/generation.proto\x1a\x1ceolymp/wellknown/watch.proto\">\n" +
-	"\x17DescribeGenerationInput\x12#\n" +
+	"%eolymp/atlas/generation_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/generation.proto\x1a\x1ceolymp/wellknown/watch.proto\"]\n" +
+	"\x17DescribeGenerationInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12#\n" +
 	"\rgeneration_id\x18\x01 \x01(\tR\fgenerationId\"T\n" +
 	"\x18DescribeGenerationOutput\x128\n" +
 	"\n" +
 	"generation\x18\x01 \x01(\v2\x18.eolymp.atlas.GenerationR\n" +
-	"generation\"B\n" +
-	"\x14ListGenerationsInput\x12\x16\n" +
+	"generation\"a\n" +
+	"\x14ListGenerationsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\"]\n" +
 	"\x15ListGenerationsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.GenerationR\x05items\";\n" +
-	"\x14WatchGenerationInput\x12#\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.GenerationR\x05items\"Z\n" +
+	"\x14WatchGenerationInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12#\n" +
 	"\rgeneration_id\x18\x01 \x01(\tR\fgenerationId\"\x89\x01\n" +
 	"\x15WatchGenerationOutput\x128\n" +
 	"\n" +
 	"generation\x18\x01 \x01(\v2\x18.eolymp.atlas.GenerationR\n" +
 	"generation\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xb7\x04\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xd2\x04\n" +
 	"\x11GenerationService\x12\xb3\x01\n" +
 	"\x12DescribeGeneration\x12%.eolymp.atlas.DescribeGenerationInput\x1a&.eolymp.atlas.DescribeGenerationOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -354,7 +384,7 @@ const file_eolymp_atlas_generation_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\x12\"/generations/{generation_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\x12\"/generations/{generation_id}/watch0\x01\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_generation_service_proto_rawDescOnce sync.Once

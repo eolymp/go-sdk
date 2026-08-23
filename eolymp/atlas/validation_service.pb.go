@@ -25,6 +25,7 @@ const (
 
 type RunValidationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Validator     *Validator             `protobuf:"bytes,1,opt,name=validator,proto3" json:"validator,omitempty"` // required; only runtime, source and files are read
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -58,6 +59,13 @@ func (x *RunValidationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use RunValidationInput.ProtoReflect.Descriptor instead.
 func (*RunValidationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *RunValidationInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *RunValidationInput) GetValidator() *Validator {
@@ -121,6 +129,7 @@ func (x *RunValidationOutput) GetValidation() *Validation {
 
 type DescribeValidationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ValidationId  string                 `protobuf:"bytes,1,opt,name=validation_id,json=validationId,proto3" json:"validation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -154,6 +163,13 @@ func (x *DescribeValidationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeValidationInput.ProtoReflect.Descriptor instead.
 func (*DescribeValidationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *DescribeValidationInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeValidationInput) GetValidationId() string {
@@ -209,6 +225,7 @@ func (x *DescribeValidationOutput) GetValidation() *Validation {
 
 type WatchValidationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ValidationId  string                 `protobuf:"bytes,1,opt,name=validation_id,json=validationId,proto3" json:"validation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -242,6 +259,13 @@ func (x *WatchValidationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use WatchValidationInput.ProtoReflect.Descriptor instead.
 func (*WatchValidationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *WatchValidationInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *WatchValidationInput) GetValidationId() string {
@@ -307,27 +331,33 @@ var File_eolymp_atlas_validation_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/validation_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/atlas/testing_validator.proto\x1a\x1deolymp/atlas/validation.proto\x1a\x1ceolymp/wellknown/watch.proto\"K\n" +
-	"\x12RunValidationInput\x125\n" +
+	"%eolymp/atlas/validation_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/atlas/testing_validator.proto\x1a\x1deolymp/atlas/validation.proto\x1a\x1ceolymp/wellknown/watch.proto\"j\n" +
+	"\x12RunValidationInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x125\n" +
 	"\tvalidator\x18\x01 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"t\n" +
 	"\x13RunValidationOutput\x12#\n" +
 	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\x128\n" +
 	"\n" +
 	"validation\x18\x02 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
-	"validation\">\n" +
-	"\x17DescribeValidationInput\x12#\n" +
+	"validation\"]\n" +
+	"\x17DescribeValidationInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12#\n" +
 	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\"T\n" +
 	"\x18DescribeValidationOutput\x128\n" +
 	"\n" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
-	"validation\";\n" +
-	"\x14WatchValidationInput\x12#\n" +
+	"validation\"Z\n" +
+	"\x14WatchValidationInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12#\n" +
 	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\"\x89\x01\n" +
 	"\x15WatchValidationOutput\x128\n" +
 	"\n" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
 	"validation\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xaf\x04\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xca\x04\n" +
 	"\x11ValidationService\x12\x94\x01\n" +
 	"\rRunValidation\x12 .eolymp.atlas.RunValidationInput\x1a!.eolymp.atlas.RunValidationOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -346,7 +376,7 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02$\x12\"/validations/{validation_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02$\x12\"/validations/{validation_id}/watch0\x01\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_validation_service_proto_rawDescOnce sync.Once

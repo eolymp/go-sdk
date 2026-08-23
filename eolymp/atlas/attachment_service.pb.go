@@ -25,6 +25,7 @@ const (
 
 type CreateAttachmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Attachment    *Attachment            `protobuf:"bytes,2,opt,name=attachment,proto3" json:"attachment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -58,6 +59,13 @@ func (x *CreateAttachmentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateAttachmentInput.ProtoReflect.Descriptor instead.
 func (*CreateAttachmentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_attachment_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateAttachmentInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateAttachmentInput) GetAttachment() *Attachment {
@@ -113,6 +121,7 @@ func (x *CreateAttachmentOutput) GetAttachmentId() string {
 
 type UpdateAttachmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	AttachmentId  string                 `protobuf:"bytes,2,opt,name=attachment_id,json=attachmentId,proto3" json:"attachment_id,omitempty"`
 	Attachment    *Attachment            `protobuf:"bytes,3,opt,name=attachment,proto3" json:"attachment,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -147,6 +156,13 @@ func (x *UpdateAttachmentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateAttachmentInput.ProtoReflect.Descriptor instead.
 func (*UpdateAttachmentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_attachment_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateAttachmentInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateAttachmentInput) GetAttachmentId() string {
@@ -201,6 +217,7 @@ func (*UpdateAttachmentOutput) Descriptor() ([]byte, []int) {
 
 type DeleteAttachmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	AttachmentId  string                 `protobuf:"bytes,2,opt,name=attachment_id,json=attachmentId,proto3" json:"attachment_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -234,6 +251,13 @@ func (x *DeleteAttachmentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteAttachmentInput.ProtoReflect.Descriptor instead.
 func (*DeleteAttachmentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_attachment_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeleteAttachmentInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteAttachmentInput) GetAttachmentId() string {
@@ -280,7 +304,8 @@ func (*DeleteAttachmentOutput) Descriptor() ([]byte, []int) {
 }
 
 type ListAttachmentsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -320,6 +345,13 @@ func (x *ListAttachmentsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListAttachmentsInput.ProtoReflect.Descriptor instead.
 func (*ListAttachmentsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_attachment_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListAttachmentsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListAttachmentsInput) GetOffset() int32 {
@@ -404,6 +436,7 @@ func (x *ListAttachmentsOutput) GetItems() []*Attachment {
 
 type DescribeAttachmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	AttachmentId  string                 `protobuf:"bytes,2,opt,name=attachment_id,json=attachmentId,proto3" json:"attachment_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
@@ -438,6 +471,13 @@ func (x *DescribeAttachmentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeAttachmentInput.ProtoReflect.Descriptor instead.
 func (*DescribeAttachmentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_attachment_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DescribeAttachmentInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeAttachmentInput) GetAttachmentId() string {
@@ -554,23 +594,31 @@ var File_eolymp_atlas_attachment_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/attachment_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/attachment.proto\x1a!eolymp/wellknown/expression.proto\"Q\n" +
-	"\x15CreateAttachmentInput\x128\n" +
+	"%eolymp/atlas/attachment_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/attachment.proto\x1a!eolymp/wellknown/expression.proto\"p\n" +
+	"\x15CreateAttachmentInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x128\n" +
 	"\n" +
 	"attachment\x18\x02 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
 	"attachment\"=\n" +
 	"\x16CreateAttachmentOutput\x12#\n" +
-	"\rattachment_id\x18\x01 \x01(\tR\fattachmentId\"v\n" +
-	"\x15UpdateAttachmentInput\x12#\n" +
+	"\rattachment_id\x18\x01 \x01(\tR\fattachmentId\"\x95\x01\n" +
+	"\x15UpdateAttachmentInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rattachment_id\x18\x02 \x01(\tR\fattachmentId\x128\n" +
 	"\n" +
 	"attachment\x18\x03 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
 	"attachment\"\x18\n" +
-	"\x16UpdateAttachmentOutput\"<\n" +
-	"\x15DeleteAttachmentInput\x12#\n" +
+	"\x16UpdateAttachmentOutput\"[\n" +
+	"\x15DeleteAttachmentInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rattachment_id\x18\x02 \x01(\tR\fattachmentId\"\x18\n" +
-	"\x16DeleteAttachmentOutput\"\x93\x02\n" +
-	"\x14ListAttachmentsInput\x12\x16\n" +
+	"\x16DeleteAttachmentOutput\"\xb2\x02\n" +
+	"\x14ListAttachmentsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
@@ -581,14 +629,16 @@ const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"]\n" +
 	"\x15ListAttachmentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.AttachmentR\x05items\"X\n" +
-	"\x17DescribeAttachmentInput\x12#\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.AttachmentR\x05items\"w\n" +
+	"\x17DescribeAttachmentInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rattachment_id\x18\x02 \x01(\tR\fattachmentId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"T\n" +
 	"\x18DescribeAttachmentOutput\x128\n" +
 	"\n" +
 	"attachment\x18\x01 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
-	"attachment2\x80\a\n" +
+	"attachment2\x9b\a\n" +
 	"\x11AttachmentService\x12\x9d\x01\n" +
 	"\x10CreateAttachment\x12#.eolymp.atlas.CreateAttachmentInput\x1a$.eolymp.atlas.CreateAttachmentOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -622,7 +672,7 @@ const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/attachments/{attachment_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/attachments/{attachment_id}\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_attachment_service_proto_rawDescOnce sync.Once

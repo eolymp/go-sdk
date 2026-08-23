@@ -23,7 +23,8 @@ const (
 )
 
 type ListEditorialsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	// pagination
 	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -61,6 +62,13 @@ func (x *ListEditorialsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListEditorialsInput.ProtoReflect.Descriptor instead.
 func (*ListEditorialsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ListEditorialsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListEditorialsInput) GetOffset() int32 {
@@ -145,6 +153,7 @@ func (x *ListEditorialsOutput) GetItems() []*Editorial {
 
 type DescribeEditorialInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	EditorialId   string                  `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
 	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	Extra         []Editorial_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra_Field" json:"extra,omitempty"`
@@ -180,6 +189,13 @@ func (x *DescribeEditorialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeEditorialInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *DescribeEditorialInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeEditorialInput) GetEditorialId() string {
@@ -249,6 +265,7 @@ func (x *DescribeEditorialOutput) GetEditorial() *Editorial {
 
 type LookupEditorialInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Locale        string                  `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
 	Version       uint32                  `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	Extra         []Editorial_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Editorial_Extra_Field" json:"extra,omitempty"`
@@ -284,6 +301,13 @@ func (x *LookupEditorialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LookupEditorialInput.ProtoReflect.Descriptor instead.
 func (*LookupEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *LookupEditorialInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *LookupEditorialInput) GetLocale() string {
@@ -353,6 +377,7 @@ func (x *LookupEditorialOutput) GetEditorial() *Editorial {
 
 type PreviewEditorialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Editorial     *Editorial             `protobuf:"bytes,2,opt,name=editorial,proto3" json:"editorial,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -386,6 +411,13 @@ func (x *PreviewEditorialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use PreviewEditorialInput.ProtoReflect.Descriptor instead.
 func (*PreviewEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *PreviewEditorialInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *PreviewEditorialInput) GetEditorial() *Editorial {
@@ -441,6 +473,7 @@ func (x *PreviewEditorialOutput) GetEditorial() *Editorial {
 
 type CreateEditorialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Editorial     *Editorial             `protobuf:"bytes,2,opt,name=editorial,proto3" json:"editorial,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -474,6 +507,13 @@ func (x *CreateEditorialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateEditorialInput.ProtoReflect.Descriptor instead.
 func (*CreateEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateEditorialInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateEditorialInput) GetEditorial() *Editorial {
@@ -530,6 +570,7 @@ func (x *CreateEditorialOutput) GetEditorialId() string {
 type UpdateEditorialInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Patch         []Editorial_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Editorial_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	EditorialId   string                  `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
 	Editorial     *Editorial              `protobuf:"bytes,3,opt,name=editorial,proto3" json:"editorial,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -571,6 +612,13 @@ func (x *UpdateEditorialInput) GetPatch() []Editorial_Patch_Field {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateEditorialInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateEditorialInput) GetEditorialId() string {
@@ -625,6 +673,7 @@ func (*UpdateEditorialOutput) Descriptor() ([]byte, []int) {
 
 type DeleteEditorialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	EditorialId   string                 `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -658,6 +707,13 @@ func (x *DeleteEditorialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteEditorialInput.ProtoReflect.Descriptor instead.
 func (*DeleteEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DeleteEditorialInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteEditorialInput) GetEditorialId() string {
@@ -705,6 +761,7 @@ func (*DeleteEditorialOutput) Descriptor() ([]byte, []int) {
 
 type TranslateEditorialsInput struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId       string                 `protobuf:"bytes,5,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Source          string                 `protobuf:"bytes,1,opt,name=source,proto3" json:"source,omitempty"`                                           // if empty, english translation will be used, if english translation is not available, first available translation will be used
 	Target          []string               `protobuf:"bytes,2,rep,name=target,proto3" json:"target,omitempty"`                                           // list of target languages, if statement exists and it has automatic=true (or override_manual=true) it will be updated
 	TargetAutomatic bool                   `protobuf:"varint,3,opt,name=target_automatic,json=targetAutomatic,proto3" json:"target_automatic,omitempty"` // add to targets all editorials with automatic=true
@@ -741,6 +798,13 @@ func (x *TranslateEditorialsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TranslateEditorialsInput.ProtoReflect.Descriptor instead.
 func (*TranslateEditorialsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *TranslateEditorialsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *TranslateEditorialsInput) GetSource() string {
@@ -819,8 +883,10 @@ var File_eolymp_atlas_editorial_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\x97\x01\n" +
-	"\x13ListEditorialsInput\x12\x16\n" +
+	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\xb6\x01\n" +
+	"\x13ListEditorialsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x18\n" +
@@ -828,43 +894,57 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Editorial.Extra.FieldR\x05extra\"[\n" +
 	"\x14ListEditorialsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.EditorialR\x05items\"\x91\x01\n" +
-	"\x16DescribeEditorialInput\x12!\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.EditorialR\x05items\"\xb0\x01\n" +
+	"\x16DescribeEditorialInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x12:\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Editorial.Extra.FieldR\x05extra\"P\n" +
 	"\x17DescribeEditorialOutput\x125\n" +
-	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\x84\x01\n" +
-	"\x14LookupEditorialInput\x12\x16\n" +
+	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\xa3\x01\n" +
+	"\x14LookupEditorialInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x12:\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Editorial.Extra.FieldR\x05extra\"N\n" +
 	"\x15LookupEditorialOutput\x125\n" +
-	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"N\n" +
-	"\x15PreviewEditorialInput\x125\n" +
+	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"m\n" +
+	"\x15PreviewEditorialInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\teditorial\x18\x02 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"O\n" +
 	"\x16PreviewEditorialOutput\x125\n" +
-	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"M\n" +
-	"\x14CreateEditorialInput\x125\n" +
+	"\teditorial\x18\x01 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"l\n" +
+	"\x14CreateEditorialInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\teditorial\x18\x02 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\":\n" +
 	"\x15CreateEditorialOutput\x12!\n" +
-	"\feditorial_id\x18\x01 \x01(\tR\veditorialId\"\xab\x01\n" +
+	"\feditorial_id\x18\x01 \x01(\tR\veditorialId\"\xca\x01\n" +
 	"\x14UpdateEditorialInput\x129\n" +
 	"\x05patch\x18\n" +
-	" \x03(\x0e2#.eolymp.atlas.Editorial.Patch.FieldR\x05patch\x12!\n" +
+	" \x03(\x0e2#.eolymp.atlas.Editorial.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\x125\n" +
 	"\teditorial\x18\x03 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\x17\n" +
-	"\x15UpdateEditorialOutput\"9\n" +
-	"\x14DeleteEditorialInput\x12!\n" +
+	"\x15UpdateEditorialOutput\"X\n" +
+	"\x14DeleteEditorialInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\"\x17\n" +
-	"\x15DeleteEditorialOutput\"\x9e\x01\n" +
-	"\x18TranslateEditorialsInput\x12\x16\n" +
+	"\x15DeleteEditorialOutput\"\xbd\x01\n" +
+	"\x18TranslateEditorialsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x05 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06source\x18\x01 \x01(\tR\x06source\x12\x16\n" +
 	"\x06target\x18\x02 \x03(\tR\x06target\x12)\n" +
 	"\x10target_automatic\x18\x03 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x19TranslateEditorialsOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId2\xd9\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId2\xf4\n" +
 	"\n" +
 	"\x10EditorialService\x12\x99\x01\n" +
 	"\x0fCreateEditorial\x12\".eolymp.atlas.CreateEditorialInput\x1a#.eolymp.atlas.CreateEditorialOutput\"=\xea\xe2\n" +
@@ -916,7 +996,7 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/editorials:translate\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/editorials:translate\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editorial_service_proto_rawDescOnce sync.Once

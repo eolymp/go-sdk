@@ -86,6 +86,7 @@ func (x *SuggestionChangedEvent) GetAfter() *Suggestion {
 
 type CreateSuggestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Suggestion    *Suggestion            `protobuf:"bytes,2,opt,name=suggestion,proto3" json:"suggestion,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -119,6 +120,13 @@ func (x *CreateSuggestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateSuggestionInput.ProtoReflect.Descriptor instead.
 func (*CreateSuggestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateSuggestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateSuggestionInput) GetSuggestion() *Suggestion {
@@ -174,6 +182,7 @@ func (x *CreateSuggestionOutput) GetSuggestionId() string {
 
 type UpdateSuggestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SuggestionId  string                 `protobuf:"bytes,2,opt,name=suggestion_id,json=suggestionId,proto3" json:"suggestion_id,omitempty"`
 	Suggestion    *Suggestion            `protobuf:"bytes,3,opt,name=suggestion,proto3" json:"suggestion,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -208,6 +217,13 @@ func (x *UpdateSuggestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateSuggestionInput.ProtoReflect.Descriptor instead.
 func (*UpdateSuggestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UpdateSuggestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateSuggestionInput) GetSuggestionId() string {
@@ -262,6 +278,7 @@ func (*UpdateSuggestionOutput) Descriptor() ([]byte, []int) {
 
 type DeleteSuggestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SuggestionId  string                 `protobuf:"bytes,2,opt,name=suggestion_id,json=suggestionId,proto3" json:"suggestion_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -295,6 +312,13 @@ func (x *DeleteSuggestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteSuggestionInput.ProtoReflect.Descriptor instead.
 func (*DeleteSuggestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DeleteSuggestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteSuggestionInput) GetSuggestionId() string {
@@ -342,6 +366,7 @@ func (*DeleteSuggestionOutput) Descriptor() ([]byte, []int) {
 
 type ReviewSuggestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SuggestionId  string                 `protobuf:"bytes,2,opt,name=suggestion_id,json=suggestionId,proto3" json:"suggestion_id,omitempty"`
 	Status        Suggestion_Status      `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.atlas.Suggestion_Status" json:"status,omitempty"`
 	Comment       *ecm.Content           `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
@@ -378,6 +403,13 @@ func (x *ReviewSuggestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ReviewSuggestionInput.ProtoReflect.Descriptor instead.
 func (*ReviewSuggestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ReviewSuggestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ReviewSuggestionInput) GetSuggestionId() string {
@@ -446,6 +478,7 @@ func (*ReviewSuggestionOutput) Descriptor() ([]byte, []int) {
 
 type ResubmitSuggestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SuggestionId  string                 `protobuf:"bytes,2,opt,name=suggestion_id,json=suggestionId,proto3" json:"suggestion_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -479,6 +512,13 @@ func (x *ResubmitSuggestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ResubmitSuggestionInput.ProtoReflect.Descriptor instead.
 func (*ResubmitSuggestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ResubmitSuggestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ResubmitSuggestionInput) GetSuggestionId() string {
@@ -525,7 +565,8 @@ func (*ResubmitSuggestionOutput) Descriptor() ([]byte, []int) {
 }
 
 type ListSuggestionsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -563,6 +604,13 @@ func (x *ListSuggestionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListSuggestionsInput.ProtoReflect.Descriptor instead.
 func (*ListSuggestionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListSuggestionsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListSuggestionsInput) GetOffset() int32 {
@@ -640,6 +688,7 @@ func (x *ListSuggestionsOutput) GetItems() []*Suggestion {
 
 type DescribeSuggestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SuggestionId  string                 `protobuf:"bytes,2,opt,name=suggestion_id,json=suggestionId,proto3" json:"suggestion_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -673,6 +722,13 @@ func (x *DescribeSuggestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeSuggestionInput.ProtoReflect.Descriptor instead.
 func (*DescribeSuggestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_suggestion_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DescribeSuggestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeSuggestionInput) GetSuggestionId() string {
@@ -795,32 +851,44 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x120\n" +
 	"\x06before\x18\x02 \x01(\v2\x18.eolymp.atlas.SuggestionR\x06before\x12.\n" +
-	"\x05after\x18\x03 \x01(\v2\x18.eolymp.atlas.SuggestionR\x05after\"Q\n" +
-	"\x15CreateSuggestionInput\x128\n" +
+	"\x05after\x18\x03 \x01(\v2\x18.eolymp.atlas.SuggestionR\x05after\"p\n" +
+	"\x15CreateSuggestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x128\n" +
 	"\n" +
 	"suggestion\x18\x02 \x01(\v2\x18.eolymp.atlas.SuggestionR\n" +
 	"suggestion\"=\n" +
 	"\x16CreateSuggestionOutput\x12#\n" +
-	"\rsuggestion_id\x18\x01 \x01(\tR\fsuggestionId\"v\n" +
-	"\x15UpdateSuggestionInput\x12#\n" +
+	"\rsuggestion_id\x18\x01 \x01(\tR\fsuggestionId\"\x95\x01\n" +
+	"\x15UpdateSuggestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\x128\n" +
 	"\n" +
 	"suggestion\x18\x03 \x01(\v2\x18.eolymp.atlas.SuggestionR\n" +
 	"suggestion\"\x18\n" +
-	"\x16UpdateSuggestionOutput\"<\n" +
-	"\x15DeleteSuggestionInput\x12#\n" +
+	"\x16UpdateSuggestionOutput\"[\n" +
+	"\x15DeleteSuggestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\"\x18\n" +
-	"\x16DeleteSuggestionOutput\"\xc8\x01\n" +
-	"\x15ReviewSuggestionInput\x12#\n" +
+	"\x16DeleteSuggestionOutput\"\xe7\x01\n" +
+	"\x15ReviewSuggestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\x127\n" +
 	"\x06status\x18\x03 \x01(\x0e2\x1f.eolymp.atlas.Suggestion.StatusR\x06status\x12-\n" +
 	"\acomment\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\acomment\x12\"\n" +
 	"\fcontribution\x18\x05 \x01(\rR\fcontribution\"\x18\n" +
-	"\x16ReviewSuggestionOutput\">\n" +
-	"\x17ResubmitSuggestionInput\x12#\n" +
+	"\x16ReviewSuggestionOutput\"]\n" +
+	"\x17ResubmitSuggestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\"\x1a\n" +
-	"\x18ResubmitSuggestionOutput\"\xb9\x02\n" +
-	"\x14ListSuggestionsInput\x12\x16\n" +
+	"\x18ResubmitSuggestionOutput\"\xd8\x02\n" +
+	"\x14ListSuggestionsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
@@ -831,13 +899,15 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"]\n" +
 	"\x15ListSuggestionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SuggestionR\x05items\">\n" +
-	"\x17DescribeSuggestionInput\x12#\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SuggestionR\x05items\"]\n" +
+	"\x17DescribeSuggestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12#\n" +
 	"\rsuggestion_id\x18\x02 \x01(\tR\fsuggestionId\"T\n" +
 	"\x18DescribeSuggestionOutput\x128\n" +
 	"\n" +
 	"suggestion\x18\x01 \x01(\v2\x18.eolymp.atlas.SuggestionR\n" +
-	"suggestion2\xba\b\n" +
+	"suggestion2\xd5\b\n" +
 	"\x11SuggestionService\x12\x82\x01\n" +
 	"\x10CreateSuggestion\x12#.eolymp.atlas.CreateSuggestionInput\x1a$.eolymp.atlas.CreateSuggestionOutput\"#\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -871,7 +941,7 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\x12DescribeSuggestion\x12%.eolymp.atlas.DescribeSuggestionInput\x1a&.eolymp.atlas.DescribeSuggestionOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x1e\x12\x1c/suggestions/{suggestion_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"d\x82\xd3\xe4\x93\x02\x1e\x12\x1c/suggestions/{suggestion_id}\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_suggestion_service_proto_rawDescOnce sync.Once

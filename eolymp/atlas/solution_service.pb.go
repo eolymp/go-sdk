@@ -70,8 +70,9 @@ func (ListSolutionsInput_Sortable) EnumDescriptor() ([]byte, []int) {
 }
 
 type ListSolutionsInput struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Version uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Version   uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -112,6 +113,13 @@ func (x *ListSolutionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListSolutionsInput.ProtoReflect.Descriptor instead.
 func (*ListSolutionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ListSolutionsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListSolutionsInput) GetVersion() uint32 {
@@ -217,6 +225,7 @@ func (x *ListSolutionsOutput) GetItems() []*Solution {
 
 type CheckSolutionsInput struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
+	ProblemId     string                      `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Filters       *CheckSolutionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -250,6 +259,13 @@ func (x *CheckSolutionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CheckSolutionsInput.ProtoReflect.Descriptor instead.
 func (*CheckSolutionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CheckSolutionsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CheckSolutionsInput) GetFilters() *CheckSolutionsInput_Filter {
@@ -297,6 +313,7 @@ func (*CheckSolutionsOutput) Descriptor() ([]byte, []int) {
 
 type DescribeSolutionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SolutionId    string                 `protobuf:"bytes,2,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
@@ -331,6 +348,13 @@ func (x *DescribeSolutionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeSolutionInput.ProtoReflect.Descriptor instead.
 func (*DescribeSolutionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DescribeSolutionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeSolutionInput) GetSolutionId() string {
@@ -393,6 +417,7 @@ func (x *DescribeSolutionOutput) GetSolution() *Solution {
 
 type CreateSolutionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Solution      *Solution              `protobuf:"bytes,2,opt,name=solution,proto3" json:"solution,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -426,6 +451,13 @@ func (x *CreateSolutionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateSolutionInput.ProtoReflect.Descriptor instead.
 func (*CreateSolutionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateSolutionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateSolutionInput) GetSolution() *Solution {
@@ -482,6 +514,7 @@ func (x *CreateSolutionOutput) GetSolutionId() string {
 type UpdateSolutionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Patch         []Solution_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Solution_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SolutionId    string                 `protobuf:"bytes,3,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
 	Solution      *Solution              `protobuf:"bytes,4,opt,name=solution,proto3" json:"solution,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -523,6 +556,13 @@ func (x *UpdateSolutionInput) GetPatch() []Solution_Patch_Field {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateSolutionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateSolutionInput) GetSolutionId() string {
@@ -577,6 +617,7 @@ func (*UpdateSolutionOutput) Descriptor() ([]byte, []int) {
 
 type DeleteSolutionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SolutionId    string                 `protobuf:"bytes,2,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -610,6 +651,13 @@ func (x *DeleteSolutionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteSolutionInput.ProtoReflect.Descriptor instead.
 func (*DeleteSolutionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteSolutionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteSolutionInput) GetSolutionId() string {
@@ -795,8 +843,10 @@ var File_eolymp_atlas_solution_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_solution_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/atlas/solution_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/atlas/solution.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xac\x04\n" +
-	"\x12ListSolutionsInput\x12\x18\n" +
+	"#eolymp/atlas/solution_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/atlas/solution.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xcb\x04\n" +
+	"\x12ListSolutionsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -816,8 +866,10 @@ const file_eolymp_atlas_solution_service_proto_rawDesc = "" +
 	"\x04TYPE\x10\x01\"Y\n" +
 	"\x13ListSolutionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.SolutionR\x05items\"\xbe\x02\n" +
-	"\x13CheckSolutionsInput\x12B\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.SolutionR\x05items\"\xdd\x02\n" +
+	"\x13CheckSolutionsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12B\n" +
 	"\afilters\x18( \x01(\v2(.eolymp.atlas.CheckSolutionsInput.FilterR\afilters\x1a\xe2\x01\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\n" +
@@ -825,28 +877,36 @@ const file_eolymp_atlas_solution_service_proto_rawDesc = "" +
 	"\x04type\x18\v \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\x126\n" +
 	"\x04name\x18\f \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x12:\n" +
 	"\aruntime\x18\r \x03(\v2 .eolymp.wellknown.ExpressionEnumR\aruntime\"\x16\n" +
-	"\x14CheckSolutionsOutput\"R\n" +
-	"\x15DescribeSolutionInput\x12\x1f\n" +
+	"\x14CheckSolutionsOutput\"q\n" +
+	"\x15DescribeSolutionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vsolution_id\x18\x02 \x01(\tR\n" +
 	"solutionId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"L\n" +
 	"\x16DescribeSolutionOutput\x122\n" +
-	"\bsolution\x18\x01 \x01(\v2\x16.eolymp.atlas.SolutionR\bsolution\"I\n" +
-	"\x13CreateSolutionInput\x122\n" +
+	"\bsolution\x18\x01 \x01(\v2\x16.eolymp.atlas.SolutionR\bsolution\"h\n" +
+	"\x13CreateSolutionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x122\n" +
 	"\bsolution\x18\x02 \x01(\v2\x16.eolymp.atlas.SolutionR\bsolution\"7\n" +
 	"\x14CreateSolutionOutput\x12\x1f\n" +
 	"\vsolution_id\x18\x01 \x01(\tR\n" +
-	"solutionId\"\xa4\x01\n" +
+	"solutionId\"\xc3\x01\n" +
 	"\x13UpdateSolutionInput\x128\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\".eolymp.atlas.Solution.Patch.FieldR\x05patch\x12\x1f\n" +
+	"\x05patch\x18\x01 \x03(\x0e2\".eolymp.atlas.Solution.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vsolution_id\x18\x03 \x01(\tR\n" +
 	"solutionId\x122\n" +
 	"\bsolution\x18\x04 \x01(\v2\x16.eolymp.atlas.SolutionR\bsolution\"\x16\n" +
-	"\x14UpdateSolutionOutput\"6\n" +
-	"\x13DeleteSolutionInput\x12\x1f\n" +
+	"\x14UpdateSolutionOutput\"U\n" +
+	"\x13DeleteSolutionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vsolution_id\x18\x02 \x01(\tR\n" +
 	"solutionId\"\x16\n" +
-	"\x14DeleteSolutionOutput2\xed\a\n" +
+	"\x14DeleteSolutionOutput2\x88\b\n" +
 	"\x0fSolutionService\x12\x95\x01\n" +
 	"\x0eCreateSolution\x12!.eolymp.atlas.CreateSolutionInput\x1a\".eolymp.atlas.CreateSolutionOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -885,7 +945,7 @@ const file_eolymp_atlas_solution_service_proto_rawDesc = "" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x12\"\x10/solutions:check\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x12\"\x10/solutions:check\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_solution_service_proto_rawDescOnce sync.Once

@@ -40,8 +40,7 @@ const (
 // comes back only when requested, in raw or rendered form. An editorial is not a solution: in this API a
 // solution is the author's reference program together with its expected outcome, while an editorial is prose
 // for readers. Unlike a statement an editorial has no title of its own, and there is no call to export one or
-// to read its earlier revisions. Every method acts on the problem addressed by the request path, which is why
-// no request carries a problem id.
+// to read its earlier revisions. A call takes its problem from `problem_id`, or from the problem url when the field is empty.
 type EditorialServiceClient interface {
 	// CreateEditorial adds the editorial for one locale and returns its id. Other languages are separate
 	// editorials, created by calling this again.
@@ -171,8 +170,7 @@ func (c *editorialServiceClient) TranslateEditorials(ctx context.Context, in *Tr
 // comes back only when requested, in raw or rendered form. An editorial is not a solution: in this API a
 // solution is the author's reference program together with its expected outcome, while an editorial is prose
 // for readers. Unlike a statement an editorial has no title of its own, and there is no call to export one or
-// to read its earlier revisions. Every method acts on the problem addressed by the request path, which is why
-// no request carries a problem id.
+// to read its earlier revisions. A call takes its problem from `problem_id`, or from the problem url when the field is empty.
 type EditorialServiceServer interface {
 	// CreateEditorial adds the editorial for one locale and returns its id. Other languages are separate
 	// editorials, created by calling this again.

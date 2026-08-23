@@ -53,8 +53,7 @@ const (
 // setup: a checker, which compares the solution's output with the expected answer, an interactor, which
 // talks to the solution while it runs (interactive problems), and a validator, which asserts that test
 // inputs respect the problem's constraints. Alongside them sits a problem-wide testing configuration with
-// the defaults shared by all runs. Every method operates on the problem addressed by the request path, and
-// the read methods accept a `version` to inspect a specific problem version instead of the current draft.
+// the defaults shared by all runs. A call takes its problem from `problem_id`, or from the problem url when the field is empty. The read methods accept a `version` to inspect a specific problem version instead of the current draft.
 type TestingServiceClient interface {
 	// UpdateTestingConfig replaces the problem-wide testing configuration as a whole — there is no patch
 	// mask, so send back what DescribeTestingConfig returned with your changes applied. Testsets carry their
@@ -346,8 +345,7 @@ func (c *testingServiceClient) ListExamples(ctx context.Context, in *ListExample
 // setup: a checker, which compares the solution's output with the expected answer, an interactor, which
 // talks to the solution while it runs (interactive problems), and a validator, which asserts that test
 // inputs respect the problem's constraints. Alongside them sits a problem-wide testing configuration with
-// the defaults shared by all runs. Every method operates on the problem addressed by the request path, and
-// the read methods accept a `version` to inspect a specific problem version instead of the current draft.
+// the defaults shared by all runs. A call takes its problem from `problem_id`, or from the problem url when the field is empty. The read methods accept a `version` to inspect a specific problem version instead of the current draft.
 type TestingServiceServer interface {
 	// UpdateTestingConfig replaces the problem-wide testing configuration as a whole — there is no patch
 	// mask, so send back what DescribeTestingConfig returned with your changes applied. Testsets carry their

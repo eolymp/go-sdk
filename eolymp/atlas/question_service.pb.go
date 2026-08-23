@@ -84,6 +84,7 @@ func (x *QuestionChangedEvent) GetAfter() *Question {
 
 type CreateQuestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Question      *Question              `protobuf:"bytes,2,opt,name=question,proto3" json:"question,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -117,6 +118,13 @@ func (x *CreateQuestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateQuestionInput.ProtoReflect.Descriptor instead.
 func (*CreateQuestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateQuestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateQuestionInput) GetQuestion() *Question {
@@ -173,6 +181,7 @@ func (x *CreateQuestionOutput) GetQuestionId() string {
 type UpdateQuestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Patch         []Question_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Question_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	QuestionId    string                 `protobuf:"bytes,2,opt,name=question_id,json=questionId,proto3" json:"question_id,omitempty"`
 	Question      *Question              `protobuf:"bytes,3,opt,name=question,proto3" json:"question,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -214,6 +223,13 @@ func (x *UpdateQuestionInput) GetPatch() []Question_Patch_Field {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateQuestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateQuestionInput) GetQuestionId() string {
@@ -268,6 +284,7 @@ func (*UpdateQuestionOutput) Descriptor() ([]byte, []int) {
 
 type DeleteQuestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	QuestionId    string                 `protobuf:"bytes,2,opt,name=question_id,json=questionId,proto3" json:"question_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -301,6 +318,13 @@ func (x *DeleteQuestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteQuestionInput.ProtoReflect.Descriptor instead.
 func (*DeleteQuestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DeleteQuestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteQuestionInput) GetQuestionId() string {
@@ -348,6 +372,7 @@ func (*DeleteQuestionOutput) Descriptor() ([]byte, []int) {
 
 type DescribeQuestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	QuestionId    string                 `protobuf:"bytes,2,opt,name=question_id,json=questionId,proto3" json:"question_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	Extra         []Question_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Question_Extra_Field" json:"extra,omitempty"`
@@ -383,6 +408,13 @@ func (x *DescribeQuestionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeQuestionInput.ProtoReflect.Descriptor instead.
 func (*DescribeQuestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DescribeQuestionInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeQuestionInput) GetQuestionId() string {
@@ -451,7 +483,8 @@ func (x *DescribeQuestionOutput) GetQuestion() *Question {
 }
 
 type ListQuestionsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	// pagination
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -489,6 +522,13 @@ func (x *ListQuestionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListQuestionsInput.ProtoReflect.Descriptor instead.
 func (*ListQuestionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ListQuestionsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListQuestionsInput) GetOffset() int32 {
@@ -580,31 +620,41 @@ const file_eolymp_atlas_question_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12.\n" +
 	"\x06before\x18\x02 \x01(\v2\x16.eolymp.atlas.QuestionR\x06before\x12,\n" +
-	"\x05after\x18\x03 \x01(\v2\x16.eolymp.atlas.QuestionR\x05after\"I\n" +
-	"\x13CreateQuestionInput\x122\n" +
+	"\x05after\x18\x03 \x01(\v2\x16.eolymp.atlas.QuestionR\x05after\"h\n" +
+	"\x13CreateQuestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x122\n" +
 	"\bquestion\x18\x02 \x01(\v2\x16.eolymp.atlas.QuestionR\bquestion\"7\n" +
 	"\x14CreateQuestionOutput\x12\x1f\n" +
 	"\vquestion_id\x18\x01 \x01(\tR\n" +
-	"questionId\"\xa4\x01\n" +
+	"questionId\"\xc3\x01\n" +
 	"\x13UpdateQuestionInput\x128\n" +
 	"\x05patch\x18\n" +
-	" \x03(\x0e2\".eolymp.atlas.Question.Patch.FieldR\x05patch\x12\x1f\n" +
+	" \x03(\x0e2\".eolymp.atlas.Question.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vquestion_id\x18\x02 \x01(\tR\n" +
 	"questionId\x122\n" +
 	"\bquestion\x18\x03 \x01(\v2\x16.eolymp.atlas.QuestionR\bquestion\"\x16\n" +
-	"\x14UpdateQuestionOutput\"6\n" +
-	"\x13DeleteQuestionInput\x12\x1f\n" +
+	"\x14UpdateQuestionOutput\"U\n" +
+	"\x13DeleteQuestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vquestion_id\x18\x02 \x01(\tR\n" +
 	"questionId\"\x16\n" +
-	"\x14DeleteQuestionOutput\"\x8d\x01\n" +
-	"\x15DescribeQuestionInput\x12\x1f\n" +
+	"\x14DeleteQuestionOutput\"\xac\x01\n" +
+	"\x15DescribeQuestionInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vquestion_id\x18\x02 \x01(\tR\n" +
 	"questionId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x129\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\".eolymp.atlas.Question.Extra.FieldR\x05extra\"L\n" +
 	"\x16DescribeQuestionOutput\x122\n" +
-	"\bquestion\x18\x01 \x01(\v2\x16.eolymp.atlas.QuestionR\bquestion\"\x95\x01\n" +
-	"\x12ListQuestionsInput\x12\x16\n" +
+	"\bquestion\x18\x01 \x01(\v2\x16.eolymp.atlas.QuestionR\bquestion\"\xb4\x01\n" +
+	"\x12ListQuestionsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x18\n" +
@@ -612,7 +662,7 @@ const file_eolymp_atlas_question_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\".eolymp.atlas.Question.Extra.FieldR\x05extra\"Y\n" +
 	"\x13ListQuestionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items2\xd0\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items2\xeb\x06\n" +
 	"\x0fQuestionService\x12\x95\x01\n" +
 	"\x0eCreateQuestion\x12!.eolymp.atlas.CreateQuestionInput\x1a\".eolymp.atlas.CreateQuestionOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -645,7 +695,7 @@ const file_eolymp_atlas_question_service_proto_rawDesc = "" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/questions\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"/questions\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_question_service_proto_rawDescOnce sync.Once

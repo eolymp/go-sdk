@@ -46,7 +46,7 @@ const (
 //
 // Question and option ids are stable across edits of the problem, which is what lets a submission be
 // re-graded and lets a translation of a question be attached to it later. Every method acts on the problem
-// addressed by the request path, which is why no request carries a problem id.
+// named by `problem_id` in the request.
 type QuestionServiceClient interface {
 	// CreateQuestion adds a question to the quiz and returns its id. The question's `index` decides where it
 	// lands among the questions which already exist; ids given to its options in the request are ignored and
@@ -151,7 +151,7 @@ func (c *questionServiceClient) ListQuestions(ctx context.Context, in *ListQuest
 //
 // Question and option ids are stable across edits of the problem, which is what lets a submission be
 // re-graded and lets a translation of a question be attached to it later. Every method acts on the problem
-// addressed by the request path, which is why no request carries a problem id.
+// named by `problem_id` in the request.
 type QuestionServiceServer interface {
 	// CreateQuestion adds a question to the quiz and returns its id. The question's `index` decides where it
 	// lands among the questions which already exist; ids given to its options in the request are ignored and

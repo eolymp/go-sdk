@@ -128,6 +128,7 @@ func (x *ScriptChangedEvent) GetAfter() *Script {
 
 type CreateScriptInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Script        *Script                `protobuf:"bytes,1,opt,name=script,proto3" json:"script,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -161,6 +162,13 @@ func (x *CreateScriptInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateScriptInput.ProtoReflect.Descriptor instead.
 func (*CreateScriptInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateScriptInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateScriptInput) GetScript() *Script {
@@ -217,6 +225,7 @@ func (x *CreateScriptOutput) GetScriptId() string {
 type UpdateScriptInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Patch         []Script_Patch_Field   `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Script_Patch_Field" json:"patch,omitempty"`
+	ProblemId     string                 `protobuf:"bytes,4,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ScriptId      string                 `protobuf:"bytes,2,opt,name=script_id,json=scriptId,proto3" json:"script_id,omitempty"`
 	Script        *Script                `protobuf:"bytes,3,opt,name=script,proto3" json:"script,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -258,6 +267,13 @@ func (x *UpdateScriptInput) GetPatch() []Script_Patch_Field {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateScriptInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateScriptInput) GetScriptId() string {
@@ -312,6 +328,7 @@ func (*UpdateScriptOutput) Descriptor() ([]byte, []int) {
 
 type DeleteScriptInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ScriptId      string                 `protobuf:"bytes,1,opt,name=script_id,json=scriptId,proto3" json:"script_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -345,6 +362,13 @@ func (x *DeleteScriptInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteScriptInput.ProtoReflect.Descriptor instead.
 func (*DeleteScriptInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DeleteScriptInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteScriptInput) GetScriptId() string {
@@ -392,6 +416,7 @@ func (*DeleteScriptOutput) Descriptor() ([]byte, []int) {
 
 type DescribeScriptInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ScriptId      string                 `protobuf:"bytes,1,opt,name=script_id,json=scriptId,proto3" json:"script_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	Extra         []Script_Extra_Field   `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.atlas.Script_Extra_Field" json:"extra,omitempty"`
@@ -427,6 +452,13 @@ func (x *DescribeScriptInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeScriptInput.ProtoReflect.Descriptor instead.
 func (*DescribeScriptInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DescribeScriptInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeScriptInput) GetScriptId() string {
@@ -495,8 +527,9 @@ func (x *DescribeScriptOutput) GetScript() *Script {
 }
 
 type ListScriptsInput struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Version uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Version   uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -538,6 +571,13 @@ func (x *ListScriptsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListScriptsInput.ProtoReflect.Descriptor instead.
 func (*ListScriptsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ListScriptsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListScriptsInput) GetVersion() uint32 {
@@ -650,6 +690,7 @@ func (x *ListScriptsOutput) GetItems() []*Script {
 
 type ExecuteStressCheckInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	ScriptName    string                 `protobuf:"bytes,1,opt,name=script_name,json=scriptName,proto3" json:"script_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -683,6 +724,13 @@ func (x *ExecuteStressCheckInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ExecuteStressCheckInput.ProtoReflect.Descriptor instead.
 func (*ExecuteStressCheckInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ExecuteStressCheckInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ExecuteStressCheckInput) GetScriptName() string {
@@ -797,26 +845,36 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12,\n" +
 	"\x06before\x18\x02 \x01(\v2\x14.eolymp.atlas.ScriptR\x06before\x12*\n" +
-	"\x05after\x18\x03 \x01(\v2\x14.eolymp.atlas.ScriptR\x05after\"A\n" +
-	"\x11CreateScriptInput\x12,\n" +
+	"\x05after\x18\x03 \x01(\v2\x14.eolymp.atlas.ScriptR\x05after\"`\n" +
+	"\x11CreateScriptInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12,\n" +
 	"\x06script\x18\x01 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"1\n" +
 	"\x12CreateScriptOutput\x12\x1b\n" +
-	"\tscript_id\x18\x01 \x01(\tR\bscriptId\"\x96\x01\n" +
+	"\tscript_id\x18\x01 \x01(\tR\bscriptId\"\xb5\x01\n" +
 	"\x11UpdateScriptInput\x126\n" +
-	"\x05patch\x18\x01 \x03(\x0e2 .eolymp.atlas.Script.Patch.FieldR\x05patch\x12\x1b\n" +
+	"\x05patch\x18\x01 \x03(\x0e2 .eolymp.atlas.Script.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x04 \x01(\tR\tproblemId\x12\x1b\n" +
 	"\tscript_id\x18\x02 \x01(\tR\bscriptId\x12,\n" +
 	"\x06script\x18\x03 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"\x14\n" +
-	"\x12UpdateScriptOutput\"0\n" +
-	"\x11DeleteScriptInput\x12\x1b\n" +
+	"\x12UpdateScriptOutput\"O\n" +
+	"\x11DeleteScriptInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1b\n" +
 	"\tscript_id\x18\x01 \x01(\tR\bscriptId\"\x14\n" +
-	"\x12DeleteScriptOutput\"\x85\x01\n" +
-	"\x13DescribeScriptInput\x12\x1b\n" +
+	"\x12DeleteScriptOutput\"\xa4\x01\n" +
+	"\x13DescribeScriptInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1b\n" +
 	"\tscript_id\x18\x01 \x01(\tR\bscriptId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x127\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.atlas.Script.Extra.FieldR\x05extra\"D\n" +
 	"\x14DescribeScriptOutput\x12,\n" +
-	"\x06script\x18\x01 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"\x9f\x04\n" +
-	"\x10ListScriptsInput\x12\x18\n" +
+	"\x06script\x18\x01 \x01(\v2\x14.eolymp.atlas.ScriptR\x06script\"\xbe\x04\n" +
+	"\x10ListScriptsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -835,11 +893,13 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"\x04NAME\x10\x00\"U\n" +
 	"\x11ListScriptsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12*\n" +
-	"\x05items\x18\x02 \x03(\v2\x14.eolymp.atlas.ScriptR\x05items\":\n" +
-	"\x17ExecuteStressCheckInput\x12\x1f\n" +
+	"\x05items\x18\x02 \x03(\v2\x14.eolymp.atlas.ScriptR\x05items\"Y\n" +
+	"\x17ExecuteStressCheckInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vscript_name\x18\x01 \x01(\tR\n" +
 	"scriptName\"\x1a\n" +
-	"\x18ExecuteStressCheckOutput2\xcf\a\n" +
+	"\x18ExecuteStressCheckOutput2\xea\a\n" +
 	"\rScriptService\x12\x8d\x01\n" +
 	"\fCreateScript\x12\x1f.eolymp.atlas.CreateScriptInput\x1a .eolymp.atlas.CreateScriptOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -879,7 +939,7 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/scripts:stress-check\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/scripts:stress-check\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_script_service_proto_rawDescOnce sync.Once

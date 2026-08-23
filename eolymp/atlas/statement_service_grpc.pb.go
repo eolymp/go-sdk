@@ -42,8 +42,7 @@ const (
 // their own line (`\InputFile`, `\Interaction`, `\OutputFile`, `\Examples`, `\Note`, `\Scoring`), and the text
 // before the first marker is the introduction. Never write the `\Examples` section by hand: it is generated
 // from the tests marked as examples. Content is returned only when requested, either in its raw form for
-// editing or as a parsed tree for display. Every method acts on the problem addressed by the request path,
-// which is why no request carries a problem id.
+// editing or as a parsed tree for display. A call takes its problem from `problem_id`, or from the problem url when the field is empty.
 type StatementServiceClient interface {
 	// CreateStatement adds the statement for one locale and returns its id. Publishing the same problem in
 	// another language means creating another statement, not editing this one.
@@ -199,8 +198,7 @@ func (c *statementServiceClient) ListStatementVersions(ctx context.Context, in *
 // their own line (`\InputFile`, `\Interaction`, `\OutputFile`, `\Examples`, `\Note`, `\Scoring`), and the text
 // before the first marker is the introduction. Never write the `\Examples` section by hand: it is generated
 // from the tests marked as examples. Content is returned only when requested, either in its raw form for
-// editing or as a parsed tree for display. Every method acts on the problem addressed by the request path,
-// which is why no request carries a problem id.
+// editing or as a parsed tree for display. A call takes its problem from `problem_id`, or from the problem url when the field is empty.
 type StatementServiceServer interface {
 	// CreateStatement adds the statement for one locale and returns its id. Publishing the same problem in
 	// another language means creating another statement, not editing this one.

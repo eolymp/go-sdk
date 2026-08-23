@@ -27,8 +27,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// ScoringService reports scoring data for the single problem addressed by the request path: how far a
-// member has got on it, and how the problem turns a submission's resource usage into a grade.
+// ScoringService reports scoring data for a single problem: how far a member has got on it, and how the
+// problem turns a submission's resource usage into a grade.
+//
+// A call takes its problem from `problem_id`, or from the problem url when the field is empty.
 //
 // Both methods are read-only and report what has already been recorded — they never retest or recompute a
 // score. A member score covers the problem as a whole rather than an individual submission; per-submission
@@ -75,8 +77,10 @@ func (c *scoringServiceClient) DescribeProblemGrading(ctx context.Context, in *D
 // All implementations should embed UnimplementedScoringServiceServer
 // for forward compatibility.
 //
-// ScoringService reports scoring data for the single problem addressed by the request path: how far a
-// member has got on it, and how the problem turns a submission's resource usage into a grade.
+// ScoringService reports scoring data for a single problem: how far a member has got on it, and how the
+// problem turns a submission's resource usage into a grade.
+//
+// A call takes its problem from `problem_id`, or from the problem url when the field is empty.
 //
 // Both methods are read-only and report what has already been recorded — they never retest or recompute a
 // score. A member score covers the problem as a whole rather than an individual submission; per-submission

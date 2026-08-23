@@ -92,6 +92,7 @@ func (x *ScoreChangedEvent) GetAfter() *Score {
 
 type DescribeScoreInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -125,6 +126,13 @@ func (x *DescribeScoreInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeScoreInput.ProtoReflect.Descriptor instead.
 func (*DescribeScoreInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_scoring_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DescribeScoreInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeScoreInput) GetMemberId() string {
@@ -180,6 +188,7 @@ func (x *DescribeScoreOutput) GetScore() *Score {
 
 type DescribeProblemGradingInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -212,6 +221,13 @@ func (x *DescribeProblemGradingInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeProblemGradingInput.ProtoReflect.Descriptor instead.
 func (*DescribeProblemGradingInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_scoring_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *DescribeProblemGradingInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 type DescribeProblemGradingOutput struct {
@@ -329,18 +345,22 @@ const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"problem_id\x18\x03 \x01(\tR\tproblemId\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12+\n" +
 	"\x06before\x18\x01 \x01(\v2\x13.eolymp.atlas.ScoreR\x06before\x12)\n" +
-	"\x05after\x18\x02 \x01(\v2\x13.eolymp.atlas.ScoreR\x05after\"1\n" +
-	"\x12DescribeScoreInput\x12\x1b\n" +
+	"\x05after\x18\x02 \x01(\v2\x13.eolymp.atlas.ScoreR\x05after\"P\n" +
+	"\x12DescribeScoreInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\"@\n" +
 	"\x13DescribeScoreOutput\x12)\n" +
-	"\x05score\x18\x01 \x01(\v2\x13.eolymp.atlas.ScoreR\x05score\"\x1d\n" +
-	"\x1bDescribeProblemGradingInput\"\xa8\x01\n" +
+	"\x05score\x18\x01 \x01(\v2\x13.eolymp.atlas.ScoreR\x05score\"<\n" +
+	"\x1bDescribeProblemGradingInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\"\xa8\x01\n" +
 	"\x1cDescribeProblemGradingOutput\x12H\n" +
 	"\x06ranges\x18\x02 \x03(\v20.eolymp.atlas.DescribeProblemGradingOutput.RangeR\x06ranges\x1a>\n" +
 	"\x05Range\x12\x14\n" +
 	"\x05grade\x18\x01 \x01(\rR\x05grade\x12\x1f\n" +
 	"\vupper_bound\x18\x02 \x01(\x02R\n" +
-	"upperBound2\xf9\x02\n" +
+	"upperBound2\x94\x03\n" +
 	"\x0eScoringService\x12\x9d\x01\n" +
 	"\rDescribeScore\x12 .eolymp.atlas.DescribeScoreInput\x1a!.eolymp.atlas.DescribeScoreOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -354,7 +374,7 @@ const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/grading\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12\b/grading\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_scoring_service_proto_rawDescOnce sync.Once

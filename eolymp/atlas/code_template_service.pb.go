@@ -24,6 +24,7 @@ const (
 
 type CreateCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Template      *Template              `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -57,6 +58,13 @@ func (x *CreateCodeTemplateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*CreateCodeTemplateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateCodeTemplateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *CreateCodeTemplateInput) GetTemplate() *Template {
@@ -112,6 +120,7 @@ func (x *CreateCodeTemplateOutput) GetTemplateId() string {
 
 type UpdateCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TemplateId    string                 `protobuf:"bytes,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
 	Template      *Template              `protobuf:"bytes,3,opt,name=template,proto3" json:"template,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -146,6 +155,13 @@ func (x *UpdateCodeTemplateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*UpdateCodeTemplateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateCodeTemplateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateCodeTemplateInput) GetTemplateId() string {
@@ -200,6 +216,7 @@ func (*UpdateCodeTemplateOutput) Descriptor() ([]byte, []int) {
 
 type DeleteCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TemplateId    string                 `protobuf:"bytes,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -233,6 +250,13 @@ func (x *DeleteCodeTemplateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*DeleteCodeTemplateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeleteCodeTemplateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DeleteCodeTemplateInput) GetTemplateId() string {
@@ -280,6 +304,7 @@ func (*DeleteCodeTemplateOutput) Descriptor() ([]byte, []int) {
 
 type ListCodeTemplatesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
@@ -315,6 +340,13 @@ func (x *ListCodeTemplatesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListCodeTemplatesInput.ProtoReflect.Descriptor instead.
 func (*ListCodeTemplatesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListCodeTemplatesInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListCodeTemplatesInput) GetOffset() int32 {
@@ -392,6 +424,7 @@ func (x *ListCodeTemplatesOutput) GetItems() []*Template {
 
 type DescribeCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	TemplateId    string                 `protobuf:"bytes,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
@@ -426,6 +459,13 @@ func (x *DescribeCodeTemplateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*DescribeCodeTemplateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DescribeCodeTemplateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *DescribeCodeTemplateInput) GetTemplateId() string {
@@ -488,6 +528,7 @@ func (x *DescribeCodeTemplateOutput) GetTemplate() *Template {
 
 type LookupCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Runtime       string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -521,6 +562,13 @@ func (x *LookupCodeTemplateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LookupCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*LookupCodeTemplateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *LookupCodeTemplateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *LookupCodeTemplateInput) GetRuntime() string {
@@ -576,6 +624,7 @@ func (x *LookupCodeTemplateOutput) GetTemplate() *Template {
 
 type GenerateCodeTemplatesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Language      []string               `protobuf:"bytes,1,rep,name=language,proto3" json:"language,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -609,6 +658,13 @@ func (x *GenerateCodeTemplatesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GenerateCodeTemplatesInput.ProtoReflect.Descriptor instead.
 func (*GenerateCodeTemplatesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_code_template_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GenerateCodeTemplatesInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *GenerateCodeTemplatesInput) GetLanguage() []string {
@@ -658,42 +714,57 @@ var File_eolymp_atlas_code_template_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/atlas/code_template_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\"M\n" +
-	"\x17CreateCodeTemplateInput\x122\n" +
+	"(eolymp/atlas/code_template_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\"l\n" +
+	"\x17CreateCodeTemplateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x122\n" +
 	"\btemplate\x18\x02 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\";\n" +
 	"\x18CreateCodeTemplateOutput\x12\x1f\n" +
 	"\vtemplate_id\x18\x01 \x01(\tR\n" +
-	"templateId\"n\n" +
-	"\x17UpdateCodeTemplateInput\x12\x1f\n" +
+	"templateId\"\x8d\x01\n" +
+	"\x17UpdateCodeTemplateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vtemplate_id\x18\x02 \x01(\tR\n" +
 	"templateId\x122\n" +
 	"\btemplate\x18\x03 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"\x1a\n" +
-	"\x18UpdateCodeTemplateOutput\":\n" +
-	"\x17DeleteCodeTemplateInput\x12\x1f\n" +
+	"\x18UpdateCodeTemplateOutput\"Y\n" +
+	"\x17DeleteCodeTemplateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vtemplate_id\x18\x02 \x01(\tR\n" +
 	"templateId\"\x1a\n" +
-	"\x18DeleteCodeTemplateOutput\"^\n" +
-	"\x16ListCodeTemplatesInput\x12\x16\n" +
+	"\x18DeleteCodeTemplateOutput\"}\n" +
+	"\x16ListCodeTemplatesInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"]\n" +
 	"\x17ListCodeTemplatesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.TemplateR\x05items\"V\n" +
-	"\x19DescribeCodeTemplateInput\x12\x1f\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.TemplateR\x05items\"u\n" +
+	"\x19DescribeCodeTemplateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vtemplate_id\x18\x02 \x01(\tR\n" +
 	"templateId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"P\n" +
 	"\x1aDescribeCodeTemplateOutput\x122\n" +
-	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"3\n" +
-	"\x17LookupCodeTemplateInput\x12\x18\n" +
+	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"R\n" +
+	"\x17LookupCodeTemplateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\"N\n" +
 	"\x18LookupCodeTemplateOutput\x122\n" +
-	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"8\n" +
-	"\x1aGenerateCodeTemplatesInput\x12\x1a\n" +
+	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"W\n" +
+	"\x1aGenerateCodeTemplatesInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1a\n" +
 	"\blanguage\x18\x01 \x03(\tR\blanguage\"\x1d\n" +
-	"\x1bGenerateCodeTemplatesOutput2\xe9\t\n" +
+	"\x1bGenerateCodeTemplatesOutput2\x84\n" +
+	"\n" +
 	"\x13CodeTemplateService\x12\xa1\x01\n" +
 	"\x12CreateCodeTemplate\x12%.eolymp.atlas.CreateCodeTemplateInput\x1a&.eolymp.atlas.CreateCodeTemplateOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -741,7 +812,7 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x03\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x15\"\x13/templates:generate\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x15\"\x13/templates:generate\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_code_template_service_proto_rawDescOnce sync.Once
