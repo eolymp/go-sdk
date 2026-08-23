@@ -7,6 +7,7 @@
 package atlas
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -84,10 +85,10 @@ type Generation struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Status        Generation_Status      `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.atlas.Generation_Status" json:"status,omitempty"`
-	Total         uint32                 `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`     // tests this run generates
-	Ready         uint32                 `protobuf:"varint,5,opt,name=ready,proto3" json:"ready,omitempty"`     // tests it has generated so far, whether they came out valid or not
-	Invalid       uint32                 `protobuf:"varint,6,opt,name=invalid,proto3" json:"invalid,omitempty"` // tests which failed to generate
-	Error         string                 `protobuf:"bytes,7,opt,name=error,proto3" json:"error,omitempty"`      // set when the run itself failed
+	Total         uint32                 `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`
+	Ready         uint32                 `protobuf:"varint,5,opt,name=ready,proto3" json:"ready,omitempty"`
+	Invalid       uint32                 `protobuf:"varint,6,opt,name=invalid,proto3" json:"invalid,omitempty"`
+	Error         string                 `protobuf:"bytes,7,opt,name=error,proto3" json:"error,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	FinishedAt    *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -191,17 +192,17 @@ var File_eolymp_atlas_generation_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_generation_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/generation.proto\x12\feolymp.atlas\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x03\n" +
+	"\x1deolymp/atlas/generation.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe6\a\n" +
 	"\n" +
 	"Generation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
-	"problem_id\x18\x02 \x01(\tR\tproblemId\x127\n" +
-	"\x06status\x18\x03 \x01(\x0e2\x1f.eolymp.atlas.Generation.StatusR\x06status\x12\x14\n" +
-	"\x05total\x18\x04 \x01(\rR\x05total\x12\x14\n" +
-	"\x05ready\x18\x05 \x01(\rR\x05ready\x12\x18\n" +
-	"\ainvalid\x18\x06 \x01(\rR\ainvalid\x12\x14\n" +
-	"\x05error\x18\a \x01(\tR\x05error\x129\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\xa4\x02\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x1f.eolymp.atlas.Generation.StatusB\xea\x01\xa2\xf0\xf0\xe4\x01\xe3\x01PENDING and RUNNING mean the run is still going and this should be read again; COMPLETE means every test was produced, valid or not; FAILURE means the run itself broke and the rest of its tests will never be produced, see errorR\x06status\x124\n" +
+	"\x05total\x18\x04 \x01(\rB\x1e\xa2\xf0\xf0\xe4\x01\x18tests this run generatesR\x05total\x12]\n" +
+	"\x05ready\x18\x05 \x01(\rBG\xa2\xf0\xf0\xe4\x01Atests it has generated so far, whether they came out valid or notR\x05ready\x12i\n" +
+	"\ainvalid\x18\x06 \x01(\rBO\xa2\xf0\xf0\xe4\x01Itests which failed to generate; read the test's own statusMessage for whyR\ainvalid\x12\xc0\x01\n" +
+	"\x05error\x18\a \x01(\tB\xa9\x01\xa2\xf0\xf0\xe4\x01\xa2\x01why the run itself failed, set only when status is FAILURE; usually a compile error in the validator or a generator, in which case none of its tests were producedR\x05error\x129\n" +
 	"\n" +
 	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12;\n" +
 	"\vfinished_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
