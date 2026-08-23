@@ -305,7 +305,6 @@ func (*CancelCreditOutput) Descriptor() ([]byte, []int) {
 
 type ListCreditGrantsInput struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
-	MemberId      string                        `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Offset        int32                         `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                         `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters       *ListCreditGrantsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -341,13 +340,6 @@ func (x *ListCreditGrantsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListCreditGrantsInput.ProtoReflect.Descriptor instead.
 func (*ListCreditGrantsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *ListCreditGrantsInput) GetMemberId() string {
-	if x != nil {
-		return x.MemberId
-	}
-	return ""
 }
 
 func (x *ListCreditGrantsInput) GetOffset() int32 {
@@ -537,7 +529,6 @@ func (x *RedeemCreditOutput) GetTransactionId() string {
 
 type ListCreditTransactionsInput struct {
 	state         protoimpl.MessageState              `protogen:"open.v1"`
-	MemberId      string                              `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Offset        int32                               `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                               `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters       *ListCreditTransactionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -573,13 +564,6 @@ func (x *ListCreditTransactionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListCreditTransactionsInput.ProtoReflect.Descriptor instead.
 func (*ListCreditTransactionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_credit_service_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *ListCreditTransactionsInput) GetMemberId() string {
-	if x != nil {
-		return x.MemberId
-	}
-	return ""
 }
 
 func (x *ListCreditTransactionsInput) GetOffset() int32 {
@@ -758,6 +742,7 @@ type ListCreditGrantsInput_Filter struct {
 	Note          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=note,proto3" json:"note,omitempty"`
 	Amount        []*wellknown.ExpressionInt    `protobuf:"bytes,4,rep,name=amount,proto3" json:"amount,omitempty"`
 	Active        []*wellknown.ExpressionBool   `protobuf:"bytes,5,rep,name=active,proto3" json:"active,omitempty"`
+	MemberId      []*wellknown.ExpressionID     `protobuf:"bytes,6,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -827,9 +812,17 @@ func (x *ListCreditGrantsInput_Filter) GetActive() []*wellknown.ExpressionBool {
 	return nil
 }
 
+func (x *ListCreditGrantsInput_Filter) GetMemberId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
 type ListCreditTransactionsInput_Filter struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	MemberId      []*wellknown.ExpressionID `protobuf:"bytes,2,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -871,6 +864,13 @@ func (x *ListCreditTransactionsInput_Filter) GetId() []*wellknown.ExpressionID {
 	return nil
 }
 
+func (x *ListCreditTransactionsInput_Filter) GetMemberId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
 var File_eolymp_community_credit_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_service_proto_rawDesc = "" +
@@ -889,19 +889,19 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x11CancelCreditInput\x12\x19\n" +
 	"\bgrant_id\x18\x01 \x01(\tR\agrantId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\"\x14\n" +
-	"\x12CancelCreditOutput\"\xce\x03\n" +
-	"\x15ListCreditGrantsInput\x12\x1b\n" +
-	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x16\n" +
+	"\x12CancelCreditOutput\"\xf4\x03\n" +
+	"\x15ListCreditGrantsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12H\n" +
-	"\afilters\x18( \x01(\v2..eolymp.community.ListCreditGrantsInput.FilterR\afilters\x1a\xa1\x02\n" +
+	"\afilters\x18( \x01(\v2..eolymp.community.ListCreditGrantsInput.FilterR\afilters\x1a\xde\x02\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12<\n" +
 	"\treference\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\treference\x126\n" +
 	"\x04note\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04note\x127\n" +
 	"\x06amount\x18\x04 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06amount\x128\n" +
-	"\x06active\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06active\"d\n" +
+	"\x06active\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06active\x12;\n" +
+	"\tmember_id\x18\x06 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberIdJ\x04\b\x01\x10\x02\"d\n" +
 	"\x16ListCreditGrantsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x124\n" +
 	"\x05items\x18\x02 \x03(\v2\x1e.eolymp.community.Credit.GrantR\x05items\"z\n" +
@@ -911,15 +911,15 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x04note\x18\x03 \x01(\tR\x04note\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\";\n" +
 	"\x12RedeemCreditOutput\x12%\n" +
-	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"\xf0\x01\n" +
-	"\x1bListCreditTransactionsInput\x12\x1b\n" +
-	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x16\n" +
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"\x96\x02\n" +
+	"\x1bListCreditTransactionsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12N\n" +
-	"\afilters\x18( \x01(\v24.eolymp.community.ListCreditTransactionsInput.FilterR\afilters\x1a8\n" +
+	"\afilters\x18( \x01(\v24.eolymp.community.ListCreditTransactionsInput.FilterR\afilters\x1au\n" +
 	"\x06Filter\x12.\n" +
-	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"p\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
+	"\tmember_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberIdJ\x04\b\x01\x10\x02\"p\n" +
 	"\x1cListCreditTransactionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12:\n" +
 	"\x05items\x18\x02 \x03(\v2$.eolymp.community.Credit.TransactionR\x05items\"o\n" +
@@ -1024,26 +1024,28 @@ var file_eolymp_community_credit_service_proto_depIdxs = []int32{
 	19, // 7: eolymp.community.ListCreditGrantsInput.Filter.note:type_name -> eolymp.wellknown.ExpressionString
 	20, // 8: eolymp.community.ListCreditGrantsInput.Filter.amount:type_name -> eolymp.wellknown.ExpressionInt
 	21, // 9: eolymp.community.ListCreditGrantsInput.Filter.active:type_name -> eolymp.wellknown.ExpressionBool
-	18, // 10: eolymp.community.ListCreditTransactionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	0,  // 11: eolymp.community.CreditService.DescribeBalance:input_type -> eolymp.community.DescribeBalanceInput
-	2,  // 12: eolymp.community.CreditService.GrantCredit:input_type -> eolymp.community.GrantCreditInput
-	4,  // 13: eolymp.community.CreditService.CancelCredit:input_type -> eolymp.community.CancelCreditInput
-	6,  // 14: eolymp.community.CreditService.ListCreditGrants:input_type -> eolymp.community.ListCreditGrantsInput
-	8,  // 15: eolymp.community.CreditService.RedeemCredit:input_type -> eolymp.community.RedeemCreditInput
-	10, // 16: eolymp.community.CreditService.ListCreditTransactions:input_type -> eolymp.community.ListCreditTransactionsInput
-	12, // 17: eolymp.community.CreditService.RefundCredit:input_type -> eolymp.community.RefundCreditInput
-	1,  // 18: eolymp.community.CreditService.DescribeBalance:output_type -> eolymp.community.DescribeBalanceOutput
-	3,  // 19: eolymp.community.CreditService.GrantCredit:output_type -> eolymp.community.GrantCreditOutput
-	5,  // 20: eolymp.community.CreditService.CancelCredit:output_type -> eolymp.community.CancelCreditOutput
-	7,  // 21: eolymp.community.CreditService.ListCreditGrants:output_type -> eolymp.community.ListCreditGrantsOutput
-	9,  // 22: eolymp.community.CreditService.RedeemCredit:output_type -> eolymp.community.RedeemCreditOutput
-	11, // 23: eolymp.community.CreditService.ListCreditTransactions:output_type -> eolymp.community.ListCreditTransactionsOutput
-	13, // 24: eolymp.community.CreditService.RefundCredit:output_type -> eolymp.community.RefundCreditOutput
-	18, // [18:25] is the sub-list for method output_type
-	11, // [11:18] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	18, // 10: eolymp.community.ListCreditGrantsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	18, // 11: eolymp.community.ListCreditTransactionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	18, // 12: eolymp.community.ListCreditTransactionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	0,  // 13: eolymp.community.CreditService.DescribeBalance:input_type -> eolymp.community.DescribeBalanceInput
+	2,  // 14: eolymp.community.CreditService.GrantCredit:input_type -> eolymp.community.GrantCreditInput
+	4,  // 15: eolymp.community.CreditService.CancelCredit:input_type -> eolymp.community.CancelCreditInput
+	6,  // 16: eolymp.community.CreditService.ListCreditGrants:input_type -> eolymp.community.ListCreditGrantsInput
+	8,  // 17: eolymp.community.CreditService.RedeemCredit:input_type -> eolymp.community.RedeemCreditInput
+	10, // 18: eolymp.community.CreditService.ListCreditTransactions:input_type -> eolymp.community.ListCreditTransactionsInput
+	12, // 19: eolymp.community.CreditService.RefundCredit:input_type -> eolymp.community.RefundCreditInput
+	1,  // 20: eolymp.community.CreditService.DescribeBalance:output_type -> eolymp.community.DescribeBalanceOutput
+	3,  // 21: eolymp.community.CreditService.GrantCredit:output_type -> eolymp.community.GrantCreditOutput
+	5,  // 22: eolymp.community.CreditService.CancelCredit:output_type -> eolymp.community.CancelCreditOutput
+	7,  // 23: eolymp.community.CreditService.ListCreditGrants:output_type -> eolymp.community.ListCreditGrantsOutput
+	9,  // 24: eolymp.community.CreditService.RedeemCredit:output_type -> eolymp.community.RedeemCreditOutput
+	11, // 25: eolymp.community.CreditService.ListCreditTransactions:output_type -> eolymp.community.ListCreditTransactionsOutput
+	13, // 26: eolymp.community.CreditService.RefundCredit:output_type -> eolymp.community.RefundCreditOutput
+	20, // [20:27] is the sub-list for method output_type
+	13, // [13:20] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_credit_service_proto_init() }
