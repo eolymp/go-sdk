@@ -69,6 +69,7 @@ const (
 	Action_AUTOMATION_LIST  Action = 172 // allows to list automation rules, automatically assigned if user has read access to automation
 	Action_AUTOMATION_READ  Action = 170 // view automation rules and execution logs
 	Action_AUTOMATION_WRITE Action = 171 // create/update/delete automation rules
+	Action_AUDIT_READ       Action = 180 // read the space audit log: who called what, from where, with which payload
 )
 
 // Enum value maps for Action.
@@ -119,6 +120,7 @@ var (
 		172: "AUTOMATION_LIST",
 		170: "AUTOMATION_READ",
 		171: "AUTOMATION_WRITE",
+		180: "AUDIT_READ",
 	}
 	Action_value = map[string]int32{
 		"UNKNOWN_ACTION":   0,
@@ -166,6 +168,7 @@ var (
 		"AUTOMATION_LIST":  172,
 		"AUTOMATION_READ":  170,
 		"AUTOMATION_WRITE": 171,
+		"AUDIT_READ":       180,
 	}
 )
 
@@ -201,7 +204,7 @@ var File_eolymp_acl_action_proto protoreflect.FileDescriptor
 const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/action.proto\x12\n" +
-	"eolymp.acl*\xd2\x06\n" +
+	"eolymp.acl*\xe3\x06\n" +
 	"\x06Action\x12\x12\n" +
 	"\x0eUNKNOWN_ACTION\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -252,7 +255,9 @@ const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\x10NEWSLETTER_WRITE\x10\xa1\x01\x12\x14\n" +
 	"\x0fAUTOMATION_LIST\x10\xac\x01\x12\x14\n" +
 	"\x0fAUTOMATION_READ\x10\xaa\x01\x12\x15\n" +
-	"\x10AUTOMATION_WRITE\x10\xab\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\x10AUTOMATION_WRITE\x10\xab\x01\x12\x0f\n" +
+	"\n" +
+	"AUDIT_READ\x10\xb4\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_action_proto_rawDescOnce sync.Once
