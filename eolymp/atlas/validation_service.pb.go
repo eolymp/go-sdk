@@ -357,26 +357,26 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\n" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
 	"validation\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xca\x04\n" +
-	"\x11ValidationService\x12\x94\x01\n" +
-	"\rRunValidation\x12 .eolymp.atlas.RunValidationInput\x1a!.eolymp.atlas.RunValidationOutput\">\xea\xe2\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xf2\x04\n" +
+	"\x11ValidationService\x12\xaa\x01\n" +
+	"\rRunValidation\x12 .eolymp.atlas.RunValidationInput\x1a!.eolymp.atlas.RunValidationOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x0e\"\f/validations\x12\xb2\x01\n" +
-	"\x12DescribeValidation\x12%.eolymp.atlas.DescribeValidationInput\x1a&.eolymp.atlas.DescribeValidationOutput\"M\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/validations\x12\xc8\x01\n" +
+	"\x12DescribeValidation\x12%.eolymp.atlas.DescribeValidationInput\x1a&.eolymp.atlas.DescribeValidationOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/validations/{validation_id}\x12\xb1\x01\n" +
-	"\x0fWatchValidation\x12\".eolymp.atlas.WatchValidationInput\x1a#.eolymp.atlas.WatchValidationOutput\"S\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x024\x122/problems/{problem_id}/validations/{validation_id}\x12\xc7\x01\n" +
+	"\x0fWatchValidation\x12\".eolymp.atlas.WatchValidationInput\x1a#.eolymp.atlas.WatchValidationOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02$\x12\"/validations/{validation_id}/watch0\x01\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02:\x128/problems/{problem_id}/validations/{validation_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_validation_service_proto_rawDescOnce sync.Once

@@ -102,7 +102,12 @@ func (s *ValidationServiceService) do(ctx context.Context, verb, path string, in
 
 func (s *ValidationServiceService) RunValidation(ctx context.Context, in *RunValidationInput) (*RunValidationOutput, error) {
 	out := &RunValidationOutput{}
-	path := "/validations"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/validations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ValidationServiceService) RunValidation(ctx context.Context, in *RunVal
 
 func (s *ValidationServiceService) DescribeValidation(ctx context.Context, in *DescribeValidationInput) (*DescribeValidationOutput, error) {
 	out := &DescribeValidationOutput{}
-	path := "/validations/" + url.PathEscape(in.GetValidationId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/validations/" + url.PathEscape(in.GetValidationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.ValidationId = ""
 	}
 

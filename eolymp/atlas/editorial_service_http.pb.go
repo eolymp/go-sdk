@@ -201,28 +201,28 @@ func _EditorialService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterEditorialServiceHttpHandlers adds handlers for for EditorialServiceClient
 func RegisterEditorialServiceHttpHandlers(router *mux.Router, prefix string, cli EditorialServiceClient) {
-	router.Handle(prefix+"/editorials", _EditorialService_CreateEditorial_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorials", _EditorialService_CreateEditorial_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.EditorialService.CreateEditorial")
-	router.Handle(prefix+"/editorials/{editorial_id}", _EditorialService_UpdateEditorial_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorials/{editorial_id}", _EditorialService_UpdateEditorial_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.EditorialService.UpdateEditorial")
-	router.Handle(prefix+"/editorials/{editorial_id}", _EditorialService_DeleteEditorial_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorials/{editorial_id}", _EditorialService_DeleteEditorial_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.EditorialService.DeleteEditorial")
-	router.Handle(prefix+"/editorials/{editorial_id}", _EditorialService_DescribeEditorial_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorials/{editorial_id}", _EditorialService_DescribeEditorial_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.EditorialService.DescribeEditorial")
-	router.Handle(prefix+"/editorial", _EditorialService_LookupEditorial_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorial", _EditorialService_LookupEditorial_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.EditorialService.LookupEditorial")
-	router.Handle(prefix+"/editorial/preview", _EditorialService_PreviewEditorial_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorial/preview", _EditorialService_PreviewEditorial_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorialService.PreviewEditorial")
-	router.Handle(prefix+"/editorials", _EditorialService_ListEditorials_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorials", _EditorialService_ListEditorials_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.EditorialService.ListEditorials")
-	router.Handle(prefix+"/editorials:translate", _EditorialService_TranslateEditorials_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/editorials:translate", _EditorialService_TranslateEditorials_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.EditorialService.TranslateEditorials")
 }
@@ -240,6 +240,9 @@ func _EditorialService_CreateEditorial_Rule0(cli EditorialServiceClient) http.Ha
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -263,6 +266,7 @@ func _EditorialService_UpdateEditorial_Rule0(cli EditorialServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.EditorialId = vars["editorial_id"]
 
 		var header, trailer metadata.MD
@@ -287,6 +291,7 @@ func _EditorialService_DeleteEditorial_Rule0(cli EditorialServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.EditorialId = vars["editorial_id"]
 
 		var header, trailer metadata.MD
@@ -311,6 +316,7 @@ func _EditorialService_DescribeEditorial_Rule0(cli EditorialServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.EditorialId = vars["editorial_id"]
 
 		var header, trailer metadata.MD
@@ -334,6 +340,9 @@ func _EditorialService_LookupEditorial_Rule0(cli EditorialServiceClient) http.Ha
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupEditorial(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -354,6 +363,9 @@ func _EditorialService_PreviewEditorial_Rule0(cli EditorialServiceClient) http.H
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -376,6 +388,9 @@ func _EditorialService_ListEditorials_Rule0(cli EditorialServiceClient) http.Han
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListEditorials(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -396,6 +411,9 @@ func _EditorialService_TranslateEditorials_Rule0(cli EditorialServiceClient) htt
 			_EditorialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

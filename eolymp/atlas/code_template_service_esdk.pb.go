@@ -102,7 +102,12 @@ func (s *CodeTemplateServiceService) do(ctx context.Context, verb, path string, 
 
 func (s *CodeTemplateServiceService) CreateCodeTemplate(ctx context.Context, in *CreateCodeTemplateInput) (*CreateCodeTemplateOutput, error) {
 	out := &CreateCodeTemplateOutput{}
-	path := "/templates"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *CodeTemplateServiceService) CreateCodeTemplate(ctx context.Context, in 
 
 func (s *CodeTemplateServiceService) UpdateCodeTemplate(ctx context.Context, in *UpdateCodeTemplateInput) (*UpdateCodeTemplateOutput, error) {
 	out := &UpdateCodeTemplateOutput{}
-	path := "/templates/" + url.PathEscape(in.GetTemplateId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TemplateId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *CodeTemplateServiceService) UpdateCodeTemplate(ctx context.Context, in 
 
 func (s *CodeTemplateServiceService) DeleteCodeTemplate(ctx context.Context, in *DeleteCodeTemplateInput) (*DeleteCodeTemplateOutput, error) {
 	out := &DeleteCodeTemplateOutput{}
-	path := "/templates/" + url.PathEscape(in.GetTemplateId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TemplateId = ""
 	}
 
@@ -145,7 +152,12 @@ func (s *CodeTemplateServiceService) DeleteCodeTemplate(ctx context.Context, in 
 
 func (s *CodeTemplateServiceService) ListCodeTemplates(ctx context.Context, in *ListCodeTemplatesInput) (*ListCodeTemplatesOutput, error) {
 	out := &ListCodeTemplatesOutput{}
-	path := "/templates"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -156,10 +168,11 @@ func (s *CodeTemplateServiceService) ListCodeTemplates(ctx context.Context, in *
 
 func (s *CodeTemplateServiceService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
-	path := "/templates/" + url.PathEscape(in.GetTemplateId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TemplateId = ""
 	}
 
@@ -172,7 +185,12 @@ func (s *CodeTemplateServiceService) DescribeCodeTemplate(ctx context.Context, i
 
 func (s *CodeTemplateServiceService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	out := &LookupCodeTemplateOutput{}
-	path := "/template"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/template"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -183,7 +201,12 @@ func (s *CodeTemplateServiceService) LookupCodeTemplate(ctx context.Context, in 
 
 func (s *CodeTemplateServiceService) GenerateCodeTemplates(ctx context.Context, in *GenerateCodeTemplatesInput) (*GenerateCodeTemplatesOutput, error) {
 	out := &GenerateCodeTemplatesOutput{}
-	path := "/templates:generate"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates:generate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

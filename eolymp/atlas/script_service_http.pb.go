@@ -201,22 +201,22 @@ func _ScriptService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterScriptServiceHttpHandlers adds handlers for for ScriptServiceClient
 func RegisterScriptServiceHttpHandlers(router *mux.Router, prefix string, cli ScriptServiceClient) {
-	router.Handle(prefix+"/scripts", _ScriptService_CreateScript_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scripts", _ScriptService_CreateScript_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.ScriptService.CreateScript")
-	router.Handle(prefix+"/scripts/{script_id}", _ScriptService_UpdateScript_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scripts/{script_id}", _ScriptService_UpdateScript_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.ScriptService.UpdateScript")
-	router.Handle(prefix+"/scripts/{script_id}", _ScriptService_DeleteScript_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scripts/{script_id}", _ScriptService_DeleteScript_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.ScriptService.DeleteScript")
-	router.Handle(prefix+"/scripts/{script_id}", _ScriptService_DescribeScript_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scripts/{script_id}", _ScriptService_DescribeScript_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScriptService.DescribeScript")
-	router.Handle(prefix+"/scripts", _ScriptService_ListScripts_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scripts", _ScriptService_ListScripts_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScriptService.ListScripts")
-	router.Handle(prefix+"/scripts:stress-check", _ScriptService_ExecuteStressCheck_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scripts:stress-check", _ScriptService_ExecuteStressCheck_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ScriptService.ExecuteStressCheck")
 }
@@ -234,6 +234,9 @@ func _ScriptService_CreateScript_Rule0(cli ScriptServiceClient) http.Handler {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -257,6 +260,7 @@ func _ScriptService_UpdateScript_Rule0(cli ScriptServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.ScriptId = vars["script_id"]
 
 		var header, trailer metadata.MD
@@ -281,6 +285,7 @@ func _ScriptService_DeleteScript_Rule0(cli ScriptServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.ScriptId = vars["script_id"]
 
 		var header, trailer metadata.MD
@@ -305,6 +310,7 @@ func _ScriptService_DescribeScript_Rule0(cli ScriptServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.ScriptId = vars["script_id"]
 
 		var header, trailer metadata.MD
@@ -328,6 +334,9 @@ func _ScriptService_ListScripts_Rule0(cli ScriptServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListScripts(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -348,6 +357,9 @@ func _ScriptService_ExecuteStressCheck_Rule0(cli ScriptServiceClient) http.Handl
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

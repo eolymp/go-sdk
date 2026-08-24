@@ -201,22 +201,22 @@ func _SolutionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterSolutionServiceHttpHandlers adds handlers for for SolutionServiceClient
 func RegisterSolutionServiceHttpHandlers(router *mux.Router, prefix string, cli SolutionServiceClient) {
-	router.Handle(prefix+"/solutions", _SolutionService_CreateSolution_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/solutions", _SolutionService_CreateSolution_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.SolutionService.CreateSolution")
-	router.Handle(prefix+"/solutions/{solution_id}", _SolutionService_UpdateSolution_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _SolutionService_UpdateSolution_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.SolutionService.UpdateSolution")
-	router.Handle(prefix+"/solutions/{solution_id}", _SolutionService_DeleteSolution_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _SolutionService_DeleteSolution_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.SolutionService.DeleteSolution")
-	router.Handle(prefix+"/solutions/{solution_id}", _SolutionService_DescribeSolution_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/solutions/{solution_id}", _SolutionService_DescribeSolution_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SolutionService.DescribeSolution")
-	router.Handle(prefix+"/solutions", _SolutionService_ListSolutions_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/solutions", _SolutionService_ListSolutions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SolutionService.ListSolutions")
-	router.Handle(prefix+"/solutions:check", _SolutionService_CheckSolutions_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/solutions:check", _SolutionService_CheckSolutions_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SolutionService.CheckSolutions")
 }
@@ -234,6 +234,9 @@ func _SolutionService_CreateSolution_Rule0(cli SolutionServiceClient) http.Handl
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -257,6 +260,7 @@ func _SolutionService_UpdateSolution_Rule0(cli SolutionServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SolutionId = vars["solution_id"]
 
 		var header, trailer metadata.MD
@@ -281,6 +285,7 @@ func _SolutionService_DeleteSolution_Rule0(cli SolutionServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SolutionId = vars["solution_id"]
 
 		var header, trailer metadata.MD
@@ -305,6 +310,7 @@ func _SolutionService_DescribeSolution_Rule0(cli SolutionServiceClient) http.Han
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SolutionId = vars["solution_id"]
 
 		var header, trailer metadata.MD
@@ -328,6 +334,9 @@ func _SolutionService_ListSolutions_Rule0(cli SolutionServiceClient) http.Handle
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListSolutions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -348,6 +357,9 @@ func _SolutionService_CheckSolutions_Rule0(cli SolutionServiceClient) http.Handl
 			_SolutionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

@@ -201,25 +201,25 @@ func _SuggestionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterSuggestionServiceHttpHandlers adds handlers for for SuggestionServiceClient
 func RegisterSuggestionServiceHttpHandlers(router *mux.Router, prefix string, cli SuggestionServiceClient) {
-	router.Handle(prefix+"/suggestions", _SuggestionService_CreateSuggestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions", _SuggestionService_CreateSuggestion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SuggestionService.CreateSuggestion")
-	router.Handle(prefix+"/suggestions/{suggestion_id}", _SuggestionService_UpdateSuggestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions/{suggestion_id}", _SuggestionService_UpdateSuggestion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SuggestionService.UpdateSuggestion")
-	router.Handle(prefix+"/suggestions/{suggestion_id}/review", _SuggestionService_ReviewSuggestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions/{suggestion_id}/review", _SuggestionService_ReviewSuggestion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SuggestionService.ReviewSuggestion")
-	router.Handle(prefix+"/suggestions/{suggestion_id}/resubmit", _SuggestionService_ResubmitSuggestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions/{suggestion_id}/resubmit", _SuggestionService_ResubmitSuggestion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.SuggestionService.ResubmitSuggestion")
-	router.Handle(prefix+"/suggestions/{suggestion_id}", _SuggestionService_DeleteSuggestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions/{suggestion_id}", _SuggestionService_DeleteSuggestion_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.SuggestionService.DeleteSuggestion")
-	router.Handle(prefix+"/suggestions", _SuggestionService_ListSuggestions_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions", _SuggestionService_ListSuggestions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SuggestionService.ListSuggestions")
-	router.Handle(prefix+"/suggestions/{suggestion_id}", _SuggestionService_DescribeSuggestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/suggestions/{suggestion_id}", _SuggestionService_DescribeSuggestion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.SuggestionService.DescribeSuggestion")
 }
@@ -237,6 +237,9 @@ func _SuggestionService_CreateSuggestion_Rule0(cli SuggestionServiceClient) http
 			_SuggestionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -260,6 +263,7 @@ func _SuggestionService_UpdateSuggestion_Rule0(cli SuggestionServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SuggestionId = vars["suggestion_id"]
 
 		var header, trailer metadata.MD
@@ -284,6 +288,7 @@ func _SuggestionService_ReviewSuggestion_Rule0(cli SuggestionServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SuggestionId = vars["suggestion_id"]
 
 		var header, trailer metadata.MD
@@ -308,6 +313,7 @@ func _SuggestionService_ResubmitSuggestion_Rule0(cli SuggestionServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SuggestionId = vars["suggestion_id"]
 
 		var header, trailer metadata.MD
@@ -332,6 +338,7 @@ func _SuggestionService_DeleteSuggestion_Rule0(cli SuggestionServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SuggestionId = vars["suggestion_id"]
 
 		var header, trailer metadata.MD
@@ -355,6 +362,9 @@ func _SuggestionService_ListSuggestions_Rule0(cli SuggestionServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListSuggestions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -377,6 +387,7 @@ func _SuggestionService_DescribeSuggestion_Rule0(cli SuggestionServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.SuggestionId = vars["suggestion_id"]
 
 		var header, trailer metadata.MD

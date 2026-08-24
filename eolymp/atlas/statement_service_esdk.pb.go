@@ -102,7 +102,12 @@ func (s *StatementServiceService) do(ctx context.Context, verb, path string, in,
 
 func (s *StatementServiceService) CreateStatement(ctx context.Context, in *CreateStatementInput) (*CreateStatementOutput, error) {
 	out := &CreateStatementOutput{}
-	path := "/statements"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *StatementServiceService) CreateStatement(ctx context.Context, in *Creat
 
 func (s *StatementServiceService) UpdateStatement(ctx context.Context, in *UpdateStatementInput) (*UpdateStatementOutput, error) {
 	out := &UpdateStatementOutput{}
-	path := "/statements/" + url.PathEscape(in.GetStatementId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.StatementId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *StatementServiceService) UpdateStatement(ctx context.Context, in *Updat
 
 func (s *StatementServiceService) DeleteStatement(ctx context.Context, in *DeleteStatementInput) (*DeleteStatementOutput, error) {
 	out := &DeleteStatementOutput{}
-	path := "/statements/" + url.PathEscape(in.GetStatementId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.StatementId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *StatementServiceService) DeleteStatement(ctx context.Context, in *Delet
 
 func (s *StatementServiceService) DescribeStatement(ctx context.Context, in *DescribeStatementInput) (*DescribeStatementOutput, error) {
 	out := &DescribeStatementOutput{}
-	path := "/statements/" + url.PathEscape(in.GetStatementId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.StatementId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *StatementServiceService) DescribeStatement(ctx context.Context, in *Des
 
 func (s *StatementServiceService) LookupStatement(ctx context.Context, in *LookupStatementInput) (*LookupStatementOutput, error) {
 	out := &LookupStatementOutput{}
-	path := "/translate"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/translate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -172,7 +185,12 @@ func (s *StatementServiceService) LookupStatement(ctx context.Context, in *Looku
 
 func (s *StatementServiceService) PreviewStatement(ctx context.Context, in *PreviewStatementInput) (*PreviewStatementOutput, error) {
 	out := &PreviewStatementOutput{}
-	path := "/renders"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/renders"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -183,7 +201,12 @@ func (s *StatementServiceService) PreviewStatement(ctx context.Context, in *Prev
 
 func (s *StatementServiceService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
 	out := &ListStatementsOutput{}
-	path := "/statements"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -194,7 +217,12 @@ func (s *StatementServiceService) ListStatements(ctx context.Context, in *ListSt
 
 func (s *StatementServiceService) TranslateStatements(ctx context.Context, in *TranslateStatementsInput) (*TranslateStatementsOutput, error) {
 	out := &TranslateStatementsOutput{}
-	path := "/statements:translate"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements:translate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -205,10 +233,11 @@ func (s *StatementServiceService) TranslateStatements(ctx context.Context, in *T
 
 func (s *StatementServiceService) ExportStatement(ctx context.Context, in *ExportStatementInput) (*ExportStatementOutput, error) {
 	out := &ExportStatementOutput{}
-	path := "/statements/" + url.PathEscape(in.GetStatementId()) + "/export"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId()) + "/export"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.StatementId = ""
 	}
 
@@ -221,10 +250,11 @@ func (s *StatementServiceService) ExportStatement(ctx context.Context, in *Expor
 
 func (s *StatementServiceService) ListStatementVersions(ctx context.Context, in *ListStatementVersionsInput) (*ListStatementVersionsOutput, error) {
 	out := &ListStatementVersionsOutput{}
-	path := "/statements/" + url.PathEscape(in.GetStatementId()) + "/versions"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements/" + url.PathEscape(in.GetStatementId()) + "/versions"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.StatementId = ""
 	}
 

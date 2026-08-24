@@ -102,7 +102,12 @@ func (s *AttachmentServiceService) do(ctx context.Context, verb, path string, in
 
 func (s *AttachmentServiceService) CreateAttachment(ctx context.Context, in *CreateAttachmentInput) (*CreateAttachmentOutput, error) {
 	out := &CreateAttachmentOutput{}
-	path := "/attachments"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *AttachmentServiceService) CreateAttachment(ctx context.Context, in *Cre
 
 func (s *AttachmentServiceService) UpdateAttachment(ctx context.Context, in *UpdateAttachmentInput) (*UpdateAttachmentOutput, error) {
 	out := &UpdateAttachmentOutput{}
-	path := "/attachments/" + url.PathEscape(in.GetAttachmentId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments/" + url.PathEscape(in.GetAttachmentId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.AttachmentId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *AttachmentServiceService) UpdateAttachment(ctx context.Context, in *Upd
 
 func (s *AttachmentServiceService) DeleteAttachment(ctx context.Context, in *DeleteAttachmentInput) (*DeleteAttachmentOutput, error) {
 	out := &DeleteAttachmentOutput{}
-	path := "/attachments/" + url.PathEscape(in.GetAttachmentId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments/" + url.PathEscape(in.GetAttachmentId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.AttachmentId = ""
 	}
 
@@ -145,7 +152,12 @@ func (s *AttachmentServiceService) DeleteAttachment(ctx context.Context, in *Del
 
 func (s *AttachmentServiceService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	out := &ListAttachmentsOutput{}
-	path := "/attachments"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -156,10 +168,11 @@ func (s *AttachmentServiceService) ListAttachments(ctx context.Context, in *List
 
 func (s *AttachmentServiceService) DescribeAttachment(ctx context.Context, in *DescribeAttachmentInput) (*DescribeAttachmentOutput, error) {
 	out := &DescribeAttachmentOutput{}
-	path := "/attachments/" + url.PathEscape(in.GetAttachmentId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments/" + url.PathEscape(in.GetAttachmentId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.AttachmentId = ""
 	}
 

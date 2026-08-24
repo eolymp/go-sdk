@@ -201,10 +201,10 @@ func _BookmarkService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterBookmarkServiceHttpHandlers adds handlers for for BookmarkServiceClient
 func RegisterBookmarkServiceHttpHandlers(router *mux.Router, prefix string, cli BookmarkServiceClient) {
-	router.Handle(prefix+"/bookmark", _BookmarkService_GetBookmark_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/bookmark", _BookmarkService_GetBookmark_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.BookmarkService.GetBookmark")
-	router.Handle(prefix+"/bookmark", _BookmarkService_SetBookmark_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/bookmark", _BookmarkService_SetBookmark_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.BookmarkService.SetBookmark")
 }
@@ -222,6 +222,9 @@ func _BookmarkService_GetBookmark_Rule0(cli BookmarkServiceClient) http.Handler 
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -243,6 +246,9 @@ func _BookmarkService_SetBookmark_Rule0(cli BookmarkServiceClient) http.Handler 
 			_BookmarkService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

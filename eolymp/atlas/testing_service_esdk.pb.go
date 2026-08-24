@@ -102,7 +102,12 @@ func (s *TestingServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *TestingServiceService) UpdateTestingConfig(ctx context.Context, in *UpdateTestingConfigInput) (*UpdateTestingConfigOutput, error) {
 	out := &UpdateTestingConfigOutput{}
-	path := "/testing"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testing"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *TestingServiceService) UpdateTestingConfig(ctx context.Context, in *Upd
 
 func (s *TestingServiceService) DescribeTestingConfig(ctx context.Context, in *DescribeTestingConfigInput) (*DescribeTestingConfigOutput, error) {
 	out := &DescribeTestingConfigOutput{}
-	path := "/testing"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testing"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -124,7 +134,12 @@ func (s *TestingServiceService) DescribeTestingConfig(ctx context.Context, in *D
 
 func (s *TestingServiceService) UpdateChecker(ctx context.Context, in *UpdateCheckerInput) (*UpdateCheckerOutput, error) {
 	out := &UpdateCheckerOutput{}
-	path := "/checker"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/checker"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -135,7 +150,12 @@ func (s *TestingServiceService) UpdateChecker(ctx context.Context, in *UpdateChe
 
 func (s *TestingServiceService) DescribeChecker(ctx context.Context, in *DescribeCheckerInput) (*DescribeCheckerOutput, error) {
 	out := &DescribeCheckerOutput{}
-	path := "/checker"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/checker"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -146,7 +166,12 @@ func (s *TestingServiceService) DescribeChecker(ctx context.Context, in *Describ
 
 func (s *TestingServiceService) UpdateInteractor(ctx context.Context, in *UpdateInteractorInput) (*UpdateInteractorOutput, error) {
 	out := &UpdateInteractorOutput{}
-	path := "/interactor"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/interactor"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -157,7 +182,12 @@ func (s *TestingServiceService) UpdateInteractor(ctx context.Context, in *Update
 
 func (s *TestingServiceService) DescribeInteractor(ctx context.Context, in *DescribeInteractorInput) (*DescribeInteractorOutput, error) {
 	out := &DescribeInteractorOutput{}
-	path := "/interactor"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/interactor"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -168,7 +198,12 @@ func (s *TestingServiceService) DescribeInteractor(ctx context.Context, in *Desc
 
 func (s *TestingServiceService) UpdateValidator(ctx context.Context, in *UpdateValidatorInput) (*UpdateValidatorOutput, error) {
 	out := &UpdateValidatorOutput{}
-	path := "/validator"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/validator"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -179,7 +214,12 @@ func (s *TestingServiceService) UpdateValidator(ctx context.Context, in *UpdateV
 
 func (s *TestingServiceService) DescribeValidator(ctx context.Context, in *DescribeValidatorInput) (*DescribeValidatorOutput, error) {
 	out := &DescribeValidatorOutput{}
-	path := "/validator"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/validator"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -190,7 +230,12 @@ func (s *TestingServiceService) DescribeValidator(ctx context.Context, in *Descr
 
 func (s *TestingServiceService) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	out := &CreateTestsetOutput{}
-	path := "/testsets"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -201,10 +246,11 @@ func (s *TestingServiceService) CreateTestset(ctx context.Context, in *CreateTes
 
 func (s *TestingServiceService) UpdateTestset(ctx context.Context, in *UpdateTestsetInput) (*UpdateTestsetOutput, error) {
 	out := &UpdateTestsetOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestsetId = ""
 	}
 
@@ -217,10 +263,11 @@ func (s *TestingServiceService) UpdateTestset(ctx context.Context, in *UpdateTes
 
 func (s *TestingServiceService) DeleteTestset(ctx context.Context, in *DeleteTestsetInput) (*DeleteTestsetOutput, error) {
 	out := &DeleteTestsetOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestsetId = ""
 	}
 
@@ -233,10 +280,11 @@ func (s *TestingServiceService) DeleteTestset(ctx context.Context, in *DeleteTes
 
 func (s *TestingServiceService) DescribeTestset(ctx context.Context, in *DescribeTestsetInput) (*DescribeTestsetOutput, error) {
 	out := &DescribeTestsetOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestsetId = ""
 	}
 
@@ -249,7 +297,12 @@ func (s *TestingServiceService) DescribeTestset(ctx context.Context, in *Describ
 
 func (s *TestingServiceService) ListTestsets(ctx context.Context, in *ListTestsetsInput) (*ListTestsetsOutput, error) {
 	out := &ListTestsetsOutput{}
-	path := "/testsets"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -260,10 +313,11 @@ func (s *TestingServiceService) ListTestsets(ctx context.Context, in *ListTestse
 
 func (s *TestingServiceService) CreateTest(ctx context.Context, in *CreateTestInput) (*CreateTestOutput, error) {
 	out := &CreateTestOutput{}
-	path := "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestsetId = ""
 	}
 
@@ -276,10 +330,11 @@ func (s *TestingServiceService) CreateTest(ctx context.Context, in *CreateTestIn
 
 func (s *TestingServiceService) UpdateTest(ctx context.Context, in *UpdateTestInput) (*UpdateTestOutput, error) {
 	out := &UpdateTestOutput{}
-	path := "/tests/" + url.PathEscape(in.GetTestId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/tests/" + url.PathEscape(in.GetTestId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestId = ""
 	}
 
@@ -292,10 +347,11 @@ func (s *TestingServiceService) UpdateTest(ctx context.Context, in *UpdateTestIn
 
 func (s *TestingServiceService) DeleteTest(ctx context.Context, in *DeleteTestInput) (*DeleteTestOutput, error) {
 	out := &DeleteTestOutput{}
-	path := "/tests/" + url.PathEscape(in.GetTestId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/tests/" + url.PathEscape(in.GetTestId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestId = ""
 	}
 
@@ -308,10 +364,11 @@ func (s *TestingServiceService) DeleteTest(ctx context.Context, in *DeleteTestIn
 
 func (s *TestingServiceService) DescribeTest(ctx context.Context, in *DescribeTestInput) (*DescribeTestOutput, error) {
 	out := &DescribeTestOutput{}
-	path := "/tests/" + url.PathEscape(in.GetTestId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/tests/" + url.PathEscape(in.GetTestId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.TestId = ""
 	}
 
@@ -324,7 +381,12 @@ func (s *TestingServiceService) DescribeTest(ctx context.Context, in *DescribeTe
 
 func (s *TestingServiceService) ListTests(ctx context.Context, in *ListTestsInput) (*ListTestsOutput, error) {
 	out := &ListTestsOutput{}
-	path := "/tests"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/tests"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -335,7 +397,12 @@ func (s *TestingServiceService) ListTests(ctx context.Context, in *ListTestsInpu
 
 func (s *TestingServiceService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
-	path := "/examples"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

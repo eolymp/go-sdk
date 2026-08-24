@@ -944,59 +944,57 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x03 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x04 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x19TranslateEditorialsOutput\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId2\xf4\n" +
-	"\n" +
-	"\x10EditorialService\x12\x99\x01\n" +
-	"\x0fCreateEditorial\x12\".eolymp.atlas.CreateEditorialInput\x1a#.eolymp.atlas.CreateEditorialOutput\"=\xea\xe2\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId2\x8a\f\n" +
+	"\x10EditorialService\x12\xaf\x01\n" +
+	"\x0fCreateEditorial\x12\".eolymp.atlas.CreateEditorialInput\x1a#.eolymp.atlas.CreateEditorialOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\r\x1a\v/editorials\x12\xa8\x01\n" +
-	"\x0fUpdateEditorial\x12\".eolymp.atlas.UpdateEditorialInput\x1a#.eolymp.atlas.UpdateEditorialOutput\"L\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02#\x1a!/problems/{problem_id}/editorials\x12\xbe\x01\n" +
+	"\x0fUpdateEditorial\x12\".eolymp.atlas.UpdateEditorialInput\x1a#.eolymp.atlas.UpdateEditorialOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1c\x1a\x1a/editorials/{editorial_id}\x12\xa8\x01\n" +
-	"\x0fDeleteEditorial\x12\".eolymp.atlas.DeleteEditorialInput\x1a#.eolymp.atlas.DeleteEditorialOutput\"L\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x022\x1a0/problems/{problem_id}/editorials/{editorial_id}\x12\xbe\x01\n" +
+	"\x0fDeleteEditorial\x12\".eolymp.atlas.DeleteEditorialInput\x1a#.eolymp.atlas.DeleteEditorialOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1c*\x1a/editorials/{editorial_id}\x12\xad\x01\n" +
-	"\x11DescribeEditorial\x12$.eolymp.atlas.DescribeEditorialInput\x1a%.eolymp.atlas.DescribeEditorialOutput\"K\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x022*0/problems/{problem_id}/editorials/{editorial_id}\x12\xc3\x01\n" +
+	"\x11DescribeEditorial\x12$.eolymp.atlas.DescribeEditorialInput\x1a%.eolymp.atlas.DescribeEditorialOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/editorials/{editorial_id}\x12\x97\x01\n" +
-	"\x0fLookupEditorial\x12\".eolymp.atlas.LookupEditorialInput\x1a#.eolymp.atlas.LookupEditorialOutput\";\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x022\x120/problems/{problem_id}/editorials/{editorial_id}\x12\xad\x01\n" +
+	"\x0fLookupEditorial\x12\".eolymp.atlas.LookupEditorialInput\x1a#.eolymp.atlas.LookupEditorialOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/editorial\x12\xa2\x01\n" +
-	"\x10PreviewEditorial\x12#.eolymp.atlas.PreviewEditorialInput\x1a$.eolymp.atlas.PreviewEditorialOutput\"C\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/editorial\x12\xb8\x01\n" +
+	"\x10PreviewEditorial\x12#.eolymp.atlas.PreviewEditorialInput\x1a$.eolymp.atlas.PreviewEditorialOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x14\"\x12/editorial/preview\x12\x95\x01\n" +
-	"\x0eListEditorials\x12!.eolymp.atlas.ListEditorialsInput\x1a\".eolymp.atlas.ListEditorialsOutput\"<\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02*\"(/problems/{problem_id}/editorial/preview\x12\xab\x01\n" +
+	"\x0eListEditorials\x12!.eolymp.atlas.ListEditorialsInput\x1a\".eolymp.atlas.ListEditorialsOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\r\x12\v/editorials\x12\xaf\x01\n" +
-	"\x13TranslateEditorials\x12&.eolymp.atlas.TranslateEditorialsInput\x1a'.eolymp.atlas.TranslateEditorialsOutput\"G\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/editorials\x12\xc5\x01\n" +
+	"\x13TranslateEditorials\x12&.eolymp.atlas.TranslateEditorialsInput\x1a'.eolymp.atlas.TranslateEditorialsOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/editorials:translate\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02-\"+/problems/{problem_id}/editorials:translate\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editorial_service_proto_rawDescOnce sync.Once

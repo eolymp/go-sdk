@@ -201,25 +201,25 @@ func _CodeTemplateService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 
 // RegisterCodeTemplateServiceHttpHandlers adds handlers for for CodeTemplateServiceClient
 func RegisterCodeTemplateServiceHttpHandlers(router *mux.Router, prefix string, cli CodeTemplateServiceClient) {
-	router.Handle(prefix+"/templates", _CodeTemplateService_CreateCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/templates", _CodeTemplateService_CreateCodeTemplate_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.CodeTemplateService.CreateCodeTemplate")
-	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_UpdateCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _CodeTemplateService_UpdateCodeTemplate_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.CodeTemplateService.UpdateCodeTemplate")
-	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_DeleteCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _CodeTemplateService_DeleteCodeTemplate_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.CodeTemplateService.DeleteCodeTemplate")
-	router.Handle(prefix+"/templates", _CodeTemplateService_ListCodeTemplates_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/templates", _CodeTemplateService_ListCodeTemplates_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.ListCodeTemplates")
-	router.Handle(prefix+"/templates/{template_id}", _CodeTemplateService_DescribeCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _CodeTemplateService_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.DescribeCodeTemplate")
-	router.Handle(prefix+"/template", _CodeTemplateService_LookupCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/template", _CodeTemplateService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.CodeTemplateService.LookupCodeTemplate")
-	router.Handle(prefix+"/templates:generate", _CodeTemplateService_GenerateCodeTemplates_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/templates:generate", _CodeTemplateService_GenerateCodeTemplates_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.CodeTemplateService.GenerateCodeTemplates")
 }
@@ -237,6 +237,9 @@ func _CodeTemplateService_CreateCodeTemplate_Rule0(cli CodeTemplateServiceClient
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -260,6 +263,7 @@ func _CodeTemplateService_UpdateCodeTemplate_Rule0(cli CodeTemplateServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
 		var header, trailer metadata.MD
@@ -284,6 +288,7 @@ func _CodeTemplateService_DeleteCodeTemplate_Rule0(cli CodeTemplateServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
 		var header, trailer metadata.MD
@@ -307,6 +312,9 @@ func _CodeTemplateService_ListCodeTemplates_Rule0(cli CodeTemplateServiceClient)
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListCodeTemplates(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -329,6 +337,7 @@ func _CodeTemplateService_DescribeCodeTemplate_Rule0(cli CodeTemplateServiceClie
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
 		var header, trailer metadata.MD
@@ -352,6 +361,9 @@ func _CodeTemplateService_LookupCodeTemplate_Rule0(cli CodeTemplateServiceClient
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -372,6 +384,9 @@ func _CodeTemplateService_GenerateCodeTemplates_Rule0(cli CodeTemplateServiceCli
 			_CodeTemplateService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

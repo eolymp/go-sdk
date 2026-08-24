@@ -201,19 +201,19 @@ func _QuestionService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterQuestionServiceHttpHandlers adds handlers for for QuestionServiceClient
 func RegisterQuestionServiceHttpHandlers(router *mux.Router, prefix string, cli QuestionServiceClient) {
-	router.Handle(prefix+"/questions", _QuestionService_CreateQuestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/questions", _QuestionService_CreateQuestion_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.QuestionService.CreateQuestion")
-	router.Handle(prefix+"/questions/{question_id}", _QuestionService_UpdateQuestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/questions/{question_id}", _QuestionService_UpdateQuestion_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.QuestionService.UpdateQuestion")
-	router.Handle(prefix+"/questions/{question_id}", _QuestionService_DeleteQuestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/questions/{question_id}", _QuestionService_DeleteQuestion_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.QuestionService.DeleteQuestion")
-	router.Handle(prefix+"/questions/{question_id}", _QuestionService_DescribeQuestion_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/questions/{question_id}", _QuestionService_DescribeQuestion_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.QuestionService.DescribeQuestion")
-	router.Handle(prefix+"/questions", _QuestionService_ListQuestions_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/questions", _QuestionService_ListQuestions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.QuestionService.ListQuestions")
 }
@@ -231,6 +231,9 @@ func _QuestionService_CreateQuestion_Rule0(cli QuestionServiceClient) http.Handl
 			_QuestionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -254,6 +257,7 @@ func _QuestionService_UpdateQuestion_Rule0(cli QuestionServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.QuestionId = vars["question_id"]
 
 		var header, trailer metadata.MD
@@ -278,6 +282,7 @@ func _QuestionService_DeleteQuestion_Rule0(cli QuestionServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.QuestionId = vars["question_id"]
 
 		var header, trailer metadata.MD
@@ -302,6 +307,7 @@ func _QuestionService_DescribeQuestion_Rule0(cli QuestionServiceClient) http.Han
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.QuestionId = vars["question_id"]
 
 		var header, trailer metadata.MD
@@ -324,6 +330,9 @@ func _QuestionService_ListQuestions_Rule0(cli QuestionServiceClient) http.Handle
 			_QuestionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

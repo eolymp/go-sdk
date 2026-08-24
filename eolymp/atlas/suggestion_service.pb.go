@@ -907,41 +907,41 @@ const file_eolymp_atlas_suggestion_service_proto_rawDesc = "" +
 	"\x18DescribeSuggestionOutput\x128\n" +
 	"\n" +
 	"suggestion\x18\x01 \x01(\v2\x18.eolymp.atlas.SuggestionR\n" +
-	"suggestion2\xd5\b\n" +
-	"\x11SuggestionService\x12\x82\x01\n" +
-	"\x10CreateSuggestion\x12#.eolymp.atlas.CreateSuggestionInput\x1a$.eolymp.atlas.CreateSuggestionOutput\"#\xea\xe2\n" +
+	"suggestion2\xd6\t\n" +
+	"\x11SuggestionService\x12\x98\x01\n" +
+	"\x10CreateSuggestion\x12#.eolymp.atlas.CreateSuggestionInput\x1a$.eolymp.atlas.CreateSuggestionOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x0e\"\f/suggestions\x12\x92\x01\n" +
-	"\x10UpdateSuggestion\x12#.eolymp.atlas.UpdateSuggestionInput\x1a$.eolymp.atlas.UpdateSuggestionOutput\"3\xea\xe2\n" +
+	"\x05\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/suggestions\x12\xa8\x01\n" +
+	"\x10UpdateSuggestion\x12#.eolymp.atlas.UpdateSuggestionInput\x1a$.eolymp.atlas.UpdateSuggestionOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x1e\"\x1c/suggestions/{suggestion_id}\x12\x99\x01\n" +
-	"\x10ReviewSuggestion\x12#.eolymp.atlas.ReviewSuggestionInput\x1a$.eolymp.atlas.ReviewSuggestionOutput\":\xea\xe2\n" +
+	"\x05\x82\xd3\xe4\x93\x024\"2/problems/{problem_id}/suggestions/{suggestion_id}\x12\xaf\x01\n" +
+	"\x10ReviewSuggestion\x12#.eolymp.atlas.ReviewSuggestionInput\x1a$.eolymp.atlas.ReviewSuggestionOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02%\"#/suggestions/{suggestion_id}/review\x12\xa1\x01\n" +
-	"\x12ResubmitSuggestion\x12%.eolymp.atlas.ResubmitSuggestionInput\x1a&.eolymp.atlas.ResubmitSuggestionOutput\"<\xea\xe2\n" +
+	"\x05\x82\xd3\xe4\x93\x02;\"9/problems/{problem_id}/suggestions/{suggestion_id}/review\x12\xb7\x01\n" +
+	"\x12ResubmitSuggestion\x12%.eolymp.atlas.ResubmitSuggestionInput\x1a&.eolymp.atlas.ResubmitSuggestionOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02'\"%/suggestions/{suggestion_id}/resubmit\x12\x92\x01\n" +
-	"\x10DeleteSuggestion\x12#.eolymp.atlas.DeleteSuggestionInput\x1a$.eolymp.atlas.DeleteSuggestionOutput\"3\xea\xe2\n" +
+	"\x05\x82\xd3\xe4\x93\x02=\";/problems/{problem_id}/suggestions/{suggestion_id}/resubmit\x12\xa8\x01\n" +
+	"\x10DeleteSuggestion\x12#.eolymp.atlas.DeleteSuggestionInput\x1a$.eolymp.atlas.DeleteSuggestionOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x1e*\x1c/suggestions/{suggestion_id}\x12\x7f\n" +
-	"\x0fListSuggestions\x12\".eolymp.atlas.ListSuggestionsInput\x1a#.eolymp.atlas.ListSuggestionsOutput\"#\xea\xe2\n" +
+	"\x05\x82\xd3\xe4\x93\x024*2/problems/{problem_id}/suggestions/{suggestion_id}\x12\x95\x01\n" +
+	"\x0fListSuggestions\x12\".eolymp.atlas.ListSuggestionsInput\x1a#.eolymp.atlas.ListSuggestionsOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x0e\x12\f/suggestions\x12\x98\x01\n" +
-	"\x12DescribeSuggestion\x12%.eolymp.atlas.DescribeSuggestionInput\x1a&.eolymp.atlas.DescribeSuggestionOutput\"3\xea\xe2\n" +
+	"d\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/suggestions\x12\xae\x01\n" +
+	"\x12DescribeSuggestion\x12%.eolymp.atlas.DescribeSuggestionInput\x1a&.eolymp.atlas.DescribeSuggestionOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x1e\x12\x1c/suggestions/{suggestion_id}\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"d\x82\xd3\xe4\x93\x024\x122/problems/{problem_id}/suggestions/{suggestion_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_suggestion_service_proto_rawDescOnce sync.Once

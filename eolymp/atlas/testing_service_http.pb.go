@@ -201,81 +201,81 @@ func _TestingService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterTestingServiceHttpHandlers adds handlers for for TestingServiceClient
 func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli TestingServiceClient) {
-	router.Handle(prefix+"/testing", _TestingService_UpdateTestingConfig_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testing", _TestingService_UpdateTestingConfig_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTestingConfig")
-	router.Handle(prefix+"/testing", _TestingService_DescribeTestingConfig_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testing", _TestingService_DescribeTestingConfig_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTestingConfig")
-	router.Handle(prefix+"/checker", _TestingService_UpdateChecker_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/checker", _TestingService_UpdateChecker_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateChecker")
-	router.Handle(prefix+"/checker", _TestingService_DescribeChecker_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/checker", _TestingService_DescribeChecker_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeChecker")
-	router.Handle(prefix+"/interactor", _TestingService_UpdateInteractor_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/interactor", _TestingService_UpdateInteractor_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateInteractor")
-	router.Handle(prefix+"/interactor", _TestingService_DescribeInteractor_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/interactor", _TestingService_DescribeInteractor_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeInteractor")
-	router.Handle(prefix+"/validator", _TestingService_UpdateValidator_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/validator", _TestingService_UpdateValidator_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateValidator")
-	router.Handle(prefix+"/validator", _TestingService_DescribeValidator_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/validator", _TestingService_DescribeValidator_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeValidator")
-	router.Handle(prefix+"/testsets", _TestingService_CreateTestset_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets", _TestingService_CreateTestset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTestset")
-	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_UpdateTestset_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _TestingService_UpdateTestset_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTestset")
-	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DeleteTestset_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _TestingService_DeleteTestset_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTestset")
-	router.Handle(prefix+"/testsets/{testset_id}", _TestingService_DescribeTestset_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}", _TestingService_DescribeTestset_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTestset")
-	router.Handle(prefix+"/testsets", _TestingService_ListTestsets_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets", _TestingService_ListTestsets_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTestsets")
-	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
 
-	router.Handle(prefix+"/tests", _TestingService_CreateTest_Rule1(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/tests", _TestingService_CreateTest_Rule1(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
-	router.Handle(prefix+"/tests/{test_id}", _TestingService_UpdateTest_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/tests/{test_id}", _TestingService_UpdateTest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTest")
 
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_UpdateTest_Rule1(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _TestingService_UpdateTest_Rule1(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.TestingService.UpdateTest")
-	router.Handle(prefix+"/tests/{test_id}", _TestingService_DeleteTest_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/tests/{test_id}", _TestingService_DeleteTest_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTest")
 
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule1(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _TestingService_DeleteTest_Rule1(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.TestingService.DeleteTest")
-	router.Handle(prefix+"/tests/{test_id}", _TestingService_DescribeTest_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/tests/{test_id}", _TestingService_DescribeTest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTest")
 
-	router.Handle(prefix+"/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule1(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests/{test_id}", _TestingService_DescribeTest_Rule1(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeTest")
-	router.Handle(prefix+"/tests", _TestingService_ListTests_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/tests", _TestingService_ListTests_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTests")
 
-	router.Handle(prefix+"/testsets/{testset_id}/tests", _TestingService_ListTests_Rule1(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _TestingService_ListTests_Rule1(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTests")
-	router.Handle(prefix+"/examples", _TestingService_ListExamples_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/examples", _TestingService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListExamples")
 }
@@ -293,6 +293,9 @@ func _TestingService_UpdateTestingConfig_Rule0(cli TestingServiceClient) http.Ha
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -315,6 +318,9 @@ func _TestingService_DescribeTestingConfig_Rule0(cli TestingServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeTestingConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -335,6 +341,9 @@ func _TestingService_UpdateChecker_Rule0(cli TestingServiceClient) http.Handler 
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -357,6 +366,9 @@ func _TestingService_DescribeChecker_Rule0(cli TestingServiceClient) http.Handle
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeChecker(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -377,6 +389,9 @@ func _TestingService_UpdateInteractor_Rule0(cli TestingServiceClient) http.Handl
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -399,6 +414,9 @@ func _TestingService_DescribeInteractor_Rule0(cli TestingServiceClient) http.Han
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeInteractor(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -419,6 +437,9 @@ func _TestingService_UpdateValidator_Rule0(cli TestingServiceClient) http.Handle
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -441,6 +462,9 @@ func _TestingService_DescribeValidator_Rule0(cli TestingServiceClient) http.Hand
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeValidator(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -461,6 +485,9 @@ func _TestingService_CreateTestset_Rule0(cli TestingServiceClient) http.Handler 
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -484,6 +511,7 @@ func _TestingService_UpdateTestset_Rule0(cli TestingServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
@@ -508,6 +536,7 @@ func _TestingService_DeleteTestset_Rule0(cli TestingServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
@@ -532,6 +561,7 @@ func _TestingService_DescribeTestset_Rule0(cli TestingServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
@@ -555,6 +585,9 @@ func _TestingService_ListTestsets_Rule0(cli TestingServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListTestsets(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -577,6 +610,7 @@ func _TestingService_CreateTest_Rule0(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
@@ -600,6 +634,9 @@ func _TestingService_CreateTest_Rule1(cli TestingServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.CreateTest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -622,6 +659,7 @@ func _TestingService_UpdateTest_Rule0(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestId = vars["test_id"]
 
 		var header, trailer metadata.MD
@@ -646,6 +684,7 @@ func _TestingService_UpdateTest_Rule1(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
@@ -671,6 +710,7 @@ func _TestingService_DeleteTest_Rule0(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestId = vars["test_id"]
 
 		var header, trailer metadata.MD
@@ -695,6 +735,7 @@ func _TestingService_DeleteTest_Rule1(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
@@ -720,6 +761,7 @@ func _TestingService_DescribeTest_Rule0(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestId = vars["test_id"]
 
 		var header, trailer metadata.MD
@@ -744,6 +786,7 @@ func _TestingService_DescribeTest_Rule1(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 		in.TestId = vars["test_id"]
 
@@ -768,6 +811,9 @@ func _TestingService_ListTests_Rule0(cli TestingServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListTests(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -790,6 +836,7 @@ func _TestingService_ListTests_Rule1(cli TestingServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
@@ -812,6 +859,9 @@ func _TestingService_ListExamples_Rule0(cli TestingServiceClient) http.Handler {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

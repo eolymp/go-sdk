@@ -899,47 +899,45 @@ const file_eolymp_atlas_script_service_proto_rawDesc = "" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vscript_name\x18\x01 \x01(\tR\n" +
 	"scriptName\"\x1a\n" +
-	"\x18ExecuteStressCheckOutput2\xea\a\n" +
-	"\rScriptService\x12\x8d\x01\n" +
-	"\fCreateScript\x12\x1f.eolymp.atlas.CreateScriptInput\x1a .eolymp.atlas.CreateScriptOutput\":\xea\xe2\n" +
+	"\x18ExecuteStressCheckOutput2\xd4\b\n" +
+	"\rScriptService\x12\xa3\x01\n" +
+	"\fCreateScript\x12\x1f.eolymp.atlas.CreateScriptInput\x1a .eolymp.atlas.CreateScriptOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/scripts\x12\x99\x01\n" +
-	"\fUpdateScript\x12\x1f.eolymp.atlas.UpdateScriptInput\x1a .eolymp.atlas.UpdateScriptOutput\"F\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02 \x1a\x1e/problems/{problem_id}/scripts\x12\xaf\x01\n" +
+	"\fUpdateScript\x12\x1f.eolymp.atlas.UpdateScriptInput\x1a .eolymp.atlas.UpdateScriptOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/scripts/{script_id}\x12\x99\x01\n" +
-	"\fDeleteScript\x12\x1f.eolymp.atlas.DeleteScriptInput\x1a .eolymp.atlas.DeleteScriptOutput\"F\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02,\x1a*/problems/{problem_id}/scripts/{script_id}\x12\xaf\x01\n" +
+	"\fDeleteScript\x12\x1f.eolymp.atlas.DeleteScriptInput\x1a .eolymp.atlas.DeleteScriptOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x16*\x14/scripts/{script_id}\x12\x9e\x01\n" +
-	"\x0eDescribeScript\x12!.eolymp.atlas.DescribeScriptInput\x1a\".eolymp.atlas.DescribeScriptOutput\"E\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02,**/problems/{problem_id}/scripts/{script_id}\x12\xb4\x01\n" +
+	"\x0eDescribeScript\x12!.eolymp.atlas.DescribeScriptInput\x1a\".eolymp.atlas.DescribeScriptOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x16\x12\x14/scripts/{script_id}\x12\x89\x01\n" +
-	"\vListScripts\x12\x1e.eolymp.atlas.ListScriptsInput\x1a\x1f.eolymp.atlas.ListScriptsOutput\"9\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02,\x12*/problems/{problem_id}/scripts/{script_id}\x12\x9f\x01\n" +
+	"\vListScripts\x12\x1e.eolymp.atlas.ListScriptsInput\x1a\x1f.eolymp.atlas.ListScriptsOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/scripts\x12\xac\x01\n" +
-	"\x12ExecuteStressCheck\x12%.eolymp.atlas.ExecuteStressCheckInput\x1a&.eolymp.atlas.ExecuteStressCheckOutput\"G\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/scripts\x12\xc2\x01\n" +
+	"\x12ExecuteStressCheck\x12%.eolymp.atlas.ExecuteStressCheckInput\x1a&.eolymp.atlas.ExecuteStressCheckOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x17\"\x15/scripts:stress-check\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02-\"+/problems/{problem_id}/scripts:stress-check\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_script_service_proto_rawDescOnce sync.Once

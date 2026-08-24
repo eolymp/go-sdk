@@ -102,7 +102,12 @@ func (s *BookmarkServiceService) do(ctx context.Context, verb, path string, in, 
 
 func (s *BookmarkServiceService) GetBookmark(ctx context.Context, in *GetBookmarkInput) (*GetBookmarkOutput, error) {
 	out := &GetBookmarkOutput{}
-	path := "/bookmark"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/bookmark"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *BookmarkServiceService) GetBookmark(ctx context.Context, in *GetBookmar
 
 func (s *BookmarkServiceService) SetBookmark(ctx context.Context, in *SetBookmarkInput) (*SetBookmarkOutput, error) {
 	out := &SetBookmarkOutput{}
-	path := "/bookmark"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/bookmark"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

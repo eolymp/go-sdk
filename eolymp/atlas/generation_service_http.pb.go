@@ -296,13 +296,13 @@ func _GenerationService_HTTPWriteEvent(w http.ResponseWriter, name string, v pro
 
 // RegisterGenerationServiceHttpHandlers adds handlers for for GenerationServiceClient
 func RegisterGenerationServiceHttpHandlers(router *mux.Router, prefix string, cli GenerationServiceClient) {
-	router.Handle(prefix+"/generations/{generation_id}", _GenerationService_DescribeGeneration_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/generations/{generation_id}", _GenerationService_DescribeGeneration_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.GenerationService.DescribeGeneration")
-	router.Handle(prefix+"/generations", _GenerationService_ListGenerations_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/generations", _GenerationService_ListGenerations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.GenerationService.ListGenerations")
-	router.Handle(prefix+"/generations/{generation_id}/watch", _GenerationService_WatchGeneration_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/generations/{generation_id}/watch", _GenerationService_WatchGeneration_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.GenerationService.WatchGeneration")
 }
@@ -322,6 +322,7 @@ func _GenerationService_DescribeGeneration_Rule0(cli GenerationServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.GenerationId = vars["generation_id"]
 
 		var header, trailer metadata.MD
@@ -345,6 +346,9 @@ func _GenerationService_ListGenerations_Rule0(cli GenerationServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListGenerations(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -367,6 +371,7 @@ func _GenerationService_WatchGeneration_Rule0(cli GenerationServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.GenerationId = vars["generation_id"]
 
 		stream, err := cli.WatchGeneration(r.Context(), in)

@@ -201,19 +201,19 @@ func _AttachmentService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterAttachmentServiceHttpHandlers adds handlers for for AttachmentServiceClient
 func RegisterAttachmentServiceHttpHandlers(router *mux.Router, prefix string, cli AttachmentServiceClient) {
-	router.Handle(prefix+"/attachments", _AttachmentService_CreateAttachment_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments", _AttachmentService_CreateAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.AttachmentService.CreateAttachment")
-	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_UpdateAttachment_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _AttachmentService_UpdateAttachment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.AttachmentService.UpdateAttachment")
-	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DeleteAttachment_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _AttachmentService_DeleteAttachment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.AttachmentService.DeleteAttachment")
-	router.Handle(prefix+"/attachments", _AttachmentService_ListAttachments_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments", _AttachmentService_ListAttachments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.AttachmentService.ListAttachments")
-	router.Handle(prefix+"/attachments/{attachment_id}", _AttachmentService_DescribeAttachment_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/attachments/{attachment_id}", _AttachmentService_DescribeAttachment_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.AttachmentService.DescribeAttachment")
 }
@@ -231,6 +231,9 @@ func _AttachmentService_CreateAttachment_Rule0(cli AttachmentServiceClient) http
 			_AttachmentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -254,6 +257,7 @@ func _AttachmentService_UpdateAttachment_Rule0(cli AttachmentServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
 		var header, trailer metadata.MD
@@ -278,6 +282,7 @@ func _AttachmentService_DeleteAttachment_Rule0(cli AttachmentServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
 		var header, trailer metadata.MD
@@ -301,6 +306,9 @@ func _AttachmentService_ListAttachments_Rule0(cli AttachmentServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListAttachments(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -323,6 +331,7 @@ func _AttachmentService_DescribeAttachment_Rule0(cli AttachmentServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.AttachmentId = vars["attachment_id"]
 
 		var header, trailer metadata.MD

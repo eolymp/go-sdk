@@ -360,21 +360,20 @@ const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"\x05Range\x12\x14\n" +
 	"\x05grade\x18\x01 \x01(\rR\x05grade\x12\x1f\n" +
 	"\vupper_bound\x18\x02 \x01(\x02R\n" +
-	"upperBound2\x94\x03\n" +
-	"\x0eScoringService\x12\x9d\x01\n" +
-	"\rDescribeScore\x12 .eolymp.atlas.DescribeScoreInput\x1a!.eolymp.atlas.DescribeScoreOutput\"G\xea\xe2\n" +
+	"upperBound2\xa6\x03\n" +
+	"\x0eScoringService\x12\xb3\x01\n" +
+	"\rDescribeScore\x12 .eolymp.atlas.DescribeScoreInput\x1a!.eolymp.atlas.DescribeScoreOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x15\x12\x13/scores/{member_id}\x12\xaa\x01\n" +
-	"\x16DescribeProblemGrading\x12).eolymp.atlas.DescribeProblemGradingInput\x1a*.eolymp.atlas.DescribeProblemGradingOutput\"9\xea\xe2\n" +
+	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02+\x12)/problems/{problem_id}/scores/{member_id}\x12\xc0\x01\n" +
+	"\x16DescribeProblemGrading\x12).eolymp.atlas.DescribeProblemGradingInput\x1a*.eolymp.atlas.DescribeProblemGradingOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/grading\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/grading\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_scoring_service_proto_rawDescOnce sync.Once

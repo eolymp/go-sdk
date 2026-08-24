@@ -296,13 +296,13 @@ func _ValidationService_HTTPWriteEvent(w http.ResponseWriter, name string, v pro
 
 // RegisterValidationServiceHttpHandlers adds handlers for for ValidationServiceClient
 func RegisterValidationServiceHttpHandlers(router *mux.Router, prefix string, cli ValidationServiceClient) {
-	router.Handle(prefix+"/validations", _ValidationService_RunValidation_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/validations", _ValidationService_RunValidation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ValidationService.RunValidation")
-	router.Handle(prefix+"/validations/{validation_id}", _ValidationService_DescribeValidation_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/validations/{validation_id}", _ValidationService_DescribeValidation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ValidationService.DescribeValidation")
-	router.Handle(prefix+"/validations/{validation_id}/watch", _ValidationService_WatchValidation_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/validations/{validation_id}/watch", _ValidationService_WatchValidation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ValidationService.WatchValidation")
 }
@@ -320,6 +320,9 @@ func _ValidationService_RunValidation_Rule0(cli ValidationServiceClient) http.Ha
 			_ValidationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -343,6 +346,7 @@ func _ValidationService_DescribeValidation_Rule0(cli ValidationServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.ValidationId = vars["validation_id"]
 
 		var header, trailer metadata.MD
@@ -367,6 +371,7 @@ func _ValidationService_WatchValidation_Rule0(cli ValidationServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.ValidationId = vars["validation_id"]
 
 		stream, err := cli.WatchValidation(r.Context(), in)

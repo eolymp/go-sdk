@@ -102,10 +102,11 @@ func (s *GenerationServiceService) do(ctx context.Context, verb, path string, in
 
 func (s *GenerationServiceService) DescribeGeneration(ctx context.Context, in *DescribeGenerationInput) (*DescribeGenerationOutput, error) {
 	out := &DescribeGenerationOutput{}
-	path := "/generations/" + url.PathEscape(in.GetGenerationId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/generations/" + url.PathEscape(in.GetGenerationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.GenerationId = ""
 	}
 
@@ -118,7 +119,12 @@ func (s *GenerationServiceService) DescribeGeneration(ctx context.Context, in *D
 
 func (s *GenerationServiceService) ListGenerations(ctx context.Context, in *ListGenerationsInput) (*ListGenerationsOutput, error) {
 	out := &ListGenerationsOutput{}
-	path := "/generations"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/generations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

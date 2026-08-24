@@ -102,7 +102,12 @@ func (s *SuggestionServiceService) do(ctx context.Context, verb, path string, in
 
 func (s *SuggestionServiceService) CreateSuggestion(ctx context.Context, in *CreateSuggestionInput) (*CreateSuggestionOutput, error) {
 	out := &CreateSuggestionOutput{}
-	path := "/suggestions"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *SuggestionServiceService) CreateSuggestion(ctx context.Context, in *Cre
 
 func (s *SuggestionServiceService) UpdateSuggestion(ctx context.Context, in *UpdateSuggestionInput) (*UpdateSuggestionOutput, error) {
 	out := &UpdateSuggestionOutput{}
-	path := "/suggestions/" + url.PathEscape(in.GetSuggestionId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions/" + url.PathEscape(in.GetSuggestionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.SuggestionId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *SuggestionServiceService) UpdateSuggestion(ctx context.Context, in *Upd
 
 func (s *SuggestionServiceService) ReviewSuggestion(ctx context.Context, in *ReviewSuggestionInput) (*ReviewSuggestionOutput, error) {
 	out := &ReviewSuggestionOutput{}
-	path := "/suggestions/" + url.PathEscape(in.GetSuggestionId()) + "/review"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions/" + url.PathEscape(in.GetSuggestionId()) + "/review"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.SuggestionId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *SuggestionServiceService) ReviewSuggestion(ctx context.Context, in *Rev
 
 func (s *SuggestionServiceService) ResubmitSuggestion(ctx context.Context, in *ResubmitSuggestionInput) (*ResubmitSuggestionOutput, error) {
 	out := &ResubmitSuggestionOutput{}
-	path := "/suggestions/" + url.PathEscape(in.GetSuggestionId()) + "/resubmit"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions/" + url.PathEscape(in.GetSuggestionId()) + "/resubmit"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.SuggestionId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *SuggestionServiceService) ResubmitSuggestion(ctx context.Context, in *R
 
 func (s *SuggestionServiceService) DeleteSuggestion(ctx context.Context, in *DeleteSuggestionInput) (*DeleteSuggestionOutput, error) {
 	out := &DeleteSuggestionOutput{}
-	path := "/suggestions/" + url.PathEscape(in.GetSuggestionId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions/" + url.PathEscape(in.GetSuggestionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.SuggestionId = ""
 	}
 
@@ -177,7 +186,12 @@ func (s *SuggestionServiceService) DeleteSuggestion(ctx context.Context, in *Del
 
 func (s *SuggestionServiceService) ListSuggestions(ctx context.Context, in *ListSuggestionsInput) (*ListSuggestionsOutput, error) {
 	out := &ListSuggestionsOutput{}
-	path := "/suggestions"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -188,10 +202,11 @@ func (s *SuggestionServiceService) ListSuggestions(ctx context.Context, in *List
 
 func (s *SuggestionServiceService) DescribeSuggestion(ctx context.Context, in *DescribeSuggestionInput) (*DescribeSuggestionOutput, error) {
 	out := &DescribeSuggestionOutput{}
-	path := "/suggestions/" + url.PathEscape(in.GetSuggestionId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/suggestions/" + url.PathEscape(in.GetSuggestionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.SuggestionId = ""
 	}
 

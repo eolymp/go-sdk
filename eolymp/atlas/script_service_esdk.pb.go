@@ -102,7 +102,12 @@ func (s *ScriptServiceService) do(ctx context.Context, verb, path string, in, ou
 
 func (s *ScriptServiceService) CreateScript(ctx context.Context, in *CreateScriptInput) (*CreateScriptOutput, error) {
 	out := &CreateScriptOutput{}
-	path := "/scripts"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ScriptServiceService) CreateScript(ctx context.Context, in *CreateScrip
 
 func (s *ScriptServiceService) UpdateScript(ctx context.Context, in *UpdateScriptInput) (*UpdateScriptOutput, error) {
 	out := &UpdateScriptOutput{}
-	path := "/scripts/" + url.PathEscape(in.GetScriptId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts/" + url.PathEscape(in.GetScriptId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.ScriptId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *ScriptServiceService) UpdateScript(ctx context.Context, in *UpdateScrip
 
 func (s *ScriptServiceService) DeleteScript(ctx context.Context, in *DeleteScriptInput) (*DeleteScriptOutput, error) {
 	out := &DeleteScriptOutput{}
-	path := "/scripts/" + url.PathEscape(in.GetScriptId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts/" + url.PathEscape(in.GetScriptId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.ScriptId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *ScriptServiceService) DeleteScript(ctx context.Context, in *DeleteScrip
 
 func (s *ScriptServiceService) DescribeScript(ctx context.Context, in *DescribeScriptInput) (*DescribeScriptOutput, error) {
 	out := &DescribeScriptOutput{}
-	path := "/scripts/" + url.PathEscape(in.GetScriptId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts/" + url.PathEscape(in.GetScriptId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.ScriptId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *ScriptServiceService) DescribeScript(ctx context.Context, in *DescribeS
 
 func (s *ScriptServiceService) ListScripts(ctx context.Context, in *ListScriptsInput) (*ListScriptsOutput, error) {
 	out := &ListScriptsOutput{}
-	path := "/scripts"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -172,7 +185,12 @@ func (s *ScriptServiceService) ListScripts(ctx context.Context, in *ListScriptsI
 
 func (s *ScriptServiceService) ExecuteStressCheck(ctx context.Context, in *ExecuteStressCheckInput) (*ExecuteStressCheckOutput, error) {
 	out := &ExecuteStressCheckOutput{}
-	path := "/scripts:stress-check"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts:stress-check"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

@@ -365,26 +365,26 @@ const file_eolymp_atlas_generation_service_proto_rawDesc = "" +
 	"\n" +
 	"generation\x18\x01 \x01(\v2\x18.eolymp.atlas.GenerationR\n" +
 	"generation\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xd2\x04\n" +
-	"\x11GenerationService\x12\xb3\x01\n" +
-	"\x12DescribeGeneration\x12%.eolymp.atlas.DescribeGenerationInput\x1a&.eolymp.atlas.DescribeGenerationOutput\"N\xea\xe2\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xfa\x04\n" +
+	"\x11GenerationService\x12\xc9\x01\n" +
+	"\x12DescribeGeneration\x12%.eolymp.atlas.DescribeGenerationInput\x1a&.eolymp.atlas.DescribeGenerationOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1e\x12\x1c/generations/{generation_id}\x12\x9a\x01\n" +
-	"\x0fListGenerations\x12\".eolymp.atlas.ListGenerationsInput\x1a#.eolymp.atlas.ListGenerationsOutput\">\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x024\x122/problems/{problem_id}/generations/{generation_id}\x12\xb0\x01\n" +
+	"\x0fListGenerations\x12\".eolymp.atlas.ListGenerationsInput\x1a#.eolymp.atlas.ListGenerationsOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x0e\x12\f/generations\x12\xb2\x01\n" +
-	"\x0fWatchGeneration\x12\".eolymp.atlas.WatchGenerationInput\x1a#.eolymp.atlas.WatchGenerationOutput\"T\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/generations\x12\xc8\x01\n" +
+	"\x0fWatchGeneration\x12\".eolymp.atlas.WatchGenerationInput\x1a#.eolymp.atlas.WatchGenerationOutput\"j\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\x12\"/generations/{generation_id}/watch0\x01\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02:\x128/problems/{problem_id}/generations/{generation_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_generation_service_proto_rawDescOnce sync.Once

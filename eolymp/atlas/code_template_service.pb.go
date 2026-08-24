@@ -763,56 +763,53 @@ const file_eolymp_atlas_code_template_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1a\n" +
 	"\blanguage\x18\x01 \x03(\tR\blanguage\"\x1d\n" +
-	"\x1bGenerateCodeTemplatesOutput2\x84\n" +
-	"\n" +
-	"\x13CodeTemplateService\x12\xa1\x01\n" +
-	"\x12CreateCodeTemplate\x12%.eolymp.atlas.CreateCodeTemplateInput\x1a&.eolymp.atlas.CreateCodeTemplateOutput\"<\xea\xe2\n" +
+	"\x1bGenerateCodeTemplatesOutput2\x84\v\n" +
+	"\x13CodeTemplateService\x12\xb7\x01\n" +
+	"\x12CreateCodeTemplate\x12%.eolymp.atlas.CreateCodeTemplateInput\x1a&.eolymp.atlas.CreateCodeTemplateOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\f\"\n" +
-	"/templates\x12\xaf\x01\n" +
-	"\x12UpdateCodeTemplate\x12%.eolymp.atlas.UpdateCodeTemplateInput\x1a&.eolymp.atlas.UpdateCodeTemplateOutput\"J\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\"\" /problems/{problem_id}/templates\x12\xc5\x01\n" +
+	"\x12UpdateCodeTemplate\x12%.eolymp.atlas.UpdateCodeTemplateInput\x1a&.eolymp.atlas.UpdateCodeTemplateOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a\"\x18/templates/{template_id}\x12\xaf\x01\n" +
-	"\x12DeleteCodeTemplate\x12%.eolymp.atlas.DeleteCodeTemplateInput\x1a&.eolymp.atlas.DeleteCodeTemplateOutput\"J\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x020\"./problems/{problem_id}/templates/{template_id}\x12\xc5\x01\n" +
+	"\x12DeleteCodeTemplate\x12%.eolymp.atlas.DeleteCodeTemplateInput\x1a&.eolymp.atlas.DeleteCodeTemplateOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a*\x18/templates/{template_id}\x12\x9e\x01\n" +
-	"\x11ListCodeTemplates\x12$.eolymp.atlas.ListCodeTemplatesInput\x1a%.eolymp.atlas.ListCodeTemplatesOutput\"<\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x020*./problems/{problem_id}/templates/{template_id}\x12\xb4\x01\n" +
+	"\x11ListCodeTemplates\x12$.eolymp.atlas.ListCodeTemplatesInput\x1a%.eolymp.atlas.ListCodeTemplatesOutput\"R\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/templates\x12\xb4\x01\n" +
-	"\x14DescribeCodeTemplate\x12'.eolymp.atlas.DescribeCodeTemplateInput\x1a(.eolymp.atlas.DescribeCodeTemplateOutput\"I\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/templates\x12\xca\x01\n" +
+	"\x14DescribeCodeTemplate\x12'.eolymp.atlas.DescribeCodeTemplateInput\x1a(.eolymp.atlas.DescribeCodeTemplateOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1a\x12\x18/templates/{template_id}\x12\x9f\x01\n" +
-	"\x12LookupCodeTemplate\x12%.eolymp.atlas.LookupCodeTemplateInput\x1a&.eolymp.atlas.LookupCodeTemplateOutput\":\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x020\x12./problems/{problem_id}/templates/{template_id}\x12\xb5\x01\n" +
+	"\x12LookupCodeTemplate\x12%.eolymp.atlas.LookupCodeTemplateInput\x1a&.eolymp.atlas.LookupCodeTemplateOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/template\x12\xb3\x01\n" +
-	"\x15GenerateCodeTemplates\x12(.eolymp.atlas.GenerateCodeTemplatesInput\x1a).eolymp.atlas.GenerateCodeTemplatesOutput\"E\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/template\x12\xc9\x01\n" +
+	"\x15GenerateCodeTemplates\x12(.eolymp.atlas.GenerateCodeTemplatesInput\x1a).eolymp.atlas.GenerateCodeTemplatesOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x03\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x15\"\x13/templates:generate\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02+\")/problems/{problem_id}/templates:generate\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_code_template_service_proto_rawDescOnce sync.Once

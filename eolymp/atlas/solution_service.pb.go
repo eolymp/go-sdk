@@ -906,46 +906,44 @@ const file_eolymp_atlas_solution_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vsolution_id\x18\x02 \x01(\tR\n" +
 	"solutionId\"\x16\n" +
-	"\x14DeleteSolutionOutput2\x88\b\n" +
-	"\x0fSolutionService\x12\x95\x01\n" +
-	"\x0eCreateSolution\x12!.eolymp.atlas.CreateSolutionInput\x1a\".eolymp.atlas.CreateSolutionOutput\"<\xea\xe2\n" +
+	"\x14DeleteSolutionOutput2\xf2\b\n" +
+	"\x0fSolutionService\x12\xab\x01\n" +
+	"\x0eCreateSolution\x12!.eolymp.atlas.CreateSolutionInput\x1a\".eolymp.atlas.CreateSolutionOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\f\x1a\n" +
-	"/solutions\x12\xa3\x01\n" +
-	"\x0eUpdateSolution\x12!.eolymp.atlas.UpdateSolutionInput\x1a\".eolymp.atlas.UpdateSolutionOutput\"J\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\"\x1a /problems/{problem_id}/solutions\x12\xb9\x01\n" +
+	"\x0eUpdateSolution\x12!.eolymp.atlas.UpdateSolutionInput\x1a\".eolymp.atlas.UpdateSolutionOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a\x1a\x18/solutions/{solution_id}\x12\xa3\x01\n" +
-	"\x0eDeleteSolution\x12!.eolymp.atlas.DeleteSolutionInput\x1a\".eolymp.atlas.DeleteSolutionOutput\"J\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x020\x1a./problems/{problem_id}/solutions/{solution_id}\x12\xb9\x01\n" +
+	"\x0eDeleteSolution\x12!.eolymp.atlas.DeleteSolutionInput\x1a\".eolymp.atlas.DeleteSolutionOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a*\x18/solutions/{solution_id}\x12\xa8\x01\n" +
-	"\x10DescribeSolution\x12#.eolymp.atlas.DescribeSolutionInput\x1a$.eolymp.atlas.DescribeSolutionOutput\"I\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x020*./problems/{problem_id}/solutions/{solution_id}\x12\xbe\x01\n" +
+	"\x10DescribeSolution\x12#.eolymp.atlas.DescribeSolutionInput\x1a$.eolymp.atlas.DescribeSolutionOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1a\x12\x18/solutions/{solution_id}\x12\x91\x01\n" +
-	"\rListSolutions\x12 .eolymp.atlas.ListSolutionsInput\x1a!.eolymp.atlas.ListSolutionsOutput\";\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x020\x12./problems/{problem_id}/solutions/{solution_id}\x12\xa7\x01\n" +
+	"\rListSolutions\x12 .eolymp.atlas.ListSolutionsInput\x1a!.eolymp.atlas.ListSolutionsOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/solutions\x12\x9a\x01\n" +
-	"\x0eCheckSolutions\x12!.eolymp.atlas.CheckSolutionsInput\x1a\".eolymp.atlas.CheckSolutionsOutput\"A\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/solutions\x12\xb0\x01\n" +
+	"\x0eCheckSolutions\x12!.eolymp.atlas.CheckSolutionsInput\x1a\".eolymp.atlas.CheckSolutionsOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x12\"\x10/solutions:check\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02(\"&/problems/{problem_id}/solutions:check\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_solution_service_proto_rawDescOnce sync.Once

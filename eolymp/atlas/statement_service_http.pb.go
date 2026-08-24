@@ -201,34 +201,34 @@ func _StatementService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterStatementServiceHttpHandlers adds handlers for for StatementServiceClient
 func RegisterStatementServiceHttpHandlers(router *mux.Router, prefix string, cli StatementServiceClient) {
-	router.Handle(prefix+"/statements", _StatementService_CreateStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements", _StatementService_CreateStatement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.StatementService.CreateStatement")
-	router.Handle(prefix+"/statements/{statement_id}", _StatementService_UpdateStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _StatementService_UpdateStatement_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.atlas.StatementService.UpdateStatement")
-	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DeleteStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _StatementService_DeleteStatement_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.atlas.StatementService.DeleteStatement")
-	router.Handle(prefix+"/statements/{statement_id}", _StatementService_DescribeStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}", _StatementService_DescribeStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.DescribeStatement")
-	router.Handle(prefix+"/translate", _StatementService_LookupStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/translate", _StatementService_LookupStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.LookupStatement")
-	router.Handle(prefix+"/renders", _StatementService_PreviewStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/renders", _StatementService_PreviewStatement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.PreviewStatement")
-	router.Handle(prefix+"/statements", _StatementService_ListStatements_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements", _StatementService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.ListStatements")
-	router.Handle(prefix+"/statements:translate", _StatementService_TranslateStatements_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements:translate", _StatementService_TranslateStatements_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.TranslateStatements")
-	router.Handle(prefix+"/statements/{statement_id}/export", _StatementService_ExportStatement_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}/export", _StatementService_ExportStatement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.StatementService.ExportStatement")
-	router.Handle(prefix+"/statements/{statement_id}/versions", _StatementService_ListStatementVersions_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/statements/{statement_id}/versions", _StatementService_ListStatementVersions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.StatementService.ListStatementVersions")
 }
@@ -246,6 +246,9 @@ func _StatementService_CreateStatement_Rule0(cli StatementServiceClient) http.Ha
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -269,6 +272,7 @@ func _StatementService_UpdateStatement_Rule0(cli StatementServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
 		var header, trailer metadata.MD
@@ -293,6 +297,7 @@ func _StatementService_DeleteStatement_Rule0(cli StatementServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
 		var header, trailer metadata.MD
@@ -317,6 +322,7 @@ func _StatementService_DescribeStatement_Rule0(cli StatementServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
 		var header, trailer metadata.MD
@@ -340,6 +346,9 @@ func _StatementService_LookupStatement_Rule0(cli StatementServiceClient) http.Ha
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupStatement(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -360,6 +369,9 @@ func _StatementService_PreviewStatement_Rule0(cli StatementServiceClient) http.H
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -382,6 +394,9 @@ func _StatementService_ListStatements_Rule0(cli StatementServiceClient) http.Han
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -402,6 +417,9 @@ func _StatementService_TranslateStatements_Rule0(cli StatementServiceClient) htt
 			_StatementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 
@@ -425,6 +443,7 @@ func _StatementService_ExportStatement_Rule0(cli StatementServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
 		var header, trailer metadata.MD
@@ -449,6 +468,7 @@ func _StatementService_ListStatementVersions_Rule0(cli StatementServiceClient) h
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.StatementId = vars["statement_id"]
 
 		var header, trailer metadata.MD

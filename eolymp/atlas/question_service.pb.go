@@ -662,40 +662,38 @@ const file_eolymp_atlas_question_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\".eolymp.atlas.Question.Extra.FieldR\x05extra\"Y\n" +
 	"\x13ListQuestionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items2\xeb\x06\n" +
-	"\x0fQuestionService\x12\x95\x01\n" +
-	"\x0eCreateQuestion\x12!.eolymp.atlas.CreateQuestionInput\x1a\".eolymp.atlas.CreateQuestionOutput\"<\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items2\xbf\a\n" +
+	"\x0fQuestionService\x12\xab\x01\n" +
+	"\x0eCreateQuestion\x12!.eolymp.atlas.CreateQuestionInput\x1a\".eolymp.atlas.CreateQuestionOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\f\"\n" +
-	"/questions\x12\xa3\x01\n" +
-	"\x0eUpdateQuestion\x12!.eolymp.atlas.UpdateQuestionInput\x1a\".eolymp.atlas.UpdateQuestionOutput\"J\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\"\" /problems/{problem_id}/questions\x12\xb9\x01\n" +
+	"\x0eUpdateQuestion\x12!.eolymp.atlas.UpdateQuestionInput\x1a\".eolymp.atlas.UpdateQuestionOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a\x1a\x18/questions/{question_id}\x12\xa3\x01\n" +
-	"\x0eDeleteQuestion\x12!.eolymp.atlas.DeleteQuestionInput\x1a\".eolymp.atlas.DeleteQuestionOutput\"J\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x020\x1a./problems/{problem_id}/questions/{question_id}\x12\xb9\x01\n" +
+	"\x0eDeleteQuestion\x12!.eolymp.atlas.DeleteQuestionInput\x1a\".eolymp.atlas.DeleteQuestionOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1a*\x18/questions/{question_id}\x12\xa8\x01\n" +
-	"\x10DescribeQuestion\x12#.eolymp.atlas.DescribeQuestionInput\x1a$.eolymp.atlas.DescribeQuestionOutput\"I\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x020*./problems/{problem_id}/questions/{question_id}\x12\xbe\x01\n" +
+	"\x10DescribeQuestion\x12#.eolymp.atlas.DescribeQuestionInput\x1a$.eolymp.atlas.DescribeQuestionOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1a\x12\x18/questions/{question_id}\x12\x91\x01\n" +
-	"\rListQuestions\x12 .eolymp.atlas.ListQuestionsInput\x1a!.eolymp.atlas.ListQuestionsOutput\";\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x020\x12./problems/{problem_id}/questions/{question_id}\x12\xa7\x01\n" +
+	"\rListQuestions\x12 .eolymp.atlas.ListQuestionsInput\x1a!.eolymp.atlas.ListQuestionsOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/questions\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/questions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_question_service_proto_rawDescOnce sync.Once

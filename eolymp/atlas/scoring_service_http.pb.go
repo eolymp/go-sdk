@@ -201,10 +201,10 @@ func _ScoringService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterScoringServiceHttpHandlers adds handlers for for ScoringServiceClient
 func RegisterScoringServiceHttpHandlers(router *mux.Router, prefix string, cli ScoringServiceClient) {
-	router.Handle(prefix+"/scores/{member_id}", _ScoringService_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/scores/{member_id}", _ScoringService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeScore")
-	router.Handle(prefix+"/grading", _ScoringService_DescribeProblemGrading_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/grading", _ScoringService_DescribeProblemGrading_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScoringService.DescribeProblemGrading")
 }
@@ -224,6 +224,7 @@ func _ScoringService_DescribeScore_Rule0(cli ScoringServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -246,6 +247,9 @@ func _ScoringService_DescribeProblemGrading_Rule0(cli ScoringServiceClient) http
 			_ScoringService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
 

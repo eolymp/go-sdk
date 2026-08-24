@@ -102,10 +102,11 @@ func (s *ScoringServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *ScoringServiceService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
-	path := "/scores/" + url.PathEscape(in.GetMemberId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scores/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.MemberId = ""
 	}
 
@@ -118,7 +119,12 @@ func (s *ScoringServiceService) DescribeScore(ctx context.Context, in *DescribeS
 
 func (s *ScoringServiceService) DescribeProblemGrading(ctx context.Context, in *DescribeProblemGradingInput) (*DescribeProblemGradingOutput, error) {
 	out := &DescribeProblemGradingOutput{}
-	path := "/grading"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/grading"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

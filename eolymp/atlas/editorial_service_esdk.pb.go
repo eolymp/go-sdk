@@ -102,7 +102,12 @@ func (s *EditorialServiceService) do(ctx context.Context, verb, path string, in,
 
 func (s *EditorialServiceService) CreateEditorial(ctx context.Context, in *CreateEditorialInput) (*CreateEditorialOutput, error) {
 	out := &CreateEditorialOutput{}
-	path := "/editorials"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorials"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *EditorialServiceService) CreateEditorial(ctx context.Context, in *Creat
 
 func (s *EditorialServiceService) UpdateEditorial(ctx context.Context, in *UpdateEditorialInput) (*UpdateEditorialOutput, error) {
 	out := &UpdateEditorialOutput{}
-	path := "/editorials/" + url.PathEscape(in.GetEditorialId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorials/" + url.PathEscape(in.GetEditorialId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.EditorialId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *EditorialServiceService) UpdateEditorial(ctx context.Context, in *Updat
 
 func (s *EditorialServiceService) DeleteEditorial(ctx context.Context, in *DeleteEditorialInput) (*DeleteEditorialOutput, error) {
 	out := &DeleteEditorialOutput{}
-	path := "/editorials/" + url.PathEscape(in.GetEditorialId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorials/" + url.PathEscape(in.GetEditorialId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.EditorialId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *EditorialServiceService) DeleteEditorial(ctx context.Context, in *Delet
 
 func (s *EditorialServiceService) DescribeEditorial(ctx context.Context, in *DescribeEditorialInput) (*DescribeEditorialOutput, error) {
 	out := &DescribeEditorialOutput{}
-	path := "/editorials/" + url.PathEscape(in.GetEditorialId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorials/" + url.PathEscape(in.GetEditorialId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.EditorialId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *EditorialServiceService) DescribeEditorial(ctx context.Context, in *Des
 
 func (s *EditorialServiceService) LookupEditorial(ctx context.Context, in *LookupEditorialInput) (*LookupEditorialOutput, error) {
 	out := &LookupEditorialOutput{}
-	path := "/editorial"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorial"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -172,7 +185,12 @@ func (s *EditorialServiceService) LookupEditorial(ctx context.Context, in *Looku
 
 func (s *EditorialServiceService) PreviewEditorial(ctx context.Context, in *PreviewEditorialInput) (*PreviewEditorialOutput, error) {
 	out := &PreviewEditorialOutput{}
-	path := "/editorial/preview"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorial/preview"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -183,7 +201,12 @@ func (s *EditorialServiceService) PreviewEditorial(ctx context.Context, in *Prev
 
 func (s *EditorialServiceService) ListEditorials(ctx context.Context, in *ListEditorialsInput) (*ListEditorialsOutput, error) {
 	out := &ListEditorialsOutput{}
-	path := "/editorials"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorials"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -194,7 +217,12 @@ func (s *EditorialServiceService) ListEditorials(ctx context.Context, in *ListEd
 
 func (s *EditorialServiceService) TranslateEditorials(ctx context.Context, in *TranslateEditorialsInput) (*TranslateEditorialsOutput, error) {
 	out := &TranslateEditorialsOutput{}
-	path := "/editorials:translate"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorials:translate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

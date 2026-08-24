@@ -102,7 +102,12 @@ func (s *QuestionServiceService) do(ctx context.Context, verb, path string, in, 
 
 func (s *QuestionServiceService) CreateQuestion(ctx context.Context, in *CreateQuestionInput) (*CreateQuestionOutput, error) {
 	out := &CreateQuestionOutput{}
-	path := "/questions"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/questions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *QuestionServiceService) CreateQuestion(ctx context.Context, in *CreateQ
 
 func (s *QuestionServiceService) UpdateQuestion(ctx context.Context, in *UpdateQuestionInput) (*UpdateQuestionOutput, error) {
 	out := &UpdateQuestionOutput{}
-	path := "/questions/" + url.PathEscape(in.GetQuestionId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/questions/" + url.PathEscape(in.GetQuestionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.QuestionId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *QuestionServiceService) UpdateQuestion(ctx context.Context, in *UpdateQ
 
 func (s *QuestionServiceService) DeleteQuestion(ctx context.Context, in *DeleteQuestionInput) (*DeleteQuestionOutput, error) {
 	out := &DeleteQuestionOutput{}
-	path := "/questions/" + url.PathEscape(in.GetQuestionId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/questions/" + url.PathEscape(in.GetQuestionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.QuestionId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *QuestionServiceService) DeleteQuestion(ctx context.Context, in *DeleteQ
 
 func (s *QuestionServiceService) DescribeQuestion(ctx context.Context, in *DescribeQuestionInput) (*DescribeQuestionOutput, error) {
 	out := &DescribeQuestionOutput{}
-	path := "/questions/" + url.PathEscape(in.GetQuestionId())
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/questions/" + url.PathEscape(in.GetQuestionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProblemId = ""
 		in.QuestionId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *QuestionServiceService) DescribeQuestion(ctx context.Context, in *Descr
 
 func (s *QuestionServiceService) ListQuestions(ctx context.Context, in *ListQuestionsInput) (*ListQuestionsOutput, error) {
 	out := &ListQuestionsOutput{}
-	path := "/questions"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/questions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

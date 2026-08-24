@@ -638,41 +638,41 @@ const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\x18DescribeAttachmentOutput\x128\n" +
 	"\n" +
 	"attachment\x18\x01 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
-	"attachment2\x9b\a\n" +
-	"\x11AttachmentService\x12\x9d\x01\n" +
-	"\x10CreateAttachment\x12#.eolymp.atlas.CreateAttachmentInput\x1a$.eolymp.atlas.CreateAttachmentOutput\">\xea\xe2\n" +
+	"attachment2\xef\a\n" +
+	"\x11AttachmentService\x12\xb3\x01\n" +
+	"\x10CreateAttachment\x12#.eolymp.atlas.CreateAttachmentInput\x1a$.eolymp.atlas.CreateAttachmentOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x0e\"\f/attachments\x12\xad\x01\n" +
-	"\x10UpdateAttachment\x12#.eolymp.atlas.UpdateAttachmentInput\x1a$.eolymp.atlas.UpdateAttachmentOutput\"N\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/attachments\x12\xc3\x01\n" +
+	"\x10UpdateAttachment\x12#.eolymp.atlas.UpdateAttachmentInput\x1a$.eolymp.atlas.UpdateAttachmentOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/attachments/{attachment_id}\x12\xad\x01\n" +
-	"\x10DeleteAttachment\x12#.eolymp.atlas.DeleteAttachmentInput\x1a$.eolymp.atlas.DeleteAttachmentOutput\"N\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x024\"2/problems/{problem_id}/attachments/{attachment_id}\x12\xc3\x01\n" +
+	"\x10DeleteAttachment\x12#.eolymp.atlas.DeleteAttachmentInput\x1a$.eolymp.atlas.DeleteAttachmentOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1e*\x1c/attachments/{attachment_id}\x12\x99\x01\n" +
-	"\x0fListAttachments\x12\".eolymp.atlas.ListAttachmentsInput\x1a#.eolymp.atlas.ListAttachmentsOutput\"=\xea\xe2\n" +
+	"\x13atlas:problem:write\x82\xd3\xe4\x93\x024*2/problems/{problem_id}/attachments/{attachment_id}\x12\xaf\x01\n" +
+	"\x0fListAttachments\x12\".eolymp.atlas.ListAttachmentsInput\x1a#.eolymp.atlas.ListAttachmentsOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x0e\x12\f/attachments\x12\xb2\x01\n" +
-	"\x12DescribeAttachment\x12%.eolymp.atlas.DescribeAttachmentInput\x1a&.eolymp.atlas.DescribeAttachmentOutput\"M\xea\xe2\n" +
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/attachments\x12\xc8\x01\n" +
+	"\x12DescribeAttachment\x12%.eolymp.atlas.DescribeAttachmentInput\x1a&.eolymp.atlas.DescribeAttachmentOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/attachments/{attachment_id}\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\x82\xd3\xe4\x93\x024\x122/problems/{problem_id}/attachments/{attachment_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_attachment_service_proto_rawDescOnce sync.Once
