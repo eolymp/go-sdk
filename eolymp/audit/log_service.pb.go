@@ -70,7 +70,10 @@ func (ListLogsInput_Sortable) EnumDescriptor() ([]byte, []int) {
 }
 
 type ListLogsInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Required. The day to read, as YYYY-MM-DD. The log is stored a day at a time and a query reads exactly one of
+	// them, which is what keeps a single call bounded no matter how busy the space is.
+	Date          string                 `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Filters       *ListLogsInput_Filter  `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -109,6 +112,13 @@ func (x *ListLogsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListLogsInput.ProtoReflect.Descriptor instead.
 func (*ListLogsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ListLogsInput) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
 }
 
 func (x *ListLogsInput) GetOffset() int32 {
@@ -206,7 +216,9 @@ func (x *ListLogsOutput) GetItems() []*Log {
 }
 
 type ExportLogsInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Required, as for ListLogs.
+	Date          string                  `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
 	Filters       *ExportLogsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Sort          ListLogsInput_Sortable  `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.audit.ListLogsInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction     `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
@@ -243,6 +255,13 @@ func (x *ExportLogsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ExportLogsInput.ProtoReflect.Descriptor instead.
 func (*ExportLogsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ExportLogsInput) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
 }
 
 func (x *ExportLogsInput) GetFilters() *ExportLogsInput_Filter {
@@ -334,14 +353,13 @@ func (x *ExportLogsOutput) GetTruncated() bool {
 }
 
 type ListLogsInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Timestamp     []*wellknown.ExpressionTimestamp `protobuf:"bytes,1,rep,name=timestamp,proto3" json:"timestamp,omitempty"` // when unset, only the last 24 hours are searched
-	Actor         []*wellknown.ExpressionString    `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"`         // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
-	Method        []*wellknown.ExpressionString    `protobuf:"bytes,3,rep,name=method,proto3" json:"method,omitempty"`
-	Scope         []*wellknown.ExpressionString    `protobuf:"bytes,4,rep,name=scope,proto3" json:"scope,omitempty"`
-	IpAddress     []*wellknown.ExpressionString    `protobuf:"bytes,5,rep,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
-	UserAgent     []*wellknown.ExpressionString    `protobuf:"bytes,6,rep,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Mutation      []*wellknown.ExpressionBool      `protobuf:"bytes,7,rep,name=mutation,proto3" json:"mutation,omitempty"`
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Actor         []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"` // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
+	Method        []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=method,proto3" json:"method,omitempty"`
+	Scope         []*wellknown.ExpressionString `protobuf:"bytes,4,rep,name=scope,proto3" json:"scope,omitempty"`
+	IpAddress     []*wellknown.ExpressionString `protobuf:"bytes,5,rep,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
+	UserAgent     []*wellknown.ExpressionString `protobuf:"bytes,6,rep,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
+	Mutation      []*wellknown.ExpressionBool   `protobuf:"bytes,7,rep,name=mutation,proto3" json:"mutation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -374,13 +392,6 @@ func (x *ListLogsInput_Filter) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListLogsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListLogsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *ListLogsInput_Filter) GetTimestamp() []*wellknown.ExpressionTimestamp {
-	if x != nil {
-		return x.Timestamp
-	}
-	return nil
 }
 
 func (x *ListLogsInput_Filter) GetActor() []*wellknown.ExpressionString {
@@ -426,14 +437,13 @@ func (x *ListLogsInput_Filter) GetMutation() []*wellknown.ExpressionBool {
 }
 
 type ExportLogsInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Timestamp     []*wellknown.ExpressionTimestamp `protobuf:"bytes,1,rep,name=timestamp,proto3" json:"timestamp,omitempty"` // when unset, only the last 24 hours are searched
-	Actor         []*wellknown.ExpressionString    `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"`         // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
-	Method        []*wellknown.ExpressionString    `protobuf:"bytes,3,rep,name=method,proto3" json:"method,omitempty"`
-	Scope         []*wellknown.ExpressionString    `protobuf:"bytes,4,rep,name=scope,proto3" json:"scope,omitempty"`
-	IpAddress     []*wellknown.ExpressionString    `protobuf:"bytes,5,rep,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
-	UserAgent     []*wellknown.ExpressionString    `protobuf:"bytes,6,rep,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Mutation      []*wellknown.ExpressionBool      `protobuf:"bytes,7,rep,name=mutation,proto3" json:"mutation,omitempty"`
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Actor         []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"` // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
+	Method        []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=method,proto3" json:"method,omitempty"`
+	Scope         []*wellknown.ExpressionString `protobuf:"bytes,4,rep,name=scope,proto3" json:"scope,omitempty"`
+	IpAddress     []*wellknown.ExpressionString `protobuf:"bytes,5,rep,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
+	UserAgent     []*wellknown.ExpressionString `protobuf:"bytes,6,rep,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
+	Mutation      []*wellknown.ExpressionBool   `protobuf:"bytes,7,rep,name=mutation,proto3" json:"mutation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -466,13 +476,6 @@ func (x *ExportLogsInput_Filter) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ExportLogsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ExportLogsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{2, 0}
-}
-
-func (x *ExportLogsInput_Filter) GetTimestamp() []*wellknown.ExpressionTimestamp {
-	if x != nil {
-		return x.Timestamp
-	}
-	return nil
 }
 
 func (x *ExportLogsInput_Filter) GetActor() []*wellknown.ExpressionString {
@@ -521,17 +524,17 @@ var File_eolymp_audit_log_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/audit/log_service.proto\x12\feolymp.audit\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/audit/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x88\x06\n" +
-	"\rListLogsInput\x12\x16\n" +
+	"\x1eeolymp/audit/log_service.proto\x12\feolymp.audit\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/audit/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xd7\x05\n" +
+	"\rListLogsInput\x12\x12\n" +
+	"\x04date\x18\x01 \x01(\tR\x04date\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12<\n" +
 	"\afilters\x18( \x01(\v2\".eolymp.audit.ListLogsInput.FilterR\afilters\x128\n" +
 	"\x04sort\x182 \x01(\x0e2$.eolymp.audit.ListLogsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\xc1\x03\n" +
-	"\x06Filter\x12C\n" +
-	"\ttimestamp\x18\x01 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\ttimestamp\x128\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\xfc\x02\n" +
+	"\x06Filter\x128\n" +
 	"\x05actor\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05actor\x12:\n" +
 	"\x06method\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x06method\x128\n" +
 	"\x05scope\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05scope\x12A\n" +
@@ -545,14 +548,14 @@ const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\tTIMESTAMP\x10\x01\"O\n" +
 	"\x0eListLogsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12'\n" +
-	"\x05items\x18\x02 \x03(\v2\x11.eolymp.audit.LogR\x05items\"\xb8\x05\n" +
-	"\x0fExportLogsInput\x12>\n" +
+	"\x05items\x18\x02 \x03(\v2\x11.eolymp.audit.LogR\x05items\"\x87\x05\n" +
+	"\x0fExportLogsInput\x12\x12\n" +
+	"\x04date\x18\x01 \x01(\tR\x04date\x12>\n" +
 	"\afilters\x18( \x01(\v2$.eolymp.audit.ExportLogsInput.FilterR\afilters\x128\n" +
 	"\x04sort\x182 \x01(\x0e2$.eolymp.audit.ListLogsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\xc1\x03\n" +
-	"\x06Filter\x12C\n" +
-	"\ttimestamp\x18\x01 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\ttimestamp\x128\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\xfc\x02\n" +
+	"\x06Filter\x128\n" +
 	"\x05actor\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05actor\x12:\n" +
 	"\x06method\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x06method\x128\n" +
 	"\x05scope\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05scope\x12A\n" +
@@ -597,19 +600,18 @@ func file_eolymp_audit_log_service_proto_rawDescGZIP() []byte {
 var file_eolymp_audit_log_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_audit_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_audit_log_service_proto_goTypes = []any{
-	(ListLogsInput_Sortable)(0),           // 0: eolymp.audit.ListLogsInput.Sortable
-	(*ListLogsInput)(nil),                 // 1: eolymp.audit.ListLogsInput
-	(*ListLogsOutput)(nil),                // 2: eolymp.audit.ListLogsOutput
-	(*ExportLogsInput)(nil),               // 3: eolymp.audit.ExportLogsInput
-	(*ExportLogsOutput)(nil),              // 4: eolymp.audit.ExportLogsOutput
-	(*ListLogsInput_Filter)(nil),          // 5: eolymp.audit.ListLogsInput.Filter
-	(*ExportLogsInput_Filter)(nil),        // 6: eolymp.audit.ExportLogsInput.Filter
-	(wellknown.Direction)(0),              // 7: eolymp.wellknown.Direction
-	(Log_Extra_Field)(0),                  // 8: eolymp.audit.Log.Extra.Field
-	(*Log)(nil),                           // 9: eolymp.audit.Log
-	(*wellknown.ExpressionTimestamp)(nil), // 10: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionString)(nil),    // 11: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),      // 12: eolymp.wellknown.ExpressionBool
+	(ListLogsInput_Sortable)(0),        // 0: eolymp.audit.ListLogsInput.Sortable
+	(*ListLogsInput)(nil),              // 1: eolymp.audit.ListLogsInput
+	(*ListLogsOutput)(nil),             // 2: eolymp.audit.ListLogsOutput
+	(*ExportLogsInput)(nil),            // 3: eolymp.audit.ExportLogsInput
+	(*ExportLogsOutput)(nil),           // 4: eolymp.audit.ExportLogsOutput
+	(*ListLogsInput_Filter)(nil),       // 5: eolymp.audit.ListLogsInput.Filter
+	(*ExportLogsInput_Filter)(nil),     // 6: eolymp.audit.ExportLogsInput.Filter
+	(wellknown.Direction)(0),           // 7: eolymp.wellknown.Direction
+	(Log_Extra_Field)(0),               // 8: eolymp.audit.Log.Extra.Field
+	(*Log)(nil),                        // 9: eolymp.audit.Log
+	(*wellknown.ExpressionString)(nil), // 10: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionBool)(nil),   // 11: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_audit_log_service_proto_depIdxs = []int32{
 	5,  // 0: eolymp.audit.ListLogsInput.filters:type_name -> eolymp.audit.ListLogsInput.Filter
@@ -621,29 +623,27 @@ var file_eolymp_audit_log_service_proto_depIdxs = []int32{
 	0,  // 6: eolymp.audit.ExportLogsInput.sort:type_name -> eolymp.audit.ListLogsInput.Sortable
 	7,  // 7: eolymp.audit.ExportLogsInput.order:type_name -> eolymp.wellknown.Direction
 	8,  // 8: eolymp.audit.ExportLogsInput.extra:type_name -> eolymp.audit.Log.Extra.Field
-	10, // 9: eolymp.audit.ListLogsInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
-	11, // 10: eolymp.audit.ListLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
-	11, // 11: eolymp.audit.ListLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
-	11, // 12: eolymp.audit.ListLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
-	11, // 13: eolymp.audit.ListLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
-	11, // 14: eolymp.audit.ListLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
-	12, // 15: eolymp.audit.ListLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
-	10, // 16: eolymp.audit.ExportLogsInput.Filter.timestamp:type_name -> eolymp.wellknown.ExpressionTimestamp
-	11, // 17: eolymp.audit.ExportLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
-	11, // 18: eolymp.audit.ExportLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
-	11, // 19: eolymp.audit.ExportLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
-	11, // 20: eolymp.audit.ExportLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
-	11, // 21: eolymp.audit.ExportLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
-	12, // 22: eolymp.audit.ExportLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
-	1,  // 23: eolymp.audit.LogService.ListLogs:input_type -> eolymp.audit.ListLogsInput
-	3,  // 24: eolymp.audit.LogService.ExportLogs:input_type -> eolymp.audit.ExportLogsInput
-	2,  // 25: eolymp.audit.LogService.ListLogs:output_type -> eolymp.audit.ListLogsOutput
-	4,  // 26: eolymp.audit.LogService.ExportLogs:output_type -> eolymp.audit.ExportLogsOutput
-	25, // [25:27] is the sub-list for method output_type
-	23, // [23:25] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	10, // 9: eolymp.audit.ListLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
+	10, // 10: eolymp.audit.ListLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
+	10, // 11: eolymp.audit.ListLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
+	10, // 12: eolymp.audit.ListLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
+	10, // 13: eolymp.audit.ListLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
+	11, // 14: eolymp.audit.ListLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
+	10, // 15: eolymp.audit.ExportLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
+	10, // 16: eolymp.audit.ExportLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
+	10, // 17: eolymp.audit.ExportLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
+	10, // 18: eolymp.audit.ExportLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
+	10, // 19: eolymp.audit.ExportLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
+	11, // 20: eolymp.audit.ExportLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
+	1,  // 21: eolymp.audit.LogService.ListLogs:input_type -> eolymp.audit.ListLogsInput
+	3,  // 22: eolymp.audit.LogService.ExportLogs:input_type -> eolymp.audit.ExportLogsInput
+	2,  // 23: eolymp.audit.LogService.ListLogs:output_type -> eolymp.audit.ListLogsOutput
+	4,  // 24: eolymp.audit.LogService.ExportLogs:output_type -> eolymp.audit.ExportLogsOutput
+	23, // [23:25] is the sub-list for method output_type
+	21, // [21:23] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_audit_log_service_proto_init() }
