@@ -875,7 +875,7 @@ var File_eolymp_community_credit_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/community/credit_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/credit.proto\x1a!eolymp/wellknown/expression.proto\"3\n" +
+	"%eolymp/community/credit_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/credit.proto\x1a!eolymp/wellknown/expression.proto\"3\n" +
 	"\x14DescribeBalanceInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\"1\n" +
 	"\x15DescribeBalanceOutput\x12\x18\n" +
@@ -927,54 +927,68 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\rR\x06amount\x12\x1b\n" +
 	"\tmember_id\x18\x03 \x01(\tR\bmemberId\"\x14\n" +
-	"\x12RefundCreditOutput2\x8d\n" +
+	"\x12RefundCreditOutput2\xc5\n" +
 	"\n" +
-	"\rCreditService\x12\xa7\x01\n" +
-	"\x0fDescribeBalance\x12&.eolymp.community.DescribeBalanceInput\x1a'.eolymp.community.DescribeBalanceOutput\"C\xea\xe2\n" +
+	"\rCreditService\x12\xaf\x01\n" +
+	"\x0fDescribeBalance\x12&.eolymp.community.DescribeBalanceInput\x1a'.eolymp.community.DescribeBalanceOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/credit/balance\x12\x9b\x01\n" +
-	"\vGrantCredit\x12\".eolymp.community.GrantCreditInput\x1a#.eolymp.community.GrantCreditOutput\"C\xea\xe2\n" +
+	"\x15community:credit:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/credit/balance\x12\xa3\x01\n" +
+	"\vGrantCredit\x12\".eolymp.community.GrantCreditInput\x1a#.eolymp.community.GrantCreditOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02\x10\"\x0e/credit/grants\x12\xa9\x01\n" +
-	"\fCancelCredit\x12#.eolymp.community.CancelCreditInput\x1a$.eolymp.community.CancelCreditOutput\"N\xea\xe2\n" +
+	"\x16community:credit:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x10\"\x0e/credit/grants\x12\xb1\x01\n" +
+	"\fCancelCredit\x12#.eolymp.community.CancelCreditInput\x1a$.eolymp.community.CancelCreditOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02\x1b*\x19/credit/grants/{grant_id}\x12\xa9\x01\n" +
-	"\x10ListCreditGrants\x12'.eolymp.community.ListCreditGrantsInput\x1a(.eolymp.community.ListCreditGrantsOutput\"B\xea\xe2\n" +
+	"\x16community:credit:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1b*\x19/credit/grants/{grant_id}\x12\xb1\x01\n" +
+	"\x10ListCreditGrants\x12'.eolymp.community.ListCreditGrantsInput\x1a(.eolymp.community.ListCreditGrantsOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/credit/grants\x12\x9e\x01\n" +
-	"\fRedeemCredit\x12#.eolymp.community.RedeemCreditInput\x1a$.eolymp.community.RedeemCreditOutput\"C\xea\xe2\n" +
+	"\x15community:credit:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/credit/grants\x12\xa6\x01\n" +
+	"\fRedeemCredit\x12#.eolymp.community.RedeemCreditInput\x1a$.eolymp.community.RedeemCreditOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02\x10\"\x0e/credit/redeem\x12\xc1\x01\n" +
-	"\x16ListCreditTransactions\x12-.eolymp.community.ListCreditTransactionsInput\x1a..eolymp.community.ListCreditTransactionsOutput\"H\xea\xe2\n" +
+	"\x16community:credit:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x10\"\x0e/credit/redeem\x12\xc9\x01\n" +
+	"\x16ListCreditTransactions\x12-.eolymp.community.ListCreditTransactionsInput\x1a..eolymp.community.ListCreditTransactionsOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:credit:read\x82\xd3\xe4\x93\x02\x16\x12\x14/credit/transactions\x12\xbc\x01\n" +
-	"\fRefundCredit\x12#.eolymp.community.RefundCreditInput\x1a$.eolymp.community.RefundCreditOutput\"a\xea\xe2\n" +
+	"\x15community:credit:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/credit/transactions\x12\xc4\x01\n" +
+	"\fRefundCredit\x12#.eolymp.community.RefundCreditInput\x1a$.eolymp.community.RefundCreditOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:credit:write\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a8\x82\xf0\xf0\xe4\x01\x17eolymp.community.Member\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x16community:credit:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a8\x82\xf0\xf0\xe4\x01\x17eolymp.community.Member\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_service_proto_rawDescOnce sync.Once

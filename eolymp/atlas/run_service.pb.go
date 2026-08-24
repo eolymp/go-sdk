@@ -402,7 +402,7 @@ var File_eolymp_atlas_run_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_run_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/atlas/run_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xe1\x01\n" +
+	"\x1eeolymp/atlas/run_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xe1\x01\n" +
 	"\x0eCreateRunInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
@@ -429,30 +429,36 @@ const file_eolymp_atlas_run_service_proto_rawDesc = "" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\"r\n" +
 	"\x0eWatchRunOutput\x126\n" +
 	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12(\n" +
-	"\x03run\x18\x02 \x01(\v2\x16.eolymp.playground.RunR\x03run2\x95\x04\n" +
+	"\x03run\x18\x02 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xad\x04\n" +
 	"\n" +
-	"RunService\x12\x98\x01\n" +
-	"\tCreateRun\x12\x1c.eolymp.atlas.CreateRunInput\x1a\x1d.eolymp.atlas.CreateRunOutput\"N\xea\xe2\n" +
+	"RunService\x12\xa0\x01\n" +
+	"\tCreateRun\x12\x1c.eolymp.atlas.CreateRunInput\x1a\x1d.eolymp.atlas.CreateRunOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14playground:run:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/runs\x12\xa6\x01\n" +
-	"\vDescribeRun\x12\x1e.eolymp.atlas.DescribeRunInput\x1a\x1f.eolymp.atlas.DescribeRunOutput\"V\xea\xe2\n" +
+	"\x14playground:run:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/runs\x12\xae\x01\n" +
+	"\vDescribeRun\x12\x1e.eolymp.atlas.DescribeRunInput\x1a\x1f.eolymp.atlas.DescribeRunOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02&\x12$/problems/{problem_id}/runs/{run_id}\x12\xa5\x01\n" +
-	"\bWatchRun\x12\x1b.eolymp.atlas.WatchRunInput\x1a\x1c.eolymp.atlas.WatchRunOutput\"\\\xea\xe2\n" +
+	"\x13playground:run:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02&\x12$/problems/{problem_id}/runs/{run_id}\x12\xad\x01\n" +
+	"\bWatchRun\x12\x1b.eolymp.atlas.WatchRunInput\x1a\x1c.eolymp.atlas.WatchRunOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02,\x12*/problems/{problem_id}/runs/{run_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13playground:run:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02,\x12*/problems/{problem_id}/runs/{run_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_run_service_proto_rawDescOnce sync.Once

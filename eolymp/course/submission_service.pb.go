@@ -554,7 +554,7 @@ var File_eolymp_course_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xa3\x01\n" +
+	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xa3\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\x18\n" +
@@ -597,36 +597,44 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
 	"submission\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xe4\x05\n" +
-	"\x11SubmissionService\x12\xa7\x01\n" +
-	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"F\xea\xe2\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\x84\x06\n" +
+	"\x11SubmissionService\x12\xaf\x01\n" +
+	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14course:course:submit\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
-	"\x80\x80\xc0\x02\"\f/submissions\x12\x9b\x01\n" +
-	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"=\xea\xe2\n" +
+	"\x14course:course:submit\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"\f/submissions\x12\xa3\x01\n" +
+	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xb4\x01\n" +
-	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"M\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xbc\x01\n" +
+	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xb3\x01\n" +
-	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"S\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xbb\x01\n" +
+	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_submission_service_proto_rawDescOnce sync.Once

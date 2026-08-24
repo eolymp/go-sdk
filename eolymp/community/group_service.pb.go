@@ -611,7 +611,7 @@ var File_eolymp_community_group_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/community/group_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/community/group.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
+	"$eolymp/community/group_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/community/group.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
 	"\x11GroupChangedEvent\x12/\n" +
 	"\x06before\x18\x01 \x01(\v2\x17.eolymp.community.GroupR\x06before\x12-\n" +
 	"\x05after\x18\x02 \x01(\v2\x17.eolymp.community.GroupR\x05after\"A\n" +
@@ -643,39 +643,49 @@ const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"W\n" +
 	"\x10ListGroupsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.community.GroupR\x05items2\xbb\x06\n" +
-	"\fGroupService\x12\x93\x01\n" +
-	"\vCreateGroup\x12\".eolymp.community.CreateGroupInput\x1a#.eolymp.community.CreateGroupOutput\";\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.community.GroupR\x05items2\xe3\x06\n" +
+	"\fGroupService\x12\x9b\x01\n" +
+	"\vCreateGroup\x12\".eolymp.community.CreateGroupInput\x1a#.eolymp.community.CreateGroupOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:group:write\x82\xd3\xe4\x93\x02\t\"\a/groups\x12\x9e\x01\n" +
-	"\vUpdateGroup\x12\".eolymp.community.UpdateGroupInput\x1a#.eolymp.community.UpdateGroupOutput\"F\xea\xe2\n" +
+	"\x15community:group:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\t\"\a/groups\x12\xa6\x01\n" +
+	"\vUpdateGroup\x12\".eolymp.community.UpdateGroupInput\x1a#.eolymp.community.UpdateGroupOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:group:write\x82\xd3\xe4\x93\x02\x14\"\x12/groups/{group_id}\x12\x9e\x01\n" +
-	"\vDeleteGroup\x12\".eolymp.community.DeleteGroupInput\x1a#.eolymp.community.DeleteGroupOutput\"F\xea\xe2\n" +
+	"\x15community:group:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x14\"\x12/groups/{group_id}\x12\xa6\x01\n" +
+	"\vDeleteGroup\x12\".eolymp.community.DeleteGroupInput\x1a#.eolymp.community.DeleteGroupOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:group:write\x82\xd3\xe4\x93\x02\x14*\x12/groups/{group_id}\x12\xa3\x01\n" +
-	"\rDescribeGroup\x12$.eolymp.community.DescribeGroupInput\x1a%.eolymp.community.DescribeGroupOutput\"E\xea\xe2\n" +
+	"\x15community:group:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x14*\x12/groups/{group_id}\x12\xab\x01\n" +
+	"\rDescribeGroup\x12$.eolymp.community.DescribeGroupInput\x1a%.eolymp.community.DescribeGroupOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14community:group:read\x82\xd3\xe4\x93\x02\x14\x12\x12/groups/{group_id}\x12\x8f\x01\n" +
+	"\x14community:group:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/groups/{group_id}\x12\x97\x01\n" +
 	"\n" +
-	"ListGroups\x12!.eolymp.community.ListGroupsInput\x1a\".eolymp.community.ListGroupsOutput\":\xea\xe2\n" +
+	"ListGroups\x12!.eolymp.community.ListGroupsInput\x1a\".eolymp.community.ListGroupsOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14community:group:read\x82\xd3\xe4\x93\x02\t\x12\a/groups\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x14community:group:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/groups\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_group_service_proto_rawDescOnce sync.Once

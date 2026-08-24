@@ -168,7 +168,7 @@ var File_eolymp_executor_task_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_task_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/executor/task_service.proto\x12\x0feolymp.executor\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/executor/evaluation_task.proto\x1a%eolymp/executor/generation_task.proto\x1a!eolymp/executor/stress_task.proto\"\xd6\x01\n" +
+	"\"eolymp/executor/task_service.proto\x12\x0feolymp.executor\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/executor/evaluation_task.proto\x1a%eolymp/executor/generation_task.proto\x1a!eolymp/executor/stress_task.proto\"\xd6\x01\n" +
 	"\x0fCreateTaskInput\x12A\n" +
 	"\n" +
 	"evaluation\x18\x01 \x01(\v2\x1f.eolymp.executor.EvaluationTaskH\x00R\n" +
@@ -179,13 +179,15 @@ const file_eolymp_executor_task_service_proto_rawDesc = "" +
 	"\x06stress\x18\x03 \x01(\v2\x1b.eolymp.executor.StressTaskH\x00R\x06stressB\x06\n" +
 	"\x04task\"+\n" +
 	"\x10CreateTaskOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId2r\n" +
-	"\vTaskService\x12c\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2z\n" +
+	"\vTaskService\x12k\n" +
 	"\n" +
-	"CreateTask\x12 .eolymp.executor.CreateTaskInput\x1a!.eolymp.executor.CreateTaskOutput\"\x10\xea\xe2\n" +
+	"CreateTask\x12 .eolymp.executor.CreateTaskInput\x1a!.eolymp.executor.CreateTaskOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xc8\x01B3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
+	"\xc8\x01\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02B3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
 
 var (
 	file_eolymp_executor_task_service_proto_rawDescOnce sync.Once

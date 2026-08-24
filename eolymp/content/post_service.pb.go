@@ -1424,7 +1424,7 @@ var File_eolymp_content_post_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/content/post_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/content/post.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x99\x01\n" +
+	"!eolymp/content/post_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/content/post.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x99\x01\n" +
 	"\x10PostChangedEvent\x12,\n" +
 	"\x06before\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x06before\x12*\n" +
 	"\x05after\x18\x02 \x01(\v2\x14.eolymp.content.PostR\x05after\x12+\n" +
@@ -1526,72 +1526,92 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\".\n" +
 	"\x13TranslatePostOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xc5\f\n" +
-	"\vPostService\x12\x9b\x01\n" +
-	"\fDescribePost\x12!.eolymp.content.DescribePostInput\x1a\".eolymp.content.DescribePostOutput\"D\xea\xe2\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2\x95\r\n" +
+	"\vPostService\x12\xa3\x01\n" +
+	"\fDescribePost\x12!.eolymp.content.DescribePostInput\x1a\".eolymp.content.DescribePostOutput\"L\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14discussion:post:read\x82\xd3\xe4\x93\x02\x12\x12\x10/posts/{post_id}\x12\x87\x01\n" +
-	"\tListPosts\x12\x1e.eolymp.content.ListPostsInput\x1a\x1f.eolymp.content.ListPostsOutput\"9\xea\xe2\n" +
+	"\x14discussion:post:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/posts/{post_id}\x12\x8f\x01\n" +
+	"\tListPosts\x12\x1e.eolymp.content.ListPostsInput\x1a\x1f.eolymp.content.ListPostsOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14discussion:post:read\x82\xd3\xe4\x93\x02\b\x12\x06/posts\x12\x8b\x01\n" +
+	"\x14discussion:post:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/posts\x12\x93\x01\n" +
 	"\n" +
-	"CreatePost\x12\x1f.eolymp.content.CreatePostInput\x1a .eolymp.content.CreatePostOutput\":\xea\xe2\n" +
+	"CreatePost\x12\x1f.eolymp.content.CreatePostInput\x1a .eolymp.content.CreatePostOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\b\"\x06/posts\x12\x95\x01\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\b\"\x06/posts\x12\x9d\x01\n" +
 	"\n" +
-	"UpdatePost\x12\x1f.eolymp.content.UpdatePostInput\x1a .eolymp.content.UpdatePostOutput\"D\xea\xe2\n" +
+	"UpdatePost\x12\x1f.eolymp.content.UpdatePostInput\x1a .eolymp.content.UpdatePostOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/posts/{post_id}\x12\xa0\x01\n" +
-	"\vPublishPost\x12 .eolymp.content.PublishPostInput\x1a!.eolymp.content.PublishPostOutput\"L\xea\xe2\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\x1a\x10/posts/{post_id}\x12\xa8\x01\n" +
+	"\vPublishPost\x12 .eolymp.content.PublishPostInput\x1a!.eolymp.content.PublishPostOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1a\"\x18/posts/{post_id}/publish\x12\xa6\x01\n" +
-	"\rUnpublishPost\x12\".eolymp.content.UnpublishPostInput\x1a#.eolymp.content.UnpublishPostOutput\"L\xea\xe2\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a\"\x18/posts/{post_id}/publish\x12\xae\x01\n" +
+	"\rUnpublishPost\x12\".eolymp.content.UnpublishPostInput\x1a#.eolymp.content.UnpublishPostOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1a*\x18/posts/{post_id}/publish\x12\xa4\x01\n" +
-	"\fModeratePost\x12!.eolymp.content.ModeratePostInput\x1a\".eolymp.content.ModeratePostOutput\"M\xea\xe2\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a*\x18/posts/{post_id}/publish\x12\xac\x01\n" +
+	"\fModeratePost\x12!.eolymp.content.ModeratePostInput\x1a\".eolymp.content.ModeratePostOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1b\"\x19/posts/{post_id}/moderate\x12\x95\x01\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1b\"\x19/posts/{post_id}/moderate\x12\x9d\x01\n" +
 	"\n" +
-	"DeletePost\x12\x1f.eolymp.content.DeletePostInput\x1a .eolymp.content.DeletePostOutput\"D\xea\xe2\n" +
+	"DeletePost\x12\x1f.eolymp.content.DeletePostInput\x1a .eolymp.content.DeletePostOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x12*\x10/posts/{post_id}\x12\x94\x01\n" +
-	"\bVotePost\x12\x1d.eolymp.content.VotePostInput\x1a\x1e.eolymp.content.VotePostOutput\"I\xea\xe2\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x12*\x10/posts/{post_id}\x12\x9c\x01\n" +
+	"\bVotePost\x12\x1d.eolymp.content.VotePostInput\x1a\x1e.eolymp.content.VotePostOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x17\"\x15/posts/{post_id}/vote\x12\xa8\x01\n" +
-	"\rTranslatePost\x12\".eolymp.content.TranslatePostInput\x1a#.eolymp.content.TranslatePostOutput\"N\xea\xe2\n" +
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x17\"\x15/posts/{post_id}/vote\x12\xb0\x01\n" +
+	"\rTranslatePost\x12\".eolymp.content.TranslatePostInput\x1a#.eolymp.content.TranslatePostOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\x82\xd3\xe4\x93\x02\x1c\"\x1a/posts/{post_id}/translate\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x15discussion:post:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/posts/{post_id}/translate\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_post_service_proto_rawDescOnce sync.Once

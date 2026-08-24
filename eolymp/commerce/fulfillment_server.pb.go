@@ -628,7 +628,7 @@ var File_eolymp_commerce_fulfillment_server_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"/\n" +
+	"(eolymp/commerce/fulfillment_server.proto\x12\x0feolymp.commerce\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"/\n" +
 	"\x12AllocateStockInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x15\n" +
 	"\x13AllocateStockOutput\"Z\n" +
@@ -654,52 +654,66 @@ const file_eolymp_commerce_fulfillment_server_proto_rawDesc = "" +
 	"\x16ExportOrderLabelsInput\x12\x19\n" +
 	"\border_id\x18\x01 \x03(\tR\aorderId\"<\n" +
 	"\x17ExportOrderLabelsOutput\x12!\n" +
-	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\x91\n" +
+	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\xc9\n" +
 	"\n" +
-	"\x12FulfillmentService\x12\xb1\x01\n" +
-	"\rAllocateStock\x12#.eolymp.commerce.AllocateStockInput\x1a$.eolymp.commerce.AllocateStockOutput\"U\xea\xe2\n" +
+	"\x12FulfillmentService\x12\xb9\x01\n" +
+	"\rAllocateStock\x12#.eolymp.commerce.AllocateStockInput\x1a$.eolymp.commerce.AllocateStockOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/allocate\x12\xa9\x01\n" +
-	"\vRejectOrder\x12!.eolymp.commerce.RejectOrderInput\x1a\".eolymp.commerce.RejectOrderOutput\"S\xea\xe2\n" +
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/allocate\x12\xb1\x01\n" +
+	"\vRejectOrder\x12!.eolymp.commerce.RejectOrderInput\x1a\".eolymp.commerce.RejectOrderOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/reject\x12\xad\x01\n" +
-	"\fProcessOrder\x12\".eolymp.commerce.ProcessOrderInput\x1a#.eolymp.commerce.ProcessOrderOutput\"T\xea\xe2\n" +
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/reject\x12\xb5\x01\n" +
+	"\fProcessOrder\x12\".eolymp.commerce.ProcessOrderInput\x1a#.eolymp.commerce.ProcessOrderOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02\"\" /store/orders/{order_id}/process\x12\xa1\x01\n" +
-	"\tShipOrder\x12\x1f.eolymp.commerce.ShipOrderInput\x1a .eolymp.commerce.ShipOrderOutput\"Q\xea\xe2\n" +
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\"\" /store/orders/{order_id}/process\x12\xa9\x01\n" +
+	"\tShipOrder\x12\x1f.eolymp.commerce.ShipOrderInput\x1a .eolymp.commerce.ShipOrderOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/store/orders/{order_id}/ship\x12\xb1\x01\n" +
-	"\rCompleteOrder\x12#.eolymp.commerce.CompleteOrderInput\x1a$.eolymp.commerce.CompleteOrderOutput\"U\xea\xe2\n" +
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/store/orders/{order_id}/ship\x12\xb9\x01\n" +
+	"\rCompleteOrder\x12#.eolymp.commerce.CompleteOrderInput\x1a$.eolymp.commerce.CompleteOrderOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/complete\x12\xbb\x01\n" +
-	"\x11MarkReturnedOrder\x12'.eolymp.commerce.MarkReturnedOrderInput\x1a(.eolymp.commerce.MarkReturnedOrderOutput\"S\xea\xe2\n" +
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/store/orders/{order_id}/complete\x12\xc3\x01\n" +
+	"\x11MarkReturnedOrder\x12'.eolymp.commerce.MarkReturnedOrderInput\x1a(.eolymp.commerce.MarkReturnedOrderOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/return\x12\xb7\x01\n" +
-	"\x11ExportOrderLabels\x12'.eolymp.commerce.ExportOrderLabelsInput\x1a(.eolymp.commerce.ExportOrderLabelsOutput\"O\xea\xe2\n" +
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/return\x12\xbf\x01\n" +
+	"\x11ExportOrderLabels\x12'.eolymp.commerce.ExportOrderLabelsInput\x1a(.eolymp.commerce.ExportOrderLabelsOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:orders:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/orders:export-labels\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x15commerce:orders:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1d\"\x1b/store/orders:export-labels\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_fulfillment_server_proto_rawDescOnce sync.Once

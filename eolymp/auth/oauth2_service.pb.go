@@ -786,7 +786,7 @@ var File_eolymp_auth_oauth2_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xca\x03\n" +
+	" eolymp/auth/oauth2_service.proto\x12\veolymp.auth\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/auth/certificate.proto\x1a\x18eolymp/auth/claims.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xca\x03\n" +
 	"\x0fIssueTokenInput\x12E\n" +
 	"\n" +
 	"grant_type\x18\x01 \x01(\x0e2&.eolymp.auth.IssueTokenInput.GrantTypeR\tgrantType\x12\x1a\n" +
@@ -845,33 +845,45 @@ const file_eolymp_auth_oauth2_service_proto_rawDesc = "" +
 	" \x01(\v2\x13.eolymp.auth.ClaimsR\x06claims\"\x17\n" +
 	"\x15ListCertificatesInput\"H\n" +
 	"\x16ListCertificatesOutput\x12.\n" +
-	"\x05items\x18\x01 \x03(\v2\x18.eolymp.auth.CertificateR\x05items2\xfb\x04\n" +
-	"\rOAuth2Service\x12[\n" +
+	"\x05items\x18\x01 \x03(\v2\x18.eolymp.auth.CertificateR\x05items2\xab\x05\n" +
+	"\rOAuth2Service\x12c\n" +
 	"\n" +
-	"IssueToken\x12\x1c.eolymp.auth.IssueTokenInput\x1a\x1d.eolymp.auth.IssueTokenOutput\"\x10\xea\xe2\n" +
+	"IssueToken\x12\x1c.eolymp.auth.IssueTokenInput\x1a\x1d.eolymp.auth.IssueTokenOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02\x12j\n" +
-	"\x0fIntrospectToken\x12!.eolymp.auth.IntrospectTokenInput\x1a\".eolymp.auth.IntrospectTokenOutput\"\x10\xea\xe2\n" +
+	"\xac\x02\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12r\n" +
+	"\x0fIntrospectToken\x12!.eolymp.auth.IntrospectTokenInput\x1a\".eolymp.auth.IntrospectTokenOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02\x12^\n" +
-	"\vRevokeToken\x12\x1d.eolymp.auth.RevokeTokenInput\x1a\x1e.eolymp.auth.RevokeTokenOutput\"\x10\xea\xe2\n" +
+	"\xac\x02\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x12f\n" +
+	"\vRevokeToken\x12\x1d.eolymp.auth.RevokeTokenInput\x1a\x1e.eolymp.auth.RevokeTokenOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02\x12^\n" +
-	"\vRequestAuth\x12\x1d.eolymp.auth.RequestAuthInput\x1a\x1e.eolymp.auth.RequestAuthOutput\"\x10\xea\xe2\n" +
+	"\xac\x02\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x12f\n" +
+	"\vRequestAuth\x12\x1d.eolymp.auth.RequestAuthInput\x1a\x1e.eolymp.auth.RequestAuthOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02\x12U\n" +
-	"\bUserInfo\x12\x1a.eolymp.auth.UserInfoInput\x1a\x1b.eolymp.auth.UserInfoOutput\"\x10\xea\xe2\n" +
+	"\xac\x02\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12]\n" +
+	"\bUserInfo\x12\x1a.eolymp.auth.UserInfoInput\x1a\x1b.eolymp.auth.UserInfoOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02\x12m\n" +
-	"\x10ListCertificates\x12\".eolymp.auth.ListCertificatesInput\x1a#.eolymp.auth.ListCertificatesOutput\"\x10\xea\xe2\n" +
+	"\xac\x02\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x12u\n" +
+	"\x10ListCertificates\x12\".eolymp.auth.ListCertificatesInput\x1a#.eolymp.auth.ListCertificatesOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xf0A\xf8\xe2\n" +
-	"\xac\x02\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"\xac\x02\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_oauth2_service_proto_rawDescOnce sync.Once

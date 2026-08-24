@@ -270,7 +270,7 @@ var File_eolymp_atlas_bookmark_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_bookmark_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/atlas/bookmark_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\"\x80\x01\n" +
+	"#eolymp/atlas/bookmark_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\"\x80\x01\n" +
 	"\x14BookmarkChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1b\n" +
@@ -286,17 +286,21 @@ const file_eolymp_atlas_bookmark_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"/\n" +
 	"\x11GetBookmarkOutput\x12\x1a\n" +
-	"\bbookmark\x18\x01 \x01(\bR\bbookmark2\xc1\x02\n" +
-	"\x0fBookmarkService\x12\x87\x01\n" +
-	"\vGetBookmark\x12\x1e.eolymp.atlas.GetBookmarkInput\x1a\x1f.eolymp.atlas.GetBookmarkOutput\"7\xea\xe2\n" +
+	"\bbookmark\x18\x01 \x01(\bR\bbookmark2\xd1\x02\n" +
+	"\x0fBookmarkService\x12\x8f\x01\n" +
+	"\vGetBookmark\x12\x1e.eolymp.atlas.GetBookmarkInput\x1a\x1f.eolymp.atlas.GetBookmarkOutput\"?\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"\xfa\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/bookmark\x12\x86\x01\n" +
-	"\vSetBookmark\x12\x1e.eolymp.atlas.SetBookmarkInput\x1a\x1f.eolymp.atlas.SetBookmarkOutput\"6\xea\xe2\n" +
+	"\xfa\x01\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/bookmark\x12\x8e\x01\n" +
+	"\vSetBookmark\x12\x1e.eolymp.atlas.SetBookmarkInput\x1a\x1f.eolymp.atlas.SetBookmarkOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02!\"\x1f/problems/{problem_id}/bookmark\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/problems/{problem_id}/bookmark\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_bookmark_service_proto_rawDescOnce sync.Once

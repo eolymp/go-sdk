@@ -1211,7 +1211,7 @@ var File_eolymp_printer_printer_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_printer_printer_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/printer/printer_service.proto\x12\x0eeolymp.printer\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/printer/printer.proto\x1a eolymp/printer/printer_job.proto\x1a!eolymp/wellknown/expression.proto\"G\n" +
+	"$eolymp/printer/printer_service.proto\x12\x0eeolymp.printer\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/printer/printer.proto\x1a eolymp/printer/printer_job.proto\x1a!eolymp/wellknown/expression.proto\"G\n" +
 	"\x12CreatePrinterInput\x121\n" +
 	"\aprinter\x18\x01 \x01(\v2\x17.eolymp.printer.PrinterR\aprinter\"4\n" +
 	"\x13CreatePrinterOutput\x12\x1d\n" +
@@ -1286,68 +1286,88 @@ const file_eolymp_printer_printer_service_proto_rawDesc = "" +
 	"\n" +
 	"printer_id\x18\x01 \x01(\tR\tprinterId\x12\x15\n" +
 	"\x06job_id\x18\x02 \x01(\tR\x05jobId\"\x18\n" +
-	"\x16DeletePrinterJobOutput2\xfd\r\n" +
-	"\x0ePrinterService\x12\x97\x01\n" +
-	"\rCreatePrinter\x12\".eolymp.printer.CreatePrinterInput\x1a#.eolymp.printer.CreatePrinterOutput\"=\xea\xe2\n" +
+	"\x16DeletePrinterJobOutput2\xcd\x0e\n" +
+	"\x0ePrinterService\x12\x9f\x01\n" +
+	"\rCreatePrinter\x12\".eolymp.printer.CreatePrinterInput\x1a#.eolymp.printer.CreatePrinterOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15printer:printer:write\x82\xd3\xe4\x93\x02\v\"\t/printers\x12\xa4\x01\n" +
-	"\rUpdatePrinter\x12\".eolymp.printer.UpdatePrinterInput\x1a#.eolymp.printer.UpdatePrinterOutput\"J\xea\xe2\n" +
+	"\x15printer:printer:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/printers\x12\xac\x01\n" +
+	"\rUpdatePrinter\x12\".eolymp.printer.UpdatePrinterInput\x1a#.eolymp.printer.UpdatePrinterOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15printer:printer:write\x82\xd3\xe4\x93\x02\x18\"\x16/printers/{printer_id}\x12\xa4\x01\n" +
-	"\rDeletePrinter\x12\".eolymp.printer.DeletePrinterInput\x1a#.eolymp.printer.DeletePrinterOutput\"J\xea\xe2\n" +
+	"\x15printer:printer:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/printers/{printer_id}\x12\xac\x01\n" +
+	"\rDeletePrinter\x12\".eolymp.printer.DeletePrinterInput\x1a#.eolymp.printer.DeletePrinterOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15printer:printer:write\x82\xd3\xe4\x93\x02\x18*\x16/printers/{printer_id}\x12\xa9\x01\n" +
-	"\x0fDescribePrinter\x12$.eolymp.printer.DescribePrinterInput\x1a%.eolymp.printer.DescribePrinterOutput\"I\xea\xe2\n" +
+	"\x15printer:printer:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/printers/{printer_id}\x12\xb1\x01\n" +
+	"\x0fDescribePrinter\x12$.eolymp.printer.DescribePrinterInput\x1a%.eolymp.printer.DescribePrinterOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14printer:printer:read\x82\xd3\xe4\x93\x02\x18\x12\x16/printers/{printer_id}\x12\x93\x01\n" +
-	"\fListPrinters\x12!.eolymp.printer.ListPrintersInput\x1a\".eolymp.printer.ListPrintersOutput\"<\xea\xe2\n" +
+	"\x14printer:printer:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/printers/{printer_id}\x12\x9b\x01\n" +
+	"\fListPrinters\x12!.eolymp.printer.ListPrintersInput\x1a\".eolymp.printer.ListPrintersOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14printer:printer:read\x82\xd3\xe4\x93\x02\v\x12\t/printers\x12\xb2\x01\n" +
-	"\x10CreatePrinterJob\x12%.eolymp.printer.CreatePrinterJobInput\x1a&.eolymp.printer.CreatePrinterJobOutput\"O\xea\xe2\n" +
+	"\x14printer:printer:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/printers\x12\xba\x01\n" +
+	"\x10CreatePrinterJob\x12%.eolymp.printer.CreatePrinterJobInput\x1a&.eolymp.printer.CreatePrinterJobOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15printer:printer:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/printers/{printer_id}/jobs\x12\xc1\x01\n" +
-	"\x12DescribePrinterJob\x12'.eolymp.printer.DescribePrinterJobInput\x1a(.eolymp.printer.DescribePrinterJobOutput\"X\xea\xe2\n" +
+	"\x15printer:printer:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/printers/{printer_id}/jobs\x12\xc9\x01\n" +
+	"\x12DescribePrinterJob\x12'.eolymp.printer.DescribePrinterJobInput\x1a(.eolymp.printer.DescribePrinterJobOutput\"`\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14printer:printer:read\x82\xd3\xe4\x93\x02&\x12$/printers/{printer_id}/jobs/{job_id}\x12\xae\x01\n" +
-	"\x0fListPrinterJobs\x12$.eolymp.printer.ListPrinterJobsInput\x1a%.eolymp.printer.ListPrinterJobsOutput\"N\xea\xe2\n" +
+	"\x14printer:printer:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02&\x12$/printers/{printer_id}/jobs/{job_id}\x12\xb6\x01\n" +
+	"\x0fListPrinterJobs\x12$.eolymp.printer.ListPrinterJobsInput\x1a%.eolymp.printer.ListPrinterJobsOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14printer:printer:read\x82\xd3\xe4\x93\x02\x1d\x12\x1b/printers/{printer_id}/jobs\x12\xbb\x01\n" +
-	"\x10UpdatePrinterJob\x12%.eolymp.printer.UpdatePrinterJobInput\x1a&.eolymp.printer.UpdatePrinterJobOutput\"X\xea\xe2\n" +
+	"\x14printer:printer:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1d\x12\x1b/printers/{printer_id}/jobs\x12\xc3\x01\n" +
+	"\x10UpdatePrinterJob\x12%.eolymp.printer.UpdatePrinterJobInput\x1a&.eolymp.printer.UpdatePrinterJobOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15printer:printer:write\x82\xd3\xe4\x93\x02&\x1a$/printers/{printer_id}/jobs/{job_id}\x12\xbb\x01\n" +
-	"\x10DeletePrinterJob\x12%.eolymp.printer.DeletePrinterJobInput\x1a&.eolymp.printer.DeletePrinterJobOutput\"X\xea\xe2\n" +
+	"\x15printer:printer:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\x1a$/printers/{printer_id}/jobs/{job_id}\x12\xc3\x01\n" +
+	"\x10DeletePrinterJob\x12%.eolymp.printer.DeletePrinterJobInput\x1a&.eolymp.printer.DeletePrinterJobOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15printer:printer:write\x82\xd3\xe4\x93\x02&*$/printers/{printer_id}/jobs/{job_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/printer;printerb\x06proto3"
+	"\x15printer:printer:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02&*$/printers/{printer_id}/jobs/{job_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/printer;printerb\x06proto3"
 
 var (
 	file_eolymp_printer_printer_service_proto_rawDescOnce sync.Once

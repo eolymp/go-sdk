@@ -266,7 +266,7 @@ var File_eolymp_vendor_profile_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_profile_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/vendor/profile_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\"\x16\n" +
+	"#eolymp/vendor/profile_service.proto\x12\reolymp.vendor\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\"\x16\n" +
 	"\x14DescribeProfileInput\"H\n" +
 	"\x15DescribeProfileOutput\x12/\n" +
 	"\aprofile\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"~\n" +
@@ -275,26 +275,32 @@ const file_eolymp_vendor_profile_service_proto_rawDesc = "" +
 	"\aprofile\x18\x02 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"\x15\n" +
 	"\x13UpdateProfileOutput\"\x14\n" +
 	"\x12SubmitProfileInput\"\x15\n" +
-	"\x13SubmitProfileOutput2\xf3\x03\n" +
-	"\x0eProfileService\x12\x9f\x01\n" +
-	"\x0fDescribeProfile\x12#.eolymp.vendor.DescribeProfileInput\x1a$.eolymp.vendor.DescribeProfileOutput\"A\xea\xe2\n" +
+	"\x13SubmitProfileOutput2\x8b\x04\n" +
+	"\x0eProfileService\x12\xa7\x01\n" +
+	"\x0fDescribeProfile\x12#.eolymp.vendor.DescribeProfileInput\x1a$.eolymp.vendor.DescribeProfileOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/vendor-profile\x12\x9a\x01\n" +
-	"\rUpdateProfile\x12!.eolymp.vendor.UpdateProfileInput\x1a\".eolymp.vendor.UpdateProfileOutput\"B\xea\xe2\n" +
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/vendor-profile\x12\xa2\x01\n" +
+	"\rUpdateProfile\x12!.eolymp.vendor.UpdateProfileInput\x1a\".eolymp.vendor.UpdateProfileOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x11\x1a\x0f/vendor-profile\x12\xa1\x01\n" +
-	"\rSubmitProfile\x12!.eolymp.vendor.SubmitProfileInput\x1a\".eolymp.vendor.SubmitProfileOutput\"I\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x11\x1a\x0f/vendor-profile\x12\xa9\x01\n" +
+	"\rSubmitProfile\x12!.eolymp.vendor.SubmitProfileInput\x1a\".eolymp.vendor.SubmitProfileOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x18\"\x16/vendor-profile:submitB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/vendor-profile:submitB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_profile_service_proto_rawDescOnce sync.Once

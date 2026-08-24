@@ -210,7 +210,7 @@ var File_eolymp_discussion_thread_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_thread_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/discussion/thread_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a'eolymp/discussion/message_service.proto\x1a,eolymp/discussion/subscription_service.proto\x1a\x1eeolymp/discussion/thread.proto\"-\n" +
+	"&eolymp/discussion/thread_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a'eolymp/discussion/message_service.proto\x1a,eolymp/discussion/subscription_service.proto\x1a\x1eeolymp/discussion/thread.proto\"-\n" +
 	"\x13DescribeThreadInput\x12\x16\n" +
 	"\x06locale\x18\n" +
 	" \x01(\tR\x06locale\"I\n" +
@@ -222,66 +222,86 @@ const file_eolymp_discussion_thread_service_proto_rawDesc = "" +
 	"\x04vote\x18\x02 \x01(\x05R\x04vote\"1\n" +
 	"\x10VoteThreadOutput\x12\x1d\n" +
 	"\n" +
-	"vote_count\x18\x01 \x01(\x05R\tvoteCount2\xe9\r\n" +
-	"\rThreadService\x12\x81\x01\n" +
-	"\x0eDescribeThread\x12&.eolymp.discussion.DescribeThreadInput\x1a'.eolymp.discussion.DescribeThreadOutput\"\x1e\xea\xe2\n" +
+	"vote_count\x18\x01 \x01(\x05R\tvoteCount2\xba\x0e\n" +
+	"\rThreadService\x12\x89\x01\n" +
+	"\x0eDescribeThread\x12&.eolymp.discussion.DescribeThreadInput\x1a'.eolymp.discussion.DescribeThreadOutput\"&\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\t\x12\a/thread\x12z\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/thread\x12\x82\x01\n" +
 	"\n" +
-	"VoteThread\x12\".eolymp.discussion.VoteThreadInput\x1a#.eolymp.discussion.VoteThreadOutput\"#\xea\xe2\n" +
+	"VoteThread\x12\".eolymp.discussion.VoteThreadInput\x1a#.eolymp.discussion.VoteThreadOutput\"+\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x0e\"\f/thread/vote\x12\xbf\x01\n" +
-	"\x12UpdateSubscription\x12*.eolymp.discussion.UpdateSubscriptionInput\x1a+.eolymp.discussion.UpdateSubscriptionOutput\"P\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0e\"\f/thread/vote\x12\xc7\x01\n" +
+	"\x12UpdateSubscription\x12*.eolymp.discussion.UpdateSubscriptionInput\x1a+.eolymp.discussion.UpdateSubscriptionOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"!\x8a\xe3\n" +
-	"\x1ddiscussion:subscription:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/thread/subscription\x12\xba\x01\n" +
-	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"T\xea\xe2\n" +
+	"\x1ddiscussion:subscription:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/thread/subscription\x12\xc2\x01\n" +
+	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"\\\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/thread/messages/{message_id}\x12\xa3\x01\n" +
-	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"F\xea\xe2\n" +
+	"\x17discussion:message:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/thread/messages/{message_id}\x12\xab\x01\n" +
+	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02\x12\x12\x10/thread/messages\x12\xa1\x01\n" +
-	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"G\xea\xe2\n" +
+	"\x17discussion:message:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/thread/messages\x12\xa9\x01\n" +
+	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x12\"\x10/thread/messages\x12\xb4\x01\n" +
-	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"T\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\"\x10/thread/messages\x12\xbc\x01\n" +
+	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x1f\x1a\x1d/thread/messages/{message_id}\x12\xad\x01\n" +
-	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"M\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\x1a\x1d/thread/messages/{message_id}\x12\xb5\x01\n" +
+	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x18*\x16/messages/{message_id}\x12\xac\x01\n" +
-	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"R\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/messages/{message_id}\x12\xb4\x01\n" +
+	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/messages/{message_id}/vote\x12\xc3\x01\n" +
-	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"T\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/messages/{message_id}/vote\x12\xcb\x01\n" +
+	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02 \x12\x1e/messages/{message_id}/changes\x1a3\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x13eolymp.content.PostB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x17discussion:message:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/messages/{message_id}/changes\x1a3\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x13eolymp.content.PostB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_thread_service_proto_rawDescOnce sync.Once

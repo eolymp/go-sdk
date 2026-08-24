@@ -1051,7 +1051,7 @@ var File_eolymp_course_material_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_material_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/course/material_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/course/material.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"g\n" +
+	"$eolymp/course/material_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/course/material.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"g\n" +
 	"\x13CreateMaterialInput\x123\n" +
 	"\bmaterial\x18\x01 \x01(\v2\x17.eolymp.course.MaterialR\bmaterial\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"7\n" +
@@ -1122,59 +1122,74 @@ const file_eolymp_course_material_service_proto_rawDesc = "" +
 	"\x05grade\x18\x03 \x01(\rH\x00R\x05grade\x12\x1a\n" +
 	"\aexcused\x18\x04 \x01(\bH\x00R\aexcusedB\a\n" +
 	"\x05value\"\x15\n" +
-	"\x13GradeMaterialOutput2\xdb\n" +
-	"\n" +
-	"\x0fMaterialService\x12\x97\x01\n" +
-	"\x0eCreateMaterial\x12\".eolymp.course.CreateMaterialInput\x1a#.eolymp.course.CreateMaterialOutput\"<\xea\xe2\n" +
+	"\x13GradeMaterialOutput2\x9b\v\n" +
+	"\x0fMaterialService\x12\x9f\x01\n" +
+	"\x0eCreateMaterial\x12\".eolymp.course.CreateMaterialInput\x1a#.eolymp.course.CreateMaterialOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\f\"\n" +
-	"/materials\x12\xa5\x01\n" +
-	"\x0eUpdateMaterial\x12\".eolymp.course.UpdateMaterialInput\x1a#.eolymp.course.UpdateMaterialOutput\"J\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xe3\n" +
-	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x1a\x1a\x18/materials/{material_id}\x12\xa4\x01\n" +
-	"\fMoveMaterial\x12 .eolymp.course.MoveMaterialInput\x1a!.eolymp.course.MoveMaterialOutput\"O\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xe3\n" +
-	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/materials/{material_id}/move\x12\xa5\x01\n" +
-	"\x0eDeleteMaterial\x12\".eolymp.course.DeleteMaterialInput\x1a#.eolymp.course.DeleteMaterialOutput\"J\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xe3\n" +
-	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x1a*\x18/materials/{material_id}\x12\xaa\x01\n" +
-	"\x10DescribeMaterial\x12$.eolymp.course.DescribeMaterialInput\x1a%.eolymp.course.DescribeMaterialOutput\"I\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1a\x12\x18/materials/{material_id}\x12\x93\x01\n" +
-	"\rListMaterials\x12!.eolymp.course.ListMaterialsInput\x1a\".eolymp.course.ListMaterialsOutput\";\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\f\"\n" +
 	"/materials\x12\xad\x01\n" +
-	"\x0eReportProgress\x12\".eolymp.course.ReportProgressInput\x1a#.eolymp.course.ReportProgressOutput\"R\xea\xe2\n" +
+	"\x0eUpdateMaterial\x12\".eolymp.course.UpdateMaterialInput\x1a#.eolymp.course.UpdateMaterialOutput\"R\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a\x1a\x18/materials/{material_id}\x12\xac\x01\n" +
+	"\fMoveMaterial\x12 .eolymp.course.MoveMaterialInput\x1a!.eolymp.course.MoveMaterialOutput\"W\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/materials/{material_id}/move\x12\xad\x01\n" +
+	"\x0eDeleteMaterial\x12\".eolymp.course.DeleteMaterialInput\x1a#.eolymp.course.DeleteMaterialOutput\"R\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1a*\x18/materials/{material_id}\x12\xb2\x01\n" +
+	"\x10DescribeMaterial\x12$.eolymp.course.DescribeMaterialInput\x1a%.eolymp.course.DescribeMaterialOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02#\"!/materials/{material_id}/progress\x12\xa7\x01\n" +
-	"\rGradeMaterial\x12!.eolymp.course.GradeMaterialInput\x1a\".eolymp.course.GradeMaterialOutput\"O\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1a\x12\x18/materials/{material_id}\x12\x9b\x01\n" +
+	"\rListMaterials\x12!.eolymp.course.ListMaterialsInput\x1a\".eolymp.course.ListMaterialsOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02 \"\x1e/materials/{material_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"/materials\x12\xb5\x01\n" +
+	"\x0eReportProgress\x12\".eolymp.course.ReportProgressInput\x1a#.eolymp.course.ReportProgressOutput\"Z\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x16\x8a\xe3\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/materials/{material_id}/progress\x12\xaf\x01\n" +
+	"\rGradeMaterial\x12!.eolymp.course.GradeMaterialInput\x1a\".eolymp.course.GradeMaterialOutput\"W\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x16\x8a\xe3\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/materials/{material_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_material_service_proto_rawDescOnce sync.Once

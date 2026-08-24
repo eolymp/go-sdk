@@ -531,7 +531,7 @@ var File_eolymp_vendor_vendor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_vendor_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/vendor/vendor_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\x1a!eolymp/wellknown/expression.proto\"p\n" +
+	"\"eolymp/vendor/vendor_service.proto\x12\reolymp.vendor\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\x1a!eolymp/wellknown/expression.proto\"p\n" +
 	"\x12VendorChangedEvent\x12-\n" +
 	"\x06before\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\x06before\x12+\n" +
 	"\x05after\x18\x02 \x01(\v2\x15.eolymp.vendor.VendorR\x05after\"\xa2\x03\n" +
@@ -560,33 +560,41 @@ const file_eolymp_vendor_vendor_service_proto_rawDesc = "" +
 	"\x11RejectVendorInput\x12\x1b\n" +
 	"\tvendor_id\x18\x01 \x01(\tR\bvendorId\x12\x18\n" +
 	"\acomment\x18\x02 \x01(\tR\acomment\"\x14\n" +
-	"\x12RejectVendorOutput2\x92\x05\n" +
-	"\rVendorService\x12\x8c\x01\n" +
-	"\vListVendors\x12\x1f.eolymp.vendor.ListVendorsInput\x1a .eolymp.vendor.ListVendorsOutput\":\xea\xe2\n" +
+	"\x12RejectVendorOutput2\xb2\x05\n" +
+	"\rVendorService\x12\x94\x01\n" +
+	"\vListVendors\x12\x1f.eolymp.vendor.ListVendorsInput\x1a .eolymp.vendor.ListVendorsOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/vendors\x12\xa1\x01\n" +
-	"\x0eDescribeVendor\x12\".eolymp.vendor.DescribeVendorInput\x1a#.eolymp.vendor.DescribeVendorOutput\"F\xea\xe2\n" +
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/vendors\x12\xa9\x01\n" +
+	"\x0eDescribeVendor\x12\".eolymp.vendor.DescribeVendorInput\x1a#.eolymp.vendor.DescribeVendorOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x16\x12\x14/vendors/{vendor_id}\x12\xa7\x01\n" +
-	"\rApproveVendor\x12!.eolymp.vendor.ApproveVendorInput\x1a\".eolymp.vendor.ApproveVendorOutput\"O\xea\xe2\n" +
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/vendors/{vendor_id}\x12\xaf\x01\n" +
+	"\rApproveVendor\x12!.eolymp.vendor.ApproveVendorInput\x1a\".eolymp.vendor.ApproveVendorOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/vendors/{vendor_id}/approve\x12\xa3\x01\n" +
-	"\fRejectVendor\x12 .eolymp.vendor.RejectVendorInput\x1a!.eolymp.vendor.RejectVendorOutput\"N\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/vendors/{vendor_id}/approve\x12\xab\x01\n" +
+	"\fRejectVendor\x12 .eolymp.vendor.RejectVendorInput\x1a!.eolymp.vendor.RejectVendorOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/vendors/{vendor_id}/rejectB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/vendors/{vendor_id}/rejectB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_vendor_service_proto_rawDescOnce sync.Once

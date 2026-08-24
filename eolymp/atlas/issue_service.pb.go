@@ -1219,7 +1219,7 @@ var File_eolymp_atlas_issue_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a!eolymp/atlas/issue_activity.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa5\x01\n" +
+	" eolymp/atlas/issue_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/issue.proto\x1a!eolymp/atlas/issue_activity.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa5\x01\n" +
 	"\x11IssueChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12+\n" +
@@ -1306,63 +1306,81 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12\x1d\n" +
 	"\n" +
 	"comment_id\x18\x03 \x01(\tR\tcommentId\"\x1a\n" +
-	"\x18DeleteIssueCommentOutput2\xfb\v\n" +
-	"\fIssueService\x12\x85\x01\n" +
+	"\x18DeleteIssueCommentOutput2\xc3\f\n" +
+	"\fIssueService\x12\x8d\x01\n" +
 	"\n" +
-	"ListIssues\x12\x1d.eolymp.atlas.ListIssuesInput\x1a\x1e.eolymp.atlas.ListIssuesOutput\"8\xea\xe2\n" +
+	"ListIssues\x12\x1d.eolymp.atlas.ListIssuesInput\x1a\x1e.eolymp.atlas.ListIssuesOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\t\x12\a/issues\x12\x99\x01\n" +
-	"\rDescribeIssue\x12 .eolymp.atlas.DescribeIssueInput\x1a!.eolymp.atlas.DescribeIssueOutput\"C\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/issues\x12\xa1\x01\n" +
+	"\rDescribeIssue\x12 .eolymp.atlas.DescribeIssueInput\x1a!.eolymp.atlas.DescribeIssueOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x14\x12\x12/issues/{issue_id}\x12\x89\x01\n" +
-	"\vCreateIssue\x12\x1e.eolymp.atlas.CreateIssueInput\x1a\x1f.eolymp.atlas.CreateIssueOutput\"9\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/issues/{issue_id}\x12\x91\x01\n" +
+	"\vCreateIssue\x12\x1e.eolymp.atlas.CreateIssueInput\x1a\x1f.eolymp.atlas.CreateIssueOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\t\"\a/issues\x12\x94\x01\n" +
-	"\vUpdateIssue\x12\x1e.eolymp.atlas.UpdateIssueInput\x1a\x1f.eolymp.atlas.UpdateIssueOutput\"D\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\t\"\a/issues\x12\x9c\x01\n" +
+	"\vUpdateIssue\x12\x1e.eolymp.atlas.UpdateIssueInput\x1a\x1f.eolymp.atlas.UpdateIssueOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x14\x1a\x12/issues/{issue_id}\x12\x94\x01\n" +
-	"\vDeleteIssue\x12\x1e.eolymp.atlas.DeleteIssueInput\x1a\x1f.eolymp.atlas.DeleteIssueOutput\"D\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x14\x1a\x12/issues/{issue_id}\x12\x9c\x01\n" +
+	"\vDeleteIssue\x12\x1e.eolymp.atlas.DeleteIssueInput\x1a\x1f.eolymp.atlas.DeleteIssueOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x14*\x12/issues/{issue_id}\x12\xb6\x01\n" +
-	"\x13ListIssueActivities\x12&.eolymp.atlas.ListIssueActivitiesInput\x1a'.eolymp.atlas.ListIssueActivitiesOutput\"N\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x14*\x12/issues/{issue_id}\x12\xbe\x01\n" +
+	"\x13ListIssueActivities\x12&.eolymp.atlas.ListIssueActivitiesInput\x1a'.eolymp.atlas.ListIssueActivitiesOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/issues/{issue_id}/activities\x12\xb2\x01\n" +
-	"\x12CreateIssueComment\x12%.eolymp.atlas.CreateIssueCommentInput\x1a&.eolymp.atlas.CreateIssueCommentOutput\"M\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/issues/{issue_id}/activities\x12\xba\x01\n" +
+	"\x12CreateIssueComment\x12%.eolymp.atlas.CreateIssueCommentInput\x1a&.eolymp.atlas.CreateIssueCommentOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/issues/{issue_id}/comments\x12\xbf\x01\n" +
-	"\x12UpdateIssueComment\x12%.eolymp.atlas.UpdateIssueCommentInput\x1a&.eolymp.atlas.UpdateIssueCommentOutput\"Z\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/issues/{issue_id}/comments\x12\xc7\x01\n" +
+	"\x12UpdateIssueComment\x12%.eolymp.atlas.UpdateIssueCommentInput\x1a&.eolymp.atlas.UpdateIssueCommentOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02*\x1a(/issues/{issue_id}/comments/{comment_id}\x12\xbf\x01\n" +
-	"\x12DeleteIssueComment\x12%.eolymp.atlas.DeleteIssueCommentInput\x1a&.eolymp.atlas.DeleteIssueCommentOutput\"Z\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02*\x1a(/issues/{issue_id}/comments/{comment_id}\x12\xc7\x01\n" +
+	"\x12DeleteIssueComment\x12%.eolymp.atlas.DeleteIssueCommentInput\x1a&.eolymp.atlas.DeleteIssueCommentOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02**(/issues/{issue_id}/comments/{comment_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02**(/issues/{issue_id}/comments/{comment_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_issue_service_proto_rawDescOnce sync.Once

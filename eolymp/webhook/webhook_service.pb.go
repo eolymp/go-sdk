@@ -578,7 +578,7 @@ var File_eolymp_webhook_webhook_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_webhook_webhook_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/webhook/webhook_service.proto\x12\x0eeolymp.webhook\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/webhook/webhook.proto\"G\n" +
+	"$eolymp/webhook/webhook_service.proto\x12\x0eeolymp.webhook\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/webhook/webhook.proto\"G\n" +
 	"\x12CreateWebhookInput\x121\n" +
 	"\awebhook\x18\x01 \x01(\v2\x17.eolymp.webhook.WebhookR\awebhook\"4\n" +
 	"\x13CreateWebhookOutput\x12\x1d\n" +
@@ -611,44 +611,56 @@ const file_eolymp_webhook_webhook_service_proto_rawDesc = "" +
 	"webhook_id\x18\x01 \x01(\tR\twebhookId\"G\n" +
 	"\x11TestWebhookOutput\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x1a\n" +
-	"\bresponse\x18\x02 \x01(\tR\bresponse2\xfd\a\n" +
-	"\x0eWebhookService\x12\x97\x01\n" +
-	"\rCreateWebhook\x12\".eolymp.webhook.CreateWebhookInput\x1a#.eolymp.webhook.CreateWebhookOutput\"=\xea\xe2\n" +
+	"\bresponse\x18\x02 \x01(\tR\bresponse2\xad\b\n" +
+	"\x0eWebhookService\x12\x9f\x01\n" +
+	"\rCreateWebhook\x12\".eolymp.webhook.CreateWebhookInput\x1a#.eolymp.webhook.CreateWebhookOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15webhook:webhook:write\x82\xd3\xe4\x93\x02\v\"\t/webhooks\x12\xa4\x01\n" +
-	"\rUpdateWebhook\x12\".eolymp.webhook.UpdateWebhookInput\x1a#.eolymp.webhook.UpdateWebhookOutput\"J\xea\xe2\n" +
+	"\x15webhook:webhook:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/webhooks\x12\xac\x01\n" +
+	"\rUpdateWebhook\x12\".eolymp.webhook.UpdateWebhookInput\x1a#.eolymp.webhook.UpdateWebhookOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15webhook:webhook:write\x82\xd3\xe4\x93\x02\x18\"\x16/webhooks/{webhook_id}\x12\xa4\x01\n" +
-	"\rDeleteWebhook\x12\".eolymp.webhook.DeleteWebhookInput\x1a#.eolymp.webhook.DeleteWebhookOutput\"J\xea\xe2\n" +
+	"\x15webhook:webhook:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/webhooks/{webhook_id}\x12\xac\x01\n" +
+	"\rDeleteWebhook\x12\".eolymp.webhook.DeleteWebhookInput\x1a#.eolymp.webhook.DeleteWebhookOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15webhook:webhook:write\x82\xd3\xe4\x93\x02\x18*\x16/webhooks/{webhook_id}\x12\xa9\x01\n" +
-	"\x0fDescribeWebhook\x12$.eolymp.webhook.DescribeWebhookInput\x1a%.eolymp.webhook.DescribeWebhookOutput\"I\xea\xe2\n" +
+	"\x15webhook:webhook:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/webhooks/{webhook_id}\x12\xb1\x01\n" +
+	"\x0fDescribeWebhook\x12$.eolymp.webhook.DescribeWebhookInput\x1a%.eolymp.webhook.DescribeWebhookOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14webhook:webhook:read\x82\xd3\xe4\x93\x02\x18\x12\x16/webhooks/{webhook_id}\x12\x93\x01\n" +
-	"\fListWebhooks\x12!.eolymp.webhook.ListWebhooksInput\x1a\".eolymp.webhook.ListWebhooksOutput\"<\xea\xe2\n" +
+	"\x14webhook:webhook:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/webhooks/{webhook_id}\x12\x9b\x01\n" +
+	"\fListWebhooks\x12!.eolymp.webhook.ListWebhooksInput\x1a\".eolymp.webhook.ListWebhooksOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14webhook:webhook:read\x82\xd3\xe4\x93\x02\v\x12\t/webhooks\x12\xa3\x01\n" +
-	"\vTestWebhook\x12 .eolymp.webhook.TestWebhookInput\x1a!.eolymp.webhook.TestWebhookOutput\"O\xea\xe2\n" +
+	"\x14webhook:webhook:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/webhooks\x12\xab\x01\n" +
+	"\vTestWebhook\x12 .eolymp.webhook.TestWebhookInput\x1a!.eolymp.webhook.TestWebhookOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15webhook:webhook:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/webhooks/{webhook_id}/test\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/webhook;webhookb\x06proto3"
+	"\x15webhook:webhook:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/webhooks/{webhook_id}/test\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/webhook;webhookb\x06proto3"
 
 var (
 	file_eolymp_webhook_webhook_service_proto_rawDescOnce sync.Once

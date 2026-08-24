@@ -389,7 +389,7 @@ var File_eolymp_printer_printer_connector_proto protoreflect.FileDescriptor
 
 const file_eolymp_printer_printer_connector_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/printer/printer_connector.proto\x12\x0eeolymp.printer\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1ceolymp/printer/printer.proto\x1a eolymp/printer/printer_job.proto\"\xda\x02\n" +
+	"&eolymp/printer/printer_connector.proto\x12\x0eeolymp.printer\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1ceolymp/printer/printer.proto\x1a eolymp/printer/printer_job.proto\"\xda\x02\n" +
 	"\x1dPrinterConnectorClientMessage\x12N\n" +
 	"\x06status\x18e \x01(\v24.eolymp.printer.PrinterConnectorClientMessage.StatusH\x00R\x06status\x12N\n" +
 	"\x06report\x18f \x01(\v24.eolymp.printer.PrinterConnectorClientMessage.ReportH\x00R\x06report\x1aL\n" +
@@ -407,12 +407,14 @@ const file_eolymp_printer_printer_connector_proto_rawDesc = "" +
 	"\aprinter\x18\x02 \x01(\v2\x17.eolymp.printer.PrinterR\aprinter\x1a.\n" +
 	"\x05Print\x12%\n" +
 	"\x03job\x18\x01 \x01(\v2\x13.eolymp.printer.JobR\x03jobB\t\n" +
-	"\amessage2\x90\x01\n" +
-	"\x10PrinterConnector\x12|\n" +
-	"\aConnect\x12-.eolymp.printer.PrinterConnectorClientMessage\x1a-.eolymp.printer.PrinterConnectorServerMessage\"\x0f\xea\xe2\n" +
+	"\amessage2\x99\x01\n" +
+	"\x10PrinterConnector\x12\x84\x01\n" +
+	"\aConnect\x12-.eolymp.printer.PrinterConnectorClientMessage\x1a-.eolymp.printer.PrinterConnectorServerMessage\"\x17\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14(\x010\x01B1Z/github.com/eolymp/go-sdk/eolymp/printer;printerb\x06proto3"
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02(\x010\x01B1Z/github.com/eolymp/go-sdk/eolymp/printer;printerb\x06proto3"
 
 var (
 	file_eolymp_printer_printer_connector_proto_rawDescOnce sync.Once

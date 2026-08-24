@@ -622,7 +622,7 @@ var File_eolymp_acl_principal_service_proto protoreflect.FileDescriptor
 const file_eolymp_acl_principal_service_proto_rawDesc = "" +
 	"\n" +
 	"\"eolymp/acl/principal_service.proto\x12\n" +
-	"eolymp.acl\x1a\x1aeolymp/acl/principal.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"K\n" +
+	"eolymp.acl\x1a\x1aeolymp/acl/principal.proto\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"K\n" +
 	"\x14CreatePrincipalInput\x123\n" +
 	"\tprincipal\x18\x01 \x01(\v2\x15.eolymp.acl.PrincipalR\tprincipal\":\n" +
 	"\x15CreatePrincipalOutput\x12!\n" +
@@ -658,38 +658,48 @@ const file_eolymp_acl_principal_service_proto_rawDesc = "" +
 	"\x04NAME\x10\x01\"Y\n" +
 	"\x14ListPrincipalsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.acl.PrincipalR\x05items2\xc6\x06\n" +
-	"\x10PrincipalService\x12\x92\x01\n" +
-	"\x0fCreatePrincipal\x12 .eolymp.acl.CreatePrincipalInput\x1a!.eolymp.acl.CreatePrincipalOutput\":\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.acl.PrincipalR\x05items2\xee\x06\n" +
+	"\x10PrincipalService\x12\x9a\x01\n" +
+	"\x0fCreatePrincipal\x12 .eolymp.acl.CreatePrincipalInput\x1a!.eolymp.acl.CreatePrincipalOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10acl:policy:write\x82\xd3\xe4\x93\x02\r\"\v/principals\x12\xa1\x01\n" +
-	"\x0fUpdatePrincipal\x12 .eolymp.acl.UpdatePrincipalInput\x1a!.eolymp.acl.UpdatePrincipalOutput\"I\xea\xe2\n" +
+	"\x10acl:policy:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\r\"\v/principals\x12\xa9\x01\n" +
+	"\x0fUpdatePrincipal\x12 .eolymp.acl.UpdatePrincipalInput\x1a!.eolymp.acl.UpdatePrincipalOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10acl:policy:write\x82\xd3\xe4\x93\x02\x1c\x1a\x1a/principals/{principal_id}\x12\xa1\x01\n" +
-	"\x0fDeletePrincipal\x12 .eolymp.acl.DeletePrincipalInput\x1a!.eolymp.acl.DeletePrincipalOutput\"I\xea\xe2\n" +
+	"\x10acl:policy:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\x1a\x1a/principals/{principal_id}\x12\xa9\x01\n" +
+	"\x0fDeletePrincipal\x12 .eolymp.acl.DeletePrincipalInput\x1a!.eolymp.acl.DeletePrincipalOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10acl:policy:write\x82\xd3\xe4\x93\x02\x1c*\x1a/principals/{principal_id}\x12\xa6\x01\n" +
-	"\x11DescribePrincipal\x12\".eolymp.acl.DescribePrincipalInput\x1a#.eolymp.acl.DescribePrincipalOutput\"H\xea\xe2\n" +
+	"\x10acl:policy:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1c*\x1a/principals/{principal_id}\x12\xae\x01\n" +
+	"\x11DescribePrincipal\x12\".eolymp.acl.DescribePrincipalInput\x1a#.eolymp.acl.DescribePrincipalOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0facl:policy:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/principals/{principal_id}\x12\x8e\x01\n" +
-	"\x0eListPrincipals\x12\x1f.eolymp.acl.ListPrincipalsInput\x1a .eolymp.acl.ListPrincipalsOutput\"9\xea\xe2\n" +
+	"\x0facl:policy:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/principals/{principal_id}\x12\x96\x01\n" +
+	"\x0eListPrincipals\x12\x1f.eolymp.acl.ListPrincipalsInput\x1a .eolymp.acl.ListPrincipalsOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0facl:policy:read\x82\xd3\xe4\x93\x02\r\x12\v/principals\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\x0facl:policy:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\r\x12\v/principals\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_principal_service_proto_rawDescOnce sync.Once

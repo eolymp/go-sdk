@@ -1087,7 +1087,7 @@ var File_eolymp_judge_announcement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"Y\n" +
+	"'eolymp/judge/announcement_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/judge/announcement.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"Y\n" +
 	"\x17CreateAnnouncementInput\x12>\n" +
 	"\fannouncement\x18\x02 \x01(\v2\x1a.eolymp.judge.AnnouncementR\fannouncement\"*\n" +
 	"\x18CreateAnnouncementOutput\x12\x0e\n" +
@@ -1140,78 +1140,100 @@ const file_eolymp_judge_announcement_service_proto_rawDesc = "" +
 	"\x1dWatchAnnouncementSummaryInput\"\x95\x01\n" +
 	"\x1eWatchAnnouncementSummaryOutput\x12;\n" +
 	"\asummary\x18\x03 \x01(\v2!.eolymp.judge.AnnouncementSummaryR\asummary\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xcc\x10\n" +
-	"\x13AnnouncementService\x12\xa5\x01\n" +
-	"\x12CreateAnnouncement\x12%.eolymp.judge.CreateAnnouncementInput\x1a&.eolymp.judge.CreateAnnouncementOutput\"@\xea\xe2\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xa4\x11\n" +
+	"\x13AnnouncementService\x12\xad\x01\n" +
+	"\x12CreateAnnouncement\x12%.eolymp.judge.CreateAnnouncementInput\x1a&.eolymp.judge.CreateAnnouncementOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x10\"\x0e/announcements\x12\xb7\x01\n" +
-	"\x12UpdateAnnouncement\x12%.eolymp.judge.UpdateAnnouncementInput\x1a&.eolymp.judge.UpdateAnnouncementOutput\"R\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x10\"\x0e/announcements\x12\xbf\x01\n" +
+	"\x12UpdateAnnouncement\x12%.eolymp.judge.UpdateAnnouncementInput\x1a&.eolymp.judge.UpdateAnnouncementOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\"\" /announcements/{announcement_id}\x12\xb7\x01\n" +
-	"\x12DeleteAnnouncement\x12%.eolymp.judge.DeleteAnnouncementInput\x1a&.eolymp.judge.DeleteAnnouncementOutput\"R\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\"\" /announcements/{announcement_id}\x12\xbf\x01\n" +
+	"\x12DeleteAnnouncement\x12%.eolymp.judge.DeleteAnnouncementInput\x1a&.eolymp.judge.DeleteAnnouncementOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\"* /announcements/{announcement_id}\x12\xb5\x01\n" +
-	"\x10ReadAnnouncement\x12#.eolymp.judge.ReadAnnouncementInput\x1a$.eolymp.judge.ReadAnnouncementOutput\"V\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\"* /announcements/{announcement_id}\x12\xbd\x01\n" +
+	"\x10ReadAnnouncement\x12#.eolymp.judge.ReadAnnouncementInput\x1a$.eolymp.judge.ReadAnnouncementOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02'\"%/announcements/{announcement_id}/read\x12\xbc\x01\n" +
-	"\x14DescribeAnnouncement\x12'.eolymp.judge.DescribeAnnouncementInput\x1a(.eolymp.judge.DescribeAnnouncementOutput\"Q\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/announcements/{announcement_id}/read\x12\xc4\x01\n" +
+	"\x14DescribeAnnouncement\x12'.eolymp.judge.DescribeAnnouncementInput\x1a(.eolymp.judge.DescribeAnnouncementOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\"\x12 /announcements/{announcement_id}\x12\xd5\x01\n" +
-	"\x1aDescribeAnnouncementStatus\x12-.eolymp.judge.DescribeAnnouncementStatusInput\x1a..eolymp.judge.DescribeAnnouncementStatusOutput\"X\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /announcements/{announcement_id}\x12\xdd\x01\n" +
+	"\x1aDescribeAnnouncementStatus\x12-.eolymp.judge.DescribeAnnouncementStatusInput\x1a..eolymp.judge.DescribeAnnouncementStatusOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02)\x12'/announcements/{announcement_id}/status\x12\xa1\x01\n" +
-	"\x11ListAnnouncements\x12$.eolymp.judge.ListAnnouncementsInput\x1a%.eolymp.judge.ListAnnouncementsOutput\"?\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02)\x12'/announcements/{announcement_id}/status\x12\xa9\x01\n" +
+	"\x11ListAnnouncements\x12$.eolymp.judge.ListAnnouncementsInput\x1a%.eolymp.judge.ListAnnouncementsOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/announcements\x12\xbb\x01\n" +
-	"\x11WatchAnnouncement\x12$.eolymp.judge.WatchAnnouncementInput\x1a%.eolymp.judge.WatchAnnouncementOutput\"W\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/announcements\x12\xc3\x01\n" +
+	"\x11WatchAnnouncement\x12$.eolymp.judge.WatchAnnouncementInput\x1a%.eolymp.judge.WatchAnnouncementOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02(\x12&/announcements/{announcement_id}/watch0\x01\x12\xb8\x01\n" +
-	"\x16WatchAnnouncementsList\x12).eolymp.judge.WatchAnnouncementsListInput\x1a*.eolymp.judge.WatchAnnouncementsListOutput\"E\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02(\x12&/announcements/{announcement_id}/watch0\x01\x12\xc0\x01\n" +
+	"\x16WatchAnnouncementsList\x12).eolymp.judge.WatchAnnouncementsListInput\x1a*.eolymp.judge.WatchAnnouncementsListOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x16\x12\x14/announcements:watch0\x01\x12\xc7\x01\n" +
-	"\x1bDescribeAnnouncementSummary\x12..eolymp.judge.DescribeAnnouncementSummaryInput\x1a/.eolymp.judge.DescribeAnnouncementSummaryOutput\"G\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/announcements:watch0\x01\x12\xcf\x01\n" +
+	"\x1bDescribeAnnouncementSummary\x12..eolymp.judge.DescribeAnnouncementSummaryInput\x1a/.eolymp.judge.DescribeAnnouncementSummaryOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/announcements\x12\xc6\x01\n" +
-	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\"M\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/announcements\x12\xce\x01\n" +
+	"\x18WatchAnnouncementSummary\x12+.eolymp.judge.WatchAnnouncementSummaryInput\x1a,.eolymp.judge.WatchAnnouncementSummaryOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/summary/announcements/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/summary/announcements/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_announcement_service_proto_rawDescOnce sync.Once

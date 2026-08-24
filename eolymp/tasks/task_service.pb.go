@@ -678,7 +678,7 @@ var File_eolymp_tasks_task_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_task_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/tasks/task_service.proto\x12\feolymp.tasks\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/tasks/task.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x19google/protobuf/any.proto\"\xae\x01\n" +
+	"\x1feolymp/tasks/task_service.proto\x12\feolymp.tasks\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x17eolymp/tasks/task.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x19google/protobuf/any.proto\"\xae\x01\n" +
 	"\x0fCreateTaskInput\x12(\n" +
 	"\x04task\x18\x01 \x01(\v2\x14.google.protobuf.AnyR\x04task\x12\x1a\n" +
 	"\bresource\x18\x02 \x01(\tR\bresource\x12\x1c\n" +
@@ -714,45 +714,57 @@ const file_eolymp_tasks_task_service_proto_rawDesc = "" +
 	"\x10CancelTaskOutput\")\n" +
 	"\x0eRetryTaskInput\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x11\n" +
-	"\x0fRetryTaskOutput2\xd8\x06\n" +
-	"\vTaskService\x12]\n" +
+	"\x0fRetryTaskOutput2\x89\a\n" +
+	"\vTaskService\x12e\n" +
 	"\n" +
-	"CreateTask\x12\x1d.eolymp.tasks.CreateTaskInput\x1a\x1e.eolymp.tasks.CreateTaskOutput\"\x10\xea\xe2\n" +
+	"CreateTask\x12\x1d.eolymp.tasks.CreateTaskInput\x1a\x1e.eolymp.tasks.CreateTaskOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xc8\x01\x12~\n" +
-	"\tListTasks\x12\x1c.eolymp.tasks.ListTasksInput\x1a\x1d.eolymp.tasks.ListTasksOutput\"4\xea\xe2\n" +
+	"\xc8\x01\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12\x86\x01\n" +
+	"\tListTasks\x12\x1c.eolymp.tasks.ListTasksInput\x1a\x1d.eolymp.tasks.ListTasksOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0ftasks:task:read\x82\xd3\xe4\x93\x02\b\x12\x06/tasks\x12\x91\x01\n" +
-	"\fDescribeTask\x12\x1f.eolymp.tasks.DescribeTaskInput\x1a .eolymp.tasks.DescribeTaskOutput\">\xea\xe2\n" +
+	"\x0ftasks:task:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/tasks\x12\x99\x01\n" +
+	"\fDescribeTask\x12\x1f.eolymp.tasks.DescribeTaskInput\x1a .eolymp.tasks.DescribeTaskOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0ftasks:task:read\x82\xd3\xe4\x93\x02\x12\x12\x10/tasks/{task_id}\x12\x90\x01\n" +
-	"\tWatchTask\x12\x1c.eolymp.tasks.WatchTaskInput\x1a\x1d.eolymp.tasks.WatchTaskOutput\"D\xea\xe2\n" +
+	"\x0ftasks:task:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/tasks/{task_id}\x12\x98\x01\n" +
+	"\tWatchTask\x12\x1c.eolymp.tasks.WatchTaskInput\x1a\x1d.eolymp.tasks.WatchTaskOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0ftasks:task:read\x82\xd3\xe4\x93\x02\x18\x12\x16/tasks/{task_id}/watch0\x01\x12\x93\x01\n" +
+	"\x0ftasks:task:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/tasks/{task_id}/watch0\x01\x12\x9b\x01\n" +
 	"\n" +
-	"CancelTask\x12\x1d.eolymp.tasks.CancelTaskInput\x1a\x1e.eolymp.tasks.CancelTaskOutput\"F\xea\xe2\n" +
+	"CancelTask\x12\x1d.eolymp.tasks.CancelTaskInput\x1a\x1e.eolymp.tasks.CancelTaskOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10tasks:task:write\x82\xd3\xe4\x93\x02\x19\"\x17/tasks/{task_id}/cancel\x12\x8f\x01\n" +
-	"\tRetryTask\x12\x1c.eolymp.tasks.RetryTaskInput\x1a\x1d.eolymp.tasks.RetryTaskOutput\"E\xea\xe2\n" +
+	"\x10tasks:task:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x19\"\x17/tasks/{task_id}/cancel\x12\x97\x01\n" +
+	"\tRetryTask\x12\x1c.eolymp.tasks.RetryTaskInput\x1a\x1d.eolymp.tasks.RetryTaskOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10tasks:task:write\x82\xd3\xe4\x93\x02\x18\"\x16/tasks/{task_id}/retry\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/tasks;tasksb\x06proto3"
+	"\x10tasks:task:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/tasks/{task_id}/retry\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/tasks;tasksb\x06proto3"
 
 var (
 	file_eolymp_tasks_task_service_proto_rawDescOnce sync.Once

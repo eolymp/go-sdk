@@ -950,7 +950,7 @@ var File_eolymp_rating_rating_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_rating_rating_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/rating/rating_service.proto\x12\reolymp.rating\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/rating/rating.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"C\n" +
+	"\"eolymp/rating/rating_service.proto\x12\reolymp.rating\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/rating/rating.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"C\n" +
 	"\x12RatingChangedEvent\x12-\n" +
 	"\x06rating\x18\x02 \x01(\v2\x15.eolymp.rating.RatingR\x06rating\"?\n" +
 	"\x0eSetRatingInput\x12-\n" +
@@ -1003,47 +1003,61 @@ const file_eolymp_rating_rating_service_proto_rawDesc = "" +
 	"min_rating\x18\x01 \x01(\x05R\tminRating\x12\x1d\n" +
 	"\n" +
 	"max_rating\x18\x02 \x01(\x05R\tmaxRating\x12\x14\n" +
-	"\x05count\x18\x03 \x01(\rR\x05count2\x8f\t\n" +
-	"\rRatingService\x12\x88\x01\n" +
-	"\tSetRating\x12\x1d.eolymp.rating.SetRatingInput\x1a\x1e.eolymp.rating.SetRatingOutput\"<\xea\xe2\n" +
+	"\x05count\x18\x03 \x01(\rR\x05count2\xc7\t\n" +
+	"\rRatingService\x12\x90\x01\n" +
+	"\tSetRating\x12\x1d.eolymp.rating.SetRatingInput\x1a\x1e.eolymp.rating.SetRatingOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\t\"\a/rating\x12\x9d\x01\n" +
-	"\fUpdateRating\x12 .eolymp.rating.UpdateRatingInput\x1a!.eolymp.rating.UpdateRatingOutput\"H\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\t\"\a/rating\x12\xa5\x01\n" +
+	"\fUpdateRating\x12 .eolymp.rating.UpdateRatingInput\x1a!.eolymp.rating.UpdateRatingOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x15\x1a\x13/rating/{rating_id}\x12\x9d\x01\n" +
-	"\fDeleteRating\x12 .eolymp.rating.DeleteRatingInput\x1a!.eolymp.rating.DeleteRatingOutput\"H\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x15\x1a\x13/rating/{rating_id}\x12\xa5\x01\n" +
+	"\fDeleteRating\x12 .eolymp.rating.DeleteRatingInput\x1a!.eolymp.rating.DeleteRatingOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x15*\x13/rating/{rating_id}\x12\xa2\x01\n" +
-	"\x0eDescribeRating\x12\".eolymp.rating.DescribeRatingInput\x1a#.eolymp.rating.DescribeRatingOutput\"G\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x15*\x13/rating/{rating_id}\x12\xaa\x01\n" +
+	"\x0eDescribeRating\x12\".eolymp.rating.DescribeRatingInput\x1a#.eolymp.rating.DescribeRatingOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x15\x12\x13/rating/{rating_id}\x12\x9e\x01\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x15\x12\x13/rating/{rating_id}\x12\xa6\x01\n" +
 	"\n" +
-	"ListRating\x12\x1e.eolymp.rating.ListRatingInput\x1a\x1f.eolymp.rating.ListRatingOutput\"O\xea\xe2\n" +
+	"ListRating\x12\x1e.eolymp.rating.ListRatingInput\x1a\x1f.eolymp.rating.ListRatingOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x1d\x12\x1b/members/{member_id}/rating\x12\xa2\x01\n" +
-	"\x18DescribeRatingBoundaries\x12,.eolymp.rating.DescribeRatingBoundariesInput\x1a-.eolymp.rating.DescribeRatingBoundariesOutput\")\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1d\x12\x1b/members/{member_id}/rating\x12\xaa\x01\n" +
+	"\x18DescribeRatingBoundaries\x12,.eolymp.rating.DescribeRatingBoundariesInput\x1a-.eolymp.rating.DescribeRatingBoundariesOutput\"1\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x14\x12\x12/rating-boundaries\x12\xaa\x01\n" +
-	"\x1aDescribeRatingDistribution\x12..eolymp.rating.DescribeRatingDistributionInput\x1a/.eolymp.rating.DescribeRatingDistributionOutput\"+\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/rating-boundaries\x12\xb2\x01\n" +
+	"\x1aDescribeRatingDistribution\x12..eolymp.rating.DescribeRatingDistributionInput\x1a/.eolymp.rating.DescribeRatingDistributionOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x16\x12\x14/rating-distribution\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/rating;ratingb\x06proto3"
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/rating-distribution\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/rating;ratingb\x06proto3"
 
 var (
 	file_eolymp_rating_rating_service_proto_rawDescOnce sync.Once

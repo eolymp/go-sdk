@@ -1062,7 +1062,7 @@ var File_eolymp_content_content_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8e\x01\n" +
+	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8e\x01\n" +
 	"\x14FragmentChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x120\n" +
@@ -1134,57 +1134,73 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"Y\n" +
 	"\x11ListParentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\xce\v\n" +
-	"\x0eContentService\x12\xbb\x01\n" +
-	"\x10DescribeFragment\x12%.eolymp.content.DescribeFragmentInput\x1a&.eolymp.content.DescribeFragmentOutput\"X\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\x8e\f\n" +
+	"\x0eContentService\x12\xc3\x01\n" +
+	"\x10DescribeFragment\x12%.eolymp.content.DescribeFragmentInput\x1a&.eolymp.content.DescribeFragmentOutput\"`\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\"\x12 /content/fragments/{fragment_id}\x12\xa3\x01\n" +
-	"\rListFragments\x12\".eolymp.content.ListFragmentsInput\x1a#.eolymp.content.ListFragmentsOutput\"I\xea\xe2\n" +
+	"\x18typewriter:fragment:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /content/fragments/{fragment_id}\x12\xab\x01\n" +
+	"\rListFragments\x12\".eolymp.content.ListFragmentsInput\x1a#.eolymp.content.ListFragmentsOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x14\x12\x12/content/fragments\x12\xa7\x01\n" +
-	"\x0eCreateFragment\x12#.eolymp.content.CreateFragmentInput\x1a$.eolymp.content.CreateFragmentOutput\"J\xea\xe2\n" +
+	"\x18typewriter:fragment:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/content/fragments\x12\xaf\x01\n" +
+	"\x0eCreateFragment\x12#.eolymp.content.CreateFragmentInput\x1a$.eolymp.content.CreateFragmentOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02\x14\"\x12/content/fragments\x12\xb5\x01\n" +
-	"\x0eUpdateFragment\x12#.eolymp.content.UpdateFragmentInput\x1a$.eolymp.content.UpdateFragmentOutput\"X\xea\xe2\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x14\"\x12/content/fragments\x12\xbd\x01\n" +
+	"\x0eUpdateFragment\x12#.eolymp.content.UpdateFragmentInput\x1a$.eolymp.content.UpdateFragmentOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02\"\x1a /content/fragments/{fragment_id}\x12\xb5\x01\n" +
-	"\x0eDeleteFragment\x12#.eolymp.content.DeleteFragmentInput\x1a$.eolymp.content.DeleteFragmentOutput\"X\xea\xe2\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\"\x1a /content/fragments/{fragment_id}\x12\xbd\x01\n" +
+	"\x0eDeleteFragment\x12#.eolymp.content.DeleteFragmentInput\x1a$.eolymp.content.DeleteFragmentOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02\"* /content/fragments/{fragment_id}\x12\xc8\x01\n" +
-	"\x11TranslateFragment\x12&.eolymp.content.TranslateFragmentInput\x1a'.eolymp.content.TranslateFragmentOutput\"b\xea\xe2\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\"* /content/fragments/{fragment_id}\x12\xd0\x01\n" +
+	"\x11TranslateFragment\x12&.eolymp.content.TranslateFragmentInput\x1a'.eolymp.content.TranslateFragmentOutput\"j\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02,\"*/content/fragments/{fragment_id}/translate\x12\x9c\x01\n" +
-	"\fDescribePath\x12!.eolymp.content.DescribePathInput\x1a\".eolymp.content.DescribePathOutput\"E\xea\xe2\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02,\"*/content/fragments/{fragment_id}/translate\x12\xa4\x01\n" +
+	"\fDescribePath\x12!.eolymp.content.DescribePathInput\x1a\".eolymp.content.DescribePathOutput\"M\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x0f\x12\r/content/path\x12\x9c\x01\n" +
-	"\vListParents\x12 .eolymp.content.ListParentsInput\x1a!.eolymp.content.ListParentsOutput\"H\xea\xe2\n" +
+	"\x18typewriter:fragment:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/content/path\x12\xa4\x01\n" +
+	"\vListParents\x12 .eolymp.content.ListParentsInput\x1a!.eolymp.content.ListParentsOutput\"P\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parents\x1a5\x82\xf0\xf0\xe4\x01\x15eolymp.universe.Space\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x18typewriter:fragment:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parents\x1a5\x82\xf0\xf0\xe4\x01\x15eolymp.universe.Space\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_service_proto_rawDescOnce sync.Once

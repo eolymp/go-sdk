@@ -115,16 +115,18 @@ var File_eolymp_content_translation_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_translation_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/content/translation_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\"F\n" +
+	"(eolymp/content/translation_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\"F\n" +
 	"\x15TranslateContentInput\x12-\n" +
 	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\"O\n" +
 	"\x16TranslateContentOutput\x125\n" +
-	"\vtranslation\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\vtranslation2\xbe\x01\n" +
-	"\x10TranslateService\x12\x8c\x01\n" +
-	"\x10TranslateContent\x12%.eolymp.content.TranslateContentInput\x1a&.eolymp.content.TranslateContentOutput\")\xea\xe2\n" +
+	"\vtranslation\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\vtranslation2\xc6\x01\n" +
+	"\x10TranslateService\x12\x94\x01\n" +
+	"\x10TranslateContent\x12%.eolymp.content.TranslateContentInput\x1a&.eolymp.content.TranslateContentOutput\"1\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x14\"\x12/content:translate\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x14\"\x12/content:translate\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_translation_service_proto_rawDescOnce sync.Once

@@ -553,7 +553,7 @@ var File_eolymp_community_penalty_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_penalty_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/community/penalty_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/community/penalty.proto\"I\n" +
+	"&eolymp/community/penalty_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/community/penalty.proto\"I\n" +
 	"\x12CreatePenaltyInput\x123\n" +
 	"\apenalty\x18\x01 \x01(\v2\x19.eolymp.community.PenaltyR\apenalty\"4\n" +
 	"\x13CreatePenaltyOutput\x12\x1d\n" +
@@ -589,39 +589,49 @@ const file_eolymp_community_penalty_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1f.eolymp.community.Penalty.ExtraR\x05extra\"\\\n" +
 	"\x13ListPenaltiesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12/\n" +
-	"\x05items\x18\x02 \x03(\v2\x19.eolymp.community.PenaltyR\x05items2\xfa\x06\n" +
-	"\x0ePenaltyService\x12\x9d\x01\n" +
-	"\rCreatePenalty\x12$.eolymp.community.CreatePenaltyInput\x1a%.eolymp.community.CreatePenaltyOutput\"?\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x19.eolymp.community.PenaltyR\x05items2\xa2\a\n" +
+	"\x0ePenaltyService\x12\xa5\x01\n" +
+	"\rCreatePenalty\x12$.eolymp.community.CreatePenaltyInput\x1a%.eolymp.community.CreatePenaltyOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\f\"\n" +
-	"/penalties\x12\xaa\x01\n" +
-	"\rUpdatePenalty\x12$.eolymp.community.UpdatePenaltyInput\x1a%.eolymp.community.UpdatePenaltyOutput\"L\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\f\"\n" +
+	"/penalties\x12\xb2\x01\n" +
+	"\rUpdatePenalty\x12$.eolymp.community.UpdatePenaltyInput\x1a%.eolymp.community.UpdatePenaltyOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x19\"\x17/penalties/{penalty_id}\x12\xaa\x01\n" +
-	"\rDeletePenalty\x12$.eolymp.community.DeletePenaltyInput\x1a%.eolymp.community.DeletePenaltyOutput\"L\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x19\"\x17/penalties/{penalty_id}\x12\xb2\x01\n" +
+	"\rDeletePenalty\x12$.eolymp.community.DeletePenaltyInput\x1a%.eolymp.community.DeletePenaltyOutput\"T\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x19*\x17/penalties/{penalty_id}\x12\xaf\x01\n" +
-	"\x0fDescribePenalty\x12&.eolymp.community.DescribePenaltyInput\x1a'.eolymp.community.DescribePenaltyOutput\"K\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x19*\x17/penalties/{penalty_id}\x12\xb7\x01\n" +
+	"\x0fDescribePenalty\x12&.eolymp.community.DescribePenaltyInput\x1a'.eolymp.community.DescribePenaltyOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x19\x12\x17/penalties/{penalty_id}\x12\x9c\x01\n" +
-	"\rListPenalties\x12$.eolymp.community.ListPenaltiesInput\x1a%.eolymp.community.ListPenaltiesOutput\">\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x19\x12\x17/penalties/{penalty_id}\x12\xa4\x01\n" +
+	"\rListPenalties\x12$.eolymp.community.ListPenaltiesInput\x1a%.eolymp.community.ListPenaltiesOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\f\x12\n" +
 	"/penalties\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (

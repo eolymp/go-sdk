@@ -524,7 +524,7 @@ var File_eolymp_audit_log_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/audit/log_service.proto\x12\feolymp.audit\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/audit/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xd7\x05\n" +
+	"\x1eeolymp/audit/log_service.proto\x12\feolymp.audit\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/audit/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xd7\x05\n" +
 	"\rListLogsInput\x12\x12\n" +
 	"\x04date\x18\x01 \x01(\tR\x04date\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -568,22 +568,26 @@ const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\n" +
 	"export_url\x18\x01 \x01(\tR\texportUrl\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x1c\n" +
-	"\ttruncated\x18\x03 \x01(\bR\ttruncated2\xb9\x02\n" +
+	"\ttruncated\x18\x03 \x01(\bR\ttruncated2\xca\x02\n" +
 	"\n" +
-	"LogService\x12\x7f\n" +
-	"\bListLogs\x12\x1b.eolymp.audit.ListLogsInput\x1a\x1c.eolymp.audit.ListLogsOutput\"8\xea\xe2\n" +
+	"LogService\x12\x87\x01\n" +
+	"\bListLogs\x12\x1b.eolymp.audit.ListLogsInput\x1a\x1c.eolymp.audit.ListLogsOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
-	"\x0eaudit:log:read\x82\xd3\xe4\x93\x02\r\x12\v/audit/logs\x12\x8c\x01\n" +
+	"\x0eaudit:log:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\r\x12\v/audit/logs\x12\x94\x01\n" +
 	"\n" +
-	"ExportLogs\x12\x1d.eolymp.audit.ExportLogsInput\x1a\x1e.eolymp.audit.ExportLogsOutput\"?\xea\xe2\n" +
+	"ExportLogs\x12\x1d.eolymp.audit.ExportLogsInput\x1a\x1e.eolymp.audit.ExportLogsOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
-	"\x0eaudit:log:read\x82\xd3\xe4\x93\x02\x14\"\x12/audit/logs:export\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/audit;auditb\x06proto3"
+	"\x0eaudit:log:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\"\x12/audit/logs:export\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/audit;auditb\x06proto3"
 
 var (
 	file_eolymp_audit_log_service_proto_rawDescOnce sync.Once

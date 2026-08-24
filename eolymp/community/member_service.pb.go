@@ -1747,7 +1747,7 @@ var File_eolymp_community_member_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/community/member_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/member.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"v\n" +
+	"%eolymp/community/member_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/community/member.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"v\n" +
 	"\x12MemberChangedEvent\x120\n" +
 	"\x06before\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06before\x12.\n" +
 	"\x05after\x18\x02 \x01(\v2\x18.eolymp.community.MemberR\x05after\"9\n" +
@@ -1885,76 +1885,98 @@ const file_eolymp_community_member_service_proto_rawDesc = "" +
 	" \x01(\v2\x1f.eolymp.wellknown.ExpressionIntR\x06number\x12:\n" +
 	"\x06string\x18\v \x01(\v2\".eolymp.wellknown.ExpressionStringR\x06string\"X\n" +
 	"\x1cStreamMemberReferencesOutput\x128\n" +
-	"\x05items\x18\x01 \x03(\v2\".eolymp.community.Member.ReferenceR\x05items2\xbd\x0f\n" +
-	"\rMemberService\x12\x98\x01\n" +
-	"\fCreateMember\x12#.eolymp.community.CreateMemberInput\x1a$.eolymp.community.CreateMemberOutput\"=\xea\xe2\n" +
+	"\x05items\x18\x01 \x03(\v2\".eolymp.community.Member.ReferenceR\x05items2\x95\x10\n" +
+	"\rMemberService\x12\xa0\x01\n" +
+	"\fCreateMember\x12#.eolymp.community.CreateMemberInput\x1a$.eolymp.community.CreateMemberOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/members\x12\xa4\x01\n" +
-	"\fUpdateMember\x12#.eolymp.community.UpdateMemberInput\x1a$.eolymp.community.UpdateMemberOutput\"I\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\"\b/members\x12\xac\x01\n" +
+	"\fUpdateMember\x12#.eolymp.community.UpdateMemberInput\x1a$.eolymp.community.UpdateMemberOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x16\"\x14/members/{member_id}\x12\xc1\x01\n" +
-	"\x13UpdateMemberPicture\x12*.eolymp.community.UpdateMemberPictureInput\x1a+.eolymp.community.UpdateMemberPictureOutput\"Q\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\"\x14/members/{member_id}\x12\xc9\x01\n" +
+	"\x13UpdateMemberPicture\x12*.eolymp.community.UpdateMemberPictureInput\x1a+.eolymp.community.UpdateMemberPictureOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/members/{member_id}/picture\x12\xa4\x01\n" +
-	"\fDeleteMember\x12#.eolymp.community.DeleteMemberInput\x1a$.eolymp.community.DeleteMemberOutput\"I\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/members/{member_id}/picture\x12\xac\x01\n" +
+	"\fDeleteMember\x12#.eolymp.community.DeleteMemberInput\x1a$.eolymp.community.DeleteMemberOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x16*\x14/members/{member_id}\x12\xaa\x01\n" +
-	"\x0eDescribeMember\x12%.eolymp.community.DescribeMemberInput\x1a&.eolymp.community.DescribeMemberOutput\"I\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x16*\x14/members/{member_id}\x12\xb2\x01\n" +
+	"\x0eDescribeMember\x12%.eolymp.community.DescribeMemberInput\x1a&.eolymp.community.DescribeMemberOutput\"Q\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x16\x12\x14/members/{member_id}\x12\x94\x01\n" +
-	"\vListMembers\x12\".eolymp.community.ListMembersInput\x1a#.eolymp.community.ListMembersOutput\"<\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/members/{member_id}\x12\x9c\x01\n" +
+	"\vListMembers\x12\".eolymp.community.ListMembersInput\x1a#.eolymp.community.ListMembersOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/members\x12\xb4\x01\n" +
-	"\fAssignMember\x12#.eolymp.community.AssignMemberInput\x1a$.eolymp.community.AssignMemberOutput\"Y\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/members\x12\xbc\x01\n" +
+	"\fAssignMember\x12#.eolymp.community.AssignMemberInput\x1a$.eolymp.community.AssignMemberOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02&\x1a$/members/{team_id}/users/{member_id}\x12\xba\x01\n" +
-	"\x0eUnassignMember\x12%.eolymp.community.UnassignMemberInput\x1a&.eolymp.community.UnassignMemberOutput\"Y\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\x1a$/members/{team_id}/users/{member_id}\x12\xc2\x01\n" +
+	"\x0eUnassignMember\x12%.eolymp.community.UnassignMemberInput\x1a&.eolymp.community.UnassignMemberOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02&*$/members/{team_id}/users/{member_id}\x12\xca\x01\n" +
-	"\x15CreateMemberLoginLink\x12,.eolymp.community.CreateMemberLoginLinkInput\x1a-.eolymp.community.CreateMemberLoginLinkOutput\"T\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02&*$/members/{team_id}/users/{member_id}\x12\xd2\x01\n" +
+	"\x15CreateMemberLoginLink\x12,.eolymp.community.CreateMemberLoginLinkInput\x1a-.eolymp.community.CreateMemberLoginLinkOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02!\"\x1f/members/{member_id}/login-link\x12\xb2\x01\n" +
-	"\x13DescribeMemberUsage\x12*.eolymp.community.DescribeMemberUsageInput\x1a+.eolymp.community.DescribeMemberUsageOutput\"B\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/members/{member_id}/login-link\x12\xba\x01\n" +
+	"\x13DescribeMemberUsage\x12*.eolymp.community.DescribeMemberUsageInput\x1a+.eolymp.community.DescribeMemberUsageOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/usage/members\x12\xa7\x01\n" +
-	"\x16StreamMemberReferences\x12-.eolymp.community.StreamMemberReferencesInput\x1a..eolymp.community.StreamMemberReferencesOutput\",\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/usage/members\x12\xaf\x01\n" +
+	"\x16StreamMemberReferences\x12-.eolymp.community.StreamMemberReferencesInput\x1a..eolymp.community.StreamMemberReferencesOutput\"4\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x020\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_member_service_proto_rawDescOnce sync.Once

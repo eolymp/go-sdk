@@ -460,7 +460,7 @@ var File_eolymp_course_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
+	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
 	"\x13ListStatementsInput\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -479,87 +479,111 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\x99\x0f\n" +
-	"\x0eProblemService\x12\x97\x01\n" +
-	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"<\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xf9\x0f\n" +
+	"\x0eProblemService\x12\x9f\x01\n" +
+	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\r\x12\v/statements\x12\xa2\x01\n" +
-	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"D\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\r\x12\v/statements\x12\xaa\x01\n" +
+	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"L\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x14\x12\x12/statements:lookup\x12\x8f\x01\n" +
-	"\fListExamples\x12 .eolymp.course.ListExamplesInput\x1a!.eolymp.course.ListExamplesOutput\":\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/statements:lookup\x12\x97\x01\n" +
+	"\fListExamples\x12 .eolymp.course.ListExamplesInput\x1a!.eolymp.course.ListExamplesOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\v\x12\t/examples\x12\xa7\x01\n" +
-	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"F\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/examples\x12\xaf\x01\n" +
+	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14course:course:submit\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
-	"\x80\x80\xc0\x02\"\f/submissions\x12\x9b\x01\n" +
-	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"=\xea\xe2\n" +
+	"\x14course:course:submit\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"\f/submissions\x12\xa3\x01\n" +
+	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xb4\x01\n" +
-	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"M\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xbc\x01\n" +
+	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xb3\x01\n" +
-	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"S\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xbb\x01\n" +
+	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x12\xa1\x01\n" +
-	"\x12LookupCodeTemplate\x12&.eolymp.course.LookupCodeTemplateInput\x1a'.eolymp.course.LookupCodeTemplateOutput\":\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x12\xa9\x01\n" +
+	"\x12LookupCodeTemplate\x12&.eolymp.course.LookupCodeTemplateInput\x1a'.eolymp.course.LookupCodeTemplateOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\v\x12\t/template\x12\x84\x01\n" +
-	"\tCreateRun\x12\x1d.eolymp.course.CreateRunInput\x1a\x1e.eolymp.course.CreateRunOutput\"8\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/template\x12\x8c\x01\n" +
+	"\tCreateRun\x12\x1d.eolymp.course.CreateRunInput\x1a\x1e.eolymp.course.CreateRunOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14playground:run:write\x82\xd3\xe4\x93\x02\a\"\x05/runs\x12\x92\x01\n" +
-	"\vDescribeRun\x12\x1f.eolymp.course.DescribeRunInput\x1a .eolymp.course.DescribeRunOutput\"@\xea\xe2\n" +
+	"\x14playground:run:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\a\"\x05/runs\x12\x9a\x01\n" +
+	"\vDescribeRun\x12\x1f.eolymp.course.DescribeRunInput\x1a .eolymp.course.DescribeRunOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/runs/{run_id}\x12\x91\x01\n" +
-	"\bWatchRun\x12\x1c.eolymp.course.WatchRunInput\x1a\x1d.eolymp.course.WatchRunOutput\"F\xea\xe2\n" +
+	"\x13playground:run:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/runs/{run_id}\x12\x99\x01\n" +
+	"\bWatchRun\x12\x1c.eolymp.course.WatchRunInput\x1a\x1d.eolymp.course.WatchRunOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02\x16\x12\x14/runs/{run_id}/watch0\x01\x12\x8e\x01\n" +
-	"\fListRuntimes\x12 .eolymp.course.ListRuntimesInput\x1a!.eolymp.course.ListRuntimesOutput\"9\xea\xe2\n" +
+	"\x13playground:run:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/runs/{run_id}/watch0\x01\x12\x96\x01\n" +
+	"\fListRuntimes\x12 .eolymp.course.ListRuntimesInput\x1a!.eolymp.course.ListRuntimesOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x19\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
 	"\x12\b/runtime\x1a\x1c\x82\xf0\xf0\xe4\x01\x16eolymp.course.MaterialB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (

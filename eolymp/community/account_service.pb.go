@@ -1163,7 +1163,7 @@ var File_eolymp_community_account_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/community/account_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/community/member.proto\x1a\x1ceolymp/mail/email_type.proto\"`\n" +
+	"&eolymp/community/account_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/community/member.proto\x1a\x1ceolymp/mail/email_type.proto\"`\n" +
 	"\x12CreateAccountInput\x120\n" +
 	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\x12\x18\n" +
 	"\acaptcha\x18d \x01(\tR\acaptcha\"F\n" +
@@ -1239,58 +1239,80 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\x1cUpdateEmailSubscriptionInput\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12<\n" +
 	"\rsubscriptions\x18\x02 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\rsubscriptions\"\x1f\n" +
-	"\x1dUpdateEmailSubscriptionOutput2\x9d\r\n" +
-	"\x0eAccountService\x12}\n" +
-	"\rCreateAccount\x12$.eolymp.community.CreateAccountInput\x1a%.eolymp.community.CreateAccountOutput\"\x1f\xea\xe2\n" +
+	"\x1dUpdateEmailSubscriptionOutput2\xf8\r\n" +
+	"\x0eAccountService\x12\x85\x01\n" +
+	"\rCreateAccount\x12$.eolymp.community.CreateAccountInput\x1a%.eolymp.community.CreateAccountOutput\"'\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/account\x12\x83\x01\n" +
-	"\x0fDescribeAccount\x12&.eolymp.community.DescribeAccountInput\x1a'.eolymp.community.DescribeAccountOutput\"\x1f\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\"\b/account\x12\x8b\x01\n" +
+	"\x0fDescribeAccount\x12&.eolymp.community.DescribeAccountInput\x1a'.eolymp.community.DescribeAccountOutput\"'\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/account\x12}\n" +
-	"\rUpdateAccount\x12$.eolymp.community.UpdateAccountInput\x1a%.eolymp.community.UpdateAccountOutput\"\x1f\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/account\x12\x85\x01\n" +
+	"\rUpdateAccount\x12$.eolymp.community.UpdateAccountInput\x1a%.eolymp.community.UpdateAccountOutput\"'\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/account\x12\x8c\x01\n" +
-	"\rUploadPicture\x12$.eolymp.community.UploadPictureInput\x1a%.eolymp.community.UploadPictureOutput\".\xea\xe2\n" +
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\x1a\b/account\x12\x94\x01\n" +
+	"\rUploadPicture\x12$.eolymp.community.UploadPictureInput\x1a%.eolymp.community.UploadPictureOutput\"6\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x19\x98\xe3\n" +
-	"\x80\x80\x80\x01\"\x10/account/picture\x12}\n" +
-	"\rDeleteAccount\x12$.eolymp.community.DeleteAccountInput\x1a%.eolymp.community.DeleteAccountOutput\"\x1f\xea\xe2\n" +
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x19\x98\xe3\n" +
+	"\x80\x80\x80\x01\"\x10/account/picture\x12\x85\x01\n" +
+	"\rDeleteAccount\x12$.eolymp.community.DeleteAccountInput\x1a%.eolymp.community.DeleteAccountOutput\"'\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\n" +
-	"*\b/account\x12\xa0\x01\n" +
-	"\x12ResendVerification\x12).eolymp.community.ResendVerificationInput\x1a*.eolymp.community.ResendVerificationOutput\"3\xea\xe2\n" +
+	"\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\n" +
+	"*\b/account\x12\xa8\x01\n" +
+	"\x12ResendVerification\x12).eolymp.community.ResendVerificationInput\x1a*.eolymp.community.ResendVerificationOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x1e\"\x1c/account/verification/resend\x12\xa8\x01\n" +
-	"\x14CompleteVerification\x12+.eolymp.community.CompleteVerificationInput\x1a,.eolymp.community.CompleteVerificationOutput\"5\xea\xe2\n" +
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/account/verification/resend\x12\xb0\x01\n" +
+	"\x14CompleteVerification\x12+.eolymp.community.CompleteVerificationInput\x1a,.eolymp.community.CompleteVerificationOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x01\x82\xd3\xe4\x93\x02 \"\x1e/account/verification/complete\x12\x8c\x01\n" +
-	"\rStartRecovery\x12$.eolymp.community.StartRecoveryInput\x1a%.eolymp.community.StartRecoveryOutput\".\xea\xe2\n" +
+	"\x01\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/account/verification/complete\x12\x94\x01\n" +
+	"\rStartRecovery\x12$.eolymp.community.StartRecoveryInput\x1a%.eolymp.community.StartRecoveryOutput\"6\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x19\"\x17/account/recovery/start\x12\x96\x01\n" +
-	"\x10CompleteRecovery\x12&.eolymp.community.CompleteRecoverInput\x1a'.eolymp.community.CompleteRecoverOutput\"1\xea\xe2\n" +
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x19\"\x17/account/recovery/start\x12\x9e\x01\n" +
+	"\x10CompleteRecovery\x12&.eolymp.community.CompleteRecoverInput\x1a'.eolymp.community.CompleteRecoverOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x1c\"\x1a/account/recovery/complete\x12\xb4\x01\n" +
-	"\x19DescribeEmailSubscription\x120.eolymp.community.DescribeEmailSubscriptionInput\x1a1.eolymp.community.DescribeEmailSubscriptionOutput\"2\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/account/recovery/complete\x12\xbc\x01\n" +
+	"\x19DescribeEmailSubscription\x120.eolymp.community.DescribeEmailSubscriptionInput\x1a1.eolymp.community.DescribeEmailSubscriptionOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x1d\x12\x1b/account/email-subscription\x12\xae\x01\n" +
-	"\x17UpdateEmailSubscription\x12..eolymp.community.UpdateEmailSubscriptionInput\x1a/.eolymp.community.UpdateEmailSubscriptionOutput\"2\xea\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1d\x12\x1b/account/email-subscription\x12\xb6\x01\n" +
+	"\x17UpdateEmailSubscription\x12..eolymp.community.UpdateEmailSubscriptionInput\x1a/.eolymp.community.UpdateEmailSubscriptionOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x1d\"\x1b/account/email-subscription\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/account/email-subscription\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_account_service_proto_rawDescOnce sync.Once

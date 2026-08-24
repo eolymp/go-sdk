@@ -244,7 +244,7 @@ var File_eolymp_discussion_configuration_service_proto protoreflect.FileDescript
 
 const file_eolymp_discussion_configuration_service_proto_rawDesc = "" +
 	"\n" +
-	"-eolymp/discussion/configuration_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/discussion/configuration.proto\"\x1f\n" +
+	"-eolymp/discussion/configuration_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/discussion/configuration.proto\"\x1f\n" +
 	"\x1dDescribeDiscussionConfigInput\"Z\n" +
 	"\x1eDescribeDiscussionConfigOutput\x128\n" +
 	"\x06config\x18\x01 \x01(\v2 .eolymp.discussion.ConfigurationR\x06config\"\xfc\x01\n" +
@@ -257,16 +257,20 @@ const file_eolymp_discussion_configuration_service_proto_rawDesc = "" +
 	"\x1fMEMBERS_CAN_COMMENT_ON_PROBLEMS\x10\x03\x12\x13\n" +
 	"\x0fPOST_MODERATION\x10\x04\x12\x16\n" +
 	"\x12COMMENT_MODERATION\x10\x05\"\x1e\n" +
-	"\x1cUpdateDiscussionConfigOutput2\x8b\x03\n" +
-	"\x14ConfigurationService\x12\xac\x01\n" +
-	"\x18DescribeDiscussionConfig\x120.eolymp.discussion.DescribeDiscussionConfigInput\x1a1.eolymp.discussion.DescribeDiscussionConfigOutput\"+\xea\xe2\n" +
+	"\x1cUpdateDiscussionConfigOutput2\x9b\x03\n" +
+	"\x14ConfigurationService\x12\xb4\x01\n" +
+	"\x18DescribeDiscussionConfig\x120.eolymp.discussion.DescribeDiscussionConfigInput\x1a1.eolymp.discussion.DescribeDiscussionConfigOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x16\x12\x14/configs/discussions\x12\xa6\x01\n" +
-	"\x16UpdateDiscussionConfig\x12..eolymp.discussion.UpdateDiscussionConfigInput\x1a/.eolymp.discussion.UpdateDiscussionConfigOutput\"+\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/configs/discussions\x12\xae\x01\n" +
+	"\x16UpdateDiscussionConfig\x12..eolymp.discussion.UpdateDiscussionConfigInput\x1a/.eolymp.discussion.UpdateDiscussionConfigOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x02\x16\x1a\x14/configs/discussions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/configs/discussions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_configuration_service_proto_rawDescOnce sync.Once

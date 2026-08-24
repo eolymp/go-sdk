@@ -619,7 +619,7 @@ var File_eolymp_runtime_runtime_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_runtime_runtime_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/runtime/runtime_service.proto\x12\x0eeolymp.runtime\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/runtime/language.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
+	"$eolymp/runtime/runtime_service.proto\x12\x0eeolymp.runtime\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/runtime/language.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
 	"\x15DescribeLanguageInput\x12\x1f\n" +
 	"\vlanguage_id\x18\x01 \x01(\tR\n" +
 	"languageId\"N\n" +
@@ -658,40 +658,50 @@ const file_eolymp_runtime_runtime_service_proto_rawDesc = "" +
 	"\n" +
 	"runtime_id\x18\x01 \x01(\tR\truntimeId\"8\n" +
 	"\x1aDescribeCodeTemplateOutput\x12\x1a\n" +
-	"\btemplate\x18\x01 \x01(\tR\btemplate2\x80\a\n" +
-	"\x0eRuntimeService\x12\xaf\x01\n" +
-	"\x10DescribeLanguage\x12%.eolymp.runtime.DescribeLanguageInput\x1a&.eolymp.runtime.DescribeLanguageOutput\"L\xea\xe2\n" +
+	"\btemplate\x18\x01 \x01(\tR\btemplate2\xa8\a\n" +
+	"\x0eRuntimeService\x12\xb7\x01\n" +
+	"\x10DescribeLanguage\x12%.eolymp.runtime.DescribeLanguageInput\x1a&.eolymp.runtime.DescribeLanguageOutput\"T\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02\x1a\x12\x18/languages/{language_id}\x12\x98\x01\n" +
-	"\rListLanguages\x12\".eolymp.runtime.ListLanguagesInput\x1a#.eolymp.runtime.ListLanguagesOutput\">\xea\xe2\n" +
+	"\x14runtime:runtime:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1a\x12\x18/languages/{language_id}\x12\xa0\x01\n" +
+	"\rListLanguages\x12\".eolymp.runtime.ListLanguagesInput\x1a#.eolymp.runtime.ListLanguagesOutput\"F\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/languages\x12\xa9\x01\n" +
-	"\x0fDescribeRuntime\x12$.eolymp.runtime.DescribeRuntimeInput\x1a%.eolymp.runtime.DescribeRuntimeOutput\"I\xea\xe2\n" +
+	"\x14runtime:runtime:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"/languages\x12\xb1\x01\n" +
+	"\x0fDescribeRuntime\x12$.eolymp.runtime.DescribeRuntimeInput\x1a%.eolymp.runtime.DescribeRuntimeOutput\"Q\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02\x17\x12\x15/runtime/{runtime_id}\x12\x93\x01\n" +
-	"\fListRuntimes\x12!.eolymp.runtime.ListRuntimesInput\x1a\".eolymp.runtime.ListRuntimesOutput\"<\xea\xe2\n" +
+	"\x14runtime:runtime:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x17\x12\x15/runtime/{runtime_id}\x12\x9b\x01\n" +
+	"\fListRuntimes\x12!.eolymp.runtime.ListRuntimesInput\x1a\".eolymp.runtime.ListRuntimesOutput\"D\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/runtime\x12\xc1\x01\n" +
-	"\x14DescribeCodeTemplate\x12).eolymp.runtime.DescribeCodeTemplateInput\x1a*.eolymp.runtime.DescribeCodeTemplateOutput\"R\xea\xe2\n" +
+	"\x14runtime:runtime:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/runtime\x12\xc9\x01\n" +
+	"\x14DescribeCodeTemplate\x12).eolymp.runtime.DescribeCodeTemplateInput\x1a*.eolymp.runtime.DescribeCodeTemplateOutput\"Z\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14runtime:runtime:read\x82\xd3\xe4\x93\x02 \x12\x1e/runtime/{runtime_id}/template\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/runtime;runtimeb\x06proto3"
+	"\x14runtime:runtime:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/runtime/{runtime_id}/template\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/runtime;runtimeb\x06proto3"
 
 var (
 	file_eolymp_runtime_runtime_service_proto_rawDescOnce sync.Once

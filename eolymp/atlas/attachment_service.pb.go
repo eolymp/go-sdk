@@ -594,7 +594,7 @@ var File_eolymp_atlas_attachment_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/atlas/attachment_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/attachment.proto\x1a!eolymp/wellknown/expression.proto\"p\n" +
+	"%eolymp/atlas/attachment_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/attachment.proto\x1a!eolymp/wellknown/expression.proto\"p\n" +
 	"\x15CreateAttachmentInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x128\n" +
@@ -638,41 +638,51 @@ const file_eolymp_atlas_attachment_service_proto_rawDesc = "" +
 	"\x18DescribeAttachmentOutput\x128\n" +
 	"\n" +
 	"attachment\x18\x01 \x01(\v2\x18.eolymp.atlas.AttachmentR\n" +
-	"attachment2\xef\a\n" +
-	"\x11AttachmentService\x12\xb3\x01\n" +
-	"\x10CreateAttachment\x12#.eolymp.atlas.CreateAttachmentInput\x1a$.eolymp.atlas.CreateAttachmentOutput\"T\xea\xe2\n" +
+	"attachment2\x97\b\n" +
+	"\x11AttachmentService\x12\xbb\x01\n" +
+	"\x10CreateAttachment\x12#.eolymp.atlas.CreateAttachmentInput\x1a$.eolymp.atlas.CreateAttachmentOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/attachments\x12\xc3\x01\n" +
-	"\x10UpdateAttachment\x12#.eolymp.atlas.UpdateAttachmentInput\x1a$.eolymp.atlas.UpdateAttachmentOutput\"d\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/attachments\x12\xcb\x01\n" +
+	"\x10UpdateAttachment\x12#.eolymp.atlas.UpdateAttachmentInput\x1a$.eolymp.atlas.UpdateAttachmentOutput\"l\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x024\"2/problems/{problem_id}/attachments/{attachment_id}\x12\xc3\x01\n" +
-	"\x10DeleteAttachment\x12#.eolymp.atlas.DeleteAttachmentInput\x1a$.eolymp.atlas.DeleteAttachmentOutput\"d\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x024\"2/problems/{problem_id}/attachments/{attachment_id}\x12\xcb\x01\n" +
+	"\x10DeleteAttachment\x12#.eolymp.atlas.DeleteAttachmentInput\x1a$.eolymp.atlas.DeleteAttachmentOutput\"l\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x024*2/problems/{problem_id}/attachments/{attachment_id}\x12\xaf\x01\n" +
-	"\x0fListAttachments\x12\".eolymp.atlas.ListAttachmentsInput\x1a#.eolymp.atlas.ListAttachmentsOutput\"S\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x024*2/problems/{problem_id}/attachments/{attachment_id}\x12\xb7\x01\n" +
+	"\x0fListAttachments\x12\".eolymp.atlas.ListAttachmentsInput\x1a#.eolymp.atlas.ListAttachmentsOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/attachments\x12\xc8\x01\n" +
-	"\x12DescribeAttachment\x12%.eolymp.atlas.DescribeAttachmentInput\x1a&.eolymp.atlas.DescribeAttachmentOutput\"c\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/attachments\x12\xd0\x01\n" +
+	"\x12DescribeAttachment\x12%.eolymp.atlas.DescribeAttachmentInput\x1a&.eolymp.atlas.DescribeAttachmentOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x024\x122/problems/{problem_id}/attachments/{attachment_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x024\x122/problems/{problem_id}/attachments/{attachment_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_attachment_service_proto_rawDescOnce sync.Once

@@ -273,7 +273,7 @@ var File_eolymp_l10n_project_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_project_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/l10n/project_service.proto\x12\veolymp.l10n\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/l10n/project.proto\x1a!eolymp/wellknown/expression.proto\"\xba\x01\n" +
+	"!eolymp/l10n/project_service.proto\x12\veolymp.l10n\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/l10n/project.proto\x1a!eolymp/wellknown/expression.proto\"\xba\x01\n" +
 	"\x11ListProjectsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -288,20 +288,24 @@ const file_eolymp_l10n_project_service_proto_rawDesc = "" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\"G\n" +
 	"\x15DescribeProjectOutput\x12.\n" +
-	"\aproject\x18\x01 \x01(\v2\x14.eolymp.l10n.ProjectR\aproject2\xc0\x02\n" +
-	"\x0eProjectService\x12\x8a\x01\n" +
-	"\fListProjects\x12\x1e.eolymp.l10n.ListProjectsInput\x1a\x1f.eolymp.l10n.ListProjectsOutput\"9\xea\xe2\n" +
+	"\aproject\x18\x01 \x01(\v2\x14.eolymp.l10n.ProjectR\aproject2\xd0\x02\n" +
+	"\x0eProjectService\x12\x92\x01\n" +
+	"\fListProjects\x12\x1e.eolymp.l10n.ListProjectsInput\x1a\x1f.eolymp.l10n.ListProjectsOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11l10n:project:read\x82\xd3\xe4\x93\x02\v\x12\t/projects\x12\xa0\x01\n" +
-	"\x0fDescribeProject\x12!.eolymp.l10n.DescribeProjectInput\x1a\".eolymp.l10n.DescribeProjectOutput\"F\xea\xe2\n" +
+	"\x11l10n:project:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/projects\x12\xa8\x01\n" +
+	"\x0fDescribeProject\x12!.eolymp.l10n.DescribeProjectInput\x1a\".eolymp.l10n.DescribeProjectOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11l10n:project:read\x82\xd3\xe4\x93\x02\x18\x12\x16/projects/{project_id}B+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
+	"\x11l10n:project:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/projects/{project_id}B+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
 
 var (
 	file_eolymp_l10n_project_service_proto_rawDescOnce sync.Once

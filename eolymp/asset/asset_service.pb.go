@@ -1432,7 +1432,7 @@ var File_eolymp_asset_asset_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/asset/asset_service.proto\x12\feolymp.asset\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x93\x03\n" +
+	" eolymp/asset/asset_service.proto\x12\feolymp.asset\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x93\x03\n" +
 	"\x10UploadImageInput\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x127\n" +
@@ -1518,84 +1518,108 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\rUseAssetInput\x12\x1a\n" +
 	"\bresource\x18\x01 \x01(\tR\bresource\x12\x16\n" +
 	"\x06assets\x18\x02 \x03(\tR\x06assets\"\x10\n" +
-	"\x0eUseAssetOutput2\x91\x0e\n" +
-	"\fAssetService\x12\x8e\x01\n" +
-	"\vUploadImage\x12\x1e.eolymp.asset.UploadImageInput\x1a\x1f.eolymp.asset.UploadImageOutput\">\xea\xe2\n" +
+	"\x0eUseAssetOutput2\xf1\x0e\n" +
+	"\fAssetService\x12\x96\x01\n" +
+	"\vUploadImage\x12\x1e.eolymp.asset.UploadImageInput\x1a\x1f.eolymp.asset.UploadImageOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:image:write\x82\xd3\xe4\x93\x02\x10\"\x0e/assets/images\x12\x8a\x01\n" +
+	"\x11asset:image:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x10\"\x0e/assets/images\x12\x92\x01\n" +
 	"\n" +
-	"UploadFile\x12\x1d.eolymp.asset.UploadFileInput\x1a\x1e.eolymp.asset.UploadFileOutput\"=\xea\xe2\n" +
+	"UploadFile\x12\x1d.eolymp.asset.UploadFileInput\x1a\x1e.eolymp.asset.UploadFileOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:image:write\x82\xd3\xe4\x93\x02\x0f\"\r/assets/files\x12\x8e\x01\n" +
-	"\vUploadAsset\x12\x1e.eolymp.asset.UploadAssetInput\x1a\x1f.eolymp.asset.UploadAssetOutput\">\xea\xe2\n" +
+	"\x11asset:image:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0f\"\r/assets/files\x12\x96\x01\n" +
+	"\vUploadAsset\x12\x1e.eolymp.asset.UploadAssetInput\x1a\x1f.eolymp.asset.UploadAssetOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x10\x98\xe3\n" +
-	"\xa0\xe6\x86\x04\"\a/assets\x12\x8e\x01\n" +
-	"\vLookupAsset\x12\x1e.eolymp.asset.LookupAssetInput\x1a\x1f.eolymp.asset.LookupAssetOutput\">\xea\xe2\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x10\x98\xe3\n" +
+	"\xa0\xe6\x86\x04\"\a/assets\x12\x96\x01\n" +
+	"\vLookupAsset\x12\x1e.eolymp.asset.LookupAssetInput\x1a\x1f.eolymp.asset.LookupAssetOutput\"F\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10asset:asset:read\x82\xd3\xe4\x93\x02\x10\"\x0e/assets:lookup\x12\x92\x01\n" +
-	"\vDeleteAsset\x12\x1e.eolymp.asset.DeleteAssetInput\x1a\x1f.eolymp.asset.DeleteAssetOutput\"B\xea\xe2\n" +
+	"\x10asset:asset:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\"\x0e/assets:lookup\x12\x9a\x01\n" +
+	"\vDeleteAsset\x12\x1e.eolymp.asset.DeleteAssetInput\x1a\x1f.eolymp.asset.DeleteAssetOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x14*\x12/assets/{asset_id}\x12W\n" +
-	"\bUseAsset\x12\x1b.eolymp.asset.UseAssetInput\x1a\x1c.eolymp.asset.UseAssetOutput\"\x10\xea\xe2\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x14*\x12/assets/{asset_id}\x12_\n" +
+	"\bUseAsset\x12\x1b.eolymp.asset.UseAssetInput\x1a\x1c.eolymp.asset.UseAssetOutput\"\x18\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xc8B\xf8\xe2\n" +
-	"\xd0\x0f\x12\xa3\x01\n" +
-	"\x14StartMultipartUpload\x12'.eolymp.asset.StartMultipartUploadInput\x1a(.eolymp.asset.StartMultipartUploadOutput\"8\xea\xe2\n" +
+	"\xd0\x0f\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12\xab\x01\n" +
+	"\x14StartMultipartUpload\x12'.eolymp.asset.StartMultipartUploadInput\x1a(.eolymp.asset.StartMultipartUploadOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/uploads\x12\x98\x01\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\x1a\b/uploads\x12\xa0\x01\n" +
 	"\n" +
-	"UploadPart\x12\x1d.eolymp.asset.UploadPartInput\x1a\x1e.eolymp.asset.UploadPartOutput\"K\xea\xe2\n" +
+	"UploadPart\x12\x1d.eolymp.asset.UploadPartInput\x1a\x1e.eolymp.asset.UploadPartOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x1d\x98\xe3\n" +
-	"\xa0\xe6\x86\x04\"\x14/uploads/{upload_id}\x12\xb8\x01\n" +
-	"\x17CompleteMultipartUpload\x12*.eolymp.asset.CompleteMultipartUploadInput\x1a+.eolymp.asset.CompleteMultipartUploadOutput\"D\xea\xe2\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\x98\xe3\n" +
+	"\xa0\xe6\x86\x04\"\x14/uploads/{upload_id}\x12\xc0\x01\n" +
+	"\x17CompleteMultipartUpload\x12*.eolymp.asset.CompleteMultipartUploadInput\x1a+.eolymp.asset.CompleteMultipartUploadOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/uploads/{upload_id}\x12\x88\x01\n" +
-	"\vStartStream\x12\x1e.eolymp.asset.StartStreamInput\x1a\x1f.eolymp.asset.StartStreamOutput\"8\xea\xe2\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/uploads/{upload_id}\x12\x90\x01\n" +
+	"\vStartStream\x12\x1e.eolymp.asset.StartStreamInput\x1a\x1f.eolymp.asset.StartStreamOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/streams\x12\x97\x01\n" +
-	"\fAppendStream\x12\x1f.eolymp.asset.AppendStreamInput\x1a .eolymp.asset.AppendStreamOutput\"D\xea\xe2\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\x1a\b/streams\x12\x9f\x01\n" +
+	"\fAppendStream\x12\x1f.eolymp.asset.AppendStreamInput\x1a .eolymp.asset.AppendStreamOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x16\"\x14/streams/{stream_id}\x12\x94\x01\n" +
-	"\vCloseStream\x12\x1e.eolymp.asset.CloseStreamInput\x1a\x1f.eolymp.asset.CloseStreamOutput\"D\xea\xe2\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\"\x14/streams/{stream_id}\x12\x9c\x01\n" +
+	"\vCloseStream\x12\x1e.eolymp.asset.CloseStreamInput\x1a\x1f.eolymp.asset.CloseStreamOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11asset:asset:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/streams/{stream_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/asset;assetb\x06proto3"
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/streams/{stream_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/asset;assetb\x06proto3"
 
 var (
 	file_eolymp_asset_asset_service_proto_rawDescOnce sync.Once

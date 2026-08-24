@@ -1192,7 +1192,7 @@ var File_eolymp_atlas_statement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/atlas/statement_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/statement.proto\"\x96\x01\n" +
+	"$eolymp/atlas/statement_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/statement.proto\"\x96\x01\n" +
 	"\x15StatementChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
@@ -1280,69 +1280,89 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.atlas.Statement.Extra.FieldR\x05extra\"b\n" +
 	"\x1bListStatementVersionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items2\xa3\x0f\n" +
-	"\x10StatementService\x12\xaf\x01\n" +
-	"\x0fCreateStatement\x12\".eolymp.atlas.CreateStatementInput\x1a#.eolymp.atlas.CreateStatementOutput\"S\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items2\xf3\x0f\n" +
+	"\x10StatementService\x12\xb7\x01\n" +
+	"\x0fCreateStatement\x12\".eolymp.atlas.CreateStatementInput\x1a#.eolymp.atlas.CreateStatementOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02#\x1a!/problems/{problem_id}/statements\x12\xbe\x01\n" +
-	"\x0fUpdateStatement\x12\".eolymp.atlas.UpdateStatementInput\x1a#.eolymp.atlas.UpdateStatementOutput\"b\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\x1a!/problems/{problem_id}/statements\x12\xc6\x01\n" +
+	"\x0fUpdateStatement\x12\".eolymp.atlas.UpdateStatementInput\x1a#.eolymp.atlas.UpdateStatementOutput\"j\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x022\x1a0/problems/{problem_id}/statements/{statement_id}\x12\xbe\x01\n" +
-	"\x0fDeleteStatement\x12\".eolymp.atlas.DeleteStatementInput\x1a#.eolymp.atlas.DeleteStatementOutput\"b\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x022\x1a0/problems/{problem_id}/statements/{statement_id}\x12\xc6\x01\n" +
+	"\x0fDeleteStatement\x12\".eolymp.atlas.DeleteStatementInput\x1a#.eolymp.atlas.DeleteStatementOutput\"j\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x022*0/problems/{problem_id}/statements/{statement_id}\x12\xc3\x01\n" +
-	"\x11DescribeStatement\x12$.eolymp.atlas.DescribeStatementInput\x1a%.eolymp.atlas.DescribeStatementOutput\"a\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x022*0/problems/{problem_id}/statements/{statement_id}\x12\xcb\x01\n" +
+	"\x11DescribeStatement\x12$.eolymp.atlas.DescribeStatementInput\x1a%.eolymp.atlas.DescribeStatementOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x022\x120/problems/{problem_id}/statements/{statement_id}\x12\xae\x01\n" +
-	"\x0fLookupStatement\x12\".eolymp.atlas.LookupStatementInput\x1a#.eolymp.atlas.LookupStatementOutput\"R\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x022\x120/problems/{problem_id}/statements/{statement_id}\x12\xb6\x01\n" +
+	"\x0fLookupStatement\x12\".eolymp.atlas.LookupStatementInput\x1a#.eolymp.atlas.LookupStatementOutput\"Z\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/translate\x12\xae\x01\n" +
-	"\x10PreviewStatement\x12#.eolymp.atlas.PreviewStatementInput\x1a$.eolymp.atlas.PreviewStatementOutput\"O\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/translate\x12\xb6\x01\n" +
+	"\x10PreviewStatement\x12#.eolymp.atlas.PreviewStatementInput\x1a$.eolymp.atlas.PreviewStatementOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02 \"\x1e/problems/{problem_id}/renders\x12\xab\x01\n" +
-	"\x0eListStatements\x12!.eolymp.atlas.ListStatementsInput\x1a\".eolymp.atlas.ListStatementsOutput\"R\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \"\x1e/problems/{problem_id}/renders\x12\xb3\x01\n" +
+	"\x0eListStatements\x12!.eolymp.atlas.ListStatementsInput\x1a\".eolymp.atlas.ListStatementsOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/statements\x12\xc5\x01\n" +
-	"\x13TranslateStatements\x12&.eolymp.atlas.TranslateStatementsInput\x1a'.eolymp.atlas.TranslateStatementsOutput\"]\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/statements\x12\xcd\x01\n" +
+	"\x13TranslateStatements\x12&.eolymp.atlas.TranslateStatementsInput\x1a'.eolymp.atlas.TranslateStatementsOutput\"e\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02-\"+/problems/{problem_id}/statements:translate\x12\xc4\x01\n" +
-	"\x0fExportStatement\x12\".eolymp.atlas.ExportStatementInput\x1a#.eolymp.atlas.ExportStatementOutput\"h\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02-\"+/problems/{problem_id}/statements:translate\x12\xcc\x01\n" +
+	"\x0fExportStatement\x12\".eolymp.atlas.ExportStatementInput\x1a#.eolymp.atlas.ExportStatementOutput\"p\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x029\"7/problems/{problem_id}/statements/{statement_id}/export\x12\xd8\x01\n" +
-	"\x15ListStatementVersions\x12(.eolymp.atlas.ListStatementVersionsInput\x1a).eolymp.atlas.ListStatementVersionsOutput\"j\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x029\"7/problems/{problem_id}/statements/{statement_id}/export\x12\xe0\x01\n" +
+	"\x15ListStatementVersions\x12(.eolymp.atlas.ListStatementVersionsInput\x1a).eolymp.atlas.ListStatementVersionsOutput\"r\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02;\x129/problems/{problem_id}/statements/{statement_id}/versions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02;\x129/problems/{problem_id}/statements/{statement_id}/versions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_statement_service_proto_rawDescOnce sync.Once

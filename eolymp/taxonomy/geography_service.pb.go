@@ -558,7 +558,7 @@ var File_eolymp_taxonomy_geography_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_taxonomy_geography_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/taxonomy/geography_service.proto\x12\x0feolymp.taxonomy\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a'eolymp/taxonomy/geography_country.proto\x1a&eolymp/taxonomy/geography_region.proto\x1a!eolymp/wellknown/expression.proto\"5\n" +
+	"'eolymp/taxonomy/geography_service.proto\x12\x0feolymp.taxonomy\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a'eolymp/taxonomy/geography_country.proto\x1a&eolymp/taxonomy/geography_region.proto\x1a!eolymp/wellknown/expression.proto\"5\n" +
 	"\x14DescribeCountryInput\x12\x1d\n" +
 	"\n" +
 	"country_id\x18\x01 \x01(\tR\tcountryId\"K\n" +
@@ -593,26 +593,34 @@ const file_eolymp_taxonomy_geography_service_proto_rawDesc = "" +
 	"\x04name\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"X\n" +
 	"\x11ListRegionsOutput\x12-\n" +
 	"\x05items\x18\x01 \x03(\v2\x17.eolymp.taxonomy.RegionR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x05R\x05total2\xac\x04\n" +
-	"\x10GeographyService\x12~\n" +
-	"\rListCountries\x12#.eolymp.taxonomy.ListCountriesInput\x1a$.eolymp.taxonomy.ListCountriesOutput\"\"\xea\xe2\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total2\xcd\x04\n" +
+	"\x10GeographyService\x12\x86\x01\n" +
+	"\rListCountries\x12#.eolymp.taxonomy.ListCountriesInput\x1a$.eolymp.taxonomy.ListCountriesOutput\"*\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/countries\x12\x91\x01\n" +
-	"\x0fDescribeCountry\x12%.eolymp.taxonomy.DescribeCountryInput\x1a&.eolymp.taxonomy.DescribeCountryOutput\"/\xea\xe2\n" +
+	"\xf4\x03\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\f\x12\n" +
+	"/countries\x12\x99\x01\n" +
+	"\x0fDescribeCountry\x12%.eolymp.taxonomy.DescribeCountryInput\x1a&.eolymp.taxonomy.DescribeCountryOutput\"7\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\x19\x12\x17/countries/{country_id}\x12v\n" +
-	"\vListRegions\x12!.eolymp.taxonomy.ListRegionsInput\x1a\".eolymp.taxonomy.ListRegionsOutput\" \xea\xe2\n" +
+	"\xf4\x03\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x19\x12\x17/countries/{country_id}\x12~\n" +
+	"\vListRegions\x12!.eolymp.taxonomy.ListRegionsInput\x1a\".eolymp.taxonomy.ListRegionsOutput\"(\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/regions\x12\x8b\x01\n" +
-	"\x0eDescribeRegion\x12$.eolymp.taxonomy.DescribeRegionInput\x1a%.eolymp.taxonomy.DescribeRegionOutput\",\xea\xe2\n" +
+	"\xf4\x03\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/regions\x12\x93\x01\n" +
+	"\x0eDescribeRegion\x12$.eolymp.taxonomy.DescribeRegionInput\x1a%.eolymp.taxonomy.DescribeRegionOutput\"4\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\x16\x12\x14/regions/{region_id}B3Z1github.com/eolymp/go-sdk/eolymp/taxonomy;taxonomyb\x06proto3"
+	"\xf4\x03\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/regions/{region_id}B3Z1github.com/eolymp/go-sdk/eolymp/taxonomy;taxonomyb\x06proto3"
 
 var (
 	file_eolymp_taxonomy_geography_service_proto_rawDescOnce sync.Once

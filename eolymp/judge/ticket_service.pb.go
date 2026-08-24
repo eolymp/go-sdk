@@ -2065,7 +2065,7 @@ var File_eolymp_judge_ticket_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/judge/ticket_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x19eolymp/judge/ticket.proto\x1a\x1feolymp/judge/ticket_reply.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x01\n" +
+	"!eolymp/judge/ticket_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/ecm/content.proto\x1a\x19eolymp/judge/ticket.proto\x1a\x1feolymp/judge/ticket_reply.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x01\n" +
 	"\x12TicketChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x12,\n" +
@@ -2208,115 +2208,147 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\x12SuggestReplyOutput\x123\n" +
 	"\n" +
 	"suggestion\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\n" +
-	"suggestion2\xe3\x14\n" +
-	"\rTicketService\x12\x93\x01\n" +
-	"\fCreateTicket\x12\x1f.eolymp.judge.CreateTicketInput\x1a .eolymp.judge.CreateTicketOutput\"@\xea\xe2\n" +
+	"suggestion2\xe3\x15\n" +
+	"\rTicketService\x12\x9b\x01\n" +
+	"\fCreateTicket\x12\x1f.eolymp.judge.CreateTicketInput\x1a .eolymp.judge.CreateTicketOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/tickets\x12\x99\x01\n" +
-	"\fUpdateTicket\x12\x1f.eolymp.judge.UpdateTicketInput\x1a .eolymp.judge.UpdateTicketOutput\"F\xea\xe2\n" +
+	"\x19judge:contest:participate\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\"\b/tickets\x12\xa1\x01\n" +
+	"\fUpdateTicket\x12\x1f.eolymp.judge.UpdateTicketInput\x1a .eolymp.judge.UpdateTicketOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x16\"\x14/tickets/{ticket_id}\x12\x97\x01\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\"\x14/tickets/{ticket_id}\x12\x9f\x01\n" +
 	"\n" +
-	"ReadTicket\x12\x1d.eolymp.judge.ReadTicketInput\x1a\x1e.eolymp.judge.ReadTicketOutput\"J\xea\xe2\n" +
+	"ReadTicket\x12\x1d.eolymp.judge.ReadTicketInput\x1a\x1e.eolymp.judge.ReadTicketOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1b\"\x19/tickets/{ticket_id}/read\x12\x99\x01\n" +
-	"\fDeleteTicket\x12\x1f.eolymp.judge.DeleteTicketInput\x1a .eolymp.judge.DeleteTicketOutput\"F\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1b\"\x19/tickets/{ticket_id}/read\x12\xa1\x01\n" +
+	"\fDeleteTicket\x12\x1f.eolymp.judge.DeleteTicketInput\x1a .eolymp.judge.DeleteTicketOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x16*\x14/tickets/{ticket_id}\x12\x9e\x01\n" +
-	"\x0eDescribeTicket\x12!.eolymp.judge.DescribeTicketInput\x1a\".eolymp.judge.DescribeTicketOutput\"E\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x16*\x14/tickets/{ticket_id}\x12\xa6\x01\n" +
+	"\x0eDescribeTicket\x12!.eolymp.judge.DescribeTicketInput\x1a\".eolymp.judge.DescribeTicketOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x16\x12\x14/tickets/{ticket_id}\x12\x89\x01\n" +
-	"\vListTickets\x12\x1e.eolymp.judge.ListTicketsInput\x1a\x1f.eolymp.judge.ListTicketsOutput\"9\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/tickets/{ticket_id}\x12\x91\x01\n" +
+	"\vListTickets\x12\x1e.eolymp.judge.ListTicketsInput\x1a\x1f.eolymp.judge.ListTicketsOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/tickets\x12\xa4\x01\n" +
-	"\vReplyTicket\x12\x1e.eolymp.judge.ReplyTicketInput\x1a\x1f.eolymp.judge.ReplyTicketOutput\"T\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/tickets\x12\xac\x01\n" +
+	"\vReplyTicket\x12\x1e.eolymp.judge.ReplyTicketInput\x1a\x1f.eolymp.judge.ReplyTicketOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19judge:contest:participate\x82\xd3\xe4\x93\x02\x1e\"\x1c/tickets/{ticket_id}/replies\x12\x9d\x01\n" +
-	"\vWatchTicket\x12\x1e.eolymp.judge.WatchTicketInput\x1a\x1f.eolymp.judge.WatchTicketOutput\"K\xea\xe2\n" +
+	"\x19judge:contest:participate\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/tickets/{ticket_id}/replies\x12\xa5\x01\n" +
+	"\vWatchTicket\x12\x1e.eolymp.judge.WatchTicketInput\x1a\x1f.eolymp.judge.WatchTicketOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1c\x12\x1a/tickets/{ticket_id}/watch0\x01\x12\xa0\x01\n" +
-	"\x10WatchTicketsList\x12#.eolymp.judge.WatchTicketsListInput\x1a$.eolymp.judge.WatchTicketsListOutput\"?\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/tickets/{ticket_id}/watch0\x01\x12\xa8\x01\n" +
+	"\x10WatchTicketsList\x12#.eolymp.judge.WatchTicketsListInput\x1a$.eolymp.judge.WatchTicketsListOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x10\x12\x0e/tickets:watch0\x01\x12\xaf\x01\n" +
-	"\x15DescribeTicketSummary\x12(.eolymp.judge.DescribeTicketSummaryInput\x1a).eolymp.judge.DescribeTicketSummaryOutput\"A\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/tickets:watch0\x01\x12\xb7\x01\n" +
+	"\x15DescribeTicketSummary\x12(.eolymp.judge.DescribeTicketSummaryInput\x1a).eolymp.judge.DescribeTicketSummaryOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x12\x12\x10/summary/tickets\x12\xae\x01\n" +
-	"\x12WatchTicketSummary\x12%.eolymp.judge.WatchTicketSummaryInput\x1a&.eolymp.judge.WatchTicketSummaryOutput\"G\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/summary/tickets\x12\xb6\x01\n" +
+	"\x12WatchTicketSummary\x12%.eolymp.judge.WatchTicketSummaryInput\x1a&.eolymp.judge.WatchTicketSummaryOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/tickets/watch0\x01\x12\x9d\x01\n" +
-	"\vListReplies\x12\x1e.eolymp.judge.ListRepliesInput\x1a\x1f.eolymp.judge.ListRepliesOutput\"M\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/summary/tickets/watch0\x01\x12\xa5\x01\n" +
+	"\vListReplies\x12\x1e.eolymp.judge.ListRepliesInput\x1a\x1f.eolymp.judge.ListRepliesOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/tickets/{ticket_id}/replies\x12\xaf\x01\n" +
-	"\rDescribeReply\x12 .eolymp.judge.DescribeReplyInput\x1a!.eolymp.judge.DescribeReplyOutput\"Y\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/tickets/{ticket_id}/replies\x12\xb7\x01\n" +
+	"\rDescribeReply\x12 .eolymp.judge.DescribeReplyInput\x1a!.eolymp.judge.DescribeReplyOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)\x12'/tickets/{ticket_id}/replies/{reply_id}\x12\xa9\x01\n" +
-	"\vDeleteReply\x12\x1e.eolymp.judge.DeleteReplyInput\x1a\x1f.eolymp.judge.DeleteReplyOutput\"Y\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02)\x12'/tickets/{ticket_id}/replies/{reply_id}\x12\xb1\x01\n" +
+	"\vDeleteReply\x12\x1e.eolymp.judge.DeleteReplyInput\x1a\x1f.eolymp.judge.DeleteReplyOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)*'/tickets/{ticket_id}/replies/{reply_id}\x12\xa9\x01\n" +
-	"\vUpdateReply\x12\x1e.eolymp.judge.UpdateReplyInput\x1a\x1f.eolymp.judge.UpdateReplyOutput\"Y\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02)*'/tickets/{ticket_id}/replies/{reply_id}\x12\xb1\x01\n" +
+	"\vUpdateReply\x12\x1e.eolymp.judge.UpdateReplyInput\x1a\x1f.eolymp.judge.UpdateReplyOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02)\"'/tickets/{ticket_id}/replies/{reply_id}\x12\xa9\x01\n" +
-	"\fSuggestReply\x12\x1f.eolymp.judge.SuggestReplyInput\x1a .eolymp.judge.SuggestReplyOutput\"V\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02)\"'/tickets/{ticket_id}/replies/{reply_id}\x12\xb1\x01\n" +
+	"\fSuggestReply\x12\x1f.eolymp.judge.SuggestReplyInput\x1a .eolymp.judge.SuggestReplyOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02&\"$/tickets/{ticket_id}/replies:suggest\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02&\"$/tickets/{ticket_id}/replies:suggest\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_ticket_service_proto_rawDescOnce sync.Once

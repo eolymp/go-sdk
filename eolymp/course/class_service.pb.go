@@ -1060,7 +1060,7 @@ var File_eolymp_course_class_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_class_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/course/class_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x19eolymp/course/class.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\">\n" +
+	"!eolymp/course/class_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x19eolymp/course/class.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\">\n" +
 	"\x10CreateClassInput\x12*\n" +
 	"\x05class\x18\x01 \x01(\v2\x14.eolymp.course.ClassR\x05class\".\n" +
 	"\x11CreateClassOutput\x12\x19\n" +
@@ -1126,59 +1126,74 @@ const file_eolymp_course_class_service_proto_rawDesc = "" +
 	"\x1aDeleteClassAssignmentInput\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\tR\agroupId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"\x1d\n" +
-	"\x1bDeleteClassAssignmentOutput2\xe0\n" +
-	"\n" +
-	"\fClassService\x12\x8c\x01\n" +
-	"\vCreateClass\x12\x1f.eolymp.course.CreateClassInput\x1a .eolymp.course.CreateClassOutput\":\xea\xe2\n" +
+	"\x1bDeleteClassAssignmentOutput2\xa0\v\n" +
+	"\fClassService\x12\x94\x01\n" +
+	"\vCreateClass\x12\x1f.eolymp.course.CreateClassInput\x1a .eolymp.course.CreateClassOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/classes\x12\x97\x01\n" +
-	"\vUpdateClass\x12\x1f.eolymp.course.UpdateClassInput\x1a .eolymp.course.UpdateClassOutput\"E\xea\xe2\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\"\b/classes\x12\x9f\x01\n" +
+	"\vUpdateClass\x12\x1f.eolymp.course.UpdateClassInput\x1a .eolymp.course.UpdateClassOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x15\"\x13/classes/{group_id}\x12\x97\x01\n" +
-	"\vDeleteClass\x12\x1f.eolymp.course.DeleteClassInput\x1a .eolymp.course.DeleteClassOutput\"E\xea\xe2\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x15\"\x13/classes/{group_id}\x12\x9f\x01\n" +
+	"\vDeleteClass\x12\x1f.eolymp.course.DeleteClassInput\x1a .eolymp.course.DeleteClassOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x15*\x13/classes/{group_id}\x12\x9c\x01\n" +
-	"\rDescribeClass\x12!.eolymp.course.DescribeClassInput\x1a\".eolymp.course.DescribeClassOutput\"D\xea\xe2\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x15*\x13/classes/{group_id}\x12\xa4\x01\n" +
+	"\rDescribeClass\x12!.eolymp.course.DescribeClassInput\x1a\".eolymp.course.DescribeClassOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x15\x12\x13/classes/{group_id}\x12\x8b\x01\n" +
-	"\vListClasses\x12\x1f.eolymp.course.ListClassesInput\x1a .eolymp.course.ListClassesOutput\"9\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x15\x12\x13/classes/{group_id}\x12\x93\x01\n" +
+	"\vListClasses\x12\x1f.eolymp.course.ListClassesInput\x1a .eolymp.course.ListClassesOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/classes\x12\xbd\x01\n" +
-	"\x14ListClassAssignments\x12(.eolymp.course.ListClassAssignmentsInput\x1a).eolymp.course.ListClassAssignmentsOutput\"P\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/classes\x12\xc5\x01\n" +
+	"\x14ListClassAssignments\x12(.eolymp.course.ListClassAssignmentsInput\x1a).eolymp.course.ListClassAssignmentsOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02!\x12\x1f/classes/{group_id}/assignments\x12\xc0\x01\n" +
-	"\x15UpdateClassAssignment\x12).eolymp.course.UpdateClassAssignmentInput\x1a*.eolymp.course.UpdateClassAssignmentOutput\"P\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/classes/{group_id}/assignments\x12\xc8\x01\n" +
+	"\x15UpdateClassAssignment\x12).eolymp.course.UpdateClassAssignmentInput\x1a*.eolymp.course.UpdateClassAssignmentOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02!\"\x1f/classes/{group_id}/assignments\x12\xc0\x01\n" +
-	"\x15DeleteClassAssignment\x12).eolymp.course.DeleteClassAssignmentInput\x1a*.eolymp.course.DeleteClassAssignmentOutput\"P\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/classes/{group_id}/assignments\x12\xc8\x01\n" +
+	"\x15DeleteClassAssignment\x12).eolymp.course.DeleteClassAssignmentInput\x1a*.eolymp.course.DeleteClassAssignmentOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02!*\x1f/classes/{group_id}/assignments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02!*\x1f/classes/{group_id}/assignments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_class_service_proto_rawDescOnce sync.Once

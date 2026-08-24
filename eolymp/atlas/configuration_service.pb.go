@@ -194,25 +194,29 @@ var File_eolymp_atlas_configuration_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_configuration_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/atlas/configuration_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/configuration.proto\"\x15\n" +
+	"(eolymp/atlas/configuration_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/configuration.proto\"\x15\n" +
 	"\x13DescribeConfigInput\"D\n" +
 	"\x14DescribeConfigOutput\x12,\n" +
 	"\x06config\x18\x01 \x01(\v2\x14.eolymp.atlas.ConfigR\x06config\"y\n" +
 	"\x11UpdateConfigInput\x126\n" +
 	"\x05patch\x18\x01 \x03(\x0e2 .eolymp.atlas.Config.Patch.FieldR\x05patch\x12,\n" +
 	"\x06config\x18\x02 \x01(\v2\x14.eolymp.atlas.ConfigR\x06config\"\x14\n" +
-	"\x12UpdateConfigOutput2\xca\x02\n" +
-	"\x14ConfigurationService\x12~\n" +
-	"\x0eDescribeConfig\x12!.eolymp.atlas.DescribeConfigInput\x1a\".eolymp.atlas.DescribeConfigOutput\"%\xea\xe2\n" +
+	"\x12UpdateConfigOutput2\xdb\x02\n" +
+	"\x14ConfigurationService\x12\x86\x01\n" +
+	"\x0eDescribeConfig\x12!.eolymp.atlas.DescribeConfigInput\x1a\".eolymp.atlas.DescribeConfigOutput\"-\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x10\x12\x0e/configs/atlas\x12\x94\x01\n" +
-	"\fUpdateConfig\x12\x1f.eolymp.atlas.UpdateConfigInput\x1a .eolymp.atlas.UpdateConfigOutput\"A\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/configs/atlas\x12\x9c\x01\n" +
+	"\fUpdateConfig\x12\x1f.eolymp.atlas.UpdateConfigInput\x1a .eolymp.atlas.UpdateConfigOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14universe:space:write\x82\xd3\xe4\x93\x02\x10\x1a\x0e/configs/atlas\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x10\x1a\x0e/configs/atlas\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_configuration_service_proto_rawDescOnce sync.Once

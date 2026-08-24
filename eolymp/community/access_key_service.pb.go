@@ -410,7 +410,7 @@ var File_eolymp_community_access_key_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"\n" +
-	")eolymp/community/access_key_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/access_key.proto\"_\n" +
+	")eolymp/community/access_key_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/community/access_key.proto\"_\n" +
 	"\x14CreateAccessKeyInput\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05scope\x18\x02 \x01(\tR\x05scope\x12\x1d\n" +
@@ -432,33 +432,41 @@ const file_eolymp_community_access_key_service_proto_rawDesc = "" +
 	"\x04size\x18\v \x01(\x05R\x04size\"_\n" +
 	"\x14ListAccessKeysOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x121\n" +
-	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AccessKeyR\x05items2\xef\x05\n" +
-	"\x10AccessKeyService\x12\xa9\x01\n" +
-	"\x0fCreateAccessKey\x12&.eolymp.community.CreateAccessKeyInput\x1a'.eolymp.community.CreateAccessKeyOutput\"E\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1b.eolymp.community.AccessKeyR\x05items2\x8f\x06\n" +
+	"\x10AccessKeyService\x12\xb1\x01\n" +
+	"\x0fCreateAccessKey\x12&.eolymp.community.CreateAccessKeyInput\x1a'.eolymp.community.CreateAccessKeyOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1acommunity:access-key:write\x82\xd3\xe4\x93\x02\x0e\"\f/access-keys\x12\xb2\x01\n" +
-	"\x0fUpdateAccessKey\x12&.eolymp.community.UpdateAccessKeyInput\x1a'.eolymp.community.UpdateAccessKeyOutput\"N\xea\xe2\n" +
+	"\x1acommunity:access-key:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0e\"\f/access-keys\x12\xba\x01\n" +
+	"\x0fUpdateAccessKey\x12&.eolymp.community.UpdateAccessKeyInput\x1a'.eolymp.community.UpdateAccessKeyOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1acommunity:access-key:write\x82\xd3\xe4\x93\x02\x17\x1a\x15/access-keys/{key_id}\x12\xb2\x01\n" +
-	"\x0fDeleteAccessKey\x12&.eolymp.community.DeleteAccessKeyInput\x1a'.eolymp.community.DeleteAccessKeyOutput\"N\xea\xe2\n" +
+	"\x1acommunity:access-key:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x17\x1a\x15/access-keys/{key_id}\x12\xba\x01\n" +
+	"\x0fDeleteAccessKey\x12&.eolymp.community.DeleteAccessKeyInput\x1a'.eolymp.community.DeleteAccessKeyOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1acommunity:access-key:write\x82\xd3\xe4\x93\x02\x17*\x15/access-keys/{key_id}\x12\xa5\x01\n" +
-	"\x0eListAccessKeys\x12%.eolymp.community.ListAccessKeysInput\x1a&.eolymp.community.ListAccessKeysOutput\"D\xea\xe2\n" +
+	"\x1acommunity:access-key:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x17*\x15/access-keys/{key_id}\x12\xad\x01\n" +
+	"\x0eListAccessKeys\x12%.eolymp.community.ListAccessKeysInput\x1a&.eolymp.community.ListAccessKeysOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19community:access-key:read\x82\xd3\xe4\x93\x02\x0e\x12\f/access-keys\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x19community:access-key:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/access-keys\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_access_key_service_proto_rawDescOnce sync.Once

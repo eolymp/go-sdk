@@ -855,7 +855,7 @@ var File_eolymp_universe_space_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/universe/space_service.proto\x12\x0feolymp.universe\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1beolymp/universe/space.proto\x1a!eolymp/wellknown/expression.proto\"@\n" +
+	"#eolymp/universe/space_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1beolymp/universe/space.proto\x1a!eolymp/wellknown/expression.proto\"@\n" +
 	"\x10CreateSpaceInput\x12,\n" +
 	"\x05space\x18\x01 \x01(\v2\x16.eolymp.universe.SpaceR\x05space\".\n" +
 	"\x11CreateSpaceOutput\x12\x19\n" +
@@ -900,42 +900,54 @@ const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\x03own\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x03own\"V\n" +
 	"\x10ListSpacesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.universe.SpaceR\x05items2\xfa\x06\n" +
-	"\fSpaceService\x12\x83\x01\n" +
-	"\vLookupSpace\x12!.eolymp.universe.LookupSpaceInput\x1a\".eolymp.universe.LookupSpaceOutput\"-\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.universe.SpaceR\x05items2\xaa\a\n" +
+	"\fSpaceService\x12\x8b\x01\n" +
+	"\vLookupSpace\x12!.eolymp.universe.LookupSpaceInput\x1a\".eolymp.universe.LookupSpaceOutput\"5\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x18\x12\x16/spaces/__lookup/{key}\x12\x90\x01\n" +
-	"\vCreateSpace\x12!.eolymp.universe.CreateSpaceInput\x1a\".eolymp.universe.CreateSpaceOutput\":\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/spaces/__lookup/{key}\x12\x98\x01\n" +
+	"\vCreateSpace\x12!.eolymp.universe.CreateSpaceInput\x1a\".eolymp.universe.CreateSpaceOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14universe:space:write\x82\xd3\xe4\x93\x02\t\"\a/spaces\x12\x9b\x01\n" +
-	"\vUpdateSpace\x12!.eolymp.universe.UpdateSpaceInput\x1a\".eolymp.universe.UpdateSpaceOutput\"E\xea\xe2\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\t\"\a/spaces\x12\xa3\x01\n" +
+	"\vUpdateSpace\x12!.eolymp.universe.UpdateSpaceInput\x1a\".eolymp.universe.UpdateSpaceOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14universe:space:write\x82\xd3\xe4\x93\x02\x14\x1a\x12/spaces/{space_id}\x12\x9b\x01\n" +
-	"\vDeleteSpace\x12!.eolymp.universe.DeleteSpaceInput\x1a\".eolymp.universe.DeleteSpaceOutput\"E\xea\xe2\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x14\x1a\x12/spaces/{space_id}\x12\xa3\x01\n" +
+	"\vDeleteSpace\x12!.eolymp.universe.DeleteSpaceInput\x1a\".eolymp.universe.DeleteSpaceOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14universe:space:write\x82\xd3\xe4\x93\x02\x14*\x12/spaces/{space_id}\x12\x85\x01\n" +
-	"\rDescribeSpace\x12#.eolymp.universe.DescribeSpaceInput\x1a$.eolymp.universe.DescribeSpaceOutput\")\xea\xe2\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x14*\x12/spaces/{space_id}\x12\x8d\x01\n" +
+	"\rDescribeSpace\x12#.eolymp.universe.DescribeSpaceInput\x1a$.eolymp.universe.DescribeSpaceOutput\"1\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x14\x12\x12/spaces/{space_id}\x12\x8c\x01\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/spaces/{space_id}\x12\x94\x01\n" +
 	"\n" +
-	"ListSpaces\x12 .eolymp.universe.ListSpacesInput\x1a!.eolymp.universe.ListSpacesOutput\"9\xea\xe2\n" +
+	"ListSpaces\x12 .eolymp.universe.ListSpacesInput\x1a!.eolymp.universe.ListSpacesOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13universe:space:read\x82\xd3\xe4\x93\x02\t\x12\a/spacesB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x13universe:space:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/spacesB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_space_service_proto_rawDescOnce sync.Once

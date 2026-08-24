@@ -555,7 +555,7 @@ var File_eolymp_community_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/community/achievement_service.proto\x12\x10eolymp.community\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/community/achievement.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x01\n" +
+	"*eolymp/community/achievement_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/community/achievement.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x01\n" +
 	"\x18AchievementAssignedEvent\x12\x19\n" +
 	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12%\n" +
@@ -593,26 +593,32 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x16ListAchievementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\x123\n" +
-	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.community.AchievementR\x05items2\xe4\x04\n" +
-	"\x12AchievementService\x12\xbd\x01\n" +
-	"\x11AssignAchievement\x12(.eolymp.community.AssignAchievementInput\x1a).eolymp.community.AssignAchievementOutput\"S\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.community.AchievementR\x05items2\xfc\x04\n" +
+	"\x12AchievementService\x12\xc5\x01\n" +
+	"\x11AssignAchievement\x12(.eolymp.community.AssignAchievementInput\x1a).eolymp.community.AssignAchievementOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02 \x1a\x1e/achievements/{achievement_id}\x12\xc3\x01\n" +
-	"\x13UnassignAchievement\x12*.eolymp.community.UnassignAchievementInput\x1a+.eolymp.community.UnassignAchievementOutput\"S\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \x1a\x1e/achievements/{achievement_id}\x12\xcb\x01\n" +
+	"\x13UnassignAchievement\x12*.eolymp.community.UnassignAchievementInput\x1a+.eolymp.community.UnassignAchievementOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xa8\x01\n" +
-	"\x10ListAchievements\x12'.eolymp.community.ListAchievementsInput\x1a(.eolymp.community.ListAchievementsOutput\"A\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xb0\x01\n" +
+	"\x10ListAchievements\x12'.eolymp.community.ListAchievementsInput\x1a(.eolymp.community.ListAchievementsOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_achievement_service_proto_rawDescOnce sync.Once

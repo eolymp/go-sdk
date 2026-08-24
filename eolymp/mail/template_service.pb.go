@@ -648,7 +648,7 @@ var File_eolymp_mail_template_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_template_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/mail/template_service.proto\x12\veolymp.mail\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/mail/template.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"H\n" +
+	"\"eolymp/mail/template_service.proto\x12\veolymp.mail\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/mail/template.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"H\n" +
 	"\x13CreateTemplateInput\x121\n" +
 	"\btemplate\x18\x01 \x01(\v2\x15.eolymp.mail.TemplateR\btemplate\"7\n" +
 	"\x14CreateTemplateOutput\x12\x1f\n" +
@@ -691,38 +691,48 @@ const file_eolymp_mail_template_service_proto_rawDesc = "" +
 	"CREATED_AT\x10\x02\"X\n" +
 	"\x13ListTemplatesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.mail.TemplateR\x05items2\xe5\x06\n" +
-	"\x0fTemplateService\x12\x99\x01\n" +
-	"\x0eCreateTemplate\x12 .eolymp.mail.CreateTemplateInput\x1a!.eolymp.mail.CreateTemplateOutput\"B\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.mail.TemplateR\x05items2\x8d\a\n" +
+	"\x0fTemplateService\x12\xa1\x01\n" +
+	"\x0eCreateTemplate\x12 .eolymp.mail.CreateTemplateInput\x1a!.eolymp.mail.CreateTemplateOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13mail:template:write\x82\xd3\xe4\x93\x02\x12\"\x10/email-templates\x12\xa7\x01\n" +
-	"\x0eUpdateTemplate\x12 .eolymp.mail.UpdateTemplateInput\x1a!.eolymp.mail.UpdateTemplateOutput\"P\xea\xe2\n" +
+	"\x13mail:template:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\"\x10/email-templates\x12\xaf\x01\n" +
+	"\x0eUpdateTemplate\x12 .eolymp.mail.UpdateTemplateInput\x1a!.eolymp.mail.UpdateTemplateOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13mail:template:write\x82\xd3\xe4\x93\x02 \x1a\x1e/email-templates/{template_id}\x12\xa7\x01\n" +
-	"\x0eDeleteTemplate\x12 .eolymp.mail.DeleteTemplateInput\x1a!.eolymp.mail.DeleteTemplateOutput\"P\xea\xe2\n" +
+	"\x13mail:template:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \x1a\x1e/email-templates/{template_id}\x12\xaf\x01\n" +
+	"\x0eDeleteTemplate\x12 .eolymp.mail.DeleteTemplateInput\x1a!.eolymp.mail.DeleteTemplateOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13mail:template:write\x82\xd3\xe4\x93\x02 *\x1e/email-templates/{template_id}\x12\xac\x01\n" +
-	"\x10DescribeTemplate\x12\".eolymp.mail.DescribeTemplateInput\x1a#.eolymp.mail.DescribeTemplateOutput\"O\xea\xe2\n" +
+	"\x13mail:template:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02 *\x1e/email-templates/{template_id}\x12\xb4\x01\n" +
+	"\x10DescribeTemplate\x12\".eolymp.mail.DescribeTemplateInput\x1a#.eolymp.mail.DescribeTemplateOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12mail:template:read\x82\xd3\xe4\x93\x02 \x12\x1e/email-templates/{template_id}\x12\x95\x01\n" +
-	"\rListTemplates\x12\x1f.eolymp.mail.ListTemplatesInput\x1a .eolymp.mail.ListTemplatesOutput\"A\xea\xe2\n" +
+	"\x12mail:template:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/email-templates/{template_id}\x12\x9d\x01\n" +
+	"\rListTemplates\x12\x1f.eolymp.mail.ListTemplatesInput\x1a .eolymp.mail.ListTemplatesOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12mail:template:read\x82\xd3\xe4\x93\x02\x12\x12\x10/email-templates\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"\x12mail:template:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/email-templates\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_template_service_proto_rawDescOnce sync.Once

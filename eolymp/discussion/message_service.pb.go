@@ -1015,7 +1015,7 @@ var File_eolymp_discussion_message_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/discussion/message_service.proto\x12\x11eolymp.discussion\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/discussion/message.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x01\n" +
+	"'eolymp/discussion/message_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/discussion/message.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x01\n" +
 	"\x13MessageChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x122\n" +
@@ -1089,52 +1089,66 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\x06Record\x12\x1a\n" +
 	"\brevision\x18\x01 \x01(\x05R\brevision\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12-\n" +
-	"\amessage\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\amessage2\x8c\n" +
+	"\amessage\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\amessage2\xc4\n" +
 	"\n" +
-	"\x0eMessageService\x12\xb3\x01\n" +
-	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"M\xea\xe2\n" +
+	"\x0eMessageService\x12\xbb\x01\n" +
+	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"U\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02\x18\x12\x16/messages/{message_id}\x12\x9c\x01\n" +
-	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"?\xea\xe2\n" +
+	"\x17discussion:message:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/messages/{message_id}\x12\xa4\x01\n" +
+	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02\v\x12\t/messages\x12\x9a\x01\n" +
-	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"@\xea\xe2\n" +
+	"\x17discussion:message:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/messages\x12\xa2\x01\n" +
+	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\v\"\t/messages\x12\xad\x01\n" +
-	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"M\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/messages\x12\xb5\x01\n" +
+	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x18\x1a\x16/messages/{message_id}\x12\xad\x01\n" +
-	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"M\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/messages/{message_id}\x12\xb5\x01\n" +
+	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x18*\x16/messages/{message_id}\x12\xac\x01\n" +
-	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"R\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/messages/{message_id}\x12\xb4\x01\n" +
+	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18discussion:message:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/messages/{message_id}/vote\x12\xc3\x01\n" +
-	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"T\xea\xe2\n" +
+	"\x18discussion:message:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/messages/{message_id}/vote\x12\xcb\x01\n" +
+	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17discussion:message:read\x82\xd3\xe4\x93\x02 \x12\x1e/messages/{message_id}/changes\x1a3\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x13eolymp.content.PostB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x17discussion:message:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/messages/{message_id}/changes\x1a3\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x13eolymp.content.PostB7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_message_service_proto_rawDescOnce sync.Once

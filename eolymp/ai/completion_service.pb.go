@@ -870,7 +870,7 @@ var File_eolymp_ai_completion_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/ai/completion_service.proto\x12\teolymp.ai\x1a\x1deolymp/ai/finish_reason.proto\x1a\x17eolymp/ai/message.proto\x1a\x15eolymp/ai/usage.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\xce\v\n" +
+	"\"eolymp/ai/completion_service.proto\x12\teolymp.ai\x1a\x1deolymp/ai/finish_reason.proto\x1a\x17eolymp/ai/message.proto\x1a\x15eolymp/ai/usage.proto\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\xce\v\n" +
 	"\rCompleteInput\x12\x14\n" +
 	"\x05model\x18\x01 \x01(\tR\x05model\x12.\n" +
 	"\bmessages\x18\x02 \x03(\v2\x12.eolymp.ai.MessageR\bmessages\x123\n" +
@@ -964,20 +964,24 @@ const file_eolymp_ai_completion_service_proto_rawDesc = "" +
 	"\n" +
 	"\x06FINISH\x10\n" +
 	"\x12\x16\n" +
-	"\x12SERVER_TOOL_RESULT\x10\v2\x93\x02\n" +
-	"\x11CompletionService\x12l\n" +
-	"\bComplete\x12\x18.eolymp.ai.CompleteInput\x1a\x19.eolymp.ai.CompleteOutput\"+\xea\xe2\n" +
+	"\x12SERVER_TOOL_RESULT\x10\v2\xa3\x02\n" +
+	"\x11CompletionService\x12t\n" +
+	"\bComplete\x12\x18.eolymp.ai.CompleteInput\x1a\x19.eolymp.ai.CompleteOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14ai:completion:create\x12s\n" +
-	"\x0eCompleteStream\x12\x18.eolymp.ai.CompleteInput\x1a\x18.eolymp.ai.CompleteChunk\"+\xea\xe2\n" +
+	"\x14ai:completion:create\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12{\n" +
+	"\x0eCompleteStream\x12\x18.eolymp.ai.CompleteInput\x1a\x18.eolymp.ai.CompleteChunk\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14ai:completion:create0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
+	"\x14ai:completion:create\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x020\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
 
 var (
 	file_eolymp_ai_completion_service_proto_rawDescOnce sync.Once

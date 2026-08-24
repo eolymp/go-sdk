@@ -1534,7 +1534,7 @@ var File_eolymp_atlas_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/problem_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1aeolymp/atlas/version.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
+	"\"eolymp/atlas/problem_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1aeolymp/atlas/version.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xa2\x01\n" +
 	"\x13ProblemChangedEvent\x12-\n" +
 	"\x06before\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\x06before\x12+\n" +
 	"\x05after\x18\x02 \x01(\v2\x15.eolymp.atlas.ProblemR\x05after\x12/\n" +
@@ -1647,72 +1647,92 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"8\n" +
 	"\x13ExportProblemOutput\x12!\n" +
-	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xef\f\n" +
-	"\x0eProblemService\x12\x91\x01\n" +
-	"\rCreateProblem\x12 .eolymp.atlas.CreateProblemInput\x1a!.eolymp.atlas.CreateProblemOutput\";\xea\xe2\n" +
+	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xbf\r\n" +
+	"\x0eProblemService\x12\x99\x01\n" +
+	"\rCreateProblem\x12 .eolymp.atlas.CreateProblemInput\x1a!.eolymp.atlas.CreateProblemOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\v\"\t/problems\x12\x9e\x01\n" +
-	"\rUpdateProblem\x12 .eolymp.atlas.UpdateProblemInput\x1a!.eolymp.atlas.UpdateProblemOutput\"H\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/problems\x12\xa6\x01\n" +
+	"\rUpdateProblem\x12 .eolymp.atlas.UpdateProblemInput\x1a!.eolymp.atlas.UpdateProblemOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x18\x1a\x16/problems/{problem_id}\x12\x9e\x01\n" +
-	"\rDeleteProblem\x12 .eolymp.atlas.DeleteProblemInput\x1a!.eolymp.atlas.DeleteProblemOutput\"H\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/problems/{problem_id}\x12\xa6\x01\n" +
+	"\rDeleteProblem\x12 .eolymp.atlas.DeleteProblemInput\x1a!.eolymp.atlas.DeleteProblemOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x18*\x16/problems/{problem_id}\x12\xa4\x01\n" +
-	"\x0fDescribeProblem\x12\".eolymp.atlas.DescribeProblemInput\x1a#.eolymp.atlas.DescribeProblemOutput\"H\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/problems/{problem_id}\x12\xac\x01\n" +
+	"\x0fDescribeProblem\x12\".eolymp.atlas.DescribeProblemInput\x1a#.eolymp.atlas.DescribeProblemOutput\"P\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\x18\x12\x16/problems/{problem_id}\x12\x8d\x01\n" +
-	"\fListProblems\x12\x1f.eolymp.atlas.ListProblemsInput\x1a .eolymp.atlas.ListProblemsOutput\":\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/problems/{problem_id}\x12\x95\x01\n" +
+	"\fListProblems\x12\x1f.eolymp.atlas.ListProblemsInput\x1a .eolymp.atlas.ListProblemsOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02\v\x12\t/problems\x12\x9d\x01\n" +
-	"\vSyncProblem\x12\x1e.eolymp.atlas.SyncProblemInput\x1a\x1f.eolymp.atlas.SyncProblemOutput\"M\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/problems\x12\xa5\x01\n" +
+	"\vSyncProblem\x12\x1e.eolymp.atlas.SyncProblemInput\x1a\x1f.eolymp.atlas.SyncProblemOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/sync\x12\x9d\x01\n" +
-	"\vVoteProblem\x12\x1e.eolymp.atlas.VoteProblemInput\x1a\x1f.eolymp.atlas.VoteProblemOutput\"M\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/sync\x12\xa5\x01\n" +
+	"\vVoteProblem\x12\x1e.eolymp.atlas.VoteProblemInput\x1a\x1f.eolymp.atlas.VoteProblemOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/vote\x12\xa4\x01\n" +
-	"\fListVersions\x12\x1f.eolymp.atlas.ListVersionsInput\x1a .eolymp.atlas.ListVersionsOutput\"Q\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/vote\x12\xac\x01\n" +
+	"\fListVersions\x12\x1f.eolymp.atlas.ListVersionsInput\x1a .eolymp.atlas.ListVersionsOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/versions\x12\xa2\x01\n" +
-	"\fListRuntimes\x12\x1f.eolymp.atlas.ListRuntimesInput\x1a .eolymp.atlas.ListRuntimesOutput\"O\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/versions\x12\xaa\x01\n" +
+	"\fListRuntimes\x12\x1f.eolymp.atlas.ListRuntimesInput\x1a .eolymp.atlas.ListRuntimesOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x19\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/runtime\x12\xa6\x01\n" +
-	"\rExportProblem\x12 .eolymp.atlas.ExportProblemInput\x1a!.eolymp.atlas.ExportProblemOutput\"P\xea\xe2\n" +
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/runtime\x12\xae\x01\n" +
+	"\rExportProblem\x12 .eolymp.atlas.ExportProblemInput\x1a!.eolymp.atlas.ExportProblemOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/snapshot\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/snapshot\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_problem_service_proto_rawDescOnce sync.Once

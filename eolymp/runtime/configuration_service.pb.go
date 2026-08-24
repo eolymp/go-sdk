@@ -186,24 +186,28 @@ var File_eolymp_runtime_configuration_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_runtime_configuration_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/runtime/configuration_service.proto\x12\x0eeolymp.runtime\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x1c\n" +
+	"*eolymp/runtime/configuration_service.proto\x12\x0eeolymp.runtime\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\x1c\n" +
 	"\x1aDescribeRuntimeConfigInput\"F\n" +
 	"\x1bDescribeRuntimeConfigOutput\x12'\n" +
 	"\x0fallowed_runtime\x18\x01 \x03(\tR\x0eallowedRuntime\"F\n" +
 	"\x1bConfigureRuntimeConfigInput\x12'\n" +
 	"\x0fallowed_runtime\x18\x01 \x03(\tR\x0eallowedRuntime\"\x1e\n" +
-	"\x1cConfigureRuntimeConfigOutput2\x8b\x03\n" +
-	"\x14ConfigurationService\x12\x99\x01\n" +
-	"\x15DescribeRuntimeConfig\x12*.eolymp.runtime.DescribeRuntimeConfigInput\x1a+.eolymp.runtime.DescribeRuntimeConfigOutput\"'\xea\xe2\n" +
+	"\x1cConfigureRuntimeConfigOutput2\x9b\x03\n" +
+	"\x14ConfigurationService\x12\xa1\x01\n" +
+	"\x15DescribeRuntimeConfig\x12*.eolymp.runtime.DescribeRuntimeConfigInput\x1a+.eolymp.runtime.DescribeRuntimeConfigOutput\"/\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x12\x12\x10/configs/runtime\x12\xb9\x01\n" +
-	"\x16ConfigureRuntimeConfig\x12+.eolymp.runtime.ConfigureRuntimeConfigInput\x1a,.eolymp.runtime.ConfigureRuntimeConfigOutput\"D\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/configs/runtime\x12\xc1\x01\n" +
+	"\x16ConfigureRuntimeConfig\x12+.eolymp.runtime.ConfigureRuntimeConfigInput\x1a,.eolymp.runtime.ConfigureRuntimeConfigOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15runtime:runtime:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/configs/runtime\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/runtime;runtimeb\x06proto3"
+	"\x15runtime:runtime:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\x1a\x10/configs/runtime\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/runtime;runtimeb\x06proto3"
 
 var (
 	file_eolymp_runtime_configuration_service_proto_rawDescOnce sync.Once

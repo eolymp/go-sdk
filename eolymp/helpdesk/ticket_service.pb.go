@@ -1490,7 +1490,7 @@ var File_eolymp_helpdesk_ticket_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/helpdesk/ticket_service.proto\x12\x0feolymp.helpdesk\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/helpdesk/ticket.proto\x1a!eolymp/wellknown/expression.proto\"^\n" +
+	"$eolymp/helpdesk/ticket_service.proto\x12\x0feolymp.helpdesk\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/helpdesk/ticket.proto\x1a!eolymp/wellknown/expression.proto\"^\n" +
 	"\x11CreateTicketInput\x12/\n" +
 	"\x06ticket\x18\x01 \x01(\v2\x17.eolymp.helpdesk.TicketR\x06ticket\x12\x18\n" +
 	"\acaptcha\x18\x02 \x01(\tR\acaptcha\"1\n" +
@@ -1580,104 +1580,132 @@ const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
 	"\x04data\x18\x03 \x01(\fR\x04data\"?\n" +
 	"\x16UploadAttachmentOutput\x12%\n" +
-	"\x0eattachment_url\x18\x01 \x01(\tR\rattachmentUrl2\x86\x14\n" +
-	"\rTicketService\x12\x9e\x01\n" +
-	"\fCreateTicket\x12\".eolymp.helpdesk.CreateTicketInput\x1a#.eolymp.helpdesk.CreateTicketOutput\"E\xea\xe2\n" +
+	"\x0eattachment_url\x18\x01 \x01(\tR\rattachmentUrl2\xf6\x14\n" +
+	"\rTicketService\x12\xa6\x01\n" +
+	"\fCreateTicket\x12\".eolymp.helpdesk.CreateTicketInput\x1a#.eolymp.helpdesk.CreateTicketOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02\x13\"\x11/helpdesk/tickets\x12\xaa\x01\n" +
-	"\fUpdateTicket\x12\".eolymp.helpdesk.UpdateTicketInput\x1a#.eolymp.helpdesk.UpdateTicketOutput\"Q\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x13\"\x11/helpdesk/tickets\x12\xb2\x01\n" +
+	"\fUpdateTicket\x12\".eolymp.helpdesk.UpdateTicketInput\x1a#.eolymp.helpdesk.UpdateTicketOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02\x1f\x1a\x1d/helpdesk/tickets/{ticket_id}\x12\xaa\x01\n" +
-	"\fDeleteTicket\x12\".eolymp.helpdesk.DeleteTicketInput\x1a#.eolymp.helpdesk.DeleteTicketOutput\"Q\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\x1a\x1d/helpdesk/tickets/{ticket_id}\x12\xb2\x01\n" +
+	"\fDeleteTicket\x12\".eolymp.helpdesk.DeleteTicketInput\x1a#.eolymp.helpdesk.DeleteTicketOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02\x1f*\x1d/helpdesk/tickets/{ticket_id}\x12\xaf\x01\n" +
-	"\x0eDescribeTicket\x12$.eolymp.helpdesk.DescribeTicketInput\x1a%.eolymp.helpdesk.DescribeTicketOutput\"P\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1f*\x1d/helpdesk/tickets/{ticket_id}\x12\xb7\x01\n" +
+	"\x0eDescribeTicket\x12$.eolymp.helpdesk.DescribeTicketInput\x1a%.eolymp.helpdesk.DescribeTicketOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14helpdesk:ticket:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/helpdesk/tickets/{ticket_id}\x12\x9a\x01\n" +
-	"\vListTickets\x12!.eolymp.helpdesk.ListTicketsInput\x1a\".eolymp.helpdesk.ListTicketsOutput\"D\xea\xe2\n" +
+	"\x14helpdesk:ticket:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/helpdesk/tickets/{ticket_id}\x12\xa2\x01\n" +
+	"\vListTickets\x12!.eolymp.helpdesk.ListTicketsInput\x1a\".eolymp.helpdesk.ListTicketsOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14helpdesk:ticket:read\x82\xd3\xe4\x93\x02\x13\x12\x11/helpdesk/tickets\x12\xb5\x01\n" +
-	"\rApproveTicket\x12#.eolymp.helpdesk.ApproveTicketInput\x1a$.eolymp.helpdesk.ApproveTicketOutput\"Y\xea\xe2\n" +
+	"\x14helpdesk:ticket:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x13\x12\x11/helpdesk/tickets\x12\xbd\x01\n" +
+	"\rApproveTicket\x12#.eolymp.helpdesk.ApproveTicketInput\x1a$.eolymp.helpdesk.ApproveTicketOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02'\"%/helpdesk/tickets/{ticket_id}/approve\x12\xb1\x01\n" +
-	"\fRejectTicket\x12\".eolymp.helpdesk.RejectTicketInput\x1a#.eolymp.helpdesk.RejectTicketOutput\"X\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/helpdesk/tickets/{ticket_id}/approve\x12\xb9\x01\n" +
+	"\fRejectTicket\x12\".eolymp.helpdesk.RejectTicketInput\x1a#.eolymp.helpdesk.RejectTicketOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02&\"$/helpdesk/tickets/{ticket_id}/reject\x12\xad\x01\n" +
-	"\vCloseTicket\x12!.eolymp.helpdesk.CloseTicketInput\x1a\".eolymp.helpdesk.CloseTicketOutput\"W\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\"$/helpdesk/tickets/{ticket_id}/reject\x12\xb5\x01\n" +
+	"\vCloseTicket\x12!.eolymp.helpdesk.CloseTicketInput\x1a\".eolymp.helpdesk.CloseTicketOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02%\"#/helpdesk/tickets/{ticket_id}/close\x12\xad\x01\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02%\"#/helpdesk/tickets/{ticket_id}/close\x12\xb5\x01\n" +
 	"\n" +
-	"AddComment\x12 .eolymp.helpdesk.AddCommentInput\x1a!.eolymp.helpdesk.AddCommentOutput\"Z\xea\xe2\n" +
+	"AddComment\x12 .eolymp.helpdesk.AddCommentInput\x1a!.eolymp.helpdesk.AddCommentOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02(\"&/helpdesk/tickets/{ticket_id}/comments\x12\xc3\x01\n" +
-	"\rUpdateComment\x12#.eolymp.helpdesk.UpdateCommentInput\x1a$.eolymp.helpdesk.UpdateCommentOutput\"g\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02(\"&/helpdesk/tickets/{ticket_id}/comments\x12\xcb\x01\n" +
+	"\rUpdateComment\x12#.eolymp.helpdesk.UpdateCommentInput\x1a$.eolymp.helpdesk.UpdateCommentOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x025\x1a3/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xc3\x01\n" +
-	"\rDeleteComment\x12#.eolymp.helpdesk.DeleteCommentInput\x1a$.eolymp.helpdesk.DeleteCommentOutput\"g\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x025\x1a3/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xcb\x01\n" +
+	"\rDeleteComment\x12#.eolymp.helpdesk.DeleteCommentInput\x1a$.eolymp.helpdesk.DeleteCommentOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x025*3/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xb2\x01\n" +
-	"\fListComments\x12\".eolymp.helpdesk.ListCommentsInput\x1a#.eolymp.helpdesk.ListCommentsOutput\"Y\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x025*3/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xba\x01\n" +
+	"\fListComments\x12\".eolymp.helpdesk.ListCommentsInput\x1a#.eolymp.helpdesk.ListCommentsOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14helpdesk:ticket:read\x82\xd3\xe4\x93\x02(\x12&/helpdesk/tickets/{ticket_id}/comments\x12\xc9\x01\n" +
-	"\x0fDescribeComment\x12%.eolymp.helpdesk.DescribeCommentInput\x1a&.eolymp.helpdesk.DescribeCommentOutput\"g\xea\xe2\n" +
+	"\x14helpdesk:ticket:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02(\x12&/helpdesk/tickets/{ticket_id}/comments\x12\xd1\x01\n" +
+	"\x0fDescribeComment\x12%.eolymp.helpdesk.DescribeCommentInput\x1a&.eolymp.helpdesk.DescribeCommentOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x025\x123/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xb5\x01\n" +
-	"\x10UploadAttachment\x12&.eolymp.helpdesk.UploadAttachmentInput\x1a'.eolymp.helpdesk.UploadAttachmentOutput\"P\xea\xe2\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x025\x123/helpdesk/tickets/{ticket_id}/comments/{comment_id}\x12\xbd\x01\n" +
+	"\x10UploadAttachment\x12&.eolymp.helpdesk.UploadAttachmentInput\x1a'.eolymp.helpdesk.UploadAttachmentOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15helpdesk:ticket:write\x82\xd3\xe4\x93\x02\x1e\x98\xe3\n" +
+	"\x15helpdesk:ticket:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\x98\xe3\n" +
 	"\x80\x80\x80\x01\"\x15/helpdesk/attachments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB3Z1github.com/eolymp/go-sdk/eolymp/helpdesk;helpdeskb\x06proto3"
 
 var (

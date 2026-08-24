@@ -1427,7 +1427,7 @@ var File_eolymp_universe_billing_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/universe/billing_service.proto\x12\x0feolymp.universe\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/invoice.proto\x1a\x1deolymp/universe/billing.proto\x1a\x1aeolymp/universe/plan.proto\"!\n" +
+	"%eolymp/universe/billing_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/invoice.proto\x1a\x1deolymp/universe/billing.proto\x1a\x1aeolymp/universe/plan.proto\"!\n" +
 	"\x1fDescribeBillingInformationInput\"\\\n" +
 	" DescribeBillingInformationOutput\x128\n" +
 	"\x04info\x18\x01 \x01(\v2$.eolymp.universe.Billing.InformationR\x04info\"Y\n" +
@@ -1507,70 +1507,100 @@ const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.universe.Plan.ExtraR\x05extra\"]\n" +
 	"\x18ListAvailablePlansOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\xb2\x12\n" +
-	"\x0eBillingService\x12\xa7\x01\n" +
-	"\x1aDescribeBillingInformation\x120.eolymp.universe.DescribeBillingInformationInput\x1a1.eolymp.universe.DescribeBillingInformationOutput\"$\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\xaa\x13\n" +
+	"\x0eBillingService\x12\xaf\x01\n" +
+	"\x1aDescribeBillingInformation\x120.eolymp.universe.DescribeBillingInformationInput\x1a1.eolymp.universe.DescribeBillingInformationOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x0f\x12\r/billing/info\x12\xa1\x01\n" +
-	"\x18UpdateBillingInformation\x12..eolymp.universe.UpdateBillingInformationInput\x1a/.eolymp.universe.UpdateBillingInformationOutput\"$\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/billing/info\x12\xa9\x01\n" +
+	"\x18UpdateBillingInformation\x12..eolymp.universe.UpdateBillingInformationInput\x1a/.eolymp.universe.UpdateBillingInformationOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x0f\x1a\r/billing/info\x12\x9d\x01\n" +
-	"\x14DescribeSubscription\x12*.eolymp.universe.DescribeSubscriptionInput\x1a+.eolymp.universe.DescribeSubscriptionOutput\",\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0f\x1a\r/billing/info\x12\xa5\x01\n" +
+	"\x14DescribeSubscription\x12*.eolymp.universe.DescribeSubscriptionInput\x1a+.eolymp.universe.DescribeSubscriptionOutput\"4\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x17\x12\x15/billing/subscription\x12\x97\x01\n" +
-	"\x12CreateSubscription\x12(.eolymp.universe.CreateSubscriptionInput\x1a).eolymp.universe.CreateSubscriptionOutput\",\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x17\x12\x15/billing/subscription\x12\x9f\x01\n" +
+	"\x12CreateSubscription\x12(.eolymp.universe.CreateSubscriptionInput\x1a).eolymp.universe.CreateSubscriptionOutput\"4\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x17\"\x15/billing/subscription\x12\x97\x01\n" +
-	"\x12UpdateSubscription\x12(.eolymp.universe.UpdateSubscriptionInput\x1a).eolymp.universe.UpdateSubscriptionOutput\",\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x17\"\x15/billing/subscription\x12\x9f\x01\n" +
+	"\x12UpdateSubscription\x12(.eolymp.universe.UpdateSubscriptionInput\x1a).eolymp.universe.UpdateSubscriptionOutput\"4\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x17\x1a\x15/billing/subscription\x12\x97\x01\n" +
-	"\x12CancelSubscription\x12(.eolymp.universe.CancelSubscriptionInput\x1a).eolymp.universe.CancelSubscriptionOutput\",\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x17\x1a\x15/billing/subscription\x12\x9f\x01\n" +
+	"\x12CancelSubscription\x12(.eolymp.universe.CancelSubscriptionInput\x1a).eolymp.universe.CancelSubscriptionOutput\"4\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x17*\x15/billing/subscription\x12\xa2\x01\n" +
-	"\x16StartSubscriptionTrial\x12,.eolymp.universe.StartSubscriptionTrialInput\x1a-.eolymp.universe.StartSubscriptionTrialOutput\"+\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x17*\x15/billing/subscription\x12\xaa\x01\n" +
+	"\x16StartSubscriptionTrial\x12,.eolymp.universe.StartSubscriptionTrialInput\x1a-.eolymp.universe.StartSubscriptionTrialOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x16\"\x14/billing/trial/start\x12\x9a\x01\n" +
-	"\x14EndSubscriptionTrial\x12*.eolymp.universe.EndSubscriptionTrialInput\x1a+.eolymp.universe.EndSubscriptionTrialOutput\")\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\"\x14/billing/trial/start\x12\xa2\x01\n" +
+	"\x14EndSubscriptionTrial\x12*.eolymp.universe.EndSubscriptionTrialInput\x1a+.eolymp.universe.EndSubscriptionTrialOutput\"1\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x14\"\x12/billing/trial/end\x12\xa6\x01\n" +
-	"\x14SimulateSubscription\x12*.eolymp.universe.SimulateSubscriptionInput\x1a+.eolymp.universe.SimulateSubscriptionOutput\"5\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x14\"\x12/billing/trial/end\x12\xae\x01\n" +
+	"\x14SimulateSubscription\x12*.eolymp.universe.SimulateSubscriptionInput\x1a+.eolymp.universe.SimulateSubscriptionOutput\"=\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02 \"\x1e/billing/subscription/simulate\x12\x90\x01\n" +
-	"\x10CreatePortalLink\x12&.eolymp.universe.CreatePortalLinkInput\x1a'.eolymp.universe.CreatePortalLinkOutput\"+\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/billing/subscription/simulate\x12\x98\x01\n" +
+	"\x10CreatePortalLink\x12&.eolymp.universe.CreatePortalLinkInput\x1a'.eolymp.universe.CreatePortalLinkOutput\"3\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x16\"\x14/billing/portal-link\x12\x8a\x01\n" +
-	"\x0fUpcomingInvoice\x12%.eolymp.universe.UpcomingInvoiceInput\x1a&.eolymp.universe.UpcomingInvoiceOutput\"(\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\"\x14/billing/portal-link\x12\x92\x01\n" +
+	"\x0fUpcomingInvoice\x12%.eolymp.universe.UpcomingInvoiceInput\x1a&.eolymp.universe.UpcomingInvoiceOutput\"0\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x13\"\x11/billing/upcoming\x12\x96\x01\n" +
-	"\x0fDescribeInvoice\x12%.eolymp.universe.DescribeInvoiceInput\x1a&.eolymp.universe.DescribeInvoiceOutput\"4\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x13\"\x11/billing/upcoming\x12\x9e\x01\n" +
+	"\x0fDescribeInvoice\x12%.eolymp.universe.DescribeInvoiceInput\x1a&.eolymp.universe.DescribeInvoiceOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x1f\"\x1d/billing/invoice/{invoice_id}\x12\x8b\x01\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\"\x1d/billing/invoice/{invoice_id}\x12\x93\x01\n" +
 	"\n" +
-	"PayInvoice\x12 .eolymp.universe.PayInvoiceInput\x1a!.eolymp.universe.PayInvoiceOutput\"8\xea\xe2\n" +
+	"PayInvoice\x12 .eolymp.universe.PayInvoiceInput\x1a!.eolymp.universe.PayInvoiceOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02#\"!/billing/invoice/{invoice_id}/pay\x12\x81\x01\n" +
-	"\fListInvoices\x12\".eolymp.universe.ListInvoicesInput\x1a#.eolymp.universe.ListInvoicesOutput\"(\xea\xe2\n" +
+	"\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/billing/invoice/{invoice_id}/pay\x12\x89\x01\n" +
+	"\fListInvoices\x12\".eolymp.universe.ListInvoicesInput\x1a#.eolymp.universe.ListInvoicesOutput\"0\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x13\"\x11/billing/invoices\x12\x90\x01\n" +
-	"\x12ListAvailablePlans\x12(.eolymp.universe.ListAvailablePlansInput\x1a).eolymp.universe.ListAvailablePlansOutput\"%\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x13\"\x11/billing/invoices\x12\x98\x01\n" +
+	"\x12ListAvailablePlans\x12(.eolymp.universe.ListAvailablePlansInput\x1a).eolymp.universe.ListAvailablePlansOutput\"-\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x10\"\x0e/billing/plans\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\"\x0e/billing/plans\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_billing_service_proto_rawDescOnce sync.Once

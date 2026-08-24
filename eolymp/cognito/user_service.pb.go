@@ -333,7 +333,7 @@ var File_eolymp_cognito_user_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_cognito_user_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/cognito/user_service.proto\x12\x0eeolymp.cognito\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/cognito/user.proto\x1a!eolymp/wellknown/expression.proto\"l\n" +
+	"!eolymp/cognito/user_service.proto\x12\x0eeolymp.cognito\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/cognito/user.proto\x1a!eolymp/wellknown/expression.proto\"l\n" +
 	"\x10UserChangedEvent\x12,\n" +
 	"\x06before\x18\x01 \x01(\v2\x14.eolymp.cognito.UserR\x06before\x12*\n" +
 	"\x05after\x18\x02 \x01(\v2\x14.eolymp.cognito.UserR\x05after\",\n" +
@@ -351,20 +351,24 @@ const file_eolymp_cognito_user_service_proto_rawDesc = "" +
 	"\busername\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\busername\"S\n" +
 	"\x0fListUsersOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12*\n" +
-	"\x05items\x18\x02 \x03(\v2\x14.eolymp.cognito.UserR\x05items2\xaf\x02\n" +
-	"\vUserService\x12\x98\x01\n" +
-	"\fDescribeUser\x12!.eolymp.cognito.DescribeUserInput\x1a\".eolymp.cognito.DescribeUserOutput\"A\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x14.eolymp.cognito.UserR\x05items2\xbf\x02\n" +
+	"\vUserService\x12\xa0\x01\n" +
+	"\fDescribeUser\x12!.eolymp.cognito.DescribeUserInput\x1a\".eolymp.cognito.DescribeUserOutput\"I\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HC\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11cognito:user:read\x82\xd3\xe4\x93\x02\x12\x12\x10/users/{user_id}\x12\x84\x01\n" +
-	"\tListUsers\x12\x1e.eolymp.cognito.ListUsersInput\x1a\x1f.eolymp.cognito.ListUsersOutput\"6\xea\xe2\n" +
+	"\x11cognito:user:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/users/{user_id}\x12\x8c\x01\n" +
+	"\tListUsers\x12\x1e.eolymp.cognito.ListUsersInput\x1a\x1f.eolymp.cognito.ListUsersOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00pA\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11cognito:user:read\x82\xd3\xe4\x93\x02\b\x12\x06/usersB1Z/github.com/eolymp/go-sdk/eolymp/cognito;cognitob\x06proto3"
+	"\x11cognito:user:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/usersB1Z/github.com/eolymp/go-sdk/eolymp/cognito;cognitob\x06proto3"
 
 var (
 	file_eolymp_cognito_user_service_proto_rawDescOnce sync.Once

@@ -551,7 +551,7 @@ var File_eolymp_auth_linked_account_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_linked_account_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/auth/linked_account_service.proto\x12\veolymp.auth\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
+	"(eolymp/auth/linked_account_service.proto\x12\veolymp.auth\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/auth/linked_account.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
 	"\x19RequestLinkedAccountInput\x123\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1f.eolymp.auth.LinkedAccount.TypeR\x04type\x12!\n" +
 	"\fcallback_uri\x18\x02 \x01(\tR\vcallbackUri\"?\n" +
@@ -579,28 +579,38 @@ const file_eolymp_auth_linked_account_service_proto_rawDesc = "" +
 	"\x04type\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\"b\n" +
 	"\x18ListLinkedAccountsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x120\n" +
-	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.auth.LinkedAccountR\x05items2\x88\x06\n" +
-	"\x14LinkedAccountService\x12\x98\x01\n" +
-	"\x14RequestLinkedAccount\x12&.eolymp.auth.RequestLinkedAccountInput\x1a'.eolymp.auth.RequestLinkedAccountOutput\"/\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.auth.LinkedAccountR\x05items2\xb0\x06\n" +
+	"\x14LinkedAccountService\x12\xa0\x01\n" +
+	"\x14RequestLinkedAccount\x12&.eolymp.auth.RequestLinkedAccountInput\x1a'.eolymp.auth.RequestLinkedAccountOutput\"7\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x1a\"\x18/linked-accounts:request\x12\x8d\x01\n" +
-	"\x13CreateLinkedAccount\x12%.eolymp.auth.CreateLinkedAccountInput\x1a&.eolymp.auth.CreateLinkedAccountOutput\"'\xea\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a\"\x18/linked-accounts:request\x12\x95\x01\n" +
+	"\x13CreateLinkedAccount\x12%.eolymp.auth.CreateLinkedAccountInput\x1a&.eolymp.auth.CreateLinkedAccountOutput\"/\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x12\"\x10/linked-accounts\x12\x97\x01\n" +
-	"\x13DeleteLinkedAccount\x12%.eolymp.auth.DeleteLinkedAccountInput\x1a&.eolymp.auth.DeleteLinkedAccountOutput\"1\xea\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\"\x10/linked-accounts\x12\x9f\x01\n" +
+	"\x13DeleteLinkedAccount\x12%.eolymp.auth.DeleteLinkedAccountInput\x1a&.eolymp.auth.DeleteLinkedAccountOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x1c*\x1a/linked-accounts/{link_id}\x12\x9d\x01\n" +
-	"\x15DescribeLinkedAccount\x12'.eolymp.auth.DescribeLinkedAccountInput\x1a(.eolymp.auth.DescribeLinkedAccountOutput\"1\xea\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1c*\x1a/linked-accounts/{link_id}\x12\xa5\x01\n" +
+	"\x15DescribeLinkedAccount\x12'.eolymp.auth.DescribeLinkedAccountInput\x1a(.eolymp.auth.DescribeLinkedAccountOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x1c\x12\x1a/linked-accounts/{link_id}\x12\x8a\x01\n" +
-	"\x12ListLinkedAccounts\x12$.eolymp.auth.ListLinkedAccountsInput\x1a%.eolymp.auth.ListLinkedAccountsOutput\"'\xea\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/linked-accounts/{link_id}\x12\x92\x01\n" +
+	"\x12ListLinkedAccounts\x12$.eolymp.auth.ListLinkedAccountsInput\x1a%.eolymp.auth.ListLinkedAccountsOutput\"/\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x12\x12\x10/linked-accountsB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/linked-accountsB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_linked_account_service_proto_rawDescOnce sync.Once

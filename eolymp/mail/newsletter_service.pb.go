@@ -1744,7 +1744,7 @@ var File_eolymp_mail_newsletter_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/mail/newsletter_service.proto\x12\veolymp.mail\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/mail/newsletter.proto\x1a&eolymp/mail/newsletter_recipient.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"P\n" +
+	"$eolymp/mail/newsletter_service.proto\x12\veolymp.mail\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/mail/newsletter.proto\x1a&eolymp/mail/newsletter_recipient.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"P\n" +
 	"\x15CreateNewsletterInput\x127\n" +
 	"\n" +
 	"newsletter\x18\x01 \x01(\v2\x17.eolymp.mail.NewsletterR\n" +
@@ -1882,82 +1882,108 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12!\n" +
 	"\frecipient_id\x18\x02 \x01(\tR\vrecipientId\"O\n" +
 	"\x17DescribeRecipientOutput\x124\n" +
-	"\trecipient\x18\x01 \x01(\v2\x16.eolymp.mail.RecipientR\trecipient2\xec\x12\n" +
-	"\x11NewsletterService\x12\xa3\x01\n" +
-	"\x10CreateNewsletter\x12\".eolymp.mail.CreateNewsletterInput\x1a#.eolymp.mail.CreateNewsletterOutput\"F\xea\xe2\n" +
+	"\trecipient\x18\x01 \x01(\v2\x16.eolymp.mail.RecipientR\trecipient2\xd5\x13\n" +
+	"\x11NewsletterService\x12\xab\x01\n" +
+	"\x10CreateNewsletter\x12\".eolymp.mail.CreateNewsletterInput\x1a#.eolymp.mail.CreateNewsletterOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x03\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02\x0e\"\f/newsletters\x12\xb3\x01\n" +
-	"\x10UpdateNewsletter\x12\".eolymp.mail.UpdateNewsletterInput\x1a#.eolymp.mail.UpdateNewsletterOutput\"V\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0e\"\f/newsletters\x12\xbb\x01\n" +
+	"\x10UpdateNewsletter\x12\".eolymp.mail.UpdateNewsletterInput\x1a#.eolymp.mail.UpdateNewsletterOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/newsletters/{newsletter_id}\x12\xb3\x01\n" +
-	"\x10DeleteNewsletter\x12\".eolymp.mail.DeleteNewsletterInput\x1a#.eolymp.mail.DeleteNewsletterOutput\"V\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/newsletters/{newsletter_id}\x12\xbb\x01\n" +
+	"\x10DeleteNewsletter\x12\".eolymp.mail.DeleteNewsletterInput\x1a#.eolymp.mail.DeleteNewsletterOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02\x1e*\x1c/newsletters/{newsletter_id}\x12\x97\x01\n" +
-	"\x12DescribeNewsletter\x12$.eolymp.mail.DescribeNewsletterInput\x1a%.eolymp.mail.DescribeNewsletterOutput\"4\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1e*\x1c/newsletters/{newsletter_id}\x12\x9f\x01\n" +
+	"\x12DescribeNewsletter\x12$.eolymp.mail.DescribeNewsletterInput\x1a%.eolymp.mail.DescribeNewsletterOutput\"<\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\x1e\x12\x1c/newsletters/{newsletter_id}\x12}\n" +
-	"\x0fListNewsletters\x12!.eolymp.mail.ListNewslettersInput\x1a\".eolymp.mail.ListNewslettersOutput\"#\xea\xe2\n" +
+	"\xf4\x03\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/newsletters/{newsletter_id}\x12\x85\x01\n" +
+	"\x0fListNewsletters\x12!.eolymp.mail.ListNewslettersInput\x1a\".eolymp.mail.ListNewslettersOutput\"+\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x0e\x12\f/newsletters\x12\xb2\x01\n" +
-	"\x0eTestNewsletter\x12 .eolymp.mail.TestNewsletterInput\x1a!.eolymp.mail.TestNewsletterOutput\"[\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/newsletters\x12\xba\x01\n" +
+	"\x0eTestNewsletter\x12 .eolymp.mail.TestNewsletterInput\x1a!.eolymp.mail.TestNewsletterOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02#\"!/newsletters/{newsletter_id}/test\x12\xb2\x01\n" +
-	"\x0eSendNewsletter\x12 .eolymp.mail.SendNewsletterInput\x1a!.eolymp.mail.SendNewsletterOutput\"[\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/newsletters/{newsletter_id}/test\x12\xba\x01\n" +
+	"\x0eSendNewsletter\x12 .eolymp.mail.SendNewsletterInput\x1a!.eolymp.mail.SendNewsletterOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02#\"!/newsletters/{newsletter_id}/send\x12\xc6\x01\n" +
-	"\x13TranslateNewsletter\x12%.eolymp.mail.TranslateNewsletterInput\x1a&.eolymp.mail.TranslateNewsletterOutput\"`\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/newsletters/{newsletter_id}/send\x12\xce\x01\n" +
+	"\x13TranslateNewsletter\x12%.eolymp.mail.TranslateNewsletterInput\x1a&.eolymp.mail.TranslateNewsletterOutput\"h\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02(\"&/newsletters/{newsletter_id}/translate\x12\xbb\x01\n" +
-	"\x0fCreateRecipient\x12!.eolymp.mail.CreateRecipientInput\x1a\".eolymp.mail.CreateRecipientOutput\"a\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02(\"&/newsletters/{newsletter_id}/translate\x12\xc3\x01\n" +
+	"\x0fCreateRecipient\x12!.eolymp.mail.CreateRecipientInput\x1a\".eolymp.mail.CreateRecipientOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02)\"'/newsletters/{newsletter_id}/recipients\x12\xc2\x01\n" +
-	"\x0fImportRecipient\x12!.eolymp.mail.ImportRecipientInput\x1a\".eolymp.mail.ImportRecipientOutput\"h\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02)\"'/newsletters/{newsletter_id}/recipients\x12\xca\x01\n" +
+	"\x0fImportRecipient\x12!.eolymp.mail.ImportRecipientInput\x1a\".eolymp.mail.ImportRecipientOutput\"p\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x020\"./newsletters/{newsletter_id}/recipients:import\x12\xca\x01\n" +
-	"\x0fDeleteRecipient\x12!.eolymp.mail.DeleteRecipientInput\x1a\".eolymp.mail.DeleteRecipientOutput\"p\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x020\"./newsletters/{newsletter_id}/recipients:import\x12\xd2\x01\n" +
+	"\x0fDeleteRecipient\x12!.eolymp.mail.DeleteRecipientInput\x1a\".eolymp.mail.DeleteRecipientOutput\"x\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x028*6/newsletters/{newsletter_id}/recipients/{recipient_id}\x12\xb8\x01\n" +
-	"\x0eListRecipients\x12 .eolymp.mail.ListRecipientsInput\x1a!.eolymp.mail.ListRecipientsOutput\"a\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x028*6/newsletters/{newsletter_id}/recipients/{recipient_id}\x12\xc0\x01\n" +
+	"\x0eListRecipients\x12 .eolymp.mail.ListRecipientsInput\x1a!.eolymp.mail.ListRecipientsOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x02)\x12'/newsletters/{newsletter_id}/recipients\x12\xd0\x01\n" +
-	"\x11DescribeRecipient\x12#.eolymp.mail.DescribeRecipientInput\x1a$.eolymp.mail.DescribeRecipientOutput\"p\xea\xe2\n" +
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02)\x12'/newsletters/{newsletter_id}/recipients\x12\xd8\x01\n" +
+	"\x11DescribeRecipient\x12#.eolymp.mail.DescribeRecipientInput\x1a$.eolymp.mail.DescribeRecipientOutput\"x\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bnewsletter:newsletter:write\x82\xd3\xe4\x93\x028\x126/newsletters/{newsletter_id}/recipients/{recipient_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"\x1bnewsletter:newsletter:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x028\x126/newsletters/{newsletter_id}/recipients/{recipient_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_newsletter_service_proto_rawDescOnce sync.Once

@@ -1304,7 +1304,7 @@ var File_eolymp_commerce_product_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/commerce/product_service.proto\x12\x0feolymp.commerce\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/commerce/product.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"H\n" +
+	"%eolymp/commerce/product_service.proto\x12\x0feolymp.commerce\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/commerce/product.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"H\n" +
 	"\x12CreateProductInput\x122\n" +
 	"\aproduct\x18\x01 \x01(\v2\x18.eolymp.commerce.ProductR\aproduct\"4\n" +
 	"\x13CreateProductOutput\x12\x1d\n" +
@@ -1397,68 +1397,88 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\x04NAME\x10\x01\"i\n" +
 	"\x19ListProductVariantsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x126\n" +
-	"\x05items\x18\x02 \x03(\v2 .eolymp.commerce.Product.VariantR\x05items2\xb2\x0f\n" +
-	"\x0eProductService\x12\xa0\x01\n" +
-	"\rCreateProduct\x12#.eolymp.commerce.CreateProductInput\x1a$.eolymp.commerce.CreateProductOutput\"D\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2 .eolymp.commerce.Product.VariantR\x05items2\x82\x10\n" +
+	"\x0eProductService\x12\xa8\x01\n" +
+	"\rCreateProduct\x12#.eolymp.commerce.CreateProductInput\x1a$.eolymp.commerce.CreateProductOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02\x11\"\x0f/store/products\x12\xad\x01\n" +
-	"\rUpdateProduct\x12#.eolymp.commerce.UpdateProductInput\x1a$.eolymp.commerce.UpdateProductOutput\"Q\xea\xe2\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x11\"\x0f/store/products\x12\xb5\x01\n" +
+	"\rUpdateProduct\x12#.eolymp.commerce.UpdateProductInput\x1a$.eolymp.commerce.UpdateProductOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/store/products/{product_id}\x12\xad\x01\n" +
-	"\rDeleteProduct\x12#.eolymp.commerce.DeleteProductInput\x1a$.eolymp.commerce.DeleteProductOutput\"Q\xea\xe2\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/store/products/{product_id}\x12\xb5\x01\n" +
+	"\rDeleteProduct\x12#.eolymp.commerce.DeleteProductInput\x1a$.eolymp.commerce.DeleteProductOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02\x1e*\x1c/store/products/{product_id}\x12\xb2\x01\n" +
-	"\x0fDescribeProduct\x12%.eolymp.commerce.DescribeProductInput\x1a&.eolymp.commerce.DescribeProductOutput\"P\xea\xe2\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1e*\x1c/store/products/{product_id}\x12\xba\x01\n" +
+	"\x0fDescribeProduct\x12%.eolymp.commerce.DescribeProductInput\x1a&.eolymp.commerce.DescribeProductOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/store/products/{product_id}\x12\x9c\x01\n" +
-	"\fListProducts\x12\".eolymp.commerce.ListProductsInput\x1a#.eolymp.commerce.ListProductsOutput\"C\xea\xe2\n" +
+	"\x15commerce:catalog:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/store/products/{product_id}\x12\xa4\x01\n" +
+	"\fListProducts\x12\".eolymp.commerce.ListProductsInput\x1a#.eolymp.commerce.ListProductsOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/store/products\x12\xcb\x01\n" +
-	"\x14CreateProductVariant\x12*.eolymp.commerce.CreateProductVariantInput\x1a+.eolymp.commerce.CreateProductVariantOutput\"Z\xea\xe2\n" +
+	"\x15commerce:catalog:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/store/products\x12\xd3\x01\n" +
+	"\x14CreateProductVariant\x12*.eolymp.commerce.CreateProductVariantInput\x1a+.eolymp.commerce.CreateProductVariantOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x02'\"%/store/products/{product_id}/variants\x12\xd8\x01\n" +
-	"\x14UpdateProductVariant\x12*.eolymp.commerce.UpdateProductVariantInput\x1a+.eolymp.commerce.UpdateProductVariantOutput\"g\xea\xe2\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/store/products/{product_id}/variants\x12\xe0\x01\n" +
+	"\x14UpdateProductVariant\x12*.eolymp.commerce.UpdateProductVariantInput\x1a+.eolymp.commerce.UpdateProductVariantOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x024\x1a2/store/products/{product_id}/variants/{variant_id}\x12\xd8\x01\n" +
-	"\x14DeleteProductVariant\x12*.eolymp.commerce.DeleteProductVariantInput\x1a+.eolymp.commerce.DeleteProductVariantOutput\"g\xea\xe2\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x024\x1a2/store/products/{product_id}/variants/{variant_id}\x12\xe0\x01\n" +
+	"\x14DeleteProductVariant\x12*.eolymp.commerce.DeleteProductVariantInput\x1a+.eolymp.commerce.DeleteProductVariantOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16commerce:catalog:write\x82\xd3\xe4\x93\x024*2/store/products/{product_id}/variants/{variant_id}\x12\xdd\x01\n" +
-	"\x16DescribeProductVariant\x12,.eolymp.commerce.DescribeProductVariantInput\x1a-.eolymp.commerce.DescribeProductVariantOutput\"f\xea\xe2\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x024*2/store/products/{product_id}/variants/{variant_id}\x12\xe5\x01\n" +
+	"\x16DescribeProductVariant\x12,.eolymp.commerce.DescribeProductVariantInput\x1a-.eolymp.commerce.DescribeProductVariantOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x024\x122/store/products/{product_id}/variants/{variant_id}\x12\xc7\x01\n" +
-	"\x13ListProductVariants\x12).eolymp.commerce.ListProductVariantsInput\x1a*.eolymp.commerce.ListProductVariantsOutput\"Y\xea\xe2\n" +
+	"\x15commerce:catalog:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x024\x122/store/products/{product_id}/variants/{variant_id}\x12\xcf\x01\n" +
+	"\x13ListProductVariants\x12).eolymp.commerce.ListProductVariantsInput\x1a*.eolymp.commerce.ListProductVariantsOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15commerce:catalog:read\x82\xd3\xe4\x93\x02'\x12%/store/products/{product_id}/variants\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x15commerce:catalog:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02'\x12%/store/products/{product_id}/variants\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_product_service_proto_rawDescOnce sync.Once

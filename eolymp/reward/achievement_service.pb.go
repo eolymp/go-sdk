@@ -1201,7 +1201,7 @@ var File_eolymp_reward_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/reward/achievement_service.proto\x12\reolymp.reward\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/reward/achievement.proto\x1a!eolymp/wellknown/expression.proto\"V\n" +
+	"'eolymp/reward/achievement_service.proto\x12\reolymp.reward\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/reward/achievement.proto\x1a!eolymp/wellknown/expression.proto\"V\n" +
 	"\x16CreateAchievementInput\x12<\n" +
 	"\vachievement\x18\x01 \x01(\v2\x1a.eolymp.reward.AchievementR\vachievement\"@\n" +
 	"\x17CreateAchievementOutput\x12%\n" +
@@ -1272,68 +1272,88 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"!DeleteAchievementTranslationInput\x12%\n" +
 	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"$\n" +
-	"\"DeleteAchievementTranslationOutput2\xfe\x10\n" +
-	"\x12AchievementService\x12\xa6\x01\n" +
-	"\x11CreateAchievement\x12%.eolymp.reward.CreateAchievementInput\x1a&.eolymp.reward.CreateAchievementOutput\"B\xea\xe2\n" +
+	"\"DeleteAchievementTranslationOutput2\xce\x11\n" +
+	"\x12AchievementService\x12\xae\x01\n" +
+	"\x11CreateAchievement\x12%.eolymp.reward.CreateAchievementInput\x1a&.eolymp.reward.CreateAchievementOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02\x0f\"\r/achievements\x12\xb7\x01\n" +
-	"\x11UpdateAchievement\x12%.eolymp.reward.UpdateAchievementInput\x1a&.eolymp.reward.UpdateAchievementOutput\"S\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0f\"\r/achievements\x12\xbf\x01\n" +
+	"\x11UpdateAchievement\x12%.eolymp.reward.UpdateAchievementInput\x1a&.eolymp.reward.UpdateAchievementOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02 \"\x1e/achievements/{achievement_id}\x12\xb7\x01\n" +
-	"\x11DeleteAchievement\x12%.eolymp.reward.DeleteAchievementInput\x1a&.eolymp.reward.DeleteAchievementOutput\"S\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/achievements/{achievement_id}\x12\xbf\x01\n" +
+	"\x11DeleteAchievement\x12%.eolymp.reward.DeleteAchievementInput\x1a&.eolymp.reward.DeleteAchievementOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16community:member:write\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xbc\x01\n" +
-	"\x13DescribeAchievement\x12'.eolymp.reward.DescribeAchievementInput\x1a(.eolymp.reward.DescribeAchievementOutput\"R\xea\xe2\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xc4\x01\n" +
+	"\x13DescribeAchievement\x12'.eolymp.reward.DescribeAchievementInput\x1a(.eolymp.reward.DescribeAchievementOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02 \x12\x1e/achievements/{achievement_id}\x12\xa2\x01\n" +
-	"\x10ListAchievements\x12$.eolymp.reward.ListAchievementsInput\x1a%.eolymp.reward.ListAchievementsOutput\"A\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/achievements/{achievement_id}\x12\xaa\x01\n" +
+	"\x10ListAchievements\x12$.eolymp.reward.ListAchievementsInput\x1a%.eolymp.reward.ListAchievementsOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15community:member:read\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x12\xff\x01\n" +
-	"\x1eDescribeAchievementTranslation\x122.eolymp.reward.DescribeAchievementTranslationInput\x1a3.eolymp.reward.DescribeAchievementTranslationOutput\"t\xea\xe2\n" +
+	"\x15community:member:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x12\x87\x02\n" +
+	"\x1eDescribeAchievementTranslation\x122.eolymp.reward.DescribeAchievementTranslationInput\x1a3.eolymp.reward.DescribeAchievementTranslationOutput\"|\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02>\x12</achievements/{achievement_id}/translations/{translation_id}\x12\xe4\x01\n" +
-	"\x1bListAchievementTranslations\x12/.eolymp.reward.ListAchievementTranslationsInput\x1a0.eolymp.reward.ListAchievementTranslationsOutput\"b\xea\xe2\n" +
+	"\x18typewriter:fragment:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02>\x12</achievements/{achievement_id}/translations/{translation_id}\x12\xec\x01\n" +
+	"\x1bListAchievementTranslations\x12/.eolymp.reward.ListAchievementTranslationsInput\x1a0.eolymp.reward.ListAchievementTranslationsOutput\"j\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\x82\xd3\xe4\x93\x02-\x12+/achievements/{achievement_id}/translations\x12\xe8\x01\n" +
-	"\x1cCreateAchievementTranslation\x120.eolymp.reward.CreateAchievementTranslationInput\x1a1.eolymp.reward.CreateAchievementTranslationOutput\"c\xea\xe2\n" +
+	"\x18typewriter:fragment:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02-\x12+/achievements/{achievement_id}/translations\x12\xf0\x01\n" +
+	"\x1cCreateAchievementTranslation\x120.eolymp.reward.CreateAchievementTranslationInput\x1a1.eolymp.reward.CreateAchievementTranslationOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02-\"+/achievements/{achievement_id}/translations\x12\xf9\x01\n" +
-	"\x1cUpdateAchievementTranslation\x120.eolymp.reward.UpdateAchievementTranslationInput\x1a1.eolymp.reward.UpdateAchievementTranslationOutput\"t\xea\xe2\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02-\"+/achievements/{achievement_id}/translations\x12\x81\x02\n" +
+	"\x1cUpdateAchievementTranslation\x120.eolymp.reward.UpdateAchievementTranslationInput\x1a1.eolymp.reward.UpdateAchievementTranslationOutput\"|\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02>\x1a</achievements/{achievement_id}/translations/{translation_id}\x12\xf9\x01\n" +
-	"\x1cDeleteAchievementTranslation\x120.eolymp.reward.DeleteAchievementTranslationInput\x1a1.eolymp.reward.DeleteAchievementTranslationOutput\"t\xea\xe2\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02>\x1a</achievements/{achievement_id}/translations/{translation_id}\x12\x81\x02\n" +
+	"\x1cDeleteAchievementTranslation\x120.eolymp.reward.DeleteAchievementTranslationInput\x1a1.eolymp.reward.DeleteAchievementTranslationOutput\"|\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\x82\xd3\xe4\x93\x02>*</achievements/{achievement_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/reward;rewardb\x06proto3"
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02>*</achievements/{achievement_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/reward;rewardb\x06proto3"
 
 var (
 	file_eolymp_reward_achievement_service_proto_rawDescOnce sync.Once

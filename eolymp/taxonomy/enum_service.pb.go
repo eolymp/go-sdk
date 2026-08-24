@@ -1615,7 +1615,7 @@ var File_eolymp_taxonomy_enum_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_taxonomy_enum_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/taxonomy/enum_service.proto\x12\x0feolymp.taxonomy\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/taxonomy/enum.proto\x1a eolymp/taxonomy/enum_value.proto\x1a!eolymp/wellknown/expression.proto\"<\n" +
+	"\"eolymp/taxonomy/enum_service.proto\x12\x0feolymp.taxonomy\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/taxonomy/enum.proto\x1a eolymp/taxonomy/enum_value.proto\x1a!eolymp/wellknown/expression.proto\"<\n" +
 	"\x0fCreateEnumInput\x12)\n" +
 	"\x04enum\x18\x01 \x01(\v2\x15.eolymp.taxonomy.EnumR\x04enum\"+\n" +
 	"\x10CreateEnumOutput\x12\x17\n" +
@@ -1711,89 +1711,115 @@ const file_eolymp_taxonomy_enum_service_proto_rawDesc = "" +
 	"\x06locale\x18\x01 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"h\n" +
 	"\x16ListTranslationsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x128\n" +
-	"\x05items\x18\x02 \x03(\v2\".eolymp.taxonomy.Value.TranslationR\x05items2\xa2\x10\n" +
-	"\vEnumService\x12\x8b\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\".eolymp.taxonomy.Value.TranslationR\x05items2\x8a\x11\n" +
+	"\vEnumService\x12\x93\x01\n" +
 	"\n" +
-	"CreateEnum\x12 .eolymp.taxonomy.CreateEnumInput\x1a!.eolymp.taxonomy.CreateEnumOutput\"8\xea\xe2\n" +
+	"CreateEnum\x12 .eolymp.taxonomy.CreateEnumInput\x1a!.eolymp.taxonomy.CreateEnumOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02\b\"\x06/enums\x12\x95\x01\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\b\"\x06/enums\x12\x9d\x01\n" +
 	"\n" +
-	"DeleteEnum\x12 .eolymp.taxonomy.DeleteEnumInput\x1a!.eolymp.taxonomy.DeleteEnumOutput\"B\xea\xe2\n" +
+	"DeleteEnum\x12 .eolymp.taxonomy.DeleteEnumInput\x1a!.eolymp.taxonomy.DeleteEnumOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02\x12*\x10/enums/{enum_id}\x12\x95\x01\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x12*\x10/enums/{enum_id}\x12\x9d\x01\n" +
 	"\n" +
-	"UpdateEnum\x12 .eolymp.taxonomy.UpdateEnumInput\x1a!.eolymp.taxonomy.UpdateEnumOutput\"B\xea\xe2\n" +
+	"UpdateEnum\x12 .eolymp.taxonomy.UpdateEnumInput\x1a!.eolymp.taxonomy.UpdateEnumOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/enums/{enum_id}\x12\x80\x01\n" +
-	"\fDescribeEnum\x12\".eolymp.taxonomy.DescribeEnumInput\x1a#.eolymp.taxonomy.DescribeEnumOutput\"'\xea\xe2\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\x1a\x10/enums/{enum_id}\x12\x88\x01\n" +
+	"\fDescribeEnum\x12\".eolymp.taxonomy.DescribeEnumInput\x1a#.eolymp.taxonomy.DescribeEnumOutput\"/\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x12\x12\x10/enums/{enum_id}\x12m\n" +
-	"\tListEnums\x12\x1f.eolymp.taxonomy.ListEnumsInput\x1a .eolymp.taxonomy.ListEnumsOutput\"\x1d\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/enums/{enum_id}\x12u\n" +
+	"\tListEnums\x12\x1f.eolymp.taxonomy.ListEnumsInput\x1a .eolymp.taxonomy.ListEnumsOutput\"%\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\b\x12\x06/enums\x12\x9e\x01\n" +
-	"\vCreateValue\x12!.eolymp.taxonomy.CreateValueInput\x1a\".eolymp.taxonomy.CreateValueOutput\"H\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/enums\x12\xa6\x01\n" +
+	"\vCreateValue\x12!.eolymp.taxonomy.CreateValueInput\x1a\".eolymp.taxonomy.CreateValueOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02\x18\"\x16/enums/{enum_id}/items\x12\xaa\x01\n" +
-	"\vDeleteValue\x12!.eolymp.taxonomy.DeleteValueInput\x1a\".eolymp.taxonomy.DeleteValueOutput\"T\xea\xe2\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/enums/{enum_id}/items\x12\xb2\x01\n" +
+	"\vDeleteValue\x12!.eolymp.taxonomy.DeleteValueInput\x1a\".eolymp.taxonomy.DeleteValueOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02$*\"/enums/{enum_id}/values/{value_id}\x12\xaa\x01\n" +
-	"\vUpdateValue\x12!.eolymp.taxonomy.UpdateValueInput\x1a\".eolymp.taxonomy.UpdateValueOutput\"T\xea\xe2\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02$*\"/enums/{enum_id}/values/{value_id}\x12\xb2\x01\n" +
+	"\vUpdateValue\x12!.eolymp.taxonomy.UpdateValueInput\x1a\".eolymp.taxonomy.UpdateValueOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02$\x1a\"/enums/{enum_id}/values/{value_id}\x12\x95\x01\n" +
-	"\rDescribeValue\x12#.eolymp.taxonomy.DescribeValueInput\x1a$.eolymp.taxonomy.DescribeValueOutput\"9\xea\xe2\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02$\x1a\"/enums/{enum_id}/values/{value_id}\x12\x9d\x01\n" +
+	"\rDescribeValue\x12#.eolymp.taxonomy.DescribeValueInput\x1a$.eolymp.taxonomy.DescribeValueOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02$\x12\"/enums/{enum_id}/values/{value_id}\x12\x80\x01\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/enums/{enum_id}/values/{value_id}\x12\x88\x01\n" +
 	"\n" +
-	"ListValues\x12 .eolymp.taxonomy.ListValuesInput\x1a!.eolymp.taxonomy.ListValuesOutput\"-\xea\xe2\n" +
+	"ListValues\x12 .eolymp.taxonomy.ListValuesInput\x1a!.eolymp.taxonomy.ListValuesOutput\"5\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x18\x12\x16/enums/{enum_id}/items\x12\xc9\x01\n" +
-	"\x0eTranslateValue\x12$.eolymp.taxonomy.TranslateValueInput\x1a%.eolymp.taxonomy.TranslateValueOutput\"j\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/enums/{enum_id}/items\x12\xd1\x01\n" +
+	"\x0eTranslateValue\x12$.eolymp.taxonomy.TranslateValueInput\x1a%.eolymp.taxonomy.TranslateValueOutput\"r\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02:\x1a8/enums/{enum_id}/values/{value_id}/translations/{locale}\x12\xd2\x01\n" +
-	"\x11DeleteTranslation\x12'.eolymp.taxonomy.DeleteTranslationInput\x1a(.eolymp.taxonomy.DeleteTranslationOutput\"j\xea\xe2\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02:\x1a8/enums/{enum_id}/values/{value_id}/translations/{locale}\x12\xda\x01\n" +
+	"\x11DeleteTranslation\x12'.eolymp.taxonomy.DeleteTranslationInput\x1a(.eolymp.taxonomy.DeleteTranslationOutput\"r\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13taxonomy:enum:write\x82\xd3\xe4\x93\x02:*8/enums/{enum_id}/values/{value_id}/translations/{locale}\x12\xab\x01\n" +
-	"\x10ListTranslations\x12&.eolymp.taxonomy.ListTranslationsInput\x1a'.eolymp.taxonomy.ListTranslationsOutput\"F\xea\xe2\n" +
+	"\x13taxonomy:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02:*8/enums/{enum_id}/values/{value_id}/translations/{locale}\x12\xb3\x01\n" +
+	"\x10ListTranslations\x12&.eolymp.taxonomy.ListTranslationsInput\x1a'.eolymp.taxonomy.ListTranslationsOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
-	"\x05\x82\xd3\xe4\x93\x021*//enums/{enum_id}/values/{value_id}/translationsB3Z1github.com/eolymp/go-sdk/eolymp/taxonomy;taxonomyb\x06proto3"
+	"\x05\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x021*//enums/{enum_id}/values/{value_id}/translationsB3Z1github.com/eolymp/go-sdk/eolymp/taxonomy;taxonomyb\x06proto3"
 
 var (
 	file_eolymp_taxonomy_enum_service_proto_rawDescOnce sync.Once

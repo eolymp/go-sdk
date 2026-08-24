@@ -170,7 +170,7 @@ var File_eolymp_geolocation_geolocation_service_proto protoreflect.FileDescripto
 
 const file_eolymp_geolocation_geolocation_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/geolocation/geolocation_service.proto\x12\x12eolymp.geolocation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"K\n" +
+	",eolymp/geolocation/geolocation_service.proto\x12\x12eolymp.geolocation\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"K\n" +
 	"\x12LookupAddressInput\x12\x1d\n" +
 	"\n" +
 	"ip_address\x18\x01 \x01(\tR\tipAddress\x12\x16\n" +
@@ -182,14 +182,16 @@ const file_eolymp_geolocation_geolocation_service_proto_rawDesc = "" +
 	"\btimezone\x18\x04 \x01(\tR\btimezone\x12\x1a\n" +
 	"\bpostcode\x18\x05 \x01(\tR\bpostcode\x12\x12\n" +
 	"\x04city\x18\x06 \x01(\tR\x04city\x12\x16\n" +
-	"\x06region\x18\a \x01(\tR\x06region2\xc7\x01\n" +
-	"\x12GeolocationService\x12\xb0\x01\n" +
-	"\rLookupAddress\x12&.eolymp.geolocation.LookupAddressInput\x1a'.eolymp.geolocation.LookupAddressOutput\"N\xea\xe2\n" +
+	"\x06region\x18\a \x01(\tR\x06region2\xcf\x01\n" +
+	"\x12GeolocationService\x12\xb8\x01\n" +
+	"\rLookupAddress\x12&.eolymp.geolocation.LookupAddressInput\x1a'.eolymp.geolocation.LookupAddressOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16geolocation:enum:write\x82\xd3\xe4\x93\x02\x1b\x12\x19/geolocation/{ip_address}B9Z7github.com/eolymp/go-sdk/eolymp/geolocation;geolocationb\x06proto3"
+	"\x16geolocation:enum:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1b\x12\x19/geolocation/{ip_address}B9Z7github.com/eolymp/go-sdk/eolymp/geolocation;geolocationb\x06proto3"
 
 var (
 	file_eolymp_geolocation_geolocation_service_proto_rawDescOnce sync.Once

@@ -7,6 +7,7 @@
 package tasks
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	anypb "google.golang.org/protobuf/types/known/anypb"
@@ -344,7 +345,7 @@ var File_eolymp_tasks_execution_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_execution_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/tasks/execution_service.proto\x12\feolymp.tasks\x1a\x19google/protobuf/any.proto\"\xa5\x01\n" +
+	"$eolymp/tasks/execution_service.proto\x12\feolymp.tasks\x1a\x1eeolymp/annotations/audit.proto\x1a\x19google/protobuf/any.proto\"\xa5\x01\n" +
 	"\x10ExecuteTaskInput\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12(\n" +
 	"\x04task\x18\x02 \x01(\v2\x14.google.protobuf.AnyR\x04task\x124\n" +
@@ -369,9 +370,11 @@ const file_eolymp_tasks_execution_service_proto_rawDesc = "" +
 	"checkpoint\x1a\x1c\n" +
 	"\x06Record\x12\x12\n" +
 	"\x04line\x18\x01 \x01(\tR\x04lineB\t\n" +
-	"\amessage2d\n" +
-	"\x10ExecutionService\x12P\n" +
-	"\vExecuteTask\x12\x1e.eolymp.tasks.ExecuteTaskInput\x1a\x1f.eolymp.tasks.ExecuteTaskOutput0\x01B-Z+github.com/eolymp/go-sdk/eolymp/tasks;tasksb\x06proto3"
+	"\amessage2n\n" +
+	"\x10ExecutionService\x12Z\n" +
+	"\vExecuteTask\x12\x1e.eolymp.tasks.ExecuteTaskInput\x1a\x1f.eolymp.tasks.ExecuteTaskOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x020\x01B-Z+github.com/eolymp/go-sdk/eolymp/tasks;tasksb\x06proto3"
 
 var (
 	file_eolymp_tasks_execution_service_proto_rawDescOnce sync.Once

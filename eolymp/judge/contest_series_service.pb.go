@@ -515,7 +515,7 @@ var File_eolymp_judge_contest_series_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_series_service_proto_rawDesc = "" +
 	"\n" +
-	")eolymp/judge/contest_series_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/judge/contest_series.proto\"\x8b\x01\n" +
+	")eolymp/judge/contest_series_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/judge/contest_series.proto\"\x8b\x01\n" +
 	"\x1aDescribeContestSeriesInput\x12\x1b\n" +
 	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12\x16\n" +
 	"\x06locale\x18\n" +
@@ -543,38 +543,48 @@ const file_eolymp_judge_contest_series_service_proto_rawDesc = "" +
 	"\x19UpdateContestSeriesOutput\"7\n" +
 	"\x18DeleteContestSeriesInput\x12\x1b\n" +
 	"\tseries_id\x18\x01 \x01(\tR\bseriesId\"\x1b\n" +
-	"\x19DeleteContestSeriesOutput2\xb2\a\n" +
-	"\x14ContestSeriesService\x12\xbb\x01\n" +
-	"\x15DescribeContestSeries\x12(.eolymp.judge.DescribeContestSeriesInput\x1a).eolymp.judge.DescribeContestSeriesOutput\"M\xea\xe2\n" +
+	"\x19DeleteContestSeriesOutput2\xda\a\n" +
+	"\x14ContestSeriesService\x12\xc3\x01\n" +
+	"\x15DescribeContestSeries\x12(.eolymp.judge.DescribeContestSeriesInput\x1a).eolymp.judge.DescribeContestSeriesOutput\"U\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1d\x12\x1b/contest-series/{series_id}\x12\xa2\x01\n" +
-	"\x11ListContestSeries\x12$.eolymp.judge.ListContestSeriesInput\x1a%.eolymp.judge.ListContestSeriesOutput\"@\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1d\x12\x1b/contest-series/{series_id}\x12\xaa\x01\n" +
+	"\x11ListContestSeries\x12$.eolymp.judge.ListContestSeriesInput\x1a%.eolymp.judge.ListContestSeriesOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x11\x12\x0f/contest-series\x12\xa9\x01\n" +
-	"\x13CreateContestSeries\x12&.eolymp.judge.CreateContestSeriesInput\x1a'.eolymp.judge.CreateContestSeriesOutput\"A\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/contest-series\x12\xb1\x01\n" +
+	"\x13CreateContestSeries\x12&.eolymp.judge.CreateContestSeriesInput\x1a'.eolymp.judge.CreateContestSeriesOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x11\"\x0f/contest-series\x12\xb5\x01\n" +
-	"\x13UpdateContestSeries\x12&.eolymp.judge.UpdateContestSeriesInput\x1a'.eolymp.judge.UpdateContestSeriesOutput\"M\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x11\"\x0f/contest-series\x12\xbd\x01\n" +
+	"\x13UpdateContestSeries\x12&.eolymp.judge.UpdateContestSeriesInput\x1a'.eolymp.judge.UpdateContestSeriesOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/contest-series/{series_id}\x12\xb5\x01\n" +
-	"\x13DeleteContestSeries\x12&.eolymp.judge.DeleteContestSeriesInput\x1a'.eolymp.judge.DeleteContestSeriesOutput\"M\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/contest-series/{series_id}\x12\xbd\x01\n" +
+	"\x13DeleteContestSeries\x12&.eolymp.judge.DeleteContestSeriesInput\x1a'.eolymp.judge.DeleteContestSeriesOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d*\x1b/contest-series/{series_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1d*\x1b/contest-series/{series_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_contest_series_service_proto_rawDescOnce sync.Once

@@ -2318,7 +2318,7 @@ var File_eolymp_atlas_testing_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/testing_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xa2\x01\n" +
+	"\"eolymp/atlas/testing_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xa2\x01\n" +
 	"\x19TestingConfigChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x123\n" +
@@ -2486,133 +2486,171 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
 	"\atest_id\x18\x03 \x01(\tR\x06testId\"\x12\n" +
-	"\x10DeleteTestOutput2\xe6\x1c\n" +
-	"\x0eTestingService\x12\xb8\x01\n" +
-	"\x13UpdateTestingConfig\x12&.eolymp.atlas.UpdateTestingConfigInput\x1a'.eolymp.atlas.UpdateTestingConfigOutput\"P\xea\xe2\n" +
+	"\x10DeleteTestOutput2\xfe\x1d\n" +
+	"\x0eTestingService\x12\xc0\x01\n" +
+	"\x13UpdateTestingConfig\x12&.eolymp.atlas.UpdateTestingConfigInput\x1a'.eolymp.atlas.UpdateTestingConfigOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02 \x1a\x1e/problems/{problem_id}/testing\x12\xbe\x01\n" +
-	"\x15DescribeTestingConfig\x12(.eolymp.atlas.DescribeTestingConfigInput\x1a).eolymp.atlas.DescribeTestingConfigOutput\"P\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \x1a\x1e/problems/{problem_id}/testing\x12\xc6\x01\n" +
+	"\x15DescribeTestingConfig\x12(.eolymp.atlas.DescribeTestingConfigInput\x1a).eolymp.atlas.DescribeTestingConfigOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/testing\x12\xa6\x01\n" +
-	"\rUpdateChecker\x12 .eolymp.atlas.UpdateCheckerInput\x1a!.eolymp.atlas.UpdateCheckerOutput\"P\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/testing\x12\xae\x01\n" +
+	"\rUpdateChecker\x12 .eolymp.atlas.UpdateCheckerInput\x1a!.eolymp.atlas.UpdateCheckerOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02 \x1a\x1e/problems/{problem_id}/checker\x12\xac\x01\n" +
-	"\x0fDescribeChecker\x12\".eolymp.atlas.DescribeCheckerInput\x1a#.eolymp.atlas.DescribeCheckerOutput\"P\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \x1a\x1e/problems/{problem_id}/checker\x12\xb4\x01\n" +
+	"\x0fDescribeChecker\x12\".eolymp.atlas.DescribeCheckerInput\x1a#.eolymp.atlas.DescribeCheckerOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/checker\x12\xb2\x01\n" +
-	"\x10UpdateInteractor\x12#.eolymp.atlas.UpdateInteractorInput\x1a$.eolymp.atlas.UpdateInteractorOutput\"S\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/checker\x12\xba\x01\n" +
+	"\x10UpdateInteractor\x12#.eolymp.atlas.UpdateInteractorInput\x1a$.eolymp.atlas.UpdateInteractorOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02#\x1a!/problems/{problem_id}/interactor\x12\xb8\x01\n" +
-	"\x12DescribeInteractor\x12%.eolymp.atlas.DescribeInteractorInput\x1a&.eolymp.atlas.DescribeInteractorOutput\"S\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\x1a!/problems/{problem_id}/interactor\x12\xc0\x01\n" +
+	"\x12DescribeInteractor\x12%.eolymp.atlas.DescribeInteractorInput\x1a&.eolymp.atlas.DescribeInteractorOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/interactor\x12\xae\x01\n" +
-	"\x0fUpdateValidator\x12\".eolymp.atlas.UpdateValidatorInput\x1a#.eolymp.atlas.UpdateValidatorOutput\"R\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/interactor\x12\xb6\x01\n" +
+	"\x0fUpdateValidator\x12\".eolymp.atlas.UpdateValidatorInput\x1a#.eolymp.atlas.UpdateValidatorOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\"\x1a /problems/{problem_id}/validator\x12\xb4\x01\n" +
-	"\x11DescribeValidator\x12$.eolymp.atlas.DescribeValidatorInput\x1a%.eolymp.atlas.DescribeValidatorOutput\"R\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\"\x1a /problems/{problem_id}/validator\x12\xbc\x01\n" +
+	"\x11DescribeValidator\x12$.eolymp.atlas.DescribeValidatorInput\x1a%.eolymp.atlas.DescribeValidatorOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/validator\x12\xa7\x01\n" +
-	"\rCreateTestset\x12 .eolymp.atlas.CreateTestsetInput\x1a!.eolymp.atlas.CreateTestsetOutput\"Q\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/validator\x12\xaf\x01\n" +
+	"\rCreateTestset\x12 .eolymp.atlas.CreateTestsetInput\x1a!.eolymp.atlas.CreateTestsetOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02!\"\x1f/problems/{problem_id}/testsets\x12\xb4\x01\n" +
-	"\rUpdateTestset\x12 .eolymp.atlas.UpdateTestsetInput\x1a!.eolymp.atlas.UpdateTestsetOutput\"^\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/problems/{problem_id}/testsets\x12\xbc\x01\n" +
+	"\rUpdateTestset\x12 .eolymp.atlas.UpdateTestsetInput\x1a!.eolymp.atlas.UpdateTestsetOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02.\x1a,/problems/{problem_id}/testsets/{testset_id}\x12\xb4\x01\n" +
-	"\rDeleteTestset\x12 .eolymp.atlas.DeleteTestsetInput\x1a!.eolymp.atlas.DeleteTestsetOutput\"^\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02.\x1a,/problems/{problem_id}/testsets/{testset_id}\x12\xbc\x01\n" +
+	"\rDeleteTestset\x12 .eolymp.atlas.DeleteTestsetInput\x1a!.eolymp.atlas.DeleteTestsetOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02.*,/problems/{problem_id}/testsets/{testset_id}\x12\xba\x01\n" +
-	"\x0fDescribeTestset\x12\".eolymp.atlas.DescribeTestsetInput\x1a#.eolymp.atlas.DescribeTestsetOutput\"^\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02.*,/problems/{problem_id}/testsets/{testset_id}\x12\xc2\x01\n" +
+	"\x0fDescribeTestset\x12\".eolymp.atlas.DescribeTestsetInput\x1a#.eolymp.atlas.DescribeTestsetOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02.\x12,/problems/{problem_id}/testsets/{testset_id}\x12\xa4\x01\n" +
-	"\fListTestsets\x12\x1f.eolymp.atlas.ListTestsetsInput\x1a .eolymp.atlas.ListTestsetsOutput\"Q\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02.\x12,/problems/{problem_id}/testsets/{testset_id}\x12\xac\x01\n" +
+	"\fListTestsets\x12\x1f.eolymp.atlas.ListTestsetsInput\x1a .eolymp.atlas.ListTestsetsOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/testsets\x12\xd3\x01\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/testsets\x12\xdb\x01\n" +
 	"\n" +
-	"CreateTest\x12\x1d.eolymp.atlas.CreateTestInput\x1a\x1e.eolymp.atlas.CreateTestOutput\"\x85\x01\xea\xe2\n" +
+	"CreateTest\x12\x1d.eolymp.atlas.CreateTestInput\x1a\x1e.eolymp.atlas.CreateTestOutput\"\x8d\x01\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02TZ\x1e\"\x1c/problems/{problem_id}/tests\"2/problems/{problem_id}/testsets/{testset_id}/tests\x12\xe7\x01\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02TZ\x1e\"\x1c/problems/{problem_id}/tests\"2/problems/{problem_id}/testsets/{testset_id}/tests\x12\xef\x01\n" +
 	"\n" +
-	"UpdateTest\x12\x1d.eolymp.atlas.UpdateTestInput\x1a\x1e.eolymp.atlas.UpdateTestOutput\"\x99\x01\xea\xe2\n" +
+	"UpdateTest\x12\x1d.eolymp.atlas.UpdateTestInput\x1a\x1e.eolymp.atlas.UpdateTestOutput\"\xa1\x01\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02hZ>\x1a</problems/{problem_id}/testsets/{testset_id}/tests/{test_id}\x1a&/problems/{problem_id}/tests/{test_id}\x12\xe7\x01\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02hZ>\x1a</problems/{problem_id}/testsets/{testset_id}/tests/{test_id}\x1a&/problems/{problem_id}/tests/{test_id}\x12\xef\x01\n" +
 	"\n" +
-	"DeleteTest\x12\x1d.eolymp.atlas.DeleteTestInput\x1a\x1e.eolymp.atlas.DeleteTestOutput\"\x99\x01\xea\xe2\n" +
+	"DeleteTest\x12\x1d.eolymp.atlas.DeleteTestInput\x1a\x1e.eolymp.atlas.DeleteTestOutput\"\xa1\x01\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02hZ>*</problems/{problem_id}/testsets/{testset_id}/tests/{test_id}*&/problems/{problem_id}/tests/{test_id}\x12\xec\x01\n" +
-	"\fDescribeTest\x12\x1f.eolymp.atlas.DescribeTestInput\x1a .eolymp.atlas.DescribeTestOutput\"\x98\x01\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02hZ>*</problems/{problem_id}/testsets/{testset_id}/tests/{test_id}*&/problems/{problem_id}/tests/{test_id}\x12\xf4\x01\n" +
+	"\fDescribeTest\x12\x1f.eolymp.atlas.DescribeTestInput\x1a .eolymp.atlas.DescribeTestOutput\"\xa0\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02hZ>\x12</problems/{problem_id}/testsets/{testset_id}/tests/{test_id}\x12&/problems/{problem_id}/tests/{test_id}\x12\xcf\x01\n" +
-	"\tListTests\x12\x1c.eolymp.atlas.ListTestsInput\x1a\x1d.eolymp.atlas.ListTestsOutput\"\x84\x01\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02hZ>\x12</problems/{problem_id}/testsets/{testset_id}/tests/{test_id}\x12&/problems/{problem_id}/tests/{test_id}\x12\xd7\x01\n" +
+	"\tListTests\x12\x1c.eolymp.atlas.ListTestsInput\x1a\x1d.eolymp.atlas.ListTestsOutput\"\x8c\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13atlas:problem:write\x82\xd3\xe4\x93\x02TZ4\x122/problems/{problem_id}/testsets/{testset_id}/tests\x12\x1c/problems/{problem_id}/tests\x12\xa3\x01\n" +
-	"\fListExamples\x12\x1f.eolymp.atlas.ListExamplesInput\x1a .eolymp.atlas.ListExamplesOutput\"P\xea\xe2\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02TZ4\x122/problems/{problem_id}/testsets/{testset_id}/tests\x12\x1c/problems/{problem_id}/tests\x12\xab\x01\n" +
+	"\fListExamples\x12\x1f.eolymp.atlas.ListExamplesInput\x1a .eolymp.atlas.ListExamplesOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12atlas:problem:read\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/examples\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x12atlas:problem:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/examples\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_service_proto_rawDescOnce sync.Once

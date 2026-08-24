@@ -1015,7 +1015,7 @@ var File_eolymp_course_module_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/course/module_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/module.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"B\n" +
+	"\"eolymp/course/module_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/module.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"B\n" +
 	"\x11CreateModuleInput\x12-\n" +
 	"\x06module\x18\x01 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"1\n" +
 	"\x12CreateModuleOutput\x12\x1b\n" +
@@ -1079,52 +1079,66 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\x05grade\x18\x03 \x01(\rH\x00R\x05grade\x12\x1a\n" +
 	"\aexcused\x18\x04 \x01(\bH\x00R\aexcusedB\a\n" +
 	"\x05value\"\x13\n" +
-	"\x11GradeModuleOutput2\xea\b\n" +
-	"\rModuleService\x12\x8f\x01\n" +
-	"\fCreateModule\x12 .eolymp.course.CreateModuleInput\x1a!.eolymp.course.CreateModuleOutput\":\xea\xe2\n" +
+	"\x11GradeModuleOutput2\xa2\t\n" +
+	"\rModuleService\x12\x97\x01\n" +
+	"\fCreateModule\x12 .eolymp.course.CreateModuleInput\x1a!.eolymp.course.CreateModuleOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/modules\x12\x9b\x01\n" +
-	"\fUpdateModule\x12 .eolymp.course.UpdateModuleInput\x1a!.eolymp.course.UpdateModuleOutput\"F\xea\xe2\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\n" +
+	"\x1a\b/modules\x12\xa3\x01\n" +
+	"\fUpdateModule\x12 .eolymp.course.UpdateModuleInput\x1a!.eolymp.course.UpdateModuleOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x16\x1a\x14/modules/{module_id}\x12\x9b\x01\n" +
-	"\fDeleteModule\x12 .eolymp.course.DeleteModuleInput\x1a!.eolymp.course.DeleteModuleOutput\"F\xea\xe2\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/modules/{module_id}\x12\xa3\x01\n" +
+	"\fDeleteModule\x12 .eolymp.course.DeleteModuleInput\x1a!.eolymp.course.DeleteModuleOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13course:course:write\x82\xd3\xe4\x93\x02\x16*\x14/modules/{module_id}\x12\xa0\x01\n" +
-	"\x0eDescribeModule\x12\".eolymp.course.DescribeModuleInput\x1a#.eolymp.course.DescribeModuleOutput\"E\xea\xe2\n" +
+	"\x13course:course:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x16*\x14/modules/{module_id}\x12\xa8\x01\n" +
+	"\x0eDescribeModule\x12\".eolymp.course.DescribeModuleInput\x1a#.eolymp.course.DescribeModuleOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x16\x12\x14/modules/{module_id}\x12\x8b\x01\n" +
-	"\vListModules\x12\x1f.eolymp.course.ListModulesInput\x1a .eolymp.course.ListModulesOutput\"9\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/modules/{module_id}\x12\x93\x01\n" +
+	"\vListModules\x12\x1f.eolymp.course.ListModulesInput\x1a .eolymp.course.ListModulesOutput\"A\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/modules\x12\x9d\x01\n" +
-	"\vStartModule\x12\x1f.eolymp.course.StartModuleInput\x1a .eolymp.course.StartModuleOutput\"K\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/modules\x12\xa5\x01\n" +
+	"\vStartModule\x12\x1f.eolymp.course.StartModuleInput\x1a .eolymp.course.StartModuleOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/start\x12\x9d\x01\n" +
-	"\vGradeModule\x12\x1f.eolymp.course.GradeModuleInput\x1a .eolymp.course.GradeModuleOutput\"K\xea\xe2\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/start\x12\xa5\x01\n" +
+	"\vGradeModule\x12\x1f.eolymp.course.GradeModuleInput\x1a .eolymp.course.GradeModuleOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12course:course:read\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_module_service_proto_rawDescOnce sync.Once

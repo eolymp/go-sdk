@@ -2577,7 +2577,7 @@ var File_eolymp_l10n_localization_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
+	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
 	"\x0fCreateTermInput\x12%\n" +
 	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"+\n" +
 	"\x10CreateTermOutput\x12\x17\n" +
@@ -2732,138 +2732,180 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x1aListTranslationPairsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12\x19\n" +
 	"\bhas_more\x18\x02 \x01(\bR\ahasMore\x122\n" +
-	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\x9e\x1b\n" +
-	"\x13LocalizationService\x12\x7f\n" +
+	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\xc8\x1c\n" +
+	"\x13LocalizationService\x12\x87\x01\n" +
 	"\n" +
-	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"4\xea\xe2\n" +
+	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fl10n:term:write\x82\xd3\xe4\x93\x02\b\"\x06/terms\x12{\n" +
-	"\tListTerms\x12\x1b.eolymp.l10n.ListTermsInput\x1a\x1c.eolymp.l10n.ListTermsOutput\"3\xea\xe2\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\b\"\x06/terms\x12\x83\x01\n" +
+	"\tListTerms\x12\x1b.eolymp.l10n.ListTermsInput\x1a\x1c.eolymp.l10n.ListTermsOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
-	"\x0el10n:term:read\x82\xd3\xe4\x93\x02\b\x12\x06/terms\x12\x89\x01\n" +
+	"\x0el10n:term:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/terms\x12\x91\x01\n" +
 	"\n" +
-	"UpdateTerm\x12\x1c.eolymp.l10n.UpdateTermInput\x1a\x1d.eolymp.l10n.UpdateTermOutput\">\xea\xe2\n" +
+	"UpdateTerm\x12\x1c.eolymp.l10n.UpdateTermInput\x1a\x1d.eolymp.l10n.UpdateTermOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fl10n:term:write\x82\xd3\xe4\x93\x02\x12\x1a\x10/terms/{term_id}\x12\x94\x01\n" +
-	"\vRestoreTerm\x12\x1d.eolymp.l10n.RestoreTermInput\x1a\x1e.eolymp.l10n.RestoreTermOutput\"F\xea\xe2\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\x1a\x10/terms/{term_id}\x12\x9c\x01\n" +
+	"\vRestoreTerm\x12\x1d.eolymp.l10n.RestoreTermInput\x1a\x1e.eolymp.l10n.RestoreTermOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fl10n:term:write\x82\xd3\xe4\x93\x02\x1a\"\x18/terms/{term_id}/restore\x12\x9c\x01\n" +
-	"\rDeprecateTerm\x12\x1f.eolymp.l10n.DeprecateTermInput\x1a .eolymp.l10n.DeprecateTermOutput\"H\xea\xe2\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a\"\x18/terms/{term_id}/restore\x12\xa4\x01\n" +
+	"\rDeprecateTerm\x12\x1f.eolymp.l10n.DeprecateTermInput\x1a .eolymp.l10n.DeprecateTermOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fl10n:term:write\x82\xd3\xe4\x93\x02\x1c\"\x1a/terms/{term_id}/deprecate\x12\x89\x01\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/terms/{term_id}/deprecate\x12\x91\x01\n" +
 	"\n" +
-	"DeleteTerm\x12\x1c.eolymp.l10n.DeleteTermInput\x1a\x1d.eolymp.l10n.DeleteTermOutput\">\xea\xe2\n" +
+	"DeleteTerm\x12\x1c.eolymp.l10n.DeleteTermInput\x1a\x1d.eolymp.l10n.DeleteTermOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fl10n:term:write\x82\xd3\xe4\x93\x02\x12*\x10/terms/{term_id}\x12\x8e\x01\n" +
-	"\fDescribeTerm\x12\x1e.eolymp.l10n.DescribeTermInput\x1a\x1f.eolymp.l10n.DescribeTermOutput\"=\xea\xe2\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x12*\x10/terms/{term_id}\x12\x96\x01\n" +
+	"\fDescribeTerm\x12\x1e.eolymp.l10n.DescribeTermInput\x1a\x1f.eolymp.l10n.DescribeTermOutput\"E\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
-	"\x0el10n:term:read\x82\xd3\xe4\x93\x02\x12\x12\x10/terms/{term_id}\x12\x82\x01\n" +
-	"\vImportTerms\x12\x1d.eolymp.l10n.ImportTermsInput\x1a\x1e.eolymp.l10n.ImportTermsOutput\"4\xea\xe2\n" +
+	"\x0el10n:term:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/terms/{term_id}\x12\x8a\x01\n" +
+	"\vImportTerms\x12\x1d.eolymp.l10n.ImportTermsInput\x1a\x1e.eolymp.l10n.ImportTermsOutput\"<\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
-	"\x0fl10n:term:write\x82\xd3\xe4\x93\x02\b\x1a\x06/terms\x12\x8e\x01\n" +
-	"\tAddLocale\x12\x1b.eolymp.l10n.AddLocaleInput\x1a\x1c.eolymp.l10n.AddLocaleOutput\"F\xea\xe2\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\b\x1a\x06/terms\x12\x96\x01\n" +
+	"\tAddLocale\x12\x1b.eolymp.l10n.AddLocaleInput\x1a\x1c.eolymp.l10n.AddLocaleOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11l10n:locale:write\x82\xd3\xe4\x93\x02\x18\x1a\x16/locales/{locale_code}\x12\x97\x01\n" +
-	"\fRemoveLocale\x12\x1e.eolymp.l10n.RemoveLocaleInput\x1a\x1f.eolymp.l10n.RemoveLocaleOutput\"F\xea\xe2\n" +
+	"\x11l10n:locale:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/locales/{locale_code}\x12\x9f\x01\n" +
+	"\fRemoveLocale\x12\x1e.eolymp.l10n.RemoveLocaleInput\x1a\x1f.eolymp.l10n.RemoveLocaleOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
-	"\x11l10n:locale:write\x82\xd3\xe4\x93\x02\x18*\x16/locales/{locale_code}\x12\x85\x01\n" +
-	"\vListLocales\x12\x1d.eolymp.l10n.ListLocalesInput\x1a\x1e.eolymp.l10n.ListLocalesOutput\"7\xea\xe2\n" +
+	"\x11l10n:locale:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/locales/{locale_code}\x12\x8d\x01\n" +
+	"\vListLocales\x12\x1d.eolymp.l10n.ListLocalesInput\x1a\x1e.eolymp.l10n.ListLocalesOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
-	"\x10l10n:locale:read\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/locales\x12\xa6\x01\n" +
-	"\rTranslateTerm\x12\x1f.eolymp.l10n.TranslateTermInput\x1a .eolymp.l10n.TranslateTermOutput\"R\xea\xe2\n" +
+	"\x10l10n:locale:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/locales\x12\xae\x01\n" +
+	"\rTranslateTerm\x12\x1f.eolymp.l10n.TranslateTermInput\x1a .eolymp.l10n.TranslateTermOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16l10n:translation:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/terms/{term_id}/translations\x12\xaf\x01\n" +
-	"\x10ListTranslations\x12\".eolymp.l10n.ListTranslationsInput\x1a#.eolymp.l10n.ListTranslationsOutput\"R\xea\xe2\n" +
+	"\x16l10n:translation:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/terms/{term_id}/translations\x12\xb7\x01\n" +
+	"\x10ListTranslations\x12\".eolymp.l10n.ListTranslationsInput\x1a#.eolymp.l10n.ListTranslationsOutput\"Z\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xc8A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15l10n:translation:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/terms/{term_id}/translations\x12\xc3\x01\n" +
-	"\x11DeleteTranslation\x12#.eolymp.l10n.DeleteTranslationInput\x1a$.eolymp.l10n.DeleteTranslationOutput\"c\xea\xe2\n" +
+	"\x15l10n:translation:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/terms/{term_id}/translations\x12\xcb\x01\n" +
+	"\x11DeleteTranslation\x12#.eolymp.l10n.DeleteTranslationInput\x1a$.eolymp.l10n.DeleteTranslationOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16l10n:translation:write\x82\xd3\xe4\x93\x020*./terms/{term_id}/translations/{translation_id}\x12\xbd\x01\n" +
-	"\x12SuggestTranslation\x12$.eolymp.l10n.SuggestTranslationInput\x1a%.eolymp.l10n.SuggestTranslationOutput\"Z\xea\xe2\n" +
+	"\x16l10n:translation:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x020*./terms/{term_id}/translations/{translation_id}\x12\xc5\x01\n" +
+	"\x12SuggestTranslation\x12$.eolymp.l10n.SuggestTranslationInput\x1a%.eolymp.l10n.SuggestTranslationOutput\"b\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xc8A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15l10n:translation:read\x82\xd3\xe4\x93\x02'\x12%/terms/{term_id}/suggestions/{locale}\x12\xc3\x01\n" +
-	"\x11UpdateTranslation\x12#.eolymp.l10n.UpdateTranslationInput\x1a$.eolymp.l10n.UpdateTranslationOutput\"c\xea\xe2\n" +
+	"\x15l10n:translation:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02'\x12%/terms/{term_id}/suggestions/{locale}\x12\xcb\x01\n" +
+	"\x11UpdateTranslation\x12#.eolymp.l10n.UpdateTranslationInput\x1a$.eolymp.l10n.UpdateTranslationOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16l10n:translation:write\x82\xd3\xe4\x93\x020\x1a./terms/{term_id}/translations/{translation_id}\x12\xce\x01\n" +
-	"\x12ApproveTranslation\x12$.eolymp.l10n.ApproveTranslationInput\x1a%.eolymp.l10n.ApproveTranslationOutput\"k\xea\xe2\n" +
+	"\x16l10n:translation:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x020\x1a./terms/{term_id}/translations/{translation_id}\x12\xd6\x01\n" +
+	"\x12ApproveTranslation\x12$.eolymp.l10n.ApproveTranslationInput\x1a%.eolymp.l10n.ApproveTranslationOutput\"s\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16l10n:translation:write\x82\xd3\xe4\x93\x028\"6/terms/{term_id}/translations/{translation_id}/approve\x12\xca\x01\n" +
-	"\x11RejectTranslation\x12#.eolymp.l10n.RejectTranslationInput\x1a$.eolymp.l10n.RejectTranslationOutput\"j\xea\xe2\n" +
+	"\x16l10n:translation:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x028\"6/terms/{term_id}/translations/{translation_id}/approve\x12\xd2\x01\n" +
+	"\x11RejectTranslation\x12#.eolymp.l10n.RejectTranslationInput\x1a$.eolymp.l10n.RejectTranslationOutput\"r\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16l10n:translation:write\x82\xd3\xe4\x93\x027\"5/terms/{term_id}/translations/{translation_id}/reject\x12\xae\x01\n" +
-	"\x12ImportTranslations\x12$.eolymp.l10n.ImportTranslationsInput\x1a%.eolymp.l10n.ImportTranslationsOutput\"K\xea\xe2\n" +
+	"\x16l10n:translation:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x027\"5/terms/{term_id}/translations/{translation_id}/reject\x12\xb6\x01\n" +
+	"\x12ImportTranslations\x12$.eolymp.l10n.ImportTranslationsInput\x1a%.eolymp.l10n.ImportTranslationsOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16l10n:translation:write\x82\xd3\xe4\x93\x02\x18\x1a\x16/translations/{locale}\x12\xad\x01\n" +
-	"\x12ExportTranslations\x12$.eolymp.l10n.ExportTranslationsInput\x1a%.eolymp.l10n.ExportTranslationsOutput\"J\xea\xe2\n" +
+	"\x16l10n:translation:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/translations/{locale}\x12\xb5\x01\n" +
+	"\x12ExportTranslations\x12$.eolymp.l10n.ExportTranslationsInput\x1a%.eolymp.l10n.ExportTranslationsOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15l10n:translation:read\x82\xd3\xe4\x93\x02\x18\x12\x16/translations/{locale}\x12\xb0\x01\n" +
-	"\x14ListTranslationPairs\x12&.eolymp.l10n.ListTranslationPairsInput\x1a'.eolymp.l10n.ListTranslationPairsOutput\"G\xea\xe2\n" +
+	"\x15l10n:translation:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/translations/{locale}\x12\xb8\x01\n" +
+	"\x14ListTranslationPairs\x12&.eolymp.l10n.ListTranslationPairsInput\x1a'.eolymp.l10n.ListTranslationPairsOutput\"O\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15l10n:translation:read\x82\xd3\xe4\x93\x02\x15\x12\x13/translate/{locale}\x1a\x19\x82\xf0\xf0\xe4\x01\x13eolymp.l10n.ProjectB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
+	"\x15l10n:translation:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x15\x12\x13/translate/{locale}\x1a\x19\x82\xf0\xf0\xe4\x01\x13eolymp.l10n.ProjectB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
 
 var (
 	file_eolymp_l10n_localization_service_proto_rawDescOnce sync.Once

@@ -469,7 +469,7 @@ var File_eolymp_resolver_resolver_proto protoreflect.FileDescriptor
 
 const file_eolymp_resolver_resolver_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/resolver/resolver.proto\x12\x0feolymp.resolver\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a\x1beolymp/universe/space.proto\"\xe5\x01\n" +
+	"\x1eeolymp/resolver/resolver.proto\x12\x0feolymp.resolver\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a\x1beolymp/universe/space.proto\"\xe5\x01\n" +
 	"\rAuthorization\x1a\xd3\x01\n" +
 	"\x06OAuth2\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12%\n" +
@@ -500,12 +500,14 @@ const file_eolymp_resolver_resolver_proto_rawDesc = "" +
 	"scoreboard\x12?\n" +
 	"\x06oauth2\x18\x14 \x01(\v2%.eolymp.resolver.Authorization.OAuth2H\x01R\x06oauth2B\t\n" +
 	"\atargetxB\x06\n" +
-	"\x04auth2\x86\x01\n" +
-	"\bResolver\x12z\n" +
-	"\vResolveName\x12!.eolymp.resolver.ResolveNameInput\x1a\".eolymp.resolver.ResolveNameOutput\"$\xea\xe2\n" +
+	"\x04auth2\x8f\x01\n" +
+	"\bResolver\x12\x82\x01\n" +
+	"\vResolveName\x12!.eolymp.resolver.ResolveNameInput\x1a\".eolymp.resolver.ResolveNameOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\x0f\x12\r/names/{name}B3Z1github.com/eolymp/go-sdk/eolymp/resolver;resolverb\x06proto3"
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/names/{name}B3Z1github.com/eolymp/go-sdk/eolymp/resolver;resolverb\x06proto3"
 
 var (
 	file_eolymp_resolver_resolver_proto_rawDescOnce sync.Once

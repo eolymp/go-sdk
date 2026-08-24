@@ -843,7 +843,7 @@ var File_eolymp_automation_rule_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/automation/rule_service.proto\x12\x11eolymp.automation\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/automation/rule.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xbe\x04\n" +
+	"$eolymp/automation/rule_service.proto\x12\x11eolymp.automation\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/automation/rule.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xbe\x04\n" +
 	"\x0eListRulesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -903,57 +903,71 @@ const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"B\n" +
 	"\x11ListActionsOutput\x12-\n" +
-	"\x05items\x18\x01 \x03(\v2\x17.eolymp.automation.RuleR\x05items2\xbb\t\n" +
-	"\vRuleService\x12\x98\x01\n" +
-	"\tListRules\x12!.eolymp.automation.ListRulesInput\x1a\".eolymp.automation.ListRulesOutput\"D\xea\xe2\n" +
+	"\x05items\x18\x01 \x03(\v2\x17.eolymp.automation.RuleR\x05items2\xf3\t\n" +
+	"\vRuleService\x12\xa0\x01\n" +
+	"\tListRules\x12!.eolymp.automation.ListRulesInput\x1a\".eolymp.automation.ListRulesOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14automation:rule:read\x82\xd3\xe4\x93\x02\x13\x12\x11/automation/rules\x12\x9c\x01\n" +
+	"\x14automation:rule:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x13\x12\x11/automation/rules\x12\xa4\x01\n" +
 	"\n" +
-	"CreateRule\x12\".eolymp.automation.CreateRuleInput\x1a#.eolymp.automation.CreateRuleOutput\"E\xea\xe2\n" +
+	"CreateRule\x12\".eolymp.automation.CreateRuleInput\x1a#.eolymp.automation.CreateRuleOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15automation:rule:write\x82\xd3\xe4\x93\x02\x13\"\x11/automation/rules\x12\xab\x01\n" +
-	"\fDescribeRule\x12$.eolymp.automation.DescribeRuleInput\x1a%.eolymp.automation.DescribeRuleOutput\"N\xea\xe2\n" +
+	"\x15automation:rule:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x13\"\x11/automation/rules\x12\xb3\x01\n" +
+	"\fDescribeRule\x12$.eolymp.automation.DescribeRuleInput\x1a%.eolymp.automation.DescribeRuleOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14automation:rule:read\x82\xd3\xe4\x93\x02\x1d\x12\x1b/automation/rules/{rule_id}\x12\xa6\x01\n" +
+	"\x14automation:rule:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1d\x12\x1b/automation/rules/{rule_id}\x12\xae\x01\n" +
 	"\n" +
-	"UpdateRule\x12\".eolymp.automation.UpdateRuleInput\x1a#.eolymp.automation.UpdateRuleOutput\"O\xea\xe2\n" +
+	"UpdateRule\x12\".eolymp.automation.UpdateRuleInput\x1a#.eolymp.automation.UpdateRuleOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15automation:rule:write\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/automation/rules/{rule_id}\x12\xa6\x01\n" +
+	"\x15automation:rule:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/automation/rules/{rule_id}\x12\xae\x01\n" +
 	"\n" +
-	"DeleteRule\x12\".eolymp.automation.DeleteRuleInput\x1a#.eolymp.automation.DeleteRuleOutput\"O\xea\xe2\n" +
+	"DeleteRule\x12\".eolymp.automation.DeleteRuleInput\x1a#.eolymp.automation.DeleteRuleOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15automation:rule:write\x82\xd3\xe4\x93\x02\x1d*\x1b/automation/rules/{rule_id}\x12\xb1\x01\n" +
-	"\vTriggerRule\x12#.eolymp.automation.TriggerRuleInput\x1a$.eolymp.automation.TriggerRuleOutput\"W\xea\xe2\n" +
+	"\x15automation:rule:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1d*\x1b/automation/rules/{rule_id}\x12\xb9\x01\n" +
+	"\vTriggerRule\x12#.eolymp.automation.TriggerRuleInput\x1a$.eolymp.automation.TriggerRuleOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15automation:rule:write\x82\xd3\xe4\x93\x02%\"#/automation/rules/{rule_id}/trigger\x12\xa0\x01\n" +
-	"\vListActions\x12#.eolymp.automation.ListActionsInput\x1a$.eolymp.automation.ListActionsOutput\"F\xea\xe2\n" +
+	"\x15automation:rule:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02%\"#/automation/rules/{rule_id}/trigger\x12\xa8\x01\n" +
+	"\vListActions\x12#.eolymp.automation.ListActionsInput\x1a$.eolymp.automation.ListActionsOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14automation:rule:read\x82\xd3\xe4\x93\x02\x15\x12\x13/automation/actions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x14automation:rule:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x15\x12\x13/automation/actions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_rule_service_proto_rawDescOnce sync.Once

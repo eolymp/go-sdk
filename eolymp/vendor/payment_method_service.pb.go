@@ -583,7 +583,7 @@ var File_eolymp_vendor_payment_method_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_payment_method_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/vendor/payment_method_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/vendor/payment_method.proto\x1a!eolymp/wellknown/expression.proto\"m\n" +
+	"*eolymp/vendor/payment_method_service.proto\x12\reolymp.vendor\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/vendor/payment_method.proto\x1a!eolymp/wellknown/expression.proto\"m\n" +
 	"\x18CreatePaymentMethodInput\x12\x1b\n" +
 	"\tvendor_id\x18\x02 \x01(\tR\bvendorId\x124\n" +
 	"\x06method\x18\x01 \x01(\v2\x1c.eolymp.vendor.PaymentMethodR\x06method\"8\n" +
@@ -615,38 +615,48 @@ const file_eolymp_vendor_payment_method_service_proto_rawDesc = "" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\"d\n" +
 	"\x18ListPaymentMethodsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x122\n" +
-	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.vendor.PaymentMethodR\x05items2\x8f\b\n" +
-	"\x14PaymentMethodService\x12\xc1\x01\n" +
-	"\x13CreatePaymentMethod\x12'.eolymp.vendor.CreatePaymentMethodInput\x1a(.eolymp.vendor.CreatePaymentMethodOutput\"W\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.vendor.PaymentMethodR\x05items2\xb7\b\n" +
+	"\x14PaymentMethodService\x12\xc9\x01\n" +
+	"\x13CreatePaymentMethod\x12'.eolymp.vendor.CreatePaymentMethodInput\x1a(.eolymp.vendor.CreatePaymentMethodOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02&\"$/vendors/{vendor_id}/payment-methods\x12\xcd\x01\n" +
-	"\x13UpdatePaymentMethod\x12'.eolymp.vendor.UpdatePaymentMethodInput\x1a(.eolymp.vendor.UpdatePaymentMethodOutput\"c\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\"$/vendors/{vendor_id}/payment-methods\x12\xd5\x01\n" +
+	"\x13UpdatePaymentMethod\x12'.eolymp.vendor.UpdatePaymentMethodInput\x1a(.eolymp.vendor.UpdatePaymentMethodOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x022\"0/vendors/{vendor_id}/payment-methods/{method_id}\x12\xcd\x01\n" +
-	"\x13DeletePaymentMethod\x12'.eolymp.vendor.DeletePaymentMethodInput\x1a(.eolymp.vendor.DeletePaymentMethodOutput\"c\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x022\"0/vendors/{vendor_id}/payment-methods/{method_id}\x12\xd5\x01\n" +
+	"\x13DeletePaymentMethod\x12'.eolymp.vendor.DeletePaymentMethodInput\x1a(.eolymp.vendor.DeletePaymentMethodOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x022*0/vendors/{vendor_id}/payment-methods/{method_id}\x12\xd2\x01\n" +
-	"\x15DescribePaymentMethod\x12).eolymp.vendor.DescribePaymentMethodInput\x1a*.eolymp.vendor.DescribePaymentMethodOutput\"b\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x022*0/vendors/{vendor_id}/payment-methods/{method_id}\x12\xda\x01\n" +
+	"\x15DescribePaymentMethod\x12).eolymp.vendor.DescribePaymentMethodInput\x1a*.eolymp.vendor.DescribePaymentMethodOutput\"j\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x022\x120/vendors/{vendor_id}/payment-methods/{method_id}\x12\xbd\x01\n" +
-	"\x12ListPaymentMethods\x12&.eolymp.vendor.ListPaymentMethodsInput\x1a'.eolymp.vendor.ListPaymentMethodsOutput\"V\xea\xe2\n" +
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x022\x120/vendors/{vendor_id}/payment-methods/{method_id}\x12\xc5\x01\n" +
+	"\x12ListPaymentMethods\x12&.eolymp.vendor.ListPaymentMethodsInput\x1a'.eolymp.vendor.ListPaymentMethodsOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02&\x12$/vendors/{vendor_id}/payment-methodsB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02&\x12$/vendors/{vendor_id}/payment-methodsB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_payment_method_service_proto_rawDescOnce sync.Once

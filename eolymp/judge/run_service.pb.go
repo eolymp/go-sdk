@@ -426,7 +426,7 @@ var File_eolymp_judge_run_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_run_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/run_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x80\x02\n" +
+	"\x1eeolymp/judge/run_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x80\x02\n" +
 	"\x0eCreateRunInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -459,30 +459,36 @@ const file_eolymp_judge_run_service_proto_rawDesc = "" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\"r\n" +
 	"\x0eWatchRunOutput\x126\n" +
 	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12(\n" +
-	"\x03run\x18\x02 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xd7\x04\n" +
+	"\x03run\x18\x02 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xef\x04\n" +
 	"\n" +
-	"RunService\x12\xae\x01\n" +
-	"\tCreateRun\x12\x1c.eolymp.judge.CreateRunInput\x1a\x1d.eolymp.judge.CreateRunOutput\"d\xea\xe2\n" +
+	"RunService\x12\xb6\x01\n" +
+	"\tCreateRun\x12\x1c.eolymp.judge.CreateRunInput\x1a\x1d.eolymp.judge.CreateRunOutput\"l\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14playground:run:write\x82\xd3\xe4\x93\x023\"1/contests/{contest_id}/problems/{problem_id}/runs\x12\xbc\x01\n" +
-	"\vDescribeRun\x12\x1e.eolymp.judge.DescribeRunInput\x1a\x1f.eolymp.judge.DescribeRunOutput\"l\xea\xe2\n" +
+	"\x14playground:run:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x023\"1/contests/{contest_id}/problems/{problem_id}/runs\x12\xc4\x01\n" +
+	"\vDescribeRun\x12\x1e.eolymp.judge.DescribeRunInput\x1a\x1f.eolymp.judge.DescribeRunOutput\"t\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02<\x12:/contests/{contest_id}/problems/{problem_id}/runs/{run_id}\x12\xbb\x01\n" +
-	"\bWatchRun\x12\x1b.eolymp.judge.WatchRunInput\x1a\x1c.eolymp.judge.WatchRunOutput\"r\xea\xe2\n" +
+	"\x13playground:run:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02<\x12:/contests/{contest_id}/problems/{problem_id}/runs/{run_id}\x12\xc3\x01\n" +
+	"\bWatchRun\x12\x1b.eolymp.judge.WatchRunInput\x1a\x1c.eolymp.judge.WatchRunOutput\"z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13playground:run:read\x82\xd3\xe4\x93\x02B\x12@/contests/{contest_id}/problems/{problem_id}/runs/{run_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x13playground:run:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02B\x12@/contests/{contest_id}/problems/{problem_id}/runs/{run_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_run_service_proto_rawDescOnce sync.Once

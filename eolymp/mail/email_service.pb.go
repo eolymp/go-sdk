@@ -463,7 +463,7 @@ var File_eolymp_mail_email_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_email_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/mail/email_service.proto\x12\veolymp.mail\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x96\x05\n" +
+	"\x1feolymp/mail/email_service.proto\x12\veolymp.mail\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x96\x05\n" +
 	"\x0eSendEmailInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\temail_ref\x18\x02 \x01(\tR\bemailRef\x12H\n" +
@@ -493,16 +493,20 @@ const file_eolymp_mail_email_service_proto_rawDesc = "" +
 	"\x17DescribeEmailUsageInput\"d\n" +
 	"\x18DescribeEmailUsageOutput\x12!\n" +
 	"\fdaily_emails\x18\x02 \x01(\rR\vdailyEmails\x12%\n" +
-	"\x0emonthly_emails\x18\x03 \x01(\rR\rmonthlyEmails2\xb1\x02\n" +
-	"\fEmailService\x12z\n" +
-	"\tSendEmail\x12\x1b.eolymp.mail.SendEmailInput\x1a\x1c.eolymp.mail.SendEmailOutput\"2\xea\xe2\n" +
+	"\x0emonthly_emails\x18\x03 \x01(\rR\rmonthlyEmails2\xc2\x02\n" +
+	"\fEmailService\x12\x82\x01\n" +
+	"\tSendEmail\x12\x1b.eolymp.mail.SendEmailInput\x1a\x1c.eolymp.mail.SendEmailOutput\":\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x1d\"\x1b/members/{member_id}/notify\x12\x87\x01\n" +
-	"\x12DescribeEmailUsage\x12$.eolymp.mail.DescribeEmailUsageInput\x1a%.eolymp.mail.DescribeEmailUsageOutput\"$\xea\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/members/{member_id}/notify\x12\x8f\x01\n" +
+	"\x12DescribeEmailUsage\x12$.eolymp.mail.DescribeEmailUsageInput\x1a%.eolymp.mail.DescribeEmailUsageOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x0f\x12\r/usage/emails\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/usage/emails\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_email_service_proto_rawDescOnce sync.Once

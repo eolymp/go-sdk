@@ -1808,7 +1808,7 @@ var File_eolymp_judge_contest_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/contest_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/judge/activity.proto\x1a\x1aeolymp/judge/contest.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"q\n" +
+	"\"eolymp/judge/contest_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/judge/activity.proto\x1a\x1aeolymp/judge/contest.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"q\n" +
 	"\x13ContestChangedEvent\x12-\n" +
 	"\x06before\x18\x01 \x01(\v2\x15.eolymp.judge.ContestR\x06before\x12+\n" +
 	"\x05after\x18\x02 \x01(\v2\x15.eolymp.judge.ContestR\x05after\"E\n" +
@@ -1933,99 +1933,131 @@ const file_eolymp_judge_contest_service_proto_rawDesc = "" +
 	"\x1aDescribeContestUsageOutput\x12%\n" +
 	"\x0etotal_contests\x18\x01 \x01(\rR\rtotalContests\x12'\n" +
 	"\x0factive_contests\x18\x02 \x01(\rR\x0eactiveContests\x12)\n" +
-	"\x10monthly_contests\x18\x03 \x01(\rR\x0fmonthlyContests2\xa8\x14\n" +
-	"\x0eContestService\x12\x91\x01\n" +
-	"\rCreateContest\x12 .eolymp.judge.CreateContestInput\x1a!.eolymp.judge.CreateContestOutput\";\xea\xe2\n" +
+	"\x10monthly_contests\x18\x03 \x01(\rR\x0fmonthlyContests2\xa8\x15\n" +
+	"\x0eContestService\x12\x99\x01\n" +
+	"\rCreateContest\x12 .eolymp.judge.CreateContestInput\x1a!.eolymp.judge.CreateContestOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"ף=\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\v\"\t/contests\x12\x9e\x01\n" +
-	"\rDeleteContest\x12 .eolymp.judge.DeleteContestInput\x1a!.eolymp.judge.DeleteContestOutput\"H\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/contests\x12\xa6\x01\n" +
+	"\rDeleteContest\x12 .eolymp.judge.DeleteContestInput\x1a!.eolymp.judge.DeleteContestOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x18*\x16/contests/{contest_id}\x12\x9e\x01\n" +
-	"\rUpdateContest\x12 .eolymp.judge.UpdateContestInput\x1a!.eolymp.judge.UpdateContestOutput\"H\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/contests/{contest_id}\x12\xa6\x01\n" +
+	"\rUpdateContest\x12 .eolymp.judge.UpdateContestInput\x1a!.eolymp.judge.UpdateContestOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x18\x1a\x16/contests/{contest_id}\x12\x9d\x01\n" +
-	"\vCopyContest\x12\x1e.eolymp.judge.CopyContestInput\x1a\x1f.eolymp.judge.CopyContestOutput\"M\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/contests/{contest_id}\x12\xa5\x01\n" +
+	"\vCopyContest\x12\x1e.eolymp.judge.CopyContestInput\x1a\x1f.eolymp.judge.CopyContestOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/copy\x12\x8a\x01\n" +
-	"\x0fDescribeContest\x12\".eolymp.judge.DescribeContestInput\x1a#.eolymp.judge.DescribeContestOutput\".\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/copy\x12\x92\x01\n" +
+	"\x0fDescribeContest\x12\".eolymp.judge.DescribeContestInput\x1a#.eolymp.judge.DescribeContestOutput\"6\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
-	"\xfa\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/contests/{contest_id}\x12s\n" +
-	"\fListContests\x12\x1f.eolymp.judge.ListContestsInput\x1a .eolymp.judge.ListContestsOutput\" \xea\xe2\n" +
+	"\xfa\x01\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/contests/{contest_id}\x12{\n" +
+	"\fListContests\x12\x1f.eolymp.judge.ListContestsInput\x1a .eolymp.judge.ListContestsOutput\"(\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\v\x12\t/contests\x12\x9d\x01\n" +
-	"\vOpenContest\x12\x1e.eolymp.judge.OpenContestInput\x1a\x1f.eolymp.judge.OpenContestOutput\"M\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/contests\x12\xa5\x01\n" +
+	"\vOpenContest\x12\x1e.eolymp.judge.OpenContestInput\x1a\x1f.eolymp.judge.OpenContestOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/open\x12\xa1\x01\n" +
-	"\fCloseContest\x12\x1f.eolymp.judge.CloseContestInput\x1a .eolymp.judge.CloseContestOutput\"N\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/open\x12\xa9\x01\n" +
+	"\fCloseContest\x12\x1f.eolymp.judge.CloseContestInput\x1a .eolymp.judge.CloseContestOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1e\"\x1c/contests/{contest_id}/close\x12\xa9\x01\n" +
-	"\x0eSuspendContest\x12!.eolymp.judge.SuspendContestInput\x1a\".eolymp.judge.SuspendContestOutput\"P\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/contests/{contest_id}/close\x12\xb1\x01\n" +
+	"\x0eSuspendContest\x12!.eolymp.judge.SuspendContestInput\x1a\".eolymp.judge.SuspendContestOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/suspend\x12\xa5\x01\n" +
-	"\rFreezeContest\x12 .eolymp.judge.FreezeContestInput\x1a!.eolymp.judge.FreezeContestOutput\"O\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/suspend\x12\xad\x01\n" +
+	"\rFreezeContest\x12 .eolymp.judge.FreezeContestInput\x1a!.eolymp.judge.FreezeContestOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/contests/{contest_id}/freeze\x12\xad\x01\n" +
-	"\x0fFinalizeContest\x12\".eolymp.judge.FinalizeContestInput\x1a#.eolymp.judge.FinalizeContestOutput\"Q\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/contests/{contest_id}/freeze\x12\xb5\x01\n" +
+	"\x0fFinalizeContest\x12\".eolymp.judge.FinalizeContestInput\x1a#.eolymp.judge.FinalizeContestOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02!\"\x1f/contests/{contest_id}/finalize\x12\xa5\x01\n" +
-	"\rResumeContest\x12 .eolymp.judge.ResumeContestInput\x1a!.eolymp.judge.ResumeContestOutput\"O\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/contests/{contest_id}/finalize\x12\xad\x01\n" +
+	"\rResumeContest\x12 .eolymp.judge.ResumeContestInput\x1a!.eolymp.judge.ResumeContestOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x1f\"\x1d/contests/{contest_id}/resume\x12\xa9\x01\n" +
-	"\x0eAnalyzeContest\x12!.eolymp.judge.AnalyzeContestInput\x1a\".eolymp.judge.AnalyzeContestOutput\"P\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/contests/{contest_id}/resume\x12\xb1\x01\n" +
+	"\x0eAnalyzeContest\x12!.eolymp.judge.AnalyzeContestInput\x1a\".eolymp.judge.AnalyzeContestOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/analyze\x12\xa2\x01\n" +
-	"\fWatchContest\x12\x1f.eolymp.judge.WatchContestInput\x1a .eolymp.judge.WatchContestOutput\"M\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/analyze\x12\xaa\x01\n" +
+	"\fWatchContest\x12\x1f.eolymp.judge.WatchContestInput\x1a .eolymp.judge.WatchContestOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/contests/{contest_id}/watch0\x01\x12\xab\x01\n" +
-	"\x0eListActivities\x12!.eolymp.judge.ListActivitiesInput\x1a\".eolymp.judge.ListActivitiesOutput\"R\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/contests/{contest_id}/watch0\x01\x12\xb3\x01\n" +
+	"\x0eListActivities\x12!.eolymp.judge.ListActivitiesInput\x1a\".eolymp.judge.ListActivitiesOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02#\x12!/contests/{contest_id}/activities\x12\x91\x01\n" +
-	"\x14DescribeContestUsage\x12'.eolymp.judge.DescribeContestUsageInput\x1a(.eolymp.judge.DescribeContestUsageOutput\"&\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/contests/{contest_id}/activities\x12\x99\x01\n" +
+	"\x14DescribeContestUsage\x12'.eolymp.judge.DescribeContestUsageInput\x1a(.eolymp.judge.DescribeContestUsageOutput\".\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"\x14\x82\xd3\xe4\x93\x02\x11\x12\x0f/usage/contests\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/usage/contests\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_contest_service_proto_rawDescOnce sync.Once

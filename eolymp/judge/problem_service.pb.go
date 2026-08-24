@@ -1389,7 +1389,7 @@ var File_eolymp_judge_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xc0\x01\n" +
+	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xc0\x01\n" +
 	"\x12ImportProblemInput\x12\x1f\n" +
 	"\timport_id\x18\x02 \x01(\tB\x02\x18\x01R\bimportId\x12\x1d\n" +
 	"\n" +
@@ -1484,87 +1484,113 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\bproblems\x18\x01 \x03(\tR\bproblems\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"9\n" +
 	"\x14ExportProblemsOutput\x12!\n" +
-	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\xc3\x11\n" +
-	"\x0eProblemService\x12\x91\x01\n" +
-	"\rImportProblem\x12 .eolymp.judge.ImportProblemInput\x1a!.eolymp.judge.ImportProblemOutput\";\xea\xe2\n" +
+	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\xab\x12\n" +
+	"\x0eProblemService\x12\x99\x01\n" +
+	"\rImportProblem\x12 .eolymp.judge.ImportProblemInput\x1a!.eolymp.judge.ImportProblemOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\v\"\t/problems\x12\x9e\x01\n" +
-	"\rUpdateProblem\x12 .eolymp.judge.UpdateProblemInput\x1a!.eolymp.judge.UpdateProblemOutput\"H\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/problems\x12\xa6\x01\n" +
+	"\rUpdateProblem\x12 .eolymp.judge.UpdateProblemInput\x1a!.eolymp.judge.UpdateProblemOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x18\"\x16/problems/{problem_id}\x12\x8d\x01\n" +
-	"\fListProblems\x12\x1f.eolymp.judge.ListProblemsInput\x1a .eolymp.judge.ListProblemsOutput\":\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/problems/{problem_id}\x12\x95\x01\n" +
+	"\fListProblems\x12\x1f.eolymp.judge.ListProblemsInput\x1a .eolymp.judge.ListProblemsOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\v\x12\t/problems\x12\xa4\x01\n" +
-	"\x0fDescribeProblem\x12\".eolymp.judge.DescribeProblemInput\x1a#.eolymp.judge.DescribeProblemOutput\"H\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/problems\x12\xac\x01\n" +
+	"\x0fDescribeProblem\x12\".eolymp.judge.DescribeProblemInput\x1a#.eolymp.judge.DescribeProblemOutput\"P\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x18\x12\x16/problems/{problem_id}\x12\x9e\x01\n" +
-	"\rDeleteProblem\x12 .eolymp.judge.DeleteProblemInput\x1a!.eolymp.judge.DeleteProblemOutput\"H\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/problems/{problem_id}\x12\xa6\x01\n" +
+	"\rDeleteProblem\x12 .eolymp.judge.DeleteProblemInput\x1a!.eolymp.judge.DeleteProblemOutput\"P\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13judge:contest:write\x82\xd3\xe4\x93\x02\x18*\x16/problems/{problem_id}\x12\xbc\x01\n" +
-	"\x12LookupCodeTemplate\x12%.eolymp.judge.LookupCodeTemplateInput\x1a&.eolymp.judge.LookupCodeTemplateOutput\"W\xea\xe2\n" +
+	"\x13judge:contest:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/problems/{problem_id}\x12\xc4\x01\n" +
+	"\x12LookupCodeTemplate\x12%.eolymp.judge.LookupCodeTemplateInput\x1a&.eolymp.judge.LookupCodeTemplateOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02(\x12&/problems/{problem_id}/lookup-template\x12\xca\x01\n" +
-	"\x14DescribeCodeTemplate\x12'.eolymp.judge.DescribeCodeTemplateInput\x1a(.eolymp.judge.DescribeCodeTemplateOutput\"_\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02(\x12&/problems/{problem_id}/lookup-template\x12\xd2\x01\n" +
+	"\x14DescribeCodeTemplate\x12'.eolymp.judge.DescribeCodeTemplateInput\x1a(.eolymp.judge.DescribeCodeTemplateOutput\"g\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x020\x12./problems/{problem_id}/templates/{template_id}\x12\xab\x01\n" +
-	"\x0eListStatements\x12!.eolymp.judge.ListStatementsInput\x1a\".eolymp.judge.ListStatementsOutput\"R\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x020\x12./problems/{problem_id}/templates/{template_id}\x12\xb3\x01\n" +
+	"\x0eListStatements\x12!.eolymp.judge.ListStatementsInput\x1a\".eolymp.judge.ListStatementsOutput\"Z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/statements\x12\xb3\x01\n" +
-	"\x11DescribeEditorial\x12$.eolymp.judge.DescribeEditorialInput\x1a%.eolymp.judge.DescribeEditorialOutput\"Q\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/problems/{problem_id}/statements\x12\xbb\x01\n" +
+	"\x11DescribeEditorial\x12$.eolymp.judge.DescribeEditorialInput\x1a%.eolymp.judge.DescribeEditorialOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/editorial\x12\xaf\x01\n" +
-	"\x0fListAttachments\x12\".eolymp.judge.ListAttachmentsInput\x1a#.eolymp.judge.ListAttachmentsOutput\"S\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/editorial\x12\xb7\x01\n" +
+	"\x0fListAttachments\x12\".eolymp.judge.ListAttachmentsInput\x1a#.eolymp.judge.ListAttachmentsOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/attachments\x12\xa3\x01\n" +
-	"\fListExamples\x12\x1f.eolymp.judge.ListExamplesInput\x1a .eolymp.judge.ListExamplesOutput\"P\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/attachments\x12\xab\x01\n" +
+	"\fListExamples\x12\x1f.eolymp.judge.ListExamplesInput\x1a .eolymp.judge.ListExamplesOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/examples\x12\xa2\x01\n" +
-	"\fListRuntimes\x12\x1f.eolymp.judge.ListRuntimesInput\x1a .eolymp.judge.ListRuntimesOutput\"O\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/problems/{problem_id}/examples\x12\xaa\x01\n" +
+	"\fListRuntimes\x12\x1f.eolymp.judge.ListRuntimesInput\x1a .eolymp.judge.ListRuntimesOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x19\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/runtime\x12\x9a\x01\n" +
-	"\x0eExportProblems\x12!.eolymp.judge.ExportProblemsInput\x1a\".eolymp.judge.ExportProblemsOutput\"A\xea\xe2\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/problems/{problem_id}/runtime\x12\xa2\x01\n" +
+	"\x0eExportProblems\x12!.eolymp.judge.ExportProblemsInput\x1a\".eolymp.judge.ExportProblemsOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
-	"\x12judge:contest:read\x82\xd3\xe4\x93\x02\x12\"\x10/problems:export\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\"\x10/problems:export\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_problem_service_proto_rawDescOnce sync.Once

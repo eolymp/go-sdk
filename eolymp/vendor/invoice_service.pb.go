@@ -1067,7 +1067,7 @@ var File_eolymp_vendor_invoice_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_invoice_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/vendor/invoice_service.proto\x12\reolymp.vendor\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/vendor/invoice.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
+	"#eolymp/vendor/invoice_service.proto\x12\reolymp.vendor\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/vendor/invoice.proto\x1a!eolymp/wellknown/expression.proto\"s\n" +
 	"\x13InvoiceChangedEvent\x12.\n" +
 	"\x06before\x18\x01 \x01(\v2\x16.eolymp.vendor.InvoiceR\x06before\x12,\n" +
 	"\x05after\x18\x02 \x01(\v2\x16.eolymp.vendor.InvoiceR\x05after\"\x86\x03\n" +
@@ -1130,70 +1130,90 @@ const file_eolymp_vendor_invoice_service_proto_rawDesc = "" +
 	"\n" +
 	"invoice_id\x18\x01 \x01(\tR\tinvoiceId\x12\x18\n" +
 	"\acomment\x18\x02 \x01(\tR\acomment\"\x12\n" +
-	"\x10PayInvoiceOutput2\xe1\r\n" +
-	"\x0eInvoiceService\x12\x97\x01\n" +
-	"\fListInvoices\x12 .eolymp.vendor.ListInvoicesInput\x1a!.eolymp.vendor.ListInvoicesOutput\"B\xea\xe2\n" +
+	"\x10PayInvoiceOutput2\xb1\x0e\n" +
+	"\x0eInvoiceService\x12\x9f\x01\n" +
+	"\fListInvoices\x12 .eolymp.vendor.ListInvoicesInput\x1a!.eolymp.vendor.ListInvoicesOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x12\x12\x10/vendor-invoices\x12\xad\x01\n" +
-	"\x0fDescribeInvoice\x12#.eolymp.vendor.DescribeInvoiceInput\x1a$.eolymp.vendor.DescribeInvoiceOutput\"O\xea\xe2\n" +
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/vendor-invoices\x12\xb5\x01\n" +
+	"\x0fDescribeInvoice\x12#.eolymp.vendor.DescribeInvoiceInput\x1a$.eolymp.vendor.DescribeInvoiceOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
-	"\x13vendor:profile:read\x82\xd3\xe4\x93\x02\x1f\x12\x1d/vendor-invoices/{invoice_id}\x12\x9b\x01\n" +
-	"\rCreateInvoice\x12!.eolymp.vendor.CreateInvoiceInput\x1a\".eolymp.vendor.CreateInvoiceOutput\"C\xea\xe2\n" +
+	"\x13vendor:profile:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/vendor-invoices/{invoice_id}\x12\xa3\x01\n" +
+	"\rCreateInvoice\x12!.eolymp.vendor.CreateInvoiceInput\x1a\".eolymp.vendor.CreateInvoiceOutput\"K\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x12\"\x10/vendor-invoices\x12\xa8\x01\n" +
-	"\rUpdateInvoice\x12!.eolymp.vendor.UpdateInvoiceInput\x1a\".eolymp.vendor.UpdateInvoiceOutput\"P\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x12\"\x10/vendor-invoices\x12\xb0\x01\n" +
+	"\rUpdateInvoice\x12!.eolymp.vendor.UpdateInvoiceInput\x1a\".eolymp.vendor.UpdateInvoiceOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x1f\x1a\x1d/vendor-invoices/{invoice_id}\x12\xa8\x01\n" +
-	"\rDeleteInvoice\x12!.eolymp.vendor.DeleteInvoiceInput\x1a\".eolymp.vendor.DeleteInvoiceOutput\"P\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\x1a\x1d/vendor-invoices/{invoice_id}\x12\xb0\x01\n" +
+	"\rDeleteInvoice\x12!.eolymp.vendor.DeleteInvoiceInput\x1a\".eolymp.vendor.DeleteInvoiceOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02\x1f*\x1d/vendor-invoices/{invoice_id}\x12\xd0\x01\n" +
-	"\x15UploadInvoiceDocument\x12).eolymp.vendor.UploadInvoiceDocumentInput\x1a*.eolymp.vendor.UploadInvoiceDocumentOutput\"`\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1f*\x1d/vendor-invoices/{invoice_id}\x12\xd8\x01\n" +
+	"\x15UploadInvoiceDocument\x12).eolymp.vendor.UploadInvoiceDocumentInput\x1a*.eolymp.vendor.UploadInvoiceDocumentOutput\"h\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02/\x98\xe3\n" +
-	"\x80\x80\x80\x01\"&/vendor-invoices/{invoice_id}/document\x12\xaf\x01\n" +
-	"\rSubmitInvoice\x12!.eolymp.vendor.SubmitInvoiceInput\x1a\".eolymp.vendor.SubmitInvoiceOutput\"W\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02/\x98\xe3\n" +
+	"\x80\x80\x80\x01\"&/vendor-invoices/{invoice_id}/document\x12\xb7\x01\n" +
+	"\rSubmitInvoice\x12!.eolymp.vendor.SubmitInvoiceInput\x1a\".eolymp.vendor.SubmitInvoiceOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02&\"$/vendor-invoices/{invoice_id}/submit\x12\xb3\x01\n" +
-	"\x0eApproveInvoice\x12\".eolymp.vendor.ApproveInvoiceInput\x1a#.eolymp.vendor.ApproveInvoiceOutput\"X\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\"$/vendor-invoices/{invoice_id}/submit\x12\xbb\x01\n" +
+	"\x0eApproveInvoice\x12\".eolymp.vendor.ApproveInvoiceInput\x1a#.eolymp.vendor.ApproveInvoiceOutput\"`\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02'\"%/vendor-invoices/{invoice_id}/approve\x12\xaf\x01\n" +
-	"\rRejectInvoice\x12!.eolymp.vendor.RejectInvoiceInput\x1a\".eolymp.vendor.RejectInvoiceOutput\"W\xea\xe2\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/vendor-invoices/{invoice_id}/approve\x12\xb7\x01\n" +
+	"\rRejectInvoice\x12!.eolymp.vendor.RejectInvoiceInput\x1a\".eolymp.vendor.RejectInvoiceOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02&\"$/vendor-invoices/{invoice_id}/reject\x12\xa3\x01\n" +
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\"$/vendor-invoices/{invoice_id}/reject\x12\xab\x01\n" +
 	"\n" +
-	"PayInvoice\x12\x1e.eolymp.vendor.PayInvoiceInput\x1a\x1f.eolymp.vendor.PayInvoiceOutput\"T\xea\xe2\n" +
+	"PayInvoice\x12\x1e.eolymp.vendor.PayInvoiceInput\x1a\x1f.eolymp.vendor.PayInvoiceOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x18\x8a\xe3\n" +
-	"\x14vendor:profile:write\x82\xd3\xe4\x93\x02#\"!/vendor-invoices/{invoice_id}/payB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
+	"\x14vendor:profile:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02#\"!/vendor-invoices/{invoice_id}/payB/Z-github.com/eolymp/go-sdk/eolymp/vendor;vendorb\x06proto3"
 
 var (
 	file_eolymp_vendor_invoice_service_proto_rawDescOnce sync.Once

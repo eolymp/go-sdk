@@ -506,7 +506,7 @@ var File_eolymp_content_post_type_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_type_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/content/post_type_service.proto\x12\x0eeolymp.content\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/content/post_type.proto\"\x7f\n" +
+	"&eolymp/content/post_type_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/content/post_type.proto\"\x7f\n" +
 	"\x15DescribePostTypeInput\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\tR\x06typeId\x12\x16\n" +
 	"\x06locale\x18\n" +
@@ -533,34 +533,44 @@ const file_eolymp_content_post_type_service_proto_rawDesc = "" +
 	"\x14UpdatePostTypeOutput\".\n" +
 	"\x13DeletePostTypeInput\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\tR\x06typeId\"\x16\n" +
-	"\x14DeletePostTypeOutput2\xb6\x06\n" +
-	"\x0fPostTypeService\x12\x90\x01\n" +
-	"\x10DescribePostType\x12%.eolymp.content.DescribePostTypeInput\x1a&.eolymp.content.DescribePostTypeOutput\"-\xea\xe2\n" +
+	"\x14DeletePostTypeOutput2\xdf\x06\n" +
+	"\x0fPostTypeService\x12\x98\x01\n" +
+	"\x10DescribePostType\x12%.eolymp.content.DescribePostTypeInput\x1a&.eolymp.content.DescribePostTypeOutput\"5\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xf4\x03\x82\xd3\xe4\x93\x02\x17\x12\x15/post-types/{type_id}\x12|\n" +
-	"\rListPostTypes\x12\".eolymp.content.ListPostTypesInput\x1a#.eolymp.content.ListPostTypesOutput\"\"\xea\xe2\n" +
+	"\xf4\x03\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x17\x12\x15/post-types/{type_id}\x12\x84\x01\n" +
+	"\rListPostTypes\x12\".eolymp.content.ListPostTypesInput\x1a#.eolymp.content.ListPostTypesOutput\"*\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xd3\xe4\x93\x02\r\x12\v/post-types\x12\x9e\x01\n" +
-	"\x0eCreatePostType\x12#.eolymp.content.CreatePostTypeInput\x1a$.eolymp.content.CreatePostTypeOutput\"A\xea\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\r\x12\v/post-types\x12\xa6\x01\n" +
+	"\x0eCreatePostType\x12#.eolymp.content.CreatePostTypeInput\x1a$.eolymp.content.CreatePostTypeOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17content:post-type:write\x82\xd3\xe4\x93\x02\r\"\v/post-types\x12\xa8\x01\n" +
-	"\x0eUpdatePostType\x12#.eolymp.content.UpdatePostTypeInput\x1a$.eolymp.content.UpdatePostTypeOutput\"K\xea\xe2\n" +
+	"\x17content:post-type:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\r\"\v/post-types\x12\xb0\x01\n" +
+	"\x0eUpdatePostType\x12#.eolymp.content.UpdatePostTypeInput\x1a$.eolymp.content.UpdatePostTypeOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17content:post-type:write\x82\xd3\xe4\x93\x02\x17\x1a\x15/post-types/{type_id}\x12\xa8\x01\n" +
-	"\x0eDeletePostType\x12#.eolymp.content.DeletePostTypeInput\x1a$.eolymp.content.DeletePostTypeOutput\"K\xea\xe2\n" +
+	"\x17content:post-type:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x17\x1a\x15/post-types/{type_id}\x12\xb0\x01\n" +
+	"\x0eDeletePostType\x12#.eolymp.content.DeletePostTypeInput\x1a$.eolymp.content.DeletePostTypeOutput\"S\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
-	"\x17content:post-type:write\x82\xd3\xe4\x93\x02\x17*\x15/post-types/{type_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x17content:post-type:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x17*\x15/post-types/{type_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_post_type_service_proto_rawDescOnce sync.Once

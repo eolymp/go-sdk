@@ -1427,7 +1427,7 @@ var File_eolymp_scoreboard_scoreboard_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/scoreboard/scoreboard_service.proto\x12\x11eolymp.scoreboard\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/scoreboard/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"V\n" +
+	"*eolymp/scoreboard/scoreboard_service.proto\x12\x11eolymp.scoreboard\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/scoreboard/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"V\n" +
 	"\x15CreateScoreboardInput\x12=\n" +
 	"\n" +
 	"scoreboard\x18\x01 \x01(\v2\x1d.eolymp.scoreboard.ScoreboardR\n" +
@@ -1522,81 +1522,105 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\x16RebuildScoreboardInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"2\n" +
 	"\x17RebuildScoreboardOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xf0\x13\n" +
-	"\x11ScoreboardService\x12\xaf\x01\n" +
-	"\x10CreateScoreboard\x12(.eolymp.scoreboard.CreateScoreboardInput\x1a).eolymp.scoreboard.CreateScoreboardOutput\"F\xea\xe2\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xd0\x14\n" +
+	"\x11ScoreboardService\x12\xb7\x01\n" +
+	"\x10CreateScoreboard\x12(.eolymp.scoreboard.CreateScoreboardInput\x1a).eolymp.scoreboard.CreateScoreboardOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x02\x0e\"\f/scoreboards\x12\xbf\x01\n" +
-	"\x10UpdateScoreboard\x12(.eolymp.scoreboard.UpdateScoreboardInput\x1a).eolymp.scoreboard.UpdateScoreboardOutput\"V\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0e\"\f/scoreboards\x12\xc7\x01\n" +
+	"\x10UpdateScoreboard\x12(.eolymp.scoreboard.UpdateScoreboardInput\x1a).eolymp.scoreboard.UpdateScoreboardOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/scoreboards/{scoreboard_id}\x12\xbf\x01\n" +
-	"\x10DeleteScoreboard\x12(.eolymp.scoreboard.DeleteScoreboardInput\x1a).eolymp.scoreboard.DeleteScoreboardOutput\"V\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/scoreboards/{scoreboard_id}\x12\xc7\x01\n" +
+	"\x10DeleteScoreboard\x12(.eolymp.scoreboard.DeleteScoreboardInput\x1a).eolymp.scoreboard.DeleteScoreboardOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x02\x1e*\x1c/scoreboards/{scoreboard_id}\x12\xc4\x01\n" +
-	"\x12DescribeScoreboard\x12*.eolymp.scoreboard.DescribeScoreboardInput\x1a+.eolymp.scoreboard.DescribeScoreboardOutput\"U\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1e*\x1c/scoreboards/{scoreboard_id}\x12\xcc\x01\n" +
+	"\x12DescribeScoreboard\x12*.eolymp.scoreboard.DescribeScoreboardInput\x1a+.eolymp.scoreboard.DescribeScoreboardOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1ascoreboard:scoreboard:read\x82\xd3\xe4\x93\x02\x1e\x12\x1c/scoreboards/{scoreboard_id}\x12\xab\x01\n" +
-	"\x0fListScoreboards\x12'.eolymp.scoreboard.ListScoreboardsInput\x1a(.eolymp.scoreboard.ListScoreboardsOutput\"E\xea\xe2\n" +
+	"\x1ascoreboard:scoreboard:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/scoreboards/{scoreboard_id}\x12\xb3\x01\n" +
+	"\x0fListScoreboards\x12'.eolymp.scoreboard.ListScoreboardsInput\x1a(.eolymp.scoreboard.ListScoreboardsOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1ascoreboard:scoreboard:read\x82\xd3\xe4\x93\x02\x0e\x12\f/scoreboards\x12\xd4\x01\n" +
-	"\x14AddScoreboardContest\x12,.eolymp.scoreboard.AddScoreboardContestInput\x1a-.eolymp.scoreboard.AddScoreboardContestOutput\"_\xea\xe2\n" +
+	"\x1ascoreboard:scoreboard:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/scoreboards\x12\xdc\x01\n" +
+	"\x14AddScoreboardContest\x12,.eolymp.scoreboard.AddScoreboardContestInput\x1a-.eolymp.scoreboard.AddScoreboardContestOutput\"g\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x02'\"%/scoreboards/{scoreboard_id}/contests\x12\xea\x01\n" +
-	"\x17RemoveScoreboardContest\x12/.eolymp.scoreboard.RemoveScoreboardContestInput\x1a0.eolymp.scoreboard.RemoveScoreboardContestOutput\"l\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/scoreboards/{scoreboard_id}/contests\x12\xf2\x01\n" +
+	"\x17RemoveScoreboardContest\x12/.eolymp.scoreboard.RemoveScoreboardContestInput\x1a0.eolymp.scoreboard.RemoveScoreboardContestOutput\"t\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x024*2/scoreboards/{scoreboard_id}/contests/{contest_id}\x12\xdc\x01\n" +
-	"\x16AddScoreboardAttribute\x12..eolymp.scoreboard.AddScoreboardAttributeInput\x1a/.eolymp.scoreboard.AddScoreboardAttributeOutput\"a\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x024*2/scoreboards/{scoreboard_id}/contests/{contest_id}\x12\xe4\x01\n" +
+	"\x16AddScoreboardAttribute\x12..eolymp.scoreboard.AddScoreboardAttributeInput\x1a/.eolymp.scoreboard.AddScoreboardAttributeOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x02)\"'/scoreboards/{scoreboard_id}/attributes\x12\xf5\x01\n" +
-	"\x19RemoveScoreboardAttribute\x121.eolymp.scoreboard.RemoveScoreboardAttributeInput\x1a2.eolymp.scoreboard.RemoveScoreboardAttributeOutput\"q\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02)\"'/scoreboards/{scoreboard_id}/attributes\x12\xfd\x01\n" +
+	"\x19RemoveScoreboardAttribute\x121.eolymp.scoreboard.RemoveScoreboardAttributeInput\x1a2.eolymp.scoreboard.RemoveScoreboardAttributeOutput\"y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x029*7/scoreboards/{scoreboard_id}/attributes/{attribute_key}\x12\xc9\x01\n" +
-	"\x12ListScoreboardRows\x12*.eolymp.scoreboard.ListScoreboardRowsInput\x1a+.eolymp.scoreboard.ListScoreboardRowsOutput\"Z\xea\xe2\n" +
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x029*7/scoreboards/{scoreboard_id}/attributes/{attribute_key}\x12\xd1\x01\n" +
+	"\x12ListScoreboardRows\x12*.eolymp.scoreboard.ListScoreboardRowsInput\x1a+.eolymp.scoreboard.ListScoreboardRowsOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1ascoreboard:scoreboard:read\x82\xd3\xe4\x93\x02#\x12!/scoreboards/{scoreboard_id}/rows\x12\xde\x01\n" +
-	"\x15DescribeScoreboardRow\x12-.eolymp.scoreboard.DescribeScoreboardRowInput\x1a..eolymp.scoreboard.DescribeScoreboardRowOutput\"f\xea\xe2\n" +
+	"\x1ascoreboard:scoreboard:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/scoreboards/{scoreboard_id}/rows\x12\xe6\x01\n" +
+	"\x15DescribeScoreboardRow\x12-.eolymp.scoreboard.DescribeScoreboardRowInput\x1a..eolymp.scoreboard.DescribeScoreboardRowOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1e\x8a\xe3\n" +
-	"\x1ascoreboard:scoreboard:read\x82\xd3\xe4\x93\x02/\x12-/scoreboards/{scoreboard_id}/rows/{member_id}\x12\xca\x01\n" +
-	"\x11RebuildScoreboard\x12).eolymp.scoreboard.RebuildScoreboardInput\x1a*.eolymp.scoreboard.RebuildScoreboardOutput\"^\xea\xe2\n" +
+	"\x1ascoreboard:scoreboard:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02/\x12-/scoreboards/{scoreboard_id}/rows/{member_id}\x12\xd2\x01\n" +
+	"\x11RebuildScoreboard\x12).eolymp.scoreboard.RebuildScoreboardInput\x1a*.eolymp.scoreboard.RebuildScoreboardOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1f\x8a\xe3\n" +
-	"\x1bscoreboard:scoreboard:write\x82\xd3\xe4\x93\x02&\"$/scoreboards/{scoreboard_id}/rebuild\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/scoreboard;scoreboardb\x06proto3"
+	"\x1bscoreboard:scoreboard:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02&\"$/scoreboards/{scoreboard_id}/rebuild\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/scoreboard;scoreboardb\x06proto3"
 
 var (
 	file_eolymp_scoreboard_scoreboard_service_proto_rawDescOnce sync.Once

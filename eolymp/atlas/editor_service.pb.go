@@ -807,7 +807,7 @@ var File_eolymp_atlas_editor_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xf1\x03\n" +
+	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xf1\x03\n" +
 	"\x06Editor\x120\n" +
 	"\x05state\x18\x01 \x01(\v2\x1a.eolymp.atlas.Editor.StateR\x05state\x128\n" +
 	"\bfeatures\x18\n" +
@@ -873,40 +873,50 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\"\x17\n" +
-	"\x15PrintEditorCodeOutput2\xdc\x06\n" +
-	"\rEditorService\x12\x94\x01\n" +
-	"\x0eDescribeEditor\x12!.eolymp.atlas.DescribeEditorInput\x1a\".eolymp.atlas.DescribeEditorOutput\";\xea\xe2\n" +
+	"\x15PrintEditorCodeOutput2\x84\a\n" +
+	"\rEditorService\x12\x9c\x01\n" +
+	"\x0eDescribeEditor\x12!.eolymp.atlas.DescribeEditorInput\x1a\".eolymp.atlas.DescribeEditorOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\t\x12\a/editor\x12\xa9\x01\n" +
-	"\x13DescribeEditorState\x12&.eolymp.atlas.DescribeEditorStateInput\x1a'.eolymp.atlas.DescribeEditorStateOutput\"A\xea\xe2\n" +
+	"\x15atlas:submission:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/editor\x12\xb1\x01\n" +
+	"\x13DescribeEditorState\x12&.eolymp.atlas.DescribeEditorStateInput\x1a'.eolymp.atlas.DescribeEditorStateOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\n" +
 	"\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\x0f\x12\r/editor/state\x12\xa4\x01\n" +
-	"\x11UpdateEditorState\x12$.eolymp.atlas.UpdateEditorStateInput\x1a%.eolymp.atlas.UpdateEditorStateOutput\"B\xea\xe2\n" +
+	"\x15atlas:submission:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/editor/state\x12\xac\x01\n" +
+	"\x11UpdateEditorState\x12$.eolymp.atlas.UpdateEditorStateInput\x1a%.eolymp.atlas.UpdateEditorStateOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/state\x12\x88\x01\n" +
+	"\x16atlas:submission:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0f\"\r/editor/state\x12\x90\x01\n" +
 	"\n" +
-	"ListInputs\x12\x1d.eolymp.atlas.ListInputsInput\x1a\x1e.eolymp.atlas.ListInputsOutput\";\xea\xe2\n" +
+	"ListInputs\x12\x1d.eolymp.atlas.ListInputsInput\x1a\x1e.eolymp.atlas.ListInputsOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
-	"\x15atlas:submission:read\x82\xd3\xe4\x93\x02\t\x12\a/inputs\x12\x9e\x01\n" +
-	"\x0fPrintEditorCode\x12\".eolymp.atlas.PrintEditorCodeInput\x1a#.eolymp.atlas.PrintEditorCodeOutput\"B\xea\xe2\n" +
+	"\x15atlas:submission:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/inputs\x12\xa6\x01\n" +
+	"\x0fPrintEditorCode\x12\".eolymp.atlas.PrintEditorCodeInput\x1a#.eolymp.atlas.PrintEditorCodeOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/print\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x16atlas:submission:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x0f\"\r/editor/print\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editor_service_proto_rawDescOnce sync.Once

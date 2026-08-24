@@ -738,7 +738,7 @@ var File_eolymp_notify_notification_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_notify_notification_service_proto_rawDesc = "" +
 	"\n" +
-	"(eolymp/notify/notification_service.proto\x12\reolymp.notify\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/notify/notification.proto\x1a\x1feolymp/notify/preferences.proto\"T\n" +
+	"(eolymp/notify/notification_service.proto\x12\reolymp.notify\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a eolymp/notify/notification.proto\x1a\x1feolymp/notify/preferences.proto\"T\n" +
 	"\x11NotificationEvent\x12?\n" +
 	"\fnotification\x18\x01 \x01(\v2\x1b.eolymp.notify.NotificationR\fnotification\"Z\n" +
 	"\x17CreateNotificationInput\x12?\n" +
@@ -774,38 +774,52 @@ const file_eolymp_notify_notification_service_proto_rawDesc = "" +
 	"\x12\x15\n" +
 	"\x11SUBSCRIPTIONS_ADD\x10\v\x12\x18\n" +
 	"\x14SUBSCRIPTIONS_REMOVE\x10\f\"\x19\n" +
-	"\x17UpdatePreferencesOutput2\xd4\b\n" +
-	"\x13NotificationService\x12v\n" +
-	"\x12CreateNotification\x12&.eolymp.notify.CreateNotificationInput\x1a'.eolymp.notify.CreateNotificationOutput\"\x0f\xea\xe2\n" +
+	"\x17UpdatePreferencesOutput2\x8c\t\n" +
+	"\x13NotificationService\x12~\n" +
+	"\x12CreateNotification\x12&.eolymp.notify.CreateNotificationInput\x1a'.eolymp.notify.CreateNotificationOutput\"\x17\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x12\xa4\x01\n" +
-	"\x14DescribeNotification\x12(.eolymp.notify.DescribeNotificationInput\x1a).eolymp.notify.DescribeNotificationOutput\"7\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12\xac\x01\n" +
+	"\x14DescribeNotification\x12(.eolymp.notify.DescribeNotificationInput\x1a).eolymp.notify.DescribeNotificationOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\"\x12 /notifications/{notification_id}\x12\x9d\x01\n" +
-	"\x10ReadNotification\x12$.eolymp.notify.ReadNotificationInput\x1a%.eolymp.notify.ReadNotificationOutput\"<\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /notifications/{notification_id}\x12\xa5\x01\n" +
+	"\x10ReadNotification\x12$.eolymp.notify.ReadNotificationInput\x1a%.eolymp.notify.ReadNotificationOutput\"D\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02'\"%/notifications/{notification_id}/read\x12\x9e\x01\n" +
-	"\x12DeleteNotification\x12&.eolymp.notify.DeleteNotificationInput\x1a'.eolymp.notify.DeleteNotificationOutput\"7\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/notifications/{notification_id}/read\x12\xa6\x01\n" +
+	"\x12DeleteNotification\x12&.eolymp.notify.DeleteNotificationInput\x1a'.eolymp.notify.DeleteNotificationOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\"* /notifications/{notification_id}\x12\x89\x01\n" +
-	"\x11ListNotifications\x12%.eolymp.notify.ListNotificationsInput\x1a&.eolymp.notify.ListNotificationsOutput\"%\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\"* /notifications/{notification_id}\x12\x91\x01\n" +
+	"\x11ListNotifications\x12%.eolymp.notify.ListNotificationsInput\x1a&.eolymp.notify.ListNotificationsOutput\"-\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xd3\xe4\x93\x02\x10\x12\x0e/notifications\x12\x9b\x01\n" +
-	"\x13DescribePreferences\x12'.eolymp.notify.DescribePreferencesInput\x1a(.eolymp.notify.DescribePreferencesOutput\"1\xea\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/notifications\x12\xa3\x01\n" +
+	"\x13DescribePreferences\x12'.eolymp.notify.DescribePreferencesInput\x1a(.eolymp.notify.DescribePreferencesOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/preferences/notifications\x12\x95\x01\n" +
-	"\x11UpdatePreferences\x12%.eolymp.notify.UpdatePreferencesInput\x1a&.eolymp.notify.UpdatePreferencesOutput\"1\xea\xe2\n" +
+	"\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/preferences/notifications\x12\x9d\x01\n" +
+	"\x11UpdatePreferences\x12%.eolymp.notify.UpdatePreferencesInput\x1a&.eolymp.notify.UpdatePreferencesOutput\"9\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\n" +
-	"\x82\xd3\xe4\x93\x02\x1c\"\x1a/preferences/notifications\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/notify;notifyb\x06proto3"
+	"\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/preferences/notifications\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/notify;notifyb\x06proto3"
 
 var (
 	file_eolymp_notify_notification_service_proto_rawDescOnce sync.Once
