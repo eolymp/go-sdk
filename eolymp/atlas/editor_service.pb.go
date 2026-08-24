@@ -151,6 +151,7 @@ func (x *Editor) GetType() Problem_Type {
 
 type DescribeEditorInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -183,6 +184,13 @@ func (x *DescribeEditorInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeEditorInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DescribeEditorInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 type DescribeEditorOutput struct {
@@ -231,6 +239,7 @@ func (x *DescribeEditorOutput) GetEditor() *Editor {
 
 type DescribeEditorStateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -263,6 +272,13 @@ func (x *DescribeEditorStateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeEditorStateInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorStateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *DescribeEditorStateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 type DescribeEditorStateOutput struct {
@@ -365,6 +381,7 @@ func (*DescribeEditorStateOutput_Output) isDescribeEditorStateOutput_Payload() {
 
 type UpdateEditorStateInput struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId  string                 `protobuf:"bytes,4,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Runtime    string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	SourceCode string                 `protobuf:"bytes,2,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
 	InputData  string                 `protobuf:"bytes,3,opt,name=input_data,json=inputData,proto3" json:"input_data,omitempty"`
@@ -404,6 +421,13 @@ func (x *UpdateEditorStateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateEditorStateInput.ProtoReflect.Descriptor instead.
 func (*UpdateEditorStateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateEditorStateInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *UpdateEditorStateInput) GetRuntime() string {
@@ -455,6 +479,7 @@ func (*UpdateEditorStateInput_Output) isUpdateEditorStateInput_Payload() {}
 
 type ListInputsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -488,6 +513,13 @@ func (x *ListInputsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListInputsInput.ProtoReflect.Descriptor instead.
 func (*ListInputsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListInputsInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *ListInputsInput) GetVersion() uint32 {
@@ -587,6 +619,7 @@ func (*UpdateEditorStateOutput) Descriptor() ([]byte, []int) {
 
 type PrintEditorCodeInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,3,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	SourceCode    string                 `protobuf:"bytes,2,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -621,6 +654,13 @@ func (x *PrintEditorCodeInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use PrintEditorCodeInput.ProtoReflect.Descriptor instead.
 func (*PrintEditorCodeInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *PrintEditorCodeInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
 }
 
 func (x *PrintEditorCodeInput) GetRuntime() string {
@@ -790,11 +830,15 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\vUPLOAD_CODE\x10\x03\x12\r\n" +
 	"\tEDIT_CODE\x10\x04\x12\x0e\n" +
 	"\n" +
-	"TRACE_CODE\x10\x05\"\x15\n" +
-	"\x13DescribeEditorInput\"D\n" +
+	"TRACE_CODE\x10\x05\"4\n" +
+	"\x13DescribeEditorInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\"D\n" +
 	"\x14DescribeEditorOutput\x12,\n" +
-	"\x06editor\x18\x01 \x01(\v2\x14.eolymp.atlas.EditorR\x06editor\"\x1a\n" +
-	"\x18DescribeEditorStateInput\"\xf5\x01\n" +
+	"\x06editor\x18\x01 \x01(\v2\x14.eolymp.atlas.EditorR\x06editor\"9\n" +
+	"\x18DescribeEditorStateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\"\xf5\x01\n" +
 	"\x19DescribeEditorStateOutput\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
@@ -804,26 +848,32 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x00R\x06output\x128\n" +
 	"\bfeatures\x18\n" +
 	" \x03(\x0e2\x1c.eolymp.atlas.Editor.FeatureR\bfeaturesB\t\n" +
-	"\apayload\"\xb8\x01\n" +
-	"\x16UpdateEditorStateInput\x12\x18\n" +
+	"\apayload\"\xd7\x01\n" +
+	"\x16UpdateEditorStateInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x04 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
 	"input_data\x18\x03 \x01(\tR\tinputData\x129\n" +
 	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x00R\x06outputB\t\n" +
-	"\apayload\"+\n" +
-	"\x0fListInputsInput\x12\x18\n" +
+	"\apayload\"J\n" +
+	"\x0fListInputsInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"R\n" +
 	"\x10ListInputsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x05items\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\x05items\"\x19\n" +
-	"\x17UpdateEditorStateOutput\"Q\n" +
-	"\x14PrintEditorCodeInput\x12\x18\n" +
+	"\x17UpdateEditorStateOutput\"p\n" +
+	"\x14PrintEditorCodeInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x03 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\"\x17\n" +
-	"\x15PrintEditorCodeOutput2\xc1\x06\n" +
+	"\x15PrintEditorCodeOutput2\xdc\x06\n" +
 	"\rEditorService\x12\x94\x01\n" +
 	"\x0eDescribeEditor\x12!.eolymp.atlas.DescribeEditorInput\x1a\".eolymp.atlas.DescribeEditorOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -856,7 +906,7 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
-	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/print\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.ProblemB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x16atlas:submission:write\x82\xd3\xe4\x93\x02\x0f\"\r/editor/print\x1a5\x82\xf0\xf0\xe4\x01\x14eolymp.atlas.Problem\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_editor_service_proto_rawDescOnce sync.Once
