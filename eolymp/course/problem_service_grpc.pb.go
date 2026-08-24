@@ -46,9 +46,12 @@ type ProblemServiceClient interface {
 	// WatchSubmission streams the submission as its evaluation advances, closing once it is judged.
 	WatchSubmission(ctx context.Context, in *WatchSubmissionInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchSubmissionOutput], error)
 	LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput, opts ...grpc.CallOption) (*LookupCodeTemplateOutput, error)
+	// deprecated: use eolymp.course.RunService
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
+	// deprecated: use eolymp.course.RunService
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
 	// WatchRun streams a test run as it is compiled and executed, closing once it finishes.
+	// deprecated: use eolymp.course.RunService
 	WatchRun(ctx context.Context, in *WatchRunInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRunOutput], error)
 	ListRuntimes(ctx context.Context, in *ListRuntimesInput, opts ...grpc.CallOption) (*ListRuntimesOutput, error)
 }
@@ -212,9 +215,12 @@ type ProblemServiceServer interface {
 	// WatchSubmission streams the submission as its evaluation advances, closing once it is judged.
 	WatchSubmission(*WatchSubmissionInput, grpc.ServerStreamingServer[WatchSubmissionOutput]) error
 	LookupCodeTemplate(context.Context, *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error)
+	// deprecated: use eolymp.course.RunService
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
+	// deprecated: use eolymp.course.RunService
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
 	// WatchRun streams a test run as it is compiled and executed, closing once it finishes.
+	// deprecated: use eolymp.course.RunService
 	WatchRun(*WatchRunInput, grpc.ServerStreamingServer[WatchRunOutput]) error
 	ListRuntimes(context.Context, *ListRuntimesInput) (*ListRuntimesOutput, error)
 }

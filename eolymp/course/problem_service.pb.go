@@ -9,9 +9,7 @@ package course
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
-	playground "github.com/eolymp/go-sdk/eolymp/playground"
 	runtime "github.com/eolymp/go-sdk/eolymp/runtime"
-	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -370,348 +368,6 @@ func (x *LookupCodeTemplateOutput) GetTemplate() *atlas.Template {
 	return nil
 }
 
-type CreateRunInput struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Runtime string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	Source  string                 `protobuf:"bytes,100,opt,name=source,proto3" json:"source,omitempty"`
-	// Types that are valid to be assigned to Input:
-	//
-	//	*CreateRunInput_InputData
-	//	*CreateRunInput_InputRef
-	//	*CreateRunInput_ExampleId
-	Input         isCreateRunInput_Input `protobuf_oneof:"input"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateRunInput) Reset() {
-	*x = CreateRunInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateRunInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateRunInput) ProtoMessage() {}
-
-func (x *CreateRunInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateRunInput.ProtoReflect.Descriptor instead.
-func (*CreateRunInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *CreateRunInput) GetRuntime() string {
-	if x != nil {
-		return x.Runtime
-	}
-	return ""
-}
-
-func (x *CreateRunInput) GetSource() string {
-	if x != nil {
-		return x.Source
-	}
-	return ""
-}
-
-func (x *CreateRunInput) GetInput() isCreateRunInput_Input {
-	if x != nil {
-		return x.Input
-	}
-	return nil
-}
-
-func (x *CreateRunInput) GetInputData() []byte {
-	if x != nil {
-		if x, ok := x.Input.(*CreateRunInput_InputData); ok {
-			return x.InputData
-		}
-	}
-	return nil
-}
-
-func (x *CreateRunInput) GetInputRef() string {
-	if x != nil {
-		if x, ok := x.Input.(*CreateRunInput_InputRef); ok {
-			return x.InputRef
-		}
-	}
-	return ""
-}
-
-func (x *CreateRunInput) GetExampleId() string {
-	if x != nil {
-		if x, ok := x.Input.(*CreateRunInput_ExampleId); ok {
-			return x.ExampleId
-		}
-	}
-	return ""
-}
-
-type isCreateRunInput_Input interface {
-	isCreateRunInput_Input()
-}
-
-type CreateRunInput_InputData struct {
-	InputData []byte `protobuf:"bytes,101,opt,name=input_data,json=inputData,proto3,oneof"`
-}
-
-type CreateRunInput_InputRef struct {
-	InputRef string `protobuf:"bytes,102,opt,name=input_ref,json=inputRef,proto3,oneof"`
-}
-
-type CreateRunInput_ExampleId struct {
-	ExampleId string `protobuf:"bytes,103,opt,name=example_id,json=exampleId,proto3,oneof"` // run against this example test of the problem; for interactive problems this is the only accepted input and the problem's interactor is attached
-}
-
-func (*CreateRunInput_InputData) isCreateRunInput_Input() {}
-
-func (*CreateRunInput_InputRef) isCreateRunInput_Input() {}
-
-func (*CreateRunInput_ExampleId) isCreateRunInput_Input() {}
-
-type CreateRunOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RunId         string                 `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateRunOutput) Reset() {
-	*x = CreateRunOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateRunOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateRunOutput) ProtoMessage() {}
-
-func (x *CreateRunOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateRunOutput.ProtoReflect.Descriptor instead.
-func (*CreateRunOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *CreateRunOutput) GetRunId() string {
-	if x != nil {
-		return x.RunId
-	}
-	return ""
-}
-
-type DescribeRunInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RunId         string                 `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeRunInput) Reset() {
-	*x = DescribeRunInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeRunInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeRunInput) ProtoMessage() {}
-
-func (x *DescribeRunInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeRunInput.ProtoReflect.Descriptor instead.
-func (*DescribeRunInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *DescribeRunInput) GetRunId() string {
-	if x != nil {
-		return x.RunId
-	}
-	return ""
-}
-
-type DescribeRunOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Run           *playground.Run        `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeRunOutput) Reset() {
-	*x = DescribeRunOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeRunOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeRunOutput) ProtoMessage() {}
-
-func (x *DescribeRunOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeRunOutput.ProtoReflect.Descriptor instead.
-func (*DescribeRunOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *DescribeRunOutput) GetRun() *playground.Run {
-	if x != nil {
-		return x.Run
-	}
-	return nil
-}
-
-type WatchRunInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RunId         string                 `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *WatchRunInput) Reset() {
-	*x = WatchRunInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *WatchRunInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WatchRunInput) ProtoMessage() {}
-
-func (x *WatchRunInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[12]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WatchRunInput.ProtoReflect.Descriptor instead.
-func (*WatchRunInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *WatchRunInput) GetRunId() string {
-	if x != nil {
-		return x.RunId
-	}
-	return ""
-}
-
-type WatchRunOutput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Run           *playground.Run          `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
-	Event         wellknown.WatchEventType `protobuf:"varint,2,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *WatchRunOutput) Reset() {
-	*x = WatchRunOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *WatchRunOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WatchRunOutput) ProtoMessage() {}
-
-func (x *WatchRunOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WatchRunOutput.ProtoReflect.Descriptor instead.
-func (*WatchRunOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *WatchRunOutput) GetRun() *playground.Run {
-	if x != nil {
-		return x.Run
-	}
-	return nil
-}
-
-func (x *WatchRunOutput) GetEvent() wellknown.WatchEventType {
-	if x != nil {
-		return x.Event
-	}
-	return wellknown.WatchEventType(0)
-}
-
 type ListRuntimesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -720,7 +376,7 @@ type ListRuntimesInput struct {
 
 func (x *ListRuntimesInput) Reset() {
 	*x = ListRuntimesInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[14]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -732,7 +388,7 @@ func (x *ListRuntimesInput) String() string {
 func (*ListRuntimesInput) ProtoMessage() {}
 
 func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[14]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -745,7 +401,7 @@ func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesInput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{8}
 }
 
 type ListRuntimesOutput struct {
@@ -758,7 +414,7 @@ type ListRuntimesOutput struct {
 
 func (x *ListRuntimesOutput) Reset() {
 	*x = ListRuntimesOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[15]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -770,7 +426,7 @@ func (x *ListRuntimesOutput) String() string {
 func (*ListRuntimesOutput) ProtoMessage() {}
 
 func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[15]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -783,7 +439,7 @@ func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesOutput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListRuntimesOutput) GetTotal() int32 {
@@ -804,7 +460,7 @@ var File_eolymp_course_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a&eolymp/course/submission_service.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x15\n" +
+	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
 	"\x13ListStatementsInput\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -819,27 +475,7 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x17LookupCodeTemplateInput\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\"N\n" +
 	"\x18LookupCodeTemplateOutput\x122\n" +
-	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"\xac\x01\n" +
-	"\x0eCreateRunInput\x12\x18\n" +
-	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
-	"\x06source\x18d \x01(\tR\x06source\x12\x1f\n" +
-	"\n" +
-	"input_data\x18e \x01(\fH\x00R\tinputData\x12\x1d\n" +
-	"\tinput_ref\x18f \x01(\tH\x00R\binputRef\x12\x1f\n" +
-	"\n" +
-	"example_id\x18g \x01(\tH\x00R\texampleIdB\a\n" +
-	"\x05input\"(\n" +
-	"\x0fCreateRunOutput\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\")\n" +
-	"\x10DescribeRunInput\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\"=\n" +
-	"\x11DescribeRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\"&\n" +
-	"\rWatchRunInput\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\"r\n" +
-	"\x0eWatchRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"\x13\n" +
+	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"\x13\n" +
 	"\x11ListRuntimesInput\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
@@ -938,7 +574,7 @@ func file_eolymp_course_problem_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_course_problem_service_proto_rawDescData
 }
 
-var file_eolymp_course_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_eolymp_course_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_course_problem_service_proto_goTypes = []any{
 	(*ListStatementsInput)(nil),      // 0: eolymp.course.ListStatementsInput
 	(*ListStatementsOutput)(nil),     // 1: eolymp.course.ListStatementsOutput
@@ -948,67 +584,62 @@ var file_eolymp_course_problem_service_proto_goTypes = []any{
 	(*ListExamplesOutput)(nil),       // 5: eolymp.course.ListExamplesOutput
 	(*LookupCodeTemplateInput)(nil),  // 6: eolymp.course.LookupCodeTemplateInput
 	(*LookupCodeTemplateOutput)(nil), // 7: eolymp.course.LookupCodeTemplateOutput
-	(*CreateRunInput)(nil),           // 8: eolymp.course.CreateRunInput
-	(*CreateRunOutput)(nil),          // 9: eolymp.course.CreateRunOutput
-	(*DescribeRunInput)(nil),         // 10: eolymp.course.DescribeRunInput
-	(*DescribeRunOutput)(nil),        // 11: eolymp.course.DescribeRunOutput
-	(*WatchRunInput)(nil),            // 12: eolymp.course.WatchRunInput
-	(*WatchRunOutput)(nil),           // 13: eolymp.course.WatchRunOutput
-	(*ListRuntimesInput)(nil),        // 14: eolymp.course.ListRuntimesInput
-	(*ListRuntimesOutput)(nil),       // 15: eolymp.course.ListRuntimesOutput
-	(*atlas.Statement)(nil),          // 16: eolymp.atlas.Statement
-	(*atlas.Test)(nil),               // 17: eolymp.atlas.Test
-	(*atlas.Template)(nil),           // 18: eolymp.atlas.Template
-	(*playground.Run)(nil),           // 19: eolymp.playground.Run
-	(wellknown.WatchEventType)(0),    // 20: eolymp.wellknown.WatchEventType
-	(*runtime.Runtime)(nil),          // 21: eolymp.runtime.Runtime
-	(*CreateSubmissionInput)(nil),    // 22: eolymp.course.CreateSubmissionInput
-	(*ListSubmissionsInput)(nil),     // 23: eolymp.course.ListSubmissionsInput
-	(*DescribeSubmissionInput)(nil),  // 24: eolymp.course.DescribeSubmissionInput
-	(*WatchSubmissionInput)(nil),     // 25: eolymp.course.WatchSubmissionInput
-	(*CreateSubmissionOutput)(nil),   // 26: eolymp.course.CreateSubmissionOutput
-	(*ListSubmissionsOutput)(nil),    // 27: eolymp.course.ListSubmissionsOutput
-	(*DescribeSubmissionOutput)(nil), // 28: eolymp.course.DescribeSubmissionOutput
-	(*WatchSubmissionOutput)(nil),    // 29: eolymp.course.WatchSubmissionOutput
+	(*ListRuntimesInput)(nil),        // 8: eolymp.course.ListRuntimesInput
+	(*ListRuntimesOutput)(nil),       // 9: eolymp.course.ListRuntimesOutput
+	(*atlas.Statement)(nil),          // 10: eolymp.atlas.Statement
+	(*atlas.Test)(nil),               // 11: eolymp.atlas.Test
+	(*atlas.Template)(nil),           // 12: eolymp.atlas.Template
+	(*runtime.Runtime)(nil),          // 13: eolymp.runtime.Runtime
+	(*CreateSubmissionInput)(nil),    // 14: eolymp.course.CreateSubmissionInput
+	(*ListSubmissionsInput)(nil),     // 15: eolymp.course.ListSubmissionsInput
+	(*DescribeSubmissionInput)(nil),  // 16: eolymp.course.DescribeSubmissionInput
+	(*WatchSubmissionInput)(nil),     // 17: eolymp.course.WatchSubmissionInput
+	(*CreateRunInput)(nil),           // 18: eolymp.course.CreateRunInput
+	(*DescribeRunInput)(nil),         // 19: eolymp.course.DescribeRunInput
+	(*WatchRunInput)(nil),            // 20: eolymp.course.WatchRunInput
+	(*CreateSubmissionOutput)(nil),   // 21: eolymp.course.CreateSubmissionOutput
+	(*ListSubmissionsOutput)(nil),    // 22: eolymp.course.ListSubmissionsOutput
+	(*DescribeSubmissionOutput)(nil), // 23: eolymp.course.DescribeSubmissionOutput
+	(*WatchSubmissionOutput)(nil),    // 24: eolymp.course.WatchSubmissionOutput
+	(*CreateRunOutput)(nil),          // 25: eolymp.course.CreateRunOutput
+	(*DescribeRunOutput)(nil),        // 26: eolymp.course.DescribeRunOutput
+	(*WatchRunOutput)(nil),           // 27: eolymp.course.WatchRunOutput
 }
 var file_eolymp_course_problem_service_proto_depIdxs = []int32{
-	16, // 0: eolymp.course.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
-	16, // 1: eolymp.course.LookupStatementOutput.statement:type_name -> eolymp.atlas.Statement
-	17, // 2: eolymp.course.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
-	18, // 3: eolymp.course.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
-	19, // 4: eolymp.course.DescribeRunOutput.run:type_name -> eolymp.playground.Run
-	19, // 5: eolymp.course.WatchRunOutput.run:type_name -> eolymp.playground.Run
-	20, // 6: eolymp.course.WatchRunOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	21, // 7: eolymp.course.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
-	0,  // 8: eolymp.course.ProblemService.ListStatements:input_type -> eolymp.course.ListStatementsInput
-	2,  // 9: eolymp.course.ProblemService.LookupStatement:input_type -> eolymp.course.LookupStatementInput
-	4,  // 10: eolymp.course.ProblemService.ListExamples:input_type -> eolymp.course.ListExamplesInput
-	22, // 11: eolymp.course.ProblemService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
-	23, // 12: eolymp.course.ProblemService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
-	24, // 13: eolymp.course.ProblemService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
-	25, // 14: eolymp.course.ProblemService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
-	6,  // 15: eolymp.course.ProblemService.LookupCodeTemplate:input_type -> eolymp.course.LookupCodeTemplateInput
-	8,  // 16: eolymp.course.ProblemService.CreateRun:input_type -> eolymp.course.CreateRunInput
-	10, // 17: eolymp.course.ProblemService.DescribeRun:input_type -> eolymp.course.DescribeRunInput
-	12, // 18: eolymp.course.ProblemService.WatchRun:input_type -> eolymp.course.WatchRunInput
-	14, // 19: eolymp.course.ProblemService.ListRuntimes:input_type -> eolymp.course.ListRuntimesInput
-	1,  // 20: eolymp.course.ProblemService.ListStatements:output_type -> eolymp.course.ListStatementsOutput
-	3,  // 21: eolymp.course.ProblemService.LookupStatement:output_type -> eolymp.course.LookupStatementOutput
-	5,  // 22: eolymp.course.ProblemService.ListExamples:output_type -> eolymp.course.ListExamplesOutput
-	26, // 23: eolymp.course.ProblemService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
-	27, // 24: eolymp.course.ProblemService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
-	28, // 25: eolymp.course.ProblemService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
-	29, // 26: eolymp.course.ProblemService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
-	7,  // 27: eolymp.course.ProblemService.LookupCodeTemplate:output_type -> eolymp.course.LookupCodeTemplateOutput
-	9,  // 28: eolymp.course.ProblemService.CreateRun:output_type -> eolymp.course.CreateRunOutput
-	11, // 29: eolymp.course.ProblemService.DescribeRun:output_type -> eolymp.course.DescribeRunOutput
-	13, // 30: eolymp.course.ProblemService.WatchRun:output_type -> eolymp.course.WatchRunOutput
-	15, // 31: eolymp.course.ProblemService.ListRuntimes:output_type -> eolymp.course.ListRuntimesOutput
-	20, // [20:32] is the sub-list for method output_type
-	8,  // [8:20] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	10, // 0: eolymp.course.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
+	10, // 1: eolymp.course.LookupStatementOutput.statement:type_name -> eolymp.atlas.Statement
+	11, // 2: eolymp.course.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
+	12, // 3: eolymp.course.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	13, // 4: eolymp.course.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	0,  // 5: eolymp.course.ProblemService.ListStatements:input_type -> eolymp.course.ListStatementsInput
+	2,  // 6: eolymp.course.ProblemService.LookupStatement:input_type -> eolymp.course.LookupStatementInput
+	4,  // 7: eolymp.course.ProblemService.ListExamples:input_type -> eolymp.course.ListExamplesInput
+	14, // 8: eolymp.course.ProblemService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
+	15, // 9: eolymp.course.ProblemService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
+	16, // 10: eolymp.course.ProblemService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
+	17, // 11: eolymp.course.ProblemService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
+	6,  // 12: eolymp.course.ProblemService.LookupCodeTemplate:input_type -> eolymp.course.LookupCodeTemplateInput
+	18, // 13: eolymp.course.ProblemService.CreateRun:input_type -> eolymp.course.CreateRunInput
+	19, // 14: eolymp.course.ProblemService.DescribeRun:input_type -> eolymp.course.DescribeRunInput
+	20, // 15: eolymp.course.ProblemService.WatchRun:input_type -> eolymp.course.WatchRunInput
+	8,  // 16: eolymp.course.ProblemService.ListRuntimes:input_type -> eolymp.course.ListRuntimesInput
+	1,  // 17: eolymp.course.ProblemService.ListStatements:output_type -> eolymp.course.ListStatementsOutput
+	3,  // 18: eolymp.course.ProblemService.LookupStatement:output_type -> eolymp.course.LookupStatementOutput
+	5,  // 19: eolymp.course.ProblemService.ListExamples:output_type -> eolymp.course.ListExamplesOutput
+	21, // 20: eolymp.course.ProblemService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
+	22, // 21: eolymp.course.ProblemService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
+	23, // 22: eolymp.course.ProblemService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
+	24, // 23: eolymp.course.ProblemService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
+	7,  // 24: eolymp.course.ProblemService.LookupCodeTemplate:output_type -> eolymp.course.LookupCodeTemplateOutput
+	25, // 25: eolymp.course.ProblemService.CreateRun:output_type -> eolymp.course.CreateRunOutput
+	26, // 26: eolymp.course.ProblemService.DescribeRun:output_type -> eolymp.course.DescribeRunOutput
+	27, // 27: eolymp.course.ProblemService.WatchRun:output_type -> eolymp.course.WatchRunOutput
+	9,  // 28: eolymp.course.ProblemService.ListRuntimes:output_type -> eolymp.course.ListRuntimesOutput
+	17, // [17:29] is the sub-list for method output_type
+	5,  // [5:17] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_problem_service_proto_init() }
@@ -1016,19 +647,15 @@ func file_eolymp_course_problem_service_proto_init() {
 	if File_eolymp_course_problem_service_proto != nil {
 		return
 	}
+	file_eolymp_course_run_service_proto_init()
 	file_eolymp_course_submission_service_proto_init()
-	file_eolymp_course_problem_service_proto_msgTypes[8].OneofWrappers = []any{
-		(*CreateRunInput_InputData)(nil),
-		(*CreateRunInput_InputRef)(nil),
-		(*CreateRunInput_ExampleId)(nil),
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_problem_service_proto_rawDesc), len(file_eolymp_course_problem_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

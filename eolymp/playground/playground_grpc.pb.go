@@ -27,6 +27,10 @@ const (
 // PlaygroundClient is the client API for Playground service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// deprecated: use eolymp.atlas.RunService for a problem, eolymp.judge.RunService inside a contest and
+// eolymp.course.RunService for a course material. Those serve the same urls this does and take the problem,
+// contest or material in the request rather than through the namespace.
 type PlaygroundClient interface {
 	CreateRun(ctx context.Context, in *CreateRunInput, opts ...grpc.CallOption) (*CreateRunOutput, error)
 	DescribeRun(ctx context.Context, in *DescribeRunInput, opts ...grpc.CallOption) (*DescribeRunOutput, error)
@@ -84,6 +88,10 @@ type Playground_WatchRunClient = grpc.ServerStreamingClient[WatchRunOutput]
 // PlaygroundServer is the server API for Playground service.
 // All implementations should embed UnimplementedPlaygroundServer
 // for forward compatibility.
+//
+// deprecated: use eolymp.atlas.RunService for a problem, eolymp.judge.RunService inside a contest and
+// eolymp.course.RunService for a course material. Those serve the same urls this does and take the problem,
+// contest or material in the request rather than through the namespace.
 type PlaygroundServer interface {
 	CreateRun(context.Context, *CreateRunInput) (*CreateRunOutput, error)
 	DescribeRun(context.Context, *DescribeRunInput) (*DescribeRunOutput, error)
