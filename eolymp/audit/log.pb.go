@@ -22,6 +22,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Log_Operation int32
+
+const (
+	Log_UNKNOWN_OPERATION Log_Operation = 0
+	Log_READ              Log_Operation = 1
+	Log_WRITE             Log_Operation = 2
+	Log_DELETE            Log_Operation = 3
+)
+
+// Enum value maps for Log_Operation.
+var (
+	Log_Operation_name = map[int32]string{
+		0: "UNKNOWN_OPERATION",
+		1: "READ",
+		2: "WRITE",
+		3: "DELETE",
+	}
+	Log_Operation_value = map[string]int32{
+		"UNKNOWN_OPERATION": 0,
+		"READ":              1,
+		"WRITE":             2,
+		"DELETE":            3,
+	}
+)
+
+func (x Log_Operation) Enum() *Log_Operation {
+	p := new(Log_Operation)
+	*p = x
+	return p
+}
+
+func (x Log_Operation) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Log_Operation) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_audit_log_proto_enumTypes[0].Descriptor()
+}
+
+func (Log_Operation) Type() protoreflect.EnumType {
+	return &file_eolymp_audit_log_proto_enumTypes[0]
+}
+
+func (x Log_Operation) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Log_Operation.Descriptor instead.
+func (Log_Operation) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_audit_log_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Log_Extra_Field int32
 
 const (
@@ -52,11 +104,11 @@ func (x Log_Extra_Field) String() string {
 }
 
 func (Log_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_audit_log_proto_enumTypes[0].Descriptor()
+	return file_eolymp_audit_log_proto_enumTypes[1].Descriptor()
 }
 
 func (Log_Extra_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_audit_log_proto_enumTypes[0]
+	return &file_eolymp_audit_log_proto_enumTypes[1]
 }
 
 func (x Log_Extra_Field) Number() protoreflect.EnumNumber {
@@ -104,11 +156,11 @@ func (x Log_Actor_Type) String() string {
 }
 
 func (Log_Actor_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_audit_log_proto_enumTypes[1].Descriptor()
+	return file_eolymp_audit_log_proto_enumTypes[2].Descriptor()
 }
 
 func (Log_Actor_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_audit_log_proto_enumTypes[1]
+	return &file_eolymp_audit_log_proto_enumTypes[2]
 }
 
 func (x Log_Actor_Type) Number() protoreflect.EnumNumber {
@@ -127,10 +179,11 @@ type Log struct {
 	Actor         *Log_Actor             `protobuf:"bytes,3,opt,name=actor,proto3" json:"actor,omitempty"` // unset when the call was made anonymously
 	IpAddress     string                 `protobuf:"bytes,4,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
 	UserAgent     string                 `protobuf:"bytes,5,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Method        string                 `protobuf:"bytes,6,opt,name=method,proto3" json:"method,omitempty"`      // called method, eg. "/eolymp.judge.ContestService/CreateContest"
-	Scope         string                 `protobuf:"bytes,7,opt,name=scope,proto3" json:"scope,omitempty"`        // namespace the call was made in, eg. "spaces/<space_id>/contests/<contest_id>"
-	Mutation      bool                   `protobuf:"varint,8,opt,name=mutation,proto3" json:"mutation,omitempty"` // the call changes state, derived from the method name
-	Payload       string                 `protobuf:"bytes,10,opt,name=payload,proto3" json:"payload,omitempty"`   // request as JSON, empty when the method is excluded from payload capture or the request was too large
+	Method        string                 `protobuf:"bytes,6,opt,name=method,proto3" json:"method,omitempty"`                                         // called method, eg. "/eolymp.judge.ContestService/CreateContest"
+	Scope         string                 `protobuf:"bytes,7,opt,name=scope,proto3" json:"scope,omitempty"`                                           // the object the call is about, eg. "contests/<contest_id>", empty when it names none
+	Mutation      bool                   `protobuf:"varint,8,opt,name=mutation,proto3" json:"mutation,omitempty"`                                    // derived from the method name, and the only answer for a record written before operation
+	Operation     Log_Operation          `protobuf:"varint,11,opt,name=operation,proto3,enum=eolymp.audit.Log_Operation" json:"operation,omitempty"` // what the call does, as the method declares; unset before 2026-08-25
+	Payload       string                 `protobuf:"bytes,10,opt,name=payload,proto3" json:"payload,omitempty"`                                      // request as JSON, empty when the method is excluded from payload capture or the request was too large
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -212,6 +265,13 @@ func (x *Log) GetMutation() bool {
 		return x.Mutation
 	}
 	return false
+}
+
+func (x *Log) GetOperation() Log_Operation {
+	if x != nil {
+		return x.Operation
+	}
+	return Log_UNKNOWN_OPERATION
 }
 
 func (x *Log) GetPayload() string {
@@ -321,7 +381,7 @@ var File_eolymp_audit_log_proto protoreflect.FileDescriptor
 
 const file_eolymp_audit_log_proto_rawDesc = "" +
 	"\n" +
-	"\x16eolymp/audit/log.proto\x12\feolymp.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe5\x03\n" +
+	"\x16eolymp/audit/log.proto\x12\feolymp.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe5\x04\n" +
 	"\x03Log\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12-\n" +
 	"\x05actor\x18\x03 \x01(\v2\x17.eolymp.audit.Log.ActorR\x05actor\x12\x1d\n" +
@@ -331,7 +391,8 @@ const file_eolymp_audit_log_proto_rawDesc = "" +
 	"user_agent\x18\x05 \x01(\tR\tuserAgent\x12\x16\n" +
 	"\x06method\x18\x06 \x01(\tR\x06method\x12\x14\n" +
 	"\x05scope\x18\a \x01(\tR\x05scope\x12\x1a\n" +
-	"\bmutation\x18\b \x01(\bR\bmutation\x12\x18\n" +
+	"\bmutation\x18\b \x01(\bR\bmutation\x129\n" +
+	"\toperation\x18\v \x01(\x0e2\x1b.eolymp.audit.Log.OperationR\toperation\x12\x18\n" +
 	"\apayload\x18\n" +
 	" \x01(\tR\apayload\x1a0\n" +
 	"\x05Extra\"'\n" +
@@ -347,7 +408,13 @@ const file_eolymp_audit_log_proto_rawDesc = "" +
 	"\n" +
 	"\x06MEMBER\x10\x01\x12\b\n" +
 	"\x04USER\x10\x02\x12\v\n" +
-	"\aSERVICE\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/audit;auditb\x06proto3"
+	"\aSERVICE\x10\x03\"C\n" +
+	"\tOperation\x12\x15\n" +
+	"\x11UNKNOWN_OPERATION\x10\x00\x12\b\n" +
+	"\x04READ\x10\x01\x12\t\n" +
+	"\x05WRITE\x10\x02\x12\n" +
+	"\n" +
+	"\x06DELETE\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/audit;auditb\x06proto3"
 
 var (
 	file_eolymp_audit_log_proto_rawDescOnce sync.Once
@@ -361,25 +428,27 @@ func file_eolymp_audit_log_proto_rawDescGZIP() []byte {
 	return file_eolymp_audit_log_proto_rawDescData
 }
 
-var file_eolymp_audit_log_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_audit_log_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_audit_log_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_audit_log_proto_goTypes = []any{
-	(Log_Extra_Field)(0),          // 0: eolymp.audit.Log.Extra.Field
-	(Log_Actor_Type)(0),           // 1: eolymp.audit.Log.Actor.Type
-	(*Log)(nil),                   // 2: eolymp.audit.Log
-	(*Log_Extra)(nil),             // 3: eolymp.audit.Log.Extra
-	(*Log_Actor)(nil),             // 4: eolymp.audit.Log.Actor
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(Log_Operation)(0),            // 0: eolymp.audit.Log.Operation
+	(Log_Extra_Field)(0),          // 1: eolymp.audit.Log.Extra.Field
+	(Log_Actor_Type)(0),           // 2: eolymp.audit.Log.Actor.Type
+	(*Log)(nil),                   // 3: eolymp.audit.Log
+	(*Log_Extra)(nil),             // 4: eolymp.audit.Log.Extra
+	(*Log_Actor)(nil),             // 5: eolymp.audit.Log.Actor
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_eolymp_audit_log_proto_depIdxs = []int32{
-	5, // 0: eolymp.audit.Log.timestamp:type_name -> google.protobuf.Timestamp
-	4, // 1: eolymp.audit.Log.actor:type_name -> eolymp.audit.Log.Actor
-	1, // 2: eolymp.audit.Log.Actor.type:type_name -> eolymp.audit.Log.Actor.Type
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	6, // 0: eolymp.audit.Log.timestamp:type_name -> google.protobuf.Timestamp
+	5, // 1: eolymp.audit.Log.actor:type_name -> eolymp.audit.Log.Actor
+	0, // 2: eolymp.audit.Log.operation:type_name -> eolymp.audit.Log.Operation
+	2, // 3: eolymp.audit.Log.Actor.type:type_name -> eolymp.audit.Log.Actor.Type
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_audit_log_proto_init() }
@@ -392,7 +461,7 @@ func file_eolymp_audit_log_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_audit_log_proto_rawDesc), len(file_eolymp_audit_log_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,

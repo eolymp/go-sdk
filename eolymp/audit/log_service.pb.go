@@ -354,12 +354,12 @@ func (x *ExportLogsOutput) GetTruncated() bool {
 
 type ListLogsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Actor         []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"` // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
+	Actor         []*wellknown.ExpressionEnum   `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"` // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
 	Method        []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=method,proto3" json:"method,omitempty"`
 	Scope         []*wellknown.ExpressionString `protobuf:"bytes,4,rep,name=scope,proto3" json:"scope,omitempty"`
 	IpAddress     []*wellknown.ExpressionString `protobuf:"bytes,5,rep,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
 	UserAgent     []*wellknown.ExpressionString `protobuf:"bytes,6,rep,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Mutation      []*wellknown.ExpressionBool   `protobuf:"bytes,7,rep,name=mutation,proto3" json:"mutation,omitempty"`
+	Operation     []*wellknown.ExpressionEnum   `protobuf:"bytes,8,rep,name=operation,proto3" json:"operation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -394,7 +394,7 @@ func (*ListLogsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *ListLogsInput_Filter) GetActor() []*wellknown.ExpressionString {
+func (x *ListLogsInput_Filter) GetActor() []*wellknown.ExpressionEnum {
 	if x != nil {
 		return x.Actor
 	}
@@ -429,21 +429,21 @@ func (x *ListLogsInput_Filter) GetUserAgent() []*wellknown.ExpressionString {
 	return nil
 }
 
-func (x *ListLogsInput_Filter) GetMutation() []*wellknown.ExpressionBool {
+func (x *ListLogsInput_Filter) GetOperation() []*wellknown.ExpressionEnum {
 	if x != nil {
-		return x.Mutation
+		return x.Operation
 	}
 	return nil
 }
 
 type ExportLogsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Actor         []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"` // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
+	Actor         []*wellknown.ExpressionEnum   `protobuf:"bytes,2,rep,name=actor,proto3" json:"actor,omitempty"` // matches the subject, use NOT_EQUAL with an empty value to exclude anonymous calls
 	Method        []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=method,proto3" json:"method,omitempty"`
 	Scope         []*wellknown.ExpressionString `protobuf:"bytes,4,rep,name=scope,proto3" json:"scope,omitempty"`
 	IpAddress     []*wellknown.ExpressionString `protobuf:"bytes,5,rep,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
 	UserAgent     []*wellknown.ExpressionString `protobuf:"bytes,6,rep,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Mutation      []*wellknown.ExpressionBool   `protobuf:"bytes,7,rep,name=mutation,proto3" json:"mutation,omitempty"`
+	Operation     []*wellknown.ExpressionEnum   `protobuf:"bytes,8,rep,name=operation,proto3" json:"operation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -478,7 +478,7 @@ func (*ExportLogsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
-func (x *ExportLogsInput_Filter) GetActor() []*wellknown.ExpressionString {
+func (x *ExportLogsInput_Filter) GetActor() []*wellknown.ExpressionEnum {
 	if x != nil {
 		return x.Actor
 	}
@@ -513,9 +513,9 @@ func (x *ExportLogsInput_Filter) GetUserAgent() []*wellknown.ExpressionString {
 	return nil
 }
 
-func (x *ExportLogsInput_Filter) GetMutation() []*wellknown.ExpressionBool {
+func (x *ExportLogsInput_Filter) GetOperation() []*wellknown.ExpressionEnum {
 	if x != nil {
-		return x.Mutation
+		return x.Operation
 	}
 	return nil
 }
@@ -524,7 +524,7 @@ var File_eolymp_audit_log_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/audit/log_service.proto\x12\feolymp.audit\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/audit/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xd7\x05\n" +
+	"\x1eeolymp/audit/log_service.proto\x12\feolymp.audit\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/audit/log.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xdd\x05\n" +
 	"\rListLogsInput\x12\x12\n" +
 	"\x04date\x18\x01 \x01(\tR\x04date\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -533,37 +533,37 @@ const file_eolymp_audit_log_service_proto_rawDesc = "" +
 	"\afilters\x18( \x01(\v2\".eolymp.audit.ListLogsInput.FilterR\afilters\x128\n" +
 	"\x04sort\x182 \x01(\x0e2$.eolymp.audit.ListLogsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\xfc\x02\n" +
-	"\x06Filter\x128\n" +
-	"\x05actor\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05actor\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\x82\x03\n" +
+	"\x06Filter\x126\n" +
+	"\x05actor\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05actor\x12:\n" +
 	"\x06method\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x06method\x128\n" +
 	"\x05scope\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05scope\x12A\n" +
 	"\n" +
 	"ip_address\x18\x05 \x03(\v2\".eolymp.wellknown.ExpressionStringR\tipAddress\x12A\n" +
 	"\n" +
-	"user_agent\x18\x06 \x03(\v2\".eolymp.wellknown.ExpressionStringR\tuserAgent\x12<\n" +
-	"\bmutation\x18\a \x03(\v2 .eolymp.wellknown.ExpressionBoolR\bmutation\"&\n" +
+	"user_agent\x18\x06 \x03(\v2\".eolymp.wellknown.ExpressionStringR\tuserAgent\x12>\n" +
+	"\toperation\x18\b \x03(\v2 .eolymp.wellknown.ExpressionEnumR\toperationJ\x04\b\a\x10\b\"&\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\r\n" +
 	"\tTIMESTAMP\x10\x01\"O\n" +
 	"\x0eListLogsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12'\n" +
-	"\x05items\x18\x02 \x03(\v2\x11.eolymp.audit.LogR\x05items\"\x87\x05\n" +
+	"\x05items\x18\x02 \x03(\v2\x11.eolymp.audit.LogR\x05items\"\x8d\x05\n" +
 	"\x0fExportLogsInput\x12\x12\n" +
 	"\x04date\x18\x01 \x01(\tR\x04date\x12>\n" +
 	"\afilters\x18( \x01(\v2$.eolymp.audit.ExportLogsInput.FilterR\afilters\x128\n" +
 	"\x04sort\x182 \x01(\x0e2$.eolymp.audit.ListLogsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x124\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\xfc\x02\n" +
-	"\x06Filter\x128\n" +
-	"\x05actor\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05actor\x12:\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.audit.Log.Extra.FieldR\x05extra\x1a\x82\x03\n" +
+	"\x06Filter\x126\n" +
+	"\x05actor\x18\x02 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05actor\x12:\n" +
 	"\x06method\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x06method\x128\n" +
 	"\x05scope\x18\x04 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x05scope\x12A\n" +
 	"\n" +
 	"ip_address\x18\x05 \x03(\v2\".eolymp.wellknown.ExpressionStringR\tipAddress\x12A\n" +
 	"\n" +
-	"user_agent\x18\x06 \x03(\v2\".eolymp.wellknown.ExpressionStringR\tuserAgent\x12<\n" +
-	"\bmutation\x18\a \x03(\v2 .eolymp.wellknown.ExpressionBoolR\bmutation\"e\n" +
+	"user_agent\x18\x06 \x03(\v2\".eolymp.wellknown.ExpressionStringR\tuserAgent\x12>\n" +
+	"\toperation\x18\b \x03(\v2 .eolymp.wellknown.ExpressionEnumR\toperationJ\x04\b\a\x10\b\"e\n" +
 	"\x10ExportLogsOutput\x12\x1d\n" +
 	"\n" +
 	"export_url\x18\x01 \x01(\tR\texportUrl\x12\x14\n" +
@@ -614,8 +614,8 @@ var file_eolymp_audit_log_service_proto_goTypes = []any{
 	(wellknown.Direction)(0),           // 7: eolymp.wellknown.Direction
 	(Log_Extra_Field)(0),               // 8: eolymp.audit.Log.Extra.Field
 	(*Log)(nil),                        // 9: eolymp.audit.Log
-	(*wellknown.ExpressionString)(nil), // 10: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),   // 11: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionEnum)(nil),   // 10: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionString)(nil), // 11: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_audit_log_service_proto_depIdxs = []int32{
 	5,  // 0: eolymp.audit.ListLogsInput.filters:type_name -> eolymp.audit.ListLogsInput.Filter
@@ -627,18 +627,18 @@ var file_eolymp_audit_log_service_proto_depIdxs = []int32{
 	0,  // 6: eolymp.audit.ExportLogsInput.sort:type_name -> eolymp.audit.ListLogsInput.Sortable
 	7,  // 7: eolymp.audit.ExportLogsInput.order:type_name -> eolymp.wellknown.Direction
 	8,  // 8: eolymp.audit.ExportLogsInput.extra:type_name -> eolymp.audit.Log.Extra.Field
-	10, // 9: eolymp.audit.ListLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
-	10, // 10: eolymp.audit.ListLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
-	10, // 11: eolymp.audit.ListLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
-	10, // 12: eolymp.audit.ListLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
-	10, // 13: eolymp.audit.ListLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
-	11, // 14: eolymp.audit.ListLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
-	10, // 15: eolymp.audit.ExportLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionString
-	10, // 16: eolymp.audit.ExportLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
-	10, // 17: eolymp.audit.ExportLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
-	10, // 18: eolymp.audit.ExportLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
-	10, // 19: eolymp.audit.ExportLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
-	11, // 20: eolymp.audit.ExportLogsInput.Filter.mutation:type_name -> eolymp.wellknown.ExpressionBool
+	10, // 9: eolymp.audit.ListLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionEnum
+	11, // 10: eolymp.audit.ListLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
+	11, // 11: eolymp.audit.ListLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
+	11, // 12: eolymp.audit.ListLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
+	11, // 13: eolymp.audit.ListLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
+	10, // 14: eolymp.audit.ListLogsInput.Filter.operation:type_name -> eolymp.wellknown.ExpressionEnum
+	10, // 15: eolymp.audit.ExportLogsInput.Filter.actor:type_name -> eolymp.wellknown.ExpressionEnum
+	11, // 16: eolymp.audit.ExportLogsInput.Filter.method:type_name -> eolymp.wellknown.ExpressionString
+	11, // 17: eolymp.audit.ExportLogsInput.Filter.scope:type_name -> eolymp.wellknown.ExpressionString
+	11, // 18: eolymp.audit.ExportLogsInput.Filter.ip_address:type_name -> eolymp.wellknown.ExpressionString
+	11, // 19: eolymp.audit.ExportLogsInput.Filter.user_agent:type_name -> eolymp.wellknown.ExpressionString
+	10, // 20: eolymp.audit.ExportLogsInput.Filter.operation:type_name -> eolymp.wellknown.ExpressionEnum
 	1,  // 21: eolymp.audit.LogService.ListLogs:input_type -> eolymp.audit.ListLogsInput
 	3,  // 22: eolymp.audit.LogService.ExportLogs:input_type -> eolymp.audit.ExportLogsInput
 	2,  // 23: eolymp.audit.LogService.ListLogs:output_type -> eolymp.audit.ListLogsOutput
