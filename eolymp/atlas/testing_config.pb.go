@@ -29,6 +29,7 @@ type TestingConfig struct {
 	TimeLimit           uint32                 `protobuf:"varint,4,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`                               // Wall-clock time limit (ms), problem-level default
 	CpuLimit            uint32                 `protobuf:"varint,5,opt,name=cpu_limit,json=cpuLimit,proto3" json:"cpu_limit,omitempty"`                                  // CPU time limit (ms), problem-level default
 	MemoryLimit         uint64                 `protobuf:"varint,6,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`                         // Memory limit (bytes), problem-level default
+	InstanceLimit       uint32                 `protobuf:"varint,7,opt,name=instance_limit,json=instanceLimit,proto3" json:"instance_limit,omitempty"`                   // Most instances of the submission an interactor may ask for, communication problems only
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -105,11 +106,18 @@ func (x *TestingConfig) GetMemoryLimit() uint64 {
 	return 0
 }
 
+func (x *TestingConfig) GetInstanceLimit() uint32 {
+	if x != nil {
+		return x.InstanceLimit
+	}
+	return 0
+}
+
 var File_eolymp_atlas_testing_config_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_config_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\xee\x01\n" +
+	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\x95\x02\n" +
 	"\rTestingConfig\x12\x1b\n" +
 	"\trun_count\x18\x01 \x01(\rR\brunCount\x121\n" +
 	"\x14interactive_followup\x18\x02 \x01(\bR\x13interactiveFollowup\x12.\n" +
@@ -117,7 +125,8 @@ const file_eolymp_atlas_testing_config_proto_rawDesc = "" +
 	"\n" +
 	"time_limit\x18\x04 \x01(\rR\ttimeLimit\x12\x1b\n" +
 	"\tcpu_limit\x18\x05 \x01(\rR\bcpuLimit\x12!\n" +
-	"\fmemory_limit\x18\x06 \x01(\x04R\vmemoryLimitB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\fmemory_limit\x18\x06 \x01(\x04R\vmemoryLimit\x12%\n" +
+	"\x0einstance_limit\x18\a \x01(\rR\rinstanceLimitB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_config_proto_rawDescOnce sync.Once

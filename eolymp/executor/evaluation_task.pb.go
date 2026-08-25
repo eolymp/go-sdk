@@ -99,6 +99,9 @@ type EvaluationTask struct {
 	RunCount uint32 `protobuf:"varint,16,opt,name=run_count,json=runCount,proto3" json:"run_count,omitempty"`
 	// Use interactor in the second and subsequent runs (when run_count > 1)
 	InteractiveFollowup bool `protobuf:"varint,17,opt,name=interactive_followup,json=interactiveFollowup,proto3" json:"interactive_followup,omitempty"`
+	// Most instances of the submission the interactor may ask for over its control connection.
+	// Zero means the interactor talks to a single instance, as an interactive problem does.
+	InstanceLimit uint32 `protobuf:"varint,19,opt,name=instance_limit,json=instanceLimit,proto3" json:"instance_limit,omitempty"`
 	// Precondition define conditions when each run should be executed, if runs does not satisfy preconditions it will be skipped.
 	Preconditions []*EvaluationTask_Precondition `protobuf:"bytes,40,rep,name=preconditions,proto3" json:"preconditions,omitempty"`
 	// Execution constraints, define limits imposed on each run.
@@ -210,6 +213,13 @@ func (x *EvaluationTask) GetInteractiveFollowup() bool {
 		return x.InteractiveFollowup
 	}
 	return false
+}
+
+func (x *EvaluationTask) GetInstanceLimit() uint32 {
+	if x != nil {
+		return x.InstanceLimit
+	}
+	return 0
 }
 
 func (x *EvaluationTask) GetPreconditions() []*EvaluationTask_Precondition {
@@ -764,7 +774,7 @@ var File_eolymp_executor_evaluation_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xbc\x11\n" +
+	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xe3\x11\n" +
 	"\x0eEvaluationTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -775,7 +785,8 @@ const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\x05trace\x18\x12 \x01(\bR\x05trace\x12<\n" +
 	"\x1atime_coefficient_deviation\x18\x0e \x01(\x02R\x18timeCoefficientDeviation\x12\x1b\n" +
 	"\trun_count\x18\x10 \x01(\rR\brunCount\x121\n" +
-	"\x14interactive_followup\x18\x11 \x01(\bR\x13interactiveFollowup\x12R\n" +
+	"\x14interactive_followup\x18\x11 \x01(\bR\x13interactiveFollowup\x12%\n" +
+	"\x0einstance_limit\x18\x13 \x01(\rR\rinstanceLimit\x12R\n" +
 	"\rpreconditions\x18( \x03(\v2,.eolymp.executor.EvaluationTask.PreconditionR\rpreconditions\x12L\n" +
 	"\vconstraints\x18\x14 \x03(\v2*.eolymp.executor.EvaluationTask.ConstraintR\vconstraints\x127\n" +
 	"\n" +
