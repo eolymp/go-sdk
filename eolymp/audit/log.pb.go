@@ -120,63 +120,11 @@ func (Log_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Log_Actor_Type int32
-
-const (
-	Log_Actor_UNKNOWN_TYPE Log_Actor_Type = 0
-	Log_Actor_MEMBER       Log_Actor_Type = 1
-	Log_Actor_USER         Log_Actor_Type = 2
-	Log_Actor_SERVICE      Log_Actor_Type = 3
-)
-
-// Enum value maps for Log_Actor_Type.
-var (
-	Log_Actor_Type_name = map[int32]string{
-		0: "UNKNOWN_TYPE",
-		1: "MEMBER",
-		2: "USER",
-		3: "SERVICE",
-	}
-	Log_Actor_Type_value = map[string]int32{
-		"UNKNOWN_TYPE": 0,
-		"MEMBER":       1,
-		"USER":         2,
-		"SERVICE":      3,
-	}
-)
-
-func (x Log_Actor_Type) Enum() *Log_Actor_Type {
-	p := new(Log_Actor_Type)
-	*p = x
-	return p
-}
-
-func (x Log_Actor_Type) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Log_Actor_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_audit_log_proto_enumTypes[2].Descriptor()
-}
-
-func (Log_Actor_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_audit_log_proto_enumTypes[2]
-}
-
-func (x Log_Actor_Type) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Log_Actor_Type.Descriptor instead.
-func (Log_Actor_Type) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 // Log is a single API call made in the space, as recorded by the gateway.
 type Log struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Actor         *Log_Actor             `protobuf:"bytes,3,opt,name=actor,proto3" json:"actor,omitempty"` // unset when the call was made anonymously
+	Subject       string                 `protobuf:"bytes,12,opt,name=subject,proto3" json:"subject,omitempty"` // who made the call, eg. "member:<space_id>:<member_id>", empty for an anonymous call
 	IpAddress     string                 `protobuf:"bytes,4,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
 	UserAgent     string                 `protobuf:"bytes,5,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
 	Method        string                 `protobuf:"bytes,6,opt,name=method,proto3" json:"method,omitempty"`                                         // called method, eg. "/eolymp.judge.ContestService/CreateContest"
@@ -225,11 +173,11 @@ func (x *Log) GetTimestamp() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Log) GetActor() *Log_Actor {
+func (x *Log) GetSubject() string {
 	if x != nil {
-		return x.Actor
+		return x.Subject
 	}
-	return nil
+	return ""
 }
 
 func (x *Log) GetIpAddress() string {
@@ -317,74 +265,14 @@ func (*Log_Extra) Descriptor() ([]byte, []int) {
 	return file_eolymp_audit_log_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Log_Actor struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          Log_Actor_Type         `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.audit.Log_Actor_Type" json:"type,omitempty"`
-	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`           // member id, user id or service name
-	Subject       string                 `protobuf:"bytes,3,opt,name=subject,proto3" json:"subject,omitempty"` // subject as recorded, eg. "member:<space_id>:<member_id>"
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Log_Actor) Reset() {
-	*x = Log_Actor{}
-	mi := &file_eolymp_audit_log_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Log_Actor) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Log_Actor) ProtoMessage() {}
-
-func (x *Log_Actor) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_audit_log_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Log_Actor.ProtoReflect.Descriptor instead.
-func (*Log_Actor) Descriptor() ([]byte, []int) {
-	return file_eolymp_audit_log_proto_rawDescGZIP(), []int{0, 1}
-}
-
-func (x *Log_Actor) GetType() Log_Actor_Type {
-	if x != nil {
-		return x.Type
-	}
-	return Log_Actor_UNKNOWN_TYPE
-}
-
-func (x *Log_Actor) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *Log_Actor) GetSubject() string {
-	if x != nil {
-		return x.Subject
-	}
-	return ""
-}
-
 var File_eolymp_audit_log_proto protoreflect.FileDescriptor
 
 const file_eolymp_audit_log_proto_rawDesc = "" +
 	"\n" +
-	"\x16eolymp/audit/log.proto\x12\feolymp.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe5\x04\n" +
+	"\x16eolymp/audit/log.proto\x12\feolymp.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\xad\x03\n" +
 	"\x03Log\x128\n" +
-	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12-\n" +
-	"\x05actor\x18\x03 \x01(\v2\x17.eolymp.audit.Log.ActorR\x05actor\x12\x1d\n" +
+	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x18\n" +
+	"\asubject\x18\f \x01(\tR\asubject\x12\x1d\n" +
 	"\n" +
 	"ip_address\x18\x04 \x01(\tR\tipAddress\x12\x1d\n" +
 	"\n" +
@@ -398,17 +286,7 @@ const file_eolymp_audit_log_proto_rawDesc = "" +
 	"\x05Extra\"'\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\v\n" +
-	"\aPAYLOAD\x10\x01\x1a\xa0\x01\n" +
-	"\x05Actor\x120\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x1c.eolymp.audit.Log.Actor.TypeR\x04type\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\tR\x02id\x12\x18\n" +
-	"\asubject\x18\x03 \x01(\tR\asubject\";\n" +
-	"\x04Type\x12\x10\n" +
-	"\fUNKNOWN_TYPE\x10\x00\x12\n" +
-	"\n" +
-	"\x06MEMBER\x10\x01\x12\b\n" +
-	"\x04USER\x10\x02\x12\v\n" +
-	"\aSERVICE\x10\x03\"C\n" +
+	"\aPAYLOAD\x10\x01\"C\n" +
 	"\tOperation\x12\x15\n" +
 	"\x11UNKNOWN_OPERATION\x10\x00\x12\b\n" +
 	"\x04READ\x10\x01\x12\t\n" +
@@ -428,27 +306,23 @@ func file_eolymp_audit_log_proto_rawDescGZIP() []byte {
 	return file_eolymp_audit_log_proto_rawDescData
 }
 
-var file_eolymp_audit_log_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_audit_log_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_audit_log_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_audit_log_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_audit_log_proto_goTypes = []any{
 	(Log_Operation)(0),            // 0: eolymp.audit.Log.Operation
 	(Log_Extra_Field)(0),          // 1: eolymp.audit.Log.Extra.Field
-	(Log_Actor_Type)(0),           // 2: eolymp.audit.Log.Actor.Type
-	(*Log)(nil),                   // 3: eolymp.audit.Log
-	(*Log_Extra)(nil),             // 4: eolymp.audit.Log.Extra
-	(*Log_Actor)(nil),             // 5: eolymp.audit.Log.Actor
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(*Log)(nil),                   // 2: eolymp.audit.Log
+	(*Log_Extra)(nil),             // 3: eolymp.audit.Log.Extra
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_audit_log_proto_depIdxs = []int32{
-	6, // 0: eolymp.audit.Log.timestamp:type_name -> google.protobuf.Timestamp
-	5, // 1: eolymp.audit.Log.actor:type_name -> eolymp.audit.Log.Actor
-	0, // 2: eolymp.audit.Log.operation:type_name -> eolymp.audit.Log.Operation
-	2, // 3: eolymp.audit.Log.Actor.type:type_name -> eolymp.audit.Log.Actor.Type
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 0: eolymp.audit.Log.timestamp:type_name -> google.protobuf.Timestamp
+	0, // 1: eolymp.audit.Log.operation:type_name -> eolymp.audit.Log.Operation
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_audit_log_proto_init() }
@@ -461,8 +335,8 @@ func file_eolymp_audit_log_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_audit_log_proto_rawDesc), len(file_eolymp_audit_log_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   3,
+			NumEnums:      2,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
