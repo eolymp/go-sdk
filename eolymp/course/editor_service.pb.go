@@ -2,12 +2,13 @@
 // versions:
 // 	protoc-gen-go v1.36.12
 // 	protoc        v3.21.12
-// source: eolymp/atlas/editor_service.proto
+// source: eolymp/course/editor_service.proto
 
-package atlas
+package course
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	runtime "github.com/eolymp/go-sdk/eolymp/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -65,11 +66,11 @@ func (x Editor_Feature) String() string {
 }
 
 func (Editor_Feature) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_editor_service_proto_enumTypes[0].Descriptor()
+	return file_eolymp_course_editor_service_proto_enumTypes[0].Descriptor()
 }
 
 func (Editor_Feature) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_editor_service_proto_enumTypes[0]
+	return &file_eolymp_course_editor_service_proto_enumTypes[0]
 }
 
 func (x Editor_Feature) Number() protoreflect.EnumNumber {
@@ -78,22 +79,22 @@ func (x Editor_Feature) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Editor_Feature.Descriptor instead.
 func (Editor_Feature) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Editor struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	State         *Editor_State          `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`                                                 // current state of the editor
-	Features      []Editor_Feature       `protobuf:"varint,10,rep,packed,name=features,proto3,enum=eolymp.atlas.Editor_Feature" json:"features,omitempty"` // list of enabled features
-	Runtimes      []*runtime.Runtime     `protobuf:"bytes,11,rep,name=runtimes,proto3" json:"runtimes,omitempty"`                                          // list of available runtimes
-	Type          Problem_Type           `protobuf:"varint,13,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`                  // type of the problem the editor is opened on, a general signal for editor UI decisions
+	State         *Editor_State          `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`                                                  // current state of the editor
+	Features      []Editor_Feature       `protobuf:"varint,10,rep,packed,name=features,proto3,enum=eolymp.course.Editor_Feature" json:"features,omitempty"` // list of enabled features
+	Runtimes      []*runtime.Runtime     `protobuf:"bytes,11,rep,name=runtimes,proto3" json:"runtimes,omitempty"`                                           // list of available runtimes
+	Type          atlas.Problem_Type     `protobuf:"varint,13,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"`                   // type of the problem the editor is opened on
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Editor) Reset() {
 	*x = Editor{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[0]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -105,7 +106,7 @@ func (x *Editor) String() string {
 func (*Editor) ProtoMessage() {}
 
 func (x *Editor) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[0]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -118,7 +119,7 @@ func (x *Editor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Editor.ProtoReflect.Descriptor instead.
 func (*Editor) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Editor) GetState() *Editor_State {
@@ -142,23 +143,24 @@ func (x *Editor) GetRuntimes() []*runtime.Runtime {
 	return nil
 }
 
-func (x *Editor) GetType() Problem_Type {
+func (x *Editor) GetType() atlas.Problem_Type {
 	if x != nil {
 		return x.Type
 	}
-	return Problem_UNKNOWN_TYPE
+	return atlas.Problem_Type(0)
 }
 
 type DescribeEditorInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeEditorInput) Reset() {
 	*x = DescribeEditorInput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[1]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -170,7 +172,7 @@ func (x *DescribeEditorInput) String() string {
 func (*DescribeEditorInput) ProtoMessage() {}
 
 func (x *DescribeEditorInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[1]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -183,12 +185,19 @@ func (x *DescribeEditorInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DescribeEditorInput) GetProblemId() string {
+func (x *DescribeEditorInput) GetCourseId() string {
 	if x != nil {
-		return x.ProblemId
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *DescribeEditorInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
 	}
 	return ""
 }
@@ -202,7 +211,7 @@ type DescribeEditorOutput struct {
 
 func (x *DescribeEditorOutput) Reset() {
 	*x = DescribeEditorOutput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[2]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -214,7 +223,7 @@ func (x *DescribeEditorOutput) String() string {
 func (*DescribeEditorOutput) ProtoMessage() {}
 
 func (x *DescribeEditorOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[2]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -227,7 +236,7 @@ func (x *DescribeEditorOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorOutput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *DescribeEditorOutput) GetEditor() *Editor {
@@ -239,14 +248,15 @@ func (x *DescribeEditorOutput) GetEditor() *Editor {
 
 type DescribeEditorStateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeEditorStateInput) Reset() {
 	*x = DescribeEditorStateInput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[3]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -258,7 +268,7 @@ func (x *DescribeEditorStateInput) String() string {
 func (*DescribeEditorStateInput) ProtoMessage() {}
 
 func (x *DescribeEditorStateInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[3]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -271,12 +281,19 @@ func (x *DescribeEditorStateInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorStateInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorStateInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *DescribeEditorStateInput) GetProblemId() string {
+func (x *DescribeEditorStateInput) GetCourseId() string {
 	if x != nil {
-		return x.ProblemId
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *DescribeEditorStateInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
 	}
 	return ""
 }
@@ -290,14 +307,14 @@ type DescribeEditorStateOutput struct {
 	//
 	//	*DescribeEditorStateOutput_Output
 	Payload       isDescribeEditorStateOutput_Payload `protobuf_oneof:"payload"`
-	Features      []Editor_Feature                    `protobuf:"varint,10,rep,packed,name=features,proto3,enum=eolymp.atlas.Editor_Feature" json:"features,omitempty"`
+	Features      []Editor_Feature                    `protobuf:"varint,10,rep,packed,name=features,proto3,enum=eolymp.course.Editor_Feature" json:"features,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeEditorStateOutput) Reset() {
 	*x = DescribeEditorStateOutput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[4]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -309,7 +326,7 @@ func (x *DescribeEditorStateOutput) String() string {
 func (*DescribeEditorStateOutput) ProtoMessage() {}
 
 func (x *DescribeEditorStateOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[4]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -322,7 +339,7 @@ func (x *DescribeEditorStateOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorStateOutput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorStateOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeEditorStateOutput) GetRuntime() string {
@@ -353,7 +370,7 @@ func (x *DescribeEditorStateOutput) GetPayload() isDescribeEditorStateOutput_Pay
 	return nil
 }
 
-func (x *DescribeEditorStateOutput) GetOutput() *Submission_Output {
+func (x *DescribeEditorStateOutput) GetOutput() *atlas.Submission_Output {
 	if x != nil {
 		if x, ok := x.Payload.(*DescribeEditorStateOutput_Output); ok {
 			return x.Output
@@ -374,17 +391,18 @@ type isDescribeEditorStateOutput_Payload interface {
 }
 
 type DescribeEditorStateOutput_Output struct {
-	Output *Submission_Output `protobuf:"bytes,5,opt,name=output,proto3,oneof"`
+	Output *atlas.Submission_Output `protobuf:"bytes,5,opt,name=output,proto3,oneof"`
 }
 
 func (*DescribeEditorStateOutput_Output) isDescribeEditorStateOutput_Payload() {}
 
 type UpdateEditorStateInput struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId  string                 `protobuf:"bytes,4,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Runtime    string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	SourceCode string                 `protobuf:"bytes,2,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
-	InputData  string                 `protobuf:"bytes,3,opt,name=input_data,json=inputData,proto3" json:"input_data,omitempty"`
+	CourseId   string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
+	Runtime    string                 `protobuf:"bytes,3,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	SourceCode string                 `protobuf:"bytes,4,opt,name=source_code,json=sourceCode,proto3" json:"source_code,omitempty"`
+	InputData  string                 `protobuf:"bytes,5,opt,name=input_data,json=inputData,proto3" json:"input_data,omitempty"`
 	// Types that are valid to be assigned to Payload:
 	//
 	//	*UpdateEditorStateInput_Output
@@ -395,7 +413,7 @@ type UpdateEditorStateInput struct {
 
 func (x *UpdateEditorStateInput) Reset() {
 	*x = UpdateEditorStateInput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[5]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -407,7 +425,7 @@ func (x *UpdateEditorStateInput) String() string {
 func (*UpdateEditorStateInput) ProtoMessage() {}
 
 func (x *UpdateEditorStateInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[5]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -420,12 +438,19 @@ func (x *UpdateEditorStateInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateEditorStateInput.ProtoReflect.Descriptor instead.
 func (*UpdateEditorStateInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *UpdateEditorStateInput) GetProblemId() string {
+func (x *UpdateEditorStateInput) GetCourseId() string {
 	if x != nil {
-		return x.ProblemId
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *UpdateEditorStateInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
 	}
 	return ""
 }
@@ -458,7 +483,7 @@ func (x *UpdateEditorStateInput) GetPayload() isUpdateEditorStateInput_Payload {
 	return nil
 }
 
-func (x *UpdateEditorStateInput) GetOutput() *Submission_Output {
+func (x *UpdateEditorStateInput) GetOutput() *atlas.Submission_Output {
 	if x != nil {
 		if x, ok := x.Payload.(*UpdateEditorStateInput_Output); ok {
 			return x.Output
@@ -472,14 +497,51 @@ type isUpdateEditorStateInput_Payload interface {
 }
 
 type UpdateEditorStateInput_Output struct {
-	Output *Submission_Output `protobuf:"bytes,5,opt,name=output,proto3,oneof"`
+	Output *atlas.Submission_Output `protobuf:"bytes,6,opt,name=output,proto3,oneof"`
 }
 
 func (*UpdateEditorStateInput_Output) isUpdateEditorStateInput_Payload() {}
 
+type UpdateEditorStateOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateEditorStateOutput) Reset() {
+	*x = UpdateEditorStateOutput{}
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateEditorStateOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateEditorStateOutput) ProtoMessage() {}
+
+func (x *UpdateEditorStateOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateEditorStateOutput.ProtoReflect.Descriptor instead.
+func (*UpdateEditorStateOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{6}
+}
+
 type ListInputsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -487,7 +549,7 @@ type ListInputsInput struct {
 
 func (x *ListInputsInput) Reset() {
 	*x = ListInputsInput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[6]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -499,7 +561,7 @@ func (x *ListInputsInput) String() string {
 func (*ListInputsInput) ProtoMessage() {}
 
 func (x *ListInputsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[6]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -512,12 +574,19 @@ func (x *ListInputsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInputsInput.ProtoReflect.Descriptor instead.
 func (*ListInputsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *ListInputsInput) GetProblemId() string {
+func (x *ListInputsInput) GetCourseId() string {
 	if x != nil {
-		return x.ProblemId
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *ListInputsInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
 	}
 	return ""
 }
@@ -532,14 +601,14 @@ func (x *ListInputsInput) GetVersion() uint32 {
 type ListInputsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Test                `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*atlas.Test          `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListInputsOutput) Reset() {
 	*x = ListInputsOutput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[7]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -551,7 +620,7 @@ func (x *ListInputsOutput) String() string {
 func (*ListInputsOutput) ProtoMessage() {}
 
 func (x *ListInputsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[7]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -564,7 +633,7 @@ func (x *ListInputsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInputsOutput.ProtoReflect.Descriptor instead.
 func (*ListInputsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListInputsOutput) GetTotal() int32 {
@@ -574,47 +643,11 @@ func (x *ListInputsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListInputsOutput) GetItems() []*Test {
+func (x *ListInputsOutput) GetItems() []*atlas.Test {
 	if x != nil {
 		return x.Items
 	}
 	return nil
-}
-
-type UpdateEditorStateOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateEditorStateOutput) Reset() {
-	*x = UpdateEditorStateOutput{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateEditorStateOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateEditorStateOutput) ProtoMessage() {}
-
-func (x *UpdateEditorStateOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateEditorStateOutput.ProtoReflect.Descriptor instead.
-func (*UpdateEditorStateOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{8}
 }
 
 type Editor_State struct {
@@ -632,7 +665,7 @@ type Editor_State struct {
 
 func (x *Editor_State) Reset() {
 	*x = Editor_State{}
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[9]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -644,7 +677,7 @@ func (x *Editor_State) String() string {
 func (*Editor_State) ProtoMessage() {}
 
 func (x *Editor_State) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editor_service_proto_msgTypes[9]
+	mi := &file_eolymp_course_editor_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -657,7 +690,7 @@ func (x *Editor_State) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Editor_State.ProtoReflect.Descriptor instead.
 func (*Editor_State) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editor_service_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_course_editor_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *Editor_State) GetRuntime() string {
@@ -688,7 +721,7 @@ func (x *Editor_State) GetPayload() isEditor_State_Payload {
 	return nil
 }
 
-func (x *Editor_State) GetOutput() *Submission_Output {
+func (x *Editor_State) GetOutput() *atlas.Submission_Output {
 	if x != nil {
 		if x, ok := x.Payload.(*Editor_State_Output); ok {
 			return x.Output
@@ -702,20 +735,20 @@ type isEditor_State_Payload interface {
 }
 
 type Editor_State_Output struct {
-	Output *Submission_Output `protobuf:"bytes,11,opt,name=output,proto3,oneof"` // OUTPUT: the files uploaded so far
+	Output *atlas.Submission_Output `protobuf:"bytes,11,opt,name=output,proto3,oneof"` // OUTPUT: the files uploaded so far
 }
 
 func (*Editor_State_Output) isEditor_State_Payload() {}
 
-var File_eolymp_atlas_editor_service_proto protoreflect.FileDescriptor
+var File_eolymp_course_editor_service_proto protoreflect.FileDescriptor
 
-const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
+const file_eolymp_course_editor_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/editor_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xf1\x03\n" +
-	"\x06Editor\x120\n" +
-	"\x05state\x18\x01 \x01(\v2\x1a.eolymp.atlas.Editor.StateR\x05state\x128\n" +
+	"\"eolymp/course/editor_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xf3\x03\n" +
+	"\x06Editor\x121\n" +
+	"\x05state\x18\x01 \x01(\v2\x1b.eolymp.course.Editor.StateR\x05state\x129\n" +
 	"\bfeatures\x18\n" +
-	" \x03(\x0e2\x1c.eolymp.atlas.Editor.FeatureR\bfeatures\x123\n" +
+	" \x03(\x0e2\x1d.eolymp.course.Editor.FeatureR\bfeatures\x123\n" +
 	"\bruntimes\x18\v \x03(\v2\x17.eolymp.runtime.RuntimeR\bruntimes\x12.\n" +
 	"\x04type\x18\r \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x1a\xa7\x01\n" +
 	"\x05State\x12\x18\n" +
@@ -734,53 +767,57 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\vUPLOAD_CODE\x10\x03\x12\r\n" +
 	"\tEDIT_CODE\x10\x04\x12\x0e\n" +
 	"\n" +
-	"TRACE_CODE\x10\x05\"4\n" +
-	"\x13DescribeEditorInput\x12\x1d\n" +
-	"\n" +
-	"problem_id\x18\x01 \x01(\tR\tproblemId\"D\n" +
-	"\x14DescribeEditorOutput\x12,\n" +
-	"\x06editor\x18\x01 \x01(\v2\x14.eolymp.atlas.EditorR\x06editor\"9\n" +
-	"\x18DescribeEditorStateInput\x12\x1d\n" +
-	"\n" +
-	"problem_id\x18\x01 \x01(\tR\tproblemId\"\xf5\x01\n" +
+	"TRACE_CODE\x10\x05\"S\n" +
+	"\x13DescribeEditorInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"E\n" +
+	"\x14DescribeEditorOutput\x12-\n" +
+	"\x06editor\x18\x01 \x01(\v2\x15.eolymp.course.EditorR\x06editor\"X\n" +
+	"\x18DescribeEditorStateInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"\xf6\x01\n" +
 	"\x19DescribeEditorStateOutput\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
 	"\vsource_code\x18\x02 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
 	"input_data\x18\x03 \x01(\tR\tinputData\x129\n" +
-	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x00R\x06output\x128\n" +
+	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x00R\x06output\x129\n" +
 	"\bfeatures\x18\n" +
-	" \x03(\x0e2\x1c.eolymp.atlas.Editor.FeatureR\bfeaturesB\t\n" +
-	"\apayload\"\xd7\x01\n" +
-	"\x16UpdateEditorStateInput\x12\x1d\n" +
-	"\n" +
-	"problem_id\x18\x04 \x01(\tR\tproblemId\x12\x18\n" +
-	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x1f\n" +
-	"\vsource_code\x18\x02 \x01(\tR\n" +
+	" \x03(\x0e2\x1d.eolymp.course.Editor.FeatureR\bfeaturesB\t\n" +
+	"\apayload\"\xf6\x01\n" +
+	"\x16UpdateEditorStateInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\x12\x18\n" +
+	"\aruntime\x18\x03 \x01(\tR\aruntime\x12\x1f\n" +
+	"\vsource_code\x18\x04 \x01(\tR\n" +
 	"sourceCode\x12\x1d\n" +
 	"\n" +
-	"input_data\x18\x03 \x01(\tR\tinputData\x129\n" +
-	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x00R\x06outputB\t\n" +
-	"\apayload\"J\n" +
-	"\x0fListInputsInput\x12\x1d\n" +
-	"\n" +
-	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
+	"input_data\x18\x05 \x01(\tR\tinputData\x129\n" +
+	"\x06output\x18\x06 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x00R\x06outputB\t\n" +
+	"\apayload\"\x19\n" +
+	"\x17UpdateEditorStateOutput\"i\n" +
+	"\x0fListInputsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"R\n" +
 	"\x10ListInputsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
-	"\x05items\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\x05items\"\x19\n" +
-	"\x17UpdateEditorStateOutput2\x99\x06\n" +
-	"\rEditorService\x12\xb2\x01\n" +
-	"\x0eDescribeEditor\x12!.eolymp.atlas.DescribeEditorInput\x1a\".eolymp.atlas.DescribeEditorOutput\"Y\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\x05items2\xf9\x06\n" +
+	"\rEditorService\x12\xca\x01\n" +
+	"\x0eDescribeEditor\x12\".eolymp.course.DescribeEditorInput\x1a#.eolymp.course.DescribeEditorOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15atlas:submission:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/problems/{problem_id}/editor\x12\xc7\x01\n" +
-	"\x13DescribeEditorState\x12&.eolymp.atlas.DescribeEditorStateInput\x1a'.eolymp.atlas.DescribeEditorStateOutput\"_\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x025\x123/courses/{course_id}/materials/{material_id}/editor\x12\xdf\x01\n" +
+	"\x13DescribeEditorState\x12'.eolymp.course.DescribeEditorStateInput\x1a(.eolymp.course.DescribeEditorStateOutput\"u\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\n" +
@@ -788,75 +825,75 @@ const file_eolymp_atlas_editor_service_proto_rawDesc = "" +
 	"\x19\x8a\xe3\n" +
 	"\x15atlas:submission:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02%\x12#/problems/{problem_id}/editor/state\x12\xc2\x01\n" +
-	"\x11UpdateEditorState\x12$.eolymp.atlas.UpdateEditorStateInput\x1a%.eolymp.atlas.UpdateEditorStateOutput\"`\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02;\x129/courses/{course_id}/materials/{material_id}/editor/state\x12\xda\x01\n" +
+	"\x11UpdateEditorState\x12%.eolymp.course.UpdateEditorStateInput\x1a&.eolymp.course.UpdateEditorStateOutput\"v\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16atlas:submission:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02%\"#/problems/{problem_id}/editor/state\x12\xa6\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02;\"9/courses/{course_id}/materials/{material_id}/editor/state\x12\xbe\x01\n" +
 	"\n" +
-	"ListInputs\x12\x1d.eolymp.atlas.ListInputsInput\x1a\x1e.eolymp.atlas.ListInputsOutput\"Y\xea\xe2\n" +
+	"ListInputs\x12\x1e.eolymp.course.ListInputsInput\x1a\x1f.eolymp.course.ListInputsOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15atlas:submission:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/problems/{problem_id}/inputs\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x025\x123/courses/{course_id}/materials/{material_id}/inputs\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
-	file_eolymp_atlas_editor_service_proto_rawDescOnce sync.Once
-	file_eolymp_atlas_editor_service_proto_rawDescData []byte
+	file_eolymp_course_editor_service_proto_rawDescOnce sync.Once
+	file_eolymp_course_editor_service_proto_rawDescData []byte
 )
 
-func file_eolymp_atlas_editor_service_proto_rawDescGZIP() []byte {
-	file_eolymp_atlas_editor_service_proto_rawDescOnce.Do(func() {
-		file_eolymp_atlas_editor_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_atlas_editor_service_proto_rawDesc), len(file_eolymp_atlas_editor_service_proto_rawDesc)))
+func file_eolymp_course_editor_service_proto_rawDescGZIP() []byte {
+	file_eolymp_course_editor_service_proto_rawDescOnce.Do(func() {
+		file_eolymp_course_editor_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_course_editor_service_proto_rawDesc), len(file_eolymp_course_editor_service_proto_rawDesc)))
 	})
-	return file_eolymp_atlas_editor_service_proto_rawDescData
+	return file_eolymp_course_editor_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_editor_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_editor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_eolymp_atlas_editor_service_proto_goTypes = []any{
-	(Editor_Feature)(0),               // 0: eolymp.atlas.Editor.Feature
-	(*Editor)(nil),                    // 1: eolymp.atlas.Editor
-	(*DescribeEditorInput)(nil),       // 2: eolymp.atlas.DescribeEditorInput
-	(*DescribeEditorOutput)(nil),      // 3: eolymp.atlas.DescribeEditorOutput
-	(*DescribeEditorStateInput)(nil),  // 4: eolymp.atlas.DescribeEditorStateInput
-	(*DescribeEditorStateOutput)(nil), // 5: eolymp.atlas.DescribeEditorStateOutput
-	(*UpdateEditorStateInput)(nil),    // 6: eolymp.atlas.UpdateEditorStateInput
-	(*ListInputsInput)(nil),           // 7: eolymp.atlas.ListInputsInput
-	(*ListInputsOutput)(nil),          // 8: eolymp.atlas.ListInputsOutput
-	(*UpdateEditorStateOutput)(nil),   // 9: eolymp.atlas.UpdateEditorStateOutput
-	(*Editor_State)(nil),              // 10: eolymp.atlas.Editor.State
+var file_eolymp_course_editor_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_course_editor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_course_editor_service_proto_goTypes = []any{
+	(Editor_Feature)(0),               // 0: eolymp.course.Editor.Feature
+	(*Editor)(nil),                    // 1: eolymp.course.Editor
+	(*DescribeEditorInput)(nil),       // 2: eolymp.course.DescribeEditorInput
+	(*DescribeEditorOutput)(nil),      // 3: eolymp.course.DescribeEditorOutput
+	(*DescribeEditorStateInput)(nil),  // 4: eolymp.course.DescribeEditorStateInput
+	(*DescribeEditorStateOutput)(nil), // 5: eolymp.course.DescribeEditorStateOutput
+	(*UpdateEditorStateInput)(nil),    // 6: eolymp.course.UpdateEditorStateInput
+	(*UpdateEditorStateOutput)(nil),   // 7: eolymp.course.UpdateEditorStateOutput
+	(*ListInputsInput)(nil),           // 8: eolymp.course.ListInputsInput
+	(*ListInputsOutput)(nil),          // 9: eolymp.course.ListInputsOutput
+	(*Editor_State)(nil),              // 10: eolymp.course.Editor.State
 	(*runtime.Runtime)(nil),           // 11: eolymp.runtime.Runtime
-	(Problem_Type)(0),                 // 12: eolymp.atlas.Problem.Type
-	(*Submission_Output)(nil),         // 13: eolymp.atlas.Submission.Output
-	(*Test)(nil),                      // 14: eolymp.atlas.Test
+	(atlas.Problem_Type)(0),           // 12: eolymp.atlas.Problem.Type
+	(*atlas.Submission_Output)(nil),   // 13: eolymp.atlas.Submission.Output
+	(*atlas.Test)(nil),                // 14: eolymp.atlas.Test
 }
-var file_eolymp_atlas_editor_service_proto_depIdxs = []int32{
-	10, // 0: eolymp.atlas.Editor.state:type_name -> eolymp.atlas.Editor.State
-	0,  // 1: eolymp.atlas.Editor.features:type_name -> eolymp.atlas.Editor.Feature
-	11, // 2: eolymp.atlas.Editor.runtimes:type_name -> eolymp.runtime.Runtime
-	12, // 3: eolymp.atlas.Editor.type:type_name -> eolymp.atlas.Problem.Type
-	1,  // 4: eolymp.atlas.DescribeEditorOutput.editor:type_name -> eolymp.atlas.Editor
-	13, // 5: eolymp.atlas.DescribeEditorStateOutput.output:type_name -> eolymp.atlas.Submission.Output
-	0,  // 6: eolymp.atlas.DescribeEditorStateOutput.features:type_name -> eolymp.atlas.Editor.Feature
-	13, // 7: eolymp.atlas.UpdateEditorStateInput.output:type_name -> eolymp.atlas.Submission.Output
-	14, // 8: eolymp.atlas.ListInputsOutput.items:type_name -> eolymp.atlas.Test
-	13, // 9: eolymp.atlas.Editor.State.output:type_name -> eolymp.atlas.Submission.Output
-	2,  // 10: eolymp.atlas.EditorService.DescribeEditor:input_type -> eolymp.atlas.DescribeEditorInput
-	4,  // 11: eolymp.atlas.EditorService.DescribeEditorState:input_type -> eolymp.atlas.DescribeEditorStateInput
-	6,  // 12: eolymp.atlas.EditorService.UpdateEditorState:input_type -> eolymp.atlas.UpdateEditorStateInput
-	7,  // 13: eolymp.atlas.EditorService.ListInputs:input_type -> eolymp.atlas.ListInputsInput
-	3,  // 14: eolymp.atlas.EditorService.DescribeEditor:output_type -> eolymp.atlas.DescribeEditorOutput
-	5,  // 15: eolymp.atlas.EditorService.DescribeEditorState:output_type -> eolymp.atlas.DescribeEditorStateOutput
-	9,  // 16: eolymp.atlas.EditorService.UpdateEditorState:output_type -> eolymp.atlas.UpdateEditorStateOutput
-	8,  // 17: eolymp.atlas.EditorService.ListInputs:output_type -> eolymp.atlas.ListInputsOutput
+var file_eolymp_course_editor_service_proto_depIdxs = []int32{
+	10, // 0: eolymp.course.Editor.state:type_name -> eolymp.course.Editor.State
+	0,  // 1: eolymp.course.Editor.features:type_name -> eolymp.course.Editor.Feature
+	11, // 2: eolymp.course.Editor.runtimes:type_name -> eolymp.runtime.Runtime
+	12, // 3: eolymp.course.Editor.type:type_name -> eolymp.atlas.Problem.Type
+	1,  // 4: eolymp.course.DescribeEditorOutput.editor:type_name -> eolymp.course.Editor
+	13, // 5: eolymp.course.DescribeEditorStateOutput.output:type_name -> eolymp.atlas.Submission.Output
+	0,  // 6: eolymp.course.DescribeEditorStateOutput.features:type_name -> eolymp.course.Editor.Feature
+	13, // 7: eolymp.course.UpdateEditorStateInput.output:type_name -> eolymp.atlas.Submission.Output
+	14, // 8: eolymp.course.ListInputsOutput.items:type_name -> eolymp.atlas.Test
+	13, // 9: eolymp.course.Editor.State.output:type_name -> eolymp.atlas.Submission.Output
+	2,  // 10: eolymp.course.EditorService.DescribeEditor:input_type -> eolymp.course.DescribeEditorInput
+	4,  // 11: eolymp.course.EditorService.DescribeEditorState:input_type -> eolymp.course.DescribeEditorStateInput
+	6,  // 12: eolymp.course.EditorService.UpdateEditorState:input_type -> eolymp.course.UpdateEditorStateInput
+	8,  // 13: eolymp.course.EditorService.ListInputs:input_type -> eolymp.course.ListInputsInput
+	3,  // 14: eolymp.course.EditorService.DescribeEditor:output_type -> eolymp.course.DescribeEditorOutput
+	5,  // 15: eolymp.course.EditorService.DescribeEditorState:output_type -> eolymp.course.DescribeEditorStateOutput
+	7,  // 16: eolymp.course.EditorService.UpdateEditorState:output_type -> eolymp.course.UpdateEditorStateOutput
+	9,  // 17: eolymp.course.EditorService.ListInputs:output_type -> eolymp.course.ListInputsOutput
 	14, // [14:18] is the sub-list for method output_type
 	10, // [10:14] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
@@ -864,39 +901,36 @@ var file_eolymp_atlas_editor_service_proto_depIdxs = []int32{
 	0,  // [0:10] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_atlas_editor_service_proto_init() }
-func file_eolymp_atlas_editor_service_proto_init() {
-	if File_eolymp_atlas_editor_service_proto != nil {
+func init() { file_eolymp_course_editor_service_proto_init() }
+func file_eolymp_course_editor_service_proto_init() {
+	if File_eolymp_course_editor_service_proto != nil {
 		return
 	}
-	file_eolymp_atlas_problem_proto_init()
-	file_eolymp_atlas_submission_proto_init()
-	file_eolymp_atlas_testing_test_proto_init()
-	file_eolymp_atlas_editor_service_proto_msgTypes[4].OneofWrappers = []any{
+	file_eolymp_course_editor_service_proto_msgTypes[4].OneofWrappers = []any{
 		(*DescribeEditorStateOutput_Output)(nil),
 	}
-	file_eolymp_atlas_editor_service_proto_msgTypes[5].OneofWrappers = []any{
+	file_eolymp_course_editor_service_proto_msgTypes[5].OneofWrappers = []any{
 		(*UpdateEditorStateInput_Output)(nil),
 	}
-	file_eolymp_atlas_editor_service_proto_msgTypes[9].OneofWrappers = []any{
+	file_eolymp_course_editor_service_proto_msgTypes[9].OneofWrappers = []any{
 		(*Editor_State_Output)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_editor_service_proto_rawDesc), len(file_eolymp_atlas_editor_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_editor_service_proto_rawDesc), len(file_eolymp_course_editor_service_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_eolymp_atlas_editor_service_proto_goTypes,
-		DependencyIndexes: file_eolymp_atlas_editor_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_atlas_editor_service_proto_enumTypes,
-		MessageInfos:      file_eolymp_atlas_editor_service_proto_msgTypes,
+		GoTypes:           file_eolymp_course_editor_service_proto_goTypes,
+		DependencyIndexes: file_eolymp_course_editor_service_proto_depIdxs,
+		EnumInfos:         file_eolymp_course_editor_service_proto_enumTypes,
+		MessageInfos:      file_eolymp_course_editor_service_proto_msgTypes,
 	}.Build()
-	File_eolymp_atlas_editor_service_proto = out.File
-	file_eolymp_atlas_editor_service_proto_goTypes = nil
-	file_eolymp_atlas_editor_service_proto_depIdxs = nil
+	File_eolymp_course_editor_service_proto = out.File
+	file_eolymp_course_editor_service_proto_goTypes = nil
+	file_eolymp_course_editor_service_proto_depIdxs = nil
 }

@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: eolymp/atlas/editor_service.proto
+// source: eolymp/judge/editor_service.proto
 
-package atlas
+package judge
 
 import (
 	context "context"
@@ -19,40 +19,47 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	EditorService_DescribeEditor_FullMethodName      = "/eolymp.atlas.EditorService/DescribeEditor"
-	EditorService_DescribeEditorState_FullMethodName = "/eolymp.atlas.EditorService/DescribeEditorState"
-	EditorService_UpdateEditorState_FullMethodName   = "/eolymp.atlas.EditorService/UpdateEditorState"
-	EditorService_ListInputs_FullMethodName          = "/eolymp.atlas.EditorService/ListInputs"
+	EditorService_DescribeEditor_FullMethodName      = "/eolymp.judge.EditorService/DescribeEditor"
+	EditorService_DescribeEditorState_FullMethodName = "/eolymp.judge.EditorService/DescribeEditorState"
+	EditorService_UpdateEditorState_FullMethodName   = "/eolymp.judge.EditorService/UpdateEditorState"
+	EditorService_ListInputs_FullMethodName          = "/eolymp.judge.EditorService/ListInputs"
+	EditorService_PrintEditorCode_FullMethodName     = "/eolymp.judge.EditorService/PrintEditorCode"
 )
 
 // EditorServiceClient is the client API for EditorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// EditorService drives the participant-side code editor of a problem, not the authoring console.
+// EditorService drives the participant-side code editor for a problem inside a contest, not the authoring console.
 //
-// It answers two things for the caller's own account: how the editor should be set up on this problem, and
-// what the participant was last working on. That work in progress is a private per-user, per-problem draft
-// kept so it survives a reload or navigating away. Saving a draft is not a submission and is never
-// compiled or graded; use SubmissionService to actually submit.
+// It answers two things for the caller's own account: how the editor should be set up here, and what the
+// participant was last working on. That work in progress is a private draft kept so it survives a reload or
+// navigating away, and it is held here rather than shared, because what a participant is drafting in one contest is not what they are drafting on the same problem elsewhere.
+// Saving a draft is not a submission and is never compiled or graded.
+//
+// The same editor exists for eolymp.atlas.EditorService for a problem on its own and eolymp.course.EditorService for one
+// reached through a course material. They differ in what the editor is opened on, which is what decides
+// its features and whose draft is being kept.
 type EditorServiceClient interface {
-	// DescribeEditor returns everything needed to open the editor for the current user on this problem.
-	// Which features are enabled varies with problem type and space or contest setup, so drive the editor's
-	// controls off the response rather than assuming.
+	// DescribeEditor returns everything needed to open the editor for the current user here. Which features
+	// are enabled varies with the problem and the surrounding setup, so drive the editor's controls off the
+	// response rather than assuming.
 	DescribeEditor(ctx context.Context, in *DescribeEditorInput, opts ...grpc.CallOption) (*DescribeEditorOutput, error)
-	// DescribeEditorState returns only the current user's saved draft for this problem, for restoring the
-	// editor without re-reading its whole configuration. A user who never worked on the problem simply gets
-	// an empty draft, not an error.
+	// DescribeEditorState returns only the current user's saved draft, for restoring the editor without
+	// re-reading its whole configuration. A user who never worked here simply gets an empty draft.
 	DescribeEditorState(ctx context.Context, in *DescribeEditorStateInput, opts ...grpc.CallOption) (*DescribeEditorStateOutput, error)
 	// UpdateEditorState replaces the current user's draft; there is no field mask, so anything omitted from
-	// the request is cleared rather than kept. An answer in the output payload is only kept when it names a
-	// test the problem actually has, the rest are silently dropped.
+	// the request is cleared rather than kept.
 	UpdateEditorState(ctx context.Context, in *UpdateEditorStateInput, opts ...grpc.CallOption) (*UpdateEditorStateOutput, error)
 	// ListInputs returns the inputs of an output-only problem, one per test, and nothing at all for any other
-	// problem type. It is the one way to read a test which is not an example; the answer a test is checked
-	// against is never filled in for a caller who may not edit the problem, since that is what the participant
-	// is being asked to compute.
+	// problem type. The answer a test is checked against is never filled in, since that is what the
+	// participant is being asked to compute.
 	ListInputs(ctx context.Context, in *ListInputsInput, opts ...grpc.CallOption) (*ListInputsOutput, error)
+	// PrintEditorCode queues the code passed in for printing on behalf of the current user, on the printer of
+	// the contest being solved; the code is printed as given and is not submitted or saved as a draft.
+	// Printing is only available where a printer is configured and fails as a precondition error otherwise,
+	// so only call it when DescribeEditor reports the printing feature.
+	PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput, opts ...grpc.CallOption) (*PrintEditorCodeOutput, error)
 }
 
 type editorServiceClient struct {
@@ -103,34 +110,50 @@ func (c *editorServiceClient) ListInputs(ctx context.Context, in *ListInputsInpu
 	return out, nil
 }
 
+func (c *editorServiceClient) PrintEditorCode(ctx context.Context, in *PrintEditorCodeInput, opts ...grpc.CallOption) (*PrintEditorCodeOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PrintEditorCodeOutput)
+	err := c.cc.Invoke(ctx, EditorService_PrintEditorCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EditorServiceServer is the server API for EditorService service.
 // All implementations should embed UnimplementedEditorServiceServer
 // for forward compatibility.
 //
-// EditorService drives the participant-side code editor of a problem, not the authoring console.
+// EditorService drives the participant-side code editor for a problem inside a contest, not the authoring console.
 //
-// It answers two things for the caller's own account: how the editor should be set up on this problem, and
-// what the participant was last working on. That work in progress is a private per-user, per-problem draft
-// kept so it survives a reload or navigating away. Saving a draft is not a submission and is never
-// compiled or graded; use SubmissionService to actually submit.
+// It answers two things for the caller's own account: how the editor should be set up here, and what the
+// participant was last working on. That work in progress is a private draft kept so it survives a reload or
+// navigating away, and it is held here rather than shared, because what a participant is drafting in one contest is not what they are drafting on the same problem elsewhere.
+// Saving a draft is not a submission and is never compiled or graded.
+//
+// The same editor exists for eolymp.atlas.EditorService for a problem on its own and eolymp.course.EditorService for one
+// reached through a course material. They differ in what the editor is opened on, which is what decides
+// its features and whose draft is being kept.
 type EditorServiceServer interface {
-	// DescribeEditor returns everything needed to open the editor for the current user on this problem.
-	// Which features are enabled varies with problem type and space or contest setup, so drive the editor's
-	// controls off the response rather than assuming.
+	// DescribeEditor returns everything needed to open the editor for the current user here. Which features
+	// are enabled varies with the problem and the surrounding setup, so drive the editor's controls off the
+	// response rather than assuming.
 	DescribeEditor(context.Context, *DescribeEditorInput) (*DescribeEditorOutput, error)
-	// DescribeEditorState returns only the current user's saved draft for this problem, for restoring the
-	// editor without re-reading its whole configuration. A user who never worked on the problem simply gets
-	// an empty draft, not an error.
+	// DescribeEditorState returns only the current user's saved draft, for restoring the editor without
+	// re-reading its whole configuration. A user who never worked here simply gets an empty draft.
 	DescribeEditorState(context.Context, *DescribeEditorStateInput) (*DescribeEditorStateOutput, error)
 	// UpdateEditorState replaces the current user's draft; there is no field mask, so anything omitted from
-	// the request is cleared rather than kept. An answer in the output payload is only kept when it names a
-	// test the problem actually has, the rest are silently dropped.
+	// the request is cleared rather than kept.
 	UpdateEditorState(context.Context, *UpdateEditorStateInput) (*UpdateEditorStateOutput, error)
 	// ListInputs returns the inputs of an output-only problem, one per test, and nothing at all for any other
-	// problem type. It is the one way to read a test which is not an example; the answer a test is checked
-	// against is never filled in for a caller who may not edit the problem, since that is what the participant
-	// is being asked to compute.
+	// problem type. The answer a test is checked against is never filled in, since that is what the
+	// participant is being asked to compute.
 	ListInputs(context.Context, *ListInputsInput) (*ListInputsOutput, error)
+	// PrintEditorCode queues the code passed in for printing on behalf of the current user, on the printer of
+	// the contest being solved; the code is printed as given and is not submitted or saved as a draft.
+	// Printing is only available where a printer is configured and fails as a precondition error otherwise,
+	// so only call it when DescribeEditor reports the printing feature.
+	PrintEditorCode(context.Context, *PrintEditorCodeInput) (*PrintEditorCodeOutput, error)
 }
 
 // UnimplementedEditorServiceServer should be embedded to have
@@ -151,6 +174,9 @@ func (UnimplementedEditorServiceServer) UpdateEditorState(context.Context, *Upda
 }
 func (UnimplementedEditorServiceServer) ListInputs(context.Context, *ListInputsInput) (*ListInputsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListInputs not implemented")
+}
+func (UnimplementedEditorServiceServer) PrintEditorCode(context.Context, *PrintEditorCodeInput) (*PrintEditorCodeOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method PrintEditorCode not implemented")
 }
 func (UnimplementedEditorServiceServer) testEmbeddedByValue() {}
 
@@ -244,11 +270,29 @@ func _EditorService_ListInputs_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EditorService_PrintEditorCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PrintEditorCodeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EditorServiceServer).PrintEditorCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EditorService_PrintEditorCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EditorServiceServer).PrintEditorCode(ctx, req.(*PrintEditorCodeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EditorService_ServiceDesc is the grpc.ServiceDesc for EditorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var EditorService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.atlas.EditorService",
+	ServiceName: "eolymp.judge.EditorService",
 	HandlerType: (*EditorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -267,7 +311,11 @@ var EditorService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ListInputs",
 			Handler:    _EditorService_ListInputs_Handler,
 		},
+		{
+			MethodName: "PrintEditorCode",
+			Handler:    _EditorService_PrintEditorCode_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/atlas/editor_service.proto",
+	Metadata: "eolymp/judge/editor_service.proto",
 }
