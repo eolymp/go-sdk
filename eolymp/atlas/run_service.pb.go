@@ -8,7 +8,6 @@ package atlas
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	playground "github.com/eolymp/go-sdk/eolymp/playground"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -252,7 +251,7 @@ func (x *DescribeRunInput) GetRunId() string {
 
 type DescribeRunOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Run           *playground.Run        `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
+	Run           *Run                   `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -287,7 +286,7 @@ func (*DescribeRunOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_run_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *DescribeRunOutput) GetRun() *playground.Run {
+func (x *DescribeRunOutput) GetRun() *Run {
 	if x != nil {
 		return x.Run
 	}
@@ -349,7 +348,7 @@ func (x *WatchRunInput) GetRunId() string {
 type WatchRunOutput struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	Event         wellknown.WatchEventType `protobuf:"varint,1,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
-	Run           *playground.Run          `protobuf:"bytes,2,opt,name=run,proto3" json:"run,omitempty"`
+	Run           *Run                     `protobuf:"bytes,2,opt,name=run,proto3" json:"run,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -391,7 +390,7 @@ func (x *WatchRunOutput) GetEvent() wellknown.WatchEventType {
 	return wellknown.WatchEventType(0)
 }
 
-func (x *WatchRunOutput) GetRun() *playground.Run {
+func (x *WatchRunOutput) GetRun() *Run {
 	if x != nil {
 		return x.Run
 	}
@@ -402,7 +401,7 @@ var File_eolymp_atlas_run_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_run_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/atlas/run_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xe1\x01\n" +
+	"\x1eeolymp/atlas/run_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/atlas/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xe1\x01\n" +
 	"\x0eCreateRunInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
@@ -420,16 +419,16 @@ const file_eolymp_atlas_run_service_proto_rawDesc = "" +
 	"\x10DescribeRunInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"=\n" +
-	"\x11DescribeRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\"E\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"8\n" +
+	"\x11DescribeRunOutput\x12#\n" +
+	"\x03run\x18\x01 \x01(\v2\x11.eolymp.atlas.RunR\x03run\"E\n" +
 	"\rWatchRunInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"r\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"m\n" +
 	"\x0eWatchRunOutput\x126\n" +
-	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12(\n" +
-	"\x03run\x18\x02 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xad\x04\n" +
+	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12#\n" +
+	"\x03run\x18\x02 \x01(\v2\x11.eolymp.atlas.RunR\x03run2\xad\x04\n" +
 	"\n" +
 	"RunService\x12\xa0\x01\n" +
 	"\tCreateRun\x12\x1c.eolymp.atlas.CreateRunInput\x1a\x1d.eolymp.atlas.CreateRunOutput\"V\xea\xe2\n" +
@@ -480,13 +479,13 @@ var file_eolymp_atlas_run_service_proto_goTypes = []any{
 	(*DescribeRunOutput)(nil),     // 3: eolymp.atlas.DescribeRunOutput
 	(*WatchRunInput)(nil),         // 4: eolymp.atlas.WatchRunInput
 	(*WatchRunOutput)(nil),        // 5: eolymp.atlas.WatchRunOutput
-	(*playground.Run)(nil),        // 6: eolymp.playground.Run
+	(*Run)(nil),                   // 6: eolymp.atlas.Run
 	(wellknown.WatchEventType)(0), // 7: eolymp.wellknown.WatchEventType
 }
 var file_eolymp_atlas_run_service_proto_depIdxs = []int32{
-	6, // 0: eolymp.atlas.DescribeRunOutput.run:type_name -> eolymp.playground.Run
+	6, // 0: eolymp.atlas.DescribeRunOutput.run:type_name -> eolymp.atlas.Run
 	7, // 1: eolymp.atlas.WatchRunOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	6, // 2: eolymp.atlas.WatchRunOutput.run:type_name -> eolymp.playground.Run
+	6, // 2: eolymp.atlas.WatchRunOutput.run:type_name -> eolymp.atlas.Run
 	0, // 3: eolymp.atlas.RunService.CreateRun:input_type -> eolymp.atlas.CreateRunInput
 	2, // 4: eolymp.atlas.RunService.DescribeRun:input_type -> eolymp.atlas.DescribeRunInput
 	4, // 5: eolymp.atlas.RunService.WatchRun:input_type -> eolymp.atlas.WatchRunInput
@@ -505,6 +504,7 @@ func file_eolymp_atlas_run_service_proto_init() {
 	if File_eolymp_atlas_run_service_proto != nil {
 		return
 	}
+	file_eolymp_atlas_run_proto_init()
 	file_eolymp_atlas_run_service_proto_msgTypes[0].OneofWrappers = []any{
 		(*CreateRunInput_InputData)(nil),
 		(*CreateRunInput_InputRef)(nil),

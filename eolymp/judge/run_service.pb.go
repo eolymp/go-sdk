@@ -8,7 +8,7 @@ package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
-	playground "github.com/eolymp/go-sdk/eolymp/playground"
+	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -268,7 +268,7 @@ func (x *DescribeRunInput) GetRunId() string {
 
 type DescribeRunOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Run           *playground.Run        `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
+	Run           *atlas.Run             `protobuf:"bytes,1,opt,name=run,proto3" json:"run,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -303,7 +303,7 @@ func (*DescribeRunOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_run_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *DescribeRunOutput) GetRun() *playground.Run {
+func (x *DescribeRunOutput) GetRun() *atlas.Run {
 	if x != nil {
 		return x.Run
 	}
@@ -373,7 +373,7 @@ func (x *WatchRunInput) GetRunId() string {
 type WatchRunOutput struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	Event         wellknown.WatchEventType `protobuf:"varint,1,opt,name=event,proto3,enum=eolymp.wellknown.WatchEventType" json:"event,omitempty"`
-	Run           *playground.Run          `protobuf:"bytes,2,opt,name=run,proto3" json:"run,omitempty"`
+	Run           *atlas.Run               `protobuf:"bytes,2,opt,name=run,proto3" json:"run,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -415,7 +415,7 @@ func (x *WatchRunOutput) GetEvent() wellknown.WatchEventType {
 	return wellknown.WatchEventType(0)
 }
 
-func (x *WatchRunOutput) GetRun() *playground.Run {
+func (x *WatchRunOutput) GetRun() *atlas.Run {
 	if x != nil {
 		return x.Run
 	}
@@ -426,7 +426,7 @@ var File_eolymp_judge_run_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_run_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/run_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/playground/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x80\x02\n" +
+	"\x1eeolymp/judge/run_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/atlas/run.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x80\x02\n" +
 	"\x0eCreateRunInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -448,18 +448,18 @@ const file_eolymp_judge_run_service_proto_rawDesc = "" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\"=\n" +
-	"\x11DescribeRunOutput\x12(\n" +
-	"\x03run\x18\x01 \x01(\v2\x16.eolymp.playground.RunR\x03run\"d\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\"8\n" +
+	"\x11DescribeRunOutput\x12#\n" +
+	"\x03run\x18\x01 \x01(\v2\x11.eolymp.atlas.RunR\x03run\"d\n" +
 	"\rWatchRunInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\"r\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\"m\n" +
 	"\x0eWatchRunOutput\x126\n" +
-	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12(\n" +
-	"\x03run\x18\x02 \x01(\v2\x16.eolymp.playground.RunR\x03run2\xef\x04\n" +
+	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12#\n" +
+	"\x03run\x18\x02 \x01(\v2\x11.eolymp.atlas.RunR\x03run2\xef\x04\n" +
 	"\n" +
 	"RunService\x12\xb6\x01\n" +
 	"\tCreateRun\x12\x1c.eolymp.judge.CreateRunInput\x1a\x1d.eolymp.judge.CreateRunOutput\"l\xea\xe2\n" +
@@ -510,13 +510,13 @@ var file_eolymp_judge_run_service_proto_goTypes = []any{
 	(*DescribeRunOutput)(nil),     // 3: eolymp.judge.DescribeRunOutput
 	(*WatchRunInput)(nil),         // 4: eolymp.judge.WatchRunInput
 	(*WatchRunOutput)(nil),        // 5: eolymp.judge.WatchRunOutput
-	(*playground.Run)(nil),        // 6: eolymp.playground.Run
+	(*atlas.Run)(nil),             // 6: eolymp.atlas.Run
 	(wellknown.WatchEventType)(0), // 7: eolymp.wellknown.WatchEventType
 }
 var file_eolymp_judge_run_service_proto_depIdxs = []int32{
-	6, // 0: eolymp.judge.DescribeRunOutput.run:type_name -> eolymp.playground.Run
+	6, // 0: eolymp.judge.DescribeRunOutput.run:type_name -> eolymp.atlas.Run
 	7, // 1: eolymp.judge.WatchRunOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	6, // 2: eolymp.judge.WatchRunOutput.run:type_name -> eolymp.playground.Run
+	6, // 2: eolymp.judge.WatchRunOutput.run:type_name -> eolymp.atlas.Run
 	0, // 3: eolymp.judge.RunService.CreateRun:input_type -> eolymp.judge.CreateRunInput
 	2, // 4: eolymp.judge.RunService.DescribeRun:input_type -> eolymp.judge.DescribeRunInput
 	4, // 5: eolymp.judge.RunService.WatchRun:input_type -> eolymp.judge.WatchRunInput
