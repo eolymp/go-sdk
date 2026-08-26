@@ -25,6 +25,7 @@ const (
 
 type DescribeScoreboardInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -57,6 +58,13 @@ func (x *DescribeScoreboardInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeScoreboardInput.ProtoReflect.Descriptor instead.
 func (*DescribeScoreboardInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_scoreboard_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DescribeScoreboardInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 type DescribeScoreboardOutput struct {
@@ -105,6 +113,7 @@ func (x *DescribeScoreboardOutput) GetScoreboard() *Scoreboard {
 
 type ListScoreboardRowsInput struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
+	ContestId     string                          `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Mode          Scoreboard_Mode                 `protobuf:"varint,1,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	Size          int32                           `protobuf:"varint,10,opt,name=size,proto3" json:"size,omitempty"` // Number of results per page, (max. 100, default 100)
 	Offset        int32                           `protobuf:"varint,12,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -143,6 +152,13 @@ func (x *ListScoreboardRowsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListScoreboardRowsInput.ProtoReflect.Descriptor instead.
 func (*ListScoreboardRowsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_scoreboard_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListScoreboardRowsInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *ListScoreboardRowsInput) GetMode() Scoreboard_Mode {
@@ -241,6 +257,7 @@ func (x *ListScoreboardRowsOutput) GetItems() []*Scoreboard_Row {
 
 type DescribeScoreboardRowInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,3,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	ParticipantId string                 `protobuf:"bytes,1,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"`
 	Mode          Scoreboard_Mode        `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -275,6 +292,13 @@ func (x *DescribeScoreboardRowInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeScoreboardRowInput.ProtoReflect.Descriptor instead.
 func (*DescribeScoreboardRowInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_scoreboard_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DescribeScoreboardRowInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *DescribeScoreboardRowInput) GetParticipantId() string {
@@ -337,6 +361,7 @@ func (x *DescribeScoreboardRowOutput) GetRow() *Scoreboard_Row {
 
 type ExportScoreboardInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Mode          Scoreboard_Mode        `protobuf:"varint,1,opt,name=mode,proto3,enum=eolymp.judge.Scoreboard_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -370,6 +395,13 @@ func (x *ExportScoreboardInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ExportScoreboardInput.ProtoReflect.Descriptor instead.
 func (*ExportScoreboardInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_scoreboard_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ExportScoreboardInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *ExportScoreboardInput) GetMode() Scoreboard_Mode {
@@ -479,13 +511,17 @@ var File_eolymp_judge_scoreboard_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/judge/scoreboard_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x19\n" +
-	"\x17DescribeScoreboardInput\"T\n" +
+	"%eolymp/judge/scoreboard_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/judge/scoreboard.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
+	"\x17DescribeScoreboardInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"T\n" +
 	"\x18DescribeScoreboardOutput\x128\n" +
 	"\n" +
 	"scoreboard\x18\x01 \x01(\v2\x18.eolymp.judge.ScoreboardR\n" +
-	"scoreboard\"\x9a\x03\n" +
-	"\x17ListScoreboardRowsInput\x121\n" +
+	"scoreboard\"\xb9\x03\n" +
+	"\x17ListScoreboardRowsInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x02 \x01(\tR\tcontestId\x121\n" +
 	"\x04mode\x18\x01 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\x12\x12\n" +
 	"\x04size\x18\n" +
 	" \x01(\x05R\x04size\x12\x16\n" +
@@ -501,50 +537,54 @@ const file_eolymp_judge_scoreboard_service_proto_rawDesc = "" +
 	"\fdisqualified\x18\v \x03(\v2 .eolymp.wellknown.ExpressionBoolR\fdisqualified\"d\n" +
 	"\x18ListScoreboardRowsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x122\n" +
-	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.judge.Scoreboard.RowR\x05items\"v\n" +
-	"\x1aDescribeScoreboardRowInput\x12%\n" +
+	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.judge.Scoreboard.RowR\x05items\"\x95\x01\n" +
+	"\x1aDescribeScoreboardRowInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x03 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x01 \x01(\tR\rparticipantId\x121\n" +
 	"\x04mode\x18\x02 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"M\n" +
 	"\x1bDescribeScoreboardRowOutput\x12.\n" +
-	"\x03row\x18\x01 \x01(\v2\x1c.eolymp.judge.Scoreboard.RowR\x03row\"J\n" +
-	"\x15ExportScoreboardInput\x121\n" +
+	"\x03row\x18\x01 \x01(\v2\x1c.eolymp.judge.Scoreboard.RowR\x03row\"i\n" +
+	"\x15ExportScoreboardInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x02 \x01(\tR\tcontestId\x121\n" +
 	"\x04mode\x18\x01 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"7\n" +
 	"\x16ExportScoreboardOutput\x12\x1d\n" +
 	"\n" +
-	"export_url\x18\x01 \x01(\tR\texportUrl2\x87\x06\n" +
-	"\x11ScoreboardService\x12\xaa\x01\n" +
-	"\x12DescribeScoreboard\x12%.eolymp.judge.DescribeScoreboardInput\x1a&.eolymp.judge.DescribeScoreboardOutput\"E\xea\xe2\n" +
+	"export_url\x18\x01 \x01(\tR\texportUrl2\xe0\x06\n" +
+	"\x11ScoreboardService\x12\xc0\x01\n" +
+	"\x12DescribeScoreboard\x12%.eolymp.judge.DescribeScoreboardInput\x1a&.eolymp.judge.DescribeScoreboardOutput\"[\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\r\x12\v/scoreboard\x12\xaf\x01\n" +
-	"\x12ListScoreboardRows\x12%.eolymp.judge.ListScoreboardRowsInput\x1a&.eolymp.judge.ListScoreboardRowsOutput\"J\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/contests/{contest_id}/scoreboard\x12\xc5\x01\n" +
+	"\x12ListScoreboardRows\x12%.eolymp.judge.ListScoreboardRowsInput\x1a&.eolymp.judge.ListScoreboardRowsOutput\"`\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/scoreboard/rows\x12\xc9\x01\n" +
-	"\x15DescribeScoreboardRow\x12(.eolymp.judge.DescribeScoreboardRowInput\x1a).eolymp.judge.DescribeScoreboardRowOutput\"[\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02(\x12&/contests/{contest_id}/scoreboard/rows\x12\xdf\x01\n" +
+	"\x15DescribeScoreboardRow\x12(.eolymp.judge.DescribeScoreboardRowInput\x1a).eolymp.judge.DescribeScoreboardRowOutput\"q\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02#\x12!/scoreboard/rows/{participant_id}\x12\xaa\x01\n" +
-	"\x10ExportScoreboard\x12#.eolymp.judge.ExportScoreboardInput\x1a$.eolymp.judge.ExportScoreboardOutput\"K\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x029\x127/contests/{contest_id}/scoreboard/rows/{participant_id}\x12\xc0\x01\n" +
+	"\x10ExportScoreboard\x12#.eolymp.judge.ExportScoreboardInput\x1a$.eolymp.judge.ExportScoreboardOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x14\"\x12/scoreboard/export\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02*\"(/contests/{contest_id}/scoreboard/export\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_scoreboard_service_proto_rawDescOnce sync.Once

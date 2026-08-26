@@ -296,16 +296,16 @@ func _AdmissionService_HTTPWriteEvent(w http.ResponseWriter, name string, v prot
 
 // RegisterAdmissionServiceHttpHandlers adds handlers for for AdmissionServiceClient
 func RegisterAdmissionServiceHttpHandlers(router *mux.Router, prefix string, cli AdmissionServiceClient) {
-	router.Handle(prefix+"/admission:request", _AdmissionService_RequestAdmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/admission:request", _AdmissionService_RequestAdmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AdmissionService.RequestAdmission")
-	router.Handle(prefix+"/admission:watch", _AdmissionService_WatchAdmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/admission:watch", _AdmissionService_WatchAdmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AdmissionService.WatchAdmission")
-	router.Handle(prefix+"/admission:request", _AdmissionService_DescribeAdmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/admission:request", _AdmissionService_DescribeAdmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AdmissionService.DescribeAdmission")
-	router.Handle(prefix+"/admission:accept", _AdmissionService_AcceptAdmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/admission:accept", _AdmissionService_AcceptAdmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AdmissionService.AcceptAdmission")
 }
@@ -323,6 +323,9 @@ func _AdmissionService_RequestAdmission_Rule0(cli AdmissionServiceClient) http.H
 			_AdmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -345,6 +348,9 @@ func _AdmissionService_WatchAdmission_Rule0(cli AdmissionServiceClient) http.Han
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		stream, err := cli.WatchAdmission(r.Context(), in)
 		if err != nil {
 			_AdmissionService_HTTPWriteErrorResponse(w, err)
@@ -363,6 +369,9 @@ func _AdmissionService_DescribeAdmission_Rule0(cli AdmissionServiceClient) http.
 			_AdmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -384,6 +393,9 @@ func _AdmissionService_AcceptAdmission_Rule0(cli AdmissionServiceClient) http.Ha
 			_AdmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 

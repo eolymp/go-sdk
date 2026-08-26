@@ -102,7 +102,12 @@ func (s *RegistrationServiceService) do(ctx context.Context, verb, path string, 
 
 func (s *RegistrationServiceService) DescribeRegistration(ctx context.Context, in *DescribeRegistrationInput) (*DescribeRegistrationOutput, error) {
 	out := &DescribeRegistrationOutput{}
-	path := "/registration"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/registration"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *RegistrationServiceService) DescribeRegistration(ctx context.Context, i
 
 func (s *RegistrationServiceService) SubmitRegistration(ctx context.Context, in *SubmitRegistrationInput) (*SubmitRegistrationOutput, error) {
 	out := &SubmitRegistrationOutput{}
-	path := "/registration"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/registration"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

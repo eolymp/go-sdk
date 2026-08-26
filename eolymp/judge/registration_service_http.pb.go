@@ -201,10 +201,10 @@ func _RegistrationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 
 // RegisterRegistrationServiceHttpHandlers adds handlers for for RegistrationServiceClient
 func RegisterRegistrationServiceHttpHandlers(router *mux.Router, prefix string, cli RegistrationServiceClient) {
-	router.Handle(prefix+"/registration", _RegistrationService_DescribeRegistration_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/registration", _RegistrationService_DescribeRegistration_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.RegistrationService.DescribeRegistration")
-	router.Handle(prefix+"/registration", _RegistrationService_SubmitRegistration_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/registration", _RegistrationService_SubmitRegistration_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.RegistrationService.SubmitRegistration")
 }
@@ -222,6 +222,9 @@ func _RegistrationService_DescribeRegistration_Rule0(cli RegistrationServiceClie
 			_RegistrationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -243,6 +246,9 @@ func _RegistrationService_SubmitRegistration_Rule0(cli RegistrationServiceClient
 			_RegistrationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 

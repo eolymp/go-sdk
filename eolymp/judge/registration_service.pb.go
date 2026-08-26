@@ -224,9 +224,9 @@ const file_eolymp_judge_registration_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x129\n" +
 	"\x06values\x18\x14 \x03(\v2!.eolymp.community.Attribute.ValueR\x06values\"\x1a\n" +
-	"\x18SubmitRegistrationOutput2\xa1\x03\n" +
-	"\x13RegistrationService\x12\xb8\x01\n" +
-	"\x14DescribeRegistration\x12'.eolymp.judge.DescribeRegistrationInput\x1a(.eolymp.judge.DescribeRegistrationOutput\"M\xea\xe2\n" +
+	"\x18SubmitRegistrationOutput2\xce\x03\n" +
+	"\x13RegistrationService\x12\xce\x01\n" +
+	"\x14DescribeRegistration\x12'.eolymp.judge.DescribeRegistrationInput\x1a(.eolymp.judge.DescribeRegistrationOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\n" +
@@ -234,15 +234,15 @@ const file_eolymp_judge_registration_service_proto_rawDesc = "" +
 	"\x1d\x8a\xe3\n" +
 	"\x19judge:contest:participate\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/registration\x12\xb2\x01\n" +
-	"\x12SubmitRegistration\x12%.eolymp.judge.SubmitRegistrationInput\x1a&.eolymp.judge.SubmitRegistrationOutput\"M\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02%\x12#/contests/{contest_id}/registration\x12\xc8\x01\n" +
+	"\x12SubmitRegistration\x12%.eolymp.judge.SubmitRegistrationInput\x1a&.eolymp.judge.SubmitRegistrationOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x03\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
 	"\x19judge:contest:participate\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x0f\"\r/registration\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02%\"#/contests/{contest_id}/registration\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_registration_service_proto_rawDescOnce sync.Once

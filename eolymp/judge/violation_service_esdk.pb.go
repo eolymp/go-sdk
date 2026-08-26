@@ -102,7 +102,12 @@ func (s *ViolationServiceService) do(ctx context.Context, verb, path string, in,
 
 func (s *ViolationServiceService) CreateViolation(ctx context.Context, in *CreateViolationInput) (*CreateViolationOutput, error) {
 	out := &CreateViolationOutput{}
-	path := "/violations"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/violations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ViolationServiceService) CreateViolation(ctx context.Context, in *Creat
 
 func (s *ViolationServiceService) UpdateViolation(ctx context.Context, in *UpdateViolationInput) (*UpdateViolationOutput, error) {
 	out := &UpdateViolationOutput{}
-	path := "/violations/" + url.PathEscape(in.GetViolationId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/violations/" + url.PathEscape(in.GetViolationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ViolationId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *ViolationServiceService) UpdateViolation(ctx context.Context, in *Updat
 
 func (s *ViolationServiceService) DeleteViolation(ctx context.Context, in *DeleteViolationInput) (*DeleteViolationOutput, error) {
 	out := &DeleteViolationOutput{}
-	path := "/violations/" + url.PathEscape(in.GetViolationId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/violations/" + url.PathEscape(in.GetViolationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ViolationId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *ViolationServiceService) DeleteViolation(ctx context.Context, in *Delet
 
 func (s *ViolationServiceService) DescribeViolation(ctx context.Context, in *DescribeViolationInput) (*DescribeViolationOutput, error) {
 	out := &DescribeViolationOutput{}
-	path := "/violations/" + url.PathEscape(in.GetViolationId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/violations/" + url.PathEscape(in.GetViolationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ViolationId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *ViolationServiceService) DescribeViolation(ctx context.Context, in *Des
 
 func (s *ViolationServiceService) ListViolationEvidence(ctx context.Context, in *ListViolationEvidenceInput) (*ListViolationEvidenceOutput, error) {
 	out := &ListViolationEvidenceOutput{}
-	path := "/violations/" + url.PathEscape(in.GetViolationId()) + "/evidence"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/violations/" + url.PathEscape(in.GetViolationId()) + "/evidence"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ViolationId = ""
 	}
 
@@ -177,7 +186,12 @@ func (s *ViolationServiceService) ListViolationEvidence(ctx context.Context, in 
 
 func (s *ViolationServiceService) ListViolations(ctx context.Context, in *ListViolationsInput) (*ListViolationsOutput, error) {
 	out := &ListViolationsOutput{}
-	path := "/violations"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/violations"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

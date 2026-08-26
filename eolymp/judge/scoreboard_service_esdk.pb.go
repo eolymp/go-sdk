@@ -102,7 +102,12 @@ func (s *ScoreboardServiceService) do(ctx context.Context, verb, path string, in
 
 func (s *ScoreboardServiceService) DescribeScoreboard(ctx context.Context, in *DescribeScoreboardInput) (*DescribeScoreboardOutput, error) {
 	out := &DescribeScoreboardOutput{}
-	path := "/scoreboard"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *ScoreboardServiceService) DescribeScoreboard(ctx context.Context, in *D
 
 func (s *ScoreboardServiceService) ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	out := &ListScoreboardRowsOutput{}
-	path := "/scoreboard/rows"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/rows"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -124,10 +134,11 @@ func (s *ScoreboardServiceService) ListScoreboardRows(ctx context.Context, in *L
 
 func (s *ScoreboardServiceService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	out := &DescribeScoreboardRowOutput{}
-	path := "/scoreboard/rows/" + url.PathEscape(in.GetParticipantId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/rows/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -140,7 +151,12 @@ func (s *ScoreboardServiceService) DescribeScoreboardRow(ctx context.Context, in
 
 func (s *ScoreboardServiceService) ExportScoreboard(ctx context.Context, in *ExportScoreboardInput) (*ExportScoreboardOutput, error) {
 	out := &ExportScoreboardOutput{}
-	path := "/scoreboard/export"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/export"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

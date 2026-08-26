@@ -201,16 +201,16 @@ func _ScoreboardService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterScoreboardServiceHttpHandlers adds handlers for for ScoreboardServiceClient
 func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreboardServiceClient) {
-	router.Handle(prefix+"/scoreboard", _ScoreboardService_DescribeScoreboard_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard", _ScoreboardService_DescribeScoreboard_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.DescribeScoreboard")
-	router.Handle(prefix+"/scoreboard/rows", _ScoreboardService_ListScoreboardRows_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard/rows", _ScoreboardService_ListScoreboardRows_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.ListScoreboardRows")
-	router.Handle(prefix+"/scoreboard/rows/{participant_id}", _ScoreboardService_DescribeScoreboardRow_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard/rows/{participant_id}", _ScoreboardService_DescribeScoreboardRow_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.DescribeScoreboardRow")
-	router.Handle(prefix+"/scoreboard/export", _ScoreboardService_ExportScoreboard_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard/export", _ScoreboardService_ExportScoreboard_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreboardService.ExportScoreboard")
 }
@@ -228,6 +228,9 @@ func _ScoreboardService_DescribeScoreboard_Rule0(cli ScoreboardServiceClient) ht
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -249,6 +252,9 @@ func _ScoreboardService_ListScoreboardRows_Rule0(cli ScoreboardServiceClient) ht
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -272,6 +278,7 @@ func _ScoreboardService_DescribeScoreboardRow_Rule0(cli ScoreboardServiceClient)
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -294,6 +301,9 @@ func _ScoreboardService_ExportScoreboard_Rule0(cli ScoreboardServiceClient) http
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 

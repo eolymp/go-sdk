@@ -102,7 +102,12 @@ func (s *AdmissionServiceService) do(ctx context.Context, verb, path string, in,
 
 func (s *AdmissionServiceService) RequestAdmission(ctx context.Context, in *RequestAdmissionInput) (*RequestAdmissionOutput, error) {
 	out := &RequestAdmissionOutput{}
-	path := "/admission:request"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/admission:request"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *AdmissionServiceService) RequestAdmission(ctx context.Context, in *Requ
 
 func (s *AdmissionServiceService) DescribeAdmission(ctx context.Context, in *DescribeAdmissionInput) (*DescribeAdmissionOutput, error) {
 	out := &DescribeAdmissionOutput{}
-	path := "/admission:request"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/admission:request"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -124,7 +134,12 @@ func (s *AdmissionServiceService) DescribeAdmission(ctx context.Context, in *Des
 
 func (s *AdmissionServiceService) AcceptAdmission(ctx context.Context, in *AcceptAdmissionInput) (*AcceptAdmissionOutput, error) {
 	out := &AcceptAdmissionOutput{}
-	path := "/admission:accept"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/admission:accept"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

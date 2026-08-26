@@ -201,22 +201,22 @@ func _ViolationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterViolationServiceHttpHandlers adds handlers for for ViolationServiceClient
 func RegisterViolationServiceHttpHandlers(router *mux.Router, prefix string, cli ViolationServiceClient) {
-	router.Handle(prefix+"/violations", _ViolationService_CreateViolation_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/violations", _ViolationService_CreateViolation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ViolationService.CreateViolation")
-	router.Handle(prefix+"/violations/{violation_id}", _ViolationService_UpdateViolation_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/violations/{violation_id}", _ViolationService_UpdateViolation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ViolationService.UpdateViolation")
-	router.Handle(prefix+"/violations/{violation_id}", _ViolationService_DeleteViolation_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/violations/{violation_id}", _ViolationService_DeleteViolation_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.ViolationService.DeleteViolation")
-	router.Handle(prefix+"/violations/{violation_id}", _ViolationService_DescribeViolation_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/violations/{violation_id}", _ViolationService_DescribeViolation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ViolationService.DescribeViolation")
-	router.Handle(prefix+"/violations/{violation_id}/evidence", _ViolationService_ListViolationEvidence_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/violations/{violation_id}/evidence", _ViolationService_ListViolationEvidence_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ViolationService.ListViolationEvidence")
-	router.Handle(prefix+"/violations", _ViolationService_ListViolations_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/violations", _ViolationService_ListViolations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ViolationService.ListViolations")
 }
@@ -234,6 +234,9 @@ func _ViolationService_CreateViolation_Rule0(cli ViolationServiceClient) http.Ha
 			_ViolationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -257,6 +260,7 @@ func _ViolationService_UpdateViolation_Rule0(cli ViolationServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ViolationId = vars["violation_id"]
 
 		var header, trailer metadata.MD
@@ -281,6 +285,7 @@ func _ViolationService_DeleteViolation_Rule0(cli ViolationServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ViolationId = vars["violation_id"]
 
 		var header, trailer metadata.MD
@@ -305,6 +310,7 @@ func _ViolationService_DescribeViolation_Rule0(cli ViolationServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ViolationId = vars["violation_id"]
 
 		var header, trailer metadata.MD
@@ -329,6 +335,7 @@ func _ViolationService_ListViolationEvidence_Rule0(cli ViolationServiceClient) h
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ViolationId = vars["violation_id"]
 
 		var header, trailer metadata.MD
@@ -351,6 +358,9 @@ func _ViolationService_ListViolations_Rule0(cli ViolationServiceClient) http.Han
 			_ViolationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
