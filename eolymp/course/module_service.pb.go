@@ -132,6 +132,7 @@ func (ListModulesInput_Sort) EnumDescriptor() ([]byte, []int) {
 
 type CreateModuleInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Module        *Module                `protobuf:"bytes,1,opt,name=module,proto3" json:"module,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -165,6 +166,13 @@ func (x *CreateModuleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateModuleInput.ProtoReflect.Descriptor instead.
 func (*CreateModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateModuleInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *CreateModuleInput) GetModule() *Module {
@@ -222,6 +230,7 @@ type UpdateModuleInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// specify list of fields to update, if empty all fields are updated
 	Patch         []UpdateModuleInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateModuleInput_Patch" json:"patch,omitempty"`
+	CourseId      string                    `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	ModuleId      string                    `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	Module        *Module                   `protobuf:"bytes,3,opt,name=module,proto3" json:"module,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -263,6 +272,13 @@ func (x *UpdateModuleInput) GetPatch() []UpdateModuleInput_Patch {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateModuleInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *UpdateModuleInput) GetModuleId() string {
@@ -317,6 +333,7 @@ func (*UpdateModuleOutput) Descriptor() ([]byte, []int) {
 
 type DeleteModuleInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	ModuleId      string                 `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -350,6 +367,13 @@ func (x *DeleteModuleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteModuleInput.ProtoReflect.Descriptor instead.
 func (*DeleteModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeleteModuleInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DeleteModuleInput) GetModuleId() string {
@@ -397,6 +421,7 @@ func (*DeleteModuleOutput) Descriptor() ([]byte, []int) {
 
 type DescribeModuleInput struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	ModuleId string                 `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	// Types that are valid to be assigned to Assignee:
 	//
@@ -436,6 +461,13 @@ func (x *DescribeModuleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeModuleInput.ProtoReflect.Descriptor instead.
 func (*DescribeModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DescribeModuleInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DescribeModuleInput) GetModuleId() string {
@@ -538,7 +570,8 @@ func (x *DescribeModuleOutput) GetModule() *Module {
 }
 
 type ListModulesInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	// Types that are valid to be assigned to Assignee:
 	//
 	//	*ListModulesInput_MemberId
@@ -585,6 +618,13 @@ func (x *ListModulesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListModulesInput.ProtoReflect.Descriptor instead.
 func (*ListModulesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListModulesInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListModulesInput) GetAssignee() isListModulesInput_Assignee {
@@ -731,6 +771,7 @@ func (x *ListModulesOutput) GetItems() []*Module {
 
 type StartModuleInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	ModuleId      string                 `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -764,6 +805,13 @@ func (x *StartModuleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use StartModuleInput.ProtoReflect.Descriptor instead.
 func (*StartModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *StartModuleInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *StartModuleInput) GetModuleId() string {
@@ -811,6 +859,7 @@ func (*StartModuleOutput) Descriptor() ([]byte, []int) {
 
 type GradeModuleInput struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	ModuleId string                 `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	MemberId string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	// Types that are valid to be assigned to Value:
@@ -850,6 +899,13 @@ func (x *GradeModuleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GradeModuleInput.ProtoReflect.Descriptor instead.
 func (*GradeModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GradeModuleInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *GradeModuleInput) GetModuleId() string {
@@ -1015,13 +1071,15 @@ var File_eolymp_course_module_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/course/module_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/module.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"B\n" +
-	"\x11CreateModuleInput\x12-\n" +
+	"\"eolymp/course/module_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/course/module.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"_\n" +
+	"\x11CreateModuleInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12-\n" +
 	"\x06module\x18\x01 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"1\n" +
 	"\x12CreateModuleOutput\x12\x1b\n" +
-	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"\x86\x02\n" +
+	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"\xa3\x02\n" +
 	"\x11UpdateModuleInput\x12<\n" +
 	"\x05patch\x18\x01 \x03(\x0e2&.eolymp.course.UpdateModuleInput.PatchR\x05patch\x12\x1b\n" +
+	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\x12-\n" +
 	"\x06module\x18\x03 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"g\n" +
 	"\x05Patch\x12\a\n" +
@@ -1034,11 +1092,13 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\vDESCRIPTION\x10\x05\x12\n" +
 	"\n" +
 	"\x06WEIGHT\x10\a\"\x14\n" +
-	"\x12UpdateModuleOutput\"0\n" +
+	"\x12UpdateModuleOutput\"M\n" +
 	"\x11DeleteModuleInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"\x14\n" +
-	"\x12DeleteModuleOutput\"\xae\x01\n" +
+	"\x12DeleteModuleOutput\"\xcb\x01\n" +
 	"\x13DescribeModuleInput\x12\x1b\n" +
+	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\x12\x1d\n" +
 	"\tmember_id\x18\x02 \x01(\tH\x00R\bmemberId\x12\x1b\n" +
 	"\bgroup_id\x18\x03 \x01(\tH\x00R\agroupId\x122\n" +
@@ -1046,8 +1106,9 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\n" +
 	"\bassignee\"E\n" +
 	"\x14DescribeModuleOutput\x12-\n" +
-	"\x06module\x18\x01 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"\x82\x05\n" +
-	"\x10ListModulesInput\x12\x1d\n" +
+	"\x06module\x18\x01 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"\x9f\x05\n" +
+	"\x10ListModulesInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1d\n" +
 	"\tmember_id\x18\x05 \x01(\tH\x00R\bmemberId\x12\x1b\n" +
 	"\bgroup_id\x18\x06 \x01(\tH\x00R\agroupId\x12\x16\n" +
 	"\x06offset\x18\n" +
@@ -1069,76 +1130,77 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\bassignee\"V\n" +
 	"\x11ListModulesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.course.ModuleR\x05items\"/\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.course.ModuleR\x05items\"L\n" +
 	"\x10StartModuleInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"\x13\n" +
-	"\x11StartModuleOutput\"\x89\x01\n" +
+	"\x11StartModuleOutput\"\xa6\x01\n" +
 	"\x10GradeModuleInput\x12\x1b\n" +
+	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x05grade\x18\x03 \x01(\rH\x00R\x05grade\x12\x1a\n" +
 	"\aexcused\x18\x04 \x01(\bH\x00R\aexcusedB\a\n" +
 	"\x05value\"\x13\n" +
-	"\x11GradeModuleOutput2\xa2\t\n" +
-	"\rModuleService\x12\x97\x01\n" +
-	"\fCreateModule\x12 .eolymp.course.CreateModuleInput\x1a!.eolymp.course.CreateModuleOutput\"B\xea\xe2\n" +
+	"\x11GradeModuleOutput2\xaf\n" +
+	"\n" +
+	"\rModuleService\x12\xab\x01\n" +
+	"\fCreateModule\x12 .eolymp.course.CreateModuleInput\x1a!.eolymp.course.CreateModuleOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\n" +
-	"\x1a\b/modules\x12\xa3\x01\n" +
-	"\fUpdateModule\x12 .eolymp.course.UpdateModuleInput\x1a!.eolymp.course.UpdateModuleOutput\"N\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/courses/{course_id}/modules\x12\xb7\x01\n" +
+	"\fUpdateModule\x12 .eolymp.course.UpdateModuleInput\x1a!.eolymp.course.UpdateModuleOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/modules/{module_id}\x12\xa3\x01\n" +
-	"\fDeleteModule\x12 .eolymp.course.DeleteModuleInput\x1a!.eolymp.course.DeleteModuleOutput\"N\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02*\x1a(/courses/{course_id}/modules/{module_id}\x12\xb7\x01\n" +
+	"\fDeleteModule\x12 .eolymp.course.DeleteModuleInput\x1a!.eolymp.course.DeleteModuleOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\x16*\x14/modules/{module_id}\x12\xa8\x01\n" +
-	"\x0eDescribeModule\x12\".eolymp.course.DescribeModuleInput\x1a#.eolymp.course.DescribeModuleOutput\"M\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02**(/courses/{course_id}/modules/{module_id}\x12\xbc\x01\n" +
+	"\x0eDescribeModule\x12\".eolymp.course.DescribeModuleInput\x1a#.eolymp.course.DescribeModuleOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/modules/{module_id}\x12\x93\x01\n" +
-	"\vListModules\x12\x1f.eolymp.course.ListModulesInput\x1a .eolymp.course.ListModulesOutput\"A\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02*\x12(/courses/{course_id}/modules/{module_id}\x12\xa7\x01\n" +
+	"\vListModules\x12\x1f.eolymp.course.ListModulesInput\x1a .eolymp.course.ListModulesOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/modules\x12\xa5\x01\n" +
-	"\vStartModule\x12\x1f.eolymp.course.StartModuleInput\x1a .eolymp.course.StartModuleOutput\"S\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/courses/{course_id}/modules\x12\xb9\x01\n" +
+	"\vStartModule\x12\x1f.eolymp.course.StartModuleInput\x1a .eolymp.course.StartModuleOutput\"g\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/start\x12\xa5\x01\n" +
-	"\vGradeModule\x12\x1f.eolymp.course.GradeModuleInput\x1a .eolymp.course.GradeModuleOutput\"S\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x020\"./courses/{course_id}/modules/{module_id}/start\x12\xb9\x01\n" +
+	"\vGradeModule\x12\x1f.eolymp.course.GradeModuleInput\x1a .eolymp.course.GradeModuleOutput\"g\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/modules/{module_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x020\"./courses/{course_id}/modules/{module_id}/grade\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_module_service_proto_rawDescOnce sync.Once

@@ -102,7 +102,12 @@ func (s *MaterialServiceService) do(ctx context.Context, verb, path string, in, 
 
 func (s *MaterialServiceService) CreateMaterial(ctx context.Context, in *CreateMaterialInput) (*CreateMaterialOutput, error) {
 	out := &CreateMaterialOutput{}
-	path := "/materials"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *MaterialServiceService) CreateMaterial(ctx context.Context, in *CreateM
 
 func (s *MaterialServiceService) UpdateMaterial(ctx context.Context, in *UpdateMaterialInput) (*UpdateMaterialOutput, error) {
 	out := &UpdateMaterialOutput{}
-	path := "/materials/" + url.PathEscape(in.GetMaterialId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MaterialId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *MaterialServiceService) UpdateMaterial(ctx context.Context, in *UpdateM
 
 func (s *MaterialServiceService) MoveMaterial(ctx context.Context, in *MoveMaterialInput) (*MoveMaterialOutput, error) {
 	out := &MoveMaterialOutput{}
-	path := "/materials/" + url.PathEscape(in.GetMaterialId()) + "/move"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId()) + "/move"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MaterialId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *MaterialServiceService) MoveMaterial(ctx context.Context, in *MoveMater
 
 func (s *MaterialServiceService) DeleteMaterial(ctx context.Context, in *DeleteMaterialInput) (*DeleteMaterialOutput, error) {
 	out := &DeleteMaterialOutput{}
-	path := "/materials/" + url.PathEscape(in.GetMaterialId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MaterialId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *MaterialServiceService) DeleteMaterial(ctx context.Context, in *DeleteM
 
 func (s *MaterialServiceService) DescribeMaterial(ctx context.Context, in *DescribeMaterialInput) (*DescribeMaterialOutput, error) {
 	out := &DescribeMaterialOutput{}
-	path := "/materials/" + url.PathEscape(in.GetMaterialId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MaterialId = ""
 	}
 
@@ -177,7 +186,12 @@ func (s *MaterialServiceService) DescribeMaterial(ctx context.Context, in *Descr
 
 func (s *MaterialServiceService) ListMaterials(ctx context.Context, in *ListMaterialsInput) (*ListMaterialsOutput, error) {
 	out := &ListMaterialsOutput{}
-	path := "/materials"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -188,10 +202,11 @@ func (s *MaterialServiceService) ListMaterials(ctx context.Context, in *ListMate
 
 func (s *MaterialServiceService) ReportProgress(ctx context.Context, in *ReportProgressInput) (*ReportProgressOutput, error) {
 	out := &ReportProgressOutput{}
-	path := "/materials/" + url.PathEscape(in.GetMaterialId()) + "/progress"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId()) + "/progress"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MaterialId = ""
 	}
 
@@ -204,10 +219,11 @@ func (s *MaterialServiceService) ReportProgress(ctx context.Context, in *ReportP
 
 func (s *MaterialServiceService) GradeMaterial(ctx context.Context, in *GradeMaterialInput) (*GradeMaterialOutput, error) {
 	out := &GradeMaterialOutput{}
-	path := "/materials/" + url.PathEscape(in.GetMaterialId()) + "/grade"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId()) + "/grade"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MaterialId = ""
 	}
 

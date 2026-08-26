@@ -201,25 +201,25 @@ func _ModuleService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterModuleServiceHttpHandlers adds handlers for for ModuleServiceClient
 func RegisterModuleServiceHttpHandlers(router *mux.Router, prefix string, cli ModuleServiceClient) {
-	router.Handle(prefix+"/modules", _ModuleService_CreateModule_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules", _ModuleService_CreateModule_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.course.ModuleService.CreateModule")
-	router.Handle(prefix+"/modules/{module_id}", _ModuleService_UpdateModule_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules/{module_id}", _ModuleService_UpdateModule_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.course.ModuleService.UpdateModule")
-	router.Handle(prefix+"/modules/{module_id}", _ModuleService_DeleteModule_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules/{module_id}", _ModuleService_DeleteModule_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.ModuleService.DeleteModule")
-	router.Handle(prefix+"/modules/{module_id}", _ModuleService_DescribeModule_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules/{module_id}", _ModuleService_DescribeModule_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ModuleService.DescribeModule")
-	router.Handle(prefix+"/modules", _ModuleService_ListModules_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules", _ModuleService_ListModules_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ModuleService.ListModules")
-	router.Handle(prefix+"/modules/{module_id}/start", _ModuleService_StartModule_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules/{module_id}/start", _ModuleService_StartModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ModuleService.StartModule")
-	router.Handle(prefix+"/modules/{module_id}/grade", _ModuleService_GradeModule_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/modules/{module_id}/grade", _ModuleService_GradeModule_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ModuleService.GradeModule")
 }
@@ -237,6 +237,9 @@ func _ModuleService_CreateModule_Rule0(cli ModuleServiceClient) http.Handler {
 			_ModuleService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -260,6 +263,7 @@ func _ModuleService_UpdateModule_Rule0(cli ModuleServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.ModuleId = vars["module_id"]
 
 		var header, trailer metadata.MD
@@ -284,6 +288,7 @@ func _ModuleService_DeleteModule_Rule0(cli ModuleServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.ModuleId = vars["module_id"]
 
 		var header, trailer metadata.MD
@@ -308,6 +313,7 @@ func _ModuleService_DescribeModule_Rule0(cli ModuleServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.ModuleId = vars["module_id"]
 
 		var header, trailer metadata.MD
@@ -331,6 +337,9 @@ func _ModuleService_ListModules_Rule0(cli ModuleServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListModules(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -353,6 +362,7 @@ func _ModuleService_StartModule_Rule0(cli ModuleServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.ModuleId = vars["module_id"]
 
 		var header, trailer metadata.MD
@@ -377,6 +387,7 @@ func _ModuleService_GradeModule_Rule0(cli ModuleServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.ModuleId = vars["module_id"]
 
 		var header, trailer metadata.MD

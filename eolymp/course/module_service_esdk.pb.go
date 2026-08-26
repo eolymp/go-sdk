@@ -102,7 +102,12 @@ func (s *ModuleServiceService) do(ctx context.Context, verb, path string, in, ou
 
 func (s *ModuleServiceService) CreateModule(ctx context.Context, in *CreateModuleInput) (*CreateModuleOutput, error) {
 	out := &CreateModuleOutput{}
-	path := "/modules"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ModuleServiceService) CreateModule(ctx context.Context, in *CreateModul
 
 func (s *ModuleServiceService) UpdateModule(ctx context.Context, in *UpdateModuleInput) (*UpdateModuleOutput, error) {
 	out := &UpdateModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules/" + url.PathEscape(in.GetModuleId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.ModuleId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *ModuleServiceService) UpdateModule(ctx context.Context, in *UpdateModul
 
 func (s *ModuleServiceService) DeleteModule(ctx context.Context, in *DeleteModuleInput) (*DeleteModuleOutput, error) {
 	out := &DeleteModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules/" + url.PathEscape(in.GetModuleId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.ModuleId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *ModuleServiceService) DeleteModule(ctx context.Context, in *DeleteModul
 
 func (s *ModuleServiceService) DescribeModule(ctx context.Context, in *DescribeModuleInput) (*DescribeModuleOutput, error) {
 	out := &DescribeModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules/" + url.PathEscape(in.GetModuleId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.ModuleId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *ModuleServiceService) DescribeModule(ctx context.Context, in *DescribeM
 
 func (s *ModuleServiceService) ListModules(ctx context.Context, in *ListModulesInput) (*ListModulesOutput, error) {
 	out := &ListModulesOutput{}
-	path := "/modules"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -172,10 +185,11 @@ func (s *ModuleServiceService) ListModules(ctx context.Context, in *ListModulesI
 
 func (s *ModuleServiceService) StartModule(ctx context.Context, in *StartModuleInput) (*StartModuleOutput, error) {
 	out := &StartModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/start"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules/" + url.PathEscape(in.GetModuleId()) + "/start"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.ModuleId = ""
 	}
 
@@ -188,10 +202,11 @@ func (s *ModuleServiceService) StartModule(ctx context.Context, in *StartModuleI
 
 func (s *ModuleServiceService) GradeModule(ctx context.Context, in *GradeModuleInput) (*GradeModuleOutput, error) {
 	out := &GradeModuleOutput{}
-	path := "/modules/" + url.PathEscape(in.GetModuleId()) + "/grade"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/modules/" + url.PathEscape(in.GetModuleId()) + "/grade"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.ModuleId = ""
 	}
 

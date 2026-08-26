@@ -132,6 +132,7 @@ func (ListMaterialsInput_Sort) EnumDescriptor() ([]byte, []int) {
 
 type CreateMaterialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Material      *Material              `protobuf:"bytes,1,opt,name=material,proto3" json:"material,omitempty"`
 	ModuleId      string                 `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -166,6 +167,13 @@ func (x *CreateMaterialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateMaterialInput.ProtoReflect.Descriptor instead.
 func (*CreateMaterialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateMaterialInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *CreateMaterialInput) GetMaterial() *Material {
@@ -230,6 +238,7 @@ type UpdateMaterialInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// specify list of fields to update, if empty all fields are updated
 	Patch         []UpdateMaterialInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateMaterialInput_Patch" json:"patch,omitempty"`
+	CourseId      string                      `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId    string                      `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	Material      *Material                   `protobuf:"bytes,3,opt,name=material,proto3" json:"material,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -271,6 +280,13 @@ func (x *UpdateMaterialInput) GetPatch() []UpdateMaterialInput_Patch {
 		return x.Patch
 	}
 	return nil
+}
+
+func (x *UpdateMaterialInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *UpdateMaterialInput) GetMaterialId() string {
@@ -325,6 +341,7 @@ func (*UpdateMaterialOutput) Descriptor() ([]byte, []int) {
 
 type MoveMaterialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId    string                 `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	NewModuleId   string                 `protobuf:"bytes,2,opt,name=new_module_id,json=newModuleId,proto3" json:"new_module_id,omitempty"`
 	NewIndex      uint32                 `protobuf:"varint,3,opt,name=new_index,json=newIndex,proto3" json:"new_index,omitempty"`
@@ -361,6 +378,13 @@ func (x *MoveMaterialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use MoveMaterialInput.ProtoReflect.Descriptor instead.
 func (*MoveMaterialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *MoveMaterialInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *MoveMaterialInput) GetMaterialId() string {
@@ -429,6 +453,7 @@ func (*MoveMaterialOutput) Descriptor() ([]byte, []int) {
 
 type DeleteMaterialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId    string                 `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -462,6 +487,13 @@ func (x *DeleteMaterialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteMaterialInput.ProtoReflect.Descriptor instead.
 func (*DeleteMaterialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DeleteMaterialInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DeleteMaterialInput) GetMaterialId() string {
@@ -509,6 +541,7 @@ func (*DeleteMaterialOutput) Descriptor() ([]byte, []int) {
 
 type DescribeMaterialInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId    string                 `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Extra         []Material_Extra       `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Material_Extra" json:"extra,omitempty"`
@@ -544,6 +577,13 @@ func (x *DescribeMaterialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeMaterialInput.ProtoReflect.Descriptor instead.
 func (*DescribeMaterialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DescribeMaterialInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DescribeMaterialInput) GetMaterialId() string {
@@ -613,6 +653,7 @@ func (x *DescribeMaterialOutput) GetMaterial() *Material {
 
 type ListMaterialsInput struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	ModuleId string                 `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	MemberId string                 `protobuf:"bytes,5,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	// pagination
@@ -656,6 +697,13 @@ func (x *ListMaterialsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListMaterialsInput.ProtoReflect.Descriptor instead.
 func (*ListMaterialsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListMaterialsInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListMaterialsInput) GetModuleId() string {
@@ -775,6 +823,7 @@ func (x *ListMaterialsOutput) GetItems() []*Material {
 
 type ReportProgressInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId    string                 `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	Progress      float32                `protobuf:"fixed32,2,opt,name=progress,proto3" json:"progress,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -809,6 +858,13 @@ func (x *ReportProgressInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ReportProgressInput.ProtoReflect.Descriptor instead.
 func (*ReportProgressInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ReportProgressInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ReportProgressInput) GetMaterialId() string {
@@ -863,6 +919,7 @@ func (*ReportProgressOutput) Descriptor() ([]byte, []int) {
 
 type GradeMaterialInput struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
+	CourseId   string                 `protobuf:"bytes,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId string                 `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	MemberId   string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	// Types that are valid to be assigned to Value:
@@ -902,6 +959,13 @@ func (x *GradeMaterialInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GradeMaterialInput.ProtoReflect.Descriptor instead.
 func (*GradeMaterialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GradeMaterialInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *GradeMaterialInput) GetMaterialId() string {
@@ -1051,15 +1115,17 @@ var File_eolymp_course_material_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_material_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/course/material_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/course/material.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"g\n" +
-	"\x13CreateMaterialInput\x123\n" +
+	"$eolymp/course/material_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/course/material.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x84\x01\n" +
+	"\x13CreateMaterialInput\x12\x1b\n" +
+	"\tcourse_id\x18\x03 \x01(\tR\bcourseId\x123\n" +
 	"\bmaterial\x18\x01 \x01(\v2\x17.eolymp.course.MaterialR\bmaterial\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"7\n" +
 	"\x14CreateMaterialOutput\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
-	"materialId\"\x91\x02\n" +
+	"materialId\"\xae\x02\n" +
 	"\x13UpdateMaterialInput\x12>\n" +
-	"\x05patch\x18\x01 \x03(\x0e2(.eolymp.course.UpdateMaterialInput.PatchR\x05patch\x12\x1f\n" +
+	"\x05patch\x18\x01 \x03(\x0e2(.eolymp.course.UpdateMaterialInput.PatchR\x05patch\x12\x1b\n" +
+	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x02 \x01(\tR\n" +
 	"materialId\x123\n" +
 	"\bmaterial\x18\x03 \x01(\v2\x17.eolymp.course.MaterialR\bmaterial\"d\n" +
@@ -1072,26 +1138,30 @@ const file_eolymp_course_material_service_proto_rawDesc = "" +
 	"\x05DEPTH\x10\x05\x12\v\n" +
 	"\aCONTENT\x10\x06\x12\v\n" +
 	"\aGRADING\x10\a\"\x16\n" +
-	"\x14UpdateMaterialOutput\"\x92\x01\n" +
-	"\x11MoveMaterialInput\x12\x1f\n" +
+	"\x14UpdateMaterialOutput\"\xaf\x01\n" +
+	"\x11MoveMaterialInput\x12\x1b\n" +
+	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\"\n" +
 	"\rnew_module_id\x18\x02 \x01(\tR\vnewModuleId\x12\x1b\n" +
 	"\tnew_index\x18\x03 \x01(\rR\bnewIndex\x12\x1b\n" +
 	"\tnew_depth\x18\x04 \x01(\rR\bnewDepth\"\x14\n" +
-	"\x12MoveMaterialOutput\"6\n" +
-	"\x13DeleteMaterialInput\x12\x1f\n" +
+	"\x12MoveMaterialOutput\"S\n" +
+	"\x13DeleteMaterialInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\"\x16\n" +
-	"\x14DeleteMaterialOutput\"\x8b\x01\n" +
-	"\x15DescribeMaterialInput\x12\x1f\n" +
+	"\x14DeleteMaterialOutput\"\xa8\x01\n" +
+	"\x15DescribeMaterialInput\x12\x1b\n" +
+	"\tcourse_id\x18\x03 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x124\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1d.eolymp.course.Material.ExtraR\x05extra\"M\n" +
 	"\x16DescribeMaterialOutput\x123\n" +
-	"\bmaterial\x18\x01 \x01(\v2\x17.eolymp.course.MaterialR\bmaterial\"\x8b\x04\n" +
+	"\bmaterial\x18\x01 \x01(\v2\x17.eolymp.course.MaterialR\bmaterial\"\xa8\x04\n" +
 	"\x12ListMaterialsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\x12\x1b\n" +
 	"\tmember_id\x18\x05 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12\x16\n" +
@@ -1109,87 +1179,87 @@ const file_eolymp_course_material_service_proto_rawDesc = "" +
 	"\x05INDEX\x10\x00\"Z\n" +
 	"\x13ListMaterialsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.course.MaterialR\x05items\"R\n" +
-	"\x13ReportProgressInput\x12\x1f\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.course.MaterialR\x05items\"o\n" +
+	"\x13ReportProgressInput\x12\x1b\n" +
+	"\tcourse_id\x18\x03 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\x1a\n" +
 	"\bprogress\x18\x02 \x01(\x02R\bprogress\"\x16\n" +
-	"\x14ReportProgressOutput\"\x8f\x01\n" +
-	"\x12GradeMaterialInput\x12\x1f\n" +
+	"\x14ReportProgressOutput\"\xac\x01\n" +
+	"\x12GradeMaterialInput\x12\x1b\n" +
+	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x05grade\x18\x03 \x01(\rH\x00R\x05grade\x12\x1a\n" +
 	"\aexcused\x18\x04 \x01(\bH\x00R\aexcusedB\a\n" +
 	"\x05value\"\x15\n" +
-	"\x13GradeMaterialOutput2\x9b\v\n" +
-	"\x0fMaterialService\x12\x9f\x01\n" +
-	"\x0eCreateMaterial\x12\".eolymp.course.CreateMaterialInput\x1a#.eolymp.course.CreateMaterialOutput\"D\xea\xe2\n" +
+	"\x13GradeMaterialOutput2\xbc\f\n" +
+	"\x0fMaterialService\x12\xb3\x01\n" +
+	"\x0eCreateMaterial\x12\".eolymp.course.CreateMaterialInput\x1a#.eolymp.course.CreateMaterialOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\f\"\n" +
-	"/materials\x12\xad\x01\n" +
-	"\x0eUpdateMaterial\x12\".eolymp.course.UpdateMaterialInput\x1a#.eolymp.course.UpdateMaterialOutput\"R\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/courses/{course_id}/materials\x12\xc1\x01\n" +
+	"\x0eUpdateMaterial\x12\".eolymp.course.UpdateMaterialInput\x1a#.eolymp.course.UpdateMaterialOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1a\x1a\x18/materials/{material_id}\x12\xac\x01\n" +
-	"\fMoveMaterial\x12 .eolymp.course.MoveMaterialInput\x1a!.eolymp.course.MoveMaterialOutput\"W\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02.\x1a,/courses/{course_id}/materials/{material_id}\x12\xc0\x01\n" +
+	"\fMoveMaterial\x12 .eolymp.course.MoveMaterialInput\x1a!.eolymp.course.MoveMaterialOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/materials/{material_id}/move\x12\xad\x01\n" +
-	"\x0eDeleteMaterial\x12\".eolymp.course.DeleteMaterialInput\x1a#.eolymp.course.DeleteMaterialOutput\"R\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x023\"1/courses/{course_id}/materials/{material_id}/move\x12\xc1\x01\n" +
+	"\x0eDeleteMaterial\x12\".eolymp.course.DeleteMaterialInput\x1a#.eolymp.course.DeleteMaterialOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\x1a*\x18/materials/{material_id}\x12\xb2\x01\n" +
-	"\x10DescribeMaterial\x12$.eolymp.course.DescribeMaterialInput\x1a%.eolymp.course.DescribeMaterialOutput\"Q\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02.*,/courses/{course_id}/materials/{material_id}\x12\xc6\x01\n" +
+	"\x10DescribeMaterial\x12$.eolymp.course.DescribeMaterialInput\x1a%.eolymp.course.DescribeMaterialOutput\"e\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1a\x12\x18/materials/{material_id}\x12\x9b\x01\n" +
-	"\rListMaterials\x12!.eolymp.course.ListMaterialsInput\x1a\".eolymp.course.ListMaterialsOutput\"C\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02.\x12,/courses/{course_id}/materials/{material_id}\x12\xaf\x01\n" +
+	"\rListMaterials\x12!.eolymp.course.ListMaterialsInput\x1a\".eolymp.course.ListMaterialsOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/materials\x12\xb5\x01\n" +
-	"\x0eReportProgress\x12\".eolymp.course.ReportProgressInput\x1a#.eolymp.course.ReportProgressOutput\"Z\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/courses/{course_id}/materials\x12\xc9\x01\n" +
+	"\x0eReportProgress\x12\".eolymp.course.ReportProgressInput\x1a#.eolymp.course.ReportProgressOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02#\"!/materials/{material_id}/progress\x12\xaf\x01\n" +
-	"\rGradeMaterial\x12!.eolymp.course.GradeMaterialInput\x1a\".eolymp.course.GradeMaterialOutput\"W\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x027\"5/courses/{course_id}/materials/{material_id}/progress\x12\xc3\x01\n" +
+	"\rGradeMaterial\x12!.eolymp.course.GradeMaterialInput\x1a\".eolymp.course.GradeMaterialOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/materials/{material_id}/grade\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x024\"2/courses/{course_id}/materials/{material_id}/grade\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_material_service_proto_rawDescOnce sync.Once

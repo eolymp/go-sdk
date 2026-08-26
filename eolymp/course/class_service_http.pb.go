@@ -201,28 +201,28 @@ func _ClassService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterClassServiceHttpHandlers adds handlers for for ClassServiceClient
 func RegisterClassServiceHttpHandlers(router *mux.Router, prefix string, cli ClassServiceClient) {
-	router.Handle(prefix+"/classes", _ClassService_CreateClass_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes", _ClassService_CreateClass_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ClassService.CreateClass")
-	router.Handle(prefix+"/classes/{group_id}", _ClassService_UpdateClass_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes/{group_id}", _ClassService_UpdateClass_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ClassService.UpdateClass")
-	router.Handle(prefix+"/classes/{group_id}", _ClassService_DeleteClass_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes/{group_id}", _ClassService_DeleteClass_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.ClassService.DeleteClass")
-	router.Handle(prefix+"/classes/{group_id}", _ClassService_DescribeClass_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes/{group_id}", _ClassService_DescribeClass_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ClassService.DescribeClass")
-	router.Handle(prefix+"/classes", _ClassService_ListClasses_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes", _ClassService_ListClasses_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ClassService.ListClasses")
-	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_ListClassAssignments_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes/{group_id}/assignments", _ClassService_ListClassAssignments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ClassService.ListClassAssignments")
-	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_UpdateClassAssignment_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes/{group_id}/assignments", _ClassService_UpdateClassAssignment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ClassService.UpdateClassAssignment")
-	router.Handle(prefix+"/classes/{group_id}/assignments", _ClassService_DeleteClassAssignment_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/classes/{group_id}/assignments", _ClassService_DeleteClassAssignment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.ClassService.DeleteClassAssignment")
 }
@@ -240,6 +240,9 @@ func _ClassService_CreateClass_Rule0(cli ClassServiceClient) http.Handler {
 			_ClassService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -263,6 +266,7 @@ func _ClassService_UpdateClass_Rule0(cli ClassServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.GroupId = vars["group_id"]
 
 		var header, trailer metadata.MD
@@ -287,6 +291,7 @@ func _ClassService_DeleteClass_Rule0(cli ClassServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.GroupId = vars["group_id"]
 
 		var header, trailer metadata.MD
@@ -311,6 +316,7 @@ func _ClassService_DescribeClass_Rule0(cli ClassServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.GroupId = vars["group_id"]
 
 		var header, trailer metadata.MD
@@ -334,6 +340,9 @@ func _ClassService_ListClasses_Rule0(cli ClassServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListClasses(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -356,6 +365,7 @@ func _ClassService_ListClassAssignments_Rule0(cli ClassServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.GroupId = vars["group_id"]
 
 		var header, trailer metadata.MD
@@ -380,6 +390,7 @@ func _ClassService_UpdateClassAssignment_Rule0(cli ClassServiceClient) http.Hand
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.GroupId = vars["group_id"]
 
 		var header, trailer metadata.MD
@@ -404,6 +415,7 @@ func _ClassService_DeleteClassAssignment_Rule0(cli ClassServiceClient) http.Hand
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.GroupId = vars["group_id"]
 
 		var header, trailer metadata.MD

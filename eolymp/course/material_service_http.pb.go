@@ -201,28 +201,28 @@ func _MaterialService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterMaterialServiceHttpHandlers adds handlers for for MaterialServiceClient
 func RegisterMaterialServiceHttpHandlers(router *mux.Router, prefix string, cli MaterialServiceClient) {
-	router.Handle(prefix+"/materials", _MaterialService_CreateMaterial_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials", _MaterialService_CreateMaterial_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.MaterialService.CreateMaterial")
-	router.Handle(prefix+"/materials/{material_id}", _MaterialService_UpdateMaterial_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}", _MaterialService_UpdateMaterial_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.course.MaterialService.UpdateMaterial")
-	router.Handle(prefix+"/materials/{material_id}/move", _MaterialService_MoveMaterial_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/move", _MaterialService_MoveMaterial_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.MaterialService.MoveMaterial")
-	router.Handle(prefix+"/materials/{material_id}", _MaterialService_DeleteMaterial_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}", _MaterialService_DeleteMaterial_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.MaterialService.DeleteMaterial")
-	router.Handle(prefix+"/materials/{material_id}", _MaterialService_DescribeMaterial_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}", _MaterialService_DescribeMaterial_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.MaterialService.DescribeMaterial")
-	router.Handle(prefix+"/materials", _MaterialService_ListMaterials_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials", _MaterialService_ListMaterials_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.MaterialService.ListMaterials")
-	router.Handle(prefix+"/materials/{material_id}/progress", _MaterialService_ReportProgress_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/progress", _MaterialService_ReportProgress_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.MaterialService.ReportProgress")
-	router.Handle(prefix+"/materials/{material_id}/grade", _MaterialService_GradeMaterial_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/grade", _MaterialService_GradeMaterial_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.MaterialService.GradeMaterial")
 }
@@ -240,6 +240,9 @@ func _MaterialService_CreateMaterial_Rule0(cli MaterialServiceClient) http.Handl
 			_MaterialService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -263,6 +266,7 @@ func _MaterialService_UpdateMaterial_Rule0(cli MaterialServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
@@ -287,6 +291,7 @@ func _MaterialService_MoveMaterial_Rule0(cli MaterialServiceClient) http.Handler
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
@@ -311,6 +316,7 @@ func _MaterialService_DeleteMaterial_Rule0(cli MaterialServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
@@ -335,6 +341,7 @@ func _MaterialService_DescribeMaterial_Rule0(cli MaterialServiceClient) http.Han
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
@@ -358,6 +365,9 @@ func _MaterialService_ListMaterials_Rule0(cli MaterialServiceClient) http.Handle
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListMaterials(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -380,6 +390,7 @@ func _MaterialService_ReportProgress_Rule0(cli MaterialServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
@@ -404,6 +415,7 @@ func _MaterialService_GradeMaterial_Rule0(cli MaterialServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
