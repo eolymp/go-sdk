@@ -102,7 +102,12 @@ func (s *PenaltyServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *PenaltyServiceService) CreatePenalty(ctx context.Context, in *CreatePenaltyInput) (*CreatePenaltyOutput, error) {
 	out := &CreatePenaltyOutput{}
-	path := "/penalties"
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/penalties"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *PenaltyServiceService) CreatePenalty(ctx context.Context, in *CreatePen
 
 func (s *PenaltyServiceService) UpdatePenalty(ctx context.Context, in *UpdatePenaltyInput) (*UpdatePenaltyOutput, error) {
 	out := &UpdatePenaltyOutput{}
-	path := "/penalties/" + url.PathEscape(in.GetPenaltyId())
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/penalties/" + url.PathEscape(in.GetPenaltyId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.MemberId = ""
 		in.PenaltyId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *PenaltyServiceService) UpdatePenalty(ctx context.Context, in *UpdatePen
 
 func (s *PenaltyServiceService) DeletePenalty(ctx context.Context, in *DeletePenaltyInput) (*DeletePenaltyOutput, error) {
 	out := &DeletePenaltyOutput{}
-	path := "/penalties/" + url.PathEscape(in.GetPenaltyId())
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/penalties/" + url.PathEscape(in.GetPenaltyId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.MemberId = ""
 		in.PenaltyId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *PenaltyServiceService) DeletePenalty(ctx context.Context, in *DeletePen
 
 func (s *PenaltyServiceService) DescribePenalty(ctx context.Context, in *DescribePenaltyInput) (*DescribePenaltyOutput, error) {
 	out := &DescribePenaltyOutput{}
-	path := "/penalties/" + url.PathEscape(in.GetPenaltyId())
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/penalties/" + url.PathEscape(in.GetPenaltyId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.MemberId = ""
 		in.PenaltyId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *PenaltyServiceService) DescribePenalty(ctx context.Context, in *Describ
 
 func (s *PenaltyServiceService) ListPenalties(ctx context.Context, in *ListPenaltiesInput) (*ListPenaltiesOutput, error) {
 	out := &ListPenaltiesOutput{}
-	path := "/penalties"
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/penalties"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

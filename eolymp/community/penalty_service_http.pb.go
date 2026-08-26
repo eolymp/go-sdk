@@ -201,19 +201,19 @@ func _PenaltyService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterPenaltyServiceHttpHandlers adds handlers for for PenaltyServiceClient
 func RegisterPenaltyServiceHttpHandlers(router *mux.Router, prefix string, cli PenaltyServiceClient) {
-	router.Handle(prefix+"/penalties", _PenaltyService_CreatePenalty_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/penalties", _PenaltyService_CreatePenalty_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.PenaltyService.CreatePenalty")
-	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_UpdatePenalty_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/penalties/{penalty_id}", _PenaltyService_UpdatePenalty_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.community.PenaltyService.UpdatePenalty")
-	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_DeletePenalty_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/penalties/{penalty_id}", _PenaltyService_DeletePenalty_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.community.PenaltyService.DeletePenalty")
-	router.Handle(prefix+"/penalties/{penalty_id}", _PenaltyService_DescribePenalty_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/penalties/{penalty_id}", _PenaltyService_DescribePenalty_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.PenaltyService.DescribePenalty")
-	router.Handle(prefix+"/penalties", _PenaltyService_ListPenalties_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/penalties", _PenaltyService_ListPenalties_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.PenaltyService.ListPenalties")
 }
@@ -231,6 +231,9 @@ func _PenaltyService_CreatePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 
@@ -254,6 +257,7 @@ func _PenaltyService_UpdatePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 		in.PenaltyId = vars["penalty_id"]
 
 		var header, trailer metadata.MD
@@ -278,6 +282,7 @@ func _PenaltyService_DeletePenalty_Rule0(cli PenaltyServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 		in.PenaltyId = vars["penalty_id"]
 
 		var header, trailer metadata.MD
@@ -302,6 +307,7 @@ func _PenaltyService_DescribePenalty_Rule0(cli PenaltyServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 		in.PenaltyId = vars["penalty_id"]
 
 		var header, trailer metadata.MD
@@ -324,6 +330,9 @@ func _PenaltyService_ListPenalties_Rule0(cli PenaltyServiceClient) http.Handler 
 			_PenaltyService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 

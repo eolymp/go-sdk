@@ -201,7 +201,7 @@ func _ActivityGraphService_HTTPWriteErrorResponse(w http.ResponseWriter, e error
 
 // RegisterActivityGraphServiceHttpHandlers adds handlers for for ActivityGraphServiceClient
 func RegisterActivityGraphServiceHttpHandlers(router *mux.Router, prefix string, cli ActivityGraphServiceClient) {
-	router.Handle(prefix+"/activity-graph", _ActivityGraphService_DescribeActivityGraph_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/activity-graph", _ActivityGraphService_DescribeActivityGraph_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.ActivityGraphService.DescribeActivityGraph")
 }
@@ -219,6 +219,9 @@ func _ActivityGraphService_DescribeActivityGraph_Rule0(cli ActivityGraphServiceC
 			_ActivityGraphService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 

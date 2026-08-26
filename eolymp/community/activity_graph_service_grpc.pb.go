@@ -30,8 +30,8 @@ const (
 //
 // Its single method returns a bare series of counts, which clients draw as the contribution-style graph
 // on a member's profile. The counter being measured is chosen per call and is a free-form string rather
-// than an enum — the console offers variations around accepted, submitted and solved counts. Being
-// member-scoped, the call is addressed through the base url a member carries in its read-only url field.
+// than an enum — the console offers variations around accepted, submitted and solved counts. The call
+// acts on the member named by `member_id` in the request.
 type ActivityGraphServiceClient interface {
 	// DescribeActivityGraph buckets one metric over the requested window and returns the counts as a flat
 	// array in chronological order, with no timestamps and no bucket size attached, so the caller maps
@@ -67,8 +67,8 @@ func (c *activityGraphServiceClient) DescribeActivityGraph(ctx context.Context, 
 //
 // Its single method returns a bare series of counts, which clients draw as the contribution-style graph
 // on a member's profile. The counter being measured is chosen per call and is a free-form string rather
-// than an enum — the console offers variations around accepted, submitted and solved counts. Being
-// member-scoped, the call is addressed through the base url a member carries in its read-only url field.
+// than an enum — the console offers variations around accepted, submitted and solved counts. The call
+// acts on the member named by `member_id` in the request.
 type ActivityGraphServiceServer interface {
 	// DescribeActivityGraph buckets one metric over the requested window and returns the counts as a flat
 	// array in chronological order, with no timestamps and no bucket size attached, so the caller maps

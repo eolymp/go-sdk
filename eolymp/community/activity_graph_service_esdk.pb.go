@@ -102,7 +102,12 @@ func (s *ActivityGraphServiceService) do(ctx context.Context, verb, path string,
 
 func (s *ActivityGraphServiceService) DescribeActivityGraph(ctx context.Context, in *DescribeActivityGraphInput) (*DescribeActivityGraphOutput, error) {
 	out := &DescribeActivityGraphOutput{}
-	path := "/activity-graph"
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/activity-graph"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

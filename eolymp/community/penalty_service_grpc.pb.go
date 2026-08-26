@@ -36,9 +36,8 @@ const (
 // individual actions such as commenting or submitting — with a summary and a description explaining it,
 // and a time at which it stops applying. Several can be in force at once and they add up rather than
 // replace each other. In practice penalties are add-only and lapse on their own: the console only lists
-// and creates them, and the methods that revise or remove one are rarely reached for. Being
-// member-scoped, these calls are addressed through the base url a member carries in its read-only url
-// field.
+// and creates them, and the methods that revise or remove one are rarely reached for. Every method acts
+// on the member named by `member_id` in the request.
 type PenaltyServiceClient interface {
 	// CreatePenalty puts a restriction in force and returns its id. It takes effect without any separate
 	// activation step, and leaves penalties already on the member alone, so restricting two things on
@@ -127,9 +126,8 @@ func (c *penaltyServiceClient) ListPenalties(ctx context.Context, in *ListPenalt
 // individual actions such as commenting or submitting — with a summary and a description explaining it,
 // and a time at which it stops applying. Several can be in force at once and they add up rather than
 // replace each other. In practice penalties are add-only and lapse on their own: the console only lists
-// and creates them, and the methods that revise or remove one are rarely reached for. Being
-// member-scoped, these calls are addressed through the base url a member carries in its read-only url
-// field.
+// and creates them, and the methods that revise or remove one are rarely reached for. Every method acts
+// on the member named by `member_id` in the request.
 type PenaltyServiceServer interface {
 	// CreatePenalty puts a restriction in force and returns its id. It takes effect without any separate
 	// activation step, and leaves penalties already on the member alone, so restricting two things on
