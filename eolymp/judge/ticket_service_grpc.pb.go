@@ -48,8 +48,8 @@ const (
 // replies written either by that participant or by the jury; a contest can be configured to hide jury
 // identity, in which case participants never learn which person answered them. A ticket also carries a
 // status saying whether the jury still owes an answer, and marking a question resolved, reopened or
-// closed is an update of that status rather than a dedicated call. Every call is addressed to one contest
-// inside a space.
+// closed is an update of that status rather than a dedicated call. A call either names the contest with
+// `contest_id`, or names a ticket and takes the contest from it.
 type TicketServiceClient interface {
 	// CreateTicket opens a new question in the contest on behalf of the calling participant. The subject
 	// and message passed here become the head of the ticket's thread; everything said afterwards is a
@@ -322,8 +322,8 @@ func (c *ticketServiceClient) SuggestReply(ctx context.Context, in *SuggestReply
 // replies written either by that participant or by the jury; a contest can be configured to hide jury
 // identity, in which case participants never learn which person answered them. A ticket also carries a
 // status saying whether the jury still owes an answer, and marking a question resolved, reopened or
-// closed is an update of that status rather than a dedicated call. Every call is addressed to one contest
-// inside a space.
+// closed is an update of that status rather than a dedicated call. A call either names the contest with
+// `contest_id`, or names a ticket and takes the contest from it.
 type TicketServiceServer interface {
 	// CreateTicket opens a new question in the contest on behalf of the calling participant. The subject
 	// and message passed here become the head of the ticket's thread; everything said afterwards is a

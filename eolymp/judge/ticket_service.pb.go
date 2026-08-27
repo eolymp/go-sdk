@@ -2208,7 +2208,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\x12SuggestReplyOutput\x123\n" +
 	"\n" +
 	"suggestion\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\n" +
-	"suggestion2\xe3\x15\n" +
+	"suggestion2\xe4\x15\n" +
 	"\rTicketService\x12\x9b\x01\n" +
 	"\fCreateTicket\x12\x1f.eolymp.judge.CreateTicketInput\x1a .eolymp.judge.CreateTicketOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2348,7 +2348,7 @@ const file_eolymp_judge_ticket_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02&\"$/tickets/{ticket_id}/replies:suggest\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02&\"$/tickets/{ticket_id}/replies:suggest\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_ticket_service_proto_rawDescOnce sync.Once

@@ -1490,7 +1490,7 @@ var File_eolymp_helpdesk_ticket_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/helpdesk/ticket_service.proto\x12\x0feolymp.helpdesk\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/helpdesk/ticket.proto\x1a!eolymp/wellknown/expression.proto\"^\n" +
+	"$eolymp/helpdesk/ticket_service.proto\x12\x0feolymp.helpdesk\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/helpdesk/ticket.proto\x1a!eolymp/wellknown/expression.proto\"^\n" +
 	"\x11CreateTicketInput\x12/\n" +
 	"\x06ticket\x18\x01 \x01(\v2\x17.eolymp.helpdesk.TicketR\x06ticket\x12\x18\n" +
 	"\acaptcha\x18\x02 \x01(\tR\acaptcha\"1\n" +
@@ -1580,7 +1580,7 @@ const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
 	"\x04data\x18\x03 \x01(\fR\x04data\"?\n" +
 	"\x16UploadAttachmentOutput\x12%\n" +
-	"\x0eattachment_url\x18\x01 \x01(\tR\rattachmentUrl2\xf6\x14\n" +
+	"\x0eattachment_url\x18\x01 \x01(\tR\rattachmentUrl2\xda\x14\n" +
 	"\rTicketService\x12\xa6\x01\n" +
 	"\fCreateTicket\x12\".eolymp.helpdesk.CreateTicketInput\x1a#.eolymp.helpdesk.CreateTicketOutput\"M\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1706,7 +1706,7 @@ const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\x15helpdesk:ticket:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
 	"\x02\x82\xd3\xe4\x93\x02\x1e\x98\xe3\n" +
-	"\x80\x80\x80\x01\"\x15/helpdesk/attachments\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB3Z1github.com/eolymp/go-sdk/eolymp/helpdesk;helpdeskb\x06proto3"
+	"\x80\x80\x80\x01\"\x15/helpdesk/attachmentsB3Z1github.com/eolymp/go-sdk/eolymp/helpdesk;helpdeskb\x06proto3"
 
 var (
 	file_eolymp_helpdesk_ticket_service_proto_rawDescOnce sync.Once
