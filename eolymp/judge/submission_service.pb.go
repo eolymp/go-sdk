@@ -26,6 +26,7 @@ const (
 
 type CompareSubmissionsInput struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
+	ContestId         string                 `protobuf:"bytes,3,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	SubmissionId      string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
 	OtherSubmissionId string                 `protobuf:"bytes,2,opt,name=other_submission_id,json=otherSubmissionId,proto3" json:"other_submission_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -60,6 +61,13 @@ func (x *CompareSubmissionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CompareSubmissionsInput.ProtoReflect.Descriptor instead.
 func (*CompareSubmissionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_submission_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CompareSubmissionsInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *CompareSubmissionsInput) GetSubmissionId() string {
@@ -1463,8 +1471,10 @@ var File_eolymp_judge_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"n\n" +
-	"\x17CompareSubmissionsInput\x12#\n" +
+	"%eolymp/judge/submission_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a\x1deolymp/judge/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\x8d\x01\n" +
+	"\x17CompareSubmissionsInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x03 \x01(\tR\tcontestId\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12.\n" +
 	"\x13other_submission_id\x18\x02 \x01(\tR\x11otherSubmissionId\"\xf1\x04\n" +
 	"\x18CompareSubmissionsOutput\x12M\n" +
@@ -1579,9 +1589,9 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\".\n" +
 	"\x13RetestProblemOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xbb\x10\n" +
-	"\x11SubmissionService\x12\xc8\x01\n" +
-	"\x10CreateSubmission\x12#.eolymp.judge.CreateSubmissionInput\x1a$.eolymp.judge.CreateSubmissionOutput\"i\xea\xe2\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xae\x12\n" +
+	"\x11SubmissionService\x12\xde\x01\n" +
+	"\x10CreateSubmission\x12#.eolymp.judge.CreateSubmissionInput\x1a$.eolymp.judge.CreateSubmissionOutput\"\x7f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
@@ -1590,17 +1600,17 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x1d\x8a\xe3\n" +
 	"\x19judge:contest:participate\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02+\x98\xe3\n" +
-	"\x80\x80\xc0\x02\"\"/problems/{problem_id}/submissions\x12\xa1\x01\n" +
-	"\x0fListSubmissions\x12\".eolymp.judge.ListSubmissionsInput\x1a#.eolymp.judge.ListSubmissionsOutput\"E\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02A\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"8/contests/{contest_id}/problems/{problem_id}/submissions\x12\xb7\x01\n" +
+	"\x0fListSubmissions\x12\".eolymp.judge.ListSubmissionsInput\x1a#.eolymp.judge.ListSubmissionsOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xba\x01\n" +
-	"\x12DescribeSubmission\x12%.eolymp.judge.DescribeSubmissionInput\x1a&.eolymp.judge.DescribeSubmissionOutput\"U\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/contests/{contest_id}/submissions\x12\xd0\x01\n" +
+	"\x12DescribeSubmission\x12%.eolymp.judge.DescribeSubmissionInput\x1a&.eolymp.judge.DescribeSubmissionOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -1608,71 +1618,71 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xb7\x01\n" +
-	"\x0fPrintSubmission\x12\".eolymp.judge.PrintSubmissionInput\x1a#.eolymp.judge.PrintSubmissionOutput\"[\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x024\x122/contests/{contest_id}/submissions/{submission_id}\x12\xcd\x01\n" +
+	"\x0fPrintSubmission\x12\".eolymp.judge.PrintSubmissionInput\x1a#.eolymp.judge.PrintSubmissionOutput\"q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x02\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02$\"\"/submissions/{submission_id}/print\x12\xb9\x01\n" +
-	"\x0fWatchSubmission\x12\".eolymp.judge.WatchSubmissionInput\x1a#.eolymp.judge.WatchSubmissionOutput\"[\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02:\"8/contests/{contest_id}/submissions/{submission_id}/print\x12\xcf\x01\n" +
+	"\x0fWatchSubmission\x12\".eolymp.judge.WatchSubmissionInput\x1a#.eolymp.judge.WatchSubmissionOutput\"q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x12\xb8\x01\n" +
-	"\x14WatchSubmissionsList\x12'.eolymp.judge.WatchSubmissionsListInput\x1a(.eolymp.judge.WatchSubmissionsListOutput\"K\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02:\x128/contests/{contest_id}/submissions/{submission_id}/watch0\x01\x12\xce\x01\n" +
+	"\x14WatchSubmissionsList\x12'.eolymp.judge.WatchSubmissionsListInput\x1a(.eolymp.judge.WatchSubmissionsListOutput\"a\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/submissions:watch0\x01\x12\xc2\x01\n" +
-	"\x12CompareSubmissions\x12%.eolymp.judge.CompareSubmissionsInput\x1a&.eolymp.judge.CompareSubmissionsOutput\"]\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02*\x12(/contests/{contest_id}/submissions:watch0\x01\x12\xd8\x01\n" +
+	"\x12CompareSubmissions\x12%.eolymp.judge.CompareSubmissionsInput\x1a&.eolymp.judge.CompareSubmissionsOutput\"s\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02&\x12$/submissions/{submission_id}/compare\x12\xbc\x01\n" +
-	"\x10RetestSubmission\x12#.eolymp.judge.RetestSubmissionInput\x1a$.eolymp.judge.RetestSubmissionOutput\"]\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02<\x12:/contests/{contest_id}/submissions/{submission_id}/compare\x12\xd2\x01\n" +
+	"\x10RetestSubmission\x12#.eolymp.judge.RetestSubmissionInput\x1a$.eolymp.judge.RetestSubmissionOutput\"s\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02%\"#/submissions/{submission_id}/retest\x12\xb5\x01\n" +
-	"\x10DeleteSubmission\x12#.eolymp.judge.DeleteSubmissionInput\x1a$.eolymp.judge.DeleteSubmissionOutput\"V\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02;\"9/contests/{contest_id}/submissions/{submission_id}/retest\x12\xcb\x01\n" +
+	"\x10DeleteSubmission\x12#.eolymp.judge.DeleteSubmissionInput\x1a$.eolymp.judge.DeleteSubmissionOutput\"l\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\x1e*\x1c/submissions/{submission_id}\x12\xc0\x01\n" +
-	"\x11RestoreSubmission\x12$.eolymp.judge.RestoreSubmissionInput\x1a%.eolymp.judge.RestoreSubmissionOutput\"^\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x024*2/contests/{contest_id}/submissions/{submission_id}\x12\xd6\x01\n" +
+	"\x11RestoreSubmission\x12$.eolymp.judge.RestoreSubmissionInput\x1a%.eolymp.judge.RestoreSubmissionOutput\"t\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02&\"$/submissions/{submission_id}/restore\x12\xad\x01\n" +
-	"\rRetestProblem\x12 .eolymp.judge.RetestProblemInput\x1a!.eolymp.judge.RetestProblemOutput\"W\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02<\":/contests/{contest_id}/submissions/{submission_id}/restore\x12\xc3\x01\n" +
+	"\rRetestProblem\x12 .eolymp.judge.RetestProblemInput\x1a!.eolymp.judge.RetestProblemOutput\"m\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1f\x12\x1d/problems/{problem_id}/retest\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x025\x123/contests/{contest_id}/problems/{problem_id}/retest\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_submission_service_proto_rawDescOnce sync.Once

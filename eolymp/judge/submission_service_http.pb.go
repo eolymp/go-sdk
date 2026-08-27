@@ -296,37 +296,37 @@ func _SubmissionService_HTTPWriteEvent(w http.ResponseWriter, name string, v pro
 
 // RegisterSubmissionServiceHttpHandlers adds handlers for for SubmissionServiceClient
 func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cli SubmissionServiceClient) {
-	router.Handle(prefix+"/problems/{problem_id}/submissions", _SubmissionService_CreateSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/submissions", _SubmissionService_CreateSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.SubmissionService.CreateSubmission")
-	router.Handle(prefix+"/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.ListSubmissions")
-	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.DescribeSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}/print", _SubmissionService_PrintSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/print", _SubmissionService_PrintSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.SubmissionService.PrintSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}/watch", _SubmissionService_WatchSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/watch", _SubmissionService_WatchSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.WatchSubmission")
-	router.Handle(prefix+"/submissions:watch", _SubmissionService_WatchSubmissionsList_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions:watch", _SubmissionService_WatchSubmissionsList_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.WatchSubmissionsList")
-	router.Handle(prefix+"/submissions/{submission_id}/compare", _SubmissionService_CompareSubmissions_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/compare", _SubmissionService_CompareSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.CompareSubmissions")
-	router.Handle(prefix+"/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/retest", _SubmissionService_RetestSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.SubmissionService.RetestSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DeleteSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}", _SubmissionService_DeleteSubmission_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.SubmissionService.DeleteSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}/restore", _SubmissionService_RestoreSubmission_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/submissions/{submission_id}/restore", _SubmissionService_RestoreSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.SubmissionService.RestoreSubmission")
-	router.Handle(prefix+"/problems/{problem_id}/retest", _SubmissionService_RetestProblem_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/retest", _SubmissionService_RetestProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.SubmissionService.RetestProblem")
 }
@@ -346,6 +346,7 @@ func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -369,6 +370,9 @@ func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListSubmissions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -391,6 +395,7 @@ func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -415,6 +420,7 @@ func _SubmissionService_PrintSubmission_Rule0(cli SubmissionServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -439,6 +445,7 @@ func _SubmissionService_WatchSubmission_Rule0(cli SubmissionServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		stream, err := cli.WatchSubmission(r.Context(), in)
@@ -460,6 +467,9 @@ func _SubmissionService_WatchSubmissionsList_Rule0(cli SubmissionServiceClient) 
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		stream, err := cli.WatchSubmissionsList(r.Context(), in)
 		if err != nil {
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
@@ -480,6 +490,7 @@ func _SubmissionService_CompareSubmissions_Rule0(cli SubmissionServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -504,6 +515,7 @@ func _SubmissionService_RetestSubmission_Rule0(cli SubmissionServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -528,6 +540,7 @@ func _SubmissionService_DeleteSubmission_Rule0(cli SubmissionServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -552,6 +565,7 @@ func _SubmissionService_RestoreSubmission_Rule0(cli SubmissionServiceClient) htt
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -576,6 +590,7 @@ func _SubmissionService_RetestProblem_Rule0(cli SubmissionServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD

@@ -102,10 +102,11 @@ func (s *SubmissionServiceService) do(ctx context.Context, verb, path string, in
 
 func (s *SubmissionServiceService) CreateSubmission(ctx context.Context, in *CreateSubmissionInput) (*CreateSubmissionOutput, error) {
 	out := &CreateSubmissionOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/submissions"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/submissions"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -118,7 +119,12 @@ func (s *SubmissionServiceService) CreateSubmission(ctx context.Context, in *Cre
 
 func (s *SubmissionServiceService) ListSubmissions(ctx context.Context, in *ListSubmissionsInput) (*ListSubmissionsOutput, error) {
 	out := &ListSubmissionsOutput{}
-	path := "/submissions"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -129,10 +135,11 @@ func (s *SubmissionServiceService) ListSubmissions(ctx context.Context, in *List
 
 func (s *SubmissionServiceService) DescribeSubmission(ctx context.Context, in *DescribeSubmissionInput) (*DescribeSubmissionOutput, error) {
 	out := &DescribeSubmissionOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.SubmissionId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *SubmissionServiceService) DescribeSubmission(ctx context.Context, in *D
 
 func (s *SubmissionServiceService) PrintSubmission(ctx context.Context, in *PrintSubmissionInput) (*PrintSubmissionOutput, error) {
 	out := &PrintSubmissionOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/print"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/print"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.SubmissionId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *SubmissionServiceService) PrintSubmission(ctx context.Context, in *Prin
 
 func (s *SubmissionServiceService) CompareSubmissions(ctx context.Context, in *CompareSubmissionsInput) (*CompareSubmissionsOutput, error) {
 	out := &CompareSubmissionsOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/compare"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/compare"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.SubmissionId = ""
 	}
 
@@ -177,10 +186,11 @@ func (s *SubmissionServiceService) CompareSubmissions(ctx context.Context, in *C
 
 func (s *SubmissionServiceService) RetestSubmission(ctx context.Context, in *RetestSubmissionInput) (*RetestSubmissionOutput, error) {
 	out := &RetestSubmissionOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/retest"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/retest"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.SubmissionId = ""
 	}
 
@@ -193,10 +203,11 @@ func (s *SubmissionServiceService) RetestSubmission(ctx context.Context, in *Ret
 
 func (s *SubmissionServiceService) DeleteSubmission(ctx context.Context, in *DeleteSubmissionInput) (*DeleteSubmissionOutput, error) {
 	out := &DeleteSubmissionOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.SubmissionId = ""
 	}
 
@@ -209,10 +220,11 @@ func (s *SubmissionServiceService) DeleteSubmission(ctx context.Context, in *Del
 
 func (s *SubmissionServiceService) RestoreSubmission(ctx context.Context, in *RestoreSubmissionInput) (*RestoreSubmissionOutput, error) {
 	out := &RestoreSubmissionOutput{}
-	path := "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/restore"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/submissions/" + url.PathEscape(in.GetSubmissionId()) + "/restore"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.SubmissionId = ""
 	}
 
@@ -225,10 +237,11 @@ func (s *SubmissionServiceService) RestoreSubmission(ctx context.Context, in *Re
 
 func (s *SubmissionServiceService) RetestProblem(ctx context.Context, in *RetestProblemInput) (*RetestProblemOutput, error) {
 	out := &RetestProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/retest"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/retest"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
