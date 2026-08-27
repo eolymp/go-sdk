@@ -296,43 +296,43 @@ func _StudentService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.
 
 // RegisterStudentServiceHttpHandlers adds handlers for for StudentServiceClient
 func RegisterStudentServiceHttpHandlers(router *mux.Router, prefix string, cli StudentServiceClient) {
-	router.Handle(prefix+"/students", _StudentService_CreateStudent_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students", _StudentService_CreateStudent_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.CreateStudent")
-	router.Handle(prefix+"/students/{member_id}", _StudentService_UpdateStudent_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}", _StudentService_UpdateStudent_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.UpdateStudent")
-	router.Handle(prefix+"/students/{member_id}", _StudentService_DeleteStudent_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}", _StudentService_DeleteStudent_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.StudentService.DeleteStudent")
-	router.Handle(prefix+"/students/{member_id}", _StudentService_DescribeStudent_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}", _StudentService_DescribeStudent_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.DescribeStudent")
-	router.Handle(prefix+"/students", _StudentService_ListStudents_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students", _StudentService_ListStudents_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListStudents")
-	router.Handle(prefix+"/students/{member_id}/watch", _StudentService_WatchStudent_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}/watch", _StudentService_WatchStudent_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.WatchStudent")
-	router.Handle(prefix+"/join", _StudentService_JoinCourse_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/join", _StudentService_JoinCourse_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.JoinCourse")
-	router.Handle(prefix+"/viewer/student", _StudentService_DescribeViewer_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/viewer/student", _StudentService_DescribeViewer_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.DescribeViewer")
-	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_ListStudentAssignments_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}/assignments", _StudentService_ListStudentAssignments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListStudentAssignments")
-	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_UpdateStudentAssignment_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}/assignments", _StudentService_UpdateStudentAssignment_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.StudentService.UpdateStudentAssignment")
-	router.Handle(prefix+"/students/{member_id}/assignments", _StudentService_DeleteStudentAssignment_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}/assignments", _StudentService_DeleteStudentAssignment_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.course.StudentService.DeleteStudentAssignment")
-	router.Handle(prefix+"/students/{member_id}/grades", _StudentService_ListStudentGrades_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}/grades", _StudentService_ListStudentGrades_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListStudentGrades")
-	router.Handle(prefix+"/students/{member_id}/grades/{module_id}", _StudentService_ListModuleGrades_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/students/{member_id}/grades/{module_id}", _StudentService_ListModuleGrades_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.StudentService.ListModuleGrades")
 }
@@ -350,6 +350,9 @@ func _StudentService_CreateStudent_Rule0(cli StudentServiceClient) http.Handler 
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -373,6 +376,7 @@ func _StudentService_UpdateStudent_Rule0(cli StudentServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -397,6 +401,7 @@ func _StudentService_DeleteStudent_Rule0(cli StudentServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -421,6 +426,7 @@ func _StudentService_DescribeStudent_Rule0(cli StudentServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -444,6 +450,9 @@ func _StudentService_ListStudents_Rule0(cli StudentServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStudents(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -466,6 +475,7 @@ func _StudentService_WatchStudent_Rule0(cli StudentServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		stream, err := cli.WatchStudent(r.Context(), in)
@@ -487,6 +497,9 @@ func _StudentService_JoinCourse_Rule0(cli StudentServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.JoinCourse(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -507,6 +520,9 @@ func _StudentService_DescribeViewer_Rule0(cli StudentServiceClient) http.Handler
 			_StudentService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -530,6 +546,7 @@ func _StudentService_ListStudentAssignments_Rule0(cli StudentServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -554,6 +571,7 @@ func _StudentService_UpdateStudentAssignment_Rule0(cli StudentServiceClient) htt
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -578,6 +596,7 @@ func _StudentService_DeleteStudentAssignment_Rule0(cli StudentServiceClient) htt
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -602,6 +621,7 @@ func _StudentService_ListStudentGrades_Rule0(cli StudentServiceClient) http.Hand
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
@@ -626,6 +646,7 @@ func _StudentService_ListModuleGrades_Rule0(cli StudentServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.MemberId = vars["member_id"]
 		in.ModuleId = vars["module_id"]
 

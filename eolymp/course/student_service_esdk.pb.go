@@ -102,7 +102,12 @@ func (s *StudentServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *StudentServiceService) CreateStudent(ctx context.Context, in *CreateStudentInput) (*CreateStudentOutput, error) {
 	out := &CreateStudentOutput{}
-	path := "/students"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *StudentServiceService) CreateStudent(ctx context.Context, in *CreateStu
 
 func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStudentInput) (*UpdateStudentOutput, error) {
 	out := &UpdateStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *StudentServiceService) UpdateStudent(ctx context.Context, in *UpdateStu
 
 func (s *StudentServiceService) DeleteStudent(ctx context.Context, in *DeleteStudentInput) (*DeleteStudentOutput, error) {
 	out := &DeleteStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *StudentServiceService) DeleteStudent(ctx context.Context, in *DeleteStu
 
 func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *DescribeStudentInput) (*DescribeStudentOutput, error) {
 	out := &DescribeStudentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -161,7 +169,12 @@ func (s *StudentServiceService) DescribeStudent(ctx context.Context, in *Describ
 
 func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStudentsInput) (*ListStudentsOutput, error) {
 	out := &ListStudentsOutput{}
-	path := "/students"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -172,7 +185,12 @@ func (s *StudentServiceService) ListStudents(ctx context.Context, in *ListStuden
 
 func (s *StudentServiceService) JoinCourse(ctx context.Context, in *JoinCourseInput) (*JoinCourseOutput, error) {
 	out := &JoinCourseOutput{}
-	path := "/join"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/join"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -183,7 +201,12 @@ func (s *StudentServiceService) JoinCourse(ctx context.Context, in *JoinCourseIn
 
 func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	out := &DescribeViewerOutput{}
-	path := "/viewer/student"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/viewer/student"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -194,10 +217,11 @@ func (s *StudentServiceService) DescribeViewer(ctx context.Context, in *Describe
 
 func (s *StudentServiceService) ListStudentAssignments(ctx context.Context, in *ListStudentAssignmentsInput) (*ListStudentAssignmentsOutput, error) {
 	out := &ListStudentAssignmentsOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -210,10 +234,11 @@ func (s *StudentServiceService) ListStudentAssignments(ctx context.Context, in *
 
 func (s *StudentServiceService) UpdateStudentAssignment(ctx context.Context, in *UpdateStudentAssignmentInput) (*UpdateStudentAssignmentOutput, error) {
 	out := &UpdateStudentAssignmentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -226,10 +251,11 @@ func (s *StudentServiceService) UpdateStudentAssignment(ctx context.Context, in 
 
 func (s *StudentServiceService) DeleteStudentAssignment(ctx context.Context, in *DeleteStudentAssignmentInput) (*DeleteStudentAssignmentOutput, error) {
 	out := &DeleteStudentAssignmentOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId()) + "/assignments"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -242,10 +268,11 @@ func (s *StudentServiceService) DeleteStudentAssignment(ctx context.Context, in 
 
 func (s *StudentServiceService) ListStudentGrades(ctx context.Context, in *ListStudentGradesInput) (*ListStudentGradesOutput, error) {
 	out := &ListStudentGradesOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/grades"
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId()) + "/grades"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 	}
 
@@ -258,10 +285,11 @@ func (s *StudentServiceService) ListStudentGrades(ctx context.Context, in *ListS
 
 func (s *StudentServiceService) ListModuleGrades(ctx context.Context, in *ListModuleGradesInput) (*ListModuleGradesOutput, error) {
 	out := &ListModuleGradesOutput{}
-	path := "/students/" + url.PathEscape(in.GetMemberId()) + "/grades/" + url.PathEscape(in.GetModuleId())
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/students/" + url.PathEscape(in.GetMemberId()) + "/grades/" + url.PathEscape(in.GetModuleId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.CourseId = ""
 		in.MemberId = ""
 		in.ModuleId = ""
 	}

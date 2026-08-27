@@ -118,6 +118,7 @@ func (ListStudentsInput_Sortable) EnumDescriptor() ([]byte, []int) {
 
 type CreateStudentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Student       *Student               `protobuf:"bytes,1,opt,name=student,proto3" json:"student,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -151,6 +152,13 @@ func (x *CreateStudentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateStudentInput.ProtoReflect.Descriptor instead.
 func (*CreateStudentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateStudentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *CreateStudentInput) GetStudent() *Student {
@@ -205,7 +213,8 @@ func (x *CreateStudentOutput) GetStudentId() string {
 }
 
 type UpdateStudentInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	// specify list of fields to update, if empty all fields are updated
 	Patch         []UpdateStudentInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateStudentInput_Patch" json:"patch,omitempty"`
 	MemberId      string                     `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
@@ -242,6 +251,13 @@ func (x *UpdateStudentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateStudentInput.ProtoReflect.Descriptor instead.
 func (*UpdateStudentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateStudentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *UpdateStudentInput) GetPatch() []UpdateStudentInput_Patch {
@@ -303,6 +319,7 @@ func (*UpdateStudentOutput) Descriptor() ([]byte, []int) {
 
 type DeleteStudentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -336,6 +353,13 @@ func (x *DeleteStudentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteStudentInput.ProtoReflect.Descriptor instead.
 func (*DeleteStudentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeleteStudentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DeleteStudentInput) GetMemberId() string {
@@ -383,6 +407,7 @@ func (*DeleteStudentOutput) Descriptor() ([]byte, []int) {
 
 type DescribeStudentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Extra         []Student_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Student_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -417,6 +442,13 @@ func (x *DescribeStudentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeStudentInput.ProtoReflect.Descriptor instead.
 func (*DescribeStudentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DescribeStudentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DescribeStudentInput) GetMemberId() string {
@@ -478,7 +510,8 @@ func (x *DescribeStudentOutput) GetStudent() *Student {
 }
 
 type ListStudentsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	// pagination
 	After  string `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Offset int32  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -521,6 +554,13 @@ func (x *ListStudentsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListStudentsInput.ProtoReflect.Descriptor instead.
 func (*ListStudentsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListStudentsInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListStudentsInput) GetAfter() string {
@@ -641,6 +681,7 @@ func (x *ListStudentsOutput) GetNextPageCursor() string {
 
 type WatchStudentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Extra         []Student_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Student_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -675,6 +716,13 @@ func (x *WatchStudentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use WatchStudentInput.ProtoReflect.Descriptor instead.
 func (*WatchStudentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *WatchStudentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *WatchStudentInput) GetMemberId() string {
@@ -745,6 +793,7 @@ func (x *WatchStudentOutput) GetEvent() wellknown.WatchEventType {
 
 type JoinCourseInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -777,6 +826,13 @@ func (x *JoinCourseInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use JoinCourseInput.ProtoReflect.Descriptor instead.
 func (*JoinCourseInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *JoinCourseInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 type JoinCourseOutput struct {
@@ -817,6 +873,7 @@ func (*JoinCourseOutput) Descriptor() ([]byte, []int) {
 
 type DescribeViewerInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Extra         []Student_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.course.Student_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -850,6 +907,13 @@ func (x *DescribeViewerInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeViewerInput.ProtoReflect.Descriptor instead.
 func (*DescribeViewerInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DescribeViewerInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DescribeViewerInput) GetExtra() []Student_Extra {
@@ -905,6 +969,7 @@ func (x *DescribeViewerOutput) GetStudent() *Student {
 
 type ListStudentAssignmentsInput struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -944,6 +1009,13 @@ func (x *ListStudentAssignmentsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListStudentAssignmentsInput.ProtoReflect.Descriptor instead.
 func (*ListStudentAssignmentsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ListStudentAssignmentsInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListStudentAssignmentsInput) GetMemberId() string {
@@ -1035,6 +1107,7 @@ func (x *ListStudentAssignmentsOutput) GetItems() []*Assignment {
 
 type UpdateStudentAssignmentInput struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
+	CourseId       string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId       string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	ModuleId       string                 `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	StartAfter     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=start_after,json=startAfter,proto3" json:"start_after,omitempty"`             // optionally, time by when assignment should be complete
@@ -1073,6 +1146,13 @@ func (x *UpdateStudentAssignmentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateStudentAssignmentInput.ProtoReflect.Descriptor instead.
 func (*UpdateStudentAssignmentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *UpdateStudentAssignmentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *UpdateStudentAssignmentInput) GetMemberId() string {
@@ -1155,6 +1235,7 @@ func (*UpdateStudentAssignmentOutput) Descriptor() ([]byte, []int) {
 
 type DeleteStudentAssignmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	ModuleId      string                 `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1189,6 +1270,13 @@ func (x *DeleteStudentAssignmentInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteStudentAssignmentInput.ProtoReflect.Descriptor instead.
 func (*DeleteStudentAssignmentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *DeleteStudentAssignmentInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DeleteStudentAssignmentInput) GetMemberId() string {
@@ -1243,6 +1331,7 @@ func (*DeleteStudentAssignmentOutput) Descriptor() ([]byte, []int) {
 
 type ListStudentGradesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1276,6 +1365,13 @@ func (x *ListStudentGradesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListStudentGradesInput.ProtoReflect.Descriptor instead.
 func (*ListStudentGradesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *ListStudentGradesInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListStudentGradesInput) GetMemberId() string {
@@ -1331,6 +1427,7 @@ func (x *ListStudentGradesOutput) GetItems() []*Module_Progress {
 
 type ListModuleGradesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	ModuleId      string                 `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1365,6 +1462,13 @@ func (x *ListModuleGradesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListModuleGradesInput.ProtoReflect.Descriptor instead.
 func (*ListModuleGradesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_student_service_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *ListModuleGradesInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListModuleGradesInput) GetMemberId() string {
@@ -1541,13 +1645,15 @@ var File_eolymp_course_student_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/student_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x1ceolymp/course/material.proto\x1a\x1aeolymp/course/module.proto\x1a\x1beolymp/course/student.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
-	"\x12CreateStudentInput\x120\n" +
+	"#eolymp/course/student_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1eeolymp/course/assignment.proto\x1a\x1ceolymp/course/material.proto\x1a\x1aeolymp/course/module.proto\x1a\x1beolymp/course/student.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"c\n" +
+	"\x12CreateStudentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x120\n" +
 	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"4\n" +
 	"\x13CreateStudentOutput\x12\x1d\n" +
 	"\n" +
-	"student_id\x18\x02 \x01(\tR\tstudentId\"\xd2\x01\n" +
-	"\x12UpdateStudentInput\x12=\n" +
+	"student_id\x18\x02 \x01(\tR\tstudentId\"\xef\x01\n" +
+	"\x12UpdateStudentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12=\n" +
 	"\x05patch\x18\x01 \x03(\x0e2'.eolymp.course.UpdateStudentInput.PatchR\x05patch\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x120\n" +
 	"\astudent\x18\x03 \x01(\v2\x16.eolymp.course.StudentR\astudent\".\n" +
@@ -1556,16 +1662,19 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\bINACTIVE\x10\x01\x12\x0e\n" +
 	"\n" +
 	"ASSIGN_ALL\x10\x02\"\x15\n" +
-	"\x13UpdateStudentOutput\"1\n" +
+	"\x13UpdateStudentOutput\"N\n" +
 	"\x12DeleteStudentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\"\x15\n" +
-	"\x13DeleteStudentOutput\"h\n" +
+	"\x13DeleteStudentOutput\"\x85\x01\n" +
 	"\x14DescribeStudentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x123\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1c.eolymp.course.Student.ExtraR\x05extra\"I\n" +
 	"\x15DescribeStudentOutput\x120\n" +
-	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"\xa3\x04\n" +
-	"\x11ListStudentsInput\x12\x14\n" +
+	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"\xc0\x04\n" +
+	"\x11ListStudentsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1585,20 +1694,24 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\x12ListStudentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
 	"\x05items\x18\x02 \x03(\v2\x16.eolymp.course.StudentR\x05items\x12(\n" +
-	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\"e\n" +
+	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\"\x82\x01\n" +
 	"\x11WatchStudentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x123\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1c.eolymp.course.Student.ExtraR\x05extra\"~\n" +
 	"\x12WatchStudentOutput\x120\n" +
 	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\"\x11\n" +
-	"\x0fJoinCourseInput\"\x12\n" +
-	"\x10JoinCourseOutput\"J\n" +
-	"\x13DescribeViewerInput\x123\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\".\n" +
+	"\x0fJoinCourseInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\"\x12\n" +
+	"\x10JoinCourseOutput\"g\n" +
+	"\x13DescribeViewerInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x123\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1c.eolymp.course.Student.ExtraR\x05extra\"H\n" +
 	"\x14DescribeViewerOutput\x120\n" +
-	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"\xc2\x02\n" +
+	"\astudent\x18\x01 \x01(\v2\x16.eolymp.course.StudentR\astudent\"\xdf\x02\n" +
 	"\x1bListStudentAssignmentsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1611,8 +1724,9 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\tmodule_id\x18\v \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmoduleId\"e\n" +
 	"\x1cListStudentAssignmentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12/\n" +
-	"\x05items\x18\x02 \x03(\v2\x19.eolymp.course.AssignmentR\x05items\"\x90\x02\n" +
+	"\x05items\x18\x02 \x03(\v2\x19.eolymp.course.AssignmentR\x05items\"\xad\x02\n" +
 	"\x1cUpdateStudentAssignmentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x03 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\x12;\n" +
 	"\vstart_after\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\n" +
@@ -1620,71 +1734,74 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\x0fcomplete_before\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x0ecompleteBefore\x12\x1a\n" +
 	"\bduration\x18\r \x01(\rR\bduration\x12\x18\n" +
 	"\aupsolve\x18\x1e \x01(\bR\aupsolve\"\x1f\n" +
-	"\x1dUpdateStudentAssignmentOutput\"X\n" +
+	"\x1dUpdateStudentAssignmentOutput\"u\n" +
 	"\x1cDeleteStudentAssignmentInput\x12\x1b\n" +
+	"\tcourse_id\x18\x03 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"\x1f\n" +
-	"\x1dDeleteStudentAssignmentOutput\"5\n" +
+	"\x1dDeleteStudentAssignmentOutput\"R\n" +
 	"\x16ListStudentGradesInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\"O\n" +
 	"\x17ListStudentGradesOutput\x124\n" +
-	"\x05items\x18\x01 \x03(\v2\x1e.eolymp.course.Module.ProgressR\x05items\"Q\n" +
+	"\x05items\x18\x01 \x03(\v2\x1e.eolymp.course.Module.ProgressR\x05items\"n\n" +
 	"\x15ListModuleGradesInput\x12\x1b\n" +
+	"\tcourse_id\x18\x03 \x01(\tR\bcourseId\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x1b\n" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"P\n" +
 	"\x16ListModuleGradesOutput\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .eolymp.course.Material.ProgressR\x05items2\xc3\x12\n" +
-	"\x0eStudentService\x12\x9b\x01\n" +
-	"\rCreateStudent\x12!.eolymp.course.CreateStudentInput\x1a\".eolymp.course.CreateStudentOutput\"C\xea\xe2\n" +
+	"\x05items\x18\x01 \x03(\v2 .eolymp.course.Material.ProgressR\x05items2\xc8\x14\n" +
+	"\x0eStudentService\x12\xaf\x01\n" +
+	"\rCreateStudent\x12!.eolymp.course.CreateStudentInput\x1a\".eolymp.course.CreateStudentOutput\"W\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\v\"\t/students\x12\xa7\x01\n" +
-	"\rUpdateStudent\x12!.eolymp.course.UpdateStudentInput\x1a\".eolymp.course.UpdateStudentOutput\"O\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/courses/{course_id}/students\x12\xbb\x01\n" +
+	"\rUpdateStudent\x12!.eolymp.course.UpdateStudentInput\x1a\".eolymp.course.UpdateStudentOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x17\"\x15/students/{member_id}\x12\xa7\x01\n" +
-	"\rDeleteStudent\x12!.eolymp.course.DeleteStudentInput\x1a\".eolymp.course.DeleteStudentOutput\"O\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02+\")/courses/{course_id}/students/{member_id}\x12\xbb\x01\n" +
+	"\rDeleteStudent\x12!.eolymp.course.DeleteStudentInput\x1a\".eolymp.course.DeleteStudentOutput\"c\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13course:course:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\x17*\x15/students/{member_id}\x12\xac\x01\n" +
-	"\x0fDescribeStudent\x12#.eolymp.course.DescribeStudentInput\x1a$.eolymp.course.DescribeStudentOutput\"N\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02+*)/courses/{course_id}/students/{member_id}\x12\xc0\x01\n" +
+	"\x0fDescribeStudent\x12#.eolymp.course.DescribeStudentInput\x1a$.eolymp.course.DescribeStudentOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x17\x12\x15/students/{member_id}\x12\x97\x01\n" +
-	"\fListStudents\x12 .eolymp.course.ListStudentsInput\x1a!.eolymp.course.ListStudentsOutput\"B\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02+\x12)/courses/{course_id}/students/{member_id}\x12\xab\x01\n" +
+	"\fListStudents\x12 .eolymp.course.ListStudentsInput\x1a!.eolymp.course.ListStudentsOutput\"V\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/students\x12\xab\x01\n" +
-	"\fWatchStudent\x12 .eolymp.course.WatchStudentInput\x1a!.eolymp.course.WatchStudentOutput\"T\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/courses/{course_id}/students\x12\xbf\x01\n" +
+	"\fWatchStudent\x12 .eolymp.course.WatchStudentInput\x1a!.eolymp.course.WatchStudentOutput\"h\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1d\x12\x1b/students/{member_id}/watch0\x01\x12\x8d\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x021\x12//courses/{course_id}/students/{member_id}/watch0\x01\x12\xa1\x01\n" +
 	"\n" +
-	"JoinCourse\x12\x1e.eolymp.course.JoinCourseInput\x1a\x1f.eolymp.course.JoinCourseOutput\">\xea\xe2\n" +
+	"JoinCourse\x12\x1e.eolymp.course.JoinCourseInput\x1a\x1f.eolymp.course.JoinCourseOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -1692,55 +1809,55 @@ const file_eolymp_course_student_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\a\"\x05/join\x12\xa4\x01\n" +
-	"\x0eDescribeViewer\x12\".eolymp.course.DescribeViewerInput\x1a#.eolymp.course.DescribeViewerOutput\"I\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1b\"\x19/courses/{course_id}/join\x12\xb8\x01\n" +
+	"\x0eDescribeViewer\x12\".eolymp.course.DescribeViewerInput\x1a#.eolymp.course.DescribeViewerOutput\"]\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/viewer/student\x12\xcd\x01\n" +
-	"\x16ListStudentAssignments\x12*.eolymp.course.ListStudentAssignmentsInput\x1a+.eolymp.course.ListStudentAssignmentsOutput\"Z\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02%\x12#/courses/{course_id}/viewer/student\x12\xe1\x01\n" +
+	"\x16ListStudentAssignments\x12*.eolymp.course.ListStudentAssignmentsInput\x1a+.eolymp.course.ListStudentAssignmentsOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02#\x12!/students/{member_id}/assignments\x12\xd0\x01\n" +
-	"\x17UpdateStudentAssignment\x12+.eolymp.course.UpdateStudentAssignmentInput\x1a,.eolymp.course.UpdateStudentAssignmentOutput\"Z\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x027\x125/courses/{course_id}/students/{member_id}/assignments\x12\xe4\x01\n" +
+	"\x17UpdateStudentAssignment\x12+.eolymp.course.UpdateStudentAssignmentInput\x1a,.eolymp.course.UpdateStudentAssignmentOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02#\"!/students/{member_id}/assignments\x12\xd0\x01\n" +
-	"\x17DeleteStudentAssignment\x12+.eolymp.course.DeleteStudentAssignmentInput\x1a,.eolymp.course.DeleteStudentAssignmentOutput\"Z\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x027\"5/courses/{course_id}/students/{member_id}/assignments\x12\xe4\x01\n" +
+	"\x17DeleteStudentAssignment\x12+.eolymp.course.DeleteStudentAssignmentInput\x1a,.eolymp.course.DeleteStudentAssignmentOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02#*!/students/{member_id}/assignments\x12\xb9\x01\n" +
-	"\x11ListStudentGrades\x12%.eolymp.course.ListStudentGradesInput\x1a&.eolymp.course.ListStudentGradesOutput\"U\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x027*5/courses/{course_id}/students/{member_id}/assignments\x12\xcd\x01\n" +
+	"\x11ListStudentGrades\x12%.eolymp.course.ListStudentGradesInput\x1a&.eolymp.course.ListStudentGradesOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/students/{member_id}/grades\x12\xc2\x01\n" +
-	"\x10ListModuleGrades\x12$.eolymp.course.ListModuleGradesInput\x1a%.eolymp.course.ListModuleGradesOutput\"a\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x022\x120/courses/{course_id}/students/{member_id}/grades\x12\xd6\x01\n" +
+	"\x10ListModuleGrades\x12$.eolymp.course.ListModuleGradesInput\x1a%.eolymp.course.ListModuleGradesOutput\"u\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02*\x12(/students/{member_id}/grades/{module_id}\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02>\x12</courses/{course_id}/students/{member_id}/grades/{module_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_student_service_proto_rawDescOnce sync.Once
