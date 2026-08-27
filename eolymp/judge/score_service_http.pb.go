@@ -296,25 +296,25 @@ func _ScoreService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.Me
 
 // RegisterScoreServiceHttpHandlers adds handlers for for ScoreServiceClient
 func RegisterScoreServiceHttpHandlers(router *mux.Router, prefix string, cli ScoreServiceClient) {
-	router.Handle(prefix+"/introspect/score", _ScoreService_DescribeViewerScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/introspect/score", _ScoreService_DescribeViewerScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeViewerScore")
-	router.Handle(prefix+"/participants/{participant_id}/score/watch", _ScoreService_WatchScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score/watch", _ScoreService_WatchScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.WatchScore")
-	router.Handle(prefix+"/participants/{participant_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score", _ScoreService_DescribeScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.DescribeScore")
-	router.Handle(prefix+"/participants/{participant_id}/score-timeline", _ScoreService_ListScoreTimeline_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/score-timeline", _ScoreService_ListScoreTimeline_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ListScoreTimeline")
-	router.Handle(prefix+"/participants/{participant_id}/scores", _ScoreService_ImportScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _ScoreService_ImportScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreService.ImportScore")
-	router.Handle(prefix+"/participants/{participant_id}/scores", _ScoreService_ExportScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/scores", _ScoreService_ExportScore_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreService.ExportScore")
-	router.Handle(prefix+"/rebuild", _ScoreService_RebuildScore_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/rebuild", _ScoreService_RebuildScore_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreService.RebuildScore")
 }
@@ -332,6 +332,9 @@ func _ScoreService_DescribeViewerScore_Rule0(cli ScoreServiceClient) http.Handle
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -355,6 +358,7 @@ func _ScoreService_WatchScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		stream, err := cli.WatchScore(r.Context(), in)
@@ -377,6 +381,7 @@ func _ScoreService_DescribeScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -401,6 +406,7 @@ func _ScoreService_ListScoreTimeline_Rule0(cli ScoreServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -425,6 +431,7 @@ func _ScoreService_ImportScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -449,6 +456,7 @@ func _ScoreService_ExportScore_Rule0(cli ScoreServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -471,6 +479,9 @@ func _ScoreService_RebuildScore_Rule0(cli ScoreServiceClient) http.Handler {
 			_ScoreService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 

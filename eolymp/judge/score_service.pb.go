@@ -778,56 +778,56 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\x121\n" +
 	"\x04mode\x18\x04 \x01(\x0e2\x1d.eolymp.judge.Scoreboard.ModeR\x04mode\"Q\n" +
 	"\x17ListScoreTimelineOutput\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\xf9\t\n" +
-	"\fScoreService\x12\x98\x01\n" +
-	"\x13DescribeViewerScore\x12&.eolymp.judge.DescribeViewerScoreInput\x1a'.eolymp.judge.DescribeViewerScoreOutput\"0\xea\xe2\n" +
+	"\x05items\x18\x01 \x03(\v2 .eolymp.judge.ScoreTimelinePointR\x05items2\x94\v\n" +
+	"\fScoreService\x12\xae\x01\n" +
+	"\x13DescribeViewerScore\x12&.eolymp.judge.DescribeViewerScoreInput\x1a'.eolymp.judge.DescribeViewerScoreOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x13\x12\x11/introspect/score\x12\xb2\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x02)\x12'/contests/{contest_id}/introspect/score\x12\xc8\x01\n" +
 	"\n" +
-	"WatchScore\x12\x1d.eolymp.judge.WatchScoreInput\x1a\x1e.eolymp.judge.WatchScoreOutput\"c\xea\xe2\n" +
+	"WatchScore\x12\x1d.eolymp.judge.WatchScoreInput\x1a\x1e.eolymp.judge.WatchScoreOutput\"y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02,\x12*/participants/{participant_id}/score/watch0\x01\x12\xb4\x01\n" +
-	"\rDescribeScore\x12 .eolymp.judge.DescribeScoreInput\x1a!.eolymp.judge.DescribeScoreOutput\"^\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02B\x12@/contests/{contest_id}/participants/{participant_id}/score/watch0\x01\x12\xca\x01\n" +
+	"\rDescribeScore\x12 .eolymp.judge.DescribeScoreInput\x1a!.eolymp.judge.DescribeScoreOutput\"t\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02&\x12$/participants/{participant_id}/score\x12\xc9\x01\n" +
-	"\x11ListScoreTimeline\x12$.eolymp.judge.ListScoreTimelineInput\x1a%.eolymp.judge.ListScoreTimelineOutput\"g\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02<\x12:/contests/{contest_id}/participants/{participant_id}/score\x12\xdf\x01\n" +
+	"\x11ListScoreTimeline\x12$.eolymp.judge.ListScoreTimelineInput\x1a%.eolymp.judge.ListScoreTimelineOutput\"}\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02/\x12-/participants/{participant_id}/score-timeline\x12\xaf\x01\n" +
-	"\vImportScore\x12\x1e.eolymp.judge.ImportScoreInput\x1a\x1f.eolymp.judge.ImportScoreOutput\"_\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02E\x12C/contests/{contest_id}/participants/{participant_id}/score-timeline\x12\xc5\x01\n" +
+	"\vImportScore\x12\x1e.eolymp.judge.ImportScoreInput\x1a\x1f.eolymp.judge.ImportScoreOutput\"u\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02'\"%/participants/{participant_id}/scores\x12\xaf\x01\n" +
-	"\vExportScore\x12\x1e.eolymp.judge.ExportScoreInput\x1a\x1f.eolymp.judge.ExportScoreOutput\"_\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02=\";/contests/{contest_id}/participants/{participant_id}/scores\x12\xc5\x01\n" +
+	"\vExportScore\x12\x1e.eolymp.judge.ExportScoreInput\x1a\x1f.eolymp.judge.ExportScoreOutput\"u\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02'\x12%/participants/{participant_id}/scores\x12\x95\x01\n" +
-	"\fRebuildScore\x12\x1f.eolymp.judge.RebuildScoreInput\x1a .eolymp.judge.RebuildScoreOutput\"B\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02=\x12;/contests/{contest_id}/participants/{participant_id}/scores\x12\xab\x01\n" +
+	"\fRebuildScore\x12\x1f.eolymp.judge.RebuildScoreInput\x1a .eolymp.judge.RebuildScoreOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -835,8 +835,7 @@ const file_eolymp_judge_score_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/rebuild\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02 \"\x1e/contests/{contest_id}/rebuild\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_score_service_proto_rawDescOnce sync.Once

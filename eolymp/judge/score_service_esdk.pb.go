@@ -102,7 +102,12 @@ func (s *ScoreServiceService) do(ctx context.Context, verb, path string, in, out
 
 func (s *ScoreServiceService) DescribeViewerScore(ctx context.Context, in *DescribeViewerScoreInput) (*DescribeViewerScoreOutput, error) {
 	out := &DescribeViewerScoreOutput{}
-	path := "/introspect/score"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/introspect/score"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ScoreServiceService) DescribeViewerScore(ctx context.Context, in *Descr
 
 func (s *ScoreServiceService) DescribeScore(ctx context.Context, in *DescribeScoreInput) (*DescribeScoreOutput, error) {
 	out := &DescribeScoreOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *ScoreServiceService) DescribeScore(ctx context.Context, in *DescribeSco
 
 func (s *ScoreServiceService) ListScoreTimeline(ctx context.Context, in *ListScoreTimelineInput) (*ListScoreTimelineOutput, error) {
 	out := &ListScoreTimelineOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score-timeline"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/score-timeline"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *ScoreServiceService) ListScoreTimeline(ctx context.Context, in *ListSco
 
 func (s *ScoreServiceService) ImportScore(ctx context.Context, in *ImportScoreInput) (*ImportScoreOutput, error) {
 	out := &ImportScoreOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *ScoreServiceService) ImportScore(ctx context.Context, in *ImportScoreIn
 
 func (s *ScoreServiceService) ExportScore(ctx context.Context, in *ExportScoreInput) (*ExportScoreOutput, error) {
 	out := &ExportScoreOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/scores"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -177,7 +186,12 @@ func (s *ScoreServiceService) ExportScore(ctx context.Context, in *ExportScoreIn
 
 func (s *ScoreServiceService) RebuildScore(ctx context.Context, in *RebuildScoreInput) (*RebuildScoreOutput, error) {
 	out := &RebuildScoreOutput{}
-	path := "/rebuild"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/rebuild"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
