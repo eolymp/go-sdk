@@ -102,6 +102,10 @@ type EvaluationTask struct {
 	// Most instances of the submission the interactor may ask for over its control connection.
 	// Zero means the interactor talks to a single instance, as an interactive problem does.
 	InstanceLimit uint32 `protobuf:"varint,19,opt,name=instance_limit,json=instanceLimit,proto3" json:"instance_limit,omitempty"`
+	// Wall-clock time limit (ms) for the interactor. An interactive problem's interactor only has
+	// to outlive one guest, but a communication problem's has to outlive the whole dialogue with
+	// all of them. Zero keeps the old behaviour: a run's wall time limit plus a second.
+	InteractorTimeLimit uint32 `protobuf:"varint,15,opt,name=interactor_time_limit,json=interactorTimeLimit,proto3" json:"interactor_time_limit,omitempty"`
 	// Precondition define conditions when each run should be executed, if runs does not satisfy preconditions it will be skipped.
 	Preconditions []*EvaluationTask_Precondition `protobuf:"bytes,40,rep,name=preconditions,proto3" json:"preconditions,omitempty"`
 	// Execution constraints, define limits imposed on each run.
@@ -218,6 +222,13 @@ func (x *EvaluationTask) GetInteractiveFollowup() bool {
 func (x *EvaluationTask) GetInstanceLimit() uint32 {
 	if x != nil {
 		return x.InstanceLimit
+	}
+	return 0
+}
+
+func (x *EvaluationTask) GetInteractorTimeLimit() uint32 {
+	if x != nil {
+		return x.InteractorTimeLimit
 	}
 	return 0
 }
@@ -774,7 +785,7 @@ var File_eolymp_executor_evaluation_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\xe3\x11\n" +
+	"%eolymp/executor/evaluation_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a\x1ceolymp/executor/script.proto\"\x97\x12\n" +
 	"\x0eEvaluationTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -786,7 +797,8 @@ const file_eolymp_executor_evaluation_task_proto_rawDesc = "" +
 	"\x1atime_coefficient_deviation\x18\x0e \x01(\x02R\x18timeCoefficientDeviation\x12\x1b\n" +
 	"\trun_count\x18\x10 \x01(\rR\brunCount\x121\n" +
 	"\x14interactive_followup\x18\x11 \x01(\bR\x13interactiveFollowup\x12%\n" +
-	"\x0einstance_limit\x18\x13 \x01(\rR\rinstanceLimit\x12R\n" +
+	"\x0einstance_limit\x18\x13 \x01(\rR\rinstanceLimit\x122\n" +
+	"\x15interactor_time_limit\x18\x0f \x01(\rR\x13interactorTimeLimit\x12R\n" +
 	"\rpreconditions\x18( \x03(\v2,.eolymp.executor.EvaluationTask.PreconditionR\rpreconditions\x12L\n" +
 	"\vconstraints\x18\x14 \x03(\v2*.eolymp.executor.EvaluationTask.ConstraintR\vconstraints\x127\n" +
 	"\n" +

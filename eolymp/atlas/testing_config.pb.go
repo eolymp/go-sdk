@@ -30,6 +30,9 @@ type TestingConfig struct {
 	CpuLimit            uint32                 `protobuf:"varint,5,opt,name=cpu_limit,json=cpuLimit,proto3" json:"cpu_limit,omitempty"`                                  // CPU time limit (ms), problem-level default
 	MemoryLimit         uint64                 `protobuf:"varint,6,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`                         // Memory limit (bytes), problem-level default
 	InstanceLimit       uint32                 `protobuf:"varint,7,opt,name=instance_limit,json=instanceLimit,proto3" json:"instance_limit,omitempty"`                   // Most instances of the submission an interactor may ask for, communication problems only
+	// Wall-clock time limit (ms) for the interactor. Zero gives it a run's wall
+	// time limit plus a second, which is what an interactive problem needs.
+	InteractorTimeLimit uint32 `protobuf:"varint,8,opt,name=interactor_time_limit,json=interactorTimeLimit,proto3" json:"interactor_time_limit,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -113,11 +116,18 @@ func (x *TestingConfig) GetInstanceLimit() uint32 {
 	return 0
 }
 
+func (x *TestingConfig) GetInteractorTimeLimit() uint32 {
+	if x != nil {
+		return x.InteractorTimeLimit
+	}
+	return 0
+}
+
 var File_eolymp_atlas_testing_config_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_config_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\x95\x02\n" +
+	"!eolymp/atlas/testing_config.proto\x12\feolymp.atlas\x1a\x1aeolymp/atlas/problem.proto\"\xc9\x02\n" +
 	"\rTestingConfig\x12\x1b\n" +
 	"\trun_count\x18\x01 \x01(\rR\brunCount\x121\n" +
 	"\x14interactive_followup\x18\x02 \x01(\bR\x13interactiveFollowup\x12.\n" +
@@ -126,7 +136,8 @@ const file_eolymp_atlas_testing_config_proto_rawDesc = "" +
 	"time_limit\x18\x04 \x01(\rR\ttimeLimit\x12\x1b\n" +
 	"\tcpu_limit\x18\x05 \x01(\rR\bcpuLimit\x12!\n" +
 	"\fmemory_limit\x18\x06 \x01(\x04R\vmemoryLimit\x12%\n" +
-	"\x0einstance_limit\x18\a \x01(\rR\rinstanceLimitB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x0einstance_limit\x18\a \x01(\rR\rinstanceLimit\x122\n" +
+	"\x15interactor_time_limit\x18\b \x01(\rR\x13interactorTimeLimitB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_config_proto_rawDescOnce sync.Once
