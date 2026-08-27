@@ -26,6 +26,7 @@ const (
 
 type CreateSubmissionInput struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
+	CourseId      string                   `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	MaterialId    string                   `protobuf:"bytes,1,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	Runtime       string                   `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	Source        string                   `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
@@ -62,6 +63,13 @@ func (x *CreateSubmissionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateSubmissionInput.ProtoReflect.Descriptor instead.
 func (*CreateSubmissionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_submission_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateSubmissionInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *CreateSubmissionInput) GetMaterialId() string {
@@ -137,7 +145,8 @@ func (x *CreateSubmissionOutput) GetSubmissionId() string {
 }
 
 type ListSubmissionsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	CourseId string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	// pagination
 	After string `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Size  int32  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -175,6 +184,13 @@ func (x *ListSubmissionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListSubmissionsInput.ProtoReflect.Descriptor instead.
 func (*ListSubmissionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_submission_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListSubmissionsInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *ListSubmissionsInput) GetAfter() string {
@@ -260,6 +276,7 @@ func (x *ListSubmissionsOutput) GetNextPageCursor() string {
 
 type DescribeSubmissionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	SubmissionId  string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -293,6 +310,13 @@ func (x *DescribeSubmissionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeSubmissionInput.ProtoReflect.Descriptor instead.
 func (*DescribeSubmissionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_submission_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DescribeSubmissionInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *DescribeSubmissionInput) GetSubmissionId() string {
@@ -348,6 +372,7 @@ func (x *DescribeSubmissionOutput) GetSubmission() *atlas.Submission {
 
 type WatchSubmissionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	SubmissionId  string                 `protobuf:"bytes,1,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -381,6 +406,13 @@ func (x *WatchSubmissionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use WatchSubmissionInput.ProtoReflect.Descriptor instead.
 func (*WatchSubmissionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_submission_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *WatchSubmissionInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
 }
 
 func (x *WatchSubmissionInput) GetSubmissionId() string {
@@ -554,16 +586,18 @@ var File_eolymp_course_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xa3\x01\n" +
-	"\x15CreateSubmissionInput\x12\x1f\n" +
+	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xc0\x01\n" +
+	"\x15CreateSubmissionInput\x12\x1b\n" +
+	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
 	"materialId\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
 	"\x06source\x18\x03 \x01(\tR\x06source\x127\n" +
 	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputR\x06output\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
-	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xb7\x05\n" +
-	"\x14ListSubmissionsInput\x12\x14\n" +
+	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xd4\x05\n" +
+	"\x14ListSubmissionsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12D\n" +
 	"\afilters\x18( \x01(\v2*.eolymp.course.ListSubmissionsInput.FilterR\afilters\x1a\xae\x04\n" +
@@ -584,22 +618,24 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\x15ListSubmissionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
 	"\x05items\x18\x02 \x03(\v2\x18.eolymp.atlas.SubmissionR\x05items\x12(\n" +
-	"\x10next_page_cursor\x18\x04 \x01(\tR\x0enextPageCursor\">\n" +
-	"\x17DescribeSubmissionInput\x12#\n" +
+	"\x10next_page_cursor\x18\x04 \x01(\tR\x0enextPageCursor\"[\n" +
+	"\x17DescribeSubmissionInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"T\n" +
 	"\x18DescribeSubmissionOutput\x128\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
-	"submission\";\n" +
-	"\x14WatchSubmissionInput\x12#\n" +
+	"submission\"X\n" +
+	"\x14WatchSubmissionInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\x89\x01\n" +
 	"\x15WatchSubmissionOutput\x128\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\x18.eolymp.atlas.SubmissionR\n" +
 	"submission\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\x84\x06\n" +
-	"\x11SubmissionService\x12\xaf\x01\n" +
-	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"N\xea\xe2\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xd5\x06\n" +
+	"\x11SubmissionService\x12\xc3\x01\n" +
+	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"b\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
@@ -608,17 +644,17 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\x18\x8a\xe3\n" +
 	"\x14course:course:submit\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
-	"\x80\x80\xc0\x02\"\f/submissions\x12\xa3\x01\n" +
-	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"E\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02)\x98\xe3\n" +
+	"\x80\x80\xc0\x02\" /courses/{course_id}/submissions\x12\xb7\x01\n" +
+	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xbc\x01\n" +
-	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"U\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /courses/{course_id}/submissions\x12\xd0\x01\n" +
+	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -626,15 +662,15 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xbb\x01\n" +
-	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"[\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x022\x120/courses/{course_id}/submissions/{submission_id}\x12\xcf\x01\n" +
+	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x028\x126/courses/{course_id}/submissions/{submission_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_submission_service_proto_rawDescOnce sync.Once

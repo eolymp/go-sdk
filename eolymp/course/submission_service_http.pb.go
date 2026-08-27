@@ -296,16 +296,16 @@ func _SubmissionService_HTTPWriteEvent(w http.ResponseWriter, name string, v pro
 
 // RegisterSubmissionServiceHttpHandlers adds handlers for for SubmissionServiceClient
 func RegisterSubmissionServiceHttpHandlers(router *mux.Router, prefix string, cli SubmissionServiceClient) {
-	router.Handle(prefix+"/submissions", _SubmissionService_CreateSubmission_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/submissions", _SubmissionService_CreateSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.SubmissionService.CreateSubmission")
-	router.Handle(prefix+"/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/submissions", _SubmissionService_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.SubmissionService.ListSubmissions")
-	router.Handle(prefix+"/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/submissions/{submission_id}", _SubmissionService_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.SubmissionService.DescribeSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}/watch", _SubmissionService_WatchSubmission_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/submissions/{submission_id}/watch", _SubmissionService_WatchSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.SubmissionService.WatchSubmission")
 }
@@ -323,6 +323,9 @@ func _SubmissionService_CreateSubmission_Rule0(cli SubmissionServiceClient) http
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -344,6 +347,9 @@ func _SubmissionService_ListSubmissions_Rule0(cli SubmissionServiceClient) http.
 			_SubmissionService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 
 		var header, trailer metadata.MD
 
@@ -367,6 +373,7 @@ func _SubmissionService_DescribeSubmission_Rule0(cli SubmissionServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -391,6 +398,7 @@ func _SubmissionService_WatchSubmission_Rule0(cli SubmissionServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		stream, err := cli.WatchSubmission(r.Context(), in)
