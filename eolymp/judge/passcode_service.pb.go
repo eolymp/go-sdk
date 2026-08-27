@@ -518,48 +518,48 @@ const file_eolymp_judge_passcode_service_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12%\n" +
 	"\x0eparticipant_id\x18\x02 \x01(\tR\rparticipantId\"\x16\n" +
-	"\x14RemovePasscodeOutput2\xa5\a\n" +
-	"\x0fPasscodeService\x12\xa2\x01\n" +
-	"\x0eVerifyPasscode\x12!.eolymp.judge.VerifyPasscodeInput\x1a\".eolymp.judge.VerifyPasscodeOutput\"I\xea\xe2\n" +
+	"\x14RemovePasscodeOutput2\x94\b\n" +
+	"\x0fPasscodeService\x12\xb8\x01\n" +
+	"\x0eVerifyPasscode\x12!.eolymp.judge.VerifyPasscodeInput\x1a\".eolymp.judge.VerifyPasscodeOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x12\"\x10/verify-passcode\x12\xa5\x01\n" +
-	"\rEnterPasscode\x12 .eolymp.judge.EnterPasscodeInput\x1a!.eolymp.judge.EnterPasscodeOutput\"O\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02(\"&/contests/{contest_id}/verify-passcode\x12\xbb\x01\n" +
+	"\rEnterPasscode\x12 .eolymp.judge.EnterPasscodeInput\x1a!.eolymp.judge.EnterPasscodeOutput\"e\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
 	"\x19judge:contest:participate\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x11\"\x0f/enter-passcode\x12\xb7\x01\n" +
-	"\rResetPasscode\x12 .eolymp.judge.ResetPasscodeInput\x1a!.eolymp.judge.ResetPasscodeOutput\"a\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02'\"%/contests/{contest_id}/enter-passcode\x12\xcd\x01\n" +
+	"\rResetPasscode\x12 .eolymp.judge.ResetPasscodeInput\x1a!.eolymp.judge.ResetPasscodeOutput\"w\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02)\"'/participants/{participant_id}/passcode\x12\xb1\x01\n" +
-	"\vSetPasscode\x12\x1e.eolymp.judge.SetPasscodeInput\x1a\x1f.eolymp.judge.SetPasscodeOutput\"a\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02?\"=/contests/{contest_id}/participants/{participant_id}/passcode\x12\xc7\x01\n" +
+	"\vSetPasscode\x12\x1e.eolymp.judge.SetPasscodeInput\x1a\x1f.eolymp.judge.SetPasscodeOutput\"w\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02)\x1a'/participants/{participant_id}/passcode\x12\xba\x01\n" +
-	"\x0eRemovePasscode\x12!.eolymp.judge.RemovePasscodeInput\x1a\".eolymp.judge.RemovePasscodeOutput\"a\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02?\x1a=/contests/{contest_id}/participants/{participant_id}/passcode\x12\xd0\x01\n" +
+	"\x0eRemovePasscode\x12!.eolymp.judge.RemovePasscodeInput\x1a\".eolymp.judge.RemovePasscodeOutput\"w\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x17\x8a\xe3\n" +
 	"\x13judge:contest:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02)*'/participants/{participant_id}/passcode\x1a\x1a\x82\xf0\xf0\xe4\x01\x14eolymp.judge.ContestB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x03\x82\xd3\xe4\x93\x02?*=/contests/{contest_id}/participants/{participant_id}/passcode\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_passcode_service_proto_rawDescOnce sync.Once

@@ -201,19 +201,19 @@ func _PasscodeService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterPasscodeServiceHttpHandlers adds handlers for for PasscodeServiceClient
 func RegisterPasscodeServiceHttpHandlers(router *mux.Router, prefix string, cli PasscodeServiceClient) {
-	router.Handle(prefix+"/verify-passcode", _PasscodeService_VerifyPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/verify-passcode", _PasscodeService_VerifyPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.PasscodeService.VerifyPasscode")
-	router.Handle(prefix+"/enter-passcode", _PasscodeService_EnterPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/enter-passcode", _PasscodeService_EnterPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.PasscodeService.EnterPasscode")
-	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_ResetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _PasscodeService_ResetPasscode_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.PasscodeService.ResetPasscode")
-	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_SetPasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _PasscodeService_SetPasscode_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.PasscodeService.SetPasscode")
-	router.Handle(prefix+"/participants/{participant_id}/passcode", _PasscodeService_RemovePasscode_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/passcode", _PasscodeService_RemovePasscode_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.PasscodeService.RemovePasscode")
 }
@@ -231,6 +231,9 @@ func _PasscodeService_VerifyPasscode_Rule0(cli PasscodeServiceClient) http.Handl
 			_PasscodeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -252,6 +255,9 @@ func _PasscodeService_EnterPasscode_Rule0(cli PasscodeServiceClient) http.Handle
 			_PasscodeService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -275,6 +281,7 @@ func _PasscodeService_ResetPasscode_Rule0(cli PasscodeServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -299,6 +306,7 @@ func _PasscodeService_SetPasscode_Rule0(cli PasscodeServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -323,6 +331,7 @@ func _PasscodeService_RemovePasscode_Rule0(cli PasscodeServiceClient) http.Handl
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD

@@ -102,7 +102,12 @@ func (s *PasscodeServiceService) do(ctx context.Context, verb, path string, in, 
 
 func (s *PasscodeServiceService) VerifyPasscode(ctx context.Context, in *VerifyPasscodeInput) (*VerifyPasscodeOutput, error) {
 	out := &VerifyPasscodeOutput{}
-	path := "/verify-passcode"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/verify-passcode"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *PasscodeServiceService) VerifyPasscode(ctx context.Context, in *VerifyP
 
 func (s *PasscodeServiceService) EnterPasscode(ctx context.Context, in *EnterPasscodeInput) (*EnterPasscodeOutput, error) {
 	out := &EnterPasscodeOutput{}
-	path := "/enter-passcode"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/enter-passcode"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -124,10 +134,11 @@ func (s *PasscodeServiceService) EnterPasscode(ctx context.Context, in *EnterPas
 
 func (s *PasscodeServiceService) ResetPasscode(ctx context.Context, in *ResetPasscodeInput) (*ResetPasscodeOutput, error) {
 	out := &ResetPasscodeOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -140,10 +151,11 @@ func (s *PasscodeServiceService) ResetPasscode(ctx context.Context, in *ResetPas
 
 func (s *PasscodeServiceService) SetPasscode(ctx context.Context, in *SetPasscodeInput) (*SetPasscodeOutput, error) {
 	out := &SetPasscodeOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -156,10 +168,11 @@ func (s *PasscodeServiceService) SetPasscode(ctx context.Context, in *SetPasscod
 
 func (s *PasscodeServiceService) RemovePasscode(ctx context.Context, in *RemovePasscodeInput) (*RemovePasscodeOutput, error) {
 	out := &RemovePasscodeOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/passcode"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
