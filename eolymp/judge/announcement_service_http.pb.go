@@ -296,37 +296,37 @@ func _AnnouncementService_HTTPWriteEvent(w http.ResponseWriter, name string, v p
 
 // RegisterAnnouncementServiceHttpHandlers adds handlers for for AnnouncementServiceClient
 func RegisterAnnouncementServiceHttpHandlers(router *mux.Router, prefix string, cli AnnouncementServiceClient) {
-	router.Handle(prefix+"/announcements", _AnnouncementService_CreateAnnouncement_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _AnnouncementService_CreateAnnouncement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AnnouncementService.CreateAnnouncement")
-	router.Handle(prefix+"/announcements/{announcement_id}", _AnnouncementService_UpdateAnnouncement_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _AnnouncementService_UpdateAnnouncement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AnnouncementService.UpdateAnnouncement")
-	router.Handle(prefix+"/announcements/{announcement_id}", _AnnouncementService_DeleteAnnouncement_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _AnnouncementService_DeleteAnnouncement_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.AnnouncementService.DeleteAnnouncement")
-	router.Handle(prefix+"/announcements/{announcement_id}/read", _AnnouncementService_ReadAnnouncement_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/read", _AnnouncementService_ReadAnnouncement_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.AnnouncementService.ReadAnnouncement")
-	router.Handle(prefix+"/announcements/{announcement_id}", _AnnouncementService_DescribeAnnouncement_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}", _AnnouncementService_DescribeAnnouncement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.DescribeAnnouncement")
-	router.Handle(prefix+"/announcements/{announcement_id}/status", _AnnouncementService_DescribeAnnouncementStatus_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/status", _AnnouncementService_DescribeAnnouncementStatus_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.DescribeAnnouncementStatus")
-	router.Handle(prefix+"/announcements", _AnnouncementService_ListAnnouncements_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements", _AnnouncementService_ListAnnouncements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.ListAnnouncements")
-	router.Handle(prefix+"/announcements/{announcement_id}/watch", _AnnouncementService_WatchAnnouncement_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements/{announcement_id}/watch", _AnnouncementService_WatchAnnouncement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.WatchAnnouncement")
-	router.Handle(prefix+"/announcements:watch", _AnnouncementService_WatchAnnouncementsList_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/announcements:watch", _AnnouncementService_WatchAnnouncementsList_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.WatchAnnouncementsList")
-	router.Handle(prefix+"/summary/announcements", _AnnouncementService_DescribeAnnouncementSummary_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/summary/announcements", _AnnouncementService_DescribeAnnouncementSummary_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.DescribeAnnouncementSummary")
-	router.Handle(prefix+"/summary/announcements/watch", _AnnouncementService_WatchAnnouncementSummary_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/summary/announcements/watch", _AnnouncementService_WatchAnnouncementSummary_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.AnnouncementService.WatchAnnouncementSummary")
 }
@@ -344,6 +344,9 @@ func _AnnouncementService_CreateAnnouncement_Rule0(cli AnnouncementServiceClient
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -367,6 +370,7 @@ func _AnnouncementService_UpdateAnnouncement_Rule0(cli AnnouncementServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
 		var header, trailer metadata.MD
@@ -391,6 +395,7 @@ func _AnnouncementService_DeleteAnnouncement_Rule0(cli AnnouncementServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
 		var header, trailer metadata.MD
@@ -415,6 +420,7 @@ func _AnnouncementService_ReadAnnouncement_Rule0(cli AnnouncementServiceClient) 
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
 		var header, trailer metadata.MD
@@ -439,6 +445,7 @@ func _AnnouncementService_DescribeAnnouncement_Rule0(cli AnnouncementServiceClie
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
 		var header, trailer metadata.MD
@@ -463,6 +470,7 @@ func _AnnouncementService_DescribeAnnouncementStatus_Rule0(cli AnnouncementServi
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
 		var header, trailer metadata.MD
@@ -486,6 +494,9 @@ func _AnnouncementService_ListAnnouncements_Rule0(cli AnnouncementServiceClient)
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListAnnouncements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -508,6 +519,7 @@ func _AnnouncementService_WatchAnnouncement_Rule0(cli AnnouncementServiceClient)
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.AnnouncementId = vars["announcement_id"]
 
 		stream, err := cli.WatchAnnouncement(r.Context(), in)
@@ -529,6 +541,9 @@ func _AnnouncementService_WatchAnnouncementsList_Rule0(cli AnnouncementServiceCl
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		stream, err := cli.WatchAnnouncementsList(r.Context(), in)
 		if err != nil {
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
@@ -547,6 +562,9 @@ func _AnnouncementService_DescribeAnnouncementSummary_Rule0(cli AnnouncementServ
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -568,6 +586,9 @@ func _AnnouncementService_WatchAnnouncementSummary_Rule0(cli AnnouncementService
 			_AnnouncementService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		stream, err := cli.WatchAnnouncementSummary(r.Context(), in)
 		if err != nil {

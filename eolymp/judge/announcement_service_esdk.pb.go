@@ -102,7 +102,12 @@ func (s *AnnouncementServiceService) do(ctx context.Context, verb, path string, 
 
 func (s *AnnouncementServiceService) CreateAnnouncement(ctx context.Context, in *CreateAnnouncementInput) (*CreateAnnouncementOutput, error) {
 	out := &CreateAnnouncementOutput{}
-	path := "/announcements"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *AnnouncementServiceService) CreateAnnouncement(ctx context.Context, in 
 
 func (s *AnnouncementServiceService) UpdateAnnouncement(ctx context.Context, in *UpdateAnnouncementInput) (*UpdateAnnouncementOutput, error) {
 	out := &UpdateAnnouncementOutput{}
-	path := "/announcements/" + url.PathEscape(in.GetAnnouncementId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.AnnouncementId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *AnnouncementServiceService) UpdateAnnouncement(ctx context.Context, in 
 
 func (s *AnnouncementServiceService) DeleteAnnouncement(ctx context.Context, in *DeleteAnnouncementInput) (*DeleteAnnouncementOutput, error) {
 	out := &DeleteAnnouncementOutput{}
-	path := "/announcements/" + url.PathEscape(in.GetAnnouncementId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.AnnouncementId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *AnnouncementServiceService) DeleteAnnouncement(ctx context.Context, in 
 
 func (s *AnnouncementServiceService) ReadAnnouncement(ctx context.Context, in *ReadAnnouncementInput) (*ReadAnnouncementOutput, error) {
 	out := &ReadAnnouncementOutput{}
-	path := "/announcements/" + url.PathEscape(in.GetAnnouncementId()) + "/read"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId()) + "/read"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.AnnouncementId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *AnnouncementServiceService) ReadAnnouncement(ctx context.Context, in *R
 
 func (s *AnnouncementServiceService) DescribeAnnouncement(ctx context.Context, in *DescribeAnnouncementInput) (*DescribeAnnouncementOutput, error) {
 	out := &DescribeAnnouncementOutput{}
-	path := "/announcements/" + url.PathEscape(in.GetAnnouncementId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.AnnouncementId = ""
 	}
 
@@ -177,10 +186,11 @@ func (s *AnnouncementServiceService) DescribeAnnouncement(ctx context.Context, i
 
 func (s *AnnouncementServiceService) DescribeAnnouncementStatus(ctx context.Context, in *DescribeAnnouncementStatusInput) (*DescribeAnnouncementStatusOutput, error) {
 	out := &DescribeAnnouncementStatusOutput{}
-	path := "/announcements/" + url.PathEscape(in.GetAnnouncementId()) + "/status"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements/" + url.PathEscape(in.GetAnnouncementId()) + "/status"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.AnnouncementId = ""
 	}
 
@@ -193,7 +203,12 @@ func (s *AnnouncementServiceService) DescribeAnnouncementStatus(ctx context.Cont
 
 func (s *AnnouncementServiceService) ListAnnouncements(ctx context.Context, in *ListAnnouncementsInput) (*ListAnnouncementsOutput, error) {
 	out := &ListAnnouncementsOutput{}
-	path := "/announcements"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/announcements"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -204,7 +219,12 @@ func (s *AnnouncementServiceService) ListAnnouncements(ctx context.Context, in *
 
 func (s *AnnouncementServiceService) DescribeAnnouncementSummary(ctx context.Context, in *DescribeAnnouncementSummaryInput) (*DescribeAnnouncementSummaryOutput, error) {
 	out := &DescribeAnnouncementSummaryOutput{}
-	path := "/summary/announcements"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/summary/announcements"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
