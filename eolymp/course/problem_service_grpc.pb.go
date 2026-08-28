@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	ProblemService_ListStatements_FullMethodName     = "/eolymp.course.ProblemService/ListStatements"
+	ProblemService_ListQuestions_FullMethodName      = "/eolymp.course.ProblemService/ListQuestions"
 	ProblemService_LookupStatement_FullMethodName    = "/eolymp.course.ProblemService/LookupStatement"
 	ProblemService_ListExamples_FullMethodName       = "/eolymp.course.ProblemService/ListExamples"
 	ProblemService_CreateSubmission_FullMethodName   = "/eolymp.course.ProblemService/CreateSubmission"
@@ -38,6 +39,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProblemServiceClient interface {
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	// ListQuestions returns the questions of a quiz material, in the order they are asked. What gives the
+	// answer away is left out by atlas, which is where questions are sanitized; a course only relays them.
+	ListQuestions(ctx context.Context, in *ListQuestionsInput, opts ...grpc.CallOption) (*ListQuestionsOutput, error)
 	LookupStatement(ctx context.Context, in *LookupStatementInput, opts ...grpc.CallOption) (*LookupStatementOutput, error)
 	ListExamples(ctx context.Context, in *ListExamplesInput, opts ...grpc.CallOption) (*ListExamplesOutput, error)
 	CreateSubmission(ctx context.Context, in *CreateSubmissionInput, opts ...grpc.CallOption) (*CreateSubmissionOutput, error)
@@ -68,6 +72,16 @@ func (c *problemServiceClient) ListStatements(ctx context.Context, in *ListState
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListStatementsOutput)
 	err := c.cc.Invoke(ctx, ProblemService_ListStatements_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *problemServiceClient) ListQuestions(ctx context.Context, in *ListQuestionsInput, opts ...grpc.CallOption) (*ListQuestionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListQuestionsOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListQuestions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -207,6 +221,9 @@ func (c *problemServiceClient) ListRuntimes(ctx context.Context, in *ListRuntime
 // for forward compatibility.
 type ProblemServiceServer interface {
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	// ListQuestions returns the questions of a quiz material, in the order they are asked. What gives the
+	// answer away is left out by atlas, which is where questions are sanitized; a course only relays them.
+	ListQuestions(context.Context, *ListQuestionsInput) (*ListQuestionsOutput, error)
 	LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error)
 	ListExamples(context.Context, *ListExamplesInput) (*ListExamplesOutput, error)
 	CreateSubmission(context.Context, *CreateSubmissionInput) (*CreateSubmissionOutput, error)
@@ -234,6 +251,9 @@ type UnimplementedProblemServiceServer struct{}
 
 func (UnimplementedProblemServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListStatements not implemented")
+}
+func (UnimplementedProblemServiceServer) ListQuestions(context.Context, *ListQuestionsInput) (*ListQuestionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListQuestions not implemented")
 }
 func (UnimplementedProblemServiceServer) LookupStatement(context.Context, *LookupStatementInput) (*LookupStatementOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method LookupStatement not implemented")
@@ -302,6 +322,24 @@ func _ProblemService_ListStatements_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProblemServiceServer).ListStatements(ctx, req.(*ListStatementsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProblemService_ListQuestions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListQuestionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ListQuestions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ListQuestions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ListQuestions(ctx, req.(*ListQuestionsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -500,6 +538,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStatements",
 			Handler:    _ProblemService_ListStatements_Handler,
+		},
+		{
+			MethodName: "ListQuestions",
+			Handler:    _ProblemService_ListQuestions_Handler,
 		},
 		{
 			MethodName: "LookupStatement",

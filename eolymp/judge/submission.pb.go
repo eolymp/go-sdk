@@ -94,7 +94,11 @@ type Submission struct {
 	// Body of the submission for an output-only problem, where there is no source. A contest relays the
 	// uploaded files to atlas, which resolves them against the problem's tests, and keeps a projection of the
 	// result; this is that projection, so it reads the same as atlas.Submission.output.
-	Output        *atlas.Submission_Output `protobuf:"bytes,15,opt,name=output,proto3" json:"output,omitempty"`
+	Output *atlas.Submission_Output `protobuf:"bytes,15,opt,name=output,proto3" json:"output,omitempty"`
+	// Body of the submission for a quiz problem: the answers given to its questions. A contest relays them to
+	// atlas, which grades them while the call is being served and keeps a projection of the result; this is
+	// that projection, so it reads the same as atlas.Submission.quiz.
+	Quiz          *atlas.Submission_Quiz   `protobuf:"bytes,16,opt,name=quiz,proto3" json:"quiz,omitempty"`
 	Signature     string                   `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                   // source code
 	Status        atlas.Submission_Status  `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Submission_Status" json:"status,omitempty"`    // status (see explanation for enumeration values)
 	Verdict       atlas.Submission_Verdict `protobuf:"varint,22,opt,name=verdict,proto3,enum=eolymp.atlas.Submission_Verdict" json:"verdict,omitempty"` // overall verdict based on verdicts in groups/runs
@@ -237,6 +241,13 @@ func (x *Submission) GetSourceUrl() string {
 func (x *Submission) GetOutput() *atlas.Submission_Output {
 	if x != nil {
 		return x.Output
+	}
+	return nil
+}
+
+func (x *Submission) GetQuiz() *atlas.Submission_Quiz {
+	if x != nil {
+		return x.Quiz
 	}
 	return nil
 }
@@ -599,7 +610,7 @@ var File_eolymp_judge_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x92\x0f\n" +
+	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc5\x0f\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -620,7 +631,8 @@ const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\x06source\x18\v \x01(\tR\x06source\x12\x1d\n" +
 	"\n" +
 	"source_url\x18n \x01(\tR\tsourceUrl\x127\n" +
-	"\x06output\x18\x0f \x01(\v2\x1f.eolymp.atlas.Submission.OutputR\x06output\x12\x1c\n" +
+	"\x06output\x18\x0f \x01(\v2\x1f.eolymp.atlas.Submission.OutputR\x06output\x121\n" +
+	"\x04quiz\x18\x10 \x01(\v2\x1d.eolymp.atlas.Submission.QuizR\x04quiz\x12\x1c\n" +
 	"\tsignature\x18\f \x01(\tR\tsignature\x127\n" +
 	"\x06status\x18\x14 \x01(\x0e2\x1f.eolymp.atlas.Submission.StatusR\x06status\x12:\n" +
 	"\averdict\x18\x16 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x12\x14\n" +
@@ -695,29 +707,31 @@ var file_eolymp_judge_submission_proto_goTypes = []any{
 	(*Submission_Group)(nil),        // 3: eolymp.judge.Submission.Group
 	(*timestamppb.Timestamp)(nil),   // 4: google.protobuf.Timestamp
 	(*atlas.Submission_Output)(nil), // 5: eolymp.atlas.Submission.Output
-	(atlas.Submission_Status)(0),    // 6: eolymp.atlas.Submission.Status
-	(atlas.Submission_Verdict)(0),   // 7: eolymp.atlas.Submission.Verdict
-	(atlas.ScoringMode)(0),          // 8: eolymp.atlas.ScoringMode
-	(atlas.FeedbackPolicy)(0),       // 9: eolymp.atlas.FeedbackPolicy
+	(*atlas.Submission_Quiz)(nil),   // 6: eolymp.atlas.Submission.Quiz
+	(atlas.Submission_Status)(0),    // 7: eolymp.atlas.Submission.Status
+	(atlas.Submission_Verdict)(0),   // 8: eolymp.atlas.Submission.Verdict
+	(atlas.ScoringMode)(0),          // 9: eolymp.atlas.ScoringMode
+	(atlas.FeedbackPolicy)(0),       // 10: eolymp.atlas.FeedbackPolicy
 }
 var file_eolymp_judge_submission_proto_depIdxs = []int32{
 	4,  // 0: eolymp.judge.Submission.submitted_at:type_name -> google.protobuf.Timestamp
 	5,  // 1: eolymp.judge.Submission.output:type_name -> eolymp.atlas.Submission.Output
-	6,  // 2: eolymp.judge.Submission.status:type_name -> eolymp.atlas.Submission.Status
-	7,  // 3: eolymp.judge.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	3,  // 4: eolymp.judge.Submission.groups:type_name -> eolymp.judge.Submission.Group
-	6,  // 5: eolymp.judge.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
-	7,  // 6: eolymp.judge.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	6,  // 7: eolymp.judge.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
-	7,  // 8: eolymp.judge.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	8,  // 9: eolymp.judge.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
-	9,  // 10: eolymp.judge.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
-	2,  // 11: eolymp.judge.Submission.Group.runs:type_name -> eolymp.judge.Submission.Run
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	6,  // 2: eolymp.judge.Submission.quiz:type_name -> eolymp.atlas.Submission.Quiz
+	7,  // 3: eolymp.judge.Submission.status:type_name -> eolymp.atlas.Submission.Status
+	8,  // 4: eolymp.judge.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	3,  // 5: eolymp.judge.Submission.groups:type_name -> eolymp.judge.Submission.Group
+	7,  // 6: eolymp.judge.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
+	8,  // 7: eolymp.judge.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	7,  // 8: eolymp.judge.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
+	8,  // 9: eolymp.judge.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	9,  // 10: eolymp.judge.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
+	10, // 11: eolymp.judge.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
+	2,  // 12: eolymp.judge.Submission.Group.runs:type_name -> eolymp.judge.Submission.Run
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_submission_proto_init() }

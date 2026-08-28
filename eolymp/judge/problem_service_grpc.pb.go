@@ -27,6 +27,7 @@ const (
 	ProblemService_LookupCodeTemplate_FullMethodName   = "/eolymp.judge.ProblemService/LookupCodeTemplate"
 	ProblemService_DescribeCodeTemplate_FullMethodName = "/eolymp.judge.ProblemService/DescribeCodeTemplate"
 	ProblemService_ListStatements_FullMethodName       = "/eolymp.judge.ProblemService/ListStatements"
+	ProblemService_ListQuestions_FullMethodName        = "/eolymp.judge.ProblemService/ListQuestions"
 	ProblemService_DescribeEditorial_FullMethodName    = "/eolymp.judge.ProblemService/DescribeEditorial"
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
@@ -87,6 +88,9 @@ type ProblemServiceClient interface {
 	// client can offer the participant a choice of language. Unlike DescribeProblem it resolves no locale and
 	// picks no favourite among them.
 	ListStatements(ctx context.Context, in *ListStatementsInput, opts ...grpc.CallOption) (*ListStatementsOutput, error)
+	// ListQuestions returns the questions of a quiz problem, in the order they are asked. What gives the answer
+	// away is left out by atlas, which is where questions are sanitized; a contest only relays them.
+	ListQuestions(ctx context.Context, in *ListQuestionsInput, opts ...grpc.CallOption) (*ListQuestionsOutput, error)
 	// DescribeEditorial returns the author's write-up of how the problem is solved, in the requested locale
 	// when the archive has one. Because it gives the solution away, a participant may read it only after
 	// their participation is over and only while the contest is configured to display editorials.
@@ -200,6 +204,16 @@ func (c *problemServiceClient) ListStatements(ctx context.Context, in *ListState
 	return out, nil
 }
 
+func (c *problemServiceClient) ListQuestions(ctx context.Context, in *ListQuestionsInput, opts ...grpc.CallOption) (*ListQuestionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListQuestionsOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ListQuestions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeEditorialOutput)
@@ -303,6 +317,9 @@ type ProblemServiceServer interface {
 	// client can offer the participant a choice of language. Unlike DescribeProblem it resolves no locale and
 	// picks no favourite among them.
 	ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error)
+	// ListQuestions returns the questions of a quiz problem, in the order they are asked. What gives the answer
+	// away is left out by atlas, which is where questions are sanitized; a contest only relays them.
+	ListQuestions(context.Context, *ListQuestionsInput) (*ListQuestionsOutput, error)
 	// DescribeEditorial returns the author's write-up of how the problem is solved, in the requested locale
 	// when the archive has one. Because it gives the solution away, a participant may read it only after
 	// their participation is over and only while the contest is configured to display editorials.
@@ -358,6 +375,9 @@ func (UnimplementedProblemServiceServer) DescribeCodeTemplate(context.Context, *
 }
 func (UnimplementedProblemServiceServer) ListStatements(context.Context, *ListStatementsInput) (*ListStatementsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListStatements not implemented")
+}
+func (UnimplementedProblemServiceServer) ListQuestions(context.Context, *ListQuestionsInput) (*ListQuestionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListQuestions not implemented")
 }
 func (UnimplementedProblemServiceServer) DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeEditorial not implemented")
@@ -538,6 +558,24 @@ func _ProblemService_ListStatements_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ListQuestions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListQuestionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ListQuestions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ListQuestions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ListQuestions(ctx, req.(*ListQuestionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_DescribeEditorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeEditorialInput)
 	if err := dec(in); err != nil {
@@ -666,6 +704,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStatements",
 			Handler:    _ProblemService_ListStatements_Handler,
+		},
+		{
+			MethodName: "ListQuestions",
+			Handler:    _ProblemService_ListQuestions_Handler,
 		},
 		{
 			MethodName: "DescribeEditorial",

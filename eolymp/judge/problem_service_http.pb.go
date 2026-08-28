@@ -225,6 +225,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListStatements")
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/questions", _ProblemService_ListQuestions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ProblemService.ListQuestions")
 	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/editorial", _ProblemService_DescribeEditorial_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.DescribeEditorial")
@@ -437,6 +440,31 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_ListQuestions_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListQuestionsInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListQuestions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return

@@ -151,6 +151,7 @@ type CreateSubmissionInput struct {
 	Lang          string                   `protobuf:"bytes,3,opt,name=lang,proto3" json:"lang,omitempty"`
 	Source        string                   `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
 	Output        *atlas.Submission_Output `protobuf:"bytes,6,opt,name=output,proto3" json:"output,omitempty"`
+	Quiz          *atlas.Submission_Quiz   `protobuf:"bytes,7,opt,name=quiz,proto3" json:"quiz,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -216,6 +217,13 @@ func (x *CreateSubmissionInput) GetSource() string {
 func (x *CreateSubmissionInput) GetOutput() *atlas.Submission_Output {
 	if x != nil {
 		return x.Output
+	}
+	return nil
+}
+
+func (x *CreateSubmissionInput) GetQuiz() *atlas.Submission_Quiz {
+	if x != nil {
+		return x.Quiz
 	}
 	return nil
 }
@@ -1495,7 +1503,7 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"submission\x18\x01 \x01(\v2+.eolymp.judge.CompareSubmissionsOutput.SpanR\n" +
 	"submission\x12V\n" +
 	"\x10other_submission\x18\x02 \x01(\v2+.eolymp.judge.CompareSubmissionsOutput.SpanR\x0fotherSubmission\x12\x16\n" +
-	"\x06tokens\x18\x03 \x01(\x05R\x06tokens\"\xba\x01\n" +
+	"\x06tokens\x18\x03 \x01(\x05R\x06tokens\"\xed\x01\n" +
 	"\x15CreateSubmissionInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
@@ -1503,7 +1511,8 @@ const file_eolymp_judge_submission_service_proto_rawDesc = "" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x12\n" +
 	"\x04lang\x18\x03 \x01(\tR\x04lang\x12\x16\n" +
 	"\x06source\x18\x04 \x01(\tR\x06source\x127\n" +
-	"\x06output\x18\x06 \x01(\v2\x1f.eolymp.atlas.Submission.OutputR\x06output\"=\n" +
+	"\x06output\x18\x06 \x01(\v2\x1f.eolymp.atlas.Submission.OutputR\x06output\x121\n" +
+	"\x04quiz\x18\a \x01(\v2\x1d.eolymp.atlas.Submission.QuizR\x04quiz\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xe2\b\n" +
 	"\x14ListSubmissionsInput\x12\x1d\n" +
@@ -1725,69 +1734,71 @@ var file_eolymp_judge_submission_service_proto_goTypes = []any{
 	(*CompareSubmissionsOutput_Match)(nil),  // 24: eolymp.judge.CompareSubmissionsOutput.Match
 	(*ListSubmissionsInput_Filter)(nil),     // 25: eolymp.judge.ListSubmissionsInput.Filter
 	(*atlas.Submission_Output)(nil),         // 26: eolymp.atlas.Submission.Output
-	(Submission_Extra)(0),                   // 27: eolymp.judge.Submission.Extra
-	(*Submission)(nil),                      // 28: eolymp.judge.Submission
-	(wellknown.WatchEventType)(0),           // 29: eolymp.wellknown.WatchEventType
-	(*wellknown.ExpressionID)(nil),          // 30: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),        // 31: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionFloat)(nil),       // 32: eolymp.wellknown.ExpressionFloat
-	(*wellknown.ExpressionTimestamp)(nil),   // 33: eolymp.wellknown.ExpressionTimestamp
+	(*atlas.Submission_Quiz)(nil),           // 27: eolymp.atlas.Submission.Quiz
+	(Submission_Extra)(0),                   // 28: eolymp.judge.Submission.Extra
+	(*Submission)(nil),                      // 29: eolymp.judge.Submission
+	(wellknown.WatchEventType)(0),           // 30: eolymp.wellknown.WatchEventType
+	(*wellknown.ExpressionID)(nil),          // 31: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),        // 32: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionFloat)(nil),       // 33: eolymp.wellknown.ExpressionFloat
+	(*wellknown.ExpressionTimestamp)(nil),   // 34: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_judge_submission_service_proto_depIdxs = []int32{
 	22, // 0: eolymp.judge.CompareSubmissionsOutput.submission:type_name -> eolymp.judge.CompareSubmissionsOutput.Source
 	22, // 1: eolymp.judge.CompareSubmissionsOutput.other_submission:type_name -> eolymp.judge.CompareSubmissionsOutput.Source
 	24, // 2: eolymp.judge.CompareSubmissionsOutput.matches:type_name -> eolymp.judge.CompareSubmissionsOutput.Match
 	26, // 3: eolymp.judge.CreateSubmissionInput.output:type_name -> eolymp.atlas.Submission.Output
-	25, // 4: eolymp.judge.ListSubmissionsInput.filters:type_name -> eolymp.judge.ListSubmissionsInput.Filter
-	27, // 5: eolymp.judge.ListSubmissionsInput.extra:type_name -> eolymp.judge.Submission.Extra
-	28, // 6: eolymp.judge.ListSubmissionsOutput.items:type_name -> eolymp.judge.Submission
-	27, // 7: eolymp.judge.DescribeSubmissionInput.extra:type_name -> eolymp.judge.Submission.Extra
-	28, // 8: eolymp.judge.DescribeSubmissionOutput.submission:type_name -> eolymp.judge.Submission
-	27, // 9: eolymp.judge.WatchSubmissionInput.extra:type_name -> eolymp.judge.Submission.Extra
-	28, // 10: eolymp.judge.WatchSubmissionOutput.submission:type_name -> eolymp.judge.Submission
-	29, // 11: eolymp.judge.WatchSubmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	27, // 12: eolymp.judge.WatchSubmissionsListInput.extra:type_name -> eolymp.judge.Submission.Extra
-	29, // 13: eolymp.judge.WatchSubmissionsListOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	28, // 14: eolymp.judge.WatchSubmissionsListOutput.submission:type_name -> eolymp.judge.Submission
-	23, // 15: eolymp.judge.CompareSubmissionsOutput.Match.submission:type_name -> eolymp.judge.CompareSubmissionsOutput.Span
-	23, // 16: eolymp.judge.CompareSubmissionsOutput.Match.other_submission:type_name -> eolymp.judge.CompareSubmissionsOutput.Span
-	30, // 17: eolymp.judge.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 18: eolymp.judge.ListSubmissionsInput.Filter.participant_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 19: eolymp.judge.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 20: eolymp.judge.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	31, // 21: eolymp.judge.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	32, // 22: eolymp.judge.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	32, // 23: eolymp.judge.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	33, // 24: eolymp.judge.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	31, // 25: eolymp.judge.ListSubmissionsInput.Filter.signature:type_name -> eolymp.wellknown.ExpressionEnum
-	31, // 26: eolymp.judge.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	2,  // 27: eolymp.judge.SubmissionService.CreateSubmission:input_type -> eolymp.judge.CreateSubmissionInput
-	4,  // 28: eolymp.judge.SubmissionService.ListSubmissions:input_type -> eolymp.judge.ListSubmissionsInput
-	6,  // 29: eolymp.judge.SubmissionService.DescribeSubmission:input_type -> eolymp.judge.DescribeSubmissionInput
-	8,  // 30: eolymp.judge.SubmissionService.PrintSubmission:input_type -> eolymp.judge.PrintSubmissionInput
-	10, // 31: eolymp.judge.SubmissionService.WatchSubmission:input_type -> eolymp.judge.WatchSubmissionInput
-	12, // 32: eolymp.judge.SubmissionService.WatchSubmissionsList:input_type -> eolymp.judge.WatchSubmissionsListInput
-	0,  // 33: eolymp.judge.SubmissionService.CompareSubmissions:input_type -> eolymp.judge.CompareSubmissionsInput
-	14, // 34: eolymp.judge.SubmissionService.RetestSubmission:input_type -> eolymp.judge.RetestSubmissionInput
-	16, // 35: eolymp.judge.SubmissionService.DeleteSubmission:input_type -> eolymp.judge.DeleteSubmissionInput
-	18, // 36: eolymp.judge.SubmissionService.RestoreSubmission:input_type -> eolymp.judge.RestoreSubmissionInput
-	20, // 37: eolymp.judge.SubmissionService.RetestProblem:input_type -> eolymp.judge.RetestProblemInput
-	3,  // 38: eolymp.judge.SubmissionService.CreateSubmission:output_type -> eolymp.judge.CreateSubmissionOutput
-	5,  // 39: eolymp.judge.SubmissionService.ListSubmissions:output_type -> eolymp.judge.ListSubmissionsOutput
-	7,  // 40: eolymp.judge.SubmissionService.DescribeSubmission:output_type -> eolymp.judge.DescribeSubmissionOutput
-	9,  // 41: eolymp.judge.SubmissionService.PrintSubmission:output_type -> eolymp.judge.PrintSubmissionOutput
-	11, // 42: eolymp.judge.SubmissionService.WatchSubmission:output_type -> eolymp.judge.WatchSubmissionOutput
-	13, // 43: eolymp.judge.SubmissionService.WatchSubmissionsList:output_type -> eolymp.judge.WatchSubmissionsListOutput
-	1,  // 44: eolymp.judge.SubmissionService.CompareSubmissions:output_type -> eolymp.judge.CompareSubmissionsOutput
-	15, // 45: eolymp.judge.SubmissionService.RetestSubmission:output_type -> eolymp.judge.RetestSubmissionOutput
-	17, // 46: eolymp.judge.SubmissionService.DeleteSubmission:output_type -> eolymp.judge.DeleteSubmissionOutput
-	19, // 47: eolymp.judge.SubmissionService.RestoreSubmission:output_type -> eolymp.judge.RestoreSubmissionOutput
-	21, // 48: eolymp.judge.SubmissionService.RetestProblem:output_type -> eolymp.judge.RetestProblemOutput
-	38, // [38:49] is the sub-list for method output_type
-	27, // [27:38] is the sub-list for method input_type
-	27, // [27:27] is the sub-list for extension type_name
-	27, // [27:27] is the sub-list for extension extendee
-	0,  // [0:27] is the sub-list for field type_name
+	27, // 4: eolymp.judge.CreateSubmissionInput.quiz:type_name -> eolymp.atlas.Submission.Quiz
+	25, // 5: eolymp.judge.ListSubmissionsInput.filters:type_name -> eolymp.judge.ListSubmissionsInput.Filter
+	28, // 6: eolymp.judge.ListSubmissionsInput.extra:type_name -> eolymp.judge.Submission.Extra
+	29, // 7: eolymp.judge.ListSubmissionsOutput.items:type_name -> eolymp.judge.Submission
+	28, // 8: eolymp.judge.DescribeSubmissionInput.extra:type_name -> eolymp.judge.Submission.Extra
+	29, // 9: eolymp.judge.DescribeSubmissionOutput.submission:type_name -> eolymp.judge.Submission
+	28, // 10: eolymp.judge.WatchSubmissionInput.extra:type_name -> eolymp.judge.Submission.Extra
+	29, // 11: eolymp.judge.WatchSubmissionOutput.submission:type_name -> eolymp.judge.Submission
+	30, // 12: eolymp.judge.WatchSubmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	28, // 13: eolymp.judge.WatchSubmissionsListInput.extra:type_name -> eolymp.judge.Submission.Extra
+	30, // 14: eolymp.judge.WatchSubmissionsListOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	29, // 15: eolymp.judge.WatchSubmissionsListOutput.submission:type_name -> eolymp.judge.Submission
+	23, // 16: eolymp.judge.CompareSubmissionsOutput.Match.submission:type_name -> eolymp.judge.CompareSubmissionsOutput.Span
+	23, // 17: eolymp.judge.CompareSubmissionsOutput.Match.other_submission:type_name -> eolymp.judge.CompareSubmissionsOutput.Span
+	31, // 18: eolymp.judge.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 19: eolymp.judge.ListSubmissionsInput.Filter.participant_id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 20: eolymp.judge.ListSubmissionsInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	32, // 21: eolymp.judge.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 22: eolymp.judge.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	33, // 23: eolymp.judge.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	33, // 24: eolymp.judge.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	34, // 25: eolymp.judge.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	32, // 26: eolymp.judge.ListSubmissionsInput.Filter.signature:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 27: eolymp.judge.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	2,  // 28: eolymp.judge.SubmissionService.CreateSubmission:input_type -> eolymp.judge.CreateSubmissionInput
+	4,  // 29: eolymp.judge.SubmissionService.ListSubmissions:input_type -> eolymp.judge.ListSubmissionsInput
+	6,  // 30: eolymp.judge.SubmissionService.DescribeSubmission:input_type -> eolymp.judge.DescribeSubmissionInput
+	8,  // 31: eolymp.judge.SubmissionService.PrintSubmission:input_type -> eolymp.judge.PrintSubmissionInput
+	10, // 32: eolymp.judge.SubmissionService.WatchSubmission:input_type -> eolymp.judge.WatchSubmissionInput
+	12, // 33: eolymp.judge.SubmissionService.WatchSubmissionsList:input_type -> eolymp.judge.WatchSubmissionsListInput
+	0,  // 34: eolymp.judge.SubmissionService.CompareSubmissions:input_type -> eolymp.judge.CompareSubmissionsInput
+	14, // 35: eolymp.judge.SubmissionService.RetestSubmission:input_type -> eolymp.judge.RetestSubmissionInput
+	16, // 36: eolymp.judge.SubmissionService.DeleteSubmission:input_type -> eolymp.judge.DeleteSubmissionInput
+	18, // 37: eolymp.judge.SubmissionService.RestoreSubmission:input_type -> eolymp.judge.RestoreSubmissionInput
+	20, // 38: eolymp.judge.SubmissionService.RetestProblem:input_type -> eolymp.judge.RetestProblemInput
+	3,  // 39: eolymp.judge.SubmissionService.CreateSubmission:output_type -> eolymp.judge.CreateSubmissionOutput
+	5,  // 40: eolymp.judge.SubmissionService.ListSubmissions:output_type -> eolymp.judge.ListSubmissionsOutput
+	7,  // 41: eolymp.judge.SubmissionService.DescribeSubmission:output_type -> eolymp.judge.DescribeSubmissionOutput
+	9,  // 42: eolymp.judge.SubmissionService.PrintSubmission:output_type -> eolymp.judge.PrintSubmissionOutput
+	11, // 43: eolymp.judge.SubmissionService.WatchSubmission:output_type -> eolymp.judge.WatchSubmissionOutput
+	13, // 44: eolymp.judge.SubmissionService.WatchSubmissionsList:output_type -> eolymp.judge.WatchSubmissionsListOutput
+	1,  // 45: eolymp.judge.SubmissionService.CompareSubmissions:output_type -> eolymp.judge.CompareSubmissionsOutput
+	15, // 46: eolymp.judge.SubmissionService.RetestSubmission:output_type -> eolymp.judge.RetestSubmissionOutput
+	17, // 47: eolymp.judge.SubmissionService.DeleteSubmission:output_type -> eolymp.judge.DeleteSubmissionOutput
+	19, // 48: eolymp.judge.SubmissionService.RestoreSubmission:output_type -> eolymp.judge.RestoreSubmissionOutput
+	21, // 49: eolymp.judge.SubmissionService.RetestProblem:output_type -> eolymp.judge.RetestProblemOutput
+	39, // [39:50] is the sub-list for method output_type
+	28, // [28:39] is the sub-list for method input_type
+	28, // [28:28] is the sub-list for extension type_name
+	28, // [28:28] is the sub-list for extension extendee
+	0,  // [0:28] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_submission_service_proto_init() }

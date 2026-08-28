@@ -299,6 +299,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListStatements")
+	router.Handle(prefix+"/questions", _ProblemService_ListQuestions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.ListQuestions")
 	router.Handle(prefix+"/statements:lookup", _ProblemService_LookupStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.LookupStatement")
@@ -351,6 +354,27 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.ListStatements(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_ListQuestions_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListQuestionsInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListQuestions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return

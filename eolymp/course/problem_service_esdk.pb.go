@@ -111,6 +111,17 @@ func (s *ProblemServiceService) ListStatements(ctx context.Context, in *ListStat
 	return out, nil
 }
 
+func (s *ProblemServiceService) ListQuestions(ctx context.Context, in *ListQuestionsInput) (*ListQuestionsOutput, error) {
+	out := &ListQuestionsOutput{}
+	path := "/questions"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) LookupStatement(ctx context.Context, in *LookupStatementInput) (*LookupStatementOutput, error) {
 	out := &LookupStatementOutput{}
 	path := "/statements:lookup"
