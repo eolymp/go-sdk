@@ -296,43 +296,43 @@ func _ProblemService_HTTPWriteEvent(w http.ResponseWriter, name string, v proto.
 
 // RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceClient
 func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli ProblemServiceClient) {
-	router.Handle(prefix+"/statements", _ProblemService_ListStatements_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListStatements")
-	router.Handle(prefix+"/questions", _ProblemService_ListQuestions_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/questions", _ProblemService_ListQuestions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListQuestions")
-	router.Handle(prefix+"/statements:lookup", _ProblemService_LookupStatement_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/statements:lookup", _ProblemService_LookupStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.LookupStatement")
-	router.Handle(prefix+"/examples", _ProblemService_ListExamples_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/examples", _ProblemService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListExamples")
-	router.Handle(prefix+"/submissions", _ProblemService_CreateSubmission_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/submissions", _ProblemService_CreateSubmission_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ProblemService.CreateSubmission")
-	router.Handle(prefix+"/submissions", _ProblemService_ListSubmissions_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/submissions", _ProblemService_ListSubmissions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListSubmissions")
-	router.Handle(prefix+"/submissions/{submission_id}", _ProblemService_DescribeSubmission_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/submissions/{submission_id}", _ProblemService_DescribeSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.DescribeSubmission")
-	router.Handle(prefix+"/submissions/{submission_id}/watch", _ProblemService_WatchSubmission_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/submissions/{submission_id}/watch", _ProblemService_WatchSubmission_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.WatchSubmission")
-	router.Handle(prefix+"/template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.LookupCodeTemplate")
-	router.Handle(prefix+"/runs", _ProblemService_CreateRun_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/runs", _ProblemService_CreateRun_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.course.ProblemService.CreateRun")
-	router.Handle(prefix+"/runs/{run_id}", _ProblemService_DescribeRun_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/runs/{run_id}", _ProblemService_DescribeRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.DescribeRun")
-	router.Handle(prefix+"/runs/{run_id}/watch", _ProblemService_WatchRun_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/runs/{run_id}/watch", _ProblemService_WatchRun_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.WatchRun")
-	router.Handle(prefix+"/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListRuntimes")
 }
@@ -350,6 +350,10 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
 
@@ -372,6 +376,10 @@ func _ProblemService_ListQuestions_Rule0(cli ProblemServiceClient) http.Handler 
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListQuestions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -392,6 +400,10 @@ func _ProblemService_LookupStatement_Rule0(cli ProblemServiceClient) http.Handle
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
 
@@ -414,6 +426,10 @@ func _ProblemService_ListExamples_Rule0(cli ProblemServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListExamples(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -435,6 +451,10 @@ func _ProblemService_CreateSubmission_Rule0(cli ProblemServiceClient) http.Handl
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.CreateSubmission(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -455,6 +475,10 @@ func _ProblemService_ListSubmissions_Rule0(cli ProblemServiceClient) http.Handle
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
 
@@ -478,6 +502,8 @@ func _ProblemService_DescribeSubmission_Rule0(cli ProblemServiceClient) http.Han
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		var header, trailer metadata.MD
@@ -502,6 +528,8 @@ func _ProblemService_WatchSubmission_Rule0(cli ProblemServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 		in.SubmissionId = vars["submission_id"]
 
 		stream, err := cli.WatchSubmission(r.Context(), in)
@@ -523,6 +551,10 @@ func _ProblemService_LookupCodeTemplate_Rule0(cli ProblemServiceClient) http.Han
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.LookupCodeTemplate(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -543,6 +575,10 @@ func _ProblemService_CreateRun_Rule0(cli ProblemServiceClient) http.Handler {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
 
@@ -566,6 +602,8 @@ func _ProblemService_DescribeRun_Rule0(cli ProblemServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 		in.RunId = vars["run_id"]
 
 		var header, trailer metadata.MD
@@ -590,6 +628,8 @@ func _ProblemService_WatchRun_Rule0(cli ProblemServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 		in.RunId = vars["run_id"]
 
 		stream, err := cli.WatchRun(r.Context(), in)
@@ -610,6 +650,10 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
 
 		var header, trailer metadata.MD
 

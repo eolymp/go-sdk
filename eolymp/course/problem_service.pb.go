@@ -26,6 +26,8 @@ const (
 
 type ListStatementsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -58,6 +60,20 @@ func (x *ListStatementsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListStatementsInput.ProtoReflect.Descriptor instead.
 func (*ListStatementsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ListStatementsInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *ListStatementsInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
 }
 
 type ListStatementsOutput struct {
@@ -114,6 +130,8 @@ func (x *ListStatementsOutput) GetItems() []*atlas.Statement {
 
 type ListQuestionsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -146,6 +164,20 @@ func (x *ListQuestionsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListQuestionsInput.ProtoReflect.Descriptor instead.
 func (*ListQuestionsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListQuestionsInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *ListQuestionsInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
 }
 
 type ListQuestionsOutput struct {
@@ -202,6 +234,8 @@ func (x *ListQuestionsOutput) GetItems() []*atlas.Question {
 
 type LookupStatementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,3,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -235,6 +269,20 @@ func (x *LookupStatementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LookupStatementInput.ProtoReflect.Descriptor instead.
 func (*LookupStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *LookupStatementInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *LookupStatementInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
 }
 
 func (x *LookupStatementInput) GetLocale() string {
@@ -290,6 +338,8 @@ func (x *LookupStatementOutput) GetStatement() *atlas.Statement {
 
 type ListExamplesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -322,6 +372,20 @@ func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListExamplesInput.ProtoReflect.Descriptor instead.
 func (*ListExamplesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListExamplesInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *ListExamplesInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
 }
 
 type ListExamplesOutput struct {
@@ -370,6 +434,8 @@ func (x *ListExamplesOutput) GetExamples() []*atlas.Test {
 
 type LookupCodeTemplateInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,3,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	Runtime       string                 `protobuf:"bytes,1,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -403,6 +469,20 @@ func (x *LookupCodeTemplateInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LookupCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*LookupCodeTemplateInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *LookupCodeTemplateInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *LookupCodeTemplateInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
 }
 
 func (x *LookupCodeTemplateInput) GetRuntime() string {
@@ -458,6 +538,8 @@ func (x *LookupCodeTemplateOutput) GetTemplate() *atlas.Template {
 
 type ListRuntimesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -490,6 +572,20 @@ func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListRuntimesInput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListRuntimesInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *ListRuntimesInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
 }
 
 type ListRuntimesOutput struct {
@@ -548,65 +644,82 @@ var File_eolymp_course_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1beolymp/atlas/question.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x15\n" +
-	"\x13ListStatementsInput\"[\n" +
+	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1beolymp/atlas/question.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"S\n" +
+	"\x13ListStatementsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"[\n" +
 	"\x14ListStatementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items\"\x14\n" +
-	"\x12ListQuestionsInput\"Y\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.atlas.StatementR\x05items\"R\n" +
+	"\x12ListQuestionsInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"Y\n" +
 	"\x13ListQuestionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items\".\n" +
-	"\x14LookupStatementInput\x12\x16\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items\"l\n" +
+	"\x14LookupStatementInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x03 \x01(\tR\n" +
+	"materialId\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"N\n" +
 	"\x15LookupStatementOutput\x125\n" +
-	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x13\n" +
-	"\x11ListExamplesInput\"D\n" +
+	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"Q\n" +
+	"\x11ListExamplesInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"D\n" +
 	"\x12ListExamplesOutput\x12.\n" +
-	"\bexamples\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\bexamples\"3\n" +
-	"\x17LookupCodeTemplateInput\x12\x18\n" +
+	"\bexamples\x18\x02 \x03(\v2\x12.eolymp.atlas.TestR\bexamples\"q\n" +
+	"\x17LookupCodeTemplateInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x03 \x01(\tR\n" +
+	"materialId\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\"N\n" +
 	"\x18LookupCodeTemplateOutput\x122\n" +
-	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"\x13\n" +
-	"\x11ListRuntimesInput\"Y\n" +
+	"\btemplate\x18\x01 \x01(\v2\x16.eolymp.atlas.TemplateR\btemplate\"Q\n" +
+	"\x11ListRuntimesInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\x97\x11\n" +
-	"\x0eProblemService\x12\x9f\x01\n" +
-	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"D\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xd4\x15\n" +
+	"\x0eProblemService\x12\xcb\x01\n" +
+	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"p\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\r\x12\v/statements\x12\x9b\x01\n" +
-	"\rListQuestions\x12!.eolymp.course.ListQuestionsInput\x1a\".eolymp.course.ListQuestionsOutput\"C\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x029\x127/courses/{course_id}/materials/{material_id}/statements\x12\xc7\x01\n" +
+	"\rListQuestions\x12!.eolymp.course.ListQuestionsInput\x1a\".eolymp.course.ListQuestionsOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/questions\x12\xaa\x01\n" +
-	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"L\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x028\x126/courses/{course_id}/materials/{material_id}/questions\x12\xd6\x01\n" +
+	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"x\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
 	"\xfa\x01\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12atlas:problem:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/statements:lookup\x12\x97\x01\n" +
-	"\fListExamples\x12 .eolymp.course.ListExamplesInput\x1a!.eolymp.course.ListExamplesOutput\"B\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02@\x12>/courses/{course_id}/materials/{material_id}/statements:lookup\x12\xc3\x01\n" +
+	"\fListExamples\x12 .eolymp.course.ListExamplesInput\x1a!.eolymp.course.ListExamplesOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/examples\x12\xaf\x01\n" +
-	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"N\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x027\x125/courses/{course_id}/materials/{material_id}/examples\x12\xdb\x01\n" +
+	"\x10CreateSubmission\x12$.eolymp.course.CreateSubmissionInput\x1a%.eolymp.course.CreateSubmissionOutput\"z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
@@ -615,17 +728,17 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x18\x8a\xe3\n" +
 	"\x14course:course:submit\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x15\x98\xe3\n" +
-	"\x80\x80\xc0\x02\"\f/submissions\x12\xa3\x01\n" +
-	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"E\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02A\x98\xe3\n" +
+	"\x80\x80\xc0\x02\"8/courses/{course_id}/materials/{material_id}/submissions\x12\xcf\x01\n" +
+	"\x0fListSubmissions\x12#.eolymp.course.ListSubmissionsInput\x1a$.eolymp.course.ListSubmissionsOutput\"q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0e\x12\f/submissions\x12\xbc\x01\n" +
-	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"U\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02:\x128/courses/{course_id}/materials/{material_id}/submissions\x12\xe9\x01\n" +
+	"\x12DescribeSubmission\x12&.eolymp.course.DescribeSubmissionInput\x1a'.eolymp.course.DescribeSubmissionOutput\"\x81\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -633,24 +746,24 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/submissions/{submission_id}\x12\xbb\x01\n" +
-	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"[\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02J\x12H/courses/{course_id}/materials/{material_id}/submissions/{submission_id}\x12\xe8\x01\n" +
+	"\x0fWatchSubmission\x12#.eolymp.course.WatchSubmissionInput\x1a$.eolymp.course.WatchSubmissionOutput\"\x87\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02$\x12\"/submissions/{submission_id}/watch0\x01\x12\xa9\x01\n" +
-	"\x12LookupCodeTemplate\x12&.eolymp.course.LookupCodeTemplateInput\x1a'.eolymp.course.LookupCodeTemplateOutput\"B\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02P\x12N/courses/{course_id}/materials/{material_id}/submissions/{submission_id}/watch0\x01\x12\xd5\x01\n" +
+	"\x12LookupCodeTemplate\x12&.eolymp.course.LookupCodeTemplateInput\x1a'.eolymp.course.LookupCodeTemplateOutput\"n\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/template\x12\x8c\x01\n" +
-	"\tCreateRun\x12\x1d.eolymp.course.CreateRunInput\x1a\x1e.eolymp.course.CreateRunOutput\"@\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x027\x125/courses/{course_id}/materials/{material_id}/template\x12\xb8\x01\n" +
+	"\tCreateRun\x12\x1d.eolymp.course.CreateRunInput\x1a\x1e.eolymp.course.CreateRunOutput\"l\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\n" +
 	"\xd7#>\xf8\xe2\n" +
@@ -658,8 +771,8 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x18\x8a\xe3\n" +
 	"\x14playground:run:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\a\"\x05/runs\x12\x9a\x01\n" +
-	"\vDescribeRun\x12\x1f.eolymp.course.DescribeRunInput\x1a .eolymp.course.DescribeRunOutput\"H\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x023\"1/courses/{course_id}/materials/{material_id}/runs\x12\xc6\x01\n" +
+	"\vDescribeRun\x12\x1f.eolymp.course.DescribeRunInput\x1a .eolymp.course.DescribeRunOutput\"t\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -667,8 +780,8 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13playground:run:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x10\x12\x0e/runs/{run_id}\x12\x99\x01\n" +
-	"\bWatchRun\x12\x1c.eolymp.course.WatchRunInput\x1a\x1d.eolymp.course.WatchRunOutput\"N\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02<\x12:/courses/{course_id}/materials/{material_id}/runs/{run_id}\x12\xc5\x01\n" +
+	"\bWatchRun\x12\x1c.eolymp.course.WatchRunInput\x1a\x1d.eolymp.course.WatchRunOutput\"z\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -676,16 +789,15 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13playground:run:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/runs/{run_id}/watch0\x01\x12\x96\x01\n" +
-	"\fListRuntimes\x12 .eolymp.course.ListRuntimesInput\x1a!.eolymp.course.ListRuntimesOutput\"A\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02B\x12@/courses/{course_id}/materials/{material_id}/runs/{run_id}/watch0\x01\x12\xc2\x01\n" +
+	"\fListRuntimes\x12 .eolymp.course.ListRuntimesInput\x1a!.eolymp.course.ListRuntimesOutput\"m\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x19\x82\xe3\n" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/runtime\x1a\x1c\x82\xf0\xf0\xe4\x01\x16eolymp.course.MaterialB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x026\x124/courses/{course_id}/materials/{material_id}/runtime\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/course;courseb\x06proto3"
 
 var (
 	file_eolymp_course_problem_service_proto_rawDescOnce sync.Once
