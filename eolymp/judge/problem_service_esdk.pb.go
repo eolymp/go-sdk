@@ -102,7 +102,12 @@ func (s *ProblemServiceService) do(ctx context.Context, verb, path string, in, o
 
 func (s *ProblemServiceService) ImportProblem(ctx context.Context, in *ImportProblemInput) (*ImportProblemOutput, error) {
 	out := &ImportProblemOutput{}
-	path := "/problems"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ProblemServiceService) ImportProblem(ctx context.Context, in *ImportPro
 
 func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdateProblemInput) (*UpdateProblemOutput, error) {
 	out := &UpdateProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -129,7 +135,12 @@ func (s *ProblemServiceService) UpdateProblem(ctx context.Context, in *UpdatePro
 
 func (s *ProblemServiceService) ListProblems(ctx context.Context, in *ListProblemsInput) (*ListProblemsOutput, error) {
 	out := &ListProblemsOutput{}
-	path := "/problems"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -140,10 +151,11 @@ func (s *ProblemServiceService) ListProblems(ctx context.Context, in *ListProble
 
 func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *DescribeProblemInput) (*DescribeProblemOutput, error) {
 	out := &DescribeProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -156,10 +168,11 @@ func (s *ProblemServiceService) DescribeProblem(ctx context.Context, in *Describ
 
 func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeleteProblemInput) (*DeleteProblemOutput, error) {
 	out := &DeleteProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -172,10 +185,11 @@ func (s *ProblemServiceService) DeleteProblem(ctx context.Context, in *DeletePro
 
 func (s *ProblemServiceService) LookupCodeTemplate(ctx context.Context, in *LookupCodeTemplateInput) (*LookupCodeTemplateOutput, error) {
 	out := &LookupCodeTemplateOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/lookup-template"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/lookup-template"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -188,10 +202,11 @@ func (s *ProblemServiceService) LookupCodeTemplate(ctx context.Context, in *Look
 
 func (s *ProblemServiceService) DescribeCodeTemplate(ctx context.Context, in *DescribeCodeTemplateInput) (*DescribeCodeTemplateOutput, error) {
 	out := &DescribeCodeTemplateOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/templates/" + url.PathEscape(in.GetTemplateId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 		in.TemplateId = ""
 	}
@@ -205,10 +220,11 @@ func (s *ProblemServiceService) DescribeCodeTemplate(ctx context.Context, in *De
 
 func (s *ProblemServiceService) ListStatements(ctx context.Context, in *ListStatementsInput) (*ListStatementsOutput, error) {
 	out := &ListStatementsOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/statements"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -221,10 +237,11 @@ func (s *ProblemServiceService) ListStatements(ctx context.Context, in *ListStat
 
 func (s *ProblemServiceService) DescribeEditorial(ctx context.Context, in *DescribeEditorialInput) (*DescribeEditorialOutput, error) {
 	out := &DescribeEditorialOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorial"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorial"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -237,10 +254,11 @@ func (s *ProblemServiceService) DescribeEditorial(ctx context.Context, in *Descr
 
 func (s *ProblemServiceService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	out := &ListAttachmentsOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -253,10 +271,11 @@ func (s *ProblemServiceService) ListAttachments(ctx context.Context, in *ListAtt
 
 func (s *ProblemServiceService) ListExamples(ctx context.Context, in *ListExamplesInput) (*ListExamplesOutput, error) {
 	out := &ListExamplesOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/examples"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -269,10 +288,11 @@ func (s *ProblemServiceService) ListExamples(ctx context.Context, in *ListExampl
 
 func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntimesInput) (*ListRuntimesOutput, error) {
 	out := &ListRuntimesOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/runtime"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/runtime"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ProblemId = ""
 	}
 
@@ -285,7 +305,12 @@ func (s *ProblemServiceService) ListRuntimes(ctx context.Context, in *ListRuntim
 
 func (s *ProblemServiceService) ExportProblems(ctx context.Context, in *ExportProblemsInput) (*ExportProblemsOutput, error) {
 	out := &ExportProblemsOutput{}
-	path := "/problems:export"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems:export"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

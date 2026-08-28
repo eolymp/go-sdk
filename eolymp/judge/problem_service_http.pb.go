@@ -201,43 +201,43 @@ func _ProblemService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterProblemServiceHttpHandlers adds handlers for for ProblemServiceClient
 func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli ProblemServiceClient) {
-	router.Handle(prefix+"/problems", _ProblemService_ImportProblem_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems", _ProblemService_ImportProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ProblemService.ImportProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_UpdateProblem_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _ProblemService_UpdateProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ProblemService.UpdateProblem")
-	router.Handle(prefix+"/problems", _ProblemService_ListProblems_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems", _ProblemService_ListProblems_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListProblems")
-	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DescribeProblem_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _ProblemService_DescribeProblem_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.DescribeProblem")
-	router.Handle(prefix+"/problems/{problem_id}", _ProblemService_DeleteProblem_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}", _ProblemService_DeleteProblem_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.ProblemService.DeleteProblem")
-	router.Handle(prefix+"/problems/{problem_id}/lookup-template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/lookup-template", _ProblemService_LookupCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.LookupCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/templates/{template_id}", _ProblemService_DescribeCodeTemplate_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/templates/{template_id}", _ProblemService_DescribeCodeTemplate_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.DescribeCodeTemplate")
-	router.Handle(prefix+"/problems/{problem_id}/statements", _ProblemService_ListStatements_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/statements", _ProblemService_ListStatements_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListStatements")
-	router.Handle(prefix+"/problems/{problem_id}/editorial", _ProblemService_DescribeEditorial_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/editorial", _ProblemService_DescribeEditorial_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.DescribeEditorial")
-	router.Handle(prefix+"/problems/{problem_id}/attachments", _ProblemService_ListAttachments_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/attachments", _ProblemService_ListAttachments_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListAttachments")
-	router.Handle(prefix+"/problems/{problem_id}/examples", _ProblemService_ListExamples_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/examples", _ProblemService_ListExamples_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListExamples")
-	router.Handle(prefix+"/problems/{problem_id}/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems/{problem_id}/runtime", _ProblemService_ListRuntimes_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ProblemService.ListRuntimes")
-	router.Handle(prefix+"/problems:export", _ProblemService_ExportProblems_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/problems:export", _ProblemService_ExportProblems_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ProblemService.ExportProblems")
 }
@@ -255,6 +255,9 @@ func _ProblemService_ImportProblem_Rule0(cli ProblemServiceClient) http.Handler 
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -278,6 +281,7 @@ func _ProblemService_UpdateProblem_Rule0(cli ProblemServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -301,6 +305,9 @@ func _ProblemService_ListProblems_Rule0(cli ProblemServiceClient) http.Handler {
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -323,6 +330,7 @@ func _ProblemService_DescribeProblem_Rule0(cli ProblemServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -347,6 +355,7 @@ func _ProblemService_DeleteProblem_Rule0(cli ProblemServiceClient) http.Handler 
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -371,6 +380,7 @@ func _ProblemService_LookupCodeTemplate_Rule0(cli ProblemServiceClient) http.Han
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -395,6 +405,7 @@ func _ProblemService_DescribeCodeTemplate_Rule0(cli ProblemServiceClient) http.H
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 		in.TemplateId = vars["template_id"]
 
@@ -420,6 +431,7 @@ func _ProblemService_ListStatements_Rule0(cli ProblemServiceClient) http.Handler
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -444,6 +456,7 @@ func _ProblemService_DescribeEditorial_Rule0(cli ProblemServiceClient) http.Hand
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -468,6 +481,7 @@ func _ProblemService_ListAttachments_Rule0(cli ProblemServiceClient) http.Handle
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -492,6 +506,7 @@ func _ProblemService_ListExamples_Rule0(cli ProblemServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -516,6 +531,7 @@ func _ProblemService_ListRuntimes_Rule0(cli ProblemServiceClient) http.Handler {
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ProblemId = vars["problem_id"]
 
 		var header, trailer metadata.MD
@@ -538,6 +554,9 @@ func _ProblemService_ExportProblems_Rule0(cli ProblemServiceClient) http.Handler
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
