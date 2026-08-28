@@ -296,46 +296,46 @@ func _ParticipantService_HTTPWriteEvent(w http.ResponseWriter, name string, v pr
 
 // RegisterParticipantServiceHttpHandlers adds handlers for for ParticipantServiceClient
 func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, cli ParticipantServiceClient) {
-	router.Handle(prefix+"/participants", _ParticipantService_AssignParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants", _ParticipantService_AssignParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.AssignParticipant")
-	router.Handle(prefix+"/participants/{participant_id}/enable", _ParticipantService_EnableParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/enable", _ParticipantService_EnableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.EnableParticipant")
-	router.Handle(prefix+"/participants/{participant_id}/disable", _ParticipantService_DisableParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disable", _ParticipantService_DisableParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisableParticipant")
-	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _ParticipantService_UpdateParticipant_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.judge.ParticipantService.UpdateParticipant")
-	router.Handle(prefix+"/participants/{participant_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/disqualify", _ParticipantService_DisqualifyParticipant_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.DisqualifyParticipant")
-	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_DeleteParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _ParticipantService_DeleteParticipant_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.judge.ParticipantService.DeleteParticipant")
-	router.Handle(prefix+"/participants/{participant_id}", _ParticipantService_DescribeParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}", _ParticipantService_DescribeParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.DescribeParticipant")
-	router.Handle(prefix+"/participants", _ParticipantService_ListParticipants_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants", _ParticipantService_ListParticipants_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.ListParticipants")
-	router.Handle(prefix+"/participants/{participant_id}/watch", _ParticipantService_WatchParticipant_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/watch", _ParticipantService_WatchParticipant_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.WatchParticipant")
-	router.Handle(prefix+"/join", _ParticipantService_JoinContest_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/join", _ParticipantService_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.JoinContest")
-	router.Handle(prefix+"/introspect", _ParticipantService_DescribeViewer_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/introspect", _ParticipantService_DescribeViewer_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.DescribeViewer")
-	router.Handle(prefix+"/start", _ParticipantService_StartContest_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/start", _ParticipantService_StartContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.StartContest")
-	router.Handle(prefix+"/pause", _ParticipantService_PauseContest_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/pause", _ParticipantService_PauseContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.PauseContest")
-	router.Handle(prefix+"/finish", _ParticipantService_FinishContest_Rule0(cli)).
+	router.Handle(prefix+"/contests/{contest_id}/finish", _ParticipantService_FinishContest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.FinishContest")
 }
@@ -353,6 +353,9 @@ func _ParticipantService_AssignParticipant_Rule0(cli ParticipantServiceClient) h
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -376,6 +379,7 @@ func _ParticipantService_EnableParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -400,6 +404,7 @@ func _ParticipantService_DisableParticipant_Rule0(cli ParticipantServiceClient) 
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -424,6 +429,7 @@ func _ParticipantService_UpdateParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -448,6 +454,7 @@ func _ParticipantService_DisqualifyParticipant_Rule0(cli ParticipantServiceClien
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -472,6 +479,7 @@ func _ParticipantService_DeleteParticipant_Rule0(cli ParticipantServiceClient) h
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -496,6 +504,7 @@ func _ParticipantService_DescribeParticipant_Rule0(cli ParticipantServiceClient)
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		var header, trailer metadata.MD
@@ -519,6 +528,9 @@ func _ParticipantService_ListParticipants_Rule0(cli ParticipantServiceClient) ht
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListParticipants(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -541,6 +553,7 @@ func _ParticipantService_WatchParticipant_Rule0(cli ParticipantServiceClient) ht
 		}
 
 		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 		in.ParticipantId = vars["participant_id"]
 
 		stream, err := cli.WatchParticipant(r.Context(), in)
@@ -561,6 +574,9 @@ func _ParticipantService_JoinContest_Rule0(cli ParticipantServiceClient) http.Ha
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -583,6 +599,9 @@ func _ParticipantService_DescribeViewer_Rule0(cli ParticipantServiceClient) http
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeViewer(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -603,6 +622,9 @@ func _ParticipantService_StartContest_Rule0(cli ParticipantServiceClient) http.H
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 
@@ -625,6 +647,9 @@ func _ParticipantService_PauseContest_Rule0(cli ParticipantServiceClient) http.H
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.PauseContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -645,6 +670,9 @@ func _ParticipantService_FinishContest_Rule0(cli ParticipantServiceClient) http.
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
 
 		var header, trailer metadata.MD
 

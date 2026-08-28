@@ -102,7 +102,12 @@ func (s *ParticipantServiceService) do(ctx context.Context, verb, path string, i
 
 func (s *ParticipantServiceService) AssignParticipant(ctx context.Context, in *AssignParticipantInput) (*AssignParticipantOutput, error) {
 	out := &AssignParticipantOutput{}
-	path := "/participants"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,10 +118,11 @@ func (s *ParticipantServiceService) AssignParticipant(ctx context.Context, in *A
 
 func (s *ParticipantServiceService) EnableParticipant(ctx context.Context, in *EnableParticipantInput) (*EnableParticipantOutput, error) {
 	out := &EnableParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/enable"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/enable"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -129,10 +135,11 @@ func (s *ParticipantServiceService) EnableParticipant(ctx context.Context, in *E
 
 func (s *ParticipantServiceService) DisableParticipant(ctx context.Context, in *DisableParticipantInput) (*DisableParticipantOutput, error) {
 	out := &DisableParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/disable"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/disable"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -145,10 +152,11 @@ func (s *ParticipantServiceService) DisableParticipant(ctx context.Context, in *
 
 func (s *ParticipantServiceService) UpdateParticipant(ctx context.Context, in *UpdateParticipantInput) (*UpdateParticipantOutput, error) {
 	out := &UpdateParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -161,10 +169,11 @@ func (s *ParticipantServiceService) UpdateParticipant(ctx context.Context, in *U
 
 func (s *ParticipantServiceService) DisqualifyParticipant(ctx context.Context, in *DisqualifyParticipantInput) (*DisqualifyParticipantOutput, error) {
 	out := &DisqualifyParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId()) + "/disqualify"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/disqualify"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -177,10 +186,11 @@ func (s *ParticipantServiceService) DisqualifyParticipant(ctx context.Context, i
 
 func (s *ParticipantServiceService) DeleteParticipant(ctx context.Context, in *DeleteParticipantInput) (*DeleteParticipantOutput, error) {
 	out := &DeleteParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -193,10 +203,11 @@ func (s *ParticipantServiceService) DeleteParticipant(ctx context.Context, in *D
 
 func (s *ParticipantServiceService) DescribeParticipant(ctx context.Context, in *DescribeParticipantInput) (*DescribeParticipantOutput, error) {
 	out := &DescribeParticipantOutput{}
-	path := "/participants/" + url.PathEscape(in.GetParticipantId())
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ContestId = ""
 		in.ParticipantId = ""
 	}
 
@@ -209,7 +220,12 @@ func (s *ParticipantServiceService) DescribeParticipant(ctx context.Context, in 
 
 func (s *ParticipantServiceService) ListParticipants(ctx context.Context, in *ListParticipantsInput) (*ListParticipantsOutput, error) {
 	out := &ListParticipantsOutput{}
-	path := "/participants"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -220,7 +236,12 @@ func (s *ParticipantServiceService) ListParticipants(ctx context.Context, in *Li
 
 func (s *ParticipantServiceService) JoinContest(ctx context.Context, in *JoinContestInput) (*JoinContestOutput, error) {
 	out := &JoinContestOutput{}
-	path := "/join"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/join"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -231,7 +252,12 @@ func (s *ParticipantServiceService) JoinContest(ctx context.Context, in *JoinCon
 
 func (s *ParticipantServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	out := &DescribeViewerOutput{}
-	path := "/introspect"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/introspect"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -242,7 +268,12 @@ func (s *ParticipantServiceService) DescribeViewer(ctx context.Context, in *Desc
 
 func (s *ParticipantServiceService) StartContest(ctx context.Context, in *StartContestInput) (*StartContestOutput, error) {
 	out := &StartContestOutput{}
-	path := "/start"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/start"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -253,7 +284,12 @@ func (s *ParticipantServiceService) StartContest(ctx context.Context, in *StartC
 
 func (s *ParticipantServiceService) PauseContest(ctx context.Context, in *PauseContestInput) (*PauseContestOutput, error) {
 	out := &PauseContestOutput{}
-	path := "/pause"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/pause"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -264,7 +300,12 @@ func (s *ParticipantServiceService) PauseContest(ctx context.Context, in *PauseC
 
 func (s *ParticipantServiceService) FinishContest(ctx context.Context, in *FinishContestInput) (*FinishContestOutput, error) {
 	out := &FinishContestOutput{}
-	path := "/finish"
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/finish"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
