@@ -35,8 +35,7 @@ const (
 // member earns shows on their public profile. This service only deals with the member's side of that. The
 // achievements themselves, their name, image, summary, the points needed to earn them and whether they
 // can be earned more than once, are owned by eolymp.reward.AchievementService, which is easy to mistake
-// for this one. Being member-scoped, these calls are addressed through the base url a member carries in
-// its read-only url field.
+// for this one. Every method acts on the member named by `member_id` in the request.
 type AchievementServiceClient interface {
 	// AssignAchievement moves a member's progress on one achievement, either setting it to a value or
 	// adding to it. Earning is scored rather than boolean: the number of times the achievement has been
@@ -105,8 +104,7 @@ func (c *achievementServiceClient) ListAchievements(ctx context.Context, in *Lis
 // member earns shows on their public profile. This service only deals with the member's side of that. The
 // achievements themselves, their name, image, summary, the points needed to earn them and whether they
 // can be earned more than once, are owned by eolymp.reward.AchievementService, which is easy to mistake
-// for this one. Being member-scoped, these calls are addressed through the base url a member carries in
-// its read-only url field.
+// for this one. Every method acts on the member named by `member_id` in the request.
 type AchievementServiceServer interface {
 	// AssignAchievement moves a member's progress on one achievement, either setting it to a value or
 	// adding to it. Earning is scored rather than boolean: the number of times the achievement has been

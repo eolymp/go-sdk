@@ -111,6 +111,7 @@ func (x *AchievementAssignedEvent) GetAwardedAt() *timestamppb.Timestamp {
 
 type AssignAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	AchievementId string                 `protobuf:"bytes,2,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
 	// Types that are valid to be assigned to Quantity:
 	//
@@ -150,6 +151,13 @@ func (x *AssignAchievementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use AssignAchievementInput.ProtoReflect.Descriptor instead.
 func (*AssignAchievementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AssignAchievementInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 func (x *AssignAchievementInput) GetAchievementId() string {
@@ -261,6 +269,7 @@ func (x *AssignAchievementOutput) GetScore() uint32 {
 
 type UnassignAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	AchievementId string                 `protobuf:"bytes,2,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -294,6 +303,13 @@ func (x *UnassignAchievementInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UnassignAchievementInput.ProtoReflect.Descriptor instead.
 func (*UnassignAchievementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UnassignAchievementInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 func (x *UnassignAchievementInput) GetAchievementId() string {
@@ -341,6 +357,7 @@ func (*UnassignAchievementOutput) Descriptor() ([]byte, []int) {
 
 type ListAchievementsInput struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
+	MemberId      string                        `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Locale        string                        `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
 	After         string                        `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Size          int32                         `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -379,6 +396,13 @@ func (x *ListAchievementsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListAchievementsInput.ProtoReflect.Descriptor instead.
 func (*ListAchievementsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListAchievementsInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 func (x *ListAchievementsInput) GetLocale() string {
@@ -563,8 +587,9 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\bquantity\x18\x04 \x01(\rR\bquantity\x12+\n" +
 	"\x11previous_quantity\x18\x05 \x01(\rR\x10previousQuantity\x129\n" +
 	"\n" +
-	"awarded_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tawardedAt\"\x9b\x01\n" +
-	"\x16AssignAchievementInput\x12%\n" +
+	"awarded_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tawardedAt\"\xb8\x01\n" +
+	"\x16AssignAchievementInput\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\x12\x17\n" +
 	"\x06set_to\x18\x03 \x01(\x05H\x00R\x05setTo\x12\x17\n" +
 	"\x06inc_by\x18\x04 \x01(\x05H\x00R\x05incBy\x12\x1c\n" +
@@ -573,11 +598,13 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\bquantity\"K\n" +
 	"\x17AssignAchievementOutput\x12\x1a\n" +
 	"\bquantity\x18\x03 \x01(\x05R\bquantity\x12\x14\n" +
-	"\x05score\x18\x04 \x01(\rR\x05score\"A\n" +
-	"\x18UnassignAchievementInput\x12%\n" +
+	"\x05score\x18\x04 \x01(\rR\x05score\"^\n" +
+	"\x18UnassignAchievementInput\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\"\x1b\n" +
-	"\x19UnassignAchievementOutput\"\xbc\x03\n" +
-	"\x15ListAchievementsInput\x12\x16\n" +
+	"\x19UnassignAchievementOutput\"\xd9\x03\n" +
+	"\x15ListAchievementsInput\x12\x1b\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
@@ -593,32 +620,32 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x16ListAchievementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\x123\n" +
-	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.community.AchievementR\x05items2\xfc\x04\n" +
-	"\x12AchievementService\x12\xc5\x01\n" +
-	"\x11AssignAchievement\x12(.eolymp.community.AssignAchievementInput\x1a).eolymp.community.AssignAchievementOutput\"[\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.community.AchievementR\x05items2\xb6\x05\n" +
+	"\x12AchievementService\x12\xd9\x01\n" +
+	"\x11AssignAchievement\x12(.eolymp.community.AssignAchievementInput\x1a).eolymp.community.AssignAchievementOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16community:member:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02 \x1a\x1e/achievements/{achievement_id}\x12\xcb\x01\n" +
-	"\x13UnassignAchievement\x12*.eolymp.community.UnassignAchievementInput\x1a+.eolymp.community.UnassignAchievementOutput\"[\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x024\x1a2/members/{member_id}/achievements/{achievement_id}\x12\xdf\x01\n" +
+	"\x13UnassignAchievement\x12*.eolymp.community.UnassignAchievementInput\x1a+.eolymp.community.UnassignAchievementOutput\"o\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16community:member:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02 *\x1e/achievements/{achievement_id}\x12\xb0\x01\n" +
-	"\x10ListAchievements\x12'.eolymp.community.ListAchievementsInput\x1a(.eolymp.community.ListAchievementsOutput\"I\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x024*2/members/{member_id}/achievements/{achievement_id}\x12\xc4\x01\n" +
+	"\x10ListAchievements\x12'.eolymp.community.ListAchievementsInput\x1a(.eolymp.community.ListAchievementsOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x1a\x1d\x82\xf0\xf0\xe4\x01\x17eolymp.community.MemberB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02#\x12!/members/{member_id}/achievements\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_achievement_service_proto_rawDescOnce sync.Once

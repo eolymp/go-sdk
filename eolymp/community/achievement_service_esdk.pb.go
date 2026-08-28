@@ -102,10 +102,11 @@ func (s *AchievementServiceService) do(ctx context.Context, verb, path string, i
 
 func (s *AchievementServiceService) AssignAchievement(ctx context.Context, in *AssignAchievementInput) (*AssignAchievementOutput, error) {
 	out := &AssignAchievementOutput{}
-	path := "/achievements/" + url.PathEscape(in.GetAchievementId())
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/achievements/" + url.PathEscape(in.GetAchievementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.MemberId = ""
 		in.AchievementId = ""
 	}
 
@@ -118,10 +119,11 @@ func (s *AchievementServiceService) AssignAchievement(ctx context.Context, in *A
 
 func (s *AchievementServiceService) UnassignAchievement(ctx context.Context, in *UnassignAchievementInput) (*UnassignAchievementOutput, error) {
 	out := &UnassignAchievementOutput{}
-	path := "/achievements/" + url.PathEscape(in.GetAchievementId())
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/achievements/" + url.PathEscape(in.GetAchievementId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.MemberId = ""
 		in.AchievementId = ""
 	}
 
@@ -134,7 +136,12 @@ func (s *AchievementServiceService) UnassignAchievement(ctx context.Context, in 
 
 func (s *AchievementServiceService) ListAchievements(ctx context.Context, in *ListAchievementsInput) (*ListAchievementsOutput, error) {
 	out := &ListAchievementsOutput{}
-	path := "/achievements"
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/achievements"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
