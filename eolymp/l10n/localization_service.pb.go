@@ -25,6 +25,7 @@ const (
 
 type CreateTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	Term          *Term                  `protobuf:"bytes,1,opt,name=term,proto3" json:"term,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -58,6 +59,13 @@ func (x *CreateTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateTermInput.ProtoReflect.Descriptor instead.
 func (*CreateTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *CreateTermInput) GetTerm() *Term {
@@ -113,6 +121,7 @@ func (x *CreateTermOutput) GetTermId() string {
 
 type ImportTermsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	Terms         []*Term                `protobuf:"bytes,1,rep,name=terms,proto3" json:"terms,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -146,6 +155,13 @@ func (x *ImportTermsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ImportTermsInput.ProtoReflect.Descriptor instead.
 func (*ImportTermsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ImportTermsInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ImportTermsInput) GetTerms() []*Term {
@@ -216,7 +232,8 @@ func (x *ImportTermsOutput) GetDeprecatedCount() int32 {
 }
 
 type ListTermsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -254,6 +271,13 @@ func (x *ListTermsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListTermsInput.ProtoReflect.Descriptor instead.
 func (*ListTermsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListTermsInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ListTermsInput) GetOffset() int32 {
@@ -331,6 +355,7 @@ func (x *ListTermsOutput) GetItems() []*Term {
 
 type UpdateTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	Term          *Term                  `protobuf:"bytes,2,opt,name=term,proto3" json:"term,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -365,6 +390,13 @@ func (x *UpdateTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateTermInput.ProtoReflect.Descriptor instead.
 func (*UpdateTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *UpdateTermInput) GetTermId() string {
@@ -419,6 +451,7 @@ func (*UpdateTermOutput) Descriptor() ([]byte, []int) {
 
 type RestoreTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -452,6 +485,13 @@ func (x *RestoreTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use RestoreTermInput.ProtoReflect.Descriptor instead.
 func (*RestoreTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RestoreTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *RestoreTermInput) GetTermId() string {
@@ -499,6 +539,7 @@ func (*RestoreTermOutput) Descriptor() ([]byte, []int) {
 
 type DeprecateTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -532,6 +573,13 @@ func (x *DeprecateTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeprecateTermInput.ProtoReflect.Descriptor instead.
 func (*DeprecateTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeprecateTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *DeprecateTermInput) GetTermId() string {
@@ -579,6 +627,7 @@ func (*DeprecateTermOutput) Descriptor() ([]byte, []int) {
 
 type DeleteTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -612,6 +661,13 @@ func (x *DeleteTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteTermInput.ProtoReflect.Descriptor instead.
 func (*DeleteTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DeleteTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *DeleteTermInput) GetTermId() string {
@@ -659,6 +715,7 @@ func (*DeleteTermOutput) Descriptor() ([]byte, []int) {
 
 type DescribeTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -692,6 +749,13 @@ func (x *DescribeTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeTermInput.ProtoReflect.Descriptor instead.
 func (*DescribeTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DescribeTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *DescribeTermInput) GetTermId() string {
@@ -747,6 +811,7 @@ func (x *DescribeTermOutput) GetTerm() *Term {
 
 type AddLocaleInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	LocaleCode    string                 `protobuf:"bytes,1,opt,name=locale_code,json=localeCode,proto3" json:"locale_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -780,6 +845,13 @@ func (x *AddLocaleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use AddLocaleInput.ProtoReflect.Descriptor instead.
 func (*AddLocaleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *AddLocaleInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *AddLocaleInput) GetLocaleCode() string {
@@ -827,6 +899,7 @@ func (*AddLocaleOutput) Descriptor() ([]byte, []int) {
 
 type RemoveLocaleInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	LocaleCode    string                 `protobuf:"bytes,1,opt,name=locale_code,json=localeCode,proto3" json:"locale_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -860,6 +933,13 @@ func (x *RemoveLocaleInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use RemoveLocaleInput.ProtoReflect.Descriptor instead.
 func (*RemoveLocaleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *RemoveLocaleInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *RemoveLocaleInput) GetLocaleCode() string {
@@ -906,7 +986,8 @@ func (*RemoveLocaleOutput) Descriptor() ([]byte, []int) {
 }
 
 type ListLocalesInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -944,6 +1025,13 @@ func (x *ListLocalesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListLocalesInput.ProtoReflect.Descriptor instead.
 func (*ListLocalesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *ListLocalesInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ListLocalesInput) GetOffset() int32 {
@@ -1021,6 +1109,7 @@ func (x *ListLocalesOutput) GetItems() []*ListLocalesOutput_Locale {
 
 type TranslateTermInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	Translation   *Translation           `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1055,6 +1144,13 @@ func (x *TranslateTermInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TranslateTermInput.ProtoReflect.Descriptor instead.
 func (*TranslateTermInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *TranslateTermInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *TranslateTermInput) GetTermId() string {
@@ -1116,8 +1212,9 @@ func (x *TranslateTermOutput) GetTranslationId() string {
 }
 
 type ListTranslationsInput struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	TermId string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	TermId    string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	// pagination
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -1155,6 +1252,13 @@ func (x *ListTranslationsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListTranslationsInput.ProtoReflect.Descriptor instead.
 func (*ListTranslationsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *ListTranslationsInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ListTranslationsInput) GetTermId() string {
@@ -1239,6 +1343,7 @@ func (x *ListTranslationsOutput) GetItems() []*Translation {
 
 type SuggestTranslationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1273,6 +1378,13 @@ func (x *SuggestTranslationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use SuggestTranslationInput.ProtoReflect.Descriptor instead.
 func (*SuggestTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *SuggestTranslationInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *SuggestTranslationInput) GetTermId() string {
@@ -1335,6 +1447,7 @@ func (x *SuggestTranslationOutput) GetMessages() []string {
 
 type UpdateTranslationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,4,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
 	Translation   *Translation           `protobuf:"bytes,3,opt,name=translation,proto3" json:"translation,omitempty"`
@@ -1370,6 +1483,13 @@ func (x *UpdateTranslationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateTranslationInput.ProtoReflect.Descriptor instead.
 func (*UpdateTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *UpdateTranslationInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *UpdateTranslationInput) GetTermId() string {
@@ -1431,6 +1551,7 @@ func (*UpdateTranslationOutput) Descriptor() ([]byte, []int) {
 
 type ApproveTranslationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1465,6 +1586,13 @@ func (x *ApproveTranslationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ApproveTranslationInput.ProtoReflect.Descriptor instead.
 func (*ApproveTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ApproveTranslationInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ApproveTranslationInput) GetTermId() string {
@@ -1519,6 +1647,7 @@ func (*ApproveTranslationOutput) Descriptor() ([]byte, []int) {
 
 type RejectTranslationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1553,6 +1682,13 @@ func (x *RejectTranslationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use RejectTranslationInput.ProtoReflect.Descriptor instead.
 func (*RejectTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *RejectTranslationInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *RejectTranslationInput) GetTermId() string {
@@ -1607,6 +1743,7 @@ func (*RejectTranslationOutput) Descriptor() ([]byte, []int) {
 
 type DeleteTranslationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1641,6 +1778,13 @@ func (x *DeleteTranslationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteTranslationInput.ProtoReflect.Descriptor instead.
 func (*DeleteTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *DeleteTranslationInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *DeleteTranslationInput) GetTermId() string {
@@ -1695,6 +1839,7 @@ func (*DeleteTranslationOutput) Descriptor() ([]byte, []int) {
 
 type DescribeTranslationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	TermId        string                 `protobuf:"bytes,1,opt,name=term_id,json=termId,proto3" json:"term_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1728,6 +1873,13 @@ func (x *DescribeTranslationInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeTranslationInput.ProtoReflect.Descriptor instead.
 func (*DescribeTranslationInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *DescribeTranslationInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *DescribeTranslationInput) GetTermId() string {
@@ -1783,6 +1935,7 @@ func (x *DescribeTranslationOutput) GetTerm() *Term {
 
 type ImportTranslationsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
 	Translations  map[string]string      `protobuf:"bytes,2,rep,name=translations,proto3" json:"translations,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
@@ -1817,6 +1970,13 @@ func (x *ImportTranslationsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ImportTranslationsInput.ProtoReflect.Descriptor instead.
 func (*ImportTranslationsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{38}
+}
+
+func (x *ImportTranslationsInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ImportTranslationsInput) GetLocale() string {
@@ -1879,6 +2039,7 @@ func (x *ImportTranslationsOutput) GetCreatedCount() int32 {
 
 type ExportTranslationsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1912,6 +2073,13 @@ func (x *ExportTranslationsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ExportTranslationsInput.ProtoReflect.Descriptor instead.
 func (*ExportTranslationsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *ExportTranslationsInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ExportTranslationsInput) GetLocale() string {
@@ -1966,9 +2134,10 @@ func (x *ExportTranslationsOutput) GetTranslations() map[string]string {
 }
 
 type ListTranslationPairsInput struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	Locale string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"` // translation locale
-	Source string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"` // original locale, en by default
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Locale    string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"` // translation locale
+	Source    string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"` // original locale, en by default
 	// pagination
 	Size int32 `protobuf:"varint,10,opt,name=size,proto3" json:"size,omitempty"` // max number of results
 	// Types that are valid to be assigned to Cursor:
@@ -2011,6 +2180,13 @@ func (x *ListTranslationPairsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListTranslationPairsInput.ProtoReflect.Descriptor instead.
 func (*ListTranslationPairsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *ListTranslationPairsInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
 }
 
 func (x *ListTranslationPairsInput) GetLocale() string {
@@ -2577,18 +2753,24 @@ var File_eolymp_l10n_localization_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"8\n" +
-	"\x0fCreateTermInput\x12%\n" +
+	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"W\n" +
+	"\x0fCreateTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12%\n" +
 	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"+\n" +
 	"\x10CreateTermOutput\x12\x17\n" +
-	"\aterm_id\x18\x01 \x01(\tR\x06termId\";\n" +
-	"\x10ImportTermsInput\x12'\n" +
+	"\aterm_id\x18\x01 \x01(\tR\x06termId\"Z\n" +
+	"\x10ImportTermsInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12'\n" +
 	"\x05terms\x18\x01 \x03(\v2\x11.eolymp.l10n.TermR\x05terms\"\x88\x01\n" +
 	"\x11ImportTermsOutput\x12#\n" +
 	"\rcreated_count\x18\x01 \x01(\x05R\fcreatedCount\x12#\n" +
 	"\rupdated_count\x18\x02 \x01(\x05R\fupdatedCount\x12)\n" +
-	"\x10deprecated_count\x18\x03 \x01(\x05R\x0fdeprecatedCount\"\xb9\x04\n" +
-	"\x0eListTermsInput\x12\x16\n" +
+	"\x10deprecated_count\x18\x03 \x01(\x05R\x0fdeprecatedCount\"\xd8\x04\n" +
+	"\x0eListTermsInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12<\n" +
@@ -2605,33 +2787,49 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\vtranslation\x18\x05 \x03(\v21.eolymp.l10n.ListTermsInput.ExpressionTranslationR\vtranslation\"P\n" +
 	"\x0fListTermsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12'\n" +
-	"\x05items\x18\x02 \x03(\v2\x11.eolymp.l10n.TermR\x05items\"Q\n" +
-	"\x0fUpdateTermInput\x12\x17\n" +
+	"\x05items\x18\x02 \x03(\v2\x11.eolymp.l10n.TermR\x05items\"p\n" +
+	"\x0fUpdateTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12%\n" +
 	"\x04term\x18\x02 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"\x12\n" +
-	"\x10UpdateTermOutput\"+\n" +
-	"\x10RestoreTermInput\x12\x17\n" +
+	"\x10UpdateTermOutput\"J\n" +
+	"\x10RestoreTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\"\x13\n" +
-	"\x11RestoreTermOutput\"-\n" +
-	"\x12DeprecateTermInput\x12\x17\n" +
+	"\x11RestoreTermOutput\"L\n" +
+	"\x12DeprecateTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\"\x15\n" +
-	"\x13DeprecateTermOutput\"*\n" +
-	"\x0fDeleteTermInput\x12\x17\n" +
+	"\x13DeprecateTermOutput\"I\n" +
+	"\x0fDeleteTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\"\x12\n" +
-	"\x10DeleteTermOutput\",\n" +
-	"\x11DescribeTermInput\x12\x17\n" +
+	"\x10DeleteTermOutput\"K\n" +
+	"\x11DescribeTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\";\n" +
 	"\x12DescribeTermOutput\x12%\n" +
-	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"1\n" +
-	"\x0eAddLocaleInput\x12\x1f\n" +
+	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"P\n" +
+	"\x0eAddLocaleInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vlocale_code\x18\x01 \x01(\tR\n" +
 	"localeCode\"\x11\n" +
-	"\x0fAddLocaleOutput\"4\n" +
-	"\x11RemoveLocaleInput\x12\x1f\n" +
+	"\x0fAddLocaleOutput\"S\n" +
+	"\x11RemoveLocaleInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vlocale_code\x18\x01 \x01(\tR\n" +
 	"localeCode\"\x14\n" +
-	"\x12RemoveLocaleOutput\"\xf4\x01\n" +
-	"\x10ListLocalesInput\x12\x16\n" +
+	"\x12RemoveLocaleOutput\"\x93\x02\n" +
+	"\x10ListLocalesInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12>\n" +
@@ -2649,13 +2847,17 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	" \x01(\x05R\x0ftranslatedTerms\x12#\n" +
 	"\rmissing_terms\x18\v \x01(\x05R\fmissingTerms\x12\x1f\n" +
 	"\vtotal_terms\x18\f \x01(\x05R\n" +
-	"totalTerms\"i\n" +
-	"\x12TranslateTermInput\x12\x17\n" +
+	"totalTerms\"\x88\x01\n" +
+	"\x12TranslateTermInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12:\n" +
 	"\vtranslation\x18\x02 \x01(\v2\x18.eolymp.l10n.TranslationR\vtranslation\"<\n" +
 	"\x13TranslateTermOutput\x12%\n" +
-	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\x8e\x03\n" +
-	"\x15ListTranslationsInput\x12\x17\n" +
+	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\xad\x03\n" +
+	"\x15ListTranslationsInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -2668,49 +2870,67 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x06locale\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"^\n" +
 	"\x16ListTranslationsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.l10n.TranslationR\x05items\"J\n" +
-	"\x17SuggestTranslationInput\x12\x17\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.l10n.TranslationR\x05items\"i\n" +
+	"\x17SuggestTranslationInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"6\n" +
 	"\x18SuggestTranslationOutput\x12\x1a\n" +
-	"\bmessages\x18\x01 \x03(\tR\bmessages\"\x94\x01\n" +
-	"\x16UpdateTranslationInput\x12\x17\n" +
+	"\bmessages\x18\x01 \x03(\tR\bmessages\"\xb3\x01\n" +
+	"\x16UpdateTranslationInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x04 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\x12:\n" +
 	"\vtranslation\x18\x03 \x01(\v2\x18.eolymp.l10n.TranslationR\vtranslation\"\x19\n" +
-	"\x17UpdateTranslationOutput\"Y\n" +
-	"\x17ApproveTranslationInput\x12\x17\n" +
+	"\x17UpdateTranslationOutput\"x\n" +
+	"\x17ApproveTranslationInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"\x1a\n" +
-	"\x18ApproveTranslationOutput\"X\n" +
-	"\x16RejectTranslationInput\x12\x17\n" +
+	"\x18ApproveTranslationOutput\"w\n" +
+	"\x16RejectTranslationInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"\x19\n" +
-	"\x17RejectTranslationOutput\"X\n" +
-	"\x16DeleteTranslationInput\x12\x17\n" +
+	"\x17RejectTranslationOutput\"w\n" +
+	"\x16DeleteTranslationInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\x12%\n" +
 	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"\x19\n" +
-	"\x17DeleteTranslationOutput\"3\n" +
-	"\x18DescribeTranslationInput\x12\x17\n" +
+	"\x17DeleteTranslationOutput\"R\n" +
+	"\x18DescribeTranslationInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x17\n" +
 	"\aterm_id\x18\x01 \x01(\tR\x06termId\"B\n" +
 	"\x19DescribeTranslationOutput\x12%\n" +
-	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"\xce\x01\n" +
-	"\x17ImportTranslationsInput\x12\x16\n" +
+	"\x04term\x18\x01 \x01(\v2\x11.eolymp.l10n.TermR\x04term\"\xed\x01\n" +
+	"\x17ImportTranslationsInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12Z\n" +
 	"\ftranslations\x18\x02 \x03(\v26.eolymp.l10n.ImportTranslationsInput.TranslationsEntryR\ftranslations\x1a?\n" +
 	"\x11TranslationsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"?\n" +
 	"\x18ImportTranslationsOutput\x12#\n" +
-	"\rcreated_count\x18\x01 \x01(\x05R\fcreatedCount\"1\n" +
-	"\x17ExportTranslationsInput\x12\x16\n" +
+	"\rcreated_count\x18\x01 \x01(\x05R\fcreatedCount\"P\n" +
+	"\x17ExportTranslationsInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\"\xb8\x01\n" +
 	"\x18ExportTranslationsOutput\x12[\n" +
 	"\ftranslations\x18\x02 \x03(\v27.eolymp.l10n.ExportTranslationsOutput.TranslationsEntryR\ftranslations\x1a?\n" +
 	"\x11TranslationsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8c\x06\n" +
-	"\x19ListTranslationPairsInput\x12\x16\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xab\x06\n" +
+	"\x19ListTranslationPairsInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x12\n" +
 	"\x04size\x18\n" +
@@ -2732,180 +2952,179 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x1aListTranslationPairsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12\x19\n" +
 	"\bhas_more\x18\x02 \x01(\bR\ahasMore\x122\n" +
-	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\xc8\x1c\n" +
-	"\x13LocalizationService\x12\x87\x01\n" +
+	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\xff\x1f\n" +
+	"\x13LocalizationService\x12\x9d\x01\n" +
 	"\n" +
-	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"<\xea\xe2\n" +
+	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\b\"\x06/terms\x12\x83\x01\n" +
-	"\tListTerms\x12\x1b.eolymp.l10n.ListTermsInput\x1a\x1c.eolymp.l10n.ListTermsOutput\";\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/projects/{project_id}/terms\x12\x99\x01\n" +
+	"\tListTerms\x12\x1b.eolymp.l10n.ListTermsInput\x1a\x1c.eolymp.l10n.ListTermsOutput\"Q\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
 	"\x0el10n:term:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/terms\x12\x91\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1e\x12\x1c/projects/{project_id}/terms\x12\xa7\x01\n" +
 	"\n" +
-	"UpdateTerm\x12\x1c.eolymp.l10n.UpdateTermInput\x1a\x1d.eolymp.l10n.UpdateTermOutput\"F\xea\xe2\n" +
+	"UpdateTerm\x12\x1c.eolymp.l10n.UpdateTermInput\x1a\x1d.eolymp.l10n.UpdateTermOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x12\x1a\x10/terms/{term_id}\x12\x9c\x01\n" +
-	"\vRestoreTerm\x12\x1d.eolymp.l10n.RestoreTermInput\x1a\x1e.eolymp.l10n.RestoreTermOutput\"N\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02(\x1a&/projects/{project_id}/terms/{term_id}\x12\xb2\x01\n" +
+	"\vRestoreTerm\x12\x1d.eolymp.l10n.RestoreTermInput\x1a\x1e.eolymp.l10n.RestoreTermOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1a\"\x18/terms/{term_id}/restore\x12\xa4\x01\n" +
-	"\rDeprecateTerm\x12\x1f.eolymp.l10n.DeprecateTermInput\x1a .eolymp.l10n.DeprecateTermOutput\"P\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x020\"./projects/{project_id}/terms/{term_id}/restore\x12\xba\x01\n" +
+	"\rDeprecateTerm\x12\x1f.eolymp.l10n.DeprecateTermInput\x1a .eolymp.l10n.DeprecateTermOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1c\"\x1a/terms/{term_id}/deprecate\x12\x91\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x022\"0/projects/{project_id}/terms/{term_id}/deprecate\x12\xa7\x01\n" +
 	"\n" +
-	"DeleteTerm\x12\x1c.eolymp.l10n.DeleteTermInput\x1a\x1d.eolymp.l10n.DeleteTermOutput\"F\xea\xe2\n" +
+	"DeleteTerm\x12\x1c.eolymp.l10n.DeleteTermInput\x1a\x1d.eolymp.l10n.DeleteTermOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\x12*\x10/terms/{term_id}\x12\x96\x01\n" +
-	"\fDescribeTerm\x12\x1e.eolymp.l10n.DescribeTermInput\x1a\x1f.eolymp.l10n.DescribeTermOutput\"E\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02(*&/projects/{project_id}/terms/{term_id}\x12\xac\x01\n" +
+	"\fDescribeTerm\x12\x1e.eolymp.l10n.DescribeTermInput\x1a\x1f.eolymp.l10n.DescribeTermOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
 	"\x0el10n:term:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/terms/{term_id}\x12\x8a\x01\n" +
-	"\vImportTerms\x12\x1d.eolymp.l10n.ImportTermsInput\x1a\x1e.eolymp.l10n.ImportTermsOutput\"<\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02(\x12&/projects/{project_id}/terms/{term_id}\x12\xa0\x01\n" +
+	"\vImportTerms\x12\x1d.eolymp.l10n.ImportTermsInput\x1a\x1e.eolymp.l10n.ImportTermsOutput\"R\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\b\x1a\x06/terms\x12\x96\x01\n" +
-	"\tAddLocale\x12\x1b.eolymp.l10n.AddLocaleInput\x1a\x1c.eolymp.l10n.AddLocaleOutput\"N\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\x1a\x1c/projects/{project_id}/terms\x12\xac\x01\n" +
+	"\tAddLocale\x12\x1b.eolymp.l10n.AddLocaleInput\x1a\x1c.eolymp.l10n.AddLocaleOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
 	"\x11l10n:locale:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/locales/{locale_code}\x12\x9f\x01\n" +
-	"\fRemoveLocale\x12\x1e.eolymp.l10n.RemoveLocaleInput\x1a\x1f.eolymp.l10n.RemoveLocaleOutput\"N\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02.\x1a,/projects/{project_id}/locales/{locale_code}\x12\xb5\x01\n" +
+	"\fRemoveLocale\x12\x1e.eolymp.l10n.RemoveLocaleInput\x1a\x1f.eolymp.l10n.RemoveLocaleOutput\"d\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x15\x8a\xe3\n" +
 	"\x11l10n:locale:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\x18*\x16/locales/{locale_code}\x12\x8d\x01\n" +
-	"\vListLocales\x12\x1d.eolymp.l10n.ListLocalesInput\x1a\x1e.eolymp.l10n.ListLocalesOutput\"?\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02.*,/projects/{project_id}/locales/{locale_code}\x12\xa3\x01\n" +
+	"\vListLocales\x12\x1d.eolymp.l10n.ListLocalesInput\x1a\x1e.eolymp.l10n.ListLocalesOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x14\x8a\xe3\n" +
 	"\x10l10n:locale:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/locales\x12\xae\x01\n" +
-	"\rTranslateTerm\x12\x1f.eolymp.l10n.TranslateTermInput\x1a .eolymp.l10n.TranslateTermOutput\"Z\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02 \x12\x1e/projects/{project_id}/locales\x12\xc4\x01\n" +
+	"\rTranslateTerm\x12\x1f.eolymp.l10n.TranslateTermInput\x1a .eolymp.l10n.TranslateTermOutput\"p\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16l10n:translation:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/terms/{term_id}/translations\x12\xb7\x01\n" +
-	"\x10ListTranslations\x12\".eolymp.l10n.ListTranslationsInput\x1a#.eolymp.l10n.ListTranslationsOutput\"Z\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x025\"3/projects/{project_id}/terms/{term_id}/translations\x12\xcd\x01\n" +
+	"\x10ListTranslations\x12\".eolymp.l10n.ListTranslationsInput\x1a#.eolymp.l10n.ListTranslationsOutput\"p\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xc8A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15l10n:translation:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1f\x12\x1d/terms/{term_id}/translations\x12\xcb\x01\n" +
-	"\x11DeleteTranslation\x12#.eolymp.l10n.DeleteTranslationInput\x1a$.eolymp.l10n.DeleteTranslationOutput\"k\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x025\x123/projects/{project_id}/terms/{term_id}/translations\x12\xe2\x01\n" +
+	"\x11DeleteTranslation\x12#.eolymp.l10n.DeleteTranslationInput\x1a$.eolymp.l10n.DeleteTranslationOutput\"\x81\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16l10n:translation:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x020*./terms/{term_id}/translations/{translation_id}\x12\xc5\x01\n" +
-	"\x12SuggestTranslation\x12$.eolymp.l10n.SuggestTranslationInput\x1a%.eolymp.l10n.SuggestTranslationOutput\"b\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02F*D/projects/{project_id}/terms/{term_id}/translations/{translation_id}\x12\xdb\x01\n" +
+	"\x12SuggestTranslation\x12$.eolymp.l10n.SuggestTranslationInput\x1a%.eolymp.l10n.SuggestTranslationOutput\"x\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xc8A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15l10n:translation:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02'\x12%/terms/{term_id}/suggestions/{locale}\x12\xcb\x01\n" +
-	"\x11UpdateTranslation\x12#.eolymp.l10n.UpdateTranslationInput\x1a$.eolymp.l10n.UpdateTranslationOutput\"k\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02=\x12;/projects/{project_id}/terms/{term_id}/suggestions/{locale}\x12\xe2\x01\n" +
+	"\x11UpdateTranslation\x12#.eolymp.l10n.UpdateTranslationInput\x1a$.eolymp.l10n.UpdateTranslationOutput\"\x81\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16l10n:translation:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x020\x1a./terms/{term_id}/translations/{translation_id}\x12\xd6\x01\n" +
-	"\x12ApproveTranslation\x12$.eolymp.l10n.ApproveTranslationInput\x1a%.eolymp.l10n.ApproveTranslationOutput\"s\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02F\x1aD/projects/{project_id}/terms/{term_id}/translations/{translation_id}\x12\xed\x01\n" +
+	"\x12ApproveTranslation\x12$.eolymp.l10n.ApproveTranslationInput\x1a%.eolymp.l10n.ApproveTranslationOutput\"\x89\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16l10n:translation:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x028\"6/terms/{term_id}/translations/{translation_id}/approve\x12\xd2\x01\n" +
-	"\x11RejectTranslation\x12#.eolymp.l10n.RejectTranslationInput\x1a$.eolymp.l10n.RejectTranslationOutput\"r\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02N\"L/projects/{project_id}/terms/{term_id}/translations/{translation_id}/approve\x12\xe9\x01\n" +
+	"\x11RejectTranslation\x12#.eolymp.l10n.RejectTranslationInput\x1a$.eolymp.l10n.RejectTranslationOutput\"\x88\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16l10n:translation:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x027\"5/terms/{term_id}/translations/{translation_id}/reject\x12\xb6\x01\n" +
-	"\x12ImportTranslations\x12$.eolymp.l10n.ImportTranslationsInput\x1a%.eolymp.l10n.ImportTranslationsOutput\"S\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02M\"K/projects/{project_id}/terms/{term_id}/translations/{translation_id}/reject\x12\xcc\x01\n" +
+	"\x12ImportTranslations\x12$.eolymp.l10n.ImportTranslationsInput\x1a%.eolymp.l10n.ImportTranslationsOutput\"i\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16l10n:translation:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x18\x1a\x16/translations/{locale}\x12\xb5\x01\n" +
-	"\x12ExportTranslations\x12$.eolymp.l10n.ExportTranslationsInput\x1a%.eolymp.l10n.ExportTranslationsOutput\"R\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02.\x1a,/projects/{project_id}/translations/{locale}\x12\xcb\x01\n" +
+	"\x12ExportTranslations\x12$.eolymp.l10n.ExportTranslationsInput\x1a%.eolymp.l10n.ExportTranslationsOutput\"h\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15l10n:translation:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x18\x12\x16/translations/{locale}\x12\xb8\x01\n" +
-	"\x14ListTranslationPairs\x12&.eolymp.l10n.ListTranslationPairsInput\x1a'.eolymp.l10n.ListTranslationPairsOutput\"O\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02.\x12,/projects/{project_id}/translations/{locale}\x12\xce\x01\n" +
+	"\x14ListTranslationPairs\x12&.eolymp.l10n.ListTranslationPairsInput\x1a'.eolymp.l10n.ListTranslationPairsOutput\"e\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15l10n:translation:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x15\x12\x13/translate/{locale}\x1a\x19\x82\xf0\xf0\xe4\x01\x13eolymp.l10n.ProjectB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02+\x12)/projects/{project_id}/translate/{locale}B+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
 
 var (
 	file_eolymp_l10n_localization_service_proto_rawDescOnce sync.Once

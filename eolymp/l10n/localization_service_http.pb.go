@@ -201,67 +201,67 @@ func _LocalizationService_HTTPWriteErrorResponse(w http.ResponseWriter, e error)
 
 // RegisterLocalizationServiceHttpHandlers adds handlers for for LocalizationServiceClient
 func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, cli LocalizationServiceClient) {
-	router.Handle(prefix+"/terms", _LocalizationService_CreateTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms", _LocalizationService_CreateTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.CreateTerm")
-	router.Handle(prefix+"/terms", _LocalizationService_ListTerms_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms", _LocalizationService_ListTerms_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTerms")
-	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_UpdateTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}", _LocalizationService_UpdateTerm_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateTerm")
-	router.Handle(prefix+"/terms/{term_id}/restore", _LocalizationService_RestoreTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/restore", _LocalizationService_RestoreTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.RestoreTerm")
-	router.Handle(prefix+"/terms/{term_id}/deprecate", _LocalizationService_DeprecateTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/deprecate", _LocalizationService_DeprecateTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.DeprecateTerm")
-	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_DeleteTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}", _LocalizationService_DeleteTerm_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteTerm")
-	router.Handle(prefix+"/terms/{term_id}", _LocalizationService_DescribeTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}", _LocalizationService_DescribeTerm_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.DescribeTerm")
-	router.Handle(prefix+"/terms", _LocalizationService_ImportTerms_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms", _LocalizationService_ImportTerms_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.ImportTerms")
-	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_AddLocale_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/locales/{locale_code}", _LocalizationService_AddLocale_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.AddLocale")
-	router.Handle(prefix+"/locales/{locale_code}", _LocalizationService_RemoveLocale_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/locales/{locale_code}", _LocalizationService_RemoveLocale_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.RemoveLocale")
-	router.Handle(prefix+"/locales", _LocalizationService_ListLocales_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/locales", _LocalizationService_ListLocales_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListLocales")
-	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_TranslateTerm_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/translations", _LocalizationService_TranslateTerm_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.TranslateTerm")
-	router.Handle(prefix+"/terms/{term_id}/translations", _LocalizationService_ListTranslations_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/translations", _LocalizationService_ListTranslations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslations")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_DeleteTranslation_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/translations/{translation_id}", _LocalizationService_DeleteTranslation_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteTranslation")
-	router.Handle(prefix+"/terms/{term_id}/suggestions/{locale}", _LocalizationService_SuggestTranslation_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/suggestions/{locale}", _LocalizationService_SuggestTranslation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.SuggestTranslation")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}", _LocalizationService_UpdateTranslation_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/translations/{translation_id}", _LocalizationService_UpdateTranslation_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateTranslation")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/approve", _LocalizationService_ApproveTranslation_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/translations/{translation_id}/approve", _LocalizationService_ApproveTranslation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.ApproveTranslation")
-	router.Handle(prefix+"/terms/{term_id}/translations/{translation_id}/reject", _LocalizationService_RejectTranslation_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/terms/{term_id}/translations/{translation_id}/reject", _LocalizationService_RejectTranslation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.RejectTranslation")
-	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ImportTranslations_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/translations/{locale}", _LocalizationService_ImportTranslations_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.ImportTranslations")
-	router.Handle(prefix+"/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/translations/{locale}", _LocalizationService_ExportTranslations_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ExportTranslations")
-	router.Handle(prefix+"/translate/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
+	router.Handle(prefix+"/projects/{project_id}/translate/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslationPairs")
 }
@@ -279,6 +279,9 @@ func _LocalizationService_CreateTerm_Rule0(cli LocalizationServiceClient) http.H
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 
 		var header, trailer metadata.MD
 
@@ -300,6 +303,9 @@ func _LocalizationService_ListTerms_Rule0(cli LocalizationServiceClient) http.Ha
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 
 		var header, trailer metadata.MD
 
@@ -323,6 +329,7 @@ func _LocalizationService_UpdateTerm_Rule0(cli LocalizationServiceClient) http.H
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -347,6 +354,7 @@ func _LocalizationService_RestoreTerm_Rule0(cli LocalizationServiceClient) http.
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -371,6 +379,7 @@ func _LocalizationService_DeprecateTerm_Rule0(cli LocalizationServiceClient) htt
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -395,6 +404,7 @@ func _LocalizationService_DeleteTerm_Rule0(cli LocalizationServiceClient) http.H
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -419,6 +429,7 @@ func _LocalizationService_DescribeTerm_Rule0(cli LocalizationServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -442,6 +453,9 @@ func _LocalizationService_ImportTerms_Rule0(cli LocalizationServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ImportTerms(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -464,6 +478,7 @@ func _LocalizationService_AddLocale_Rule0(cli LocalizationServiceClient) http.Ha
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.LocaleCode = vars["locale_code"]
 
 		var header, trailer metadata.MD
@@ -488,6 +503,7 @@ func _LocalizationService_RemoveLocale_Rule0(cli LocalizationServiceClient) http
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.LocaleCode = vars["locale_code"]
 
 		var header, trailer metadata.MD
@@ -511,6 +527,9 @@ func _LocalizationService_ListLocales_Rule0(cli LocalizationServiceClient) http.
 			return
 		}
 
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+
 		var header, trailer metadata.MD
 
 		out, err := cli.ListLocales(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -533,6 +552,7 @@ func _LocalizationService_TranslateTerm_Rule0(cli LocalizationServiceClient) htt
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -557,6 +577,7 @@ func _LocalizationService_ListTranslations_Rule0(cli LocalizationServiceClient) 
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 
 		var header, trailer metadata.MD
@@ -581,6 +602,7 @@ func _LocalizationService_DeleteTranslation_Rule0(cli LocalizationServiceClient)
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
@@ -606,6 +628,7 @@ func _LocalizationService_SuggestTranslation_Rule0(cli LocalizationServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 		in.Locale = vars["locale"]
 
@@ -631,6 +654,7 @@ func _LocalizationService_UpdateTranslation_Rule0(cli LocalizationServiceClient)
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
@@ -656,6 +680,7 @@ func _LocalizationService_ApproveTranslation_Rule0(cli LocalizationServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
@@ -681,6 +706,7 @@ func _LocalizationService_RejectTranslation_Rule0(cli LocalizationServiceClient)
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.TermId = vars["term_id"]
 		in.TranslationId = vars["translation_id"]
 
@@ -706,6 +732,7 @@ func _LocalizationService_ImportTranslations_Rule0(cli LocalizationServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.Locale = vars["locale"]
 
 		var header, trailer metadata.MD
@@ -730,6 +757,7 @@ func _LocalizationService_ExportTranslations_Rule0(cli LocalizationServiceClient
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.Locale = vars["locale"]
 
 		var header, trailer metadata.MD
@@ -754,6 +782,7 @@ func _LocalizationService_ListTranslationPairs_Rule0(cli LocalizationServiceClie
 		}
 
 		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
 		in.Locale = vars["locale"]
 
 		var header, trailer metadata.MD

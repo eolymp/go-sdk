@@ -102,7 +102,12 @@ func (s *LocalizationServiceService) do(ctx context.Context, verb, path string, 
 
 func (s *LocalizationServiceService) CreateTerm(ctx context.Context, in *CreateTermInput) (*CreateTermOutput, error) {
 	out := &CreateTermOutput{}
-	path := "/terms"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -113,7 +118,12 @@ func (s *LocalizationServiceService) CreateTerm(ctx context.Context, in *CreateT
 
 func (s *LocalizationServiceService) ListTerms(ctx context.Context, in *ListTermsInput) (*ListTermsOutput, error) {
 	out := &ListTermsOutput{}
-	path := "/terms"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -124,10 +134,11 @@ func (s *LocalizationServiceService) ListTerms(ctx context.Context, in *ListTerm
 
 func (s *LocalizationServiceService) UpdateTerm(ctx context.Context, in *UpdateTermInput) (*UpdateTermOutput, error) {
 	out := &UpdateTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -140,10 +151,11 @@ func (s *LocalizationServiceService) UpdateTerm(ctx context.Context, in *UpdateT
 
 func (s *LocalizationServiceService) RestoreTerm(ctx context.Context, in *RestoreTermInput) (*RestoreTermOutput, error) {
 	out := &RestoreTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/restore"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/restore"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -156,10 +168,11 @@ func (s *LocalizationServiceService) RestoreTerm(ctx context.Context, in *Restor
 
 func (s *LocalizationServiceService) DeprecateTerm(ctx context.Context, in *DeprecateTermInput) (*DeprecateTermOutput, error) {
 	out := &DeprecateTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/deprecate"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/deprecate"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -172,10 +185,11 @@ func (s *LocalizationServiceService) DeprecateTerm(ctx context.Context, in *Depr
 
 func (s *LocalizationServiceService) DeleteTerm(ctx context.Context, in *DeleteTermInput) (*DeleteTermOutput, error) {
 	out := &DeleteTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -188,10 +202,11 @@ func (s *LocalizationServiceService) DeleteTerm(ctx context.Context, in *DeleteT
 
 func (s *LocalizationServiceService) DescribeTerm(ctx context.Context, in *DescribeTermInput) (*DescribeTermOutput, error) {
 	out := &DescribeTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -204,7 +219,12 @@ func (s *LocalizationServiceService) DescribeTerm(ctx context.Context, in *Descr
 
 func (s *LocalizationServiceService) ImportTerms(ctx context.Context, in *ImportTermsInput) (*ImportTermsOutput, error) {
 	out := &ImportTermsOutput{}
-	path := "/terms"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
 
 	if err := s.do(ctx, "PUT", path, in, out); err != nil {
 		return nil, err
@@ -215,10 +235,11 @@ func (s *LocalizationServiceService) ImportTerms(ctx context.Context, in *Import
 
 func (s *LocalizationServiceService) AddLocale(ctx context.Context, in *AddLocaleInput) (*AddLocaleOutput, error) {
 	out := &AddLocaleOutput{}
-	path := "/locales/" + url.PathEscape(in.GetLocaleCode())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/locales/" + url.PathEscape(in.GetLocaleCode())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.LocaleCode = ""
 	}
 
@@ -231,10 +252,11 @@ func (s *LocalizationServiceService) AddLocale(ctx context.Context, in *AddLocal
 
 func (s *LocalizationServiceService) RemoveLocale(ctx context.Context, in *RemoveLocaleInput) (*RemoveLocaleOutput, error) {
 	out := &RemoveLocaleOutput{}
-	path := "/locales/" + url.PathEscape(in.GetLocaleCode())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/locales/" + url.PathEscape(in.GetLocaleCode())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.LocaleCode = ""
 	}
 
@@ -247,7 +269,12 @@ func (s *LocalizationServiceService) RemoveLocale(ctx context.Context, in *Remov
 
 func (s *LocalizationServiceService) ListLocales(ctx context.Context, in *ListLocalesInput) (*ListLocalesOutput, error) {
 	out := &ListLocalesOutput{}
-	path := "/locales"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/locales"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProjectId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
@@ -258,10 +285,11 @@ func (s *LocalizationServiceService) ListLocales(ctx context.Context, in *ListLo
 
 func (s *LocalizationServiceService) TranslateTerm(ctx context.Context, in *TranslateTermInput) (*TranslateTermOutput, error) {
 	out := &TranslateTermOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -274,10 +302,11 @@ func (s *LocalizationServiceService) TranslateTerm(ctx context.Context, in *Tran
 
 func (s *LocalizationServiceService) ListTranslations(ctx context.Context, in *ListTranslationsInput) (*ListTranslationsOutput, error) {
 	out := &ListTranslationsOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/translations"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 	}
 
@@ -290,10 +319,11 @@ func (s *LocalizationServiceService) ListTranslations(ctx context.Context, in *L
 
 func (s *LocalizationServiceService) DeleteTranslation(ctx context.Context, in *DeleteTranslationInput) (*DeleteTranslationOutput, error) {
 	out := &DeleteTranslationOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 		in.TranslationId = ""
 	}
@@ -307,10 +337,11 @@ func (s *LocalizationServiceService) DeleteTranslation(ctx context.Context, in *
 
 func (s *LocalizationServiceService) SuggestTranslation(ctx context.Context, in *SuggestTranslationInput) (*SuggestTranslationOutput, error) {
 	out := &SuggestTranslationOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/suggestions/" + url.PathEscape(in.GetLocale())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/suggestions/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 		in.Locale = ""
 	}
@@ -324,10 +355,11 @@ func (s *LocalizationServiceService) SuggestTranslation(ctx context.Context, in 
 
 func (s *LocalizationServiceService) UpdateTranslation(ctx context.Context, in *UpdateTranslationInput) (*UpdateTranslationOutput, error) {
 	out := &UpdateTranslationOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 		in.TranslationId = ""
 	}
@@ -341,10 +373,11 @@ func (s *LocalizationServiceService) UpdateTranslation(ctx context.Context, in *
 
 func (s *LocalizationServiceService) ApproveTranslation(ctx context.Context, in *ApproveTranslationInput) (*ApproveTranslationOutput, error) {
 	out := &ApproveTranslationOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId()) + "/approve"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId()) + "/approve"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 		in.TranslationId = ""
 	}
@@ -358,10 +391,11 @@ func (s *LocalizationServiceService) ApproveTranslation(ctx context.Context, in 
 
 func (s *LocalizationServiceService) RejectTranslation(ctx context.Context, in *RejectTranslationInput) (*RejectTranslationOutput, error) {
 	out := &RejectTranslationOutput{}
-	path := "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId()) + "/reject"
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/terms/" + url.PathEscape(in.GetTermId()) + "/translations/" + url.PathEscape(in.GetTranslationId()) + "/reject"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.TermId = ""
 		in.TranslationId = ""
 	}
@@ -375,10 +409,11 @@ func (s *LocalizationServiceService) RejectTranslation(ctx context.Context, in *
 
 func (s *LocalizationServiceService) ImportTranslations(ctx context.Context, in *ImportTranslationsInput) (*ImportTranslationsOutput, error) {
 	out := &ImportTranslationsOutput{}
-	path := "/translations/" + url.PathEscape(in.GetLocale())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/translations/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.Locale = ""
 	}
 
@@ -391,10 +426,11 @@ func (s *LocalizationServiceService) ImportTranslations(ctx context.Context, in 
 
 func (s *LocalizationServiceService) ExportTranslations(ctx context.Context, in *ExportTranslationsInput) (*ExportTranslationsOutput, error) {
 	out := &ExportTranslationsOutput{}
-	path := "/translations/" + url.PathEscape(in.GetLocale())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/translations/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.Locale = ""
 	}
 
@@ -407,10 +443,11 @@ func (s *LocalizationServiceService) ExportTranslations(ctx context.Context, in 
 
 func (s *LocalizationServiceService) ListTranslationPairs(ctx context.Context, in *ListTranslationPairsInput) (*ListTranslationPairsOutput, error) {
 	out := &ListTranslationPairsOutput{}
-	path := "/translate/" + url.PathEscape(in.GetLocale())
+	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/translate/" + url.PathEscape(in.GetLocale())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
+		in.ProjectId = ""
 		in.Locale = ""
 	}
 
