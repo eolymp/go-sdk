@@ -39,6 +39,7 @@ const (
 	Rule_PARTICIPANT_FINALIZED        Rule_Trigger = 10
 	Rule_CONTEST_FINALIZED            Rule_Trigger = 11
 	Rule_CONTEST_SUBMISSION_COMPLETED Rule_Trigger = 14 // a submission made within a contest has been judged
+	Rule_SUGGESTION_CHANGED           Rule_Trigger = 15 // a suggested change to a problem has been reviewed
 	Rule_CONTEST_ACTION               Rule_Trigger = 12 // User-invoked actions (run manually via TriggerRule, not by an event).
 	Rule_MEMBER_ACTION                Rule_Trigger = 13
 )
@@ -59,6 +60,7 @@ var (
 		10: "PARTICIPANT_FINALIZED",
 		11: "CONTEST_FINALIZED",
 		14: "CONTEST_SUBMISSION_COMPLETED",
+		15: "SUGGESTION_CHANGED",
 		12: "CONTEST_ACTION",
 		13: "MEMBER_ACTION",
 	}
@@ -76,6 +78,7 @@ var (
 		"PARTICIPANT_FINALIZED":        10,
 		"CONTEST_FINALIZED":            11,
 		"CONTEST_SUBMISSION_COMPLETED": 14,
+		"SUGGESTION_CHANGED":           15,
 		"CONTEST_ACTION":               12,
 		"MEMBER_ACTION":                13,
 	}
@@ -338,7 +341,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xab\a\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\a\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -365,7 +368,7 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
 	"\aDRY_RUN\x10\a\x12\t\n" +
-	"\x05LABEL\x10\t\"\xe3\x02\n" +
+	"\x05LABEL\x10\t\"\xfb\x02\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
@@ -380,7 +383,8 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\x15PARTICIPANT_FINALIZED\x10\n" +
 	"\x12\x15\n" +
 	"\x11CONTEST_FINALIZED\x10\v\x12 \n" +
-	"\x1cCONTEST_SUBMISSION_COMPLETED\x10\x0e\x12\x12\n" +
+	"\x1cCONTEST_SUBMISSION_COMPLETED\x10\x0e\x12\x16\n" +
+	"\x12SUGGESTION_CHANGED\x10\x0f\x12\x12\n" +
 	"\x0eCONTEST_ACTION\x10\f\x12\x11\n" +
 	"\rMEMBER_ACTION\x10\rB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
