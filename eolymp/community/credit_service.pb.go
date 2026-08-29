@@ -927,7 +927,7 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\x12\x16\n" +
 	"\x06amount\x18\x02 \x01(\rR\x06amount\x12\x1b\n" +
 	"\tmember_id\x18\x03 \x01(\tR\bmemberId\"\x14\n" +
-	"\x12RefundCreditOutput2\xc5\n" +
+	"\x12RefundCreditOutput2\xa8\n" +
 	"\n" +
 	"\rCreditService\x12\xaf\x01\n" +
 	"\x0fDescribeBalance\x12&.eolymp.community.DescribeBalanceInput\x1a'.eolymp.community.DescribeBalanceOutput\"K\xea\xe2\n" +
@@ -988,7 +988,7 @@ const file_eolymp_community_credit_service_proto_rawDesc = "" +
 	"\x1a\x8a\xe3\n" +
 	"\x16community:credit:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a8\x82\xf0\xf0\xe4\x01\x17eolymp.community.Member\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02.\",/credit/transactions/{transaction_id}/refund\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_credit_service_proto_rawDescOnce sync.Once
