@@ -23,58 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateAchievementTranslationInput_Patch int32
-
-const (
-	UpdateAchievementTranslationInput_ALL     UpdateAchievementTranslationInput_Patch = 0
-	UpdateAchievementTranslationInput_NAME    UpdateAchievementTranslationInput_Patch = 1
-	UpdateAchievementTranslationInput_SUMMARY UpdateAchievementTranslationInput_Patch = 2
-	UpdateAchievementTranslationInput_LOCALE  UpdateAchievementTranslationInput_Patch = 3
-)
-
-// Enum value maps for UpdateAchievementTranslationInput_Patch.
-var (
-	UpdateAchievementTranslationInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "NAME",
-		2: "SUMMARY",
-		3: "LOCALE",
-	}
-	UpdateAchievementTranslationInput_Patch_value = map[string]int32{
-		"ALL":     0,
-		"NAME":    1,
-		"SUMMARY": 2,
-		"LOCALE":  3,
-	}
-)
-
-func (x UpdateAchievementTranslationInput_Patch) Enum() *UpdateAchievementTranslationInput_Patch {
-	p := new(UpdateAchievementTranslationInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateAchievementTranslationInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateAchievementTranslationInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_reward_achievement_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateAchievementTranslationInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_reward_achievement_service_proto_enumTypes[0]
-}
-
-func (x UpdateAchievementTranslationInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateAchievementTranslationInput_Patch.Descriptor instead.
-func (UpdateAchievementTranslationInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{16, 0}
-}
-
 type CreateAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Achievement   *Achievement           `protobuf:"bytes,1,opt,name=achievement,proto3" json:"achievement,omitempty"`
@@ -166,7 +114,8 @@ func (x *CreateAchievementOutput) GetAchievementId() string {
 type UpdateAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AchievementId string                 `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
-	Achievement   *Achievement           `protobuf:"bytes,2,opt,name=achievement,proto3" json:"achievement,omitempty"`
+	Locale        string                 `protobuf:"bytes,3,opt,name=locale,proto3" json:"locale,omitempty"` // update the achievement when empty, update its translation when set
+	Achievement   *Achievement_Patch     `protobuf:"bytes,4,opt,name=achievement,proto3" json:"achievement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -208,7 +157,14 @@ func (x *UpdateAchievementInput) GetAchievementId() string {
 	return ""
 }
 
-func (x *UpdateAchievementInput) GetAchievement() *Achievement {
+func (x *UpdateAchievementInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *UpdateAchievementInput) GetAchievement() *Achievement_Patch {
 	if x != nil {
 		return x.Achievement
 	}
@@ -254,6 +210,7 @@ func (*UpdateAchievementOutput) Descriptor() ([]byte, []int) {
 type DeleteAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AchievementId string                 `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
+	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"` // delete the achievement when empty, delete only its translation when set
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -291,6 +248,13 @@ func (*DeleteAchievementInput) Descriptor() ([]byte, []int) {
 func (x *DeleteAchievementInput) GetAchievementId() string {
 	if x != nil {
 		return x.AchievementId
+	}
+	return ""
+}
+
+func (x *DeleteAchievementInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
 	}
 	return ""
 }
@@ -334,6 +298,7 @@ func (*DeleteAchievementOutput) Descriptor() ([]byte, []int) {
 type DescribeAchievementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AchievementId string                 `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
+	Locale        string                 `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
 	Extra         []Achievement_Extra    `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.reward.Achievement_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -372,6 +337,13 @@ func (*DescribeAchievementInput) Descriptor() ([]byte, []int) {
 func (x *DescribeAchievementInput) GetAchievementId() string {
 	if x != nil {
 		return x.AchievementId
+	}
+	return ""
+}
+
+func (x *DescribeAchievementInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
 	}
 	return ""
 }
@@ -433,6 +405,7 @@ type ListAchievementsInput struct {
 	Size          int32                         `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Offset        int32                         `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Filters       *ListAchievementsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	Locale        string                        `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
 	Extra         []Achievement_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.reward.Achievement_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -494,6 +467,13 @@ func (x *ListAchievementsInput) GetFilters() *ListAchievementsInput_Filter {
 		return x.Filters
 	}
 	return nil
+}
+
+func (x *ListAchievementsInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
 }
 
 func (x *ListAchievementsInput) GetExtra() []Achievement_Extra {
@@ -563,528 +543,6 @@ func (x *ListAchievementsOutput) GetItems() []*Achievement {
 	return nil
 }
 
-type DescribeAchievementTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AchievementId string                 `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
-	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Extra         []Achievement_Extra    `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.reward.Achievement_Extra" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeAchievementTranslationInput) Reset() {
-	*x = DescribeAchievementTranslationInput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeAchievementTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeAchievementTranslationInput) ProtoMessage() {}
-
-func (x *DescribeAchievementTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeAchievementTranslationInput.ProtoReflect.Descriptor instead.
-func (*DescribeAchievementTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *DescribeAchievementTranslationInput) GetAchievementId() string {
-	if x != nil {
-		return x.AchievementId
-	}
-	return ""
-}
-
-func (x *DescribeAchievementTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-func (x *DescribeAchievementTranslationInput) GetExtra() []Achievement_Extra {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type DescribeAchievementTranslationOutput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Translation   *Achievement_Translation `protobuf:"bytes,1,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeAchievementTranslationOutput) Reset() {
-	*x = DescribeAchievementTranslationOutput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeAchievementTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeAchievementTranslationOutput) ProtoMessage() {}
-
-func (x *DescribeAchievementTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeAchievementTranslationOutput.ProtoReflect.Descriptor instead.
-func (*DescribeAchievementTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *DescribeAchievementTranslationOutput) GetTranslation() *Achievement_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type ListAchievementTranslationsInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AchievementId string                 `protobuf:"bytes,2,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
-	// pagination
-	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	// data filters
-	Filters       *ListAchievementTranslationsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Extra         []Achievement_Extra                      `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.reward.Achievement_Extra" json:"extra,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListAchievementTranslationsInput) Reset() {
-	*x = ListAchievementTranslationsInput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListAchievementTranslationsInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListAchievementTranslationsInput) ProtoMessage() {}
-
-func (x *ListAchievementTranslationsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[12]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListAchievementTranslationsInput.ProtoReflect.Descriptor instead.
-func (*ListAchievementTranslationsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *ListAchievementTranslationsInput) GetAchievementId() string {
-	if x != nil {
-		return x.AchievementId
-	}
-	return ""
-}
-
-func (x *ListAchievementTranslationsInput) GetOffset() int32 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *ListAchievementTranslationsInput) GetSize() int32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-func (x *ListAchievementTranslationsInput) GetFilters() *ListAchievementTranslationsInput_Filter {
-	if x != nil {
-		return x.Filters
-	}
-	return nil
-}
-
-func (x *ListAchievementTranslationsInput) GetExtra() []Achievement_Extra {
-	if x != nil {
-		return x.Extra
-	}
-	return nil
-}
-
-type ListAchievementTranslationsOutput struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Total         int32                      `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Achievement_Translation `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListAchievementTranslationsOutput) Reset() {
-	*x = ListAchievementTranslationsOutput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListAchievementTranslationsOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListAchievementTranslationsOutput) ProtoMessage() {}
-
-func (x *ListAchievementTranslationsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListAchievementTranslationsOutput.ProtoReflect.Descriptor instead.
-func (*ListAchievementTranslationsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *ListAchievementTranslationsOutput) GetTotal() int32 {
-	if x != nil {
-		return x.Total
-	}
-	return 0
-}
-
-func (x *ListAchievementTranslationsOutput) GetItems() []*Achievement_Translation {
-	if x != nil {
-		return x.Items
-	}
-	return nil
-}
-
-type CreateAchievementTranslationInput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	AchievementId string                   `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
-	Translation   *Achievement_Translation `protobuf:"bytes,2,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateAchievementTranslationInput) Reset() {
-	*x = CreateAchievementTranslationInput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateAchievementTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateAchievementTranslationInput) ProtoMessage() {}
-
-func (x *CreateAchievementTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateAchievementTranslationInput.ProtoReflect.Descriptor instead.
-func (*CreateAchievementTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *CreateAchievementTranslationInput) GetAchievementId() string {
-	if x != nil {
-		return x.AchievementId
-	}
-	return ""
-}
-
-func (x *CreateAchievementTranslationInput) GetTranslation() *Achievement_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type CreateAchievementTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TranslationId string                 `protobuf:"bytes,1,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateAchievementTranslationOutput) Reset() {
-	*x = CreateAchievementTranslationOutput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateAchievementTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateAchievementTranslationOutput) ProtoMessage() {}
-
-func (x *CreateAchievementTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateAchievementTranslationOutput.ProtoReflect.Descriptor instead.
-func (*CreateAchievementTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *CreateAchievementTranslationOutput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-type UpdateAchievementTranslationInput struct {
-	state         protoimpl.MessageState                    `protogen:"open.v1"`
-	Patch         []UpdateAchievementTranslationInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.reward.UpdateAchievementTranslationInput_Patch" json:"patch,omitempty"`
-	AchievementId string                                    `protobuf:"bytes,2,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
-	TranslationId string                                    `protobuf:"bytes,3,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	Translation   *Achievement_Translation                  `protobuf:"bytes,4,opt,name=translation,proto3" json:"translation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateAchievementTranslationInput) Reset() {
-	*x = UpdateAchievementTranslationInput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateAchievementTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateAchievementTranslationInput) ProtoMessage() {}
-
-func (x *UpdateAchievementTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateAchievementTranslationInput.ProtoReflect.Descriptor instead.
-func (*UpdateAchievementTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *UpdateAchievementTranslationInput) GetPatch() []UpdateAchievementTranslationInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateAchievementTranslationInput) GetAchievementId() string {
-	if x != nil {
-		return x.AchievementId
-	}
-	return ""
-}
-
-func (x *UpdateAchievementTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-func (x *UpdateAchievementTranslationInput) GetTranslation() *Achievement_Translation {
-	if x != nil {
-		return x.Translation
-	}
-	return nil
-}
-
-type UpdateAchievementTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateAchievementTranslationOutput) Reset() {
-	*x = UpdateAchievementTranslationOutput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateAchievementTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateAchievementTranslationOutput) ProtoMessage() {}
-
-func (x *UpdateAchievementTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateAchievementTranslationOutput.ProtoReflect.Descriptor instead.
-func (*UpdateAchievementTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{17}
-}
-
-type DeleteAchievementTranslationInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AchievementId string                 `protobuf:"bytes,1,opt,name=achievement_id,json=achievementId,proto3" json:"achievement_id,omitempty"`
-	TranslationId string                 `protobuf:"bytes,2,opt,name=translation_id,json=translationId,proto3" json:"translation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteAchievementTranslationInput) Reset() {
-	*x = DeleteAchievementTranslationInput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteAchievementTranslationInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteAchievementTranslationInput) ProtoMessage() {}
-
-func (x *DeleteAchievementTranslationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteAchievementTranslationInput.ProtoReflect.Descriptor instead.
-func (*DeleteAchievementTranslationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *DeleteAchievementTranslationInput) GetAchievementId() string {
-	if x != nil {
-		return x.AchievementId
-	}
-	return ""
-}
-
-func (x *DeleteAchievementTranslationInput) GetTranslationId() string {
-	if x != nil {
-		return x.TranslationId
-	}
-	return ""
-}
-
-type DeleteAchievementTranslationOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteAchievementTranslationOutput) Reset() {
-	*x = DeleteAchievementTranslationOutput{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteAchievementTranslationOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteAchievementTranslationOutput) ProtoMessage() {}
-
-func (x *DeleteAchievementTranslationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteAchievementTranslationOutput.ProtoReflect.Descriptor instead.
-func (*DeleteAchievementTranslationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{19}
-}
-
 type ListAchievementsInput_Filter struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
 	Query         string                    `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
@@ -1095,7 +553,7 @@ type ListAchievementsInput_Filter struct {
 
 func (x *ListAchievementsInput_Filter) Reset() {
 	*x = ListAchievementsInput_Filter{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[20]
+	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1107,7 +565,7 @@ func (x *ListAchievementsInput_Filter) String() string {
 func (*ListAchievementsInput_Filter) ProtoMessage() {}
 
 func (x *ListAchievementsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[20]
+	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1137,66 +595,6 @@ func (x *ListAchievementsInput_Filter) GetId() []*wellknown.ExpressionID {
 	return nil
 }
 
-type ListAchievementTranslationsInput_Filter struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Query         string                      `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
-	Id            []*wellknown.ExpressionID   `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
-	Locale        []*wellknown.ExpressionEnum `protobuf:"bytes,4,rep,name=locale,proto3" json:"locale,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListAchievementTranslationsInput_Filter) Reset() {
-	*x = ListAchievementTranslationsInput_Filter{}
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListAchievementTranslationsInput_Filter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListAchievementTranslationsInput_Filter) ProtoMessage() {}
-
-func (x *ListAchievementTranslationsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_reward_achievement_service_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListAchievementTranslationsInput_Filter.ProtoReflect.Descriptor instead.
-func (*ListAchievementTranslationsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_reward_achievement_service_proto_rawDescGZIP(), []int{12, 0}
-}
-
-func (x *ListAchievementTranslationsInput_Filter) GetQuery() string {
-	if x != nil {
-		return x.Query
-	}
-	return ""
-}
-
-func (x *ListAchievementTranslationsInput_Filter) GetId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.Id
-	}
-	return nil
-}
-
-func (x *ListAchievementTranslationsInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Locale
-	}
-	return nil
-}
-
 var File_eolymp_reward_achievement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
@@ -1205,25 +603,29 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\x16CreateAchievementInput\x12<\n" +
 	"\vachievement\x18\x01 \x01(\v2\x1a.eolymp.reward.AchievementR\vachievement\"@\n" +
 	"\x17CreateAchievementOutput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\"}\n" +
+	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\"\xa1\x01\n" +
 	"\x16UpdateAchievementInput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12<\n" +
-	"\vachievement\x18\x02 \x01(\v2\x1a.eolymp.reward.AchievementR\vachievement\"\x19\n" +
-	"\x17UpdateAchievementOutput\"?\n" +
+	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12\x16\n" +
+	"\x06locale\x18\x03 \x01(\tR\x06locale\x12B\n" +
+	"\vachievement\x18\x04 \x01(\v2 .eolymp.reward.Achievement.PatchR\vachievementJ\x04\b\x02\x10\x03\"\x19\n" +
+	"\x17UpdateAchievementOutput\"W\n" +
 	"\x16DeleteAchievementInput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\"\x19\n" +
-	"\x17DeleteAchievementOutput\"z\n" +
+	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12\x16\n" +
+	"\x06locale\x18\x02 \x01(\tR\x06locale\"\x19\n" +
+	"\x17DeleteAchievementOutput\"\x93\x01\n" +
 	"\x18DescribeAchievementInput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x127\n" +
+	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12\x17\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x127\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.reward.Achievement.ExtraR\x05extra\"Y\n" +
 	"\x19DescribeAchievementOutput\x12<\n" +
-	"\vachievement\x18\x01 \x01(\v2\x1a.eolymp.reward.AchievementR\vachievement\"\xa9\x02\n" +
+	"\vachievement\x18\x01 \x01(\v2\x1a.eolymp.reward.AchievementR\vachievement\"\xc2\x02\n" +
 	"\x15ListAchievementsInput\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12E\n" +
-	"\afilters\x18( \x01(\v2+.eolymp.reward.ListAchievementsInput.FilterR\afilters\x127\n" +
+	"\afilters\x18( \x01(\v2+.eolymp.reward.ListAchievementsInput.FilterR\afilters\x12\x17\n" +
+	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x127\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.reward.Achievement.ExtraR\x05extra\x1aN\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
@@ -1231,48 +633,7 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\x16ListAchievementsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor\x120\n" +
-	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.reward.AchievementR\x05items\"\xac\x01\n" +
-	"#DescribeAchievementTranslationInput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\x127\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.reward.Achievement.ExtraR\x05extra\"p\n" +
-	"$DescribeAchievementTranslationOutput\x12H\n" +
-	"\vtranslation\x18\x01 \x01(\v2&.eolymp.reward.Achievement.TranslationR\vtranslation\"\x8b\x03\n" +
-	" ListAchievementTranslationsInput\x12%\n" +
-	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\x12\x16\n" +
-	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12P\n" +
-	"\afilters\x18( \x01(\v26.eolymp.reward.ListAchievementTranslationsInput.FilterR\afilters\x127\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.reward.Achievement.ExtraR\x05extra\x1a\x88\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
-	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x128\n" +
-	"\x06locale\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"w\n" +
-	"!ListAchievementTranslationsOutput\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x05R\x05total\x12<\n" +
-	"\x05items\x18\x02 \x03(\v2&.eolymp.reward.Achievement.TranslationR\x05items\"\x94\x01\n" +
-	"!CreateAchievementTranslationInput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12H\n" +
-	"\vtranslation\x18\x02 \x01(\v2&.eolymp.reward.Achievement.TranslationR\vtranslation\"K\n" +
-	"\"CreateAchievementTranslationOutput\x12%\n" +
-	"\x0etranslation_id\x18\x01 \x01(\tR\rtranslationId\"\xbe\x02\n" +
-	"!UpdateAchievementTranslationInput\x12L\n" +
-	"\x05patch\x18\x01 \x03(\x0e26.eolymp.reward.UpdateAchievementTranslationInput.PatchR\x05patch\x12%\n" +
-	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\x12%\n" +
-	"\x0etranslation_id\x18\x03 \x01(\tR\rtranslationId\x12H\n" +
-	"\vtranslation\x18\x04 \x01(\v2&.eolymp.reward.Achievement.TranslationR\vtranslation\"3\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\x12\v\n" +
-	"\aSUMMARY\x10\x02\x12\n" +
-	"\n" +
-	"\x06LOCALE\x10\x03\"$\n" +
-	"\"UpdateAchievementTranslationOutput\"q\n" +
-	"!DeleteAchievementTranslationInput\x12%\n" +
-	"\x0eachievement_id\x18\x01 \x01(\tR\rachievementId\x12%\n" +
-	"\x0etranslation_id\x18\x02 \x01(\tR\rtranslationId\"$\n" +
-	"\"DeleteAchievementTranslationOutput2\xce\x11\n" +
+	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.reward.AchievementR\x05items2\xda\a\n" +
 	"\x12AchievementService\x12\xae\x01\n" +
 	"\x11CreateAchievement\x12%.eolymp.reward.CreateAchievementInput\x1a&.eolymp.reward.CreateAchievementOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1313,47 +674,7 @@ const file_eolymp_reward_achievement_service_proto_rawDesc = "" +
 	"\x19\x8a\xe3\n" +
 	"\x15community:member:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x12\x87\x02\n" +
-	"\x1eDescribeAchievementTranslation\x122.eolymp.reward.DescribeAchievementTranslationInput\x1a3.eolymp.reward.DescribeAchievementTranslationOutput\"|\xea\xe2\n" +
-	"\f\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xf4\x03\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02>\x12</achievements/{achievement_id}/translations/{translation_id}\x12\xec\x01\n" +
-	"\x1bListAchievementTranslations\x12/.eolymp.reward.ListAchievementTranslationsInput\x1a0.eolymp.reward.ListAchievementTranslationsOutput\"j\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x1c\x8a\xe3\n" +
-	"\x18typewriter:fragment:read\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02-\x12+/achievements/{achievement_id}/translations\x12\xf0\x01\n" +
-	"\x1cCreateAchievementTranslation\x120.eolymp.reward.CreateAchievementTranslationInput\x1a1.eolymp.reward.CreateAchievementTranslationOutput\"k\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02-\"+/achievements/{achievement_id}/translations\x12\x81\x02\n" +
-	"\x1cUpdateAchievementTranslation\x120.eolymp.reward.UpdateAchievementTranslationInput\x1a1.eolymp.reward.UpdateAchievementTranslationOutput\"|\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02>\x1a</achievements/{achievement_id}/translations/{translation_id}\x12\x81\x02\n" +
-	"\x1cDeleteAchievementTranslation\x120.eolymp.reward.DeleteAchievementTranslationInput\x1a1.eolymp.reward.DeleteAchievementTranslationOutput\"|\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x1d\x8a\xe3\n" +
-	"\x19typewriter:fragment:write\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02>*</achievements/{achievement_id}/translations/{translation_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/reward;rewardb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/achievements\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB/Z-github.com/eolymp/go-sdk/eolymp/reward;rewardb\x06proto3"
 
 var (
 	file_eolymp_reward_achievement_service_proto_rawDescOnce sync.Once
@@ -1367,82 +688,48 @@ func file_eolymp_reward_achievement_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_reward_achievement_service_proto_rawDescData
 }
 
-var file_eolymp_reward_achievement_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_reward_achievement_service_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_eolymp_reward_achievement_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_reward_achievement_service_proto_goTypes = []any{
-	(UpdateAchievementTranslationInput_Patch)(0),    // 0: eolymp.reward.UpdateAchievementTranslationInput.Patch
-	(*CreateAchievementInput)(nil),                  // 1: eolymp.reward.CreateAchievementInput
-	(*CreateAchievementOutput)(nil),                 // 2: eolymp.reward.CreateAchievementOutput
-	(*UpdateAchievementInput)(nil),                  // 3: eolymp.reward.UpdateAchievementInput
-	(*UpdateAchievementOutput)(nil),                 // 4: eolymp.reward.UpdateAchievementOutput
-	(*DeleteAchievementInput)(nil),                  // 5: eolymp.reward.DeleteAchievementInput
-	(*DeleteAchievementOutput)(nil),                 // 6: eolymp.reward.DeleteAchievementOutput
-	(*DescribeAchievementInput)(nil),                // 7: eolymp.reward.DescribeAchievementInput
-	(*DescribeAchievementOutput)(nil),               // 8: eolymp.reward.DescribeAchievementOutput
-	(*ListAchievementsInput)(nil),                   // 9: eolymp.reward.ListAchievementsInput
-	(*ListAchievementsOutput)(nil),                  // 10: eolymp.reward.ListAchievementsOutput
-	(*DescribeAchievementTranslationInput)(nil),     // 11: eolymp.reward.DescribeAchievementTranslationInput
-	(*DescribeAchievementTranslationOutput)(nil),    // 12: eolymp.reward.DescribeAchievementTranslationOutput
-	(*ListAchievementTranslationsInput)(nil),        // 13: eolymp.reward.ListAchievementTranslationsInput
-	(*ListAchievementTranslationsOutput)(nil),       // 14: eolymp.reward.ListAchievementTranslationsOutput
-	(*CreateAchievementTranslationInput)(nil),       // 15: eolymp.reward.CreateAchievementTranslationInput
-	(*CreateAchievementTranslationOutput)(nil),      // 16: eolymp.reward.CreateAchievementTranslationOutput
-	(*UpdateAchievementTranslationInput)(nil),       // 17: eolymp.reward.UpdateAchievementTranslationInput
-	(*UpdateAchievementTranslationOutput)(nil),      // 18: eolymp.reward.UpdateAchievementTranslationOutput
-	(*DeleteAchievementTranslationInput)(nil),       // 19: eolymp.reward.DeleteAchievementTranslationInput
-	(*DeleteAchievementTranslationOutput)(nil),      // 20: eolymp.reward.DeleteAchievementTranslationOutput
-	(*ListAchievementsInput_Filter)(nil),            // 21: eolymp.reward.ListAchievementsInput.Filter
-	(*ListAchievementTranslationsInput_Filter)(nil), // 22: eolymp.reward.ListAchievementTranslationsInput.Filter
-	(*Achievement)(nil),                             // 23: eolymp.reward.Achievement
-	(Achievement_Extra)(0),                          // 24: eolymp.reward.Achievement.Extra
-	(*Achievement_Translation)(nil),                 // 25: eolymp.reward.Achievement.Translation
-	(*wellknown.ExpressionID)(nil),                  // 26: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),                // 27: eolymp.wellknown.ExpressionEnum
+	(*CreateAchievementInput)(nil),       // 0: eolymp.reward.CreateAchievementInput
+	(*CreateAchievementOutput)(nil),      // 1: eolymp.reward.CreateAchievementOutput
+	(*UpdateAchievementInput)(nil),       // 2: eolymp.reward.UpdateAchievementInput
+	(*UpdateAchievementOutput)(nil),      // 3: eolymp.reward.UpdateAchievementOutput
+	(*DeleteAchievementInput)(nil),       // 4: eolymp.reward.DeleteAchievementInput
+	(*DeleteAchievementOutput)(nil),      // 5: eolymp.reward.DeleteAchievementOutput
+	(*DescribeAchievementInput)(nil),     // 6: eolymp.reward.DescribeAchievementInput
+	(*DescribeAchievementOutput)(nil),    // 7: eolymp.reward.DescribeAchievementOutput
+	(*ListAchievementsInput)(nil),        // 8: eolymp.reward.ListAchievementsInput
+	(*ListAchievementsOutput)(nil),       // 9: eolymp.reward.ListAchievementsOutput
+	(*ListAchievementsInput_Filter)(nil), // 10: eolymp.reward.ListAchievementsInput.Filter
+	(*Achievement)(nil),                  // 11: eolymp.reward.Achievement
+	(*Achievement_Patch)(nil),            // 12: eolymp.reward.Achievement.Patch
+	(Achievement_Extra)(0),               // 13: eolymp.reward.Achievement.Extra
+	(*wellknown.ExpressionID)(nil),       // 14: eolymp.wellknown.ExpressionID
 }
 var file_eolymp_reward_achievement_service_proto_depIdxs = []int32{
-	23, // 0: eolymp.reward.CreateAchievementInput.achievement:type_name -> eolymp.reward.Achievement
-	23, // 1: eolymp.reward.UpdateAchievementInput.achievement:type_name -> eolymp.reward.Achievement
-	24, // 2: eolymp.reward.DescribeAchievementInput.extra:type_name -> eolymp.reward.Achievement.Extra
-	23, // 3: eolymp.reward.DescribeAchievementOutput.achievement:type_name -> eolymp.reward.Achievement
-	21, // 4: eolymp.reward.ListAchievementsInput.filters:type_name -> eolymp.reward.ListAchievementsInput.Filter
-	24, // 5: eolymp.reward.ListAchievementsInput.extra:type_name -> eolymp.reward.Achievement.Extra
-	23, // 6: eolymp.reward.ListAchievementsOutput.items:type_name -> eolymp.reward.Achievement
-	24, // 7: eolymp.reward.DescribeAchievementTranslationInput.extra:type_name -> eolymp.reward.Achievement.Extra
-	25, // 8: eolymp.reward.DescribeAchievementTranslationOutput.translation:type_name -> eolymp.reward.Achievement.Translation
-	22, // 9: eolymp.reward.ListAchievementTranslationsInput.filters:type_name -> eolymp.reward.ListAchievementTranslationsInput.Filter
-	24, // 10: eolymp.reward.ListAchievementTranslationsInput.extra:type_name -> eolymp.reward.Achievement.Extra
-	25, // 11: eolymp.reward.ListAchievementTranslationsOutput.items:type_name -> eolymp.reward.Achievement.Translation
-	25, // 12: eolymp.reward.CreateAchievementTranslationInput.translation:type_name -> eolymp.reward.Achievement.Translation
-	0,  // 13: eolymp.reward.UpdateAchievementTranslationInput.patch:type_name -> eolymp.reward.UpdateAchievementTranslationInput.Patch
-	25, // 14: eolymp.reward.UpdateAchievementTranslationInput.translation:type_name -> eolymp.reward.Achievement.Translation
-	26, // 15: eolymp.reward.ListAchievementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	26, // 16: eolymp.reward.ListAchievementTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	27, // 17: eolymp.reward.ListAchievementTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	1,  // 18: eolymp.reward.AchievementService.CreateAchievement:input_type -> eolymp.reward.CreateAchievementInput
-	3,  // 19: eolymp.reward.AchievementService.UpdateAchievement:input_type -> eolymp.reward.UpdateAchievementInput
-	5,  // 20: eolymp.reward.AchievementService.DeleteAchievement:input_type -> eolymp.reward.DeleteAchievementInput
-	7,  // 21: eolymp.reward.AchievementService.DescribeAchievement:input_type -> eolymp.reward.DescribeAchievementInput
-	9,  // 22: eolymp.reward.AchievementService.ListAchievements:input_type -> eolymp.reward.ListAchievementsInput
-	11, // 23: eolymp.reward.AchievementService.DescribeAchievementTranslation:input_type -> eolymp.reward.DescribeAchievementTranslationInput
-	13, // 24: eolymp.reward.AchievementService.ListAchievementTranslations:input_type -> eolymp.reward.ListAchievementTranslationsInput
-	15, // 25: eolymp.reward.AchievementService.CreateAchievementTranslation:input_type -> eolymp.reward.CreateAchievementTranslationInput
-	17, // 26: eolymp.reward.AchievementService.UpdateAchievementTranslation:input_type -> eolymp.reward.UpdateAchievementTranslationInput
-	19, // 27: eolymp.reward.AchievementService.DeleteAchievementTranslation:input_type -> eolymp.reward.DeleteAchievementTranslationInput
-	2,  // 28: eolymp.reward.AchievementService.CreateAchievement:output_type -> eolymp.reward.CreateAchievementOutput
-	4,  // 29: eolymp.reward.AchievementService.UpdateAchievement:output_type -> eolymp.reward.UpdateAchievementOutput
-	6,  // 30: eolymp.reward.AchievementService.DeleteAchievement:output_type -> eolymp.reward.DeleteAchievementOutput
-	8,  // 31: eolymp.reward.AchievementService.DescribeAchievement:output_type -> eolymp.reward.DescribeAchievementOutput
-	10, // 32: eolymp.reward.AchievementService.ListAchievements:output_type -> eolymp.reward.ListAchievementsOutput
-	12, // 33: eolymp.reward.AchievementService.DescribeAchievementTranslation:output_type -> eolymp.reward.DescribeAchievementTranslationOutput
-	14, // 34: eolymp.reward.AchievementService.ListAchievementTranslations:output_type -> eolymp.reward.ListAchievementTranslationsOutput
-	16, // 35: eolymp.reward.AchievementService.CreateAchievementTranslation:output_type -> eolymp.reward.CreateAchievementTranslationOutput
-	18, // 36: eolymp.reward.AchievementService.UpdateAchievementTranslation:output_type -> eolymp.reward.UpdateAchievementTranslationOutput
-	20, // 37: eolymp.reward.AchievementService.DeleteAchievementTranslation:output_type -> eolymp.reward.DeleteAchievementTranslationOutput
-	28, // [28:38] is the sub-list for method output_type
-	18, // [18:28] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	11, // 0: eolymp.reward.CreateAchievementInput.achievement:type_name -> eolymp.reward.Achievement
+	12, // 1: eolymp.reward.UpdateAchievementInput.achievement:type_name -> eolymp.reward.Achievement.Patch
+	13, // 2: eolymp.reward.DescribeAchievementInput.extra:type_name -> eolymp.reward.Achievement.Extra
+	11, // 3: eolymp.reward.DescribeAchievementOutput.achievement:type_name -> eolymp.reward.Achievement
+	10, // 4: eolymp.reward.ListAchievementsInput.filters:type_name -> eolymp.reward.ListAchievementsInput.Filter
+	13, // 5: eolymp.reward.ListAchievementsInput.extra:type_name -> eolymp.reward.Achievement.Extra
+	11, // 6: eolymp.reward.ListAchievementsOutput.items:type_name -> eolymp.reward.Achievement
+	14, // 7: eolymp.reward.ListAchievementsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	0,  // 8: eolymp.reward.AchievementService.CreateAchievement:input_type -> eolymp.reward.CreateAchievementInput
+	2,  // 9: eolymp.reward.AchievementService.UpdateAchievement:input_type -> eolymp.reward.UpdateAchievementInput
+	4,  // 10: eolymp.reward.AchievementService.DeleteAchievement:input_type -> eolymp.reward.DeleteAchievementInput
+	6,  // 11: eolymp.reward.AchievementService.DescribeAchievement:input_type -> eolymp.reward.DescribeAchievementInput
+	8,  // 12: eolymp.reward.AchievementService.ListAchievements:input_type -> eolymp.reward.ListAchievementsInput
+	1,  // 13: eolymp.reward.AchievementService.CreateAchievement:output_type -> eolymp.reward.CreateAchievementOutput
+	3,  // 14: eolymp.reward.AchievementService.UpdateAchievement:output_type -> eolymp.reward.UpdateAchievementOutput
+	5,  // 15: eolymp.reward.AchievementService.DeleteAchievement:output_type -> eolymp.reward.DeleteAchievementOutput
+	7,  // 16: eolymp.reward.AchievementService.DescribeAchievement:output_type -> eolymp.reward.DescribeAchievementOutput
+	9,  // 17: eolymp.reward.AchievementService.ListAchievements:output_type -> eolymp.reward.ListAchievementsOutput
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_reward_achievement_service_proto_init() }
@@ -1456,14 +743,13 @@ func file_eolymp_reward_achievement_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_reward_achievement_service_proto_rawDesc), len(file_eolymp_reward_achievement_service_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   22,
+			NumEnums:      0,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_reward_achievement_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_reward_achievement_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_reward_achievement_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_reward_achievement_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_reward_achievement_service_proto = out.File

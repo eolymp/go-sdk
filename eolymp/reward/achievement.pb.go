@@ -7,6 +7,7 @@
 package reward
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -74,14 +75,16 @@ func (Achievement_Extra) EnumDescriptor() ([]byte, []int) {
 type Achievement struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Value         uint32                 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`
-	Rarity        uint32                 `protobuf:"varint,3,opt,name=rarity,proto3" json:"rarity,omitempty"`
+	Value         uint32                 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`                             // the estimated value of the achievement (the higher the more "prestigious")
+	Rarity        uint32                 `protobuf:"varint,3,opt,name=rarity,proto3" json:"rarity,omitempty"`                           // a number from 0 to 10 reflecting how many members have the achievement (0 common, 10 very rare)
 	Threshold     uint32                 `protobuf:"varint,4,opt,name=threshold,proto3" json:"threshold,omitempty"`                     // score required to earn this achievement (defaults to 1)
 	MultiAward    bool                   `protobuf:"varint,5,opt,name=multi_award,json=multiAward,proto3" json:"multi_award,omitempty"` // if true, awards = floor(quantity/threshold); if false, awards = min(1, floor(quantity/threshold))
 	Name          string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
 	ImageUrl      string                 `protobuf:"bytes,12,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Summary       *ecm.Content           `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`
-	Cursor        string                 `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`
+	Locale        string                 `protobuf:"bytes,13,opt,name=locale,proto3" json:"locale,omitempty"`   // locale of the translation being read, empty when reading the achievement itself
+	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"` // locales this achievement has translations for
+	Cursor        string                 `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`  // cursor in the list
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -172,6 +175,20 @@ func (x *Achievement) GetSummary() *ecm.Content {
 	return nil
 }
 
+func (x *Achievement) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *Achievement) GetLocales() []string {
+	if x != nil {
+		return x.Locales
+	}
+	return nil
+}
+
 func (x *Achievement) GetCursor() string {
 	if x != nil {
 		return x.Cursor
@@ -179,30 +196,32 @@ func (x *Achievement) GetCursor() string {
 	return ""
 }
 
-type Achievement_Translation struct {
+type Achievement_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Locale        string                 `protobuf:"bytes,102,opt,name=locale,proto3" json:"locale,omitempty"`
-	Name          string                 `protobuf:"bytes,103,opt,name=name,proto3" json:"name,omitempty"`
-	Summary       *ecm.Content           `protobuf:"bytes,104,opt,name=summary,proto3" json:"summary,omitempty"`
+	Value         *uint32                `protobuf:"varint,2,opt,name=value,proto3,oneof" json:"value,omitempty"`
+	Threshold     *uint32                `protobuf:"varint,4,opt,name=threshold,proto3,oneof" json:"threshold,omitempty"`
+	MultiAward    *bool                  `protobuf:"varint,5,opt,name=multi_award,json=multiAward,proto3,oneof" json:"multi_award,omitempty"`
+	Name          *string                `protobuf:"bytes,10,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	ImageUrl      *string                `protobuf:"bytes,12,opt,name=image_url,json=imageUrl,proto3,oneof" json:"image_url,omitempty"`
+	Summary       *ecm.Content           `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Achievement_Translation) Reset() {
-	*x = Achievement_Translation{}
+func (x *Achievement_Patch) Reset() {
+	*x = Achievement_Patch{}
 	mi := &file_eolymp_reward_achievement_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Achievement_Translation) String() string {
+func (x *Achievement_Patch) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Achievement_Translation) ProtoMessage() {}
+func (*Achievement_Patch) ProtoMessage() {}
 
-func (x *Achievement_Translation) ProtoReflect() protoreflect.Message {
+func (x *Achievement_Patch) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_reward_achievement_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -214,33 +233,47 @@ func (x *Achievement_Translation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Achievement_Translation.ProtoReflect.Descriptor instead.
-func (*Achievement_Translation) Descriptor() ([]byte, []int) {
+// Deprecated: Use Achievement_Patch.ProtoReflect.Descriptor instead.
+func (*Achievement_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_reward_achievement_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *Achievement_Translation) GetId() string {
-	if x != nil {
-		return x.Id
+func (x *Achievement_Patch) GetValue() uint32 {
+	if x != nil && x.Value != nil {
+		return *x.Value
+	}
+	return 0
+}
+
+func (x *Achievement_Patch) GetThreshold() uint32 {
+	if x != nil && x.Threshold != nil {
+		return *x.Threshold
+	}
+	return 0
+}
+
+func (x *Achievement_Patch) GetMultiAward() bool {
+	if x != nil && x.MultiAward != nil {
+		return *x.MultiAward
+	}
+	return false
+}
+
+func (x *Achievement_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
 
-func (x *Achievement_Translation) GetLocale() string {
-	if x != nil {
-		return x.Locale
+func (x *Achievement_Patch) GetImageUrl() string {
+	if x != nil && x.ImageUrl != nil {
+		return *x.ImageUrl
 	}
 	return ""
 }
 
-func (x *Achievement_Translation) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Achievement_Translation) GetSummary() *ecm.Content {
+func (x *Achievement_Patch) GetSummary() *ecm.Content {
 	if x != nil {
 		return x.Summary
 	}
@@ -251,24 +284,37 @@ var File_eolymp_reward_achievement_proto protoreflect.FileDescriptor
 
 const file_eolymp_reward_achievement_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/reward/achievement.proto\x12\reolymp.reward\x1a\x18eolymp/ecm/content.proto\"\xba\x03\n" +
-	"\vAchievement\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\rR\x05value\x12\x16\n" +
-	"\x06rarity\x18\x03 \x01(\rR\x06rarity\x12\x1c\n" +
-	"\tthreshold\x18\x04 \x01(\rR\tthreshold\x12\x1f\n" +
-	"\vmulti_award\x18\x05 \x01(\bR\n" +
+	"\x1feolymp/reward/achievement.proto\x12\reolymp.reward\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xc1\v\n" +
+	"\vAchievement\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12n\n" +
+	"\x05value\x18\x02 \x01(\rBX\xa2\xf0\xf0\xe4\x01Rhow prestigious the achievement is; the list is ordered by it, most valuable firstR\x05value\x12\x1e\n" +
+	"\x06rarity\x18\x03 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06rarity\x12\xac\x01\n" +
+	"\tthreshold\x18\x04 \x01(\rB\x8d\x01\xa2\xf0\xf0\xe4\x01\x86\x01score a member must accumulate to earn the achievement once: 1 for a one-off badge, 50 for a \"solve 50 problems\" award (defaults to 1)R\tthreshold\x12\xc8\x01\n" +
+	"\vmulti_award\x18\x05 \x01(\bB\xa6\x01\xa2\xf0\xf0\xe4\x01\x9f\x01whether the achievement can be earned more than once: true awards it once per threshold reached, false caps it at a single award however much score accumulatesR\n" +
 	"multiAward\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x1b\n" +
 	"\timage_url\x18\f \x01(\tR\bimageUrl\x12-\n" +
 	"\asummary\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12\x16\n" +
-	"\x06cursor\x18d \x01(\tR\x06cursor\x1ax\n" +
-	"\vTranslation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06locale\x18f \x01(\tR\x06locale\x12\x12\n" +
-	"\x04name\x18g \x01(\tR\x04name\x12-\n" +
-	"\asummary\x18h \x01(\v2\x13.eolymp.ecm.ContentR\asummary\"<\n" +
+	"\x06locale\x18\r \x01(\tR\x06locale\x12 \n" +
+	"\alocales\x18\x0e \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\alocales\x12\x1e\n" +
+	"\x06cursor\x18d \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06cursor\x1a\x97\x05\n" +
+	"\x05Patch\x12s\n" +
+	"\x05value\x18\x02 \x01(\rBX\xa2\xf0\xf0\xe4\x01Rhow prestigious the achievement is; the list is ordered by it, most valuable firstH\x00R\x05value\x88\x01\x01\x12\x9f\x01\n" +
+	"\tthreshold\x18\x04 \x01(\rB|\xa2\xf0\xf0\xe4\x01vscore a member must accumulate to earn the achievement once: 1 for a one-off badge, 50 for a \"solve 50 problems\" awardH\x01R\tthreshold\x88\x01\x01\x12\xcd\x01\n" +
+	"\vmulti_award\x18\x05 \x01(\bB\xa6\x01\xa2\xf0\xf0\xe4\x01\x9f\x01whether the achievement can be earned more than once: true awards it once per threshold reached, false caps it at a single award however much score accumulatesH\x02R\n" +
+	"multiAward\x88\x01\x01\x12\x17\n" +
+	"\x04name\x18\n" +
+	" \x01(\tH\x03R\x04name\x88\x01\x01\x12 \n" +
+	"\timage_url\x18\f \x01(\tH\x04R\bimageUrl\x88\x01\x01\x12-\n" +
+	"\asummary\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\asummaryB\b\n" +
+	"\x06_valueB\f\n" +
+	"\n" +
+	"_thresholdB\x0e\n" +
+	"\f_multi_awardB\a\n" +
+	"\x05_nameB\f\n" +
+	"\n" +
+	"_image_url\"<\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x11\n" +
 	"\rSUMMARY_VALUE\x10\x01\x12\x12\n" +
@@ -289,14 +335,14 @@ func file_eolymp_reward_achievement_proto_rawDescGZIP() []byte {
 var file_eolymp_reward_achievement_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_reward_achievement_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_reward_achievement_proto_goTypes = []any{
-	(Achievement_Extra)(0),          // 0: eolymp.reward.Achievement.Extra
-	(*Achievement)(nil),             // 1: eolymp.reward.Achievement
-	(*Achievement_Translation)(nil), // 2: eolymp.reward.Achievement.Translation
-	(*ecm.Content)(nil),             // 3: eolymp.ecm.Content
+	(Achievement_Extra)(0),    // 0: eolymp.reward.Achievement.Extra
+	(*Achievement)(nil),       // 1: eolymp.reward.Achievement
+	(*Achievement_Patch)(nil), // 2: eolymp.reward.Achievement.Patch
+	(*ecm.Content)(nil),       // 3: eolymp.ecm.Content
 }
 var file_eolymp_reward_achievement_proto_depIdxs = []int32{
 	3, // 0: eolymp.reward.Achievement.summary:type_name -> eolymp.ecm.Content
-	3, // 1: eolymp.reward.Achievement.Translation.summary:type_name -> eolymp.ecm.Content
+	3, // 1: eolymp.reward.Achievement.Patch.summary:type_name -> eolymp.ecm.Content
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -309,6 +355,7 @@ func file_eolymp_reward_achievement_proto_init() {
 	if File_eolymp_reward_achievement_proto != nil {
 		return
 	}
+	file_eolymp_reward_achievement_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
