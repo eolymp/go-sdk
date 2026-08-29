@@ -25,6 +25,7 @@ const (
 
 type ListEntriesInput struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
+	MemberId      string                   `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Size          int32                    `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	After         string                   `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Filters       *ListEntriesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
@@ -60,6 +61,13 @@ func (x *ListEntriesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListEntriesInput.ProtoReflect.Descriptor instead.
 func (*ListEntriesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_feed_feed_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ListEntriesInput) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
 }
 
 func (x *ListEntriesInput) GetSize() int32 {
@@ -199,8 +207,9 @@ var File_eolymp_feed_feed_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_feed_feed_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/feed/feed_service.proto\x12\veolymp.feed\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x17eolymp/feed/entry.proto\x1a!eolymp/wellknown/expression.proto\"\xf9\x01\n" +
-	"\x10ListEntriesInput\x12\x12\n" +
+	"\x1eeolymp/feed/feed_service.proto\x12\veolymp.feed\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x17eolymp/feed/entry.proto\x1a!eolymp/wellknown/expression.proto\"\x96\x02\n" +
+	"\x10ListEntriesInput\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12>\n" +
 	"\afilters\x18( \x01(\v2$.eolymp.feed.ListEntriesInput.FilterR\afilters\x1a{\n" +
@@ -210,14 +219,14 @@ const file_eolymp_feed_feed_service_proto_rawDesc = "" +
 	"\x11ListEntriesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12(\n" +
 	"\x05items\x18\x02 \x03(\v2\x12.eolymp.feed.EntryR\x05items\x12(\n" +
-	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor2\xbb\x01\n" +
-	"\vFeedService\x12r\n" +
-	"\vListEntries\x12\x1d.eolymp.feed.ListEntriesInput\x1a\x1e.eolymp.feed.ListEntriesOutput\"$\xea\xe2\n" +
+	"\x10next_page_cursor\x18\x03 \x01(\tR\x0enextPageCursor2\xb3\x01\n" +
+	"\vFeedService\x12\x86\x01\n" +
+	"\vListEntries\x12\x1d.eolymp.feed.ListEntriesInput\x1a\x1e.eolymp.feed.ListEntriesOutput\"8\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\a\x12\x05/feed\x1a8\x82\xf0\xf0\xe4\x01\x17eolymp.community.Member\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/feed;feedb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\x1b\x12\x19/members/{member_id}/feed\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/feed;feedb\x06proto3"
 
 var (
 	file_eolymp_feed_feed_service_proto_rawDescOnce sync.Once

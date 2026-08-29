@@ -201,7 +201,7 @@ func _FeedService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterFeedServiceHttpHandlers adds handlers for for FeedServiceClient
 func RegisterFeedServiceHttpHandlers(router *mux.Router, prefix string, cli FeedServiceClient) {
-	router.Handle(prefix+"/feed", _FeedService_ListEntries_Rule0(cli)).
+	router.Handle(prefix+"/members/{member_id}/feed", _FeedService_ListEntries_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.feed.FeedService.ListEntries")
 }
@@ -219,6 +219,9 @@ func _FeedService_ListEntries_Rule0(cli FeedServiceClient) http.Handler {
 			_FeedService_HTTPWriteErrorResponse(w, err)
 			return
 		}
+
+		vars := mux.Vars(r)
+		in.MemberId = vars["member_id"]
 
 		var header, trailer metadata.MD
 

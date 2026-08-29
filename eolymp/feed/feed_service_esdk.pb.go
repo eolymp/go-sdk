@@ -102,7 +102,12 @@ func (s *FeedServiceService) do(ctx context.Context, verb, path string, in, out 
 
 func (s *FeedServiceService) ListEntries(ctx context.Context, in *ListEntriesInput) (*ListEntriesOutput, error) {
 	out := &ListEntriesOutput{}
-	path := "/feed"
+	path := "/members/" + url.PathEscape(in.GetMemberId()) + "/feed"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.MemberId = ""
+	}
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

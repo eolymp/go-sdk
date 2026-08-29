@@ -119,14 +119,14 @@ const file_eolymp_acl_permission_service_proto_rawDesc = "" +
 	"\x1aIntrospectPermissionsInput\x12\x1a\n" +
 	"\bresource\x18\x01 \x01(\tR\bresource\"K\n" +
 	"\x1bIntrospectPermissionsOutput\x12,\n" +
-	"\aactions\x18\x01 \x03(\x0e2\x12.eolymp.acl.ActionR\aactions2\xfc\x01\n" +
+	"\aactions\x18\x01 \x03(\x0e2\x12.eolymp.acl.ActionR\aactions2\xc8\x01\n" +
 	"\x11PermissionService\x12\x95\x01\n" +
 	"\x15IntrospectPermissions\x12&.eolymp.acl.IntrospectPermissionsInput\x1a'.eolymp.acl.IntrospectPermissionsOutput\"+\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
 	"\x14\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0e\"\f/permissions\x1aO\x82\xf0\xf0\xe4\x01\x15eolymp.universe.Space\x82\xf0\xf0\xe4\x01\x14eolymp.judge.Contest\x82\xf0\xf0\xe4\x01\x14eolymp.course.CourseB)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\x0e\"\f/permissions\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_permission_service_proto_rawDescOnce sync.Once
