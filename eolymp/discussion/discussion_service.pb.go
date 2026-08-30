@@ -8,9 +8,13 @@ package discussion
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,11 +25,1318 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ListMessagesInput_Sortable int32
+
+const (
+	ListMessagesInput_DEFAULT     ListMessagesInput_Sortable = 0
+	ListMessagesInput_POSTED_AT   ListMessagesInput_Sortable = 1
+	ListMessagesInput_VOTE_COUNT  ListMessagesInput_Sortable = 2
+	ListMessagesInput_REPLY_COUNT ListMessagesInput_Sortable = 3
+)
+
+// Enum value maps for ListMessagesInput_Sortable.
+var (
+	ListMessagesInput_Sortable_name = map[int32]string{
+		0: "DEFAULT",
+		1: "POSTED_AT",
+		2: "VOTE_COUNT",
+		3: "REPLY_COUNT",
+	}
+	ListMessagesInput_Sortable_value = map[string]int32{
+		"DEFAULT":     0,
+		"POSTED_AT":   1,
+		"VOTE_COUNT":  2,
+		"REPLY_COUNT": 3,
+	}
+)
+
+func (x ListMessagesInput_Sortable) Enum() *ListMessagesInput_Sortable {
+	p := new(ListMessagesInput_Sortable)
+	*p = x
+	return p
+}
+
+func (x ListMessagesInput_Sortable) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ListMessagesInput_Sortable) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_discussion_discussion_service_proto_enumTypes[0].Descriptor()
+}
+
+func (ListMessagesInput_Sortable) Type() protoreflect.EnumType {
+	return &file_eolymp_discussion_discussion_service_proto_enumTypes[0]
+}
+
+func (x ListMessagesInput_Sortable) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ListMessagesInput_Sortable.Descriptor instead.
+func (ListMessagesInput_Sortable) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{3, 0}
+}
+
+type MessageChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Scope         string                 `protobuf:"bytes,10,opt,name=scope,proto3" json:"scope,omitempty"`
+	Before        *Message               `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Message               `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MessageChangedEvent) Reset() {
+	*x = MessageChangedEvent{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MessageChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MessageChangedEvent) ProtoMessage() {}
+
+func (x *MessageChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MessageChangedEvent.ProtoReflect.Descriptor instead.
+func (*MessageChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *MessageChangedEvent) GetScope() string {
+	if x != nil {
+		return x.Scope
+	}
+	return ""
+}
+
+func (x *MessageChangedEvent) GetBefore() *Message {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *MessageChangedEvent) GetAfter() *Message {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
+func (x *MessageChangedEvent) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type DescribeMessageInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Render        bool                   `protobuf:"varint,2,opt,name=render,proto3" json:"render,omitempty"`
+	Extra         []Message_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.discussion.Message_Extra" json:"extra,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeMessageInput) Reset() {
+	*x = DescribeMessageInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeMessageInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeMessageInput) ProtoMessage() {}
+
+func (x *DescribeMessageInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeMessageInput.ProtoReflect.Descriptor instead.
+func (*DescribeMessageInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DescribeMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *DescribeMessageInput) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+func (x *DescribeMessageInput) GetRender() bool {
+	if x != nil {
+		return x.Render
+	}
+	return false
+}
+
+func (x *DescribeMessageInput) GetExtra() []Message_Extra {
+	if x != nil {
+		return x.Extra
+	}
+	return nil
+}
+
+type DescribeMessageOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       *Message               `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeMessageOutput) Reset() {
+	*x = DescribeMessageOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeMessageOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeMessageOutput) ProtoMessage() {}
+
+func (x *DescribeMessageOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeMessageOutput.ProtoReflect.Descriptor instead.
+func (*DescribeMessageOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *DescribeMessageOutput) GetMessage() *Message {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
+type ListMessagesInput struct {
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId string                 `protobuf:"bytes,2,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	Render   bool                   `protobuf:"varint,1,opt,name=render,proto3" json:"render,omitempty"`
+	// pagination
+	After string                     `protobuf:"bytes,10,opt,name=after,proto3" json:"after,omitempty"`
+	Size  int32                      `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Sort  ListMessagesInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.discussion.ListMessagesInput_Sortable" json:"sort,omitempty"`
+	Order wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
+	// data filters
+	Filters       *ListMessagesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	Extra         []Message_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.discussion.Message_Extra" json:"extra,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMessagesInput) Reset() {
+	*x = ListMessagesInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMessagesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessagesInput) ProtoMessage() {}
+
+func (x *ListMessagesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessagesInput.ProtoReflect.Descriptor instead.
+func (*ListMessagesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListMessagesInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *ListMessagesInput) GetRender() bool {
+	if x != nil {
+		return x.Render
+	}
+	return false
+}
+
+func (x *ListMessagesInput) GetAfter() string {
+	if x != nil {
+		return x.After
+	}
+	return ""
+}
+
+func (x *ListMessagesInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListMessagesInput) GetSort() ListMessagesInput_Sortable {
+	if x != nil {
+		return x.Sort
+	}
+	return ListMessagesInput_DEFAULT
+}
+
+func (x *ListMessagesInput) GetOrder() wellknown.Direction {
+	if x != nil {
+		return x.Order
+	}
+	return wellknown.Direction(0)
+}
+
+func (x *ListMessagesInput) GetFilters() *ListMessagesInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
+func (x *ListMessagesInput) GetExtra() []Message_Extra {
+	if x != nil {
+		return x.Extra
+	}
+	return nil
+}
+
+type ListMessagesOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Message             `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMessagesOutput) Reset() {
+	*x = ListMessagesOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMessagesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessagesOutput) ProtoMessage() {}
+
+func (x *ListMessagesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessagesOutput.ProtoReflect.Descriptor instead.
+func (*ListMessagesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListMessagesOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListMessagesOutput) GetItems() []*Message {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type PostMessageInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	Message       *Message               `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	ReplyTo       string                 `protobuf:"bytes,2,opt,name=reply_to,json=replyTo,proto3" json:"reply_to,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PostMessageInput) Reset() {
+	*x = PostMessageInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PostMessageInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostMessageInput) ProtoMessage() {}
+
+func (x *PostMessageInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostMessageInput.ProtoReflect.Descriptor instead.
+func (*PostMessageInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *PostMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *PostMessageInput) GetMessage() *Message {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
+func (x *PostMessageInput) GetReplyTo() string {
+	if x != nil {
+		return x.ReplyTo
+	}
+	return ""
+}
+
+type PostMessageOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PostMessageOutput) Reset() {
+	*x = PostMessageOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PostMessageOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostMessageOutput) ProtoMessage() {}
+
+func (x *PostMessageOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostMessageOutput.ProtoReflect.Descriptor instead.
+func (*PostMessageOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *PostMessageOutput) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+type UpdateMessageInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Message       *Message               `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateMessageInput) Reset() {
+	*x = UpdateMessageInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateMessageInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateMessageInput) ProtoMessage() {}
+
+func (x *UpdateMessageInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateMessageInput.ProtoReflect.Descriptor instead.
+func (*UpdateMessageInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *UpdateMessageInput) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+func (x *UpdateMessageInput) GetMessage() *Message {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
+type UpdateMessageOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateMessageOutput) Reset() {
+	*x = UpdateMessageOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateMessageOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateMessageOutput) ProtoMessage() {}
+
+func (x *UpdateMessageOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateMessageOutput.ProtoReflect.Descriptor instead.
+func (*UpdateMessageOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{8}
+}
+
+type DeleteMessageInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteMessageInput) Reset() {
+	*x = DeleteMessageInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteMessageInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteMessageInput) ProtoMessage() {}
+
+func (x *DeleteMessageInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteMessageInput.ProtoReflect.Descriptor instead.
+func (*DeleteMessageInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *DeleteMessageInput) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+func (x *DeleteMessageInput) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type DeleteMessageOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteMessageOutput) Reset() {
+	*x = DeleteMessageOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteMessageOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteMessageOutput) ProtoMessage() {}
+
+func (x *DeleteMessageOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteMessageOutput.ProtoReflect.Descriptor instead.
+func (*DeleteMessageOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{10}
+}
+
+type VoteMessageInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	Vote          int32                  `protobuf:"varint,2,opt,name=vote,proto3" json:"vote,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VoteMessageInput) Reset() {
+	*x = VoteMessageInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VoteMessageInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VoteMessageInput) ProtoMessage() {}
+
+func (x *VoteMessageInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VoteMessageInput.ProtoReflect.Descriptor instead.
+func (*VoteMessageInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *VoteMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *VoteMessageInput) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+func (x *VoteMessageInput) GetVote() int32 {
+	if x != nil {
+		return x.Vote
+	}
+	return 0
+}
+
+type VoteMessageOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VoteCount     int32                  `protobuf:"varint,1,opt,name=vote_count,json=voteCount,proto3" json:"vote_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VoteMessageOutput) Reset() {
+	*x = VoteMessageOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VoteMessageOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VoteMessageOutput) ProtoMessage() {}
+
+func (x *VoteMessageOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VoteMessageOutput.ProtoReflect.Descriptor instead.
+func (*VoteMessageOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *VoteMessageOutput) GetVoteCount() int32 {
+	if x != nil {
+		return x.VoteCount
+	}
+	return 0
+}
+
+type ListMessageChangesInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,2,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMessageChangesInput) Reset() {
+	*x = ListMessageChangesInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMessageChangesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessageChangesInput) ProtoMessage() {}
+
+func (x *ListMessageChangesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessageChangesInput.ProtoReflect.Descriptor instead.
+func (*ListMessageChangesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListMessageChangesInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *ListMessageChangesInput) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+type ListMessageChangesOutput struct {
+	state         protoimpl.MessageState             `protogen:"open.v1"`
+	Items         []*ListMessageChangesOutput_Record `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMessageChangesOutput) Reset() {
+	*x = ListMessageChangesOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMessageChangesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessageChangesOutput) ProtoMessage() {}
+
+func (x *ListMessageChangesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessageChangesOutput.ProtoReflect.Descriptor instead.
+func (*ListMessageChangesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListMessageChangesOutput) GetItems() []*ListMessageChangesOutput_Record {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type DescribeSubscriptionInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,1,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeSubscriptionInput) Reset() {
+	*x = DescribeSubscriptionInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeSubscriptionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeSubscriptionInput) ProtoMessage() {}
+
+func (x *DescribeSubscriptionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeSubscriptionInput.ProtoReflect.Descriptor instead.
+func (*DescribeSubscriptionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DescribeSubscriptionInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+type DescribeSubscriptionOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Subscription  *Subscription          `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeSubscriptionOutput) Reset() {
+	*x = DescribeSubscriptionOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeSubscriptionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeSubscriptionOutput) ProtoMessage() {}
+
+func (x *DescribeSubscriptionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeSubscriptionOutput.ProtoReflect.Descriptor instead.
+func (*DescribeSubscriptionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *DescribeSubscriptionOutput) GetSubscription() *Subscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
+type UpdateSubscriptionInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,2,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	Subscription  *Subscription          `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSubscriptionInput) Reset() {
+	*x = UpdateSubscriptionInput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSubscriptionInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSubscriptionInput) ProtoMessage() {}
+
+func (x *UpdateSubscriptionInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSubscriptionInput.ProtoReflect.Descriptor instead.
+func (*UpdateSubscriptionInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *UpdateSubscriptionInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
+func (x *UpdateSubscriptionInput) GetSubscription() *Subscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
+type UpdateSubscriptionOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSubscriptionOutput) Reset() {
+	*x = UpdateSubscriptionOutput{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSubscriptionOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSubscriptionOutput) ProtoMessage() {}
+
+func (x *UpdateSubscriptionOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSubscriptionOutput.ProtoReflect.Descriptor instead.
+func (*UpdateSubscriptionOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{18}
+}
+
+type ListMessagesInput_Filter struct {
+	state         protoimpl.MessageState           `protogen:"open.v1"`
+	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	Id            []*wellknown.ExpressionID        `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
+	ReplyTo       []*wellknown.ExpressionID        `protobuf:"bytes,3,rep,name=reply_to,json=replyTo,proto3" json:"reply_to,omitempty"`
+	MemberId      []*wellknown.ExpressionID        `protobuf:"bytes,4,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	ThreadId      []*wellknown.ExpressionID        `protobuf:"bytes,5,rep,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	VoteCount     []*wellknown.ExpressionInt       `protobuf:"bytes,6,rep,name=vote_count,json=voteCount,proto3" json:"vote_count,omitempty"`
+	ReplyCount    []*wellknown.ExpressionInt       `protobuf:"bytes,7,rep,name=reply_count,json=replyCount,proto3" json:"reply_count,omitempty"`
+	PostedAt      []*wellknown.ExpressionTimestamp `protobuf:"bytes,8,rep,name=posted_at,json=postedAt,proto3" json:"posted_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMessagesInput_Filter) Reset() {
+	*x = ListMessagesInput_Filter{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMessagesInput_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessagesInput_Filter) ProtoMessage() {}
+
+func (x *ListMessagesInput_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessagesInput_Filter.ProtoReflect.Descriptor instead.
+func (*ListMessagesInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *ListMessagesInput_Filter) GetQuery() string {
+	if x != nil {
+		return x.Query
+	}
+	return ""
+}
+
+func (x *ListMessagesInput_Filter) GetId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *ListMessagesInput_Filter) GetReplyTo() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.ReplyTo
+	}
+	return nil
+}
+
+func (x *ListMessagesInput_Filter) GetMemberId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
+func (x *ListMessagesInput_Filter) GetThreadId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.ThreadId
+	}
+	return nil
+}
+
+func (x *ListMessagesInput_Filter) GetVoteCount() []*wellknown.ExpressionInt {
+	if x != nil {
+		return x.VoteCount
+	}
+	return nil
+}
+
+func (x *ListMessagesInput_Filter) GetReplyCount() []*wellknown.ExpressionInt {
+	if x != nil {
+		return x.ReplyCount
+	}
+	return nil
+}
+
+func (x *ListMessagesInput_Filter) GetPostedAt() []*wellknown.ExpressionTimestamp {
+	if x != nil {
+		return x.PostedAt
+	}
+	return nil
+}
+
+type ListMessageChangesOutput_Record struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Revision      int32                  `protobuf:"varint,1,opt,name=revision,proto3" json:"revision,omitempty"`
+	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Message       *ecm.Content           `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMessageChangesOutput_Record) Reset() {
+	*x = ListMessageChangesOutput_Record{}
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMessageChangesOutput_Record) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMessageChangesOutput_Record) ProtoMessage() {}
+
+func (x *ListMessageChangesOutput_Record) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_discussion_discussion_service_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMessageChangesOutput_Record.ProtoReflect.Descriptor instead.
+func (*ListMessageChangesOutput_Record) Descriptor() ([]byte, []int) {
+	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{14, 0}
+}
+
+func (x *ListMessageChangesOutput_Record) GetRevision() int32 {
+	if x != nil {
+		return x.Revision
+	}
+	return 0
+}
+
+func (x *ListMessageChangesOutput_Record) GetTimestamp() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Timestamp
+	}
+	return nil
+}
+
+func (x *ListMessageChangesOutput_Record) GetMessage() *ecm.Content {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
 var File_eolymp_discussion_discussion_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/discussion/discussion_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a'eolymp/discussion/message_service.proto\x1a,eolymp/discussion/subscription_service.proto2\xf7\a\n" +
+	"*eolymp/discussion/discussion_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1feolymp/discussion/message.proto\x1a$eolymp/discussion/subscription.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x01\n" +
+	"\x13MessageChangedEvent\x12\x14\n" +
+	"\x05scope\x18\n" +
+	" \x01(\tR\x05scope\x122\n" +
+	"\x06before\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\x06before\x120\n" +
+	"\x05after\x18\x02 \x01(\v2\x1a.eolymp.discussion.MessageR\x05after\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"\xa3\x01\n" +
+	"\x14DescribeMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x16\n" +
+	"\x06render\x18\x02 \x01(\bR\x06render\x127\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.discussion.Message.ExtraR\x05extra\"M\n" +
+	"\x15DescribeMessageOutput\x124\n" +
+	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\xfd\x06\n" +
+	"\x11ListMessagesInput\x12\x1b\n" +
+	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12\x16\n" +
+	"\x06render\x18\x01 \x01(\bR\x06render\x12\x14\n" +
+	"\x05after\x18\n" +
+	" \x01(\tR\x05after\x12\x12\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12A\n" +
+	"\x04sort\x182 \x01(\x0e2-.eolymp.discussion.ListMessagesInput.SortableR\x04sort\x121\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12E\n" +
+	"\afilters\x18( \x01(\v2+.eolymp.discussion.ListMessagesInput.FilterR\afilters\x127\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.discussion.Message.ExtraR\x05extra\x1a\xc9\x03\n" +
+	"\x06Filter\x12\x14\n" +
+	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x129\n" +
+	"\breply_to\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\areplyTo\x12;\n" +
+	"\tmember_id\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x12;\n" +
+	"\tthread_id\x18\x05 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bthreadId\x12>\n" +
+	"\n" +
+	"vote_count\x18\x06 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\tvoteCount\x12@\n" +
+	"\vreply_count\x18\a \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\n" +
+	"replyCount\x12B\n" +
+	"\tposted_at\x18\b \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\bpostedAt\"G\n" +
+	"\bSortable\x12\v\n" +
+	"\aDEFAULT\x10\x00\x12\r\n" +
+	"\tPOSTED_AT\x10\x01\x12\x0e\n" +
+	"\n" +
+	"VOTE_COUNT\x10\x02\x12\x0f\n" +
+	"\vREPLY_COUNT\x10\x03\"\\\n" +
+	"\x12ListMessagesOutput\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x120\n" +
+	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.discussion.MessageR\x05items\"\x80\x01\n" +
+	"\x10PostMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x124\n" +
+	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\x12\x19\n" +
+	"\breply_to\x18\x02 \x01(\tR\areplyTo\"2\n" +
+	"\x11PostMessageOutput\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\"\x86\x01\n" +
+	"\x12UpdateMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\x124\n" +
+	"\amessage\x18\x02 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\x15\n" +
+	"\x13UpdateMessageOutput\"h\n" +
+	"\x12DeleteMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"\x15\n" +
+	"\x13DeleteMessageOutput\"b\n" +
+	"\x10VoteMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x12\n" +
+	"\x04vote\x18\x02 \x01(\x05R\x04vote\"2\n" +
+	"\x11VoteMessageOutput\x12\x1d\n" +
+	"\n" +
+	"vote_count\x18\x01 \x01(\x05R\tvoteCount\"U\n" +
+	"\x17ListMessageChangesInput\x12\x1b\n" +
+	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\"\xf4\x01\n" +
+	"\x18ListMessageChangesOutput\x12H\n" +
+	"\x05items\x18\x01 \x03(\v22.eolymp.discussion.ListMessageChangesOutput.RecordR\x05items\x1a\x8d\x01\n" +
+	"\x06Record\x12\x1a\n" +
+	"\brevision\x18\x01 \x01(\x05R\brevision\x128\n" +
+	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12-\n" +
+	"\amessage\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\"8\n" +
+	"\x19DescribeSubscriptionInput\x12\x1b\n" +
+	"\tthread_id\x18\x01 \x01(\tR\bthreadId\"a\n" +
+	"\x1aDescribeSubscriptionOutput\x12C\n" +
+	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"{\n" +
+	"\x17UpdateSubscriptionInput\x12\x1b\n" +
+	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12C\n" +
+	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"\x1a\n" +
+	"\x18UpdateSubscriptionOutput2\xf7\a\n" +
 	"\x11DiscussionService\x12n\n" +
 	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"\b\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
@@ -55,50 +1366,100 @@ const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	"\x04\xa8\xe3\n" +
 	"\x02B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
+var (
+	file_eolymp_discussion_discussion_service_proto_rawDescOnce sync.Once
+	file_eolymp_discussion_discussion_service_proto_rawDescData []byte
+)
+
+func file_eolymp_discussion_discussion_service_proto_rawDescGZIP() []byte {
+	file_eolymp_discussion_discussion_service_proto_rawDescOnce.Do(func() {
+		file_eolymp_discussion_discussion_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_discussion_discussion_service_proto_rawDesc), len(file_eolymp_discussion_discussion_service_proto_rawDesc)))
+	})
+	return file_eolymp_discussion_discussion_service_proto_rawDescData
+}
+
+var file_eolymp_discussion_discussion_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_discussion_discussion_service_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_eolymp_discussion_discussion_service_proto_goTypes = []any{
-	(*DescribeMessageInput)(nil),       // 0: eolymp.discussion.DescribeMessageInput
-	(*ListMessagesInput)(nil),          // 1: eolymp.discussion.ListMessagesInput
-	(*PostMessageInput)(nil),           // 2: eolymp.discussion.PostMessageInput
-	(*UpdateMessageInput)(nil),         // 3: eolymp.discussion.UpdateMessageInput
-	(*DeleteMessageInput)(nil),         // 4: eolymp.discussion.DeleteMessageInput
-	(*VoteMessageInput)(nil),           // 5: eolymp.discussion.VoteMessageInput
-	(*ListMessageChangesInput)(nil),    // 6: eolymp.discussion.ListMessageChangesInput
-	(*DescribeSubscriptionInput)(nil),  // 7: eolymp.discussion.DescribeSubscriptionInput
-	(*UpdateSubscriptionInput)(nil),    // 8: eolymp.discussion.UpdateSubscriptionInput
-	(*DescribeMessageOutput)(nil),      // 9: eolymp.discussion.DescribeMessageOutput
-	(*ListMessagesOutput)(nil),         // 10: eolymp.discussion.ListMessagesOutput
-	(*PostMessageOutput)(nil),          // 11: eolymp.discussion.PostMessageOutput
-	(*UpdateMessageOutput)(nil),        // 12: eolymp.discussion.UpdateMessageOutput
-	(*DeleteMessageOutput)(nil),        // 13: eolymp.discussion.DeleteMessageOutput
-	(*VoteMessageOutput)(nil),          // 14: eolymp.discussion.VoteMessageOutput
-	(*ListMessageChangesOutput)(nil),   // 15: eolymp.discussion.ListMessageChangesOutput
-	(*DescribeSubscriptionOutput)(nil), // 16: eolymp.discussion.DescribeSubscriptionOutput
-	(*UpdateSubscriptionOutput)(nil),   // 17: eolymp.discussion.UpdateSubscriptionOutput
+	(ListMessagesInput_Sortable)(0),         // 0: eolymp.discussion.ListMessagesInput.Sortable
+	(*MessageChangedEvent)(nil),             // 1: eolymp.discussion.MessageChangedEvent
+	(*DescribeMessageInput)(nil),            // 2: eolymp.discussion.DescribeMessageInput
+	(*DescribeMessageOutput)(nil),           // 3: eolymp.discussion.DescribeMessageOutput
+	(*ListMessagesInput)(nil),               // 4: eolymp.discussion.ListMessagesInput
+	(*ListMessagesOutput)(nil),              // 5: eolymp.discussion.ListMessagesOutput
+	(*PostMessageInput)(nil),                // 6: eolymp.discussion.PostMessageInput
+	(*PostMessageOutput)(nil),               // 7: eolymp.discussion.PostMessageOutput
+	(*UpdateMessageInput)(nil),              // 8: eolymp.discussion.UpdateMessageInput
+	(*UpdateMessageOutput)(nil),             // 9: eolymp.discussion.UpdateMessageOutput
+	(*DeleteMessageInput)(nil),              // 10: eolymp.discussion.DeleteMessageInput
+	(*DeleteMessageOutput)(nil),             // 11: eolymp.discussion.DeleteMessageOutput
+	(*VoteMessageInput)(nil),                // 12: eolymp.discussion.VoteMessageInput
+	(*VoteMessageOutput)(nil),               // 13: eolymp.discussion.VoteMessageOutput
+	(*ListMessageChangesInput)(nil),         // 14: eolymp.discussion.ListMessageChangesInput
+	(*ListMessageChangesOutput)(nil),        // 15: eolymp.discussion.ListMessageChangesOutput
+	(*DescribeSubscriptionInput)(nil),       // 16: eolymp.discussion.DescribeSubscriptionInput
+	(*DescribeSubscriptionOutput)(nil),      // 17: eolymp.discussion.DescribeSubscriptionOutput
+	(*UpdateSubscriptionInput)(nil),         // 18: eolymp.discussion.UpdateSubscriptionInput
+	(*UpdateSubscriptionOutput)(nil),        // 19: eolymp.discussion.UpdateSubscriptionOutput
+	(*ListMessagesInput_Filter)(nil),        // 20: eolymp.discussion.ListMessagesInput.Filter
+	(*ListMessageChangesOutput_Record)(nil), // 21: eolymp.discussion.ListMessageChangesOutput.Record
+	(*Message)(nil),                         // 22: eolymp.discussion.Message
+	(Message_Extra)(0),                      // 23: eolymp.discussion.Message.Extra
+	(wellknown.Direction)(0),                // 24: eolymp.wellknown.Direction
+	(*Subscription)(nil),                    // 25: eolymp.discussion.Subscription
+	(*wellknown.ExpressionID)(nil),          // 26: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionInt)(nil),         // 27: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionTimestamp)(nil),   // 28: eolymp.wellknown.ExpressionTimestamp
+	(*timestamppb.Timestamp)(nil),           // 29: google.protobuf.Timestamp
+	(*ecm.Content)(nil),                     // 30: eolymp.ecm.Content
 }
 var file_eolymp_discussion_discussion_service_proto_depIdxs = []int32{
-	0,  // 0: eolymp.discussion.DiscussionService.DescribeMessage:input_type -> eolymp.discussion.DescribeMessageInput
-	1,  // 1: eolymp.discussion.DiscussionService.ListMessages:input_type -> eolymp.discussion.ListMessagesInput
-	2,  // 2: eolymp.discussion.DiscussionService.PostMessage:input_type -> eolymp.discussion.PostMessageInput
-	3,  // 3: eolymp.discussion.DiscussionService.UpdateMessage:input_type -> eolymp.discussion.UpdateMessageInput
-	4,  // 4: eolymp.discussion.DiscussionService.DeleteMessage:input_type -> eolymp.discussion.DeleteMessageInput
-	5,  // 5: eolymp.discussion.DiscussionService.VoteMessage:input_type -> eolymp.discussion.VoteMessageInput
-	6,  // 6: eolymp.discussion.DiscussionService.ListMessageChanges:input_type -> eolymp.discussion.ListMessageChangesInput
-	7,  // 7: eolymp.discussion.DiscussionService.DescribeSubscription:input_type -> eolymp.discussion.DescribeSubscriptionInput
-	8,  // 8: eolymp.discussion.DiscussionService.UpdateSubscription:input_type -> eolymp.discussion.UpdateSubscriptionInput
-	9,  // 9: eolymp.discussion.DiscussionService.DescribeMessage:output_type -> eolymp.discussion.DescribeMessageOutput
-	10, // 10: eolymp.discussion.DiscussionService.ListMessages:output_type -> eolymp.discussion.ListMessagesOutput
-	11, // 11: eolymp.discussion.DiscussionService.PostMessage:output_type -> eolymp.discussion.PostMessageOutput
-	12, // 12: eolymp.discussion.DiscussionService.UpdateMessage:output_type -> eolymp.discussion.UpdateMessageOutput
-	13, // 13: eolymp.discussion.DiscussionService.DeleteMessage:output_type -> eolymp.discussion.DeleteMessageOutput
-	14, // 14: eolymp.discussion.DiscussionService.VoteMessage:output_type -> eolymp.discussion.VoteMessageOutput
-	15, // 15: eolymp.discussion.DiscussionService.ListMessageChanges:output_type -> eolymp.discussion.ListMessageChangesOutput
-	16, // 16: eolymp.discussion.DiscussionService.DescribeSubscription:output_type -> eolymp.discussion.DescribeSubscriptionOutput
-	17, // 17: eolymp.discussion.DiscussionService.UpdateSubscription:output_type -> eolymp.discussion.UpdateSubscriptionOutput
-	9,  // [9:18] is the sub-list for method output_type
-	0,  // [0:9] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	22, // 0: eolymp.discussion.MessageChangedEvent.before:type_name -> eolymp.discussion.Message
+	22, // 1: eolymp.discussion.MessageChangedEvent.after:type_name -> eolymp.discussion.Message
+	23, // 2: eolymp.discussion.DescribeMessageInput.extra:type_name -> eolymp.discussion.Message.Extra
+	22, // 3: eolymp.discussion.DescribeMessageOutput.message:type_name -> eolymp.discussion.Message
+	0,  // 4: eolymp.discussion.ListMessagesInput.sort:type_name -> eolymp.discussion.ListMessagesInput.Sortable
+	24, // 5: eolymp.discussion.ListMessagesInput.order:type_name -> eolymp.wellknown.Direction
+	20, // 6: eolymp.discussion.ListMessagesInput.filters:type_name -> eolymp.discussion.ListMessagesInput.Filter
+	23, // 7: eolymp.discussion.ListMessagesInput.extra:type_name -> eolymp.discussion.Message.Extra
+	22, // 8: eolymp.discussion.ListMessagesOutput.items:type_name -> eolymp.discussion.Message
+	22, // 9: eolymp.discussion.PostMessageInput.message:type_name -> eolymp.discussion.Message
+	22, // 10: eolymp.discussion.UpdateMessageInput.message:type_name -> eolymp.discussion.Message
+	21, // 11: eolymp.discussion.ListMessageChangesOutput.items:type_name -> eolymp.discussion.ListMessageChangesOutput.Record
+	25, // 12: eolymp.discussion.DescribeSubscriptionOutput.subscription:type_name -> eolymp.discussion.Subscription
+	25, // 13: eolymp.discussion.UpdateSubscriptionInput.subscription:type_name -> eolymp.discussion.Subscription
+	26, // 14: eolymp.discussion.ListMessagesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	26, // 15: eolymp.discussion.ListMessagesInput.Filter.reply_to:type_name -> eolymp.wellknown.ExpressionID
+	26, // 16: eolymp.discussion.ListMessagesInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	26, // 17: eolymp.discussion.ListMessagesInput.Filter.thread_id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 18: eolymp.discussion.ListMessagesInput.Filter.vote_count:type_name -> eolymp.wellknown.ExpressionInt
+	27, // 19: eolymp.discussion.ListMessagesInput.Filter.reply_count:type_name -> eolymp.wellknown.ExpressionInt
+	28, // 20: eolymp.discussion.ListMessagesInput.Filter.posted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	29, // 21: eolymp.discussion.ListMessageChangesOutput.Record.timestamp:type_name -> google.protobuf.Timestamp
+	30, // 22: eolymp.discussion.ListMessageChangesOutput.Record.message:type_name -> eolymp.ecm.Content
+	2,  // 23: eolymp.discussion.DiscussionService.DescribeMessage:input_type -> eolymp.discussion.DescribeMessageInput
+	4,  // 24: eolymp.discussion.DiscussionService.ListMessages:input_type -> eolymp.discussion.ListMessagesInput
+	6,  // 25: eolymp.discussion.DiscussionService.PostMessage:input_type -> eolymp.discussion.PostMessageInput
+	8,  // 26: eolymp.discussion.DiscussionService.UpdateMessage:input_type -> eolymp.discussion.UpdateMessageInput
+	10, // 27: eolymp.discussion.DiscussionService.DeleteMessage:input_type -> eolymp.discussion.DeleteMessageInput
+	12, // 28: eolymp.discussion.DiscussionService.VoteMessage:input_type -> eolymp.discussion.VoteMessageInput
+	14, // 29: eolymp.discussion.DiscussionService.ListMessageChanges:input_type -> eolymp.discussion.ListMessageChangesInput
+	16, // 30: eolymp.discussion.DiscussionService.DescribeSubscription:input_type -> eolymp.discussion.DescribeSubscriptionInput
+	18, // 31: eolymp.discussion.DiscussionService.UpdateSubscription:input_type -> eolymp.discussion.UpdateSubscriptionInput
+	3,  // 32: eolymp.discussion.DiscussionService.DescribeMessage:output_type -> eolymp.discussion.DescribeMessageOutput
+	5,  // 33: eolymp.discussion.DiscussionService.ListMessages:output_type -> eolymp.discussion.ListMessagesOutput
+	7,  // 34: eolymp.discussion.DiscussionService.PostMessage:output_type -> eolymp.discussion.PostMessageOutput
+	9,  // 35: eolymp.discussion.DiscussionService.UpdateMessage:output_type -> eolymp.discussion.UpdateMessageOutput
+	11, // 36: eolymp.discussion.DiscussionService.DeleteMessage:output_type -> eolymp.discussion.DeleteMessageOutput
+	13, // 37: eolymp.discussion.DiscussionService.VoteMessage:output_type -> eolymp.discussion.VoteMessageOutput
+	15, // 38: eolymp.discussion.DiscussionService.ListMessageChanges:output_type -> eolymp.discussion.ListMessageChangesOutput
+	17, // 39: eolymp.discussion.DiscussionService.DescribeSubscription:output_type -> eolymp.discussion.DescribeSubscriptionOutput
+	19, // 40: eolymp.discussion.DiscussionService.UpdateSubscription:output_type -> eolymp.discussion.UpdateSubscriptionOutput
+	32, // [32:41] is the sub-list for method output_type
+	23, // [23:32] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_discussion_discussion_service_proto_init() }
@@ -106,20 +1467,22 @@ func file_eolymp_discussion_discussion_service_proto_init() {
 	if File_eolymp_discussion_discussion_service_proto != nil {
 		return
 	}
-	file_eolymp_discussion_message_service_proto_init()
-	file_eolymp_discussion_subscription_service_proto_init()
+	file_eolymp_discussion_message_proto_init()
+	file_eolymp_discussion_subscription_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_discussion_discussion_service_proto_rawDesc), len(file_eolymp_discussion_discussion_service_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   0,
+			NumEnums:      1,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_discussion_discussion_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_discussion_discussion_service_proto_depIdxs,
+		EnumInfos:         file_eolymp_discussion_discussion_service_proto_enumTypes,
+		MessageInfos:      file_eolymp_discussion_discussion_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_discussion_discussion_service_proto = out.File
 	file_eolymp_discussion_discussion_service_proto_goTypes = nil
