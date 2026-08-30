@@ -24,18 +24,16 @@ const (
 type Quota struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// general quota and features
-	PermissionsPerSpace      uint32 `protobuf:"varint,6,opt,name=permissions_per_space,json=permissionsPerSpace,proto3" json:"permissions_per_space,omitempty"`                   // max number of admin users
-	SingleSingOn             bool   `protobuf:"varint,22,opt,name=single_sing_on,json=singleSingOn,proto3" json:"single_sing_on,omitempty"`                                       // allow to configure sso for the space
-	DedicatedUserDatabase    bool   `protobuf:"varint,23,opt,name=dedicated_user_database,json=dedicatedUserDatabase,proto3" json:"dedicated_user_database,omitempty"`            // allow to configure local user database for the space
-	AttributesPerSpace       uint32 `protobuf:"varint,7,opt,name=attributes_per_space,json=attributesPerSpace,proto3" json:"attributes_per_space,omitempty"`                      // max number of custom profile fields for members
-	CustomerSupportReplyTime uint32 `protobuf:"varint,24,opt,name=customer_support_reply_time,json=customerSupportReplyTime,proto3" json:"customer_support_reply_time,omitempty"` // customer support reply time in hours
-	AllowDiscussions         bool   `protobuf:"varint,31,opt,name=allow_discussions,json=allowDiscussions,proto3" json:"allow_discussions,omitempty"`                             // enable discussion post and comment features
-	AuditLog                 bool   `protobuf:"varint,32,opt,name=audit_log,json=auditLog,proto3" json:"audit_log,omitempty"`                                                     // allow space administrators to query and export the space audit log
-	AchievementsPerSpace     uint32 `protobuf:"varint,15,opt,name=achievements_per_space,json=achievementsPerSpace,proto3" json:"achievements_per_space,omitempty"`               // max number of achievements
-	PrintersPerSpace         uint32 `protobuf:"varint,26,opt,name=printers_per_space,json=printersPerSpace,proto3" json:"printers_per_space,omitempty"`                           // max number of printers (0 - printers are disabled)
+	PermissionsPerSpace   uint32 `protobuf:"varint,6,opt,name=permissions_per_space,json=permissionsPerSpace,proto3" json:"permissions_per_space,omitempty"`        // max number of admin users
+	SingleSingOn          bool   `protobuf:"varint,22,opt,name=single_sing_on,json=singleSingOn,proto3" json:"single_sing_on,omitempty"`                            // allow to configure sso for the space
+	DedicatedUserDatabase bool   `protobuf:"varint,23,opt,name=dedicated_user_database,json=dedicatedUserDatabase,proto3" json:"dedicated_user_database,omitempty"` // allow to configure local user database for the space
+	AttributesPerSpace    uint32 `protobuf:"varint,7,opt,name=attributes_per_space,json=attributesPerSpace,proto3" json:"attributes_per_space,omitempty"`           // max number of custom profile fields for members
+	AllowDiscussions      bool   `protobuf:"varint,31,opt,name=allow_discussions,json=allowDiscussions,proto3" json:"allow_discussions,omitempty"`                  // enable discussion post and comment features
+	AuditLog              bool   `protobuf:"varint,32,opt,name=audit_log,json=auditLog,proto3" json:"audit_log,omitempty"`                                          // allow space administrators to query and export the space audit log
+	AchievementsPerSpace  uint32 `protobuf:"varint,15,opt,name=achievements_per_space,json=achievementsPerSpace,proto3" json:"achievements_per_space,omitempty"`    // max number of achievements
+	PrintersPerSpace      uint32 `protobuf:"varint,26,opt,name=printers_per_space,json=printersPerSpace,proto3" json:"printers_per_space,omitempty"`                // max number of printers (0 - printers are disabled)
 	// submission evaluation quota and features
 	EvaluationsBySeatPerMonth uint32 `protobuf:"varint,13,opt,name=evaluations_by_seat_per_month,json=evaluationsBySeatPerMonth,proto3" json:"evaluations_by_seat_per_month,omitempty"` // number of submission evaluations per month/seat, including rejudge (to get total monthly quota multiply by number of seats)
-	PriorityEvaluationQueue   bool   `protobuf:"varint,25,opt,name=priority_evaluation_queue,json=priorityEvaluationQueue,proto3" json:"priority_evaluation_queue,omitempty"`           // space uses priority testing queue
 	PlagiarismAnalysis        bool   `protobuf:"varint,18,opt,name=plagiarism_analysis,json=plagiarismAnalysis,proto3" json:"plagiarism_analysis,omitempty"`                            // analyse submission code to see similarities and generate a report
 	SubmissionEvaluationLimit uint32 `protobuf:"varint,27,opt,name=submission_evaluation_limit,json=submissionEvaluationLimit,proto3" json:"submission_evaluation_limit,omitempty"`     // maximum amount of time a submission can be evaluated
 	// member quota and features
@@ -138,13 +136,6 @@ func (x *Quota) GetAttributesPerSpace() uint32 {
 	return 0
 }
 
-func (x *Quota) GetCustomerSupportReplyTime() uint32 {
-	if x != nil {
-		return x.CustomerSupportReplyTime
-	}
-	return 0
-}
-
 func (x *Quota) GetAllowDiscussions() bool {
 	if x != nil {
 		return x.AllowDiscussions
@@ -178,13 +169,6 @@ func (x *Quota) GetEvaluationsBySeatPerMonth() uint32 {
 		return x.EvaluationsBySeatPerMonth
 	}
 	return 0
-}
-
-func (x *Quota) GetPriorityEvaluationQueue() bool {
-	if x != nil {
-		return x.PriorityEvaluationQueue
-	}
-	return false
 }
 
 func (x *Quota) GetPlagiarismAnalysis() bool {
@@ -415,19 +399,17 @@ var File_eolymp_universe_quota_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\x91\x11\n" +
+	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xa2\x10\n" +
 	"\x05Quota\x122\n" +
 	"\x15permissions_per_space\x18\x06 \x01(\rR\x13permissionsPerSpace\x12$\n" +
 	"\x0esingle_sing_on\x18\x16 \x01(\bR\fsingleSingOn\x126\n" +
 	"\x17dedicated_user_database\x18\x17 \x01(\bR\x15dedicatedUserDatabase\x120\n" +
-	"\x14attributes_per_space\x18\a \x01(\rR\x12attributesPerSpace\x12=\n" +
-	"\x1bcustomer_support_reply_time\x18\x18 \x01(\rR\x18customerSupportReplyTime\x12+\n" +
+	"\x14attributes_per_space\x18\a \x01(\rR\x12attributesPerSpace\x12+\n" +
 	"\x11allow_discussions\x18\x1f \x01(\bR\x10allowDiscussions\x12\x1b\n" +
 	"\taudit_log\x18  \x01(\bR\bauditLog\x124\n" +
 	"\x16achievements_per_space\x18\x0f \x01(\rR\x14achievementsPerSpace\x12,\n" +
 	"\x12printers_per_space\x18\x1a \x01(\rR\x10printersPerSpace\x12@\n" +
-	"\x1devaluations_by_seat_per_month\x18\r \x01(\rR\x19evaluationsBySeatPerMonth\x12:\n" +
-	"\x19priority_evaluation_queue\x18\x19 \x01(\bR\x17priorityEvaluationQueue\x12/\n" +
+	"\x1devaluations_by_seat_per_month\x18\r \x01(\rR\x19evaluationsBySeatPerMonth\x12/\n" +
 	"\x13plagiarism_analysis\x18\x12 \x01(\bR\x12plagiarismAnalysis\x12>\n" +
 	"\x1bsubmission_evaluation_limit\x18\x1b \x01(\rR\x19submissionEvaluationLimit\x12*\n" +
 	"\x11members_per_space\x18\x02 \x01(\rR\x0fmembersPerSpace\x12%\n" +
@@ -460,7 +442,7 @@ const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\x14max_contest_duration\x18\x11 \x01(\rR\x12maxContestDuration\x12#\n" +
 	"\rteam_contests\x18\x13 \x01(\bR\fteamContests\x12-\n" +
 	"\x12ghost_participants\x18\x14 \x01(\bR\x11ghostParticipants\x127\n" +
-	"\x17unofficial_participants\x18\x15 \x01(\bR\x16unofficialParticipantsB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x17unofficial_participants\x18\x15 \x01(\bR\x16unofficialParticipantsJ\x04\b\x18\x10\x19J\x04\b\x19\x10\x1aB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_quota_proto_rawDescOnce sync.Once
