@@ -36,7 +36,8 @@ const (
 // An access key is the alternative to OAuth 2.0 for server-to-server use: rather than running an
 // authorization flow, a script presents the key and is authenticated as the member it was created under,
 // allowed to do only what the key's scopes cover and only until the key expires. Keys are held by a
-// member, so these calls are addressed through the base url a member carries in its read-only url field.
+// member, and a call is always about the member it is authenticated as: the key is issued to, listed for
+// and revoked from whoever presents the credentials, never a member named in the request.
 // The secret is handed out once, in the response to CreateAccessKey, and no method returns it afterwards.
 type AccessKeyServiceClient interface {
 	// CreateAccessKey issues a key for the member it is called under and returns its secret. This is the
@@ -116,7 +117,8 @@ func (c *accessKeyServiceClient) ListAccessKeys(ctx context.Context, in *ListAcc
 // An access key is the alternative to OAuth 2.0 for server-to-server use: rather than running an
 // authorization flow, a script presents the key and is authenticated as the member it was created under,
 // allowed to do only what the key's scopes cover and only until the key expires. Keys are held by a
-// member, so these calls are addressed through the base url a member carries in its read-only url field.
+// member, and a call is always about the member it is authenticated as: the key is issued to, listed for
+// and revoked from whoever presents the credentials, never a member named in the request.
 // The secret is handed out once, in the response to CreateAccessKey, and no method returns it afterwards.
 type AccessKeyServiceServer interface {
 	// CreateAccessKey issues a key for the member it is called under and returns its secret. This is the
