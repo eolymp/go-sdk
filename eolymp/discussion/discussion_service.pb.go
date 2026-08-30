@@ -7,6 +7,7 @@
 package discussion
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -24,17 +25,35 @@ var File_eolymp_discussion_discussion_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/discussion/discussion_service.proto\x12\x11eolymp.discussion\x1a'eolymp/discussion/message_service.proto\x1a,eolymp/discussion/subscription_service.proto2\xaf\a\n" +
-	"\x11DiscussionService\x12f\n" +
-	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"\x00\x12]\n" +
-	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"\x00\x12Z\n" +
-	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"\x00\x12`\n" +
-	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"\x00\x12`\n" +
-	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"\x00\x12Z\n" +
-	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"\x00\x12o\n" +
-	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"\x00\x12u\n" +
-	"\x14DescribeSubscription\x12,.eolymp.discussion.DescribeSubscriptionInput\x1a-.eolymp.discussion.DescribeSubscriptionOutput\"\x00\x12o\n" +
-	"\x12UpdateSubscription\x12*.eolymp.discussion.UpdateSubscriptionInput\x1a+.eolymp.discussion.UpdateSubscriptionOutput\"\x00B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"*eolymp/discussion/discussion_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a'eolymp/discussion/message_service.proto\x1a,eolymp/discussion/subscription_service.proto2\xf7\a\n" +
+	"\x11DiscussionService\x12n\n" +
+	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x12e\n" +
+	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x12b\n" +
+	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12h\n" +
+	"\rUpdateMessage\x12%.eolymp.discussion.UpdateMessageInput\x1a&.eolymp.discussion.UpdateMessageOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12h\n" +
+	"\rDeleteMessage\x12%.eolymp.discussion.DeleteMessageInput\x1a&.eolymp.discussion.DeleteMessageOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x12b\n" +
+	"\vVoteMessage\x12#.eolymp.discussion.VoteMessageInput\x1a$.eolymp.discussion.VoteMessageOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x12w\n" +
+	"\x12ListMessageChanges\x12*.eolymp.discussion.ListMessageChangesInput\x1a+.eolymp.discussion.ListMessageChangesOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x12}\n" +
+	"\x14DescribeSubscription\x12,.eolymp.discussion.DescribeSubscriptionInput\x1a-.eolymp.discussion.DescribeSubscriptionOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x12w\n" +
+	"\x12UpdateSubscription\x12*.eolymp.discussion.UpdateSubscriptionInput\x1a+.eolymp.discussion.UpdateSubscriptionOutput\"\b\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var file_eolymp_discussion_discussion_service_proto_goTypes = []any{
 	(*DescribeMessageInput)(nil),       // 0: eolymp.discussion.DescribeMessageInput
