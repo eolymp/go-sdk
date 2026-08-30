@@ -147,6 +147,7 @@ func (x *MessageChangedEvent) GetReason() string {
 
 type DescribeMessageInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	Render        bool                   `protobuf:"varint,2,opt,name=render,proto3" json:"render,omitempty"`
 	Extra         []Message_Extra        `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.discussion.Message_Extra" json:"extra,omitempty"`
@@ -182,6 +183,13 @@ func (x *DescribeMessageInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeMessageInput.ProtoReflect.Descriptor instead.
 func (*DescribeMessageInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DescribeMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *DescribeMessageInput) GetMessageId() string {
@@ -250,8 +258,9 @@ func (x *DescribeMessageOutput) GetMessage() *Message {
 }
 
 type ListMessagesInput struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	Render bool                   `protobuf:"varint,1,opt,name=render,proto3" json:"render,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId string                 `protobuf:"bytes,2,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	Render   bool                   `protobuf:"varint,1,opt,name=render,proto3" json:"render,omitempty"`
 	// pagination
 	After string                     `protobuf:"bytes,10,opt,name=after,proto3" json:"after,omitempty"`
 	Size  int32                      `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
@@ -292,6 +301,13 @@ func (x *ListMessagesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListMessagesInput.ProtoReflect.Descriptor instead.
 func (*ListMessagesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListMessagesInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *ListMessagesInput) GetRender() bool {
@@ -397,6 +413,7 @@ func (x *ListMessagesOutput) GetItems() []*Message {
 
 type PostMessageInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	Message       *Message               `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	ReplyTo       string                 `protobuf:"bytes,2,opt,name=reply_to,json=replyTo,proto3" json:"reply_to,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -431,6 +448,13 @@ func (x *PostMessageInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use PostMessageInput.ProtoReflect.Descriptor instead.
 func (*PostMessageInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *PostMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *PostMessageInput) GetMessage() *Message {
@@ -493,6 +517,7 @@ func (x *PostMessageOutput) GetMessageId() string {
 
 type UpdateMessageInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	Message       *Message               `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -527,6 +552,13 @@ func (x *UpdateMessageInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateMessageInput.ProtoReflect.Descriptor instead.
 func (*UpdateMessageInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *UpdateMessageInput) GetMessageId() string {
@@ -581,6 +613,7 @@ func (*UpdateMessageOutput) Descriptor() ([]byte, []int) {
 
 type DeleteMessageInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -615,6 +648,13 @@ func (x *DeleteMessageInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteMessageInput.ProtoReflect.Descriptor instead.
 func (*DeleteMessageInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *DeleteMessageInput) GetMessageId() string {
@@ -669,6 +709,7 @@ func (*DeleteMessageOutput) Descriptor() ([]byte, []int) {
 
 type VoteMessageInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	Vote          int32                  `protobuf:"varint,2,opt,name=vote,proto3" json:"vote,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -703,6 +744,13 @@ func (x *VoteMessageInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use VoteMessageInput.ProtoReflect.Descriptor instead.
 func (*VoteMessageInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *VoteMessageInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *VoteMessageInput) GetMessageId() string {
@@ -765,6 +813,7 @@ func (x *VoteMessageOutput) GetVoteCount() int32 {
 
 type ListMessageChangesInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,2,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -798,6 +847,13 @@ func (x *ListMessageChangesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListMessageChangesInput.ProtoReflect.Descriptor instead.
 func (*ListMessageChangesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_message_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListMessageChangesInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *ListMessageChangesInput) GetMessageId() string {
@@ -1021,15 +1077,17 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	" \x01(\tR\x05scope\x122\n" +
 	"\x06before\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\x06before\x120\n" +
 	"\x05after\x18\x02 \x01(\v2\x1a.eolymp.discussion.MessageR\x05after\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"\x86\x01\n" +
-	"\x14DescribeMessageInput\x12\x1d\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"\xa3\x01\n" +
+	"\x14DescribeMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
 	"\n" +
 	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x16\n" +
 	"\x06render\x18\x02 \x01(\bR\x06render\x127\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.discussion.Message.ExtraR\x05extra\"M\n" +
 	"\x15DescribeMessageOutput\x124\n" +
-	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\xe0\x06\n" +
-	"\x11ListMessagesInput\x12\x16\n" +
+	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\xfd\x06\n" +
+	"\x11ListMessagesInput\x12\x1b\n" +
+	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12\x16\n" +
 	"\x06render\x18\x01 \x01(\bR\x06render\x12\x14\n" +
 	"\x05after\x18\n" +
 	" \x01(\tR\x05after\x12\x12\n" +
@@ -1057,31 +1115,36 @@ const file_eolymp_discussion_message_service_proto_rawDesc = "" +
 	"\vREPLY_COUNT\x10\x03\"\\\n" +
 	"\x12ListMessagesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x120\n" +
-	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.discussion.MessageR\x05items\"c\n" +
-	"\x10PostMessageInput\x124\n" +
+	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.discussion.MessageR\x05items\"\x80\x01\n" +
+	"\x10PostMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x124\n" +
 	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\x12\x19\n" +
 	"\breply_to\x18\x02 \x01(\tR\areplyTo\"2\n" +
 	"\x11PostMessageOutput\x12\x1d\n" +
 	"\n" +
-	"message_id\x18\x01 \x01(\tR\tmessageId\"i\n" +
-	"\x12UpdateMessageInput\x12\x1d\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\"\x86\x01\n" +
+	"\x12UpdateMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
 	"\n" +
 	"message_id\x18\x01 \x01(\tR\tmessageId\x124\n" +
 	"\amessage\x18\x02 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\x15\n" +
-	"\x13UpdateMessageOutput\"K\n" +
-	"\x12DeleteMessageInput\x12\x1d\n" +
+	"\x13UpdateMessageOutput\"h\n" +
+	"\x12DeleteMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
 	"\n" +
 	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\"\x15\n" +
-	"\x13DeleteMessageOutput\"E\n" +
-	"\x10VoteMessageInput\x12\x1d\n" +
+	"\x13DeleteMessageOutput\"b\n" +
+	"\x10VoteMessageInput\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId\x12\x1d\n" +
 	"\n" +
 	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x12\n" +
 	"\x04vote\x18\x02 \x01(\x05R\x04vote\"2\n" +
 	"\x11VoteMessageOutput\x12\x1d\n" +
 	"\n" +
-	"vote_count\x18\x01 \x01(\x05R\tvoteCount\"8\n" +
-	"\x17ListMessageChangesInput\x12\x1d\n" +
+	"vote_count\x18\x01 \x01(\x05R\tvoteCount\"U\n" +
+	"\x17ListMessageChangesInput\x12\x1b\n" +
+	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12\x1d\n" +
 	"\n" +
 	"message_id\x18\x01 \x01(\tR\tmessageId\"\xf8\x01\n" +
 	"\x18ListMessageChangesOutput\x12L\n" +

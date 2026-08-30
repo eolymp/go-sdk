@@ -24,6 +24,7 @@ const (
 
 type DescribeSubscriptionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,1,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -56,6 +57,13 @@ func (x *DescribeSubscriptionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeSubscriptionInput.ProtoReflect.Descriptor instead.
 func (*DescribeSubscriptionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_subscription_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DescribeSubscriptionInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 type DescribeSubscriptionOutput struct {
@@ -104,6 +112,7 @@ func (x *DescribeSubscriptionOutput) GetSubscription() *Subscription {
 
 type UpdateSubscriptionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ThreadId      string                 `protobuf:"bytes,2,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	Subscription  *Subscription          `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -137,6 +146,13 @@ func (x *UpdateSubscriptionInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateSubscriptionInput.ProtoReflect.Descriptor instead.
 func (*UpdateSubscriptionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_subscription_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateSubscriptionInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
 }
 
 func (x *UpdateSubscriptionInput) GetSubscription() *Subscription {
@@ -186,11 +202,13 @@ var File_eolymp_discussion_subscription_service_proto protoreflect.FileDescripto
 
 const file_eolymp_discussion_subscription_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/discussion/subscription_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/discussion/subscription.proto\"\x1b\n" +
-	"\x19DescribeSubscriptionInput\"a\n" +
+	",eolymp/discussion/subscription_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a$eolymp/discussion/subscription.proto\"8\n" +
+	"\x19DescribeSubscriptionInput\x12\x1b\n" +
+	"\tthread_id\x18\x01 \x01(\tR\bthreadId\"a\n" +
 	"\x1aDescribeSubscriptionOutput\x12C\n" +
-	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"^\n" +
-	"\x17UpdateSubscriptionInput\x12C\n" +
+	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"{\n" +
+	"\x17UpdateSubscriptionInput\x12\x1b\n" +
+	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12C\n" +
 	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"\x1a\n" +
 	"\x18UpdateSubscriptionOutput2\xd6\x03\n" +
 	"\x13SubscriptionService\x12\xc6\x01\n" +
