@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: eolymp/content/content_service.proto
+// source: eolymp/judge/content_service.proto
 
-package content
+package judge
 
 import (
 	context "context"
@@ -19,27 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ContentService_DescribeFragment_FullMethodName  = "/eolymp.content.ContentService/DescribeFragment"
-	ContentService_ListFragments_FullMethodName     = "/eolymp.content.ContentService/ListFragments"
-	ContentService_CreateFragment_FullMethodName    = "/eolymp.content.ContentService/CreateFragment"
-	ContentService_UpdateFragment_FullMethodName    = "/eolymp.content.ContentService/UpdateFragment"
-	ContentService_DeleteFragment_FullMethodName    = "/eolymp.content.ContentService/DeleteFragment"
-	ContentService_TranslateFragment_FullMethodName = "/eolymp.content.ContentService/TranslateFragment"
-	ContentService_DescribePath_FullMethodName      = "/eolymp.content.ContentService/DescribePath"
-	ContentService_ListParents_FullMethodName       = "/eolymp.content.ContentService/ListParents"
+	ContentService_DescribeFragment_FullMethodName  = "/eolymp.judge.ContentService/DescribeFragment"
+	ContentService_ListFragments_FullMethodName     = "/eolymp.judge.ContentService/ListFragments"
+	ContentService_CreateFragment_FullMethodName    = "/eolymp.judge.ContentService/CreateFragment"
+	ContentService_UpdateFragment_FullMethodName    = "/eolymp.judge.ContentService/UpdateFragment"
+	ContentService_DeleteFragment_FullMethodName    = "/eolymp.judge.ContentService/DeleteFragment"
+	ContentService_TranslateFragment_FullMethodName = "/eolymp.judge.ContentService/TranslateFragment"
+	ContentService_DescribePath_FullMethodName      = "/eolymp.judge.ContentService/DescribePath"
+	ContentService_ListParents_FullMethodName       = "/eolymp.judge.ContentService/ListParents"
 )
 
 // ContentServiceClient is the client API for ContentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// ContentService manages the pages of a space.
+// ContentService manages the pages of a contest.
 //
-// A page — a fragment on the wire — is content an admin writes for members: space information, rules,
-// contact details, a schedule. Its path, not its title, is what places it on the site: `/pages/rules` is
-// served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the navigation menu.
-//
-// A contest has its own pages, managed by eolymp.judge.ContentService. The two sets are independent.
+// A page — a fragment on the wire — is content an admin writes for participants, and its path is what
+// places it: `/overview` is the contest home page and anything below it becomes a tab. These pages belong
+// to the contest and are independent of the space's own pages, which eolymp.content.ContentService manages.
 //
 // A page has no locale of its own. It holds the source title and content plus a complete translation of
 // them per locale, and the locale on a request picks between them: reading falls back to the page when the
@@ -47,42 +45,22 @@ const (
 // not translatable and always belong to the page. Content is Markdown or LaTeX with a parsed tree
 // alongside it, and reads leave it out unless asked for it.
 type ContentServiceClient interface {
-	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
-	// path. The requested locale selects a translation and falls back to the page itself when that
-	// translation does not exist, so this is also the read to use when rendering a page for a particular
-	// reader.
+	// DescribeFragment returns a single page of the contest by id, for callers that already hold an id
+	// rather than only a path.
 	DescribeFragment(ctx context.Context, in *DescribeFragmentInput, opts ...grpc.CallOption) (*DescribeFragmentOutput, error)
-	// ListFragments enumerates the pages of the space or contest being addressed, which is how to discover
-	// what paths exist there. Labels are free-form strings a client attaches to organise pages and listing
-	// can be narrowed by them; prefixed conventions seen in Eolymp's own content are a client convention
-	// only, as the platform attaches no meaning to a label and never acts on one.
+	// ListFragments returns the contest's pages.
 	ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error)
-	// CreateFragment adds a page to the space or contest being addressed and returns its id. The path given
-	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
-	// how a page can be written before members are meant to see it.
+	// CreateFragment adds a page to the contest.
 	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
-	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
-	// written, so moving a page to another path does not mean resending its content. Aimed at a locale it
-	// writes that page's translation instead, creating it from the page when the translation does not exist
-	// yet; the path, the draft flag and the labels are not translatable, so they still land on the page
-	// itself rather than being dropped.
+	// UpdateFragment writes the page itself when no locale is given, and its translation when one is.
 	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
-	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at,
-	// and takes the page's translations with it. Aimed at a single locale it removes only that translation
-	// and leaves the page itself in place.
+	// DeleteFragment removes the page, or only one of its translations when a locale is given.
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
-	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
-	// work runs asynchronously, so the translations appear some time after the call returns and are found by
-	// reading the page in those locales. Translations written by hand are left alone unless the request asks
-	// for them to be overwritten, and whatever this produces is marked as automatic.
+	// TranslateFragment translates a page into other locales asynchronously.
 	TranslateFragment(ctx context.Context, in *TranslateFragmentInput, opts ...grpc.CallOption) (*TranslateFragmentOutput, error)
-	// DescribePath looks a page up by the path it is served at instead of by id, which is what a front-end
-	// has to work with when all it knows is the URL a visitor asked for. Otherwise it behaves like
-	// DescribeFragment, honouring the requested locale and its fallback.
+	// DescribePath returns the page a path resolves to, which is how a contest page is rendered.
 	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
-	// ListParents returns the pages lying above a path — the ancestors of `/overview/rules/scoring`, not the
-	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. Whole
-	// pages come back, so a path segment that has no page of its own cannot appear among them.
+	// ListParents returns the pages above a path, for building a breadcrumb.
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 }
 
@@ -178,13 +156,11 @@ func (c *contentServiceClient) ListParents(ctx context.Context, in *ListParentsI
 // All implementations should embed UnimplementedContentServiceServer
 // for forward compatibility.
 //
-// ContentService manages the pages of a space.
+// ContentService manages the pages of a contest.
 //
-// A page — a fragment on the wire — is content an admin writes for members: space information, rules,
-// contact details, a schedule. Its path, not its title, is what places it on the site: `/pages/rules` is
-// served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the navigation menu.
-//
-// A contest has its own pages, managed by eolymp.judge.ContentService. The two sets are independent.
+// A page — a fragment on the wire — is content an admin writes for participants, and its path is what
+// places it: `/overview` is the contest home page and anything below it becomes a tab. These pages belong
+// to the contest and are independent of the space's own pages, which eolymp.content.ContentService manages.
 //
 // A page has no locale of its own. It holds the source title and content plus a complete translation of
 // them per locale, and the locale on a request picks between them: reading falls back to the page when the
@@ -192,42 +168,22 @@ func (c *contentServiceClient) ListParents(ctx context.Context, in *ListParentsI
 // not translatable and always belong to the page. Content is Markdown or LaTeX with a parsed tree
 // alongside it, and reads leave it out unless asked for it.
 type ContentServiceServer interface {
-	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
-	// path. The requested locale selects a translation and falls back to the page itself when that
-	// translation does not exist, so this is also the read to use when rendering a page for a particular
-	// reader.
+	// DescribeFragment returns a single page of the contest by id, for callers that already hold an id
+	// rather than only a path.
 	DescribeFragment(context.Context, *DescribeFragmentInput) (*DescribeFragmentOutput, error)
-	// ListFragments enumerates the pages of the space or contest being addressed, which is how to discover
-	// what paths exist there. Labels are free-form strings a client attaches to organise pages and listing
-	// can be narrowed by them; prefixed conventions seen in Eolymp's own content are a client convention
-	// only, as the platform attaches no meaning to a label and never acts on one.
+	// ListFragments returns the contest's pages.
 	ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error)
-	// CreateFragment adds a page to the space or contest being addressed and returns its id. The path given
-	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
-	// how a page can be written before members are meant to see it.
+	// CreateFragment adds a page to the contest.
 	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
-	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
-	// written, so moving a page to another path does not mean resending its content. Aimed at a locale it
-	// writes that page's translation instead, creating it from the page when the translation does not exist
-	// yet; the path, the draft flag and the labels are not translatable, so they still land on the page
-	// itself rather than being dropped.
+	// UpdateFragment writes the page itself when no locale is given, and its translation when one is.
 	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
-	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at,
-	// and takes the page's translations with it. Aimed at a single locale it removes only that translation
-	// and leaves the page itself in place.
+	// DeleteFragment removes the page, or only one of its translations when a locale is given.
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
-	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
-	// work runs asynchronously, so the translations appear some time after the call returns and are found by
-	// reading the page in those locales. Translations written by hand are left alone unless the request asks
-	// for them to be overwritten, and whatever this produces is marked as automatic.
+	// TranslateFragment translates a page into other locales asynchronously.
 	TranslateFragment(context.Context, *TranslateFragmentInput) (*TranslateFragmentOutput, error)
-	// DescribePath looks a page up by the path it is served at instead of by id, which is what a front-end
-	// has to work with when all it knows is the URL a visitor asked for. Otherwise it behaves like
-	// DescribeFragment, honouring the requested locale and its fallback.
+	// DescribePath returns the page a path resolves to, which is how a contest page is rendered.
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
-	// ListParents returns the pages lying above a path — the ancestors of `/overview/rules/scoring`, not the
-	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. Whole
-	// pages come back, so a path segment that has no page of its own cannot appear among them.
+	// ListParents returns the pages above a path, for building a breadcrumb.
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 }
 
@@ -430,7 +386,7 @@ func _ContentService_ListParents_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ContentService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "eolymp.content.ContentService",
+	ServiceName: "eolymp.judge.ContentService",
 	HandlerType: (*ContentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -467,5 +423,5 @@ var ContentService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "eolymp/content/content_service.proto",
+	Metadata: "eolymp/judge/content_service.proto",
 }

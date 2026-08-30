@@ -2,12 +2,13 @@
 // versions:
 // 	protoc-gen-go v1.36.12
 // 	protoc        v3.21.12
-// source: eolymp/content/content_service.proto
+// source: eolymp/judge/content_service.proto
 
-package content
+package judge
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	content "github.com/eolymp/go-sdk/eolymp/content"
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -26,22 +27,22 @@ const (
 type ListFragmentsInput_Sort int32
 
 const (
-	ListFragmentsInput_DEFAULT    ListFragmentsInput_Sort = 0
-	ListFragmentsInput_PATH       ListFragmentsInput_Sort = 1
-	ListFragmentsInput_CREATED_AT ListFragmentsInput_Sort = 2
+	ListFragmentsInput_UNKNOWN_SORT ListFragmentsInput_Sort = 0
+	ListFragmentsInput_PATH         ListFragmentsInput_Sort = 1
+	ListFragmentsInput_CREATED_AT   ListFragmentsInput_Sort = 2
 )
 
 // Enum value maps for ListFragmentsInput_Sort.
 var (
 	ListFragmentsInput_Sort_name = map[int32]string{
-		0: "DEFAULT",
+		0: "UNKNOWN_SORT",
 		1: "PATH",
 		2: "CREATED_AT",
 	}
 	ListFragmentsInput_Sort_value = map[string]int32{
-		"DEFAULT":    0,
-		"PATH":       1,
-		"CREATED_AT": 2,
+		"UNKNOWN_SORT": 0,
+		"PATH":         1,
+		"CREATED_AT":   2,
 	}
 )
 
@@ -56,11 +57,11 @@ func (x ListFragmentsInput_Sort) String() string {
 }
 
 func (ListFragmentsInput_Sort) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_content_service_proto_enumTypes[0].Descriptor()
+	return file_eolymp_judge_content_service_proto_enumTypes[0].Descriptor()
 }
 
 func (ListFragmentsInput_Sort) Type() protoreflect.EnumType {
-	return &file_eolymp_content_content_service_proto_enumTypes[0]
+	return &file_eolymp_judge_content_service_proto_enumTypes[0]
 }
 
 func (x ListFragmentsInput_Sort) Number() protoreflect.EnumNumber {
@@ -69,81 +70,22 @@ func (x ListFragmentsInput_Sort) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListFragmentsInput_Sort.Descriptor instead.
 func (ListFragmentsInput_Sort) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3, 0}
-}
-
-type FragmentChangedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Scope         string                 `protobuf:"bytes,10,opt,name=scope,proto3" json:"scope,omitempty"`
-	Before        *Fragment              `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
-	After         *Fragment              `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FragmentChangedEvent) Reset() {
-	*x = FragmentChangedEvent{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FragmentChangedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FragmentChangedEvent) ProtoMessage() {}
-
-func (x *FragmentChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FragmentChangedEvent.ProtoReflect.Descriptor instead.
-func (*FragmentChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *FragmentChangedEvent) GetScope() string {
-	if x != nil {
-		return x.Scope
-	}
-	return ""
-}
-
-func (x *FragmentChangedEvent) GetBefore() *Fragment {
-	if x != nil {
-		return x.Before
-	}
-	return nil
-}
-
-func (x *FragmentChangedEvent) GetAfter() *Fragment {
-	if x != nil {
-		return x.After
-	}
-	return nil
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
 type DescribeFragmentInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
-	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Extra         []Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	ContestId     string                         `protobuf:"bytes,3,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	FragmentId    string                         `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
+	Locale        string                         `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	Extra         []content.Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeFragmentInput) Reset() {
 	*x = DescribeFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[1]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -155,7 +97,7 @@ func (x *DescribeFragmentInput) String() string {
 func (*DescribeFragmentInput) ProtoMessage() {}
 
 func (x *DescribeFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[1]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -168,12 +110,12 @@ func (x *DescribeFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeFragmentInput.ProtoReflect.Descriptor instead.
 func (*DescribeFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *DescribeFragmentInput) GetLocale() string {
+func (x *DescribeFragmentInput) GetContestId() string {
 	if x != nil {
-		return x.Locale
+		return x.ContestId
 	}
 	return ""
 }
@@ -185,7 +127,14 @@ func (x *DescribeFragmentInput) GetFragmentId() string {
 	return ""
 }
 
-func (x *DescribeFragmentInput) GetExtra() []Fragment_Extra_Field {
+func (x *DescribeFragmentInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *DescribeFragmentInput) GetExtra() []content.Fragment_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -194,14 +143,14 @@ func (x *DescribeFragmentInput) GetExtra() []Fragment_Extra_Field {
 
 type DescribeFragmentOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Fragment      *Fragment              `protobuf:"bytes,1,opt,name=fragment,proto3" json:"fragment,omitempty"`
+	Fragment      *content.Fragment      `protobuf:"bytes,1,opt,name=fragment,proto3" json:"fragment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeFragmentOutput) Reset() {
 	*x = DescribeFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[2]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -213,7 +162,7 @@ func (x *DescribeFragmentOutput) String() string {
 func (*DescribeFragmentOutput) ProtoMessage() {}
 
 func (x *DescribeFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[2]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -226,10 +175,10 @@ func (x *DescribeFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeFragmentOutput.ProtoReflect.Descriptor instead.
 func (*DescribeFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DescribeFragmentOutput) GetFragment() *Fragment {
+func (x *DescribeFragmentOutput) GetFragment() *content.Fragment {
 	if x != nil {
 		return x.Fragment
 	}
@@ -237,23 +186,22 @@ func (x *DescribeFragmentOutput) GetFragment() *Fragment {
 }
 
 type ListFragmentsInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// pagination
-	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	// data filters
-	Filters       *ListFragmentsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
-	Sort          ListFragmentsInput_Sort    `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.content.ListFragmentsInput_Sort" json:"sort,omitempty"`
-	Order         wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
-	Locale        string                     `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
-	Extra         []Fragment_Extra_Field     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	ContestId     string                         `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Offset        int32                          `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                          `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Filters       *ListFragmentsInput_Filter     `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	Sort          ListFragmentsInput_Sort        `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.judge.ListFragmentsInput_Sort" json:"sort,omitempty"`
+	Order         wellknown.Direction            `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
+	Locale        string                         `protobuf:"bytes,1122,opt,name=locale,proto3" json:"locale,omitempty"`
+	Extra         []content.Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListFragmentsInput) Reset() {
 	*x = ListFragmentsInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[3]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -265,7 +213,7 @@ func (x *ListFragmentsInput) String() string {
 func (*ListFragmentsInput) ProtoMessage() {}
 
 func (x *ListFragmentsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[3]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -278,7 +226,14 @@ func (x *ListFragmentsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFragmentsInput.ProtoReflect.Descriptor instead.
 func (*ListFragmentsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListFragmentsInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *ListFragmentsInput) GetOffset() int32 {
@@ -306,7 +261,7 @@ func (x *ListFragmentsInput) GetSort() ListFragmentsInput_Sort {
 	if x != nil {
 		return x.Sort
 	}
-	return ListFragmentsInput_DEFAULT
+	return ListFragmentsInput_UNKNOWN_SORT
 }
 
 func (x *ListFragmentsInput) GetOrder() wellknown.Direction {
@@ -323,7 +278,7 @@ func (x *ListFragmentsInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListFragmentsInput) GetExtra() []Fragment_Extra_Field {
+func (x *ListFragmentsInput) GetExtra() []content.Fragment_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -333,14 +288,14 @@ func (x *ListFragmentsInput) GetExtra() []Fragment_Extra_Field {
 type ListFragmentsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Fragment            `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*content.Fragment    `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListFragmentsOutput) Reset() {
 	*x = ListFragmentsOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[4]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -352,7 +307,7 @@ func (x *ListFragmentsOutput) String() string {
 func (*ListFragmentsOutput) ProtoMessage() {}
 
 func (x *ListFragmentsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[4]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +320,7 @@ func (x *ListFragmentsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFragmentsOutput.ProtoReflect.Descriptor instead.
 func (*ListFragmentsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListFragmentsOutput) GetTotal() int32 {
@@ -375,7 +330,7 @@ func (x *ListFragmentsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListFragmentsOutput) GetItems() []*Fragment {
+func (x *ListFragmentsOutput) GetItems() []*content.Fragment {
 	if x != nil {
 		return x.Items
 	}
@@ -384,14 +339,15 @@ func (x *ListFragmentsOutput) GetItems() []*Fragment {
 
 type CreateFragmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Fragment      *Fragment              `protobuf:"bytes,1,opt,name=fragment,proto3" json:"fragment,omitempty"`
+	ContestId     string                 `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Fragment      *content.Fragment      `protobuf:"bytes,1,opt,name=fragment,proto3" json:"fragment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateFragmentInput) Reset() {
 	*x = CreateFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[5]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -403,7 +359,7 @@ func (x *CreateFragmentInput) String() string {
 func (*CreateFragmentInput) ProtoMessage() {}
 
 func (x *CreateFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[5]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -416,10 +372,17 @@ func (x *CreateFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateFragmentInput.ProtoReflect.Descriptor instead.
 func (*CreateFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateFragmentInput) GetFragment() *Fragment {
+func (x *CreateFragmentInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
+}
+
+func (x *CreateFragmentInput) GetFragment() *content.Fragment {
 	if x != nil {
 		return x.Fragment
 	}
@@ -435,7 +398,7 @@ type CreateFragmentOutput struct {
 
 func (x *CreateFragmentOutput) Reset() {
 	*x = CreateFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[6]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -447,7 +410,7 @@ func (x *CreateFragmentOutput) String() string {
 func (*CreateFragmentOutput) ProtoMessage() {}
 
 func (x *CreateFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[6]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +423,7 @@ func (x *CreateFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateFragmentOutput.ProtoReflect.Descriptor instead.
 func (*CreateFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateFragmentOutput) GetFragmentId() string {
@@ -471,17 +434,18 @@ func (x *CreateFragmentOutput) GetFragmentId() string {
 }
 
 type UpdateFragmentInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Locale        string                 `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"` // update the fragment when empty, update its translation when set
-	Fragment      *Fragment_Patch        `protobuf:"bytes,4,opt,name=fragment,proto3" json:"fragment,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	ContestId     string                  `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	FragmentId    string                  `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
+	Locale        string                  `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"` // update the fragment when empty, update its translation when set
+	Fragment      *content.Fragment_Patch `protobuf:"bytes,4,opt,name=fragment,proto3" json:"fragment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateFragmentInput) Reset() {
 	*x = UpdateFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[7]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -493,7 +457,7 @@ func (x *UpdateFragmentInput) String() string {
 func (*UpdateFragmentInput) ProtoMessage() {}
 
 func (x *UpdateFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[7]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -506,7 +470,14 @@ func (x *UpdateFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateFragmentInput.ProtoReflect.Descriptor instead.
 func (*UpdateFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateFragmentInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *UpdateFragmentInput) GetFragmentId() string {
@@ -523,7 +494,7 @@ func (x *UpdateFragmentInput) GetLocale() string {
 	return ""
 }
 
-func (x *UpdateFragmentInput) GetFragment() *Fragment_Patch {
+func (x *UpdateFragmentInput) GetFragment() *content.Fragment_Patch {
 	if x != nil {
 		return x.Fragment
 	}
@@ -538,7 +509,7 @@ type UpdateFragmentOutput struct {
 
 func (x *UpdateFragmentOutput) Reset() {
 	*x = UpdateFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[8]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -550,7 +521,7 @@ func (x *UpdateFragmentOutput) String() string {
 func (*UpdateFragmentOutput) ProtoMessage() {}
 
 func (x *UpdateFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[8]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -563,11 +534,12 @@ func (x *UpdateFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateFragmentOutput.ProtoReflect.Descriptor instead.
 func (*UpdateFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{7}
 }
 
 type DeleteFragmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,3,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"` // delete the fragment when empty, delete only its translation when set
 	unknownFields protoimpl.UnknownFields
@@ -576,7 +548,7 @@ type DeleteFragmentInput struct {
 
 func (x *DeleteFragmentInput) Reset() {
 	*x = DeleteFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[9]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -588,7 +560,7 @@ func (x *DeleteFragmentInput) String() string {
 func (*DeleteFragmentInput) ProtoMessage() {}
 
 func (x *DeleteFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[9]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -601,7 +573,14 @@ func (x *DeleteFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFragmentInput.ProtoReflect.Descriptor instead.
 func (*DeleteFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DeleteFragmentInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *DeleteFragmentInput) GetFragmentId() string {
@@ -626,7 +605,7 @@ type DeleteFragmentOutput struct {
 
 func (x *DeleteFragmentOutput) Reset() {
 	*x = DeleteFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[10]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -638,7 +617,7 @@ func (x *DeleteFragmentOutput) String() string {
 func (*DeleteFragmentOutput) ProtoMessage() {}
 
 func (x *DeleteFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[10]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -651,11 +630,12 @@ func (x *DeleteFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFragmentOutput.ProtoReflect.Descriptor instead.
 func (*DeleteFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{9}
 }
 
 type TranslateFragmentInput struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
+	ContestId       string                 `protobuf:"bytes,6,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	FragmentId      string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
 	Source          string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`                                           // source locale, the fragment's own content is translated when empty
 	Target          []string               `protobuf:"bytes,3,rep,name=target,proto3" json:"target,omitempty"`                                           // target locales, existing translations are only replaced when automatic (or override_manual is set)
@@ -667,7 +647,7 @@ type TranslateFragmentInput struct {
 
 func (x *TranslateFragmentInput) Reset() {
 	*x = TranslateFragmentInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[11]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -679,7 +659,7 @@ func (x *TranslateFragmentInput) String() string {
 func (*TranslateFragmentInput) ProtoMessage() {}
 
 func (x *TranslateFragmentInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[11]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -692,7 +672,14 @@ func (x *TranslateFragmentInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslateFragmentInput.ProtoReflect.Descriptor instead.
 func (*TranslateFragmentInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *TranslateFragmentInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *TranslateFragmentInput) GetFragmentId() string {
@@ -739,7 +726,7 @@ type TranslateFragmentOutput struct {
 
 func (x *TranslateFragmentOutput) Reset() {
 	*x = TranslateFragmentOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[12]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -751,7 +738,7 @@ func (x *TranslateFragmentOutput) String() string {
 func (*TranslateFragmentOutput) ProtoMessage() {}
 
 func (x *TranslateFragmentOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[12]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -764,7 +751,7 @@ func (x *TranslateFragmentOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslateFragmentOutput.ProtoReflect.Descriptor instead.
 func (*TranslateFragmentOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *TranslateFragmentOutput) GetTaskId() string {
@@ -775,17 +762,18 @@ func (x *TranslateFragmentOutput) GetTaskId() string {
 }
 
 type DescribePathInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
-	Extra         []Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	ContestId     string                         `protobuf:"bytes,3,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Path          string                         `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Locale        string                         `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	Extra         []content.Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribePathInput) Reset() {
 	*x = DescribePathInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[13]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -797,7 +785,7 @@ func (x *DescribePathInput) String() string {
 func (*DescribePathInput) ProtoMessage() {}
 
 func (x *DescribePathInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[13]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -810,7 +798,14 @@ func (x *DescribePathInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribePathInput.ProtoReflect.Descriptor instead.
 func (*DescribePathInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DescribePathInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *DescribePathInput) GetPath() string {
@@ -827,7 +822,7 @@ func (x *DescribePathInput) GetLocale() string {
 	return ""
 }
 
-func (x *DescribePathInput) GetExtra() []Fragment_Extra_Field {
+func (x *DescribePathInput) GetExtra() []content.Fragment_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -836,14 +831,14 @@ func (x *DescribePathInput) GetExtra() []Fragment_Extra_Field {
 
 type DescribePathOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Fragment      *Fragment              `protobuf:"bytes,1,opt,name=fragment,proto3" json:"fragment,omitempty"`
+	Fragment      *content.Fragment      `protobuf:"bytes,1,opt,name=fragment,proto3" json:"fragment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribePathOutput) Reset() {
 	*x = DescribePathOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[14]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -855,7 +850,7 @@ func (x *DescribePathOutput) String() string {
 func (*DescribePathOutput) ProtoMessage() {}
 
 func (x *DescribePathOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[14]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -868,10 +863,10 @@ func (x *DescribePathOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribePathOutput.ProtoReflect.Descriptor instead.
 func (*DescribePathOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *DescribePathOutput) GetFragment() *Fragment {
+func (x *DescribePathOutput) GetFragment() *content.Fragment {
 	if x != nil {
 		return x.Fragment
 	}
@@ -879,17 +874,18 @@ func (x *DescribePathOutput) GetFragment() *Fragment {
 }
 
 type ListParentsInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
-	Extra         []Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	ContestId     string                         `protobuf:"bytes,3,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Path          string                         `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Locale        string                         `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	Extra         []content.Fragment_Extra_Field `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Fragment_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListParentsInput) Reset() {
 	*x = ListParentsInput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[15]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -901,7 +897,7 @@ func (x *ListParentsInput) String() string {
 func (*ListParentsInput) ProtoMessage() {}
 
 func (x *ListParentsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[15]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -914,7 +910,14 @@ func (x *ListParentsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListParentsInput.ProtoReflect.Descriptor instead.
 func (*ListParentsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListParentsInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
 }
 
 func (x *ListParentsInput) GetPath() string {
@@ -931,7 +934,7 @@ func (x *ListParentsInput) GetLocale() string {
 	return ""
 }
 
-func (x *ListParentsInput) GetExtra() []Fragment_Extra_Field {
+func (x *ListParentsInput) GetExtra() []content.Fragment_Extra_Field {
 	if x != nil {
 		return x.Extra
 	}
@@ -941,14 +944,14 @@ func (x *ListParentsInput) GetExtra() []Fragment_Extra_Field {
 type ListParentsOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Items         []*Fragment            `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*content.Fragment    `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListParentsOutput) Reset() {
 	*x = ListParentsOutput{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[16]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -960,7 +963,7 @@ func (x *ListParentsOutput) String() string {
 func (*ListParentsOutput) ProtoMessage() {}
 
 func (x *ListParentsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[16]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -973,7 +976,7 @@ func (x *ListParentsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListParentsOutput.ProtoReflect.Descriptor instead.
 func (*ListParentsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{16}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListParentsOutput) GetTotal() int32 {
@@ -983,7 +986,7 @@ func (x *ListParentsOutput) GetTotal() int32 {
 	return 0
 }
 
-func (x *ListParentsOutput) GetItems() []*Fragment {
+func (x *ListParentsOutput) GetItems() []*content.Fragment {
 	if x != nil {
 		return x.Items
 	}
@@ -1002,7 +1005,7 @@ type ListFragmentsInput_Filter struct {
 
 func (x *ListFragmentsInput_Filter) Reset() {
 	*x = ListFragmentsInput_Filter{}
-	mi := &file_eolymp_content_content_service_proto_msgTypes[17]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1014,7 +1017,7 @@ func (x *ListFragmentsInput_Filter) String() string {
 func (*ListFragmentsInput_Filter) ProtoMessage() {}
 
 func (x *ListFragmentsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_service_proto_msgTypes[17]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1027,7 +1030,7 @@ func (x *ListFragmentsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFragmentsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListFragmentsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3, 0}
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
 func (x *ListFragmentsInput_Filter) GetQuery() string {
@@ -1058,62 +1061,69 @@ func (x *ListFragmentsInput_Filter) GetLabel() []*wellknown.ExpressionEnum {
 	return nil
 }
 
-var File_eolymp_content_content_service_proto protoreflect.FileDescriptor
+var File_eolymp_judge_content_service_proto protoreflect.FileDescriptor
 
-const file_eolymp_content_content_service_proto_rawDesc = "" +
+const file_eolymp_judge_content_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/content/content_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x8e\x01\n" +
-	"\x14FragmentChangedEvent\x12\x14\n" +
-	"\x05scope\x18\n" +
-	" \x01(\tR\x05scope\x120\n" +
-	"\x06before\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\x06before\x12.\n" +
-	"\x05after\x18\x02 \x01(\v2\x18.eolymp.content.FragmentR\x05after\"\x8d\x01\n" +
-	"\x15DescribeFragmentInput\x12\x16\n" +
-	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x1f\n" +
+	"\"eolymp/judge/content_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xac\x01\n" +
+	"\x15DescribeFragmentInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x03 \x01(\tR\tcontestId\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\x12;\n" +
+	"fragmentId\x12\x16\n" +
+	"\x06locale\x18\x02 \x01(\tR\x06locale\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"N\n" +
 	"\x16DescribeFragmentOutput\x124\n" +
-	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xc1\x04\n" +
-	"\x12ListFragmentsInput\x12\x16\n" +
+	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xdb\x04\n" +
+	"\x12ListFragmentsInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
-	"\afilters\x18( \x01(\v2).eolymp.content.ListFragmentsInput.FilterR\afilters\x12;\n" +
-	"\x04sort\x182 \x01(\x0e2'.eolymp.content.ListFragmentsInput.SortR\x04sort\x121\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12A\n" +
+	"\afilters\x18( \x01(\v2'.eolymp.judge.ListFragmentsInput.FilterR\afilters\x129\n" +
+	"\x04sort\x182 \x01(\x0e2%.eolymp.judge.ListFragmentsInput.SortR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12;\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xc4\x01\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xbe\x01\n" +
 	"\x06Filter\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04path\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04path\x126\n" +
-	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\x04\x10\x05\"-\n" +
-	"\x04Sort\x12\v\n" +
-	"\aDEFAULT\x10\x00\x12\b\n" +
+	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05label\"2\n" +
+	"\x04Sort\x12\x10\n" +
+	"\fUNKNOWN_SORT\x10\x00\x12\b\n" +
 	"\x04PATH\x10\x01\x12\x0e\n" +
 	"\n" +
 	"CREATED_AT\x10\x02\"[\n" +
 	"\x13ListFragmentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items\"K\n" +
-	"\x13CreateFragmentInput\x124\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items\"j\n" +
+	"\x13CreateFragmentInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x02 \x01(\tR\tcontestId\x124\n" +
 	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"7\n" +
 	"\x14CreateFragmentOutput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\"\x96\x01\n" +
-	"\x13UpdateFragmentInput\x12\x1f\n" +
+	"fragmentId\"\xa9\x01\n" +
+	"\x13UpdateFragmentInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x02 \x01(\tR\tcontestId\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12\x16\n" +
 	"\x06locale\x18\x05 \x01(\tR\x06locale\x12:\n" +
-	"\bfragment\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\bfragmentJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x16\n" +
-	"\x14UpdateFragmentOutput\"N\n" +
-	"\x13DeleteFragmentInput\x12\x1f\n" +
+	"\bfragment\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\bfragment\"\x16\n" +
+	"\x14UpdateFragmentOutput\"m\n" +
+	"\x13DeleteFragmentInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x03 \x01(\tR\tcontestId\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"\x16\n" +
-	"\x14DeleteFragmentOutput\"\xbd\x01\n" +
-	"\x16TranslateFragmentInput\x12\x1f\n" +
+	"\x14DeleteFragmentOutput\"\xdc\x01\n" +
+	"\x16TranslateFragmentInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x06 \x01(\tR\tcontestId\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x16\n" +
@@ -1121,62 +1131,66 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\"2\n" +
 	"\x17TranslateFragmentOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\"|\n" +
-	"\x11DescribePathInput\x12\x12\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x9b\x01\n" +
+	"\x11DescribePathInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x03 \x01(\tR\tcontestId\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"J\n" +
 	"\x12DescribePathOutput\x124\n" +
-	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"{\n" +
-	"\x10ListParentsInput\x12\x12\n" +
+	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\x9a\x01\n" +
+	"\x10ListParentsInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x03 \x01(\tR\tcontestId\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"Y\n" +
 	"\x11ListParentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\xf4\v\n" +
-	"\x0eContentService\x12\xc3\x01\n" +
-	"\x10DescribeFragment\x12%.eolymp.content.DescribeFragmentInput\x1a&.eolymp.content.DescribeFragmentOutput\"`\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\x85\r\n" +
+	"\x0eContentService\x12\xd5\x01\n" +
+	"\x10DescribeFragment\x12#.eolymp.judge.DescribeFragmentInput\x1a$.eolymp.judge.DescribeFragmentOutput\"v\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18typewriter:fragment:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\"\x12 /content/fragments/{fragment_id}\x12\xab\x01\n" +
-	"\rListFragments\x12\".eolymp.content.ListFragmentsInput\x1a#.eolymp.content.ListFragmentsOutput\"Q\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x028\x126/contests/{contest_id}/content/fragments/{fragment_id}\x12\xbd\x01\n" +
+	"\rListFragments\x12 .eolymp.judge.ListFragmentsInput\x1a!.eolymp.judge.ListFragmentsOutput\"g\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18typewriter:fragment:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x14\x12\x12/content/fragments\x12\xaf\x01\n" +
-	"\x0eCreateFragment\x12#.eolymp.content.CreateFragmentInput\x1a$.eolymp.content.CreateFragmentOutput\"R\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02*\x12(/contests/{contest_id}/content/fragments\x12\xc1\x01\n" +
+	"\x0eCreateFragment\x12!.eolymp.judge.CreateFragmentInput\x1a\".eolymp.judge.CreateFragmentOutput\"h\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
 	"\x19typewriter:fragment:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x14\"\x12/content/fragments\x12\xbd\x01\n" +
-	"\x0eUpdateFragment\x12#.eolymp.content.UpdateFragmentInput\x1a$.eolymp.content.UpdateFragmentOutput\"`\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02*\"(/contests/{contest_id}/content/fragments\x12\xcf\x01\n" +
+	"\x0eUpdateFragment\x12!.eolymp.judge.UpdateFragmentInput\x1a\".eolymp.judge.UpdateFragmentOutput\"v\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
 	"\x19typewriter:fragment:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\"\x1a /content/fragments/{fragment_id}\x12\xbd\x01\n" +
-	"\x0eDeleteFragment\x12#.eolymp.content.DeleteFragmentInput\x1a$.eolymp.content.DeleteFragmentOutput\"`\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x028\x1a6/contests/{contest_id}/content/fragments/{fragment_id}\x12\xcf\x01\n" +
+	"\x0eDeleteFragment\x12!.eolymp.judge.DeleteFragmentInput\x1a\".eolymp.judge.DeleteFragmentOutput\"v\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\x82\xe3\n" +
 	"\x1d\x8a\xe3\n" +
 	"\x19typewriter:fragment:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02\"* /content/fragments/{fragment_id}\x12\xd0\x01\n" +
-	"\x11TranslateFragment\x12&.eolymp.content.TranslateFragmentInput\x1a'.eolymp.content.TranslateFragmentOutput\"j\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x028*6/contests/{contest_id}/content/fragments/{fragment_id}\x12\xe3\x01\n" +
+	"\x11TranslateFragment\x12$.eolymp.judge.TranslateFragmentInput\x1a%.eolymp.judge.TranslateFragmentOutput\"\x80\x01\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
@@ -1184,130 +1198,126 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x1d\x8a\xe3\n" +
 	"\x19typewriter:fragment:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02,\"*/content/fragments/{fragment_id}/translate\x12\xa4\x01\n" +
-	"\fDescribePath\x12!.eolymp.content.DescribePathInput\x1a\".eolymp.content.DescribePathOutput\"M\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02B\"@/contests/{contest_id}/content/fragments/{fragment_id}/translate\x12\xb6\x01\n" +
+	"\fDescribePath\x12\x1f.eolymp.judge.DescribePathInput\x1a .eolymp.judge.DescribePathOutput\"c\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18typewriter:fragment:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x0f\x12\r/content/path\x12\xa4\x01\n" +
-	"\vListParents\x12 .eolymp.content.ListParentsInput\x1a!.eolymp.content.ListParentsOutput\"P\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02%\x12#/contests/{contest_id}/content/path\x12\xb6\x01\n" +
+	"\vListParents\x12\x1e.eolymp.judge.ListParentsInput\x1a\x1f.eolymp.judge.ListParentsOutput\"f\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xf4\x03\x82\xe3\n" +
 	"\x1c\x8a\xe3\n" +
 	"\x18typewriter:fragment:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/content/parents\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02(\x12&/contests/{contest_id}/content/parents\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
-	file_eolymp_content_content_service_proto_rawDescOnce sync.Once
-	file_eolymp_content_content_service_proto_rawDescData []byte
+	file_eolymp_judge_content_service_proto_rawDescOnce sync.Once
+	file_eolymp_judge_content_service_proto_rawDescData []byte
 )
 
-func file_eolymp_content_content_service_proto_rawDescGZIP() []byte {
-	file_eolymp_content_content_service_proto_rawDescOnce.Do(func() {
-		file_eolymp_content_content_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_content_content_service_proto_rawDesc), len(file_eolymp_content_content_service_proto_rawDesc)))
+func file_eolymp_judge_content_service_proto_rawDescGZIP() []byte {
+	file_eolymp_judge_content_service_proto_rawDescOnce.Do(func() {
+		file_eolymp_judge_content_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_eolymp_judge_content_service_proto_rawDesc), len(file_eolymp_judge_content_service_proto_rawDesc)))
 	})
-	return file_eolymp_content_content_service_proto_rawDescData
+	return file_eolymp_judge_content_service_proto_rawDescData
 }
 
-var file_eolymp_content_content_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_content_content_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
-var file_eolymp_content_content_service_proto_goTypes = []any{
-	(ListFragmentsInput_Sort)(0),       // 0: eolymp.content.ListFragmentsInput.Sort
-	(*FragmentChangedEvent)(nil),       // 1: eolymp.content.FragmentChangedEvent
-	(*DescribeFragmentInput)(nil),      // 2: eolymp.content.DescribeFragmentInput
-	(*DescribeFragmentOutput)(nil),     // 3: eolymp.content.DescribeFragmentOutput
-	(*ListFragmentsInput)(nil),         // 4: eolymp.content.ListFragmentsInput
-	(*ListFragmentsOutput)(nil),        // 5: eolymp.content.ListFragmentsOutput
-	(*CreateFragmentInput)(nil),        // 6: eolymp.content.CreateFragmentInput
-	(*CreateFragmentOutput)(nil),       // 7: eolymp.content.CreateFragmentOutput
-	(*UpdateFragmentInput)(nil),        // 8: eolymp.content.UpdateFragmentInput
-	(*UpdateFragmentOutput)(nil),       // 9: eolymp.content.UpdateFragmentOutput
-	(*DeleteFragmentInput)(nil),        // 10: eolymp.content.DeleteFragmentInput
-	(*DeleteFragmentOutput)(nil),       // 11: eolymp.content.DeleteFragmentOutput
-	(*TranslateFragmentInput)(nil),     // 12: eolymp.content.TranslateFragmentInput
-	(*TranslateFragmentOutput)(nil),    // 13: eolymp.content.TranslateFragmentOutput
-	(*DescribePathInput)(nil),          // 14: eolymp.content.DescribePathInput
-	(*DescribePathOutput)(nil),         // 15: eolymp.content.DescribePathOutput
-	(*ListParentsInput)(nil),           // 16: eolymp.content.ListParentsInput
-	(*ListParentsOutput)(nil),          // 17: eolymp.content.ListParentsOutput
-	(*ListFragmentsInput_Filter)(nil),  // 18: eolymp.content.ListFragmentsInput.Filter
-	(*Fragment)(nil),                   // 19: eolymp.content.Fragment
-	(Fragment_Extra_Field)(0),          // 20: eolymp.content.Fragment.Extra.Field
-	(wellknown.Direction)(0),           // 21: eolymp.wellknown.Direction
-	(*Fragment_Patch)(nil),             // 22: eolymp.content.Fragment.Patch
-	(*wellknown.ExpressionID)(nil),     // 23: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 24: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 25: eolymp.wellknown.ExpressionEnum
+var file_eolymp_judge_content_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_judge_content_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_eolymp_judge_content_service_proto_goTypes = []any{
+	(ListFragmentsInput_Sort)(0),       // 0: eolymp.judge.ListFragmentsInput.Sort
+	(*DescribeFragmentInput)(nil),      // 1: eolymp.judge.DescribeFragmentInput
+	(*DescribeFragmentOutput)(nil),     // 2: eolymp.judge.DescribeFragmentOutput
+	(*ListFragmentsInput)(nil),         // 3: eolymp.judge.ListFragmentsInput
+	(*ListFragmentsOutput)(nil),        // 4: eolymp.judge.ListFragmentsOutput
+	(*CreateFragmentInput)(nil),        // 5: eolymp.judge.CreateFragmentInput
+	(*CreateFragmentOutput)(nil),       // 6: eolymp.judge.CreateFragmentOutput
+	(*UpdateFragmentInput)(nil),        // 7: eolymp.judge.UpdateFragmentInput
+	(*UpdateFragmentOutput)(nil),       // 8: eolymp.judge.UpdateFragmentOutput
+	(*DeleteFragmentInput)(nil),        // 9: eolymp.judge.DeleteFragmentInput
+	(*DeleteFragmentOutput)(nil),       // 10: eolymp.judge.DeleteFragmentOutput
+	(*TranslateFragmentInput)(nil),     // 11: eolymp.judge.TranslateFragmentInput
+	(*TranslateFragmentOutput)(nil),    // 12: eolymp.judge.TranslateFragmentOutput
+	(*DescribePathInput)(nil),          // 13: eolymp.judge.DescribePathInput
+	(*DescribePathOutput)(nil),         // 14: eolymp.judge.DescribePathOutput
+	(*ListParentsInput)(nil),           // 15: eolymp.judge.ListParentsInput
+	(*ListParentsOutput)(nil),          // 16: eolymp.judge.ListParentsOutput
+	(*ListFragmentsInput_Filter)(nil),  // 17: eolymp.judge.ListFragmentsInput.Filter
+	(content.Fragment_Extra_Field)(0),  // 18: eolymp.content.Fragment.Extra.Field
+	(*content.Fragment)(nil),           // 19: eolymp.content.Fragment
+	(wellknown.Direction)(0),           // 20: eolymp.wellknown.Direction
+	(*content.Fragment_Patch)(nil),     // 21: eolymp.content.Fragment.Patch
+	(*wellknown.ExpressionID)(nil),     // 22: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 23: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 24: eolymp.wellknown.ExpressionEnum
 }
-var file_eolymp_content_content_service_proto_depIdxs = []int32{
-	19, // 0: eolymp.content.FragmentChangedEvent.before:type_name -> eolymp.content.Fragment
-	19, // 1: eolymp.content.FragmentChangedEvent.after:type_name -> eolymp.content.Fragment
-	20, // 2: eolymp.content.DescribeFragmentInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 3: eolymp.content.DescribeFragmentOutput.fragment:type_name -> eolymp.content.Fragment
-	18, // 4: eolymp.content.ListFragmentsInput.filters:type_name -> eolymp.content.ListFragmentsInput.Filter
-	0,  // 5: eolymp.content.ListFragmentsInput.sort:type_name -> eolymp.content.ListFragmentsInput.Sort
-	21, // 6: eolymp.content.ListFragmentsInput.order:type_name -> eolymp.wellknown.Direction
-	20, // 7: eolymp.content.ListFragmentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 8: eolymp.content.ListFragmentsOutput.items:type_name -> eolymp.content.Fragment
-	19, // 9: eolymp.content.CreateFragmentInput.fragment:type_name -> eolymp.content.Fragment
-	22, // 10: eolymp.content.UpdateFragmentInput.fragment:type_name -> eolymp.content.Fragment.Patch
-	20, // 11: eolymp.content.DescribePathInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 12: eolymp.content.DescribePathOutput.fragment:type_name -> eolymp.content.Fragment
-	20, // 13: eolymp.content.ListParentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 14: eolymp.content.ListParentsOutput.items:type_name -> eolymp.content.Fragment
-	23, // 15: eolymp.content.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	24, // 16: eolymp.content.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
-	25, // 17: eolymp.content.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
-	2,  // 18: eolymp.content.ContentService.DescribeFragment:input_type -> eolymp.content.DescribeFragmentInput
-	4,  // 19: eolymp.content.ContentService.ListFragments:input_type -> eolymp.content.ListFragmentsInput
-	6,  // 20: eolymp.content.ContentService.CreateFragment:input_type -> eolymp.content.CreateFragmentInput
-	8,  // 21: eolymp.content.ContentService.UpdateFragment:input_type -> eolymp.content.UpdateFragmentInput
-	10, // 22: eolymp.content.ContentService.DeleteFragment:input_type -> eolymp.content.DeleteFragmentInput
-	12, // 23: eolymp.content.ContentService.TranslateFragment:input_type -> eolymp.content.TranslateFragmentInput
-	14, // 24: eolymp.content.ContentService.DescribePath:input_type -> eolymp.content.DescribePathInput
-	16, // 25: eolymp.content.ContentService.ListParents:input_type -> eolymp.content.ListParentsInput
-	3,  // 26: eolymp.content.ContentService.DescribeFragment:output_type -> eolymp.content.DescribeFragmentOutput
-	5,  // 27: eolymp.content.ContentService.ListFragments:output_type -> eolymp.content.ListFragmentsOutput
-	7,  // 28: eolymp.content.ContentService.CreateFragment:output_type -> eolymp.content.CreateFragmentOutput
-	9,  // 29: eolymp.content.ContentService.UpdateFragment:output_type -> eolymp.content.UpdateFragmentOutput
-	11, // 30: eolymp.content.ContentService.DeleteFragment:output_type -> eolymp.content.DeleteFragmentOutput
-	13, // 31: eolymp.content.ContentService.TranslateFragment:output_type -> eolymp.content.TranslateFragmentOutput
-	15, // 32: eolymp.content.ContentService.DescribePath:output_type -> eolymp.content.DescribePathOutput
-	17, // 33: eolymp.content.ContentService.ListParents:output_type -> eolymp.content.ListParentsOutput
-	26, // [26:34] is the sub-list for method output_type
-	18, // [18:26] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+var file_eolymp_judge_content_service_proto_depIdxs = []int32{
+	18, // 0: eolymp.judge.DescribeFragmentInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 1: eolymp.judge.DescribeFragmentOutput.fragment:type_name -> eolymp.content.Fragment
+	17, // 2: eolymp.judge.ListFragmentsInput.filters:type_name -> eolymp.judge.ListFragmentsInput.Filter
+	0,  // 3: eolymp.judge.ListFragmentsInput.sort:type_name -> eolymp.judge.ListFragmentsInput.Sort
+	20, // 4: eolymp.judge.ListFragmentsInput.order:type_name -> eolymp.wellknown.Direction
+	18, // 5: eolymp.judge.ListFragmentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 6: eolymp.judge.ListFragmentsOutput.items:type_name -> eolymp.content.Fragment
+	19, // 7: eolymp.judge.CreateFragmentInput.fragment:type_name -> eolymp.content.Fragment
+	21, // 8: eolymp.judge.UpdateFragmentInput.fragment:type_name -> eolymp.content.Fragment.Patch
+	18, // 9: eolymp.judge.DescribePathInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 10: eolymp.judge.DescribePathOutput.fragment:type_name -> eolymp.content.Fragment
+	18, // 11: eolymp.judge.ListParentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	19, // 12: eolymp.judge.ListParentsOutput.items:type_name -> eolymp.content.Fragment
+	22, // 13: eolymp.judge.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	23, // 14: eolymp.judge.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
+	24, // 15: eolymp.judge.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
+	1,  // 16: eolymp.judge.ContentService.DescribeFragment:input_type -> eolymp.judge.DescribeFragmentInput
+	3,  // 17: eolymp.judge.ContentService.ListFragments:input_type -> eolymp.judge.ListFragmentsInput
+	5,  // 18: eolymp.judge.ContentService.CreateFragment:input_type -> eolymp.judge.CreateFragmentInput
+	7,  // 19: eolymp.judge.ContentService.UpdateFragment:input_type -> eolymp.judge.UpdateFragmentInput
+	9,  // 20: eolymp.judge.ContentService.DeleteFragment:input_type -> eolymp.judge.DeleteFragmentInput
+	11, // 21: eolymp.judge.ContentService.TranslateFragment:input_type -> eolymp.judge.TranslateFragmentInput
+	13, // 22: eolymp.judge.ContentService.DescribePath:input_type -> eolymp.judge.DescribePathInput
+	15, // 23: eolymp.judge.ContentService.ListParents:input_type -> eolymp.judge.ListParentsInput
+	2,  // 24: eolymp.judge.ContentService.DescribeFragment:output_type -> eolymp.judge.DescribeFragmentOutput
+	4,  // 25: eolymp.judge.ContentService.ListFragments:output_type -> eolymp.judge.ListFragmentsOutput
+	6,  // 26: eolymp.judge.ContentService.CreateFragment:output_type -> eolymp.judge.CreateFragmentOutput
+	8,  // 27: eolymp.judge.ContentService.UpdateFragment:output_type -> eolymp.judge.UpdateFragmentOutput
+	10, // 28: eolymp.judge.ContentService.DeleteFragment:output_type -> eolymp.judge.DeleteFragmentOutput
+	12, // 29: eolymp.judge.ContentService.TranslateFragment:output_type -> eolymp.judge.TranslateFragmentOutput
+	14, // 30: eolymp.judge.ContentService.DescribePath:output_type -> eolymp.judge.DescribePathOutput
+	16, // 31: eolymp.judge.ContentService.ListParents:output_type -> eolymp.judge.ListParentsOutput
+	24, // [24:32] is the sub-list for method output_type
+	16, // [16:24] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
-func init() { file_eolymp_content_content_service_proto_init() }
-func file_eolymp_content_content_service_proto_init() {
-	if File_eolymp_content_content_service_proto != nil {
+func init() { file_eolymp_judge_content_service_proto_init() }
+func file_eolymp_judge_content_service_proto_init() {
+	if File_eolymp_judge_content_service_proto != nil {
 		return
 	}
-	file_eolymp_content_content_fragment_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_content_service_proto_rawDesc), len(file_eolymp_content_content_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_content_service_proto_rawDesc), len(file_eolymp_judge_content_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   18,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_eolymp_content_content_service_proto_goTypes,
-		DependencyIndexes: file_eolymp_content_content_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_content_content_service_proto_enumTypes,
-		MessageInfos:      file_eolymp_content_content_service_proto_msgTypes,
+		GoTypes:           file_eolymp_judge_content_service_proto_goTypes,
+		DependencyIndexes: file_eolymp_judge_content_service_proto_depIdxs,
+		EnumInfos:         file_eolymp_judge_content_service_proto_enumTypes,
+		MessageInfos:      file_eolymp_judge_content_service_proto_msgTypes,
 	}.Build()
-	File_eolymp_content_content_service_proto = out.File
-	file_eolymp_content_content_service_proto_goTypes = nil
-	file_eolymp_content_content_service_proto_depIdxs = nil
+	File_eolymp_judge_content_service_proto = out.File
+	file_eolymp_judge_content_service_proto_goTypes = nil
+	file_eolymp_judge_content_service_proto_depIdxs = nil
 }
