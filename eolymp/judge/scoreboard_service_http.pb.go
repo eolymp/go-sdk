@@ -213,6 +213,12 @@ func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/contests/{contest_id}/scoreboard/export", _ScoreboardService_ExportScoreboard_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ScoreboardService.ExportScoreboard")
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard/attributes", _ScoreboardService_AddContestAttribute_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ScoreboardService.AddContestAttribute")
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard/attributes/{attribute_key}", _ScoreboardService_RemoveContestAttribute_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.judge.ScoreboardService.RemoveContestAttribute")
 }
 
 // RegisterScoreboardServiceHttpProxy adds proxy handlers for for ScoreboardServiceClient
@@ -308,6 +314,55 @@ func _ScoreboardService_ExportScoreboard_Rule0(cli ScoreboardServiceClient) http
 		var header, trailer metadata.MD
 
 		out, err := cli.ExportScoreboard(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreboardService_AddContestAttribute_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddContestAttributeInput{}
+
+		if err := _ScoreboardService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AddContestAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreboardService_RemoveContestAttribute_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveContestAttributeInput{}
+
+		if err := _ScoreboardService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+		in.AttributeKey = vars["attribute_key"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RemoveContestAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return

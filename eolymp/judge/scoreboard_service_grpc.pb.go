@@ -19,10 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ScoreboardService_DescribeScoreboard_FullMethodName    = "/eolymp.judge.ScoreboardService/DescribeScoreboard"
-	ScoreboardService_ListScoreboardRows_FullMethodName    = "/eolymp.judge.ScoreboardService/ListScoreboardRows"
-	ScoreboardService_DescribeScoreboardRow_FullMethodName = "/eolymp.judge.ScoreboardService/DescribeScoreboardRow"
-	ScoreboardService_ExportScoreboard_FullMethodName      = "/eolymp.judge.ScoreboardService/ExportScoreboard"
+	ScoreboardService_DescribeScoreboard_FullMethodName     = "/eolymp.judge.ScoreboardService/DescribeScoreboard"
+	ScoreboardService_ListScoreboardRows_FullMethodName     = "/eolymp.judge.ScoreboardService/ListScoreboardRows"
+	ScoreboardService_DescribeScoreboardRow_FullMethodName  = "/eolymp.judge.ScoreboardService/DescribeScoreboardRow"
+	ScoreboardService_ExportScoreboard_FullMethodName       = "/eolymp.judge.ScoreboardService/ExportScoreboard"
+	ScoreboardService_AddContestAttribute_FullMethodName    = "/eolymp.judge.ScoreboardService/AddContestAttribute"
+	ScoreboardService_RemoveContestAttribute_FullMethodName = "/eolymp.judge.ScoreboardService/RemoveContestAttribute"
 )
 
 // ScoreboardServiceClient is the client API for ScoreboardService service.
@@ -48,6 +50,9 @@ type ScoreboardServiceClient interface {
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
 	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
 	ExportScoreboard(ctx context.Context, in *ExportScoreboardInput, opts ...grpc.CallOption) (*ExportScoreboardOutput, error)
+	// Adding a key the board already shows updates its index and label, so there is no separate update.
+	AddContestAttribute(ctx context.Context, in *AddContestAttributeInput, opts ...grpc.CallOption) (*AddContestAttributeOutput, error)
+	RemoveContestAttribute(ctx context.Context, in *RemoveContestAttributeInput, opts ...grpc.CallOption) (*RemoveContestAttributeOutput, error)
 }
 
 type scoreboardServiceClient struct {
@@ -98,6 +103,26 @@ func (c *scoreboardServiceClient) ExportScoreboard(ctx context.Context, in *Expo
 	return out, nil
 }
 
+func (c *scoreboardServiceClient) AddContestAttribute(ctx context.Context, in *AddContestAttributeInput, opts ...grpc.CallOption) (*AddContestAttributeOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddContestAttributeOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_AddContestAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scoreboardServiceClient) RemoveContestAttribute(ctx context.Context, in *RemoveContestAttributeInput, opts ...grpc.CallOption) (*RemoveContestAttributeOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RemoveContestAttributeOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_RemoveContestAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ScoreboardServiceServer is the server API for ScoreboardService service.
 // All implementations should embed UnimplementedScoreboardServiceServer
 // for forward compatibility.
@@ -121,6 +146,9 @@ type ScoreboardServiceServer interface {
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
 	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
 	ExportScoreboard(context.Context, *ExportScoreboardInput) (*ExportScoreboardOutput, error)
+	// Adding a key the board already shows updates its index and label, so there is no separate update.
+	AddContestAttribute(context.Context, *AddContestAttributeInput) (*AddContestAttributeOutput, error)
+	RemoveContestAttribute(context.Context, *RemoveContestAttributeInput) (*RemoveContestAttributeOutput, error)
 }
 
 // UnimplementedScoreboardServiceServer should be embedded to have
@@ -141,6 +169,12 @@ func (UnimplementedScoreboardServiceServer) DescribeScoreboardRow(context.Contex
 }
 func (UnimplementedScoreboardServiceServer) ExportScoreboard(context.Context, *ExportScoreboardInput) (*ExportScoreboardOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExportScoreboard not implemented")
+}
+func (UnimplementedScoreboardServiceServer) AddContestAttribute(context.Context, *AddContestAttributeInput) (*AddContestAttributeOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddContestAttribute not implemented")
+}
+func (UnimplementedScoreboardServiceServer) RemoveContestAttribute(context.Context, *RemoveContestAttributeInput) (*RemoveContestAttributeOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method RemoveContestAttribute not implemented")
 }
 func (UnimplementedScoreboardServiceServer) testEmbeddedByValue() {}
 
@@ -234,6 +268,42 @@ func _ScoreboardService_ExportScoreboard_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ScoreboardService_AddContestAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddContestAttributeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).AddContestAttribute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_AddContestAttribute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).AddContestAttribute(ctx, req.(*AddContestAttributeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreboardService_RemoveContestAttribute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveContestAttributeInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).RemoveContestAttribute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_RemoveContestAttribute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).RemoveContestAttribute(ctx, req.(*RemoveContestAttributeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ScoreboardService_ServiceDesc is the grpc.ServiceDesc for ScoreboardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -256,6 +326,14 @@ var ScoreboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExportScoreboard",
 			Handler:    _ScoreboardService_ExportScoreboard_Handler,
+		},
+		{
+			MethodName: "AddContestAttribute",
+			Handler:    _ScoreboardService_AddContestAttribute_Handler,
+		},
+		{
+			MethodName: "RemoveContestAttribute",
+			Handler:    _ScoreboardService_RemoveContestAttribute_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

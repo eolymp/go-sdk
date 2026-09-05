@@ -164,3 +164,36 @@ func (s *ScoreboardServiceService) ExportScoreboard(ctx context.Context, in *Exp
 
 	return out, nil
 }
+
+func (s *ScoreboardServiceService) AddContestAttribute(ctx context.Context, in *AddContestAttributeInput) (*AddContestAttributeOutput, error) {
+	out := &AddContestAttributeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/attributes"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ScoreboardServiceService) RemoveContestAttribute(ctx context.Context, in *RemoveContestAttributeInput) (*RemoveContestAttributeOutput, error) {
+	out := &RemoveContestAttributeOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/attributes/" + url.PathEscape(in.GetAttributeKey())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.AttributeKey = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
