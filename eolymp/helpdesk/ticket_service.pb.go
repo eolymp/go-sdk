@@ -390,6 +390,7 @@ type ListTicketsInput struct {
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search        string                   `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListTicketsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -444,6 +445,13 @@ func (x *ListTicketsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListTicketsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListTicketsInput) GetFilters() *ListTicketsInput_Filter {
@@ -1379,8 +1387,9 @@ func (x *UploadAttachmentOutput) GetAttachmentUrl() string {
 }
 
 type ListTicketsInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/helpdesk/ticket_service.proto.
+	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID        `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	UserId        []*wellknown.ExpressionID        `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	UserEmail     []*wellknown.ExpressionEnum      `protobuf:"bytes,4,rep,name=user_email,json=userEmail,proto3" json:"user_email,omitempty"`
@@ -1423,6 +1432,7 @@ func (*ListTicketsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_helpdesk_ticket_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/helpdesk/ticket_service.proto.
 func (x *ListTicketsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1507,15 +1517,16 @@ const file_eolymp_helpdesk_ticket_service_proto_rawDesc = "" +
 	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x16\n" +
 	"\x06render\x18\x02 \x01(\bR\x06render\"G\n" +
 	"\x14DescribeTicketOutput\x12/\n" +
-	"\x06ticket\x18\x01 \x01(\v2\x17.eolymp.helpdesk.TicketR\x06ticket\"\x9b\x05\n" +
+	"\x06ticket\x18\x01 \x01(\v2\x17.eolymp.helpdesk.TicketR\x06ticket\"\xb7\x05\n" +
 	"\x10ListTicketsInput\x12\x16\n" +
 	"\x06render\x18\x01 \x01(\bR\x06render\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
-	"\afilters\x18( \x01(\v2(.eolymp.helpdesk.ListTicketsInput.FilterR\afilters\x1a\xfe\x03\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12B\n" +
+	"\afilters\x18( \x01(\v2(.eolymp.helpdesk.ListTicketsInput.FilterR\afilters\x1a\x82\x04\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x127\n" +
 	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x12?\n" +
 	"\n" +

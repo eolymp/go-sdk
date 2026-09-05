@@ -367,6 +367,7 @@ type ListPostsInput struct {
 	Sort   ListPostsInput_Sort `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.content.ListPostsInput_Sort" json:"sort,omitempty"`
 	Order  wellknown.Direction `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
 	// data filters
+	Search        string                 `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListPostsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Locale        string                 `protobuf:"bytes,60,opt,name=locale,proto3" json:"locale,omitempty"`
 	Extra         []Post_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.content.Post_Extra" json:"extra,omitempty"`
@@ -437,6 +438,13 @@ func (x *ListPostsInput) GetOrder() wellknown.Direction {
 		return x.Order
 	}
 	return wellknown.Direction(0)
+}
+
+func (x *ListPostsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListPostsInput) GetFilters() *ListPostsInput_Filter {
@@ -1281,8 +1289,9 @@ func (x *TranslatePostOutput) GetTaskId() string {
 }
 
 type ListPostsInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/content/post_service.proto.
+	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID        `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	SourceId      []*wellknown.ExpressionID        `protobuf:"bytes,13,rep,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`
 	UserId        []*wellknown.ExpressionID        `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -1329,6 +1338,7 @@ func (*ListPostsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{4, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/content/post_service.proto.
 func (x *ListPostsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1438,19 +1448,20 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x06locale\x18< \x01(\tR\x06locale\x121\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\">\n" +
 	"\x12DescribePostOutput\x12(\n" +
-	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"\xb4\t\n" +
+	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"\xd0\t\n" +
 	"\x0eListPostsInput\x12\x14\n" +
 	"\x05after\x18\n" +
 	" \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06offset\x18\f \x01(\x05R\x06offset\x127\n" +
 	"\x04sort\x182 \x01(\x0e2#.eolymp.content.ListPostsInput.SortR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12?\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12?\n" +
 	"\afilters\x18( \x01(\v2%.eolymp.content.ListPostsInput.FilterR\afilters\x12\x16\n" +
 	"\x06locale\x18< \x01(\tR\x06locale\x121\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\x1a\xfa\x05\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\x1a\xfe\x05\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
 	"\tsource_id\x18\r \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bsourceId\x127\n" +
 	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x12;\n" +

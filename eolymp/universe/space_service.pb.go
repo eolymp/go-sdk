@@ -659,6 +659,7 @@ type ListSpacesInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Search        string                  `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListSpacesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Extra         []Space_Extra_Field     `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.universe.Space_Extra_Field" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -707,6 +708,13 @@ func (x *ListSpacesInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListSpacesInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListSpacesInput) GetFilters() *ListSpacesInput_Filter {
@@ -776,8 +784,9 @@ func (x *ListSpacesOutput) GetItems() []*Space {
 }
 
 type ListSpacesInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,100,opt,name=query,proto3" json:"query,omitempty"` // free text search
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/universe/space_service.proto.
+	Query         string                        `protobuf:"bytes,100,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
 	Key           []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=key,proto3" json:"key,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
@@ -816,6 +825,7 @@ func (*ListSpacesInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{14, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/universe/space_service.proto.
 func (x *ListSpacesInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -885,15 +895,16 @@ const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\x10UpdateQuotaInput\x12\x19\n" +
 	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12,\n" +
 	"\x05quota\x18\x02 \x01(\v2\x16.eolymp.universe.QuotaR\x05quota\"\x13\n" +
-	"\x11UpdateQuotaOutput\"\xaa\x03\n" +
+	"\x11UpdateQuotaOutput\"\xc6\x03\n" +
 	"\x0fListSpacesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12A\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12A\n" +
 	"\afilters\x18( \x01(\v2'.eolymp.universe.ListSpacesInput.FilterR\afilters\x129\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\".eolymp.universe.Space.Extra.FieldR\x05extra\x1a\xec\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18d \x01(\tR\x05query\x12.\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\".eolymp.universe.Space.Extra.FieldR\x05extra\x1a\xf0\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18d \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x120\n" +
 	"\x03key\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x03key\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\x122\n" +

@@ -362,6 +362,7 @@ type ListAchievementsInput struct {
 	After         string                        `protobuf:"bytes,12,opt,name=after,proto3" json:"after,omitempty"`
 	Size          int32                         `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Offset        int32                         `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Search        string                        `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListAchievementsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Extra         []Achievement_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.community.Achievement_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -431,6 +432,13 @@ func (x *ListAchievementsInput) GetOffset() int32 {
 		return x.Offset
 	}
 	return 0
+}
+
+func (x *ListAchievementsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListAchievementsInput) GetFilters() *ListAchievementsInput_Filter {
@@ -508,8 +516,9 @@ func (x *ListAchievementsOutput) GetItems() []*Achievement {
 }
 
 type ListAchievementsInput_Filter struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Query         string                     `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/community/achievement_service.proto.
+	Query         string                     `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID  `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Quantity      []*wellknown.ExpressionInt `protobuf:"bytes,3,rep,name=quantity,proto3" json:"quantity,omitempty"`
 	Score         []*wellknown.ExpressionInt `protobuf:"bytes,4,rep,name=score,proto3" json:"score,omitempty"`
@@ -547,6 +556,7 @@ func (*ListAchievementsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_achievement_service_proto_rawDescGZIP(), []int{5, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/community/achievement_service.proto.
 func (x *ListAchievementsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -602,18 +612,19 @@ const file_eolymp_community_achievement_service_proto_rawDesc = "" +
 	"\x18UnassignAchievementInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12%\n" +
 	"\x0eachievement_id\x18\x02 \x01(\tR\rachievementId\"\x1b\n" +
-	"\x19UnassignAchievementOutput\"\xd9\x03\n" +
+	"\x19UnassignAchievementOutput\"\xf5\x03\n" +
 	"\x15ListAchievementsInput\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x14\n" +
 	"\x05after\x18\f \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
 	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x12H\n" +
+	" \x01(\x05R\x06offset\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12H\n" +
 	"\afilters\x18( \x01(\v2..eolymp.community.ListAchievementsInput.FilterR\afilters\x12:\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.community.Achievement.ExtraR\x05extra\x1a\xc2\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2#.eolymp.community.Achievement.ExtraR\x05extra\x1a\xc6\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
 	"\bquantity\x18\x03 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\bquantity\x125\n" +
 	"\x05score\x18\x04 \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x05score\"\x8d\x01\n" +

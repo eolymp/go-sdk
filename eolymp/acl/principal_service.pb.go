@@ -425,6 +425,7 @@ type ListPrincipalsInput struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
 	Offset        int32                        `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                        `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Search        string                       `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListPrincipalsInput_Filter  `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Sort          ListPrincipalsInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.acl.ListPrincipalsInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction          `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
@@ -474,6 +475,13 @@ func (x *ListPrincipalsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListPrincipalsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListPrincipalsInput) GetFilters() *ListPrincipalsInput_Filter {
@@ -550,8 +558,9 @@ func (x *ListPrincipalsOutput) GetItems() []*Principal {
 }
 
 type ListPrincipalsInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,10,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/acl/principal_service.proto.
+	Query         string                        `protobuf:"bytes,10,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
 	UserId        []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
@@ -589,6 +598,7 @@ func (*ListPrincipalsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_acl_principal_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/acl/principal_service.proto.
 func (x *ListPrincipalsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -639,17 +649,18 @@ const file_eolymp_acl_principal_service_proto_rawDesc = "" +
 	"\x16DescribePrincipalInput\x12!\n" +
 	"\fprincipal_id\x18\x01 \x01(\tR\vprincipalId\"N\n" +
 	"\x17DescribePrincipalOutput\x123\n" +
-	"\tprincipal\x18\x01 \x01(\v2\x15.eolymp.acl.PrincipalR\tprincipal\"\xd9\x03\n" +
+	"\tprincipal\x18\x01 \x01(\v2\x15.eolymp.acl.PrincipalR\tprincipal\"\xf5\x03\n" +
 	"\x13ListPrincipalsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12@\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12@\n" +
 	"\afilters\x18( \x01(\v2&.eolymp.acl.ListPrincipalsInput.FilterR\afilters\x12<\n" +
 	"\x04sort\x182 \x01(\x0e2(.eolymp.acl.ListPrincipalsInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xbf\x01\n" +
-	"\x06Filter\x12\x14\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xc3\x01\n" +
+	"\x06Filter\x12\x18\n" +
 	"\x05query\x18\n" +
-	" \x01(\tR\x05query\x12.\n" +
+	" \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x127\n" +
 	"\auser_id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"!\n" +

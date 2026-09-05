@@ -238,6 +238,7 @@ type ListTermsInput struct {
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search        string                 `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListTermsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -292,6 +293,13 @@ func (x *ListTermsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListTermsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListTermsInput) GetFilters() *ListTermsInput_Filter {
@@ -2147,6 +2155,7 @@ type ListTranslationPairsInput struct {
 	//	*ListTranslationPairsInput_Before
 	Cursor isListTranslationPairsInput_Cursor `protobuf_oneof:"cursor"`
 	// data filters
+	Search        string                            `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListTranslationPairsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2240,6 +2249,13 @@ func (x *ListTranslationPairsInput) GetBefore() string {
 		if x, ok := x.Cursor.(*ListTranslationPairsInput_Before); ok {
 			return x.Before
 		}
+	}
+	return ""
+}
+
+func (x *ListTranslationPairsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
 	}
 	return ""
 }
@@ -2386,8 +2402,9 @@ func (x *ListTermsInput_ExpressionTranslation) GetStatus() *wellknown.Expression
 }
 
 type ListTermsInput_Filter struct {
-	state         protoimpl.MessageState                  `protogen:"open.v1"`
-	Query         string                                  `protobuf:"bytes,100,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/l10n/localization_service.proto.
+	Query         string                                  `protobuf:"bytes,100,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID               `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
 	Key           []*wellknown.ExpressionString           `protobuf:"bytes,2,rep,name=key,proto3" json:"key,omitempty"`
 	Message       []*wellknown.ExpressionString           `protobuf:"bytes,3,rep,name=message,proto3" json:"message,omitempty"`
@@ -2427,6 +2444,7 @@ func (*ListTermsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{4, 1}
 }
 
+// Deprecated: Marked as deprecated in eolymp/l10n/localization_service.proto.
 func (x *ListTermsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -2666,8 +2684,9 @@ func (x *ListTranslationsInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
 }
 
 type ListTranslationPairsInput_Filter struct {
-	state              protoimpl.MessageState        `protogen:"open.v1"`
-	Query              string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/l10n/localization_service.proto.
+	Query              string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`                                                      // deprecated, use top-level `search` instead
 	TermKey            []*wellknown.ExpressionString `protobuf:"bytes,10,rep,name=term_key,json=termKey,proto3" json:"term_key,omitempty"`                                  // filter by term key
 	TermStatus         []*wellknown.ExpressionEnum   `protobuf:"bytes,11,rep,name=term_status,json=termStatus,proto3" json:"term_status,omitempty"`                         // filter by term status
 	SourceMessage      []*wellknown.ExpressionString `protobuf:"bytes,20,rep,name=source_message,json=sourceMessage,proto3" json:"source_message,omitempty"`                // filter by source message
@@ -2707,6 +2726,7 @@ func (*ListTranslationPairsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{42, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/l10n/localization_service.proto.
 func (x *ListTranslationPairsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -2767,19 +2787,20 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x11ImportTermsOutput\x12#\n" +
 	"\rcreated_count\x18\x01 \x01(\x05R\fcreatedCount\x12#\n" +
 	"\rupdated_count\x18\x02 \x01(\x05R\fupdatedCount\x12)\n" +
-	"\x10deprecated_count\x18\x03 \x01(\x05R\x0fdeprecatedCount\"\xd8\x04\n" +
+	"\x10deprecated_count\x18\x03 \x01(\x05R\x0fdeprecatedCount\"\xf4\x04\n" +
 	"\x0eListTermsInput\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12<\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12<\n" +
 	"\afilters\x18( \x01(\v2\".eolymp.l10n.ListTermsInput.FilterR\afilters\x1ai\n" +
 	"\x15ExpressionTranslation\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x128\n" +
-	"\x06status\x18\x03 \x01(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x1a\xd1\x02\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18d \x01(\tR\x05query\x12.\n" +
+	"\x06status\x18\x03 \x01(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x1a\xd5\x02\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18d \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x124\n" +
 	"\x03key\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x03key\x12<\n" +
 	"\amessage\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\amessage\x128\n" +
@@ -2927,7 +2948,7 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\ftranslations\x18\x02 \x03(\v27.eolymp.l10n.ExportTranslationsOutput.TranslationsEntryR\ftranslations\x1a?\n" +
 	"\x11TranslationsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xab\x06\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc7\x06\n" +
 	"\x19ListTranslationPairsInput\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x03 \x01(\tR\tprojectId\x12\x16\n" +
@@ -2937,10 +2958,11 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	" \x01(\x05R\x04size\x12\x18\n" +
 	"\x06offset\x18\v \x01(\x05H\x00R\x06offset\x12\x16\n" +
 	"\x05after\x18\f \x01(\tH\x00R\x05after\x12\x18\n" +
-	"\x06before\x18\r \x01(\tH\x00R\x06before\x12G\n" +
-	"\afilters\x18( \x01(\v2-.eolymp.l10n.ListTranslationPairsInput.FilterR\afilters\x1a\x8b\x04\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12=\n" +
+	"\x06before\x18\r \x01(\tH\x00R\x06before\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12G\n" +
+	"\afilters\x18( \x01(\v2-.eolymp.l10n.ListTranslationPairsInput.FilterR\afilters\x1a\x8f\x04\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12=\n" +
 	"\bterm_key\x18\n" +
 	" \x03(\v2\".eolymp.wellknown.ExpressionStringR\atermKey\x12p\n" +
 	"\vterm_status\x18\v \x03(\v2 .eolymp.wellknown.ExpressionEnumB-\xa2\xf0\xf0\xe4\x01'possible values: `ACTIVE`, `DEPRECATED`R\n" +

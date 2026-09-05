@@ -242,6 +242,7 @@ type ListFragmentsInput struct {
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search        string                     `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListFragmentsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Sort          ListFragmentsInput_Sort    `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.content.ListFragmentsInput_Sort" json:"sort,omitempty"`
 	Order         wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
@@ -293,6 +294,13 @@ func (x *ListFragmentsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListFragmentsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListFragmentsInput) GetFilters() *ListFragmentsInput_Filter {
@@ -991,8 +999,9 @@ func (x *ListParentsOutput) GetItems() []*Fragment {
 }
 
 type ListFragmentsInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/content/content_service.proto.
+	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Path          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=path,proto3" json:"path,omitempty"`
 	Label         []*wellknown.ExpressionEnum   `protobuf:"bytes,5,rep,name=label,proto3" json:"label,omitempty"`
@@ -1030,6 +1039,7 @@ func (*ListFragmentsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_content_service_proto_rawDescGZIP(), []int{3, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/content/content_service.proto.
 func (x *ListFragmentsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1074,18 +1084,19 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"fragmentId\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"N\n" +
 	"\x16DescribeFragmentOutput\x124\n" +
-	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xc1\x04\n" +
+	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xdd\x04\n" +
 	"\x12ListFragmentsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12C\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12C\n" +
 	"\afilters\x18( \x01(\v2).eolymp.content.ListFragmentsInput.FilterR\afilters\x12;\n" +
 	"\x04sort\x182 \x01(\x0e2'.eolymp.content.ListFragmentsInput.SortR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12;\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xc4\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xc8\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04path\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04path\x126\n" +
 	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\x04\x10\x05\"-\n" +

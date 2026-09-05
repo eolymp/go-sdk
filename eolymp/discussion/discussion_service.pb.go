@@ -267,6 +267,7 @@ type ListMessagesInput struct {
 	Sort  ListMessagesInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.discussion.ListMessagesInput_Sortable" json:"sort,omitempty"`
 	Order wellknown.Direction        `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
 	// data filters
+	Search        string                    `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListMessagesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Extra         []Message_Extra           `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.discussion.Message_Extra" json:"extra,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -343,6 +344,13 @@ func (x *ListMessagesInput) GetOrder() wellknown.Direction {
 		return x.Order
 	}
 	return wellknown.Direction(0)
+}
+
+func (x *ListMessagesInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListMessagesInput) GetFilters() *ListMessagesInput_Filter {
@@ -1084,8 +1092,9 @@ func (*UpdateSubscriptionOutput) Descriptor() ([]byte, []int) {
 }
 
 type ListMessagesInput_Filter struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/discussion/discussion_service.proto.
+	Query         string                           `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID        `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	ReplyTo       []*wellknown.ExpressionID        `protobuf:"bytes,3,rep,name=reply_to,json=replyTo,proto3" json:"reply_to,omitempty"`
 	MemberId      []*wellknown.ExpressionID        `protobuf:"bytes,4,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
@@ -1127,6 +1136,7 @@ func (*ListMessagesInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_discussion_service_proto_rawDescGZIP(), []int{3, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/discussion/discussion_service.proto.
 func (x *ListMessagesInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1261,7 +1271,7 @@ const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	"\x06render\x18\x02 \x01(\bR\x06render\x127\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.discussion.Message.ExtraR\x05extra\"M\n" +
 	"\x15DescribeMessageOutput\x124\n" +
-	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\xfd\x06\n" +
+	"\amessage\x18\x01 \x01(\v2\x1a.eolymp.discussion.MessageR\amessage\"\x99\a\n" +
 	"\x11ListMessagesInput\x12\x1b\n" +
 	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12\x16\n" +
 	"\x06render\x18\x01 \x01(\bR\x06render\x12\x14\n" +
@@ -1269,11 +1279,12 @@ const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	" \x01(\tR\x05after\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12A\n" +
 	"\x04sort\x182 \x01(\x0e2-.eolymp.discussion.ListMessagesInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12E\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12E\n" +
 	"\afilters\x18( \x01(\v2+.eolymp.discussion.ListMessagesInput.FilterR\afilters\x127\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.discussion.Message.ExtraR\x05extra\x1a\xc9\x03\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2 .eolymp.discussion.Message.ExtraR\x05extra\x1a\xcd\x03\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x129\n" +
 	"\breply_to\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\areplyTo\x12;\n" +
 	"\tmember_id\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x12;\n" +

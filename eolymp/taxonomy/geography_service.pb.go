@@ -116,6 +116,7 @@ type ListCountriesInput struct {
 	Offset int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search        string                     `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListCountriesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -163,6 +164,13 @@ func (x *ListCountriesInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListCountriesInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListCountriesInput) GetFilters() *ListCountriesInput_Filter {
@@ -318,6 +326,7 @@ type ListRegionsInput struct {
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search        string                   `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListRegionsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -365,6 +374,13 @@ func (x *ListRegionsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListRegionsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListRegionsInput) GetFilters() *ListRegionsInput_Filter {
@@ -427,8 +443,9 @@ func (x *ListRegionsOutput) GetTotal() int32 {
 }
 
 type ListCountriesInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/taxonomy/geography_service.proto.
+	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -465,6 +482,7 @@ func (*ListCountriesInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_taxonomy_geography_service_proto_rawDescGZIP(), []int{2, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/taxonomy/geography_service.proto.
 func (x *ListCountriesInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -487,8 +505,9 @@ func (x *ListCountriesInput_Filter) GetName() []*wellknown.ExpressionString {
 }
 
 type ListRegionsInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/taxonomy/geography_service.proto.
+	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	CountryId     []*wellknown.ExpressionID     `protobuf:"bytes,3,rep,name=country_id,json=countryId,proto3" json:"country_id,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,4,rep,name=name,proto3" json:"name,omitempty"`
@@ -526,6 +545,7 @@ func (*ListRegionsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_taxonomy_geography_service_proto_rawDescGZIP(), []int{6, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/taxonomy/geography_service.proto.
 func (x *ListRegionsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -563,14 +583,15 @@ const file_eolymp_taxonomy_geography_service_proto_rawDesc = "" +
 	"\n" +
 	"country_id\x18\x01 \x01(\tR\tcountryId\"K\n" +
 	"\x15DescribeCountryOutput\x122\n" +
-	"\acountry\x18\x01 \x01(\v2\x18.eolymp.taxonomy.CountryR\acountry\"\x8f\x02\n" +
+	"\acountry\x18\x01 \x01(\v2\x18.eolymp.taxonomy.CountryR\acountry\"\xab\x02\n" +
 	"\x12ListCountriesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12D\n" +
-	"\afilters\x18( \x01(\v2*.eolymp.taxonomy.ListCountriesInput.FilterR\afilters\x1a\x86\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12D\n" +
+	"\afilters\x18( \x01(\v2*.eolymp.taxonomy.ListCountriesInput.FilterR\afilters\x1a\x8a\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"[\n" +
 	"\x13ListCountriesOutput\x12.\n" +
@@ -579,14 +600,15 @@ const file_eolymp_taxonomy_geography_service_proto_rawDesc = "" +
 	"\x13DescribeRegionInput\x12\x1b\n" +
 	"\tregion_id\x18\x01 \x01(\tR\bregionId\"G\n" +
 	"\x14DescribeRegionOutput\x12/\n" +
-	"\x06region\x18\x01 \x01(\v2\x17.eolymp.taxonomy.RegionR\x06region\"\xca\x02\n" +
+	"\x06region\x18\x01 \x01(\v2\x17.eolymp.taxonomy.RegionR\x06region\"\xe6\x02\n" +
 	"\x10ListRegionsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
-	"\afilters\x18( \x01(\v2(.eolymp.taxonomy.ListRegionsInput.FilterR\afilters\x1a\xc5\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12B\n" +
+	"\afilters\x18( \x01(\v2(.eolymp.taxonomy.ListRegionsInput.FilterR\afilters\x1a\xc9\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12=\n" +
 	"\n" +
 	"country_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tcountryId\x126\n" +

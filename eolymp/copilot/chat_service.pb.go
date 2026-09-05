@@ -339,10 +339,12 @@ func (x *DescribeChatOutput) GetChat() *Chat {
 }
 
 type ListChatsInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
-	Query         string                  `protobuf:"bytes,30,opt,name=query,proto3" json:"query,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Offset int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size   int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Search string                 `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
+	// Deprecated: Marked as deprecated in eolymp/copilot/chat_service.proto.
+	Query         string                  `protobuf:"bytes,30,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use `search` instead
 	Filters       *ListChatsInput_Filter  `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	Sort          ListChatsInput_Sortable `protobuf:"varint,50,opt,name=sort,proto3,enum=eolymp.copilot.ListChatsInput_Sortable" json:"sort,omitempty"`
 	Order         wellknown.Direction     `protobuf:"varint,51,opt,name=order,proto3,enum=eolymp.wellknown.Direction" json:"order,omitempty"`
@@ -394,6 +396,14 @@ func (x *ListChatsInput) GetSize() int32 {
 	return 0
 }
 
+func (x *ListChatsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
+}
+
+// Deprecated: Marked as deprecated in eolymp/copilot/chat_service.proto.
 func (x *ListChatsInput) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1317,12 +1327,13 @@ const file_eolymp_copilot_chat_service_proto_rawDesc = "" +
 	"\x11DescribeChatInput\x12\x17\n" +
 	"\achat_id\x18\x01 \x01(\tR\x06chatId\">\n" +
 	"\x12DescribeChatOutput\x12(\n" +
-	"\x04chat\x18\x01 \x01(\v2\x14.eolymp.copilot.ChatR\x04chat\"\xb4\x03\n" +
+	"\x04chat\x18\x01 \x01(\v2\x14.eolymp.copilot.ChatR\x04chat\"\xd0\x03\n" +
 	"\x0eListChatsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12\x14\n" +
-	"\x05query\x18\x1e \x01(\tR\x05query\x12?\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12\x18\n" +
+	"\x05query\x18\x1e \x01(\tB\x02\x18\x01R\x05query\x12?\n" +
 	"\afilters\x18( \x01(\v2%.eolymp.copilot.ListChatsInput.FilterR\afilters\x12;\n" +
 	"\x04sort\x182 \x01(\x0e2'.eolymp.copilot.ListChatsInput.SortableR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1av\n" +

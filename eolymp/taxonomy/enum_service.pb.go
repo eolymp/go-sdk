@@ -485,6 +485,7 @@ type ListEnumsInput struct {
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search        string                 `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListEnumsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -532,6 +533,13 @@ func (x *ListEnumsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListEnumsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListEnumsInput) GetFilters() *ListEnumsInput_Filter {
@@ -993,6 +1001,7 @@ type ListValuesInput struct {
 	Offset int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size   int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	// data filters
+	Search  string                  `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters *ListValuesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	// if set, system will use translations to translate value name, summary and keywords
 	Locale        string `protobuf:"bytes,100,opt,name=locale,proto3" json:"locale,omitempty"`
@@ -1049,6 +1058,13 @@ func (x *ListValuesInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListValuesInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListValuesInput) GetFilters() *ListValuesInput_Filter {
@@ -1448,8 +1464,9 @@ func (x *ListTranslationsOutput) GetItems() []*Value_Translation {
 }
 
 type ListEnumsInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/taxonomy/enum_service.proto.
+	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1486,6 +1503,7 @@ func (*ListEnumsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_taxonomy_enum_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/taxonomy/enum_service.proto.
 func (x *ListEnumsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1508,8 +1526,9 @@ func (x *ListEnumsInput_Filter) GetName() []*wellknown.ExpressionString {
 }
 
 type ListValuesInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/taxonomy/enum_service.proto.
+	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1546,6 +1565,7 @@ func (*ListValuesInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_taxonomy_enum_service_proto_rawDescGZIP(), []int{18, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/taxonomy/enum_service.proto.
 func (x *ListValuesInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -1634,14 +1654,15 @@ const file_eolymp_taxonomy_enum_service_proto_rawDesc = "" +
 	"\x11DescribeEnumInput\x12\x17\n" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\"?\n" +
 	"\x12DescribeEnumOutput\x12)\n" +
-	"\x04enum\x18\x01 \x01(\v2\x15.eolymp.taxonomy.EnumR\x04enum\"\x87\x02\n" +
+	"\x04enum\x18\x01 \x01(\v2\x15.eolymp.taxonomy.EnumR\x04enum\"\xa3\x02\n" +
 	"\x0eListEnumsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12@\n" +
-	"\afilters\x18( \x01(\v2&.eolymp.taxonomy.ListEnumsInput.FilterR\afilters\x1a\x86\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12@\n" +
+	"\afilters\x18( \x01(\v2&.eolymp.taxonomy.ListEnumsInput.FilterR\afilters\x1a\x8a\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"T\n" +
 	"\x0fListEnumsOutput\x12\x14\n" +
@@ -1674,16 +1695,17 @@ const file_eolymp_taxonomy_enum_service_proto_rawDesc = "" +
 	"\bvalue_id\x18\x02 \x01(\tR\avalueId\x12\x16\n" +
 	"\x06locale\x18d \x01(\tR\x06locale\"C\n" +
 	"\x13DescribeValueOutput\x12,\n" +
-	"\x05value\x18\x01 \x01(\v2\x16.eolymp.taxonomy.ValueR\x05value\"\xba\x02\n" +
+	"\x05value\x18\x01 \x01(\v2\x16.eolymp.taxonomy.ValueR\x05value\"\xd6\x02\n" +
 	"\x0fListValuesInput\x12\x17\n" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12A\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12A\n" +
 	"\afilters\x18( \x01(\v2'.eolymp.taxonomy.ListValuesInput.FilterR\afilters\x12\x16\n" +
-	"\x06locale\x18d \x01(\tR\x06locale\x1a\x86\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x06locale\x18d \x01(\tR\x06locale\x1a\x8a\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"V\n" +
 	"\x10ListValuesOutput\x12\x14\n" +

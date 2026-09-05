@@ -431,6 +431,7 @@ type ListGroupsInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                   `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Search        string                  `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
 	Filters       *ListGroupsInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -478,6 +479,13 @@ func (x *ListGroupsInput) GetSize() int32 {
 		return x.Size
 	}
 	return 0
+}
+
+func (x *ListGroupsInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 func (x *ListGroupsInput) GetFilters() *ListGroupsInput_Filter {
@@ -540,8 +548,9 @@ func (x *ListGroupsOutput) GetItems() []*Group {
 }
 
 type ListGroupsInput_Filter struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in eolymp/community/group_service.proto.
+	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // deprecated, use top-level `search` instead
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	ExternalRef   []*wellknown.ExpressionID     `protobuf:"bytes,4,rep,name=external_ref,json=externalRef,proto3" json:"external_ref,omitempty"`
 	Name          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=name,proto3" json:"name,omitempty"`
@@ -579,6 +588,7 @@ func (*ListGroupsInput_Filter) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_group_service_proto_rawDescGZIP(), []int{9, 0}
 }
 
+// Deprecated: Marked as deprecated in eolymp/community/group_service.proto.
 func (x *ListGroupsInput_Filter) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -630,14 +640,15 @@ const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\x12DescribeGroupInput\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\tR\agroupId\"D\n" +
 	"\x13DescribeGroupOutput\x12-\n" +
-	"\x05group\x18\x01 \x01(\v2\x17.eolymp.community.GroupR\x05group\"\xcd\x02\n" +
+	"\x05group\x18\x01 \x01(\v2\x17.eolymp.community.GroupR\x05group\"\xe9\x02\n" +
 	"\x0fListGroupsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
-	"\afilters\x18( \x01(\v2(.eolymp.community.ListGroupsInput.FilterR\afilters\x1a\xc9\x01\n" +
-	"\x06Filter\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12.\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12B\n" +
+	"\afilters\x18( \x01(\v2(.eolymp.community.ListGroupsInput.FilterR\afilters\x1a\xcd\x01\n" +
+	"\x06Filter\x12\x18\n" +
+	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12A\n" +
 	"\fexternal_ref\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\vexternalRef\x126\n" +
 	"\x04name\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04name\"W\n" +
