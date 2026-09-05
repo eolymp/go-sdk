@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LogService_ListLogs_FullMethodName    = "/eolymp.automation.LogService/ListLogs"
-	LogService_DescribeLog_FullMethodName = "/eolymp.automation.LogService/DescribeLog"
-	LogService_WatchLog_FullMethodName    = "/eolymp.automation.LogService/WatchLog"
+	LogService_ListLogs_FullMethodName     = "/eolymp.automation.LogService/ListLogs"
+	LogService_DescribeLog_FullMethodName  = "/eolymp.automation.LogService/DescribeLog"
+	LogService_WatchLog_FullMethodName     = "/eolymp.automation.LogService/WatchLog"
+	LogService_InterruptLog_FullMethodName = "/eolymp.automation.LogService/InterruptLog"
 )
 
 // LogServiceClient is the client API for LogService service.
@@ -34,6 +35,12 @@ type LogServiceClient interface {
 	// messages included, sent as UPDATED; every following message is a newly appended Log.Message, sent as
 	// CREATED. The stream closes once the log reaches COMPLETE or ERROR.
 	WatchLog(ctx context.Context, in *WatchLogInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchLogOutput], error)
+	// InterruptLog stops a run in flight. A log still PENDING is settled as INTERRUPTED immediately, which
+	// keeps it from ever starting. A log already EXECUTING is signalled to stop and settles as INTERRUPTED
+	// once the running action loop observes it; actions it already completed are not rolled back. Calling it
+	// on a log that already reached a terminal state fails. This is a signal, not a guarantee: if nothing is
+	// left running to receive it, the log is later swept to ERROR like any other abandoned run.
+	InterruptLog(ctx context.Context, in *InterruptLogInput, opts ...grpc.CallOption) (*InterruptLogOutput, error)
 }
 
 type logServiceClient struct {
@@ -83,6 +90,16 @@ func (c *logServiceClient) WatchLog(ctx context.Context, in *WatchLogInput, opts
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type LogService_WatchLogClient = grpc.ServerStreamingClient[WatchLogOutput]
 
+func (c *logServiceClient) InterruptLog(ctx context.Context, in *InterruptLogInput, opts ...grpc.CallOption) (*InterruptLogOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InterruptLogOutput)
+	err := c.cc.Invoke(ctx, LogService_InterruptLog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LogServiceServer is the server API for LogService service.
 // All implementations should embed UnimplementedLogServiceServer
 // for forward compatibility.
@@ -93,6 +110,12 @@ type LogServiceServer interface {
 	// messages included, sent as UPDATED; every following message is a newly appended Log.Message, sent as
 	// CREATED. The stream closes once the log reaches COMPLETE or ERROR.
 	WatchLog(*WatchLogInput, grpc.ServerStreamingServer[WatchLogOutput]) error
+	// InterruptLog stops a run in flight. A log still PENDING is settled as INTERRUPTED immediately, which
+	// keeps it from ever starting. A log already EXECUTING is signalled to stop and settles as INTERRUPTED
+	// once the running action loop observes it; actions it already completed are not rolled back. Calling it
+	// on a log that already reached a terminal state fails. This is a signal, not a guarantee: if nothing is
+	// left running to receive it, the log is later swept to ERROR like any other abandoned run.
+	InterruptLog(context.Context, *InterruptLogInput) (*InterruptLogOutput, error)
 }
 
 // UnimplementedLogServiceServer should be embedded to have
@@ -110,6 +133,9 @@ func (UnimplementedLogServiceServer) DescribeLog(context.Context, *DescribeLogIn
 }
 func (UnimplementedLogServiceServer) WatchLog(*WatchLogInput, grpc.ServerStreamingServer[WatchLogOutput]) error {
 	return status.Error(codes.Unimplemented, "method WatchLog not implemented")
+}
+func (UnimplementedLogServiceServer) InterruptLog(context.Context, *InterruptLogInput) (*InterruptLogOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method InterruptLog not implemented")
 }
 func (UnimplementedLogServiceServer) testEmbeddedByValue() {}
 
@@ -178,6 +204,24 @@ func _LogService_WatchLog_Handler(srv interface{}, stream grpc.ServerStream) err
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type LogService_WatchLogServer = grpc.ServerStreamingServer[WatchLogOutput]
 
+func _LogService_InterruptLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InterruptLogInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogServiceServer).InterruptLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LogService_InterruptLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogServiceServer).InterruptLog(ctx, req.(*InterruptLogInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LogService_ServiceDesc is the grpc.ServiceDesc for LogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -192,6 +236,10 @@ var LogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeLog",
 			Handler:    _LogService_DescribeLog_Handler,
+		},
+		{
+			MethodName: "InterruptLog",
+			Handler:    _LogService_InterruptLog_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

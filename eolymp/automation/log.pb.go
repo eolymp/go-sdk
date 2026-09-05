@@ -22,8 +22,8 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Status is the log's lifecycle. A run that never reaches a terminal state (COMPLETE or ERROR) is swept
-// to ERROR after 15 minutes without progress.
+// Status is the log's lifecycle. A run that never reaches a terminal state (COMPLETE, ERROR or
+// INTERRUPTED) is swept to ERROR after 15 minutes without progress.
 type Log_Status int32
 
 const (
@@ -32,6 +32,7 @@ const (
 	Log_EXECUTING      Log_Status = 2 // execution in progress
 	Log_COMPLETE       Log_Status = 3 // execution finished, regardless of the outcome an agentic action reports
 	Log_ERROR          Log_Status = 4 // execution stopped because a script or agent failed at the infrastructure level
+	Log_INTERRUPTED    Log_Status = 5 // execution stopped by an explicit interrupt request
 )
 
 // Enum value maps for Log_Status.
@@ -42,6 +43,7 @@ var (
 		2: "EXECUTING",
 		3: "COMPLETE",
 		4: "ERROR",
+		5: "INTERRUPTED",
 	}
 	Log_Status_value = map[string]int32{
 		"UNKNOWN_STATUS": 0,
@@ -49,6 +51,7 @@ var (
 		"EXECUTING":      2,
 		"COMPLETE":       3,
 		"ERROR":          4,
+		"INTERRUPTED":    5,
 	}
 )
 
@@ -417,7 +420,7 @@ var File_eolymp_automation_log_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_log_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/automation/log.proto\x12\x11eolymp.automation\x1a\x1ceolymp/automation/rule.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb9\a\n" +
+	"\x1beolymp/automation/log.proto\x12\x11eolymp.automation\x1a\x1ceolymp/automation/rule.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xca\a\n" +
 	"\x03Log\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\arule_id\x18\x02 \x01(\tR\x06ruleId\x129\n" +
@@ -449,13 +452,14 @@ const file_eolymp_automation_log_proto_rawDesc = "" +
 	"\x05block\x1a:\n" +
 	"\fContextEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"Q\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"b\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +
 	"\tEXECUTING\x10\x02\x12\f\n" +
 	"\bCOMPLETE\x10\x03\x12\t\n" +
-	"\x05ERROR\x10\x04J\x04\b\x03\x10\x04B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x05ERROR\x10\x04\x12\x0f\n" +
+	"\vINTERRUPTED\x10\x05J\x04\b\x03\x10\x04B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_log_proto_rawDescOnce sync.Once

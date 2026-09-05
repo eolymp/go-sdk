@@ -419,6 +419,86 @@ func (*WatchLogOutput_Log) isWatchLogOutput_Value() {}
 
 func (*WatchLogOutput_Message) isWatchLogOutput_Value() {}
 
+type InterruptLogInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LogId         string                 `protobuf:"bytes,1,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InterruptLogInput) Reset() {
+	*x = InterruptLogInput{}
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InterruptLogInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InterruptLogInput) ProtoMessage() {}
+
+func (x *InterruptLogInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InterruptLogInput.ProtoReflect.Descriptor instead.
+func (*InterruptLogInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_automation_log_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *InterruptLogInput) GetLogId() string {
+	if x != nil {
+		return x.LogId
+	}
+	return ""
+}
+
+type InterruptLogOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InterruptLogOutput) Reset() {
+	*x = InterruptLogOutput{}
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InterruptLogOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InterruptLogOutput) ProtoMessage() {}
+
+func (x *InterruptLogOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InterruptLogOutput.ProtoReflect.Descriptor instead.
+func (*InterruptLogOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_automation_log_service_proto_rawDescGZIP(), []int{7}
+}
+
 type ListLogsInput_Filter struct {
 	state         protoimpl.MessageState           `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID        `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -433,7 +513,7 @@ type ListLogsInput_Filter struct {
 
 func (x *ListLogsInput_Filter) Reset() {
 	*x = ListLogsInput_Filter{}
-	mi := &file_eolymp_automation_log_service_proto_msgTypes[6]
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -445,7 +525,7 @@ func (x *ListLogsInput_Filter) String() string {
 func (*ListLogsInput_Filter) ProtoMessage() {}
 
 func (x *ListLogsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_automation_log_service_proto_msgTypes[6]
+	mi := &file_eolymp_automation_log_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -540,7 +620,10 @@ const file_eolymp_automation_log_service_proto_rawDesc = "" +
 	"\x05event\x18\x01 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event\x12*\n" +
 	"\x03log\x18\x02 \x01(\v2\x16.eolymp.automation.LogH\x00R\x03log\x12:\n" +
 	"\amessage\x18\x03 \x01(\v2\x1e.eolymp.automation.Log.MessageH\x00R\amessageB\a\n" +
-	"\x05value2\xa6\x04\n" +
+	"\x05value\"*\n" +
+	"\x11InterruptLogInput\x12\x15\n" +
+	"\x06log_id\x18\x01 \x01(\tR\x05logId\"\x14\n" +
+	"\x12InterruptLogOutput2\xe4\x05\n" +
 	"\n" +
 	"LogService\x12\x9b\x01\n" +
 	"\bListLogs\x12 .eolymp.automation.ListLogsInput\x1a!.eolymp.automation.ListLogsOutput\"J\xea\xe2\n" +
@@ -566,7 +649,15 @@ const file_eolymp_automation_log_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13automation:log:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/automation/logs/{log_id}/watch0\x01\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/automation/logs/{log_id}/watch0\x01\x12\xbb\x01\n" +
+	"\fInterruptLog\x12$.eolymp.automation.InterruptLogInput\x1a%.eolymp.automation.InterruptLogOutput\"^\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14automation:log:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02%\"#/automation/logs/{log_id}/interrupt\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_log_service_proto_rawDescOnce sync.Once
@@ -581,7 +672,7 @@ func file_eolymp_automation_log_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_automation_log_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_automation_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_eolymp_automation_log_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_eolymp_automation_log_service_proto_goTypes = []any{
 	(ListLogsInput_Sortable)(0),           // 0: eolymp.automation.ListLogsInput.Sortable
 	(*ListLogsInput)(nil),                 // 1: eolymp.automation.ListLogsInput
@@ -590,39 +681,43 @@ var file_eolymp_automation_log_service_proto_goTypes = []any{
 	(*DescribeLogOutput)(nil),             // 4: eolymp.automation.DescribeLogOutput
 	(*WatchLogInput)(nil),                 // 5: eolymp.automation.WatchLogInput
 	(*WatchLogOutput)(nil),                // 6: eolymp.automation.WatchLogOutput
-	(*ListLogsInput_Filter)(nil),          // 7: eolymp.automation.ListLogsInput.Filter
-	(wellknown.Direction)(0),              // 8: eolymp.wellknown.Direction
-	(*Log)(nil),                           // 9: eolymp.automation.Log
-	(wellknown.WatchEventType)(0),         // 10: eolymp.wellknown.WatchEventType
-	(*Log_Message)(nil),                   // 11: eolymp.automation.Log.Message
-	(*wellknown.ExpressionID)(nil),        // 12: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),      // 13: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionBool)(nil),      // 14: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionTimestamp)(nil), // 15: eolymp.wellknown.ExpressionTimestamp
+	(*InterruptLogInput)(nil),             // 7: eolymp.automation.InterruptLogInput
+	(*InterruptLogOutput)(nil),            // 8: eolymp.automation.InterruptLogOutput
+	(*ListLogsInput_Filter)(nil),          // 9: eolymp.automation.ListLogsInput.Filter
+	(wellknown.Direction)(0),              // 10: eolymp.wellknown.Direction
+	(*Log)(nil),                           // 11: eolymp.automation.Log
+	(wellknown.WatchEventType)(0),         // 12: eolymp.wellknown.WatchEventType
+	(*Log_Message)(nil),                   // 13: eolymp.automation.Log.Message
+	(*wellknown.ExpressionID)(nil),        // 14: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),      // 15: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionBool)(nil),      // 16: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionTimestamp)(nil), // 17: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_automation_log_service_proto_depIdxs = []int32{
-	7,  // 0: eolymp.automation.ListLogsInput.filters:type_name -> eolymp.automation.ListLogsInput.Filter
+	9,  // 0: eolymp.automation.ListLogsInput.filters:type_name -> eolymp.automation.ListLogsInput.Filter
 	0,  // 1: eolymp.automation.ListLogsInput.sort:type_name -> eolymp.automation.ListLogsInput.Sortable
-	8,  // 2: eolymp.automation.ListLogsInput.order:type_name -> eolymp.wellknown.Direction
-	9,  // 3: eolymp.automation.ListLogsOutput.items:type_name -> eolymp.automation.Log
-	9,  // 4: eolymp.automation.DescribeLogOutput.log:type_name -> eolymp.automation.Log
-	10, // 5: eolymp.automation.WatchLogOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	9,  // 6: eolymp.automation.WatchLogOutput.log:type_name -> eolymp.automation.Log
-	11, // 7: eolymp.automation.WatchLogOutput.message:type_name -> eolymp.automation.Log.Message
-	12, // 8: eolymp.automation.ListLogsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	12, // 9: eolymp.automation.ListLogsInput.Filter.rule_id:type_name -> eolymp.wellknown.ExpressionID
-	13, // 10: eolymp.automation.ListLogsInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
-	14, // 11: eolymp.automation.ListLogsInput.Filter.dry_run:type_name -> eolymp.wellknown.ExpressionBool
-	15, // 12: eolymp.automation.ListLogsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	13, // 13: eolymp.automation.ListLogsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	10, // 2: eolymp.automation.ListLogsInput.order:type_name -> eolymp.wellknown.Direction
+	11, // 3: eolymp.automation.ListLogsOutput.items:type_name -> eolymp.automation.Log
+	11, // 4: eolymp.automation.DescribeLogOutput.log:type_name -> eolymp.automation.Log
+	12, // 5: eolymp.automation.WatchLogOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	11, // 6: eolymp.automation.WatchLogOutput.log:type_name -> eolymp.automation.Log
+	13, // 7: eolymp.automation.WatchLogOutput.message:type_name -> eolymp.automation.Log.Message
+	14, // 8: eolymp.automation.ListLogsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 9: eolymp.automation.ListLogsInput.Filter.rule_id:type_name -> eolymp.wellknown.ExpressionID
+	15, // 10: eolymp.automation.ListLogsInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
+	16, // 11: eolymp.automation.ListLogsInput.Filter.dry_run:type_name -> eolymp.wellknown.ExpressionBool
+	17, // 12: eolymp.automation.ListLogsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	15, // 13: eolymp.automation.ListLogsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
 	1,  // 14: eolymp.automation.LogService.ListLogs:input_type -> eolymp.automation.ListLogsInput
 	3,  // 15: eolymp.automation.LogService.DescribeLog:input_type -> eolymp.automation.DescribeLogInput
 	5,  // 16: eolymp.automation.LogService.WatchLog:input_type -> eolymp.automation.WatchLogInput
-	2,  // 17: eolymp.automation.LogService.ListLogs:output_type -> eolymp.automation.ListLogsOutput
-	4,  // 18: eolymp.automation.LogService.DescribeLog:output_type -> eolymp.automation.DescribeLogOutput
-	6,  // 19: eolymp.automation.LogService.WatchLog:output_type -> eolymp.automation.WatchLogOutput
-	17, // [17:20] is the sub-list for method output_type
-	14, // [14:17] is the sub-list for method input_type
+	7,  // 17: eolymp.automation.LogService.InterruptLog:input_type -> eolymp.automation.InterruptLogInput
+	2,  // 18: eolymp.automation.LogService.ListLogs:output_type -> eolymp.automation.ListLogsOutput
+	4,  // 19: eolymp.automation.LogService.DescribeLog:output_type -> eolymp.automation.DescribeLogOutput
+	6,  // 20: eolymp.automation.LogService.WatchLog:output_type -> eolymp.automation.WatchLogOutput
+	8,  // 21: eolymp.automation.LogService.InterruptLog:output_type -> eolymp.automation.InterruptLogOutput
+	18, // [18:22] is the sub-list for method output_type
+	14, // [14:18] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
 	14, // [14:14] is the sub-list for extension extendee
 	0,  // [0:14] is the sub-list for field type_name
@@ -644,7 +739,7 @@ func file_eolymp_automation_log_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_automation_log_service_proto_rawDesc), len(file_eolymp_automation_log_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -126,3 +126,19 @@ func (s *LogServiceService) DescribeLog(ctx context.Context, in *DescribeLogInpu
 
 	return out, nil
 }
+
+func (s *LogServiceService) InterruptLog(ctx context.Context, in *InterruptLogInput) (*InterruptLogOutput, error) {
+	out := &InterruptLogOutput{}
+	path := "/automation/logs/" + url.PathEscape(in.GetLogId()) + "/interrupt"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.LogId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

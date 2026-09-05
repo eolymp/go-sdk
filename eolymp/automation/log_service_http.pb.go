@@ -305,6 +305,9 @@ func RegisterLogServiceHttpHandlers(router *mux.Router, prefix string, cli LogSe
 	router.Handle(prefix+"/automation/logs/{log_id}/watch", _LogService_WatchLog_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.automation.LogService.WatchLog")
+	router.Handle(prefix+"/automation/logs/{log_id}/interrupt", _LogService_InterruptLog_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.automation.LogService.InterruptLog")
 }
 
 // RegisterLogServiceHttpProxy adds proxy handlers for for LogServiceClient
@@ -376,5 +379,29 @@ func _LogService_WatchLog_Rule0(cli LogServiceClient) http.Handler {
 		}
 
 		_LogService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
+	})
+}
+
+func _LogService_InterruptLog_Rule0(cli LogServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &InterruptLogInput{}
+
+		if err := _LogService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_LogService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.LogId = vars["log_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.InterruptLog(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LogService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LogService_HTTPWriteResponse(w, out, header, trailer)
 	})
 }
