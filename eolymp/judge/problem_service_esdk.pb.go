@@ -252,6 +252,23 @@ func (s *ProblemServiceService) ListQuestions(ctx context.Context, in *ListQuest
 	return out, nil
 }
 
+func (s *ProblemServiceService) DescribeWidget(ctx context.Context, in *DescribeWidgetInput) (*DescribeWidgetOutput, error) {
+	out := &DescribeWidgetOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/widget"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) DescribeEditorial(ctx context.Context, in *DescribeEditorialInput) (*DescribeEditorialOutput, error) {
 	out := &DescribeEditorialOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/editorial"

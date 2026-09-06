@@ -134,6 +134,23 @@ func (s *ProblemServiceService) ListQuestions(ctx context.Context, in *ListQuest
 	return out, nil
 }
 
+func (s *ProblemServiceService) DescribeWidget(ctx context.Context, in *DescribeWidgetInput) (*DescribeWidgetOutput, error) {
+	out := &DescribeWidgetOutput{}
+	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId()) + "/widget"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.CourseId = ""
+		in.MaterialId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) LookupStatement(ctx context.Context, in *LookupStatementInput) (*LookupStatementOutput, error) {
 	out := &LookupStatementOutput{}
 	path := "/courses/" + url.PathEscape(in.GetCourseId()) + "/materials/" + url.PathEscape(in.GetMaterialId()) + "/statements:lookup"

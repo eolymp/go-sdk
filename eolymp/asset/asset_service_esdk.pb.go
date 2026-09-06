@@ -160,6 +160,17 @@ func (s *AssetServiceService) DeleteAsset(ctx context.Context, in *DeleteAssetIn
 	return out, nil
 }
 
+func (s *AssetServiceService) UploadBundle(ctx context.Context, in *UploadBundleInput) (*UploadBundleOutput, error) {
+	out := &UploadBundleOutput{}
+	path := "/assets/bundles"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *AssetServiceService) StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	out := &StartMultipartUploadOutput{}
 	path := "/uploads"

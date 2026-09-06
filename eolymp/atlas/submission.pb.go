@@ -235,6 +235,7 @@ type Submission struct {
 	//
 	//	*Submission_Quiz_
 	//	*Submission_Output_
+	//	*Submission_Widget_
 	Payload            isSubmission_Payload    `protobuf_oneof:"payload"`
 	Signature          string                  `protobuf:"bytes,12,opt,name=signature,proto3" json:"signature,omitempty"`                                   // submission signature
 	Status             Submission_Status       `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Submission_Status" json:"status,omitempty"`    // status (see explanation for enumeration values)
@@ -413,6 +414,15 @@ func (x *Submission) GetOutput() *Submission_Output {
 	return nil
 }
 
+func (x *Submission) GetWidget() *Submission_Widget {
+	if x != nil {
+		if x, ok := x.Payload.(*Submission_Widget_); ok {
+			return x.Widget
+		}
+	}
+	return nil
+}
+
 func (x *Submission) GetSignature() string {
 	if x != nil {
 		return x.Signature
@@ -553,9 +563,15 @@ type Submission_Output_ struct {
 	Output *Submission_Output `protobuf:"bytes,16,opt,name=output,proto3,oneof"`
 }
 
+type Submission_Widget_ struct {
+	Widget *Submission_Widget `protobuf:"bytes,17,opt,name=widget,proto3,oneof"`
+}
+
 func (*Submission_Quiz_) isSubmission_Payload() {}
 
 func (*Submission_Output_) isSubmission_Payload() {}
+
+func (*Submission_Widget_) isSubmission_Payload() {}
 
 type Submission_Extra struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1004,6 +1020,55 @@ func (x *Submission_Output) GetAnswers() []*Submission_Output_Answer {
 	return nil
 }
 
+// Widget is the submission body of a WIDGET problem: the answer composed inside the problem's widget (see
+// WidgetService), as a JSON document of the widget's own design.
+//
+// The platform does not read inside the answer. It is stored as sent, so the widget can show it again, and
+// graded by the problem's checker as the output file of every test, the way an output-only submission is.
+type Submission_Widget struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Answer        string                 `protobuf:"bytes,1,opt,name=answer,proto3" json:"answer,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Submission_Widget) Reset() {
+	*x = Submission_Widget{}
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Submission_Widget) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Submission_Widget) ProtoMessage() {}
+
+func (x *Submission_Widget) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Submission_Widget.ProtoReflect.Descriptor instead.
+func (*Submission_Widget) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_submission_proto_rawDescGZIP(), []int{0, 5}
+}
+
+func (x *Submission_Widget) GetAnswer() string {
+	if x != nil {
+		return x.Answer
+	}
+	return ""
+}
+
 // Fingerprint is the normalised shape of the submitted source: the source stripped of everything a copier
 // changes for free — comments, formatting, and the names of variables — reduced to a set of hashes. Two
 // submissions are compared by intersecting their hashes, which is what plagiarism analysis runs on.
@@ -1022,7 +1087,7 @@ type Submission_Fingerprint struct {
 
 func (x *Submission_Fingerprint) Reset() {
 	*x = Submission_Fingerprint{}
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1034,7 +1099,7 @@ func (x *Submission_Fingerprint) String() string {
 func (*Submission_Fingerprint) ProtoMessage() {}
 
 func (x *Submission_Fingerprint) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1047,7 +1112,7 @@ func (x *Submission_Fingerprint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Submission_Fingerprint.ProtoReflect.Descriptor instead.
 func (*Submission_Fingerprint) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_submission_proto_rawDescGZIP(), []int{0, 5}
+	return file_eolymp_atlas_submission_proto_rawDescGZIP(), []int{0, 6}
 }
 
 func (x *Submission_Fingerprint) GetFamily() string {
@@ -1081,7 +1146,7 @@ type Submission_Quiz_Choice struct {
 
 func (x *Submission_Quiz_Choice) Reset() {
 	*x = Submission_Quiz_Choice{}
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1093,7 +1158,7 @@ func (x *Submission_Quiz_Choice) String() string {
 func (*Submission_Quiz_Choice) ProtoMessage() {}
 
 func (x *Submission_Quiz_Choice) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1135,7 +1200,7 @@ type Submission_Quiz_Answer struct {
 
 func (x *Submission_Quiz_Answer) Reset() {
 	*x = Submission_Quiz_Answer{}
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1147,7 +1212,7 @@ func (x *Submission_Quiz_Answer) String() string {
 func (*Submission_Quiz_Answer) ProtoMessage() {}
 
 func (x *Submission_Quiz_Answer) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1203,7 +1268,7 @@ type Submission_Output_Answer struct {
 
 func (x *Submission_Output_Answer) Reset() {
 	*x = Submission_Output_Answer{}
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1215,7 +1280,7 @@ func (x *Submission_Output_Answer) String() string {
 func (*Submission_Output_Answer) ProtoMessage() {}
 
 func (x *Submission_Output_Answer) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_submission_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_submission_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1263,7 +1328,7 @@ var File_eolymp_atlas_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb7\x1a\n" +
+	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcd\x1b\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12,\n" +
@@ -1284,7 +1349,8 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
 	"source_url\x18\r \x01(\tR\tsourceUrl\x123\n" +
 	"\x04quiz\x18\x0f \x01(\v2\x1d.eolymp.atlas.Submission.QuizH\x01R\x04quiz\x129\n" +
-	"\x06output\x18\x10 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x01R\x06output\x12\x1c\n" +
+	"\x06output\x18\x10 \x01(\v2\x1f.eolymp.atlas.Submission.OutputH\x01R\x06output\x129\n" +
+	"\x06widget\x18\x11 \x01(\v2\x1f.eolymp.atlas.Submission.WidgetH\x01R\x06widget\x12\x1c\n" +
 	"\tsignature\x18\f \x01(\tR\tsignature\x127\n" +
 	"\x06status\x18\x14 \x01(\x0e2\x1f.eolymp.atlas.Submission.StatusR\x06status\x12:\n" +
 	"\averdict\x18\x16 \x01(\x0e2 .eolymp.atlas.Submission.VerdictR\averdict\x12\x14\n" +
@@ -1368,7 +1434,9 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05index\x12\x1a\n" +
 	"\bfilename\x18\x03 \x01(\tR\bfilename\x12\x1d\n" +
 	"\n" +
-	"output_url\x18\x04 \x01(\tR\toutputUrl\x1aU\n" +
+	"output_url\x18\x04 \x01(\tR\toutputUrl\x1aY\n" +
+	"\x06Widget\x12O\n" +
+	"\x06answer\x18\x01 \x01(\tB7\xa2\xf0\xf0\xe4\x011JSON document produced by the widget, up to 64 KBR\x06answer\x1aU\n" +
 	"\vFingerprint\x12\x16\n" +
 	"\x06family\x18\x01 \x01(\tR\x06family\x12\x16\n" +
 	"\x06tokens\x18\x02 \x01(\rR\x06tokens\x12\x16\n" +
@@ -1411,7 +1479,7 @@ func file_eolymp_atlas_submission_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_submission_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_atlas_submission_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_atlas_submission_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_atlas_submission_proto_goTypes = []any{
 	(Submission_Status)(0),           // 0: eolymp.atlas.Submission.Status
 	(Submission_Verdict)(0),          // 1: eolymp.atlas.Submission.Verdict
@@ -1422,42 +1490,44 @@ var file_eolymp_atlas_submission_proto_goTypes = []any{
 	(*Submission_Group)(nil),         // 6: eolymp.atlas.Submission.Group
 	(*Submission_Quiz)(nil),          // 7: eolymp.atlas.Submission.Quiz
 	(*Submission_Output)(nil),        // 8: eolymp.atlas.Submission.Output
-	(*Submission_Fingerprint)(nil),   // 9: eolymp.atlas.Submission.Fingerprint
-	(*Submission_Quiz_Choice)(nil),   // 10: eolymp.atlas.Submission.Quiz.Choice
-	(*Submission_Quiz_Answer)(nil),   // 11: eolymp.atlas.Submission.Quiz.Answer
-	(*Submission_Output_Answer)(nil), // 12: eolymp.atlas.Submission.Output.Answer
-	(*timestamppb.Timestamp)(nil),    // 13: google.protobuf.Timestamp
-	(*executor.Stats)(nil),           // 14: eolymp.executor.Stats
-	(ScoringMode)(0),                 // 15: eolymp.atlas.ScoringMode
-	(FeedbackPolicy)(0),              // 16: eolymp.atlas.FeedbackPolicy
+	(*Submission_Widget)(nil),        // 9: eolymp.atlas.Submission.Widget
+	(*Submission_Fingerprint)(nil),   // 10: eolymp.atlas.Submission.Fingerprint
+	(*Submission_Quiz_Choice)(nil),   // 11: eolymp.atlas.Submission.Quiz.Choice
+	(*Submission_Quiz_Answer)(nil),   // 12: eolymp.atlas.Submission.Quiz.Answer
+	(*Submission_Output_Answer)(nil), // 13: eolymp.atlas.Submission.Output.Answer
+	(*timestamppb.Timestamp)(nil),    // 14: google.protobuf.Timestamp
+	(*executor.Stats)(nil),           // 15: eolymp.executor.Stats
+	(ScoringMode)(0),                 // 16: eolymp.atlas.ScoringMode
+	(FeedbackPolicy)(0),              // 17: eolymp.atlas.FeedbackPolicy
 }
 var file_eolymp_atlas_submission_proto_depIdxs = []int32{
-	13, // 0: eolymp.atlas.Submission.submitted_at:type_name -> google.protobuf.Timestamp
-	13, // 1: eolymp.atlas.Submission.judged_at:type_name -> google.protobuf.Timestamp
+	14, // 0: eolymp.atlas.Submission.submitted_at:type_name -> google.protobuf.Timestamp
+	14, // 1: eolymp.atlas.Submission.judged_at:type_name -> google.protobuf.Timestamp
 	7,  // 2: eolymp.atlas.Submission.quiz:type_name -> eolymp.atlas.Submission.Quiz
 	8,  // 3: eolymp.atlas.Submission.output:type_name -> eolymp.atlas.Submission.Output
-	0,  // 4: eolymp.atlas.Submission.status:type_name -> eolymp.atlas.Submission.Status
-	1,  // 5: eolymp.atlas.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	6,  // 6: eolymp.atlas.Submission.groups:type_name -> eolymp.atlas.Submission.Group
-	9,  // 7: eolymp.atlas.Submission.fingerprint:type_name -> eolymp.atlas.Submission.Fingerprint
-	0,  // 8: eolymp.atlas.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
-	1,  // 9: eolymp.atlas.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	14, // 10: eolymp.atlas.Submission.Run.debug_stats:type_name -> eolymp.executor.Stats
-	14, // 11: eolymp.atlas.Submission.Run.checker_stats:type_name -> eolymp.executor.Stats
-	14, // 12: eolymp.atlas.Submission.Run.interactor_stats:type_name -> eolymp.executor.Stats
-	0,  // 13: eolymp.atlas.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
-	1,  // 14: eolymp.atlas.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
-	15, // 15: eolymp.atlas.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
-	16, // 16: eolymp.atlas.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
-	5,  // 17: eolymp.atlas.Submission.Group.runs:type_name -> eolymp.atlas.Submission.Run
-	11, // 18: eolymp.atlas.Submission.Quiz.answers:type_name -> eolymp.atlas.Submission.Quiz.Answer
-	12, // 19: eolymp.atlas.Submission.Output.answers:type_name -> eolymp.atlas.Submission.Output.Answer
-	10, // 20: eolymp.atlas.Submission.Quiz.Answer.choices:type_name -> eolymp.atlas.Submission.Quiz.Choice
-	21, // [21:21] is the sub-list for method output_type
-	21, // [21:21] is the sub-list for method input_type
-	21, // [21:21] is the sub-list for extension type_name
-	21, // [21:21] is the sub-list for extension extendee
-	0,  // [0:21] is the sub-list for field type_name
+	9,  // 4: eolymp.atlas.Submission.widget:type_name -> eolymp.atlas.Submission.Widget
+	0,  // 5: eolymp.atlas.Submission.status:type_name -> eolymp.atlas.Submission.Status
+	1,  // 6: eolymp.atlas.Submission.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	6,  // 7: eolymp.atlas.Submission.groups:type_name -> eolymp.atlas.Submission.Group
+	10, // 8: eolymp.atlas.Submission.fingerprint:type_name -> eolymp.atlas.Submission.Fingerprint
+	0,  // 9: eolymp.atlas.Submission.Run.status:type_name -> eolymp.atlas.Submission.Status
+	1,  // 10: eolymp.atlas.Submission.Run.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	15, // 11: eolymp.atlas.Submission.Run.debug_stats:type_name -> eolymp.executor.Stats
+	15, // 12: eolymp.atlas.Submission.Run.checker_stats:type_name -> eolymp.executor.Stats
+	15, // 13: eolymp.atlas.Submission.Run.interactor_stats:type_name -> eolymp.executor.Stats
+	0,  // 14: eolymp.atlas.Submission.Group.status:type_name -> eolymp.atlas.Submission.Status
+	1,  // 15: eolymp.atlas.Submission.Group.verdict:type_name -> eolymp.atlas.Submission.Verdict
+	16, // 16: eolymp.atlas.Submission.Group.scoring_mode:type_name -> eolymp.atlas.ScoringMode
+	17, // 17: eolymp.atlas.Submission.Group.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
+	5,  // 18: eolymp.atlas.Submission.Group.runs:type_name -> eolymp.atlas.Submission.Run
+	12, // 19: eolymp.atlas.Submission.Quiz.answers:type_name -> eolymp.atlas.Submission.Quiz.Answer
+	13, // 20: eolymp.atlas.Submission.Output.answers:type_name -> eolymp.atlas.Submission.Output.Answer
+	11, // 21: eolymp.atlas.Submission.Quiz.Answer.choices:type_name -> eolymp.atlas.Submission.Quiz.Choice
+	22, // [22:22] is the sub-list for method output_type
+	22, // [22:22] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_submission_proto_init() }
@@ -1472,6 +1542,7 @@ func file_eolymp_atlas_submission_proto_init() {
 		(*Submission_MemberId)(nil),
 		(*Submission_Quiz_)(nil),
 		(*Submission_Output_)(nil),
+		(*Submission_Widget_)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1479,7 +1550,7 @@ func file_eolymp_atlas_submission_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_submission_proto_rawDesc), len(file_eolymp_atlas_submission_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

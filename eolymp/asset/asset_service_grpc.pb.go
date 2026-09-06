@@ -25,6 +25,7 @@ const (
 	AssetService_LookupAsset_FullMethodName             = "/eolymp.asset.AssetService/LookupAsset"
 	AssetService_DeleteAsset_FullMethodName             = "/eolymp.asset.AssetService/DeleteAsset"
 	AssetService_UseAsset_FullMethodName                = "/eolymp.asset.AssetService/UseAsset"
+	AssetService_UploadBundle_FullMethodName            = "/eolymp.asset.AssetService/UploadBundle"
 	AssetService_StartMultipartUpload_FullMethodName    = "/eolymp.asset.AssetService/StartMultipartUpload"
 	AssetService_UploadPart_FullMethodName              = "/eolymp.asset.AssetService/UploadPart"
 	AssetService_CompleteMultipartUpload_FullMethodName = "/eolymp.asset.AssetService/CompleteMultipartUpload"
@@ -62,6 +63,16 @@ type AssetServiceClient interface {
 	//
 	// Whenever UseAsset is called, assets previously assigned to the resource will be detached.
 	UseAsset(ctx context.Context, in *UseAssetInput, opts ...grpc.CallOption) (*UseAssetOutput, error)
+	// UploadBundle unpacks a zip archive into a bundle: a tree of files served inline under one url, each with
+	// the content type its extension implies, so a page inside it can be shown in a frame and reach its own
+	// scripts, styles and images by relative path. The url comes back to be attached to whatever the bundle is
+	// for, such as a problem's widget (see atlas.WidgetService).
+	//
+	// The archive is checked before anything is written: the entrypoint must exist, every file must have an
+	// allowed extension, and the unpacked size, the number of files and the size of any one file are capped.
+	// Entries with a path leaving the archive and symbolic links are rejected. Every page of a bundle is served
+	// sandboxed and may load nothing from outside the bundle.
+	UploadBundle(ctx context.Context, in *UploadBundleInput, opts ...grpc.CallOption) (*UploadBundleOutput, error)
 	// StartMultipartUpload creates an upload_id, which then can be used with UploadPart API to upload file in parts of 5MB
 	StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error)
 	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
@@ -142,6 +153,16 @@ func (c *assetServiceClient) UseAsset(ctx context.Context, in *UseAssetInput, op
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UseAssetOutput)
 	err := c.cc.Invoke(ctx, AssetService_UseAsset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) UploadBundle(ctx context.Context, in *UploadBundleInput, opts ...grpc.CallOption) (*UploadBundleOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadBundleOutput)
+	err := c.cc.Invoke(ctx, AssetService_UploadBundle_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -237,6 +258,16 @@ type AssetServiceServer interface {
 	//
 	// Whenever UseAsset is called, assets previously assigned to the resource will be detached.
 	UseAsset(context.Context, *UseAssetInput) (*UseAssetOutput, error)
+	// UploadBundle unpacks a zip archive into a bundle: a tree of files served inline under one url, each with
+	// the content type its extension implies, so a page inside it can be shown in a frame and reach its own
+	// scripts, styles and images by relative path. The url comes back to be attached to whatever the bundle is
+	// for, such as a problem's widget (see atlas.WidgetService).
+	//
+	// The archive is checked before anything is written: the entrypoint must exist, every file must have an
+	// allowed extension, and the unpacked size, the number of files and the size of any one file are capped.
+	// Entries with a path leaving the archive and symbolic links are rejected. Every page of a bundle is served
+	// sandboxed and may load nothing from outside the bundle.
+	UploadBundle(context.Context, *UploadBundleInput) (*UploadBundleOutput, error)
 	// StartMultipartUpload creates an upload_id, which then can be used with UploadPart API to upload file in parts of 5MB
 	StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error)
 	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
@@ -279,6 +310,9 @@ func (UnimplementedAssetServiceServer) DeleteAsset(context.Context, *DeleteAsset
 }
 func (UnimplementedAssetServiceServer) UseAsset(context.Context, *UseAssetInput) (*UseAssetOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UseAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) UploadBundle(context.Context, *UploadBundleInput) (*UploadBundleOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UploadBundle not implemented")
 }
 func (UnimplementedAssetServiceServer) StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartMultipartUpload not implemented")
@@ -426,6 +460,24 @@ func _AssetService_UseAsset_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssetService_UploadBundle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadBundleInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).UploadBundle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_UploadBundle_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).UploadBundle(ctx, req.(*UploadBundleInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AssetService_StartMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartMultipartUploadInput)
 	if err := dec(in); err != nil {
@@ -564,6 +616,10 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UseAsset",
 			Handler:    _AssetService_UseAsset_Handler,
+		},
+		{
+			MethodName: "UploadBundle",
+			Handler:    _AssetService_UploadBundle_Handler,
 		},
 		{
 			MethodName: "StartMultipartUpload",

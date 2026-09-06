@@ -28,6 +28,7 @@ const (
 	ProblemService_DescribeCodeTemplate_FullMethodName = "/eolymp.judge.ProblemService/DescribeCodeTemplate"
 	ProblemService_ListStatements_FullMethodName       = "/eolymp.judge.ProblemService/ListStatements"
 	ProblemService_ListQuestions_FullMethodName        = "/eolymp.judge.ProblemService/ListQuestions"
+	ProblemService_DescribeWidget_FullMethodName       = "/eolymp.judge.ProblemService/DescribeWidget"
 	ProblemService_DescribeEditorial_FullMethodName    = "/eolymp.judge.ProblemService/DescribeEditorial"
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
@@ -91,6 +92,9 @@ type ProblemServiceClient interface {
 	// ListQuestions returns the questions of a quiz problem, in the order they are asked. What gives the answer
 	// away is left out by atlas, which is where questions are sanitized; a contest only relays them.
 	ListQuestions(ctx context.Context, in *ListQuestionsInput, opts ...grpc.CallOption) (*ListQuestionsOutput, error)
+	// DescribeWidget returns the widget of a widget problem, pinned to the version the contest uses; a contest
+	// only relays it from atlas.
+	DescribeWidget(ctx context.Context, in *DescribeWidgetInput, opts ...grpc.CallOption) (*DescribeWidgetOutput, error)
 	// DescribeEditorial returns the author's write-up of how the problem is solved, in the requested locale
 	// when the archive has one. Because it gives the solution away, a participant may read it only after
 	// their participation is over and only while the contest is configured to display editorials.
@@ -214,6 +218,16 @@ func (c *problemServiceClient) ListQuestions(ctx context.Context, in *ListQuesti
 	return out, nil
 }
 
+func (c *problemServiceClient) DescribeWidget(ctx context.Context, in *DescribeWidgetInput, opts ...grpc.CallOption) (*DescribeWidgetOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeWidgetOutput)
+	err := c.cc.Invoke(ctx, ProblemService_DescribeWidget_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) DescribeEditorial(ctx context.Context, in *DescribeEditorialInput, opts ...grpc.CallOption) (*DescribeEditorialOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeEditorialOutput)
@@ -320,6 +334,9 @@ type ProblemServiceServer interface {
 	// ListQuestions returns the questions of a quiz problem, in the order they are asked. What gives the answer
 	// away is left out by atlas, which is where questions are sanitized; a contest only relays them.
 	ListQuestions(context.Context, *ListQuestionsInput) (*ListQuestionsOutput, error)
+	// DescribeWidget returns the widget of a widget problem, pinned to the version the contest uses; a contest
+	// only relays it from atlas.
+	DescribeWidget(context.Context, *DescribeWidgetInput) (*DescribeWidgetOutput, error)
 	// DescribeEditorial returns the author's write-up of how the problem is solved, in the requested locale
 	// when the archive has one. Because it gives the solution away, a participant may read it only after
 	// their participation is over and only while the contest is configured to display editorials.
@@ -378,6 +395,9 @@ func (UnimplementedProblemServiceServer) ListStatements(context.Context, *ListSt
 }
 func (UnimplementedProblemServiceServer) ListQuestions(context.Context, *ListQuestionsInput) (*ListQuestionsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListQuestions not implemented")
+}
+func (UnimplementedProblemServiceServer) DescribeWidget(context.Context, *DescribeWidgetInput) (*DescribeWidgetOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeWidget not implemented")
 }
 func (UnimplementedProblemServiceServer) DescribeEditorial(context.Context, *DescribeEditorialInput) (*DescribeEditorialOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeEditorial not implemented")
@@ -576,6 +596,24 @@ func _ProblemService_ListQuestions_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_DescribeWidget_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeWidgetInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).DescribeWidget(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_DescribeWidget_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).DescribeWidget(ctx, req.(*DescribeWidgetInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_DescribeEditorial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeEditorialInput)
 	if err := dec(in); err != nil {
@@ -708,6 +746,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListQuestions",
 			Handler:    _ProblemService_ListQuestions_Handler,
+		},
+		{
+			MethodName: "DescribeWidget",
+			Handler:    _ProblemService_DescribeWidget_Handler,
 		},
 		{
 			MethodName: "DescribeEditorial",

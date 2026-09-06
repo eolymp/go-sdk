@@ -216,6 +216,9 @@ func RegisterAssetServiceHttpHandlers(router *mux.Router, prefix string, cli Ass
 	router.Handle(prefix+"/assets/{asset_id}", _AssetService_DeleteAsset_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.asset.AssetService.DeleteAsset")
+	router.Handle(prefix+"/assets/bundles", _AssetService_UploadBundle_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.asset.AssetService.UploadBundle")
 	router.Handle(prefix+"/uploads", _AssetService_StartMultipartUpload_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.asset.AssetService.StartMultipartUpload")
@@ -340,6 +343,27 @@ func _AssetService_DeleteAsset_Rule0(cli AssetServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DeleteAsset(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_AssetService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _AssetService_UploadBundle_Rule0(cli AssetServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UploadBundleInput{}
+
+		if err := _AssetService_HTTPReadRequestBody(r, in, 8500000); err != nil {
+			_AssetService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UploadBundle(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_AssetService_HTTPWriteErrorResponse(w, err)
 			return

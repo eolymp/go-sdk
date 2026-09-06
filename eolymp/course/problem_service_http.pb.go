@@ -302,6 +302,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/questions", _ProblemService_ListQuestions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.ListQuestions")
+	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/widget", _ProblemService_DescribeWidget_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.course.ProblemService.DescribeWidget")
 	router.Handle(prefix+"/courses/{course_id}/materials/{material_id}/statements:lookup", _ProblemService_LookupStatement_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.course.ProblemService.LookupStatement")
@@ -383,6 +386,31 @@ func _ProblemService_ListQuestions_Rule0(cli ProblemServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.ListQuestions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_DescribeWidget_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeWidgetInput{}
+
+		if err := _ProblemService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.CourseId = vars["course_id"]
+		in.MaterialId = vars["material_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeWidget(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return

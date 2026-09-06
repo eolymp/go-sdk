@@ -32,6 +32,7 @@ type CreateSubmissionInput struct {
 	Source        string                   `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
 	Output        *atlas.Submission_Output `protobuf:"bytes,5,opt,name=output,proto3" json:"output,omitempty"`
 	Quiz          *atlas.Submission_Quiz   `protobuf:"bytes,6,opt,name=quiz,proto3" json:"quiz,omitempty"`
+	Widget        *atlas.Submission_Widget `protobuf:"bytes,7,opt,name=widget,proto3" json:"widget,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -104,6 +105,13 @@ func (x *CreateSubmissionInput) GetOutput() *atlas.Submission_Output {
 func (x *CreateSubmissionInput) GetQuiz() *atlas.Submission_Quiz {
 	if x != nil {
 		return x.Quiz
+	}
+	return nil
+}
+
+func (x *CreateSubmissionInput) GetWidget() *atlas.Submission_Widget {
+	if x != nil {
+		return x.Widget
 	}
 	return nil
 }
@@ -618,7 +626,7 @@ var File_eolymp_course_submission_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xf3\x01\n" +
+	"&eolymp/course/submission_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1deolymp/atlas/submission.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1ceolymp/wellknown/watch.proto\"\xac\x02\n" +
 	"\x15CreateSubmissionInput\x12\x1b\n" +
 	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
@@ -626,7 +634,8 @@ const file_eolymp_course_submission_service_proto_rawDesc = "" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
 	"\x06source\x18\x03 \x01(\tR\x06source\x127\n" +
 	"\x06output\x18\x05 \x01(\v2\x1f.eolymp.atlas.Submission.OutputR\x06output\x121\n" +
-	"\x04quiz\x18\x06 \x01(\v2\x1d.eolymp.atlas.Submission.QuizR\x04quiz\"=\n" +
+	"\x04quiz\x18\x06 \x01(\v2\x1d.eolymp.atlas.Submission.QuizR\x04quiz\x127\n" +
+	"\x06widget\x18\a \x01(\v2\x1f.eolymp.atlas.Submission.WidgetR\x06widget\"=\n" +
 	"\x16CreateSubmissionOutput\x12#\n" +
 	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\"\xf5\x05\n" +
 	"\x14ListSubmissionsInput\x12\x1f\n" +
@@ -736,43 +745,45 @@ var file_eolymp_course_submission_service_proto_goTypes = []any{
 	(*ListSubmissionsInput_Filter)(nil),   // 8: eolymp.course.ListSubmissionsInput.Filter
 	(*atlas.Submission_Output)(nil),       // 9: eolymp.atlas.Submission.Output
 	(*atlas.Submission_Quiz)(nil),         // 10: eolymp.atlas.Submission.Quiz
-	(*atlas.Submission)(nil),              // 11: eolymp.atlas.Submission
-	(wellknown.WatchEventType)(0),         // 12: eolymp.wellknown.WatchEventType
-	(*wellknown.ExpressionID)(nil),        // 13: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionTimestamp)(nil), // 14: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionEnum)(nil),      // 15: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionFloat)(nil),     // 16: eolymp.wellknown.ExpressionFloat
+	(*atlas.Submission_Widget)(nil),       // 11: eolymp.atlas.Submission.Widget
+	(*atlas.Submission)(nil),              // 12: eolymp.atlas.Submission
+	(wellknown.WatchEventType)(0),         // 13: eolymp.wellknown.WatchEventType
+	(*wellknown.ExpressionID)(nil),        // 14: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionTimestamp)(nil), // 15: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionEnum)(nil),      // 16: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionFloat)(nil),     // 17: eolymp.wellknown.ExpressionFloat
 }
 var file_eolymp_course_submission_service_proto_depIdxs = []int32{
 	9,  // 0: eolymp.course.CreateSubmissionInput.output:type_name -> eolymp.atlas.Submission.Output
 	10, // 1: eolymp.course.CreateSubmissionInput.quiz:type_name -> eolymp.atlas.Submission.Quiz
-	8,  // 2: eolymp.course.ListSubmissionsInput.filters:type_name -> eolymp.course.ListSubmissionsInput.Filter
-	11, // 3: eolymp.course.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
-	11, // 4: eolymp.course.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	11, // 5: eolymp.course.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
-	12, // 6: eolymp.course.WatchSubmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	13, // 7: eolymp.course.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	13, // 8: eolymp.course.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	13, // 9: eolymp.course.ListSubmissionsInput.Filter.material_id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 10: eolymp.course.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	15, // 11: eolymp.course.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	15, // 12: eolymp.course.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	15, // 13: eolymp.course.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
-	16, // 14: eolymp.course.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	16, // 15: eolymp.course.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
-	0,  // 16: eolymp.course.SubmissionService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
-	2,  // 17: eolymp.course.SubmissionService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
-	4,  // 18: eolymp.course.SubmissionService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
-	6,  // 19: eolymp.course.SubmissionService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
-	1,  // 20: eolymp.course.SubmissionService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
-	3,  // 21: eolymp.course.SubmissionService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
-	5,  // 22: eolymp.course.SubmissionService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
-	7,  // 23: eolymp.course.SubmissionService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
-	20, // [20:24] is the sub-list for method output_type
-	16, // [16:20] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	11, // 2: eolymp.course.CreateSubmissionInput.widget:type_name -> eolymp.atlas.Submission.Widget
+	8,  // 3: eolymp.course.ListSubmissionsInput.filters:type_name -> eolymp.course.ListSubmissionsInput.Filter
+	12, // 4: eolymp.course.ListSubmissionsOutput.items:type_name -> eolymp.atlas.Submission
+	12, // 5: eolymp.course.DescribeSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
+	12, // 6: eolymp.course.WatchSubmissionOutput.submission:type_name -> eolymp.atlas.Submission
+	13, // 7: eolymp.course.WatchSubmissionOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	14, // 8: eolymp.course.ListSubmissionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 9: eolymp.course.ListSubmissionsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 10: eolymp.course.ListSubmissionsInput.Filter.material_id:type_name -> eolymp.wellknown.ExpressionID
+	15, // 11: eolymp.course.ListSubmissionsInput.Filter.submitted_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	16, // 12: eolymp.course.ListSubmissionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	16, // 13: eolymp.course.ListSubmissionsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	16, // 14: eolymp.course.ListSubmissionsInput.Filter.verdict:type_name -> eolymp.wellknown.ExpressionEnum
+	17, // 15: eolymp.course.ListSubmissionsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	17, // 16: eolymp.course.ListSubmissionsInput.Filter.percentage:type_name -> eolymp.wellknown.ExpressionFloat
+	0,  // 17: eolymp.course.SubmissionService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
+	2,  // 18: eolymp.course.SubmissionService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
+	4,  // 19: eolymp.course.SubmissionService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
+	6,  // 20: eolymp.course.SubmissionService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
+	1,  // 21: eolymp.course.SubmissionService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
+	3,  // 22: eolymp.course.SubmissionService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
+	5,  // 23: eolymp.course.SubmissionService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
+	7,  // 24: eolymp.course.SubmissionService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
+	21, // [21:25] is the sub-list for method output_type
+	17, // [17:21] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_submission_service_proto_init() }

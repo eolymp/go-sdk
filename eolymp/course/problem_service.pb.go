@@ -232,6 +232,102 @@ func (x *ListQuestionsOutput) GetItems() []*atlas.Question {
 	return nil
 }
 
+type DescribeWidgetInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeWidgetInput) Reset() {
+	*x = DescribeWidgetInput{}
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeWidgetInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeWidgetInput) ProtoMessage() {}
+
+func (x *DescribeWidgetInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeWidgetInput.ProtoReflect.Descriptor instead.
+func (*DescribeWidgetInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DescribeWidgetInput) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *DescribeWidgetInput) GetMaterialId() string {
+	if x != nil {
+		return x.MaterialId
+	}
+	return ""
+}
+
+type DescribeWidgetOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Widget        *atlas.Widget          `protobuf:"bytes,1,opt,name=widget,proto3" json:"widget,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeWidgetOutput) Reset() {
+	*x = DescribeWidgetOutput{}
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeWidgetOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeWidgetOutput) ProtoMessage() {}
+
+func (x *DescribeWidgetOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeWidgetOutput.ProtoReflect.Descriptor instead.
+func (*DescribeWidgetOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DescribeWidgetOutput) GetWidget() *atlas.Widget {
+	if x != nil {
+		return x.Widget
+	}
+	return nil
+}
+
 type LookupStatementInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
@@ -243,7 +339,7 @@ type LookupStatementInput struct {
 
 func (x *LookupStatementInput) Reset() {
 	*x = LookupStatementInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[4]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -255,7 +351,7 @@ func (x *LookupStatementInput) String() string {
 func (*LookupStatementInput) ProtoMessage() {}
 
 func (x *LookupStatementInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[4]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -268,7 +364,7 @@ func (x *LookupStatementInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupStatementInput.ProtoReflect.Descriptor instead.
 func (*LookupStatementInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LookupStatementInput) GetCourseId() string {
@@ -301,7 +397,7 @@ type LookupStatementOutput struct {
 
 func (x *LookupStatementOutput) Reset() {
 	*x = LookupStatementOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[5]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -313,7 +409,7 @@ func (x *LookupStatementOutput) String() string {
 func (*LookupStatementOutput) ProtoMessage() {}
 
 func (x *LookupStatementOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[5]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -326,7 +422,7 @@ func (x *LookupStatementOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupStatementOutput.ProtoReflect.Descriptor instead.
 func (*LookupStatementOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *LookupStatementOutput) GetStatement() *atlas.Statement {
@@ -346,7 +442,7 @@ type ListExamplesInput struct {
 
 func (x *ListExamplesInput) Reset() {
 	*x = ListExamplesInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[6]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -358,7 +454,7 @@ func (x *ListExamplesInput) String() string {
 func (*ListExamplesInput) ProtoMessage() {}
 
 func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[6]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -371,7 +467,7 @@ func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListExamplesInput.ProtoReflect.Descriptor instead.
 func (*ListExamplesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListExamplesInput) GetCourseId() string {
@@ -397,7 +493,7 @@ type ListExamplesOutput struct {
 
 func (x *ListExamplesOutput) Reset() {
 	*x = ListExamplesOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[7]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -409,7 +505,7 @@ func (x *ListExamplesOutput) String() string {
 func (*ListExamplesOutput) ProtoMessage() {}
 
 func (x *ListExamplesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[7]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -422,7 +518,7 @@ func (x *ListExamplesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListExamplesOutput.ProtoReflect.Descriptor instead.
 func (*ListExamplesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListExamplesOutput) GetExamples() []*atlas.Test {
@@ -443,7 +539,7 @@ type LookupCodeTemplateInput struct {
 
 func (x *LookupCodeTemplateInput) Reset() {
 	*x = LookupCodeTemplateInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -455,7 +551,7 @@ func (x *LookupCodeTemplateInput) String() string {
 func (*LookupCodeTemplateInput) ProtoMessage() {}
 
 func (x *LookupCodeTemplateInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[8]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -468,7 +564,7 @@ func (x *LookupCodeTemplateInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupCodeTemplateInput.ProtoReflect.Descriptor instead.
 func (*LookupCodeTemplateInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *LookupCodeTemplateInput) GetCourseId() string {
@@ -501,7 +597,7 @@ type LookupCodeTemplateOutput struct {
 
 func (x *LookupCodeTemplateOutput) Reset() {
 	*x = LookupCodeTemplateOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -513,7 +609,7 @@ func (x *LookupCodeTemplateOutput) String() string {
 func (*LookupCodeTemplateOutput) ProtoMessage() {}
 
 func (x *LookupCodeTemplateOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[9]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -526,7 +622,7 @@ func (x *LookupCodeTemplateOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupCodeTemplateOutput.ProtoReflect.Descriptor instead.
 func (*LookupCodeTemplateOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *LookupCodeTemplateOutput) GetTemplate() *atlas.Template {
@@ -546,7 +642,7 @@ type ListRuntimesInput struct {
 
 func (x *ListRuntimesInput) Reset() {
 	*x = ListRuntimesInput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[10]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -558,7 +654,7 @@ func (x *ListRuntimesInput) String() string {
 func (*ListRuntimesInput) ProtoMessage() {}
 
 func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[10]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -571,7 +667,7 @@ func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesInput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListRuntimesInput) GetCourseId() string {
@@ -598,7 +694,7 @@ type ListRuntimesOutput struct {
 
 func (x *ListRuntimesOutput) Reset() {
 	*x = ListRuntimesOutput{}
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[11]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -610,7 +706,7 @@ func (x *ListRuntimesOutput) String() string {
 func (*ListRuntimesOutput) ProtoMessage() {}
 
 func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_problem_service_proto_msgTypes[11]
+	mi := &file_eolymp_course_problem_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -623,7 +719,7 @@ func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesOutput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_course_problem_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListRuntimesOutput) GetTotal() int32 {
@@ -644,7 +740,7 @@ var File_eolymp_course_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1beolymp/atlas/question.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"S\n" +
+	"#eolymp/course/problem_service.proto\x12\reolymp.course\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/code_template.proto\x1a\x1beolymp/atlas/question.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\x19eolymp/atlas/widget.proto\x1a\x1feolymp/course/run_service.proto\x1a&eolymp/course/submission_service.proto\x1a\x1ceolymp/runtime/runtime.proto\"S\n" +
 	"\x13ListStatementsInput\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x02 \x01(\tR\n" +
@@ -658,7 +754,13 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"materialId\"Y\n" +
 	"\x13ListQuestionsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items\"l\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.atlas.QuestionR\x05items\"S\n" +
+	"\x13DescribeWidgetInput\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
+	"\vmaterial_id\x18\x02 \x01(\tR\n" +
+	"materialId\"D\n" +
+	"\x14DescribeWidgetOutput\x12,\n" +
+	"\x06widget\x18\x01 \x01(\v2\x14.eolymp.atlas.WidgetR\x06widget\"l\n" +
 	"\x14LookupStatementInput\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x03 \x01(\tR\n" +
@@ -685,7 +787,7 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"materialId\"Y\n" +
 	"\x12ListRuntimesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12-\n" +
-	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\xd4\x15\n" +
+	"\x05items\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\x05items2\x9e\x17\n" +
 	"\x0eProblemService\x12\xcb\x01\n" +
 	"\x0eListStatements\x12\".eolymp.course.ListStatementsInput\x1a#.eolymp.course.ListStatementsOutput\"p\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -702,7 +804,15 @@ const file_eolymp_course_problem_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12course:course:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x028\x126/courses/{course_id}/materials/{material_id}/questions\x12\xd6\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x028\x126/courses/{course_id}/materials/{material_id}/questions\x12\xc7\x01\n" +
+	"\x0eDescribeWidget\x12\".eolymp.course.DescribeWidgetInput\x1a#.eolymp.course.DescribeWidgetOutput\"l\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x16\x8a\xe3\n" +
+	"\x12course:course:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x025\x123/courses/{course_id}/materials/{material_id}/widget\x12\xd6\x01\n" +
 	"\x0fLookupStatement\x12#.eolymp.course.LookupStatementInput\x1a$.eolymp.course.LookupStatementOutput\"x\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00HB\xf8\xe2\n" +
@@ -811,78 +921,84 @@ func file_eolymp_course_problem_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_course_problem_service_proto_rawDescData
 }
 
-var file_eolymp_course_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_eolymp_course_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_eolymp_course_problem_service_proto_goTypes = []any{
 	(*ListStatementsInput)(nil),      // 0: eolymp.course.ListStatementsInput
 	(*ListStatementsOutput)(nil),     // 1: eolymp.course.ListStatementsOutput
 	(*ListQuestionsInput)(nil),       // 2: eolymp.course.ListQuestionsInput
 	(*ListQuestionsOutput)(nil),      // 3: eolymp.course.ListQuestionsOutput
-	(*LookupStatementInput)(nil),     // 4: eolymp.course.LookupStatementInput
-	(*LookupStatementOutput)(nil),    // 5: eolymp.course.LookupStatementOutput
-	(*ListExamplesInput)(nil),        // 6: eolymp.course.ListExamplesInput
-	(*ListExamplesOutput)(nil),       // 7: eolymp.course.ListExamplesOutput
-	(*LookupCodeTemplateInput)(nil),  // 8: eolymp.course.LookupCodeTemplateInput
-	(*LookupCodeTemplateOutput)(nil), // 9: eolymp.course.LookupCodeTemplateOutput
-	(*ListRuntimesInput)(nil),        // 10: eolymp.course.ListRuntimesInput
-	(*ListRuntimesOutput)(nil),       // 11: eolymp.course.ListRuntimesOutput
-	(*atlas.Statement)(nil),          // 12: eolymp.atlas.Statement
-	(*atlas.Question)(nil),           // 13: eolymp.atlas.Question
-	(*atlas.Test)(nil),               // 14: eolymp.atlas.Test
-	(*atlas.Template)(nil),           // 15: eolymp.atlas.Template
-	(*runtime.Runtime)(nil),          // 16: eolymp.runtime.Runtime
-	(*CreateSubmissionInput)(nil),    // 17: eolymp.course.CreateSubmissionInput
-	(*ListSubmissionsInput)(nil),     // 18: eolymp.course.ListSubmissionsInput
-	(*DescribeSubmissionInput)(nil),  // 19: eolymp.course.DescribeSubmissionInput
-	(*WatchSubmissionInput)(nil),     // 20: eolymp.course.WatchSubmissionInput
-	(*CreateRunInput)(nil),           // 21: eolymp.course.CreateRunInput
-	(*DescribeRunInput)(nil),         // 22: eolymp.course.DescribeRunInput
-	(*WatchRunInput)(nil),            // 23: eolymp.course.WatchRunInput
-	(*CreateSubmissionOutput)(nil),   // 24: eolymp.course.CreateSubmissionOutput
-	(*ListSubmissionsOutput)(nil),    // 25: eolymp.course.ListSubmissionsOutput
-	(*DescribeSubmissionOutput)(nil), // 26: eolymp.course.DescribeSubmissionOutput
-	(*WatchSubmissionOutput)(nil),    // 27: eolymp.course.WatchSubmissionOutput
-	(*CreateRunOutput)(nil),          // 28: eolymp.course.CreateRunOutput
-	(*DescribeRunOutput)(nil),        // 29: eolymp.course.DescribeRunOutput
-	(*WatchRunOutput)(nil),           // 30: eolymp.course.WatchRunOutput
+	(*DescribeWidgetInput)(nil),      // 4: eolymp.course.DescribeWidgetInput
+	(*DescribeWidgetOutput)(nil),     // 5: eolymp.course.DescribeWidgetOutput
+	(*LookupStatementInput)(nil),     // 6: eolymp.course.LookupStatementInput
+	(*LookupStatementOutput)(nil),    // 7: eolymp.course.LookupStatementOutput
+	(*ListExamplesInput)(nil),        // 8: eolymp.course.ListExamplesInput
+	(*ListExamplesOutput)(nil),       // 9: eolymp.course.ListExamplesOutput
+	(*LookupCodeTemplateInput)(nil),  // 10: eolymp.course.LookupCodeTemplateInput
+	(*LookupCodeTemplateOutput)(nil), // 11: eolymp.course.LookupCodeTemplateOutput
+	(*ListRuntimesInput)(nil),        // 12: eolymp.course.ListRuntimesInput
+	(*ListRuntimesOutput)(nil),       // 13: eolymp.course.ListRuntimesOutput
+	(*atlas.Statement)(nil),          // 14: eolymp.atlas.Statement
+	(*atlas.Question)(nil),           // 15: eolymp.atlas.Question
+	(*atlas.Widget)(nil),             // 16: eolymp.atlas.Widget
+	(*atlas.Test)(nil),               // 17: eolymp.atlas.Test
+	(*atlas.Template)(nil),           // 18: eolymp.atlas.Template
+	(*runtime.Runtime)(nil),          // 19: eolymp.runtime.Runtime
+	(*CreateSubmissionInput)(nil),    // 20: eolymp.course.CreateSubmissionInput
+	(*ListSubmissionsInput)(nil),     // 21: eolymp.course.ListSubmissionsInput
+	(*DescribeSubmissionInput)(nil),  // 22: eolymp.course.DescribeSubmissionInput
+	(*WatchSubmissionInput)(nil),     // 23: eolymp.course.WatchSubmissionInput
+	(*CreateRunInput)(nil),           // 24: eolymp.course.CreateRunInput
+	(*DescribeRunInput)(nil),         // 25: eolymp.course.DescribeRunInput
+	(*WatchRunInput)(nil),            // 26: eolymp.course.WatchRunInput
+	(*CreateSubmissionOutput)(nil),   // 27: eolymp.course.CreateSubmissionOutput
+	(*ListSubmissionsOutput)(nil),    // 28: eolymp.course.ListSubmissionsOutput
+	(*DescribeSubmissionOutput)(nil), // 29: eolymp.course.DescribeSubmissionOutput
+	(*WatchSubmissionOutput)(nil),    // 30: eolymp.course.WatchSubmissionOutput
+	(*CreateRunOutput)(nil),          // 31: eolymp.course.CreateRunOutput
+	(*DescribeRunOutput)(nil),        // 32: eolymp.course.DescribeRunOutput
+	(*WatchRunOutput)(nil),           // 33: eolymp.course.WatchRunOutput
 }
 var file_eolymp_course_problem_service_proto_depIdxs = []int32{
-	12, // 0: eolymp.course.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
-	13, // 1: eolymp.course.ListQuestionsOutput.items:type_name -> eolymp.atlas.Question
-	12, // 2: eolymp.course.LookupStatementOutput.statement:type_name -> eolymp.atlas.Statement
-	14, // 3: eolymp.course.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
-	15, // 4: eolymp.course.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
-	16, // 5: eolymp.course.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
-	0,  // 6: eolymp.course.ProblemService.ListStatements:input_type -> eolymp.course.ListStatementsInput
-	2,  // 7: eolymp.course.ProblemService.ListQuestions:input_type -> eolymp.course.ListQuestionsInput
-	4,  // 8: eolymp.course.ProblemService.LookupStatement:input_type -> eolymp.course.LookupStatementInput
-	6,  // 9: eolymp.course.ProblemService.ListExamples:input_type -> eolymp.course.ListExamplesInput
-	17, // 10: eolymp.course.ProblemService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
-	18, // 11: eolymp.course.ProblemService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
-	19, // 12: eolymp.course.ProblemService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
-	20, // 13: eolymp.course.ProblemService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
-	8,  // 14: eolymp.course.ProblemService.LookupCodeTemplate:input_type -> eolymp.course.LookupCodeTemplateInput
-	21, // 15: eolymp.course.ProblemService.CreateRun:input_type -> eolymp.course.CreateRunInput
-	22, // 16: eolymp.course.ProblemService.DescribeRun:input_type -> eolymp.course.DescribeRunInput
-	23, // 17: eolymp.course.ProblemService.WatchRun:input_type -> eolymp.course.WatchRunInput
-	10, // 18: eolymp.course.ProblemService.ListRuntimes:input_type -> eolymp.course.ListRuntimesInput
-	1,  // 19: eolymp.course.ProblemService.ListStatements:output_type -> eolymp.course.ListStatementsOutput
-	3,  // 20: eolymp.course.ProblemService.ListQuestions:output_type -> eolymp.course.ListQuestionsOutput
-	5,  // 21: eolymp.course.ProblemService.LookupStatement:output_type -> eolymp.course.LookupStatementOutput
-	7,  // 22: eolymp.course.ProblemService.ListExamples:output_type -> eolymp.course.ListExamplesOutput
-	24, // 23: eolymp.course.ProblemService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
-	25, // 24: eolymp.course.ProblemService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
-	26, // 25: eolymp.course.ProblemService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
-	27, // 26: eolymp.course.ProblemService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
-	9,  // 27: eolymp.course.ProblemService.LookupCodeTemplate:output_type -> eolymp.course.LookupCodeTemplateOutput
-	28, // 28: eolymp.course.ProblemService.CreateRun:output_type -> eolymp.course.CreateRunOutput
-	29, // 29: eolymp.course.ProblemService.DescribeRun:output_type -> eolymp.course.DescribeRunOutput
-	30, // 30: eolymp.course.ProblemService.WatchRun:output_type -> eolymp.course.WatchRunOutput
-	11, // 31: eolymp.course.ProblemService.ListRuntimes:output_type -> eolymp.course.ListRuntimesOutput
-	19, // [19:32] is the sub-list for method output_type
-	6,  // [6:19] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	14, // 0: eolymp.course.ListStatementsOutput.items:type_name -> eolymp.atlas.Statement
+	15, // 1: eolymp.course.ListQuestionsOutput.items:type_name -> eolymp.atlas.Question
+	16, // 2: eolymp.course.DescribeWidgetOutput.widget:type_name -> eolymp.atlas.Widget
+	14, // 3: eolymp.course.LookupStatementOutput.statement:type_name -> eolymp.atlas.Statement
+	17, // 4: eolymp.course.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
+	18, // 5: eolymp.course.LookupCodeTemplateOutput.template:type_name -> eolymp.atlas.Template
+	19, // 6: eolymp.course.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	0,  // 7: eolymp.course.ProblemService.ListStatements:input_type -> eolymp.course.ListStatementsInput
+	2,  // 8: eolymp.course.ProblemService.ListQuestions:input_type -> eolymp.course.ListQuestionsInput
+	4,  // 9: eolymp.course.ProblemService.DescribeWidget:input_type -> eolymp.course.DescribeWidgetInput
+	6,  // 10: eolymp.course.ProblemService.LookupStatement:input_type -> eolymp.course.LookupStatementInput
+	8,  // 11: eolymp.course.ProblemService.ListExamples:input_type -> eolymp.course.ListExamplesInput
+	20, // 12: eolymp.course.ProblemService.CreateSubmission:input_type -> eolymp.course.CreateSubmissionInput
+	21, // 13: eolymp.course.ProblemService.ListSubmissions:input_type -> eolymp.course.ListSubmissionsInput
+	22, // 14: eolymp.course.ProblemService.DescribeSubmission:input_type -> eolymp.course.DescribeSubmissionInput
+	23, // 15: eolymp.course.ProblemService.WatchSubmission:input_type -> eolymp.course.WatchSubmissionInput
+	10, // 16: eolymp.course.ProblemService.LookupCodeTemplate:input_type -> eolymp.course.LookupCodeTemplateInput
+	24, // 17: eolymp.course.ProblemService.CreateRun:input_type -> eolymp.course.CreateRunInput
+	25, // 18: eolymp.course.ProblemService.DescribeRun:input_type -> eolymp.course.DescribeRunInput
+	26, // 19: eolymp.course.ProblemService.WatchRun:input_type -> eolymp.course.WatchRunInput
+	12, // 20: eolymp.course.ProblemService.ListRuntimes:input_type -> eolymp.course.ListRuntimesInput
+	1,  // 21: eolymp.course.ProblemService.ListStatements:output_type -> eolymp.course.ListStatementsOutput
+	3,  // 22: eolymp.course.ProblemService.ListQuestions:output_type -> eolymp.course.ListQuestionsOutput
+	5,  // 23: eolymp.course.ProblemService.DescribeWidget:output_type -> eolymp.course.DescribeWidgetOutput
+	7,  // 24: eolymp.course.ProblemService.LookupStatement:output_type -> eolymp.course.LookupStatementOutput
+	9,  // 25: eolymp.course.ProblemService.ListExamples:output_type -> eolymp.course.ListExamplesOutput
+	27, // 26: eolymp.course.ProblemService.CreateSubmission:output_type -> eolymp.course.CreateSubmissionOutput
+	28, // 27: eolymp.course.ProblemService.ListSubmissions:output_type -> eolymp.course.ListSubmissionsOutput
+	29, // 28: eolymp.course.ProblemService.DescribeSubmission:output_type -> eolymp.course.DescribeSubmissionOutput
+	30, // 29: eolymp.course.ProblemService.WatchSubmission:output_type -> eolymp.course.WatchSubmissionOutput
+	11, // 30: eolymp.course.ProblemService.LookupCodeTemplate:output_type -> eolymp.course.LookupCodeTemplateOutput
+	31, // 31: eolymp.course.ProblemService.CreateRun:output_type -> eolymp.course.CreateRunOutput
+	32, // 32: eolymp.course.ProblemService.DescribeRun:output_type -> eolymp.course.DescribeRunOutput
+	33, // 33: eolymp.course.ProblemService.WatchRun:output_type -> eolymp.course.WatchRunOutput
+	13, // 34: eolymp.course.ProblemService.ListRuntimes:output_type -> eolymp.course.ListRuntimesOutput
+	21, // [21:35] is the sub-list for method output_type
+	7,  // [7:21] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_problem_service_proto_init() }
@@ -898,7 +1014,7 @@ func file_eolymp_course_problem_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_problem_service_proto_rawDesc), len(file_eolymp_course_problem_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

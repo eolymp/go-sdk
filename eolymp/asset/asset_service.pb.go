@@ -1144,6 +1144,126 @@ func (*CloseStreamOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{21}
 }
 
+type UploadBundleInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`             // archive name, kept for reference
+	Entrypoint    string                 `protobuf:"bytes,2,opt,name=entrypoint,proto3" json:"entrypoint,omitempty"` // path inside the archive which must exist, index.html when empty
+	Data          []byte                 `protobuf:"bytes,100,opt,name=data,proto3" json:"data,omitempty"`           // zip archive, up to 5MB (5M bytes)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadBundleInput) Reset() {
+	*x = UploadBundleInput{}
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadBundleInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadBundleInput) ProtoMessage() {}
+
+func (x *UploadBundleInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadBundleInput.ProtoReflect.Descriptor instead.
+func (*UploadBundleInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *UploadBundleInput) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UploadBundleInput) GetEntrypoint() string {
+	if x != nil {
+		return x.Entrypoint
+	}
+	return ""
+}
+
+func (x *UploadBundleInput) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type UploadBundleOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BundleUrl     string                 `protobuf:"bytes,1,opt,name=bundle_url,json=bundleUrl,proto3" json:"bundle_url,omitempty"` // root of the bundle, files are served relative to it
+	Size          uint32                 `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`                           // unpacked size in bytes
+	Files         []string               `protobuf:"bytes,3,rep,name=files,proto3" json:"files,omitempty"`                          // paths inside the bundle
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadBundleOutput) Reset() {
+	*x = UploadBundleOutput{}
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadBundleOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadBundleOutput) ProtoMessage() {}
+
+func (x *UploadBundleOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadBundleOutput.ProtoReflect.Descriptor instead.
+func (*UploadBundleOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *UploadBundleOutput) GetBundleUrl() string {
+	if x != nil {
+		return x.BundleUrl
+	}
+	return ""
+}
+
+func (x *UploadBundleOutput) GetSize() uint32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *UploadBundleOutput) GetFiles() []string {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
 type UseAssetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Resource      string                 `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"` // unique resource reference
@@ -1154,7 +1274,7 @@ type UseAssetInput struct {
 
 func (x *UseAssetInput) Reset() {
 	*x = UseAssetInput{}
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[22]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1166,7 +1286,7 @@ func (x *UseAssetInput) String() string {
 func (*UseAssetInput) ProtoMessage() {}
 
 func (x *UseAssetInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[22]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1179,7 +1299,7 @@ func (x *UseAssetInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UseAssetInput.ProtoReflect.Descriptor instead.
 func (*UseAssetInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{22}
+	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *UseAssetInput) GetResource() string {
@@ -1204,7 +1324,7 @@ type UseAssetOutput struct {
 
 func (x *UseAssetOutput) Reset() {
 	*x = UseAssetOutput{}
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[23]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1216,7 +1336,7 @@ func (x *UseAssetOutput) String() string {
 func (*UseAssetOutput) ProtoMessage() {}
 
 func (x *UseAssetOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[23]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1229,7 +1349,7 @@ func (x *UseAssetOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UseAssetOutput.ProtoReflect.Descriptor instead.
 func (*UseAssetOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{23}
+	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{25}
 }
 
 type UploadImageInput_Size struct {
@@ -1242,7 +1362,7 @@ type UploadImageInput_Size struct {
 
 func (x *UploadImageInput_Size) Reset() {
 	*x = UploadImageInput_Size{}
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[24]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1254,7 +1374,7 @@ func (x *UploadImageInput_Size) String() string {
 func (*UploadImageInput_Size) ProtoMessage() {}
 
 func (x *UploadImageInput_Size) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[24]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1296,7 +1416,7 @@ type UploadImageInput_Crop struct {
 
 func (x *UploadImageInput_Crop) Reset() {
 	*x = UploadImageInput_Crop{}
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[25]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1308,7 +1428,7 @@ func (x *UploadImageInput_Crop) String() string {
 func (*UploadImageInput_Crop) ProtoMessage() {}
 
 func (x *UploadImageInput_Crop) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[25]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1365,7 +1485,7 @@ type CompleteMultipartUploadInput_Part struct {
 
 func (x *CompleteMultipartUploadInput_Part) Reset() {
 	*x = CompleteMultipartUploadInput_Part{}
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[26]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1377,7 +1497,7 @@ func (x *CompleteMultipartUploadInput_Part) String() string {
 func (*CompleteMultipartUploadInput_Part) ProtoMessage() {}
 
 func (x *CompleteMultipartUploadInput_Part) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_asset_asset_service_proto_msgTypes[26]
+	mi := &file_eolymp_asset_asset_service_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1514,11 +1634,22 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\x12AppendStreamOutput\"/\n" +
 	"\x10CloseStreamInput\x12\x1b\n" +
 	"\tstream_id\x18\x01 \x01(\tR\bstreamId\"\x13\n" +
-	"\x11CloseStreamOutput\"C\n" +
+	"\x11CloseStreamOutput\"[\n" +
+	"\x11UploadBundleInput\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1e\n" +
+	"\n" +
+	"entrypoint\x18\x02 \x01(\tR\n" +
+	"entrypoint\x12\x12\n" +
+	"\x04data\x18d \x01(\fR\x04data\"]\n" +
+	"\x12UploadBundleOutput\x12\x1d\n" +
+	"\n" +
+	"bundle_url\x18\x01 \x01(\tR\tbundleUrl\x12\x12\n" +
+	"\x04size\x18\x02 \x01(\rR\x04size\x12\x14\n" +
+	"\x05files\x18\x03 \x03(\tR\x05files\"C\n" +
 	"\rUseAssetInput\x12\x1a\n" +
 	"\bresource\x18\x01 \x01(\tR\bresource\x12\x16\n" +
 	"\x06assets\x18\x02 \x03(\tR\x06assets\"\x10\n" +
-	"\x0eUseAssetOutput2\xf1\x0e\n" +
+	"\x0eUseAssetOutput2\x95\x10\n" +
 	"\fAssetService\x12\x96\x01\n" +
 	"\vUploadImage\x12\x1e.eolymp.asset.UploadImageInput\x1a\x1f.eolymp.asset.UploadImageOutput\"F\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1567,7 +1698,16 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\x00\x00\xc8B\xf8\xe2\n" +
 	"\xd0\x0f\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x12\xab\x01\n" +
+	"\x02\x12\xa1\x01\n" +
+	"\fUploadBundle\x12\x1f.eolymp.asset.UploadBundleInput\x1a .eolymp.asset.UploadBundleOutput\"N\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x00@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x15\x8a\xe3\n" +
+	"\x11asset:asset:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\x98\xe3\n" +
+	"\xa0\xe6\x86\x04\"\x0f/assets/bundles\x12\xab\x01\n" +
 	"\x14StartMultipartUpload\x12'.eolymp.asset.StartMultipartUploadInput\x1a(.eolymp.asset.StartMultipartUploadOutput\"@\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
@@ -1633,7 +1773,7 @@ func file_eolymp_asset_asset_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_asset_asset_service_proto_rawDescData
 }
 
-var file_eolymp_asset_asset_service_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
+var file_eolymp_asset_asset_service_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_eolymp_asset_asset_service_proto_goTypes = []any{
 	(*UploadImageInput)(nil),                  // 0: eolymp.asset.UploadImageInput
 	(*UploadImageOutput)(nil),                 // 1: eolymp.asset.UploadImageOutput
@@ -1657,43 +1797,47 @@ var file_eolymp_asset_asset_service_proto_goTypes = []any{
 	(*AppendStreamOutput)(nil),                // 19: eolymp.asset.AppendStreamOutput
 	(*CloseStreamInput)(nil),                  // 20: eolymp.asset.CloseStreamInput
 	(*CloseStreamOutput)(nil),                 // 21: eolymp.asset.CloseStreamOutput
-	(*UseAssetInput)(nil),                     // 22: eolymp.asset.UseAssetInput
-	(*UseAssetOutput)(nil),                    // 23: eolymp.asset.UseAssetOutput
-	(*UploadImageInput_Size)(nil),             // 24: eolymp.asset.UploadImageInput.Size
-	(*UploadImageInput_Crop)(nil),             // 25: eolymp.asset.UploadImageInput.Crop
-	(*CompleteMultipartUploadInput_Part)(nil), // 26: eolymp.asset.CompleteMultipartUploadInput.Part
+	(*UploadBundleInput)(nil),                 // 22: eolymp.asset.UploadBundleInput
+	(*UploadBundleOutput)(nil),                // 23: eolymp.asset.UploadBundleOutput
+	(*UseAssetInput)(nil),                     // 24: eolymp.asset.UseAssetInput
+	(*UseAssetOutput)(nil),                    // 25: eolymp.asset.UseAssetOutput
+	(*UploadImageInput_Size)(nil),             // 26: eolymp.asset.UploadImageInput.Size
+	(*UploadImageInput_Crop)(nil),             // 27: eolymp.asset.UploadImageInput.Crop
+	(*CompleteMultipartUploadInput_Part)(nil), // 28: eolymp.asset.CompleteMultipartUploadInput.Part
 }
 var file_eolymp_asset_asset_service_proto_depIdxs = []int32{
-	25, // 0: eolymp.asset.UploadImageInput.crop:type_name -> eolymp.asset.UploadImageInput.Crop
-	24, // 1: eolymp.asset.UploadImageInput.size:type_name -> eolymp.asset.UploadImageInput.Size
-	24, // 2: eolymp.asset.UploadImageInput.variants:type_name -> eolymp.asset.UploadImageInput.Size
-	26, // 3: eolymp.asset.CompleteMultipartUploadInput.parts:type_name -> eolymp.asset.CompleteMultipartUploadInput.Part
+	27, // 0: eolymp.asset.UploadImageInput.crop:type_name -> eolymp.asset.UploadImageInput.Crop
+	26, // 1: eolymp.asset.UploadImageInput.size:type_name -> eolymp.asset.UploadImageInput.Size
+	26, // 2: eolymp.asset.UploadImageInput.variants:type_name -> eolymp.asset.UploadImageInput.Size
+	28, // 3: eolymp.asset.CompleteMultipartUploadInput.parts:type_name -> eolymp.asset.CompleteMultipartUploadInput.Part
 	0,  // 4: eolymp.asset.AssetService.UploadImage:input_type -> eolymp.asset.UploadImageInput
 	2,  // 5: eolymp.asset.AssetService.UploadFile:input_type -> eolymp.asset.UploadFileInput
 	4,  // 6: eolymp.asset.AssetService.UploadAsset:input_type -> eolymp.asset.UploadAssetInput
 	6,  // 7: eolymp.asset.AssetService.LookupAsset:input_type -> eolymp.asset.LookupAssetInput
 	8,  // 8: eolymp.asset.AssetService.DeleteAsset:input_type -> eolymp.asset.DeleteAssetInput
-	22, // 9: eolymp.asset.AssetService.UseAsset:input_type -> eolymp.asset.UseAssetInput
-	10, // 10: eolymp.asset.AssetService.StartMultipartUpload:input_type -> eolymp.asset.StartMultipartUploadInput
-	12, // 11: eolymp.asset.AssetService.UploadPart:input_type -> eolymp.asset.UploadPartInput
-	14, // 12: eolymp.asset.AssetService.CompleteMultipartUpload:input_type -> eolymp.asset.CompleteMultipartUploadInput
-	16, // 13: eolymp.asset.AssetService.StartStream:input_type -> eolymp.asset.StartStreamInput
-	18, // 14: eolymp.asset.AssetService.AppendStream:input_type -> eolymp.asset.AppendStreamInput
-	20, // 15: eolymp.asset.AssetService.CloseStream:input_type -> eolymp.asset.CloseStreamInput
-	1,  // 16: eolymp.asset.AssetService.UploadImage:output_type -> eolymp.asset.UploadImageOutput
-	3,  // 17: eolymp.asset.AssetService.UploadFile:output_type -> eolymp.asset.UploadFileOutput
-	5,  // 18: eolymp.asset.AssetService.UploadAsset:output_type -> eolymp.asset.UploadAssetOutput
-	7,  // 19: eolymp.asset.AssetService.LookupAsset:output_type -> eolymp.asset.LookupAssetOutput
-	9,  // 20: eolymp.asset.AssetService.DeleteAsset:output_type -> eolymp.asset.DeleteAssetOutput
-	23, // 21: eolymp.asset.AssetService.UseAsset:output_type -> eolymp.asset.UseAssetOutput
-	11, // 22: eolymp.asset.AssetService.StartMultipartUpload:output_type -> eolymp.asset.StartMultipartUploadOutput
-	13, // 23: eolymp.asset.AssetService.UploadPart:output_type -> eolymp.asset.UploadPartOutput
-	15, // 24: eolymp.asset.AssetService.CompleteMultipartUpload:output_type -> eolymp.asset.CompleteMultipartUploadOutput
-	17, // 25: eolymp.asset.AssetService.StartStream:output_type -> eolymp.asset.StartStreamOutput
-	19, // 26: eolymp.asset.AssetService.AppendStream:output_type -> eolymp.asset.AppendStreamOutput
-	21, // 27: eolymp.asset.AssetService.CloseStream:output_type -> eolymp.asset.CloseStreamOutput
-	16, // [16:28] is the sub-list for method output_type
-	4,  // [4:16] is the sub-list for method input_type
+	24, // 9: eolymp.asset.AssetService.UseAsset:input_type -> eolymp.asset.UseAssetInput
+	22, // 10: eolymp.asset.AssetService.UploadBundle:input_type -> eolymp.asset.UploadBundleInput
+	10, // 11: eolymp.asset.AssetService.StartMultipartUpload:input_type -> eolymp.asset.StartMultipartUploadInput
+	12, // 12: eolymp.asset.AssetService.UploadPart:input_type -> eolymp.asset.UploadPartInput
+	14, // 13: eolymp.asset.AssetService.CompleteMultipartUpload:input_type -> eolymp.asset.CompleteMultipartUploadInput
+	16, // 14: eolymp.asset.AssetService.StartStream:input_type -> eolymp.asset.StartStreamInput
+	18, // 15: eolymp.asset.AssetService.AppendStream:input_type -> eolymp.asset.AppendStreamInput
+	20, // 16: eolymp.asset.AssetService.CloseStream:input_type -> eolymp.asset.CloseStreamInput
+	1,  // 17: eolymp.asset.AssetService.UploadImage:output_type -> eolymp.asset.UploadImageOutput
+	3,  // 18: eolymp.asset.AssetService.UploadFile:output_type -> eolymp.asset.UploadFileOutput
+	5,  // 19: eolymp.asset.AssetService.UploadAsset:output_type -> eolymp.asset.UploadAssetOutput
+	7,  // 20: eolymp.asset.AssetService.LookupAsset:output_type -> eolymp.asset.LookupAssetOutput
+	9,  // 21: eolymp.asset.AssetService.DeleteAsset:output_type -> eolymp.asset.DeleteAssetOutput
+	25, // 22: eolymp.asset.AssetService.UseAsset:output_type -> eolymp.asset.UseAssetOutput
+	23, // 23: eolymp.asset.AssetService.UploadBundle:output_type -> eolymp.asset.UploadBundleOutput
+	11, // 24: eolymp.asset.AssetService.StartMultipartUpload:output_type -> eolymp.asset.StartMultipartUploadOutput
+	13, // 25: eolymp.asset.AssetService.UploadPart:output_type -> eolymp.asset.UploadPartOutput
+	15, // 26: eolymp.asset.AssetService.CompleteMultipartUpload:output_type -> eolymp.asset.CompleteMultipartUploadOutput
+	17, // 27: eolymp.asset.AssetService.StartStream:output_type -> eolymp.asset.StartStreamOutput
+	19, // 28: eolymp.asset.AssetService.AppendStream:output_type -> eolymp.asset.AppendStreamOutput
+	21, // 29: eolymp.asset.AssetService.CloseStream:output_type -> eolymp.asset.CloseStreamOutput
+	17, // [17:30] is the sub-list for method output_type
+	4,  // [4:17] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -1710,7 +1854,7 @@ func file_eolymp_asset_asset_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_asset_asset_service_proto_rawDesc), len(file_eolymp_asset_asset_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   27,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
