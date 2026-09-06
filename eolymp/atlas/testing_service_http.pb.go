@@ -225,6 +225,12 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/problems/{problem_id}/validator", _TestingService_DescribeValidator_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.DescribeValidator")
+	router.Handle(prefix+"/problems/{problem_id}/test-script", _TestingService_DescribeTestScript_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.atlas.TestingService.DescribeTestScript")
+	router.Handle(prefix+"/problems/{problem_id}/test-script", _TestingService_RunTestScript_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.TestingService.RunTestScript")
 	router.Handle(prefix+"/problems/{problem_id}/testsets", _TestingService_CreateTestset_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTestset")
@@ -468,6 +474,54 @@ func _TestingService_DescribeValidator_Rule0(cli TestingServiceClient) http.Hand
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeValidator(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_DescribeTestScript_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeTestScriptInput{}
+
+		if err := _TestingService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeTestScript(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TestingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TestingService_RunTestScript_Rule0(cli TestingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RunTestScriptInput{}
+
+		if err := _TestingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_TestingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RunTestScript(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TestingService_HTTPWriteErrorResponse(w, err)
 			return

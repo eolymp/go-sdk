@@ -22,6 +22,61 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RunTestScriptOutput_Change_Operation int32
+
+const (
+	RunTestScriptOutput_Change_UNKNOWN_OPERATION RunTestScriptOutput_Change_Operation = 0
+	RunTestScriptOutput_Change_CREATE            RunTestScriptOutput_Change_Operation = 1
+	RunTestScriptOutput_Change_UPDATE            RunTestScriptOutput_Change_Operation = 2
+	RunTestScriptOutput_Change_DELETE            RunTestScriptOutput_Change_Operation = 3
+	RunTestScriptOutput_Change_KEEP              RunTestScriptOutput_Change_Operation = 4
+)
+
+// Enum value maps for RunTestScriptOutput_Change_Operation.
+var (
+	RunTestScriptOutput_Change_Operation_name = map[int32]string{
+		0: "UNKNOWN_OPERATION",
+		1: "CREATE",
+		2: "UPDATE",
+		3: "DELETE",
+		4: "KEEP",
+	}
+	RunTestScriptOutput_Change_Operation_value = map[string]int32{
+		"UNKNOWN_OPERATION": 0,
+		"CREATE":            1,
+		"UPDATE":            2,
+		"DELETE":            3,
+		"KEEP":              4,
+	}
+)
+
+func (x RunTestScriptOutput_Change_Operation) Enum() *RunTestScriptOutput_Change_Operation {
+	p := new(RunTestScriptOutput_Change_Operation)
+	*p = x
+	return p
+}
+
+func (x RunTestScriptOutput_Change_Operation) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RunTestScriptOutput_Change_Operation) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_atlas_testing_service_proto_enumTypes[0].Descriptor()
+}
+
+func (RunTestScriptOutput_Change_Operation) Type() protoreflect.EnumType {
+	return &file_eolymp_atlas_testing_service_proto_enumTypes[0]
+}
+
+func (x RunTestScriptOutput_Change_Operation) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RunTestScriptOutput_Change_Operation.Descriptor instead.
+func (RunTestScriptOutput_Change_Operation) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{26, 0, 0}
+}
+
 type TestingConfigChangedEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -1178,6 +1233,214 @@ func (x *DescribeValidatorOutput) GetValidator() *Validator {
 	return nil
 }
 
+type DescribeTestScriptInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Version       uint32                 `protobuf:"varint,100,opt,name=version,proto3" json:"version,omitempty"` // request data for specific problem version
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeTestScriptInput) Reset() {
+	*x = DescribeTestScriptInput{}
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeTestScriptInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeTestScriptInput) ProtoMessage() {}
+
+func (x *DescribeTestScriptInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeTestScriptInput.ProtoReflect.Descriptor instead.
+func (*DescribeTestScriptInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *DescribeTestScriptInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *DescribeTestScriptInput) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+type DescribeTestScriptOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Source        string                 `protobuf:"bytes,1,opt,name=source,proto3" json:"source,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeTestScriptOutput) Reset() {
+	*x = DescribeTestScriptOutput{}
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeTestScriptOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeTestScriptOutput) ProtoMessage() {}
+
+func (x *DescribeTestScriptOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeTestScriptOutput.ProtoReflect.Descriptor instead.
+func (*DescribeTestScriptOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *DescribeTestScriptOutput) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+type RunTestScriptInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Source        string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`
+	DryRun        bool                   `protobuf:"varint,3,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunTestScriptInput) Reset() {
+	*x = RunTestScriptInput{}
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunTestScriptInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunTestScriptInput) ProtoMessage() {}
+
+func (x *RunTestScriptInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunTestScriptInput.ProtoReflect.Descriptor instead.
+func (*RunTestScriptInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *RunTestScriptInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *RunTestScriptInput) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *RunTestScriptInput) GetDryRun() bool {
+	if x != nil {
+		return x.DryRun
+	}
+	return false
+}
+
+type RunTestScriptOutput struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Changes       []*RunTestScriptOutput_Change `protobuf:"bytes,1,rep,name=changes,proto3" json:"changes,omitempty"`
+	Output        []string                      `protobuf:"bytes,2,rep,name=output,proto3" json:"output,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunTestScriptOutput) Reset() {
+	*x = RunTestScriptOutput{}
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunTestScriptOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunTestScriptOutput) ProtoMessage() {}
+
+func (x *RunTestScriptOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunTestScriptOutput.ProtoReflect.Descriptor instead.
+func (*RunTestScriptOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *RunTestScriptOutput) GetChanges() []*RunTestScriptOutput_Change {
+	if x != nil {
+		return x.Changes
+	}
+	return nil
+}
+
+func (x *RunTestScriptOutput) GetOutput() []string {
+	if x != nil {
+		return x.Output
+	}
+	return nil
+}
+
 type ListTestsetsInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -1190,7 +1453,7 @@ type ListTestsetsInput struct {
 
 func (x *ListTestsetsInput) Reset() {
 	*x = ListTestsetsInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[23]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1202,7 +1465,7 @@ func (x *ListTestsetsInput) String() string {
 func (*ListTestsetsInput) ProtoMessage() {}
 
 func (x *ListTestsetsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[23]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1215,7 +1478,7 @@ func (x *ListTestsetsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTestsetsInput.ProtoReflect.Descriptor instead.
 func (*ListTestsetsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{23}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *ListTestsetsInput) GetProblemId() string {
@@ -1256,7 +1519,7 @@ type ListTestsetsOutput struct {
 
 func (x *ListTestsetsOutput) Reset() {
 	*x = ListTestsetsOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[24]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1268,7 +1531,7 @@ func (x *ListTestsetsOutput) String() string {
 func (*ListTestsetsOutput) ProtoMessage() {}
 
 func (x *ListTestsetsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[24]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1281,7 +1544,7 @@ func (x *ListTestsetsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTestsetsOutput.ProtoReflect.Descriptor instead.
 func (*ListTestsetsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{24}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ListTestsetsOutput) GetTotal() int32 {
@@ -1309,7 +1572,7 @@ type DescribeTestsetInput struct {
 
 func (x *DescribeTestsetInput) Reset() {
 	*x = DescribeTestsetInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[25]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1321,7 +1584,7 @@ func (x *DescribeTestsetInput) String() string {
 func (*DescribeTestsetInput) ProtoMessage() {}
 
 func (x *DescribeTestsetInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[25]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1334,7 +1597,7 @@ func (x *DescribeTestsetInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTestsetInput.ProtoReflect.Descriptor instead.
 func (*DescribeTestsetInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{25}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *DescribeTestsetInput) GetProblemId() string {
@@ -1367,7 +1630,7 @@ type DescribeTestsetOutput struct {
 
 func (x *DescribeTestsetOutput) Reset() {
 	*x = DescribeTestsetOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[26]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1379,7 +1642,7 @@ func (x *DescribeTestsetOutput) String() string {
 func (*DescribeTestsetOutput) ProtoMessage() {}
 
 func (x *DescribeTestsetOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[26]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1392,7 +1655,7 @@ func (x *DescribeTestsetOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTestsetOutput.ProtoReflect.Descriptor instead.
 func (*DescribeTestsetOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{26}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *DescribeTestsetOutput) GetTestset() *Testset {
@@ -1412,7 +1675,7 @@ type CreateTestsetInput struct {
 
 func (x *CreateTestsetInput) Reset() {
 	*x = CreateTestsetInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[27]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1424,7 +1687,7 @@ func (x *CreateTestsetInput) String() string {
 func (*CreateTestsetInput) ProtoMessage() {}
 
 func (x *CreateTestsetInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[27]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1437,7 +1700,7 @@ func (x *CreateTestsetInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTestsetInput.ProtoReflect.Descriptor instead.
 func (*CreateTestsetInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{27}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *CreateTestsetInput) GetProblemId() string {
@@ -1463,7 +1726,7 @@ type CreateTestsetOutput struct {
 
 func (x *CreateTestsetOutput) Reset() {
 	*x = CreateTestsetOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[28]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1475,7 +1738,7 @@ func (x *CreateTestsetOutput) String() string {
 func (*CreateTestsetOutput) ProtoMessage() {}
 
 func (x *CreateTestsetOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[28]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1488,7 +1751,7 @@ func (x *CreateTestsetOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTestsetOutput.ProtoReflect.Descriptor instead.
 func (*CreateTestsetOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{28}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *CreateTestsetOutput) GetId() string {
@@ -1509,7 +1772,7 @@ type UpdateTestsetInput struct {
 
 func (x *UpdateTestsetInput) Reset() {
 	*x = UpdateTestsetInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[29]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1521,7 +1784,7 @@ func (x *UpdateTestsetInput) String() string {
 func (*UpdateTestsetInput) ProtoMessage() {}
 
 func (x *UpdateTestsetInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[29]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1534,7 +1797,7 @@ func (x *UpdateTestsetInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTestsetInput.ProtoReflect.Descriptor instead.
 func (*UpdateTestsetInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{29}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *UpdateTestsetInput) GetProblemId() string {
@@ -1566,7 +1829,7 @@ type UpdateTestsetOutput struct {
 
 func (x *UpdateTestsetOutput) Reset() {
 	*x = UpdateTestsetOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[30]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1578,7 +1841,7 @@ func (x *UpdateTestsetOutput) String() string {
 func (*UpdateTestsetOutput) ProtoMessage() {}
 
 func (x *UpdateTestsetOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[30]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1591,7 +1854,7 @@ func (x *UpdateTestsetOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTestsetOutput.ProtoReflect.Descriptor instead.
 func (*UpdateTestsetOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{34}
 }
 
 type DeleteTestsetInput struct {
@@ -1604,7 +1867,7 @@ type DeleteTestsetInput struct {
 
 func (x *DeleteTestsetInput) Reset() {
 	*x = DeleteTestsetInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[31]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1616,7 +1879,7 @@ func (x *DeleteTestsetInput) String() string {
 func (*DeleteTestsetInput) ProtoMessage() {}
 
 func (x *DeleteTestsetInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[31]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1629,7 +1892,7 @@ func (x *DeleteTestsetInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTestsetInput.ProtoReflect.Descriptor instead.
 func (*DeleteTestsetInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{31}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *DeleteTestsetInput) GetProblemId() string {
@@ -1654,7 +1917,7 @@ type DeleteTestsetOutput struct {
 
 func (x *DeleteTestsetOutput) Reset() {
 	*x = DeleteTestsetOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[32]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1666,7 +1929,7 @@ func (x *DeleteTestsetOutput) String() string {
 func (*DeleteTestsetOutput) ProtoMessage() {}
 
 func (x *DeleteTestsetOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[32]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1679,7 +1942,7 @@ func (x *DeleteTestsetOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTestsetOutput.ProtoReflect.Descriptor instead.
 func (*DeleteTestsetOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{32}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{36}
 }
 
 type ListExamplesInput struct {
@@ -1692,7 +1955,7 @@ type ListExamplesInput struct {
 
 func (x *ListExamplesInput) Reset() {
 	*x = ListExamplesInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[33]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1704,7 +1967,7 @@ func (x *ListExamplesInput) String() string {
 func (*ListExamplesInput) ProtoMessage() {}
 
 func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[33]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1717,7 +1980,7 @@ func (x *ListExamplesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListExamplesInput.ProtoReflect.Descriptor instead.
 func (*ListExamplesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{33}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *ListExamplesInput) GetProblemId() string {
@@ -1743,7 +2006,7 @@ type ListExamplesOutput struct {
 
 func (x *ListExamplesOutput) Reset() {
 	*x = ListExamplesOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[34]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1755,7 +2018,7 @@ func (x *ListExamplesOutput) String() string {
 func (*ListExamplesOutput) ProtoMessage() {}
 
 func (x *ListExamplesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[34]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1768,7 +2031,7 @@ func (x *ListExamplesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListExamplesOutput.ProtoReflect.Descriptor instead.
 func (*ListExamplesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{34}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *ListExamplesOutput) GetExamples() []*Test {
@@ -1789,7 +2052,7 @@ type ListTestsInput struct {
 
 func (x *ListTestsInput) Reset() {
 	*x = ListTestsInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[35]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1801,7 +2064,7 @@ func (x *ListTestsInput) String() string {
 func (*ListTestsInput) ProtoMessage() {}
 
 func (x *ListTestsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[35]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1814,7 +2077,7 @@ func (x *ListTestsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTestsInput.ProtoReflect.Descriptor instead.
 func (*ListTestsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{35}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *ListTestsInput) GetProblemId() string {
@@ -1848,7 +2111,7 @@ type ListTestsOutput struct {
 
 func (x *ListTestsOutput) Reset() {
 	*x = ListTestsOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[36]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1860,7 +2123,7 @@ func (x *ListTestsOutput) String() string {
 func (*ListTestsOutput) ProtoMessage() {}
 
 func (x *ListTestsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[36]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1873,7 +2136,7 @@ func (x *ListTestsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTestsOutput.ProtoReflect.Descriptor instead.
 func (*ListTestsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{36}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *ListTestsOutput) GetTotal() int32 {
@@ -1902,7 +2165,7 @@ type DescribeTestInput struct {
 
 func (x *DescribeTestInput) Reset() {
 	*x = DescribeTestInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[37]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1914,7 +2177,7 @@ func (x *DescribeTestInput) String() string {
 func (*DescribeTestInput) ProtoMessage() {}
 
 func (x *DescribeTestInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[37]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1927,7 +2190,7 @@ func (x *DescribeTestInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTestInput.ProtoReflect.Descriptor instead.
 func (*DescribeTestInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{37}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *DescribeTestInput) GetProblemId() string {
@@ -1967,7 +2230,7 @@ type DescribeTestOutput struct {
 
 func (x *DescribeTestOutput) Reset() {
 	*x = DescribeTestOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[38]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1979,7 +2242,7 @@ func (x *DescribeTestOutput) String() string {
 func (*DescribeTestOutput) ProtoMessage() {}
 
 func (x *DescribeTestOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[38]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1992,7 +2255,7 @@ func (x *DescribeTestOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTestOutput.ProtoReflect.Descriptor instead.
 func (*DescribeTestOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{38}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *DescribeTestOutput) GetTest() *Test {
@@ -2013,7 +2276,7 @@ type CreateTestInput struct {
 
 func (x *CreateTestInput) Reset() {
 	*x = CreateTestInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[39]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2025,7 +2288,7 @@ func (x *CreateTestInput) String() string {
 func (*CreateTestInput) ProtoMessage() {}
 
 func (x *CreateTestInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[39]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2038,7 +2301,7 @@ func (x *CreateTestInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTestInput.ProtoReflect.Descriptor instead.
 func (*CreateTestInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{39}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *CreateTestInput) GetProblemId() string {
@@ -2071,7 +2334,7 @@ type CreateTestOutput struct {
 
 func (x *CreateTestOutput) Reset() {
 	*x = CreateTestOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[40]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2083,7 +2346,7 @@ func (x *CreateTestOutput) String() string {
 func (*CreateTestOutput) ProtoMessage() {}
 
 func (x *CreateTestOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[40]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2096,7 +2359,7 @@ func (x *CreateTestOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTestOutput.ProtoReflect.Descriptor instead.
 func (*CreateTestOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{40}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *CreateTestOutput) GetTestId() string {
@@ -2119,7 +2382,7 @@ type UpdateTestInput struct {
 
 func (x *UpdateTestInput) Reset() {
 	*x = UpdateTestInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[41]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2131,7 +2394,7 @@ func (x *UpdateTestInput) String() string {
 func (*UpdateTestInput) ProtoMessage() {}
 
 func (x *UpdateTestInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[41]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2144,7 +2407,7 @@ func (x *UpdateTestInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTestInput.ProtoReflect.Descriptor instead.
 func (*UpdateTestInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{41}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *UpdateTestInput) GetPatch() []Test_Patch_Field {
@@ -2190,7 +2453,7 @@ type UpdateTestOutput struct {
 
 func (x *UpdateTestOutput) Reset() {
 	*x = UpdateTestOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[42]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2202,7 +2465,7 @@ func (x *UpdateTestOutput) String() string {
 func (*UpdateTestOutput) ProtoMessage() {}
 
 func (x *UpdateTestOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[42]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2215,7 +2478,7 @@ func (x *UpdateTestOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTestOutput.ProtoReflect.Descriptor instead.
 func (*UpdateTestOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{42}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{46}
 }
 
 type DeleteTestInput struct {
@@ -2229,7 +2492,7 @@ type DeleteTestInput struct {
 
 func (x *DeleteTestInput) Reset() {
 	*x = DeleteTestInput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[43]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2241,7 +2504,7 @@ func (x *DeleteTestInput) String() string {
 func (*DeleteTestInput) ProtoMessage() {}
 
 func (x *DeleteTestInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[43]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2254,7 +2517,7 @@ func (x *DeleteTestInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTestInput.ProtoReflect.Descriptor instead.
 func (*DeleteTestInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{43}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *DeleteTestInput) GetProblemId() string {
@@ -2286,7 +2549,7 @@ type DeleteTestOutput struct {
 
 func (x *DeleteTestOutput) Reset() {
 	*x = DeleteTestOutput{}
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[44]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2298,7 +2561,7 @@ func (x *DeleteTestOutput) String() string {
 func (*DeleteTestOutput) ProtoMessage() {}
 
 func (x *DeleteTestOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[44]
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2311,14 +2574,66 @@ func (x *DeleteTestOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTestOutput.ProtoReflect.Descriptor instead.
 func (*DeleteTestOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{44}
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{48}
+}
+
+type RunTestScriptOutput_Change struct {
+	state         protoimpl.MessageState               `protogen:"open.v1"`
+	Operation     RunTestScriptOutput_Change_Operation `protobuf:"varint,1,opt,name=operation,proto3,enum=eolymp.atlas.RunTestScriptOutput_Change_Operation" json:"operation,omitempty"`
+	Test          *Test                                `protobuf:"bytes,2,opt,name=test,proto3" json:"test,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunTestScriptOutput_Change) Reset() {
+	*x = RunTestScriptOutput_Change{}
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunTestScriptOutput_Change) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunTestScriptOutput_Change) ProtoMessage() {}
+
+func (x *RunTestScriptOutput_Change) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_service_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunTestScriptOutput_Change.ProtoReflect.Descriptor instead.
+func (*RunTestScriptOutput_Change) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{26, 0}
+}
+
+func (x *RunTestScriptOutput_Change) GetOperation() RunTestScriptOutput_Change_Operation {
+	if x != nil {
+		return x.Operation
+	}
+	return RunTestScriptOutput_Change_UNKNOWN_OPERATION
+}
+
+func (x *RunTestScriptOutput_Change) GetTest() *Test {
+	if x != nil {
+		return x.Test
+	}
+	return nil
 }
 
 var File_eolymp_atlas_testing_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/testing_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xa2\x01\n" +
+	"\"eolymp/atlas/testing_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xa2\x01\n" +
 	"\x19TestingConfigChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x123\n" +
@@ -2401,7 +2716,33 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"P\n" +
 	"\x17DescribeValidatorOutput\x125\n" +
-	"\tvalidator\x18\x01 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"x\n" +
+	"\tvalidator\x18\x01 \x01(\v2\x17.eolymp.atlas.ValidatorR\tvalidator\"R\n" +
+	"\x17DescribeTestScriptInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
+	"\aversion\x18d \x01(\rR\aversion\"2\n" +
+	"\x18DescribeTestScriptOutput\x12\x16\n" +
+	"\x06source\x18\x01 \x01(\tR\x06source\"\xf4\x05\n" +
+	"\x12RunTestScriptInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\xc4\x04\n" +
+	"\x06source\x18\x02 \x01(\tB\xab\x04\xa2\xf0\xf0\xe4\x01\xa4\x04Starlark source, saved as the problem's test script unless dry_run is set; `generator(\"gen\", \"-n\", 10)` or `generator(\"gen -n 10\")` builds a generator command, `add_test(input, answer=None, testset=1, index=None, score=0, example=False, secret=False)` adds a test where input and answer are each a command or a string with the data; an omitted answer means the generator named `solution`, an omitted index means the smallest index in the testset not taken by a hand-made test; no I/O, no randomness; an empty source removes the script and its testsR\x06source\x12x\n" +
+	"\adry_run\x18\x03 \x01(\bB_\xa2\xf0\xf0\xe4\x01Ycompute the changes the run would make and save nothing, neither the script nor the testsR\x06dryRun\"\x97\x04\n" +
+	"\x13RunTestScriptOutput\x12B\n" +
+	"\achanges\x18\x01 \x03(\v2(.eolymp.atlas.RunTestScriptOutput.ChangeR\achanges\x126\n" +
+	"\x06output\x18\x02 \x03(\tB\x1e\xa2\xf0\xf0\xe4\x01\x18lines the script printedR\x06output\x1a\x83\x03\n" +
+	"\x06Change\x12\xc0\x01\n" +
+	"\toperation\x18\x01 \x01(\x0e22.eolymp.atlas.RunTestScriptOutput.Change.OperationBn\xa2\xf0\xf0\xe4\x01hCREATE, UPDATE and DELETE are what the run does to the test; KEEP means the script produced it unchangedR\toperation\x12d\n" +
+	"\x04test\x18\x02 \x01(\v2\x12.eolymp.atlas.TestB<\xa2\xf0\xf0\xe4\x016the test as the run leaves it, or as it was for DELETER\x04test\"P\n" +
+	"\tOperation\x12\x15\n" +
+	"\x11UNKNOWN_OPERATION\x10\x00\x12\n" +
+	"\n" +
+	"\x06CREATE\x10\x01\x12\n" +
+	"\n" +
+	"\x06UPDATE\x10\x02\x12\n" +
+	"\n" +
+	"\x06DELETE\x10\x03\x12\b\n" +
+	"\x04KEEP\x10\x04\"x\n" +
 	"\x11ListTestsetsInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
@@ -2486,7 +2827,7 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
 	"\atest_id\x18\x03 \x01(\tR\x06testId\"\x12\n" +
-	"\x10DeleteTestOutput2\xfe\x1d\n" +
+	"\x10DeleteTestOutput2\xf7 \n" +
 	"\x0eTestingService\x12\xc0\x01\n" +
 	"\x13UpdateTestingConfig\x12&.eolymp.atlas.UpdateTestingConfigInput\x1a'.eolymp.atlas.UpdateTestingConfigOutput\"X\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2559,7 +2900,24 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/validator\x12\xaf\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x02\"\x12 /problems/{problem_id}/validator\x12\xc1\x01\n" +
+	"\x12DescribeTestScript\x12%.eolymp.atlas.DescribeTestScriptInput\x1a&.eolymp.atlas.DescribeTestScriptOutput\"\\\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x00@\xf8\xe2\n" +
+	"\n" +
+	"\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/problems/{problem_id}/test-script\x12\xb2\x01\n" +
+	"\rRunTestScript\x12 .eolymp.atlas.RunTestScriptInput\x1a!.eolymp.atlas.RunTestScriptOutput\"\\\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/test-script\x12\xaf\x01\n" +
 	"\rCreateTestset\x12 .eolymp.atlas.CreateTestsetInput\x1a!.eolymp.atlas.CreateTestsetOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -2664,137 +3022,151 @@ func file_eolymp_atlas_testing_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_testing_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_testing_service_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
+var file_eolymp_atlas_testing_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_atlas_testing_service_proto_msgTypes = make([]protoimpl.MessageInfo, 50)
 var file_eolymp_atlas_testing_service_proto_goTypes = []any{
-	(*TestingConfigChangedEvent)(nil),   // 0: eolymp.atlas.TestingConfigChangedEvent
-	(*InteractorChangedEvent)(nil),      // 1: eolymp.atlas.InteractorChangedEvent
-	(*CheckerChangedEvent)(nil),         // 2: eolymp.atlas.CheckerChangedEvent
-	(*ValidatorChangedEvent)(nil),       // 3: eolymp.atlas.ValidatorChangedEvent
-	(*TestsetChangedEvent)(nil),         // 4: eolymp.atlas.TestsetChangedEvent
-	(*TestChangedEvent)(nil),            // 5: eolymp.atlas.TestChangedEvent
-	(*TestBatchChangedEvent)(nil),       // 6: eolymp.atlas.TestBatchChangedEvent
-	(*UpdateTestingConfigInput)(nil),    // 7: eolymp.atlas.UpdateTestingConfigInput
-	(*UpdateTestingConfigOutput)(nil),   // 8: eolymp.atlas.UpdateTestingConfigOutput
-	(*DescribeTestingConfigInput)(nil),  // 9: eolymp.atlas.DescribeTestingConfigInput
-	(*DescribeTestingConfigOutput)(nil), // 10: eolymp.atlas.DescribeTestingConfigOutput
-	(*UpdateCheckerInput)(nil),          // 11: eolymp.atlas.UpdateCheckerInput
-	(*UpdateCheckerOutput)(nil),         // 12: eolymp.atlas.UpdateCheckerOutput
-	(*DescribeCheckerInput)(nil),        // 13: eolymp.atlas.DescribeCheckerInput
-	(*DescribeCheckerOutput)(nil),       // 14: eolymp.atlas.DescribeCheckerOutput
-	(*UpdateInteractorInput)(nil),       // 15: eolymp.atlas.UpdateInteractorInput
-	(*UpdateInteractorOutput)(nil),      // 16: eolymp.atlas.UpdateInteractorOutput
-	(*DescribeInteractorInput)(nil),     // 17: eolymp.atlas.DescribeInteractorInput
-	(*DescribeInteractorOutput)(nil),    // 18: eolymp.atlas.DescribeInteractorOutput
-	(*UpdateValidatorInput)(nil),        // 19: eolymp.atlas.UpdateValidatorInput
-	(*UpdateValidatorOutput)(nil),       // 20: eolymp.atlas.UpdateValidatorOutput
-	(*DescribeValidatorInput)(nil),      // 21: eolymp.atlas.DescribeValidatorInput
-	(*DescribeValidatorOutput)(nil),     // 22: eolymp.atlas.DescribeValidatorOutput
-	(*ListTestsetsInput)(nil),           // 23: eolymp.atlas.ListTestsetsInput
-	(*ListTestsetsOutput)(nil),          // 24: eolymp.atlas.ListTestsetsOutput
-	(*DescribeTestsetInput)(nil),        // 25: eolymp.atlas.DescribeTestsetInput
-	(*DescribeTestsetOutput)(nil),       // 26: eolymp.atlas.DescribeTestsetOutput
-	(*CreateTestsetInput)(nil),          // 27: eolymp.atlas.CreateTestsetInput
-	(*CreateTestsetOutput)(nil),         // 28: eolymp.atlas.CreateTestsetOutput
-	(*UpdateTestsetInput)(nil),          // 29: eolymp.atlas.UpdateTestsetInput
-	(*UpdateTestsetOutput)(nil),         // 30: eolymp.atlas.UpdateTestsetOutput
-	(*DeleteTestsetInput)(nil),          // 31: eolymp.atlas.DeleteTestsetInput
-	(*DeleteTestsetOutput)(nil),         // 32: eolymp.atlas.DeleteTestsetOutput
-	(*ListExamplesInput)(nil),           // 33: eolymp.atlas.ListExamplesInput
-	(*ListExamplesOutput)(nil),          // 34: eolymp.atlas.ListExamplesOutput
-	(*ListTestsInput)(nil),              // 35: eolymp.atlas.ListTestsInput
-	(*ListTestsOutput)(nil),             // 36: eolymp.atlas.ListTestsOutput
-	(*DescribeTestInput)(nil),           // 37: eolymp.atlas.DescribeTestInput
-	(*DescribeTestOutput)(nil),          // 38: eolymp.atlas.DescribeTestOutput
-	(*CreateTestInput)(nil),             // 39: eolymp.atlas.CreateTestInput
-	(*CreateTestOutput)(nil),            // 40: eolymp.atlas.CreateTestOutput
-	(*UpdateTestInput)(nil),             // 41: eolymp.atlas.UpdateTestInput
-	(*UpdateTestOutput)(nil),            // 42: eolymp.atlas.UpdateTestOutput
-	(*DeleteTestInput)(nil),             // 43: eolymp.atlas.DeleteTestInput
-	(*DeleteTestOutput)(nil),            // 44: eolymp.atlas.DeleteTestOutput
-	(*TestingConfig)(nil),               // 45: eolymp.atlas.TestingConfig
-	(*Interactor)(nil),                  // 46: eolymp.atlas.Interactor
-	(*Checker)(nil),                     // 47: eolymp.atlas.Checker
-	(*Validator)(nil),                   // 48: eolymp.atlas.Validator
-	(*Testset)(nil),                     // 49: eolymp.atlas.Testset
-	(*Test)(nil),                        // 50: eolymp.atlas.Test
-	(Test_Patch_Field)(0),               // 51: eolymp.atlas.Test.Patch.Field
+	(RunTestScriptOutput_Change_Operation)(0), // 0: eolymp.atlas.RunTestScriptOutput.Change.Operation
+	(*TestingConfigChangedEvent)(nil),         // 1: eolymp.atlas.TestingConfigChangedEvent
+	(*InteractorChangedEvent)(nil),            // 2: eolymp.atlas.InteractorChangedEvent
+	(*CheckerChangedEvent)(nil),               // 3: eolymp.atlas.CheckerChangedEvent
+	(*ValidatorChangedEvent)(nil),             // 4: eolymp.atlas.ValidatorChangedEvent
+	(*TestsetChangedEvent)(nil),               // 5: eolymp.atlas.TestsetChangedEvent
+	(*TestChangedEvent)(nil),                  // 6: eolymp.atlas.TestChangedEvent
+	(*TestBatchChangedEvent)(nil),             // 7: eolymp.atlas.TestBatchChangedEvent
+	(*UpdateTestingConfigInput)(nil),          // 8: eolymp.atlas.UpdateTestingConfigInput
+	(*UpdateTestingConfigOutput)(nil),         // 9: eolymp.atlas.UpdateTestingConfigOutput
+	(*DescribeTestingConfigInput)(nil),        // 10: eolymp.atlas.DescribeTestingConfigInput
+	(*DescribeTestingConfigOutput)(nil),       // 11: eolymp.atlas.DescribeTestingConfigOutput
+	(*UpdateCheckerInput)(nil),                // 12: eolymp.atlas.UpdateCheckerInput
+	(*UpdateCheckerOutput)(nil),               // 13: eolymp.atlas.UpdateCheckerOutput
+	(*DescribeCheckerInput)(nil),              // 14: eolymp.atlas.DescribeCheckerInput
+	(*DescribeCheckerOutput)(nil),             // 15: eolymp.atlas.DescribeCheckerOutput
+	(*UpdateInteractorInput)(nil),             // 16: eolymp.atlas.UpdateInteractorInput
+	(*UpdateInteractorOutput)(nil),            // 17: eolymp.atlas.UpdateInteractorOutput
+	(*DescribeInteractorInput)(nil),           // 18: eolymp.atlas.DescribeInteractorInput
+	(*DescribeInteractorOutput)(nil),          // 19: eolymp.atlas.DescribeInteractorOutput
+	(*UpdateValidatorInput)(nil),              // 20: eolymp.atlas.UpdateValidatorInput
+	(*UpdateValidatorOutput)(nil),             // 21: eolymp.atlas.UpdateValidatorOutput
+	(*DescribeValidatorInput)(nil),            // 22: eolymp.atlas.DescribeValidatorInput
+	(*DescribeValidatorOutput)(nil),           // 23: eolymp.atlas.DescribeValidatorOutput
+	(*DescribeTestScriptInput)(nil),           // 24: eolymp.atlas.DescribeTestScriptInput
+	(*DescribeTestScriptOutput)(nil),          // 25: eolymp.atlas.DescribeTestScriptOutput
+	(*RunTestScriptInput)(nil),                // 26: eolymp.atlas.RunTestScriptInput
+	(*RunTestScriptOutput)(nil),               // 27: eolymp.atlas.RunTestScriptOutput
+	(*ListTestsetsInput)(nil),                 // 28: eolymp.atlas.ListTestsetsInput
+	(*ListTestsetsOutput)(nil),                // 29: eolymp.atlas.ListTestsetsOutput
+	(*DescribeTestsetInput)(nil),              // 30: eolymp.atlas.DescribeTestsetInput
+	(*DescribeTestsetOutput)(nil),             // 31: eolymp.atlas.DescribeTestsetOutput
+	(*CreateTestsetInput)(nil),                // 32: eolymp.atlas.CreateTestsetInput
+	(*CreateTestsetOutput)(nil),               // 33: eolymp.atlas.CreateTestsetOutput
+	(*UpdateTestsetInput)(nil),                // 34: eolymp.atlas.UpdateTestsetInput
+	(*UpdateTestsetOutput)(nil),               // 35: eolymp.atlas.UpdateTestsetOutput
+	(*DeleteTestsetInput)(nil),                // 36: eolymp.atlas.DeleteTestsetInput
+	(*DeleteTestsetOutput)(nil),               // 37: eolymp.atlas.DeleteTestsetOutput
+	(*ListExamplesInput)(nil),                 // 38: eolymp.atlas.ListExamplesInput
+	(*ListExamplesOutput)(nil),                // 39: eolymp.atlas.ListExamplesOutput
+	(*ListTestsInput)(nil),                    // 40: eolymp.atlas.ListTestsInput
+	(*ListTestsOutput)(nil),                   // 41: eolymp.atlas.ListTestsOutput
+	(*DescribeTestInput)(nil),                 // 42: eolymp.atlas.DescribeTestInput
+	(*DescribeTestOutput)(nil),                // 43: eolymp.atlas.DescribeTestOutput
+	(*CreateTestInput)(nil),                   // 44: eolymp.atlas.CreateTestInput
+	(*CreateTestOutput)(nil),                  // 45: eolymp.atlas.CreateTestOutput
+	(*UpdateTestInput)(nil),                   // 46: eolymp.atlas.UpdateTestInput
+	(*UpdateTestOutput)(nil),                  // 47: eolymp.atlas.UpdateTestOutput
+	(*DeleteTestInput)(nil),                   // 48: eolymp.atlas.DeleteTestInput
+	(*DeleteTestOutput)(nil),                  // 49: eolymp.atlas.DeleteTestOutput
+	(*RunTestScriptOutput_Change)(nil),        // 50: eolymp.atlas.RunTestScriptOutput.Change
+	(*TestingConfig)(nil),                     // 51: eolymp.atlas.TestingConfig
+	(*Interactor)(nil),                        // 52: eolymp.atlas.Interactor
+	(*Checker)(nil),                           // 53: eolymp.atlas.Checker
+	(*Validator)(nil),                         // 54: eolymp.atlas.Validator
+	(*Testset)(nil),                           // 55: eolymp.atlas.Testset
+	(*Test)(nil),                              // 56: eolymp.atlas.Test
+	(Test_Patch_Field)(0),                     // 57: eolymp.atlas.Test.Patch.Field
 }
 var file_eolymp_atlas_testing_service_proto_depIdxs = []int32{
-	45, // 0: eolymp.atlas.TestingConfigChangedEvent.before:type_name -> eolymp.atlas.TestingConfig
-	45, // 1: eolymp.atlas.TestingConfigChangedEvent.after:type_name -> eolymp.atlas.TestingConfig
-	46, // 2: eolymp.atlas.InteractorChangedEvent.before:type_name -> eolymp.atlas.Interactor
-	46, // 3: eolymp.atlas.InteractorChangedEvent.after:type_name -> eolymp.atlas.Interactor
-	47, // 4: eolymp.atlas.CheckerChangedEvent.before:type_name -> eolymp.atlas.Checker
-	47, // 5: eolymp.atlas.CheckerChangedEvent.after:type_name -> eolymp.atlas.Checker
-	48, // 6: eolymp.atlas.ValidatorChangedEvent.before:type_name -> eolymp.atlas.Validator
-	48, // 7: eolymp.atlas.ValidatorChangedEvent.after:type_name -> eolymp.atlas.Validator
-	49, // 8: eolymp.atlas.TestsetChangedEvent.before:type_name -> eolymp.atlas.Testset
-	49, // 9: eolymp.atlas.TestsetChangedEvent.after:type_name -> eolymp.atlas.Testset
-	50, // 10: eolymp.atlas.TestChangedEvent.before:type_name -> eolymp.atlas.Test
-	50, // 11: eolymp.atlas.TestChangedEvent.after:type_name -> eolymp.atlas.Test
-	50, // 12: eolymp.atlas.TestBatchChangedEvent.before:type_name -> eolymp.atlas.Test
-	50, // 13: eolymp.atlas.TestBatchChangedEvent.after:type_name -> eolymp.atlas.Test
-	45, // 14: eolymp.atlas.UpdateTestingConfigInput.config:type_name -> eolymp.atlas.TestingConfig
-	45, // 15: eolymp.atlas.DescribeTestingConfigOutput.config:type_name -> eolymp.atlas.TestingConfig
-	47, // 16: eolymp.atlas.UpdateCheckerInput.checker:type_name -> eolymp.atlas.Checker
-	47, // 17: eolymp.atlas.DescribeCheckerOutput.checker:type_name -> eolymp.atlas.Checker
-	46, // 18: eolymp.atlas.UpdateInteractorInput.interactor:type_name -> eolymp.atlas.Interactor
-	46, // 19: eolymp.atlas.DescribeInteractorOutput.interactor:type_name -> eolymp.atlas.Interactor
-	48, // 20: eolymp.atlas.UpdateValidatorInput.validator:type_name -> eolymp.atlas.Validator
-	48, // 21: eolymp.atlas.DescribeValidatorOutput.validator:type_name -> eolymp.atlas.Validator
-	49, // 22: eolymp.atlas.ListTestsetsOutput.items:type_name -> eolymp.atlas.Testset
-	49, // 23: eolymp.atlas.DescribeTestsetOutput.testset:type_name -> eolymp.atlas.Testset
-	49, // 24: eolymp.atlas.CreateTestsetInput.testset:type_name -> eolymp.atlas.Testset
-	49, // 25: eolymp.atlas.UpdateTestsetInput.testset:type_name -> eolymp.atlas.Testset
-	50, // 26: eolymp.atlas.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
-	50, // 27: eolymp.atlas.ListTestsOutput.items:type_name -> eolymp.atlas.Test
-	50, // 28: eolymp.atlas.DescribeTestOutput.test:type_name -> eolymp.atlas.Test
-	50, // 29: eolymp.atlas.CreateTestInput.test:type_name -> eolymp.atlas.Test
-	51, // 30: eolymp.atlas.UpdateTestInput.patch:type_name -> eolymp.atlas.Test.Patch.Field
-	50, // 31: eolymp.atlas.UpdateTestInput.test:type_name -> eolymp.atlas.Test
-	7,  // 32: eolymp.atlas.TestingService.UpdateTestingConfig:input_type -> eolymp.atlas.UpdateTestingConfigInput
-	9,  // 33: eolymp.atlas.TestingService.DescribeTestingConfig:input_type -> eolymp.atlas.DescribeTestingConfigInput
-	11, // 34: eolymp.atlas.TestingService.UpdateChecker:input_type -> eolymp.atlas.UpdateCheckerInput
-	13, // 35: eolymp.atlas.TestingService.DescribeChecker:input_type -> eolymp.atlas.DescribeCheckerInput
-	15, // 36: eolymp.atlas.TestingService.UpdateInteractor:input_type -> eolymp.atlas.UpdateInteractorInput
-	17, // 37: eolymp.atlas.TestingService.DescribeInteractor:input_type -> eolymp.atlas.DescribeInteractorInput
-	19, // 38: eolymp.atlas.TestingService.UpdateValidator:input_type -> eolymp.atlas.UpdateValidatorInput
-	21, // 39: eolymp.atlas.TestingService.DescribeValidator:input_type -> eolymp.atlas.DescribeValidatorInput
-	27, // 40: eolymp.atlas.TestingService.CreateTestset:input_type -> eolymp.atlas.CreateTestsetInput
-	29, // 41: eolymp.atlas.TestingService.UpdateTestset:input_type -> eolymp.atlas.UpdateTestsetInput
-	31, // 42: eolymp.atlas.TestingService.DeleteTestset:input_type -> eolymp.atlas.DeleteTestsetInput
-	25, // 43: eolymp.atlas.TestingService.DescribeTestset:input_type -> eolymp.atlas.DescribeTestsetInput
-	23, // 44: eolymp.atlas.TestingService.ListTestsets:input_type -> eolymp.atlas.ListTestsetsInput
-	39, // 45: eolymp.atlas.TestingService.CreateTest:input_type -> eolymp.atlas.CreateTestInput
-	41, // 46: eolymp.atlas.TestingService.UpdateTest:input_type -> eolymp.atlas.UpdateTestInput
-	43, // 47: eolymp.atlas.TestingService.DeleteTest:input_type -> eolymp.atlas.DeleteTestInput
-	37, // 48: eolymp.atlas.TestingService.DescribeTest:input_type -> eolymp.atlas.DescribeTestInput
-	35, // 49: eolymp.atlas.TestingService.ListTests:input_type -> eolymp.atlas.ListTestsInput
-	33, // 50: eolymp.atlas.TestingService.ListExamples:input_type -> eolymp.atlas.ListExamplesInput
-	8,  // 51: eolymp.atlas.TestingService.UpdateTestingConfig:output_type -> eolymp.atlas.UpdateTestingConfigOutput
-	10, // 52: eolymp.atlas.TestingService.DescribeTestingConfig:output_type -> eolymp.atlas.DescribeTestingConfigOutput
-	12, // 53: eolymp.atlas.TestingService.UpdateChecker:output_type -> eolymp.atlas.UpdateCheckerOutput
-	14, // 54: eolymp.atlas.TestingService.DescribeChecker:output_type -> eolymp.atlas.DescribeCheckerOutput
-	16, // 55: eolymp.atlas.TestingService.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
-	18, // 56: eolymp.atlas.TestingService.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
-	20, // 57: eolymp.atlas.TestingService.UpdateValidator:output_type -> eolymp.atlas.UpdateValidatorOutput
-	22, // 58: eolymp.atlas.TestingService.DescribeValidator:output_type -> eolymp.atlas.DescribeValidatorOutput
-	28, // 59: eolymp.atlas.TestingService.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
-	30, // 60: eolymp.atlas.TestingService.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
-	32, // 61: eolymp.atlas.TestingService.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
-	26, // 62: eolymp.atlas.TestingService.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
-	24, // 63: eolymp.atlas.TestingService.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
-	40, // 64: eolymp.atlas.TestingService.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
-	42, // 65: eolymp.atlas.TestingService.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
-	44, // 66: eolymp.atlas.TestingService.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
-	38, // 67: eolymp.atlas.TestingService.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
-	36, // 68: eolymp.atlas.TestingService.ListTests:output_type -> eolymp.atlas.ListTestsOutput
-	34, // 69: eolymp.atlas.TestingService.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
-	51, // [51:70] is the sub-list for method output_type
-	32, // [32:51] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	51, // 0: eolymp.atlas.TestingConfigChangedEvent.before:type_name -> eolymp.atlas.TestingConfig
+	51, // 1: eolymp.atlas.TestingConfigChangedEvent.after:type_name -> eolymp.atlas.TestingConfig
+	52, // 2: eolymp.atlas.InteractorChangedEvent.before:type_name -> eolymp.atlas.Interactor
+	52, // 3: eolymp.atlas.InteractorChangedEvent.after:type_name -> eolymp.atlas.Interactor
+	53, // 4: eolymp.atlas.CheckerChangedEvent.before:type_name -> eolymp.atlas.Checker
+	53, // 5: eolymp.atlas.CheckerChangedEvent.after:type_name -> eolymp.atlas.Checker
+	54, // 6: eolymp.atlas.ValidatorChangedEvent.before:type_name -> eolymp.atlas.Validator
+	54, // 7: eolymp.atlas.ValidatorChangedEvent.after:type_name -> eolymp.atlas.Validator
+	55, // 8: eolymp.atlas.TestsetChangedEvent.before:type_name -> eolymp.atlas.Testset
+	55, // 9: eolymp.atlas.TestsetChangedEvent.after:type_name -> eolymp.atlas.Testset
+	56, // 10: eolymp.atlas.TestChangedEvent.before:type_name -> eolymp.atlas.Test
+	56, // 11: eolymp.atlas.TestChangedEvent.after:type_name -> eolymp.atlas.Test
+	56, // 12: eolymp.atlas.TestBatchChangedEvent.before:type_name -> eolymp.atlas.Test
+	56, // 13: eolymp.atlas.TestBatchChangedEvent.after:type_name -> eolymp.atlas.Test
+	51, // 14: eolymp.atlas.UpdateTestingConfigInput.config:type_name -> eolymp.atlas.TestingConfig
+	51, // 15: eolymp.atlas.DescribeTestingConfigOutput.config:type_name -> eolymp.atlas.TestingConfig
+	53, // 16: eolymp.atlas.UpdateCheckerInput.checker:type_name -> eolymp.atlas.Checker
+	53, // 17: eolymp.atlas.DescribeCheckerOutput.checker:type_name -> eolymp.atlas.Checker
+	52, // 18: eolymp.atlas.UpdateInteractorInput.interactor:type_name -> eolymp.atlas.Interactor
+	52, // 19: eolymp.atlas.DescribeInteractorOutput.interactor:type_name -> eolymp.atlas.Interactor
+	54, // 20: eolymp.atlas.UpdateValidatorInput.validator:type_name -> eolymp.atlas.Validator
+	54, // 21: eolymp.atlas.DescribeValidatorOutput.validator:type_name -> eolymp.atlas.Validator
+	50, // 22: eolymp.atlas.RunTestScriptOutput.changes:type_name -> eolymp.atlas.RunTestScriptOutput.Change
+	55, // 23: eolymp.atlas.ListTestsetsOutput.items:type_name -> eolymp.atlas.Testset
+	55, // 24: eolymp.atlas.DescribeTestsetOutput.testset:type_name -> eolymp.atlas.Testset
+	55, // 25: eolymp.atlas.CreateTestsetInput.testset:type_name -> eolymp.atlas.Testset
+	55, // 26: eolymp.atlas.UpdateTestsetInput.testset:type_name -> eolymp.atlas.Testset
+	56, // 27: eolymp.atlas.ListExamplesOutput.examples:type_name -> eolymp.atlas.Test
+	56, // 28: eolymp.atlas.ListTestsOutput.items:type_name -> eolymp.atlas.Test
+	56, // 29: eolymp.atlas.DescribeTestOutput.test:type_name -> eolymp.atlas.Test
+	56, // 30: eolymp.atlas.CreateTestInput.test:type_name -> eolymp.atlas.Test
+	57, // 31: eolymp.atlas.UpdateTestInput.patch:type_name -> eolymp.atlas.Test.Patch.Field
+	56, // 32: eolymp.atlas.UpdateTestInput.test:type_name -> eolymp.atlas.Test
+	0,  // 33: eolymp.atlas.RunTestScriptOutput.Change.operation:type_name -> eolymp.atlas.RunTestScriptOutput.Change.Operation
+	56, // 34: eolymp.atlas.RunTestScriptOutput.Change.test:type_name -> eolymp.atlas.Test
+	8,  // 35: eolymp.atlas.TestingService.UpdateTestingConfig:input_type -> eolymp.atlas.UpdateTestingConfigInput
+	10, // 36: eolymp.atlas.TestingService.DescribeTestingConfig:input_type -> eolymp.atlas.DescribeTestingConfigInput
+	12, // 37: eolymp.atlas.TestingService.UpdateChecker:input_type -> eolymp.atlas.UpdateCheckerInput
+	14, // 38: eolymp.atlas.TestingService.DescribeChecker:input_type -> eolymp.atlas.DescribeCheckerInput
+	16, // 39: eolymp.atlas.TestingService.UpdateInteractor:input_type -> eolymp.atlas.UpdateInteractorInput
+	18, // 40: eolymp.atlas.TestingService.DescribeInteractor:input_type -> eolymp.atlas.DescribeInteractorInput
+	20, // 41: eolymp.atlas.TestingService.UpdateValidator:input_type -> eolymp.atlas.UpdateValidatorInput
+	22, // 42: eolymp.atlas.TestingService.DescribeValidator:input_type -> eolymp.atlas.DescribeValidatorInput
+	24, // 43: eolymp.atlas.TestingService.DescribeTestScript:input_type -> eolymp.atlas.DescribeTestScriptInput
+	26, // 44: eolymp.atlas.TestingService.RunTestScript:input_type -> eolymp.atlas.RunTestScriptInput
+	32, // 45: eolymp.atlas.TestingService.CreateTestset:input_type -> eolymp.atlas.CreateTestsetInput
+	34, // 46: eolymp.atlas.TestingService.UpdateTestset:input_type -> eolymp.atlas.UpdateTestsetInput
+	36, // 47: eolymp.atlas.TestingService.DeleteTestset:input_type -> eolymp.atlas.DeleteTestsetInput
+	30, // 48: eolymp.atlas.TestingService.DescribeTestset:input_type -> eolymp.atlas.DescribeTestsetInput
+	28, // 49: eolymp.atlas.TestingService.ListTestsets:input_type -> eolymp.atlas.ListTestsetsInput
+	44, // 50: eolymp.atlas.TestingService.CreateTest:input_type -> eolymp.atlas.CreateTestInput
+	46, // 51: eolymp.atlas.TestingService.UpdateTest:input_type -> eolymp.atlas.UpdateTestInput
+	48, // 52: eolymp.atlas.TestingService.DeleteTest:input_type -> eolymp.atlas.DeleteTestInput
+	42, // 53: eolymp.atlas.TestingService.DescribeTest:input_type -> eolymp.atlas.DescribeTestInput
+	40, // 54: eolymp.atlas.TestingService.ListTests:input_type -> eolymp.atlas.ListTestsInput
+	38, // 55: eolymp.atlas.TestingService.ListExamples:input_type -> eolymp.atlas.ListExamplesInput
+	9,  // 56: eolymp.atlas.TestingService.UpdateTestingConfig:output_type -> eolymp.atlas.UpdateTestingConfigOutput
+	11, // 57: eolymp.atlas.TestingService.DescribeTestingConfig:output_type -> eolymp.atlas.DescribeTestingConfigOutput
+	13, // 58: eolymp.atlas.TestingService.UpdateChecker:output_type -> eolymp.atlas.UpdateCheckerOutput
+	15, // 59: eolymp.atlas.TestingService.DescribeChecker:output_type -> eolymp.atlas.DescribeCheckerOutput
+	17, // 60: eolymp.atlas.TestingService.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
+	19, // 61: eolymp.atlas.TestingService.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
+	21, // 62: eolymp.atlas.TestingService.UpdateValidator:output_type -> eolymp.atlas.UpdateValidatorOutput
+	23, // 63: eolymp.atlas.TestingService.DescribeValidator:output_type -> eolymp.atlas.DescribeValidatorOutput
+	25, // 64: eolymp.atlas.TestingService.DescribeTestScript:output_type -> eolymp.atlas.DescribeTestScriptOutput
+	27, // 65: eolymp.atlas.TestingService.RunTestScript:output_type -> eolymp.atlas.RunTestScriptOutput
+	33, // 66: eolymp.atlas.TestingService.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
+	35, // 67: eolymp.atlas.TestingService.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
+	37, // 68: eolymp.atlas.TestingService.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
+	31, // 69: eolymp.atlas.TestingService.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
+	29, // 70: eolymp.atlas.TestingService.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
+	45, // 71: eolymp.atlas.TestingService.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
+	47, // 72: eolymp.atlas.TestingService.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
+	49, // 73: eolymp.atlas.TestingService.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
+	43, // 74: eolymp.atlas.TestingService.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
+	41, // 75: eolymp.atlas.TestingService.ListTests:output_type -> eolymp.atlas.ListTestsOutput
+	39, // 76: eolymp.atlas.TestingService.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
+	56, // [56:77] is the sub-list for method output_type
+	35, // [35:56] is the sub-list for method input_type
+	35, // [35:35] is the sub-list for extension type_name
+	35, // [35:35] is the sub-list for extension extendee
+	0,  // [0:35] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_testing_service_proto_init() }
@@ -2813,13 +3185,14 @@ func file_eolymp_atlas_testing_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_testing_service_proto_rawDesc), len(file_eolymp_atlas_testing_service_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   45,
+			NumEnums:      1,
+			NumMessages:   50,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_atlas_testing_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_atlas_testing_service_proto_depIdxs,
+		EnumInfos:         file_eolymp_atlas_testing_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_atlas_testing_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_atlas_testing_service_proto = out.File

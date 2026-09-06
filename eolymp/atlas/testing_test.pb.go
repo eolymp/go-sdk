@@ -7,6 +7,7 @@
 package atlas
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -154,11 +155,12 @@ type Test struct {
 	TestsetId          string      `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
 	Index              int32       `protobuf:"varint,3,opt,name=index,proto3" json:"index,omitempty"` // Index, a sequential number, of the test within testset.
 	Status             Test_Status `protobuf:"varint,60,opt,name=status,proto3,enum=eolymp.atlas.Test_Status" json:"status,omitempty"`
-	StatusMessage      string      `protobuf:"bytes,61,opt,name=status_message,json=statusMessage,proto3" json:"status_message,omitempty"`                  // Additional information regarding status
-	Example            bool        `protobuf:"varint,4,opt,name=example,proto3" json:"example,omitempty"`                                                   // Flag which defines if test should be shown in as an example in the problem statement
-	Inactive           bool        `protobuf:"varint,7,opt,name=inactive,proto3" json:"inactive,omitempty"`                                                 // The test is inactive
-	Secret             bool        `protobuf:"varint,6,opt,name=secret,proto3" json:"secret,omitempty"`                                                     // Secret test, input and answer are never populated
-	Score              float32     `protobuf:"fixed32,5,opt,name=score,proto3" json:"score,omitempty"`                                                      // Score for passing this test
+	StatusMessage      string      `protobuf:"bytes,61,opt,name=status_message,json=statusMessage,proto3" json:"status_message,omitempty"` // Additional information regarding status
+	Example            bool        `protobuf:"varint,4,opt,name=example,proto3" json:"example,omitempty"`                                  // Flag which defines if test should be shown in as an example in the problem statement
+	Inactive           bool        `protobuf:"varint,7,opt,name=inactive,proto3" json:"inactive,omitempty"`                                // The test is inactive
+	Secret             bool        `protobuf:"varint,6,opt,name=secret,proto3" json:"secret,omitempty"`                                    // Secret test, input and answer are never populated
+	Score              float32     `protobuf:"fixed32,5,opt,name=score,proto3" json:"score,omitempty"`                                     // Score for passing this test
+	Scripted           bool        `protobuf:"varint,70,opt,name=scripted,proto3" json:"scripted,omitempty"`
 	GeneratedInputUrl  string      `protobuf:"bytes,50,opt,name=generated_input_url,json=generatedInputUrl,proto3" json:"generated_input_url,omitempty"`    // Generated input data
 	GeneratedAnswerUrl string      `protobuf:"bytes,51,opt,name=generated_answer_url,json=generatedAnswerUrl,proto3" json:"generated_answer_url,omitempty"` // Generated answer data
 	// Types that are valid to be assigned to Input:
@@ -289,6 +291,13 @@ func (x *Test) GetScore() float32 {
 		return x.Score
 	}
 	return 0
+}
+
+func (x *Test) GetScripted() bool {
+	if x != nil {
+		return x.Scripted
+	}
+	return false
 }
 
 func (x *Test) GetGeneratedInputUrl() string {
@@ -591,7 +600,7 @@ var File_eolymp_atlas_testing_test_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\"\xee\t\n" +
+	"\x1feolymp/atlas/testing_test.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\"\x8e\v\n" +
 	"\x04Test\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -604,7 +613,8 @@ const file_eolymp_atlas_testing_test_proto_rawDesc = "" +
 	"\aexample\x18\x04 \x01(\bR\aexample\x12\x1a\n" +
 	"\binactive\x18\a \x01(\bR\binactive\x12\x16\n" +
 	"\x06secret\x18\x06 \x01(\bR\x06secret\x12\x14\n" +
-	"\x05score\x18\x05 \x01(\x02R\x05score\x12.\n" +
+	"\x05score\x18\x05 \x01(\x02R\x05score\x12\x9d\x01\n" +
+	"\bscripted\x18F \x01(\bB\x80\x01\xa2\xf0\xf0\xe4\x01tproduced by the problem's test script, which owns it: change the script and run it again instead of editing the test\xa8\xf0\xf0\xe4\x01\x01R\bscripted\x12.\n" +
 	"\x13generated_input_url\x182 \x01(\tR\x11generatedInputUrl\x120\n" +
 	"\x14generated_answer_url\x183 \x01(\tR\x12generatedAnswerUrl\x12\x1d\n" +
 	"\tinput_url\x18\v \x01(\tH\x00R\binputUrl\x12%\n" +

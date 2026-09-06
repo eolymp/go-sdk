@@ -228,6 +228,38 @@ func (s *TestingServiceService) DescribeValidator(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (s *TestingServiceService) DescribeTestScript(ctx context.Context, in *DescribeTestScriptInput) (*DescribeTestScriptOutput, error) {
+	out := &DescribeTestScriptOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/test-script"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *TestingServiceService) RunTestScript(ctx context.Context, in *RunTestScriptInput) (*RunTestScriptOutput, error) {
+	out := &RunTestScriptOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/test-script"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *TestingServiceService) CreateTestset(ctx context.Context, in *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	out := &CreateTestsetOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets"

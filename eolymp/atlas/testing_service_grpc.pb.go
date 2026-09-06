@@ -27,6 +27,8 @@ const (
 	TestingService_DescribeInteractor_FullMethodName    = "/eolymp.atlas.TestingService/DescribeInteractor"
 	TestingService_UpdateValidator_FullMethodName       = "/eolymp.atlas.TestingService/UpdateValidator"
 	TestingService_DescribeValidator_FullMethodName     = "/eolymp.atlas.TestingService/DescribeValidator"
+	TestingService_DescribeTestScript_FullMethodName    = "/eolymp.atlas.TestingService/DescribeTestScript"
+	TestingService_RunTestScript_FullMethodName         = "/eolymp.atlas.TestingService/RunTestScript"
 	TestingService_CreateTestset_FullMethodName         = "/eolymp.atlas.TestingService/CreateTestset"
 	TestingService_UpdateTestset_FullMethodName         = "/eolymp.atlas.TestingService/UpdateTestset"
 	TestingService_DeleteTestset_FullMethodName         = "/eolymp.atlas.TestingService/DeleteTestset"
@@ -86,6 +88,17 @@ type TestingServiceClient interface {
 	// DescribeValidator returns the validator configuration, empty when the problem has no validator. It
 	// reports no validation outcome — run the validator and read its results through ValidationService.
 	DescribeValidator(ctx context.Context, in *DescribeValidatorInput, opts ...grpc.CallOption) (*DescribeValidatorOutput, error)
+	// DescribeTestScript returns the source of the test script, empty when the problem has none.
+	DescribeTestScript(ctx context.Context, in *DescribeTestScriptInput, opts ...grpc.CallOption) (*DescribeTestScriptOutput, error)
+	// RunTestScript saves the test script and executes it. The script is a Starlark program which calls
+	// `add_test(...)` once per test; its result replaces the tests the script produced last time: a test at the
+	// same testset and index is updated in place and keeps its id, a new one is created, one no longer produced
+	// is deleted. Tests created by hand are never touched, and an index they occupy is an error for the script.
+	// Everything is written as one problem version, so one generation run follows, as after any test change.
+	// An empty source is how the script is removed, and takes its tests with it. Pass `dry_run` to get the
+	// changes the run would make without saving or writing anything, which is how a script is previewed. A
+	// script error fails the call with its line and nothing is written.
+	RunTestScript(ctx context.Context, in *RunTestScriptInput, opts ...grpc.CallOption) (*RunTestScriptOutput, error)
 	// CreateTestset adds an empty testset and returns its generated id; add tests to it with CreateTest. Its
 	// index both orders the testset within the problem and is how other testsets reference it as a
 	// dependency.
@@ -216,6 +229,26 @@ func (c *testingServiceClient) DescribeValidator(ctx context.Context, in *Descri
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeValidatorOutput)
 	err := c.cc.Invoke(ctx, TestingService_DescribeValidator_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testingServiceClient) DescribeTestScript(ctx context.Context, in *DescribeTestScriptInput, opts ...grpc.CallOption) (*DescribeTestScriptOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeTestScriptOutput)
+	err := c.cc.Invoke(ctx, TestingService_DescribeTestScript_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testingServiceClient) RunTestScript(ctx context.Context, in *RunTestScriptInput, opts ...grpc.CallOption) (*RunTestScriptOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RunTestScriptOutput)
+	err := c.cc.Invoke(ctx, TestingService_RunTestScript_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -378,6 +411,17 @@ type TestingServiceServer interface {
 	// DescribeValidator returns the validator configuration, empty when the problem has no validator. It
 	// reports no validation outcome — run the validator and read its results through ValidationService.
 	DescribeValidator(context.Context, *DescribeValidatorInput) (*DescribeValidatorOutput, error)
+	// DescribeTestScript returns the source of the test script, empty when the problem has none.
+	DescribeTestScript(context.Context, *DescribeTestScriptInput) (*DescribeTestScriptOutput, error)
+	// RunTestScript saves the test script and executes it. The script is a Starlark program which calls
+	// `add_test(...)` once per test; its result replaces the tests the script produced last time: a test at the
+	// same testset and index is updated in place and keeps its id, a new one is created, one no longer produced
+	// is deleted. Tests created by hand are never touched, and an index they occupy is an error for the script.
+	// Everything is written as one problem version, so one generation run follows, as after any test change.
+	// An empty source is how the script is removed, and takes its tests with it. Pass `dry_run` to get the
+	// changes the run would make without saving or writing anything, which is how a script is previewed. A
+	// script error fails the call with its line and nothing is written.
+	RunTestScript(context.Context, *RunTestScriptInput) (*RunTestScriptOutput, error)
 	// CreateTestset adds an empty testset and returns its generated id; add tests to it with CreateTest. Its
 	// index both orders the testset within the problem and is how other testsets reference it as a
 	// dependency.
@@ -456,6 +500,12 @@ func (UnimplementedTestingServiceServer) UpdateValidator(context.Context, *Updat
 }
 func (UnimplementedTestingServiceServer) DescribeValidator(context.Context, *DescribeValidatorInput) (*DescribeValidatorOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeValidator not implemented")
+}
+func (UnimplementedTestingServiceServer) DescribeTestScript(context.Context, *DescribeTestScriptInput) (*DescribeTestScriptOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeTestScript not implemented")
+}
+func (UnimplementedTestingServiceServer) RunTestScript(context.Context, *RunTestScriptInput) (*RunTestScriptOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method RunTestScript not implemented")
 }
 func (UnimplementedTestingServiceServer) CreateTestset(context.Context, *CreateTestsetInput) (*CreateTestsetOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateTestset not implemented")
@@ -650,6 +700,42 @@ func _TestingService_DescribeValidator_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestingServiceServer).DescribeValidator(ctx, req.(*DescribeValidatorInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestingService_DescribeTestScript_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTestScriptInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).DescribeTestScript(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_DescribeTestScript_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).DescribeTestScript(ctx, req.(*DescribeTestScriptInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestingService_RunTestScript_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RunTestScriptInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestingServiceServer).RunTestScript(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestingService_RunTestScript_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestingServiceServer).RunTestScript(ctx, req.(*RunTestScriptInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -890,6 +976,14 @@ var TestingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeValidator",
 			Handler:    _TestingService_DescribeValidator_Handler,
+		},
+		{
+			MethodName: "DescribeTestScript",
+			Handler:    _TestingService_DescribeTestScript_Handler,
+		},
+		{
+			MethodName: "RunTestScript",
+			Handler:    _TestingService_RunTestScript_Handler,
 		},
 		{
 			MethodName: "CreateTestset",
