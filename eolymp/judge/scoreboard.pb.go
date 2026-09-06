@@ -208,7 +208,12 @@ func (x *Scoreboard) GetColumns() []*Scoreboard_Column {
 }
 
 type Scoreboard_Column struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Identifies the column, and says what it is about: a problem column is "p_" followed by the problem id,
+	// an attribute column "a_" followed by the community attribute key. The prefix is part of the contract
+	// rather than an implementation detail, because sorting already requires a caller to compose it —
+	// ListScoreboardRows takes the same "p_<problem id>" in its sort field — and a caller reading a row's
+	// values has no other way to say which problem or attribute a cell belongs to.
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Type          Scoreboard_Column_Type `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.judge.Scoreboard_Column_Type" json:"type,omitempty"`
 	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
