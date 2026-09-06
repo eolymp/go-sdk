@@ -182,19 +182,3 @@ func (s *ScriptServiceService) ListScripts(ctx context.Context, in *ListScriptsI
 
 	return out, nil
 }
-
-func (s *ScriptServiceService) ExecuteStressCheck(ctx context.Context, in *ExecuteStressCheckInput) (*ExecuteStressCheckOutput, error) {
-	out := &ExecuteStressCheckOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/scripts:stress-check"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProblemId = ""
-	}
-
-	if err := s.do(ctx, "POST", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

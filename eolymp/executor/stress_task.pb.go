@@ -21,22 +21,35 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// StressTask runs a generator repeatedly and compares solutions on the inputs it produces.
+//
+// Every iteration resolves the argument pattern, appends a random seed argument and runs the generator; the
+// input goes through the validator, then to the reference for the answer, then to every solution whose output
+// the checker compares against that answer. The task ends when iterations or the deadline run out, when the
+// validator rejects an input, when the reference fails, or at the first unexpected verdict unless
+// continue_on_failure is set.
 type StressTask struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	TaskId              string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	Reference           string                 `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
 	Origin              string                 `protobuf:"bytes,3,opt,name=origin,proto3" json:"origin,omitempty"`
 	Metadata            map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	WallTimeLimit       uint32                 `protobuf:"varint,10,opt,name=wall_time_limit,json=wallTimeLimit,proto3" json:"wall_time_limit,omitempty"`  // Real-world time limit in milliseconds.
-	CpuTimeLimit        uint32                 `protobuf:"varint,11,opt,name=cpu_time_limit,json=cpuTimeLimit,proto3" json:"cpu_time_limit,omitempty"`     // CPU time limit in milliseconds.
-	MemoryLimit         uint64                 `protobuf:"varint,12,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`          // Memory limit in bytes.
-	IterationCount      uint32                 `protobuf:"varint,15,opt,name=iteration_count,json=iterationCount,proto3" json:"iteration_count,omitempty"` // Number of iterations for stress test
-	RunCount            uint32                 `protobuf:"varint,16,opt,name=run_count,json=runCount,proto3" json:"run_count,omitempty"`
-	InteractiveFollowup bool                   `protobuf:"varint,17,opt,name=interactive_followup,json=interactiveFollowup,proto3" json:"interactive_followup,omitempty"`
-	Interactor          *Script                `protobuf:"bytes,25,opt,name=interactor,proto3" json:"interactor,omitempty"` // Interactor configuration
-	Validator           *Script                `protobuf:"bytes,26,opt,name=validator,proto3" json:"validator,omitempty"`   // Validator configuration
+	WallTimeLimit       uint32                 `protobuf:"varint,10,opt,name=wall_time_limit,json=wallTimeLimit,proto3" json:"wall_time_limit,omitempty"`                   // wall-clock time limit (ms) for solutions
+	CpuTimeLimit        uint32                 `protobuf:"varint,11,opt,name=cpu_time_limit,json=cpuTimeLimit,proto3" json:"cpu_time_limit,omitempty"`                      // CPU time limit (ms) for solutions
+	MemoryLimit         uint64                 `protobuf:"varint,12,opt,name=memory_limit,json=memoryLimit,proto3" json:"memory_limit,omitempty"`                           // memory limit (bytes) for solutions
+	InteractorTimeLimit uint32                 `protobuf:"varint,13,opt,name=interactor_time_limit,json=interactorTimeLimit,proto3" json:"interactor_time_limit,omitempty"` // wall-clock time limit (ms) for the interactor
+	Iterations          uint32                 `protobuf:"varint,15,opt,name=iterations,proto3" json:"iterations,omitempty"`                                                // at most this many inputs
+	Deadline            uint32                 `protobuf:"varint,16,opt,name=deadline,proto3" json:"deadline,omitempty"`                                                    // at most this many seconds of wall time for the whole task
+	ContinueOnFailure   bool                   `protobuf:"varint,17,opt,name=continue_on_failure,json=continueOnFailure,proto3" json:"continue_on_failure,omitempty"`       // keep running after an unexpected verdict instead of stopping
+	RunCount            uint32                 `protobuf:"varint,20,opt,name=run_count,json=runCount,proto3" json:"run_count,omitempty"`
+	InteractiveFollowup bool                   `protobuf:"varint,21,opt,name=interactive_followup,json=interactiveFollowup,proto3" json:"interactive_followup,omitempty"`
+	Checker             *Checker               `protobuf:"bytes,24,opt,name=checker,proto3" json:"checker,omitempty"`
+	Interactor          *Script                `protobuf:"bytes,25,opt,name=interactor,proto3" json:"interactor,omitempty"`
+	Validator           *Script                `protobuf:"bytes,26,opt,name=validator,proto3" json:"validator,omitempty"`
 	Generator           *Script                `protobuf:"bytes,27,opt,name=generator,proto3" json:"generator,omitempty"`
-	Solution            *Script                `protobuf:"bytes,28,opt,name=solution,proto3" json:"solution,omitempty"`
+	Arguments           []string               `protobuf:"bytes,28,rep,name=arguments,proto3" json:"arguments,omitempty"`                                          // generator argument pattern, a [a..b] token becomes a random integer in the range
+	ReferenceSolution   *Script                `protobuf:"bytes,29,opt,name=reference_solution,json=referenceSolution,proto3" json:"reference_solution,omitempty"` // its output is the answer
+	ComparedSolutions   []*StressTask_Solution `protobuf:"bytes,30,rep,name=compared_solutions,json=comparedSolutions,proto3" json:"compared_solutions,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -120,11 +133,32 @@ func (x *StressTask) GetMemoryLimit() uint64 {
 	return 0
 }
 
-func (x *StressTask) GetIterationCount() uint32 {
+func (x *StressTask) GetInteractorTimeLimit() uint32 {
 	if x != nil {
-		return x.IterationCount
+		return x.InteractorTimeLimit
 	}
 	return 0
+}
+
+func (x *StressTask) GetIterations() uint32 {
+	if x != nil {
+		return x.Iterations
+	}
+	return 0
+}
+
+func (x *StressTask) GetDeadline() uint32 {
+	if x != nil {
+		return x.Deadline
+	}
+	return 0
+}
+
+func (x *StressTask) GetContinueOnFailure() bool {
+	if x != nil {
+		return x.ContinueOnFailure
+	}
+	return false
 }
 
 func (x *StressTask) GetRunCount() uint32 {
@@ -139,6 +173,13 @@ func (x *StressTask) GetInteractiveFollowup() bool {
 		return x.InteractiveFollowup
 	}
 	return false
+}
+
+func (x *StressTask) GetChecker() *Checker {
+	if x != nil {
+		return x.Checker
+	}
+	return nil
 }
 
 func (x *StressTask) GetInteractor() *Script {
@@ -162,9 +203,78 @@ func (x *StressTask) GetGenerator() *Script {
 	return nil
 }
 
-func (x *StressTask) GetSolution() *Script {
+func (x *StressTask) GetArguments() []string {
 	if x != nil {
-		return x.Solution
+		return x.Arguments
+	}
+	return nil
+}
+
+func (x *StressTask) GetReferenceSolution() *Script {
+	if x != nil {
+		return x.ReferenceSolution
+	}
+	return nil
+}
+
+func (x *StressTask) GetComparedSolutions() []*StressTask_Solution {
+	if x != nil {
+		return x.ComparedSolutions
+	}
+	return nil
+}
+
+// Solution is a compared solution together with the statuses it is allowed to get: ACCEPTED for a correct one,
+// ACCEPTED plus WRONG_ANSWER, TIMEOUT, MEMORY_OVERFLOW or RUNTIME_ERROR for one expected to fail that way.
+// Any other status is unexpected. An empty list means anything goes.
+type StressTask_Solution struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Script        *Script                       `protobuf:"bytes,1,opt,name=script,proto3" json:"script,omitempty"` // Script.name identifies the solution in the report
+	Expected      []EvaluationReport_Run_Status `protobuf:"varint,2,rep,packed,name=expected,proto3,enum=eolymp.executor.EvaluationReport_Run_Status" json:"expected,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StressTask_Solution) Reset() {
+	*x = StressTask_Solution{}
+	mi := &file_eolymp_executor_stress_task_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StressTask_Solution) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StressTask_Solution) ProtoMessage() {}
+
+func (x *StressTask_Solution) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_executor_stress_task_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StressTask_Solution.ProtoReflect.Descriptor instead.
+func (*StressTask_Solution) Descriptor() ([]byte, []int) {
+	return file_eolymp_executor_stress_task_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *StressTask_Solution) GetScript() *Script {
+	if x != nil {
+		return x.Script
+	}
+	return nil
+}
+
+func (x *StressTask_Solution) GetExpected() []EvaluationReport_Run_Status {
+	if x != nil {
+		return x.Expected
 	}
 	return nil
 }
@@ -173,7 +283,7 @@ var File_eolymp_executor_stress_task_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_stress_task_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/executor/stress_task.proto\x12\x0feolymp.executor\x1a\x1ceolymp/executor/script.proto\"\xa5\x05\n" +
+	"!eolymp/executor/stress_task.proto\x12\x0feolymp.executor\x1a\x1deolymp/executor/checker.proto\x1a'eolymp/executor/evaluation_report.proto\x1a\x1ceolymp/executor/script.proto\"\xde\b\n" +
 	"\n" +
 	"StressTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
@@ -183,16 +293,27 @@ const file_eolymp_executor_stress_task_proto_rawDesc = "" +
 	"\x0fwall_time_limit\x18\n" +
 	" \x01(\rR\rwallTimeLimit\x12$\n" +
 	"\x0ecpu_time_limit\x18\v \x01(\rR\fcpuTimeLimit\x12!\n" +
-	"\fmemory_limit\x18\f \x01(\x04R\vmemoryLimit\x12'\n" +
-	"\x0fiteration_count\x18\x0f \x01(\rR\x0eiterationCount\x12\x1b\n" +
-	"\trun_count\x18\x10 \x01(\rR\brunCount\x121\n" +
-	"\x14interactive_followup\x18\x11 \x01(\bR\x13interactiveFollowup\x127\n" +
+	"\fmemory_limit\x18\f \x01(\x04R\vmemoryLimit\x122\n" +
+	"\x15interactor_time_limit\x18\r \x01(\rR\x13interactorTimeLimit\x12\x1e\n" +
+	"\n" +
+	"iterations\x18\x0f \x01(\rR\n" +
+	"iterations\x12\x1a\n" +
+	"\bdeadline\x18\x10 \x01(\rR\bdeadline\x12.\n" +
+	"\x13continue_on_failure\x18\x11 \x01(\bR\x11continueOnFailure\x12\x1b\n" +
+	"\trun_count\x18\x14 \x01(\rR\brunCount\x121\n" +
+	"\x14interactive_followup\x18\x15 \x01(\bR\x13interactiveFollowup\x122\n" +
+	"\achecker\x18\x18 \x01(\v2\x18.eolymp.executor.CheckerR\achecker\x127\n" +
 	"\n" +
 	"interactor\x18\x19 \x01(\v2\x17.eolymp.executor.ScriptR\n" +
 	"interactor\x125\n" +
 	"\tvalidator\x18\x1a \x01(\v2\x17.eolymp.executor.ScriptR\tvalidator\x125\n" +
-	"\tgenerator\x18\x1b \x01(\v2\x17.eolymp.executor.ScriptR\tgenerator\x123\n" +
-	"\bsolution\x18\x1c \x01(\v2\x17.eolymp.executor.ScriptR\bsolution\x1a;\n" +
+	"\tgenerator\x18\x1b \x01(\v2\x17.eolymp.executor.ScriptR\tgenerator\x12\x1c\n" +
+	"\targuments\x18\x1c \x03(\tR\targuments\x12F\n" +
+	"\x12reference_solution\x18\x1d \x01(\v2\x17.eolymp.executor.ScriptR\x11referenceSolution\x12S\n" +
+	"\x12compared_solutions\x18\x1e \x03(\v2$.eolymp.executor.StressTask.SolutionR\x11comparedSolutions\x1a\x85\x01\n" +
+	"\bSolution\x12/\n" +
+	"\x06script\x18\x01 \x01(\v2\x17.eolymp.executor.ScriptR\x06script\x12H\n" +
+	"\bexpected\x18\x02 \x03(\x0e2,.eolymp.executor.EvaluationReport.Run.StatusR\bexpected\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
@@ -209,23 +330,30 @@ func file_eolymp_executor_stress_task_proto_rawDescGZIP() []byte {
 	return file_eolymp_executor_stress_task_proto_rawDescData
 }
 
-var file_eolymp_executor_stress_task_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_executor_stress_task_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_executor_stress_task_proto_goTypes = []any{
-	(*StressTask)(nil), // 0: eolymp.executor.StressTask
-	nil,                // 1: eolymp.executor.StressTask.MetadataEntry
-	(*Script)(nil),     // 2: eolymp.executor.Script
+	(*StressTask)(nil),               // 0: eolymp.executor.StressTask
+	(*StressTask_Solution)(nil),      // 1: eolymp.executor.StressTask.Solution
+	nil,                              // 2: eolymp.executor.StressTask.MetadataEntry
+	(*Checker)(nil),                  // 3: eolymp.executor.Checker
+	(*Script)(nil),                   // 4: eolymp.executor.Script
+	(EvaluationReport_Run_Status)(0), // 5: eolymp.executor.EvaluationReport.Run.Status
 }
 var file_eolymp_executor_stress_task_proto_depIdxs = []int32{
-	1, // 0: eolymp.executor.StressTask.metadata:type_name -> eolymp.executor.StressTask.MetadataEntry
-	2, // 1: eolymp.executor.StressTask.interactor:type_name -> eolymp.executor.Script
-	2, // 2: eolymp.executor.StressTask.validator:type_name -> eolymp.executor.Script
-	2, // 3: eolymp.executor.StressTask.generator:type_name -> eolymp.executor.Script
-	2, // 4: eolymp.executor.StressTask.solution:type_name -> eolymp.executor.Script
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	2, // 0: eolymp.executor.StressTask.metadata:type_name -> eolymp.executor.StressTask.MetadataEntry
+	3, // 1: eolymp.executor.StressTask.checker:type_name -> eolymp.executor.Checker
+	4, // 2: eolymp.executor.StressTask.interactor:type_name -> eolymp.executor.Script
+	4, // 3: eolymp.executor.StressTask.validator:type_name -> eolymp.executor.Script
+	4, // 4: eolymp.executor.StressTask.generator:type_name -> eolymp.executor.Script
+	4, // 5: eolymp.executor.StressTask.reference_solution:type_name -> eolymp.executor.Script
+	1, // 6: eolymp.executor.StressTask.compared_solutions:type_name -> eolymp.executor.StressTask.Solution
+	4, // 7: eolymp.executor.StressTask.Solution.script:type_name -> eolymp.executor.Script
+	5, // 8: eolymp.executor.StressTask.Solution.expected:type_name -> eolymp.executor.EvaluationReport.Run.Status
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_stress_task_proto_init() }
@@ -233,6 +361,8 @@ func file_eolymp_executor_stress_task_proto_init() {
 	if File_eolymp_executor_stress_task_proto != nil {
 		return
 	}
+	file_eolymp_executor_checker_proto_init()
+	file_eolymp_executor_evaluation_report_proto_init()
 	file_eolymp_executor_script_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -240,7 +370,7 @@ func file_eolymp_executor_stress_task_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_executor_stress_task_proto_rawDesc), len(file_eolymp_executor_stress_task_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -216,9 +216,6 @@ func RegisterScriptServiceHttpHandlers(router *mux.Router, prefix string, cli Sc
 	router.Handle(prefix+"/problems/{problem_id}/scripts", _ScriptService_ListScripts_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ScriptService.ListScripts")
-	router.Handle(prefix+"/problems/{problem_id}/scripts:stress-check", _ScriptService_ExecuteStressCheck_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.atlas.ScriptService.ExecuteStressCheck")
 }
 
 // RegisterScriptServiceHttpProxy adds proxy handlers for for ScriptServiceClient
@@ -340,30 +337,6 @@ func _ScriptService_ListScripts_Rule0(cli ScriptServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListScripts(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ScriptService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ScriptService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ScriptService_ExecuteStressCheck_Rule0(cli ScriptServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ExecuteStressCheckInput{}
-
-		if err := _ScriptService_HTTPReadRequestBody(r, in, 1048576); err != nil {
-			_ScriptService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ProblemId = vars["problem_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ExecuteStressCheck(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScriptService_HTTPWriteErrorResponse(w, err)
 			return

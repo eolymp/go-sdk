@@ -19,12 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ScriptService_CreateScript_FullMethodName       = "/eolymp.atlas.ScriptService/CreateScript"
-	ScriptService_UpdateScript_FullMethodName       = "/eolymp.atlas.ScriptService/UpdateScript"
-	ScriptService_DeleteScript_FullMethodName       = "/eolymp.atlas.ScriptService/DeleteScript"
-	ScriptService_DescribeScript_FullMethodName     = "/eolymp.atlas.ScriptService/DescribeScript"
-	ScriptService_ListScripts_FullMethodName        = "/eolymp.atlas.ScriptService/ListScripts"
-	ScriptService_ExecuteStressCheck_FullMethodName = "/eolymp.atlas.ScriptService/ExecuteStressCheck"
+	ScriptService_CreateScript_FullMethodName   = "/eolymp.atlas.ScriptService/CreateScript"
+	ScriptService_UpdateScript_FullMethodName   = "/eolymp.atlas.ScriptService/UpdateScript"
+	ScriptService_DeleteScript_FullMethodName   = "/eolymp.atlas.ScriptService/DeleteScript"
+	ScriptService_DescribeScript_FullMethodName = "/eolymp.atlas.ScriptService/DescribeScript"
+	ScriptService_ListScripts_FullMethodName    = "/eolymp.atlas.ScriptService/ListScripts"
 )
 
 // ScriptServiceClient is the client API for ScriptService service.
@@ -59,10 +58,6 @@ type ScriptServiceClient interface {
 	// ListScripts returns the generators of the problem. As in DescribeScript, source code comes back only when
 	// requested and a version reads a past state of the problem.
 	ListScripts(ctx context.Context, in *ListScriptsInput, opts ...grpc.CallOption) (*ListScriptsOutput, error)
-	// ExecuteStressCheck invokes a generator repeatedly and runs the data it produces against the problem's
-	// solutions. The generator is addressed by name rather than by id, and the check runs in the background, so
-	// its progress and findings have to be followed through the problem's activity feed.
-	ExecuteStressCheck(ctx context.Context, in *ExecuteStressCheckInput, opts ...grpc.CallOption) (*ExecuteStressCheckOutput, error)
 }
 
 type scriptServiceClient struct {
@@ -123,16 +118,6 @@ func (c *scriptServiceClient) ListScripts(ctx context.Context, in *ListScriptsIn
 	return out, nil
 }
 
-func (c *scriptServiceClient) ExecuteStressCheck(ctx context.Context, in *ExecuteStressCheckInput, opts ...grpc.CallOption) (*ExecuteStressCheckOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExecuteStressCheckOutput)
-	err := c.cc.Invoke(ctx, ScriptService_ExecuteStressCheck_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ScriptServiceServer is the server API for ScriptService service.
 // All implementations should embed UnimplementedScriptServiceServer
 // for forward compatibility.
@@ -165,10 +150,6 @@ type ScriptServiceServer interface {
 	// ListScripts returns the generators of the problem. As in DescribeScript, source code comes back only when
 	// requested and a version reads a past state of the problem.
 	ListScripts(context.Context, *ListScriptsInput) (*ListScriptsOutput, error)
-	// ExecuteStressCheck invokes a generator repeatedly and runs the data it produces against the problem's
-	// solutions. The generator is addressed by name rather than by id, and the check runs in the background, so
-	// its progress and findings have to be followed through the problem's activity feed.
-	ExecuteStressCheck(context.Context, *ExecuteStressCheckInput) (*ExecuteStressCheckOutput, error)
 }
 
 // UnimplementedScriptServiceServer should be embedded to have
@@ -192,9 +173,6 @@ func (UnimplementedScriptServiceServer) DescribeScript(context.Context, *Describ
 }
 func (UnimplementedScriptServiceServer) ListScripts(context.Context, *ListScriptsInput) (*ListScriptsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListScripts not implemented")
-}
-func (UnimplementedScriptServiceServer) ExecuteStressCheck(context.Context, *ExecuteStressCheckInput) (*ExecuteStressCheckOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ExecuteStressCheck not implemented")
 }
 func (UnimplementedScriptServiceServer) testEmbeddedByValue() {}
 
@@ -306,24 +284,6 @@ func _ScriptService_ListScripts_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ScriptService_ExecuteStressCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExecuteStressCheckInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ScriptServiceServer).ExecuteStressCheck(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ScriptService_ExecuteStressCheck_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScriptServiceServer).ExecuteStressCheck(ctx, req.(*ExecuteStressCheckInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ScriptService_ServiceDesc is the grpc.ServiceDesc for ScriptService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -350,10 +310,6 @@ var ScriptService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListScripts",
 			Handler:    _ScriptService_ListScripts_Handler,
-		},
-		{
-			MethodName: "ExecuteStressCheck",
-			Handler:    _ScriptService_ExecuteStressCheck_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
