@@ -910,8 +910,9 @@ func (x *Row_ContestScore) GetProblems() []*Row_ProblemScore {
 }
 
 type Row_AttributeValue struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	AttributeKey string                 `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
+	state        protoimpl.MessageState   `protogen:"open.v1"`
+	AttributeKey string                   `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
+	Type         community.Attribute_Type `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.community.Attribute_Type" json:"type,omitempty"`
 	// Types that are valid to be assigned to Value:
 	//
 	//	*Row_AttributeValue_String_
@@ -956,6 +957,13 @@ func (x *Row_AttributeValue) GetAttributeKey() string {
 		return x.AttributeKey
 	}
 	return ""
+}
+
+func (x *Row_AttributeValue) GetType() community.Attribute_Type {
+	if x != nil {
+		return x.Type
+	}
+	return community.Attribute_Type(0)
 }
 
 func (x *Row_AttributeValue) GetValue() isRow_AttributeValue_Value {
@@ -1060,7 +1068,7 @@ const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\x04MAIN\x10\x01\x12\n" +
 	"\n" +
 	"\x06FROZEN\x10\x02\x12\v\n" +
-	"\aUPSOLVE\x10\x03\"\xa0\b\n" +
+	"\aUPSOLVE\x10\x03\"\xd7\b\n" +
 	"\x03Row\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x14\n" +
@@ -1101,9 +1109,10 @@ const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\apenalty\x18\x03 \x01(\x02R\apenalty\x12\x18\n" +
 	"\acounted\x18\x04 \x01(\bR\acounted\x12\x16\n" +
 	"\x06frozen\x18\x05 \x01(\bR\x06frozen\x12?\n" +
-	"\bproblems\x18\x14 \x03(\v2#.eolymp.scoreboard.Row.ProblemScoreR\bproblems\x1ar\n" +
+	"\bproblems\x18\x14 \x03(\v2#.eolymp.scoreboard.Row.ProblemScoreR\bproblems\x1a\xa8\x01\n" +
 	"\x0eAttributeValue\x12#\n" +
-	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x12\x18\n" +
+	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x124\n" +
+	"\x04type\x18\x02 \x01(\x0e2 .eolymp.community.Attribute.TypeR\x04type\x12\x18\n" +
 	"\x06string\x18\n" +
 	" \x01(\tH\x00R\x06string\x12\x18\n" +
 	"\x06number\x18\v \x01(\x05H\x00R\x06numberB\a\n" +
@@ -1153,11 +1162,12 @@ var file_eolymp_scoreboard_scoreboard_proto_depIdxs = []int32{
 	13, // 10: eolymp.scoreboard.Scoreboard.Filter.type:type_name -> eolymp.community.Attribute.Type
 	13, // 11: eolymp.scoreboard.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
 	8,  // 12: eolymp.scoreboard.Row.ContestScore.problems:type_name -> eolymp.scoreboard.Row.ProblemScore
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	13, // 13: eolymp.scoreboard.Row.AttributeValue.type:type_name -> eolymp.community.Attribute.Type
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_scoreboard_scoreboard_proto_init() }
