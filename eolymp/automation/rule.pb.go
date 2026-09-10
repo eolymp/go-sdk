@@ -42,6 +42,7 @@ const (
 	Rule_SUGGESTION_CHANGED           Rule_Trigger = 15 // a suggested change to a problem has been reviewed
 	Rule_CONTEST_ACTION               Rule_Trigger = 12 // User-invoked actions (run manually via TriggerRule, not by an event).
 	Rule_MEMBER_ACTION                Rule_Trigger = 13
+	Rule_SCHEDULED                    Rule_Trigger = 16 // Runs on the rule's schedule rather than in response to anything.
 )
 
 // Enum value maps for Rule_Trigger.
@@ -63,6 +64,7 @@ var (
 		15: "SUGGESTION_CHANGED",
 		12: "CONTEST_ACTION",
 		13: "MEMBER_ACTION",
+		16: "SCHEDULED",
 	}
 	Rule_Trigger_value = map[string]int32{
 		"UNKNOWN_TRIGGER":              0,
@@ -81,6 +83,7 @@ var (
 		"SUGGESTION_CHANGED":           15,
 		"CONTEST_ACTION":               12,
 		"MEMBER_ACTION":                13,
+		"SCHEDULED":                    16,
 	}
 )
 
@@ -111,6 +114,57 @@ func (Rule_Trigger) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_automation_rule_proto_rawDescGZIP(), []int{0, 0}
 }
 
+// Schedule is how often a SCHEDULED rule runs. It says how often, never at what time: the hour a daily
+// rule runs at is derived from the rule id, which spreads the load and leaves it ours to move.
+type Rule_Schedule int32
+
+const (
+	Rule_UNKNOWN_SCHEDULE Rule_Schedule = 0
+	Rule_HOURLY           Rule_Schedule = 1
+	Rule_DAILY            Rule_Schedule = 2
+)
+
+// Enum value maps for Rule_Schedule.
+var (
+	Rule_Schedule_name = map[int32]string{
+		0: "UNKNOWN_SCHEDULE",
+		1: "HOURLY",
+		2: "DAILY",
+	}
+	Rule_Schedule_value = map[string]int32{
+		"UNKNOWN_SCHEDULE": 0,
+		"HOURLY":           1,
+		"DAILY":            2,
+	}
+)
+
+func (x Rule_Schedule) Enum() *Rule_Schedule {
+	p := new(Rule_Schedule)
+	*p = x
+	return p
+}
+
+func (x Rule_Schedule) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Rule_Schedule) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_automation_rule_proto_enumTypes[1].Descriptor()
+}
+
+func (Rule_Schedule) Type() protoreflect.EnumType {
+	return &file_eolymp_automation_rule_proto_enumTypes[1]
+}
+
+func (x Rule_Schedule) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Rule_Schedule.Descriptor instead.
+func (Rule_Schedule) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_automation_rule_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Rule_Patch_Field int32
 
 const (
@@ -122,19 +176,21 @@ const (
 	Rule_Patch_INACTIVE      Rule_Patch_Field = 6
 	Rule_Patch_DRY_RUN       Rule_Patch_Field = 7
 	Rule_Patch_LABEL         Rule_Patch_Field = 9
+	Rule_Patch_SCHEDULE      Rule_Patch_Field = 10
 )
 
 // Enum value maps for Rule_Patch_Field.
 var (
 	Rule_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		2: "NAME",
-		3: "TRIGGER",
-		4: "CONDITIONS",
-		5: "ACTIONS",
-		6: "INACTIVE",
-		7: "DRY_RUN",
-		9: "LABEL",
+		0:  "UNKNOWN_FIELD",
+		2:  "NAME",
+		3:  "TRIGGER",
+		4:  "CONDITIONS",
+		5:  "ACTIONS",
+		6:  "INACTIVE",
+		7:  "DRY_RUN",
+		9:  "LABEL",
+		10: "SCHEDULE",
 	}
 	Rule_Patch_Field_value = map[string]int32{
 		"UNKNOWN_FIELD": 0,
@@ -145,6 +201,7 @@ var (
 		"INACTIVE":      6,
 		"DRY_RUN":       7,
 		"LABEL":         9,
+		"SCHEDULE":      10,
 	}
 )
 
@@ -159,11 +216,11 @@ func (x Rule_Patch_Field) String() string {
 }
 
 func (Rule_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_automation_rule_proto_enumTypes[1].Descriptor()
+	return file_eolymp_automation_rule_proto_enumTypes[2].Descriptor()
 }
 
 func (Rule_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_automation_rule_proto_enumTypes[1]
+	return &file_eolymp_automation_rule_proto_enumTypes[2]
 }
 
 func (x Rule_Patch_Field) Number() protoreflect.EnumNumber {
@@ -185,7 +242,9 @@ type Rule struct {
 	DryRun     bool                   `protobuf:"varint,6,opt,name=dry_run,json=dryRun,proto3" json:"dry_run,omitempty"`
 	// Optional caption shown on the button/menu item that triggers a CONTEST_ACTION or MEMBER_ACTION rule.
 	// Clients fall back to name when empty.
-	Label         string                 `protobuf:"bytes,9,opt,name=label,proto3" json:"label,omitempty"`
+	Label string `protobuf:"bytes,9,opt,name=label,proto3" json:"label,omitempty"`
+	// How often a SCHEDULED rule runs, ignored for every other trigger.
+	Schedule      Rule_Schedule          `protobuf:"varint,10,opt,name=schedule,proto3,enum=eolymp.automation.Rule_Schedule" json:"schedule,omitempty"`
 	TriggerCount  int32                  `protobuf:"varint,7,opt,name=trigger_count,json=triggerCount,proto3" json:"trigger_count,omitempty"`
 	Actions       []*Action              `protobuf:"bytes,100,rep,name=actions,proto3" json:"actions,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,90,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -273,6 +332,13 @@ func (x *Rule) GetLabel() string {
 	return ""
 }
 
+func (x *Rule) GetSchedule() Rule_Schedule {
+	if x != nil {
+		return x.Schedule
+	}
+	return Rule_UNKNOWN_SCHEDULE
+}
+
 func (x *Rule) GetTriggerCount() int32 {
 	if x != nil {
 		return x.TriggerCount
@@ -341,7 +407,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\a\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe8\t\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -351,14 +417,16 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"conditions\x12\x1a\n" +
 	"\binactive\x18\x05 \x01(\bR\binactive\x12\x17\n" +
 	"\adry_run\x18\x06 \x01(\bR\x06dryRun\x12\x14\n" +
-	"\x05label\x18\t \x01(\tR\x05label\x12+\n" +
+	"\x05label\x18\t \x01(\tR\x05label\x12\xca\x01\n" +
+	"\bschedule\x18\n" +
+	" \x01(\x0e2 .eolymp.automation.Rule.ScheduleB\x8b\x01\xa2\xf0\xf0\xe4\x01\x84\x01how often a `SCHEDULED` rule runs: `HOURLY` or `DAILY`; the hour a daily rule runs at is picked by the platform and cannot be chosenR\bschedule\x12+\n" +
 	"\rtrigger_count\x18\a \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\ftriggerCount\x123\n" +
 	"\aactions\x18d \x03(\v2\x19.eolymp.automation.ActionR\aactions\x129\n" +
 	"\n" +
 	"created_at\x18Z \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a}\n" +
-	"\x05Patch\"t\n" +
+	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\x8c\x01\n" +
+	"\x05Patch\"\x82\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\b\n" +
 	"\x04NAME\x10\x02\x12\v\n" +
@@ -368,7 +436,9 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\aACTIONS\x10\x05\x12\f\n" +
 	"\bINACTIVE\x10\x06\x12\v\n" +
 	"\aDRY_RUN\x10\a\x12\t\n" +
-	"\x05LABEL\x10\t\"\xfb\x02\n" +
+	"\x05LABEL\x10\t\x12\f\n" +
+	"\bSCHEDULE\x10\n" +
+	"\"\x8a\x03\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
@@ -386,7 +456,13 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\x1cCONTEST_SUBMISSION_COMPLETED\x10\x0e\x12\x16\n" +
 	"\x12SUGGESTION_CHANGED\x10\x0f\x12\x12\n" +
 	"\x0eCONTEST_ACTION\x10\f\x12\x11\n" +
-	"\rMEMBER_ACTION\x10\rB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
+	"\rMEMBER_ACTION\x10\r\x12\r\n" +
+	"\tSCHEDULED\x10\x10\"7\n" +
+	"\bSchedule\x12\x14\n" +
+	"\x10UNKNOWN_SCHEDULE\x10\x00\x12\n" +
+	"\n" +
+	"\x06HOURLY\x10\x01\x12\t\n" +
+	"\x05DAILY\x10\x02B7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
 
 var (
 	file_eolymp_automation_rule_proto_rawDescOnce sync.Once
@@ -400,28 +476,30 @@ func file_eolymp_automation_rule_proto_rawDescGZIP() []byte {
 	return file_eolymp_automation_rule_proto_rawDescData
 }
 
-var file_eolymp_automation_rule_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_automation_rule_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_automation_rule_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_automation_rule_proto_goTypes = []any{
 	(Rule_Trigger)(0),             // 0: eolymp.automation.Rule.Trigger
-	(Rule_Patch_Field)(0),         // 1: eolymp.automation.Rule.Patch.Field
-	(*Rule)(nil),                  // 2: eolymp.automation.Rule
-	(*Rule_Patch)(nil),            // 3: eolymp.automation.Rule.Patch
-	(*Condition)(nil),             // 4: eolymp.automation.Condition
-	(*Action)(nil),                // 5: eolymp.automation.Action
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(Rule_Schedule)(0),            // 1: eolymp.automation.Rule.Schedule
+	(Rule_Patch_Field)(0),         // 2: eolymp.automation.Rule.Patch.Field
+	(*Rule)(nil),                  // 3: eolymp.automation.Rule
+	(*Rule_Patch)(nil),            // 4: eolymp.automation.Rule.Patch
+	(*Condition)(nil),             // 5: eolymp.automation.Condition
+	(*Action)(nil),                // 6: eolymp.automation.Action
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_eolymp_automation_rule_proto_depIdxs = []int32{
 	0, // 0: eolymp.automation.Rule.trigger:type_name -> eolymp.automation.Rule.Trigger
-	4, // 1: eolymp.automation.Rule.conditions:type_name -> eolymp.automation.Condition
-	5, // 2: eolymp.automation.Rule.actions:type_name -> eolymp.automation.Action
-	6, // 3: eolymp.automation.Rule.created_at:type_name -> google.protobuf.Timestamp
-	6, // 4: eolymp.automation.Rule.updated_at:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 1: eolymp.automation.Rule.conditions:type_name -> eolymp.automation.Condition
+	1, // 2: eolymp.automation.Rule.schedule:type_name -> eolymp.automation.Rule.Schedule
+	6, // 3: eolymp.automation.Rule.actions:type_name -> eolymp.automation.Action
+	7, // 4: eolymp.automation.Rule.created_at:type_name -> google.protobuf.Timestamp
+	7, // 5: eolymp.automation.Rule.updated_at:type_name -> google.protobuf.Timestamp
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_automation_rule_proto_init() }
@@ -436,7 +514,7 @@ func file_eolymp_automation_rule_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_automation_rule_proto_rawDesc), len(file_eolymp_automation_rule_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
