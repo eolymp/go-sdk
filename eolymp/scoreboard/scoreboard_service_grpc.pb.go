@@ -26,9 +26,11 @@ const (
 	ScoreboardService_ListScoreboards_FullMethodName           = "/eolymp.scoreboard.ScoreboardService/ListScoreboards"
 	ScoreboardService_AddScoreboardContest_FullMethodName      = "/eolymp.scoreboard.ScoreboardService/AddScoreboardContest"
 	ScoreboardService_UpdateScoreboardContest_FullMethodName   = "/eolymp.scoreboard.ScoreboardService/UpdateScoreboardContest"
+	ScoreboardService_ListScoreboardContests_FullMethodName    = "/eolymp.scoreboard.ScoreboardService/ListScoreboardContests"
 	ScoreboardService_RemoveScoreboardContest_FullMethodName   = "/eolymp.scoreboard.ScoreboardService/RemoveScoreboardContest"
 	ScoreboardService_AddScoreboardAttribute_FullMethodName    = "/eolymp.scoreboard.ScoreboardService/AddScoreboardAttribute"
 	ScoreboardService_UpdateScoreboardAttribute_FullMethodName = "/eolymp.scoreboard.ScoreboardService/UpdateScoreboardAttribute"
+	ScoreboardService_ListScoreboardAttributes_FullMethodName  = "/eolymp.scoreboard.ScoreboardService/ListScoreboardAttributes"
 	ScoreboardService_RemoveScoreboardAttribute_FullMethodName = "/eolymp.scoreboard.ScoreboardService/RemoveScoreboardAttribute"
 	ScoreboardService_ListScoreboardRows_FullMethodName        = "/eolymp.scoreboard.ScoreboardService/ListScoreboardRows"
 	ScoreboardService_DescribeScoreboardRow_FullMethodName     = "/eolymp.scoreboard.ScoreboardService/DescribeScoreboardRow"
@@ -53,12 +55,14 @@ type ScoreboardServiceClient interface {
 	// happens here: writing an index moves the contest to that position and the contests it passes shift to
 	// keep the numbering contiguous, while an index beyond the last position puts the contest at the end.
 	UpdateScoreboardContest(ctx context.Context, in *UpdateScoreboardContestInput, opts ...grpc.CallOption) (*UpdateScoreboardContestOutput, error)
+	ListScoreboardContests(ctx context.Context, in *ListScoreboardContestsInput, opts ...grpc.CallOption) (*ListScoreboardContestsOutput, error)
 	// A member who was on the scoreboard only through this contest leaves with it.
 	RemoveScoreboardContest(ctx context.Context, in *RemoveScoreboardContestInput, opts ...grpc.CallOption) (*RemoveScoreboardContestOutput, error)
 	// Adding a key the scoreboard already shows rewrites its index and label.
 	AddScoreboardAttribute(ctx context.Context, in *AddScoreboardAttributeInput, opts ...grpc.CallOption) (*AddScoreboardAttributeOutput, error)
 	// The column header is rewritten here, and an index moves the column the way it moves a contest.
 	UpdateScoreboardAttribute(ctx context.Context, in *UpdateScoreboardAttributeInput, opts ...grpc.CallOption) (*UpdateScoreboardAttributeOutput, error)
+	ListScoreboardAttributes(ctx context.Context, in *ListScoreboardAttributesInput, opts ...grpc.CallOption) (*ListScoreboardAttributesOutput, error)
 	RemoveScoreboardAttribute(ctx context.Context, in *RemoveScoreboardAttributeInput, opts ...grpc.CallOption) (*RemoveScoreboardAttributeOutput, error)
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
 	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
@@ -145,6 +149,16 @@ func (c *scoreboardServiceClient) UpdateScoreboardContest(ctx context.Context, i
 	return out, nil
 }
 
+func (c *scoreboardServiceClient) ListScoreboardContests(ctx context.Context, in *ListScoreboardContestsInput, opts ...grpc.CallOption) (*ListScoreboardContestsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListScoreboardContestsOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_ListScoreboardContests_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *scoreboardServiceClient) RemoveScoreboardContest(ctx context.Context, in *RemoveScoreboardContestInput, opts ...grpc.CallOption) (*RemoveScoreboardContestOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RemoveScoreboardContestOutput)
@@ -169,6 +183,16 @@ func (c *scoreboardServiceClient) UpdateScoreboardAttribute(ctx context.Context,
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateScoreboardAttributeOutput)
 	err := c.cc.Invoke(ctx, ScoreboardService_UpdateScoreboardAttribute_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scoreboardServiceClient) ListScoreboardAttributes(ctx context.Context, in *ListScoreboardAttributesInput, opts ...grpc.CallOption) (*ListScoreboardAttributesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListScoreboardAttributesOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_ListScoreboardAttributes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -233,12 +257,14 @@ type ScoreboardServiceServer interface {
 	// happens here: writing an index moves the contest to that position and the contests it passes shift to
 	// keep the numbering contiguous, while an index beyond the last position puts the contest at the end.
 	UpdateScoreboardContest(context.Context, *UpdateScoreboardContestInput) (*UpdateScoreboardContestOutput, error)
+	ListScoreboardContests(context.Context, *ListScoreboardContestsInput) (*ListScoreboardContestsOutput, error)
 	// A member who was on the scoreboard only through this contest leaves with it.
 	RemoveScoreboardContest(context.Context, *RemoveScoreboardContestInput) (*RemoveScoreboardContestOutput, error)
 	// Adding a key the scoreboard already shows rewrites its index and label.
 	AddScoreboardAttribute(context.Context, *AddScoreboardAttributeInput) (*AddScoreboardAttributeOutput, error)
 	// The column header is rewritten here, and an index moves the column the way it moves a contest.
 	UpdateScoreboardAttribute(context.Context, *UpdateScoreboardAttributeInput) (*UpdateScoreboardAttributeOutput, error)
+	ListScoreboardAttributes(context.Context, *ListScoreboardAttributesInput) (*ListScoreboardAttributesOutput, error)
 	RemoveScoreboardAttribute(context.Context, *RemoveScoreboardAttributeInput) (*RemoveScoreboardAttributeOutput, error)
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
 	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
@@ -275,6 +301,9 @@ func (UnimplementedScoreboardServiceServer) AddScoreboardContest(context.Context
 func (UnimplementedScoreboardServiceServer) UpdateScoreboardContest(context.Context, *UpdateScoreboardContestInput) (*UpdateScoreboardContestOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateScoreboardContest not implemented")
 }
+func (UnimplementedScoreboardServiceServer) ListScoreboardContests(context.Context, *ListScoreboardContestsInput) (*ListScoreboardContestsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListScoreboardContests not implemented")
+}
 func (UnimplementedScoreboardServiceServer) RemoveScoreboardContest(context.Context, *RemoveScoreboardContestInput) (*RemoveScoreboardContestOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RemoveScoreboardContest not implemented")
 }
@@ -283,6 +312,9 @@ func (UnimplementedScoreboardServiceServer) AddScoreboardAttribute(context.Conte
 }
 func (UnimplementedScoreboardServiceServer) UpdateScoreboardAttribute(context.Context, *UpdateScoreboardAttributeInput) (*UpdateScoreboardAttributeOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateScoreboardAttribute not implemented")
+}
+func (UnimplementedScoreboardServiceServer) ListScoreboardAttributes(context.Context, *ListScoreboardAttributesInput) (*ListScoreboardAttributesOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListScoreboardAttributes not implemented")
 }
 func (UnimplementedScoreboardServiceServer) RemoveScoreboardAttribute(context.Context, *RemoveScoreboardAttributeInput) (*RemoveScoreboardAttributeOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RemoveScoreboardAttribute not implemented")
@@ -442,6 +474,24 @@ func _ScoreboardService_UpdateScoreboardContest_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ScoreboardService_ListScoreboardContests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScoreboardContestsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).ListScoreboardContests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_ListScoreboardContests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).ListScoreboardContests(ctx, req.(*ListScoreboardContestsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ScoreboardService_RemoveScoreboardContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RemoveScoreboardContestInput)
 	if err := dec(in); err != nil {
@@ -492,6 +542,24 @@ func _ScoreboardService_UpdateScoreboardAttribute_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScoreboardServiceServer).UpdateScoreboardAttribute(ctx, req.(*UpdateScoreboardAttributeInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreboardService_ListScoreboardAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListScoreboardAttributesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).ListScoreboardAttributes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_ListScoreboardAttributes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).ListScoreboardAttributes(ctx, req.(*ListScoreboardAttributesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -604,6 +672,10 @@ var ScoreboardService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ScoreboardService_UpdateScoreboardContest_Handler,
 		},
 		{
+			MethodName: "ListScoreboardContests",
+			Handler:    _ScoreboardService_ListScoreboardContests_Handler,
+		},
+		{
 			MethodName: "RemoveScoreboardContest",
 			Handler:    _ScoreboardService_RemoveScoreboardContest_Handler,
 		},
@@ -614,6 +686,10 @@ var ScoreboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateScoreboardAttribute",
 			Handler:    _ScoreboardService_UpdateScoreboardAttribute_Handler,
+		},
+		{
+			MethodName: "ListScoreboardAttributes",
+			Handler:    _ScoreboardService_ListScoreboardAttributes_Handler,
 		},
 		{
 			MethodName: "RemoveScoreboardAttribute",

@@ -222,6 +222,9 @@ func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/contests/{contest_id}", _ScoreboardService_UpdateScoreboardContest_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.scoreboard.ScoreboardService.UpdateScoreboardContest")
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/contests", _ScoreboardService_ListScoreboardContests_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.scoreboard.ScoreboardService.ListScoreboardContests")
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/contests/{contest_id}", _ScoreboardService_RemoveScoreboardContest_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.scoreboard.ScoreboardService.RemoveScoreboardContest")
@@ -231,6 +234,9 @@ func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/attributes/{attribute_key}", _ScoreboardService_UpdateScoreboardAttribute_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.scoreboard.ScoreboardService.UpdateScoreboardAttribute")
+	router.Handle(prefix+"/scoreboards/{scoreboard_id}/attributes", _ScoreboardService_ListScoreboardAttributes_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.scoreboard.ScoreboardService.ListScoreboardAttributes")
 	router.Handle(prefix+"/scoreboards/{scoreboard_id}/attributes/{attribute_key}", _ScoreboardService_RemoveScoreboardAttribute_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.scoreboard.ScoreboardService.RemoveScoreboardAttribute")
@@ -413,6 +419,30 @@ func _ScoreboardService_UpdateScoreboardContest_Rule0(cli ScoreboardServiceClien
 	})
 }
 
+func _ScoreboardService_ListScoreboardContests_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListScoreboardContestsInput{}
+
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ScoreboardId = vars["scoreboard_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListScoreboardContests(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
 func _ScoreboardService_RemoveScoreboardContest_Rule0(cli ScoreboardServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &RemoveScoreboardContestInput{}
@@ -478,6 +508,30 @@ func _ScoreboardService_UpdateScoreboardAttribute_Rule0(cli ScoreboardServiceCli
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateScoreboardAttribute(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreboardService_ListScoreboardAttributes_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListScoreboardAttributesInput{}
+
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ScoreboardId = vars["scoreboard_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListScoreboardAttributes(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
