@@ -139,6 +139,7 @@ type Scoreboard struct {
 	// Count only this many best contests per member towards the total; zero counts all of them.
 	BestOf     uint32                  `protobuf:"varint,4,opt,name=best_of,json=bestOf,proto3" json:"best_of,omitempty"`
 	Visibility Scoreboard_Visibility   `protobuf:"varint,5,opt,name=visibility,proto3,enum=eolymp.scoreboard.Scoreboard_Visibility" json:"visibility,omitempty"`
+	Format     judge.Contest_Format    `protobuf:"varint,6,opt,name=format,proto3,enum=eolymp.judge.Contest_Format" json:"format,omitempty"`
 	Modes      []Scoreboard_Mode       `protobuf:"varint,7,rep,packed,name=modes,proto3,enum=eolymp.scoreboard.Scoreboard_Mode" json:"modes,omitempty"`
 	Contests   []*Scoreboard_Contest   `protobuf:"bytes,10,rep,name=contests,proto3" json:"contests,omitempty"`
 	Attributes []*Scoreboard_Attribute `protobuf:"bytes,11,rep,name=attributes,proto3" json:"attributes,omitempty"`
@@ -211,6 +212,13 @@ func (x *Scoreboard) GetVisibility() Scoreboard_Visibility {
 		return x.Visibility
 	}
 	return Scoreboard_UNKNOWN_VISIBILITY
+}
+
+func (x *Scoreboard) GetFormat() judge.Contest_Format {
+	if x != nil {
+		return x.Format
+	}
+	return judge.Contest_Format(0)
 }
 
 func (x *Scoreboard) GetModes() []Scoreboard_Mode {
@@ -1173,7 +1181,7 @@ var File_eolymp_scoreboard_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/scoreboard/scoreboard.proto\x12\x11eolymp.scoreboard\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x0e\n" +
+	"\"eolymp/scoreboard/scoreboard.proto\x12\x11eolymp.scoreboard\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc7\x0e\n" +
 	"\n" +
 	"Scoreboard\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
@@ -1182,7 +1190,8 @@ const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\abest_of\x18\x04 \x01(\rR\x06bestOf\x12H\n" +
 	"\n" +
 	"visibility\x18\x05 \x01(\x0e2(.eolymp.scoreboard.Scoreboard.VisibilityR\n" +
-	"visibility\x128\n" +
+	"visibility\x124\n" +
+	"\x06format\x18\x06 \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x128\n" +
 	"\x05modes\x18\a \x03(\x0e2\".eolymp.scoreboard.Scoreboard.ModeR\x05modes\x12A\n" +
 	"\bcontests\x18\n" +
 	" \x03(\v2%.eolymp.scoreboard.Scoreboard.ContestR\bcontests\x12G\n" +
@@ -1328,32 +1337,34 @@ var file_eolymp_scoreboard_scoreboard_proto_goTypes = []any{
 	(*Row_ProblemScore)(nil),           // 11: eolymp.scoreboard.Row.ProblemScore
 	(*Row_ContestScore)(nil),           // 12: eolymp.scoreboard.Row.ContestScore
 	(*Row_AttributeValue)(nil),         // 13: eolymp.scoreboard.Row.AttributeValue
-	(judge.Contest_Status)(0),          // 14: eolymp.judge.Contest.Status
-	(*timestamppb.Timestamp)(nil),      // 15: google.protobuf.Timestamp
-	(community.Attribute_Type)(0),      // 16: eolymp.community.Attribute.Type
+	(judge.Contest_Format)(0),          // 14: eolymp.judge.Contest.Format
+	(judge.Contest_Status)(0),          // 15: eolymp.judge.Contest.Status
+	(*timestamppb.Timestamp)(nil),      // 16: google.protobuf.Timestamp
+	(community.Attribute_Type)(0),      // 17: eolymp.community.Attribute.Type
 }
 var file_eolymp_scoreboard_scoreboard_proto_depIdxs = []int32{
 	1,  // 0: eolymp.scoreboard.Scoreboard.visibility:type_name -> eolymp.scoreboard.Scoreboard.Visibility
-	0,  // 1: eolymp.scoreboard.Scoreboard.modes:type_name -> eolymp.scoreboard.Scoreboard.Mode
-	4,  // 2: eolymp.scoreboard.Scoreboard.contests:type_name -> eolymp.scoreboard.Scoreboard.Contest
-	7,  // 3: eolymp.scoreboard.Scoreboard.attributes:type_name -> eolymp.scoreboard.Scoreboard.Attribute
-	6,  // 4: eolymp.scoreboard.Scoreboard.filters:type_name -> eolymp.scoreboard.Scoreboard.Filter
-	12, // 5: eolymp.scoreboard.Row.contests:type_name -> eolymp.scoreboard.Row.ContestScore
-	13, // 6: eolymp.scoreboard.Row.attributes:type_name -> eolymp.scoreboard.Row.AttributeValue
-	14, // 7: eolymp.scoreboard.Scoreboard.Contest.status:type_name -> eolymp.judge.Contest.Status
-	15, // 8: eolymp.scoreboard.Scoreboard.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	15, // 9: eolymp.scoreboard.Scoreboard.Contest.ends_at:type_name -> google.protobuf.Timestamp
-	5,  // 10: eolymp.scoreboard.Scoreboard.Contest.problems:type_name -> eolymp.scoreboard.Scoreboard.Problem
-	16, // 11: eolymp.scoreboard.Scoreboard.Filter.type:type_name -> eolymp.community.Attribute.Type
-	16, // 12: eolymp.scoreboard.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
-	1,  // 13: eolymp.scoreboard.Scoreboard.Patch.visibility:type_name -> eolymp.scoreboard.Scoreboard.Visibility
-	11, // 14: eolymp.scoreboard.Row.ContestScore.problems:type_name -> eolymp.scoreboard.Row.ProblemScore
-	16, // 15: eolymp.scoreboard.Row.AttributeValue.type:type_name -> eolymp.community.Attribute.Type
-	16, // [16:16] is the sub-list for method output_type
-	16, // [16:16] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	14, // 1: eolymp.scoreboard.Scoreboard.format:type_name -> eolymp.judge.Contest.Format
+	0,  // 2: eolymp.scoreboard.Scoreboard.modes:type_name -> eolymp.scoreboard.Scoreboard.Mode
+	4,  // 3: eolymp.scoreboard.Scoreboard.contests:type_name -> eolymp.scoreboard.Scoreboard.Contest
+	7,  // 4: eolymp.scoreboard.Scoreboard.attributes:type_name -> eolymp.scoreboard.Scoreboard.Attribute
+	6,  // 5: eolymp.scoreboard.Scoreboard.filters:type_name -> eolymp.scoreboard.Scoreboard.Filter
+	12, // 6: eolymp.scoreboard.Row.contests:type_name -> eolymp.scoreboard.Row.ContestScore
+	13, // 7: eolymp.scoreboard.Row.attributes:type_name -> eolymp.scoreboard.Row.AttributeValue
+	15, // 8: eolymp.scoreboard.Scoreboard.Contest.status:type_name -> eolymp.judge.Contest.Status
+	16, // 9: eolymp.scoreboard.Scoreboard.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	16, // 10: eolymp.scoreboard.Scoreboard.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	5,  // 11: eolymp.scoreboard.Scoreboard.Contest.problems:type_name -> eolymp.scoreboard.Scoreboard.Problem
+	17, // 12: eolymp.scoreboard.Scoreboard.Filter.type:type_name -> eolymp.community.Attribute.Type
+	17, // 13: eolymp.scoreboard.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
+	1,  // 14: eolymp.scoreboard.Scoreboard.Patch.visibility:type_name -> eolymp.scoreboard.Scoreboard.Visibility
+	11, // 15: eolymp.scoreboard.Row.ContestScore.problems:type_name -> eolymp.scoreboard.Row.ProblemScore
+	17, // 16: eolymp.scoreboard.Row.AttributeValue.type:type_name -> eolymp.community.Attribute.Type
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_scoreboard_scoreboard_proto_init() }
