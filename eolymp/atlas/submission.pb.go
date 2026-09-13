@@ -103,10 +103,12 @@ const (
 	Submission_NO_VERDICT          Submission_Verdict = 0 // Solution is not judged
 	Submission_ACCEPTED            Submission_Verdict = 1 // Solution gave correct answer
 	Submission_WRONG_ANSWER        Submission_Verdict = 2 // Solution gave wrong answer
-	Submission_TIME_LIMIT_EXCEEDED Submission_Verdict = 3 // Time limit exceeded
-	Submission_CPU_EXHAUSTED       Submission_Verdict = 4 // CPU usage limit exceeded
-	Submission_MEMORY_OVERFLOW     Submission_Verdict = 5 // Memory usage limit exceeded
-	Submission_RUNTIME_ERROR       Submission_Verdict = 6 // Solution finished with an error
+	Submission_TIME_LIMIT_EXCEEDED Submission_Verdict = 3 // Time limit exceeded (see time_usage and time_limit)
+	// Deprecated: Marked as deprecated in eolymp/atlas/submission.proto.
+	Submission_CPU_EXHAUSTED           Submission_Verdict = 4 // Superseded by TIME_LIMIT_EXCEEDED, no longer produced
+	Submission_MEMORY_OVERFLOW         Submission_Verdict = 5 // Memory usage limit exceeded
+	Submission_RUNTIME_ERROR           Submission_Verdict = 6 // Solution finished with an error
+	Submission_IDLENESS_LIMIT_EXCEEDED Submission_Verdict = 7 // Wall time limit exceeded while cpu time stayed within the time limit, only on problems with a cpu limit
 )
 
 // Enum value maps for Submission_Verdict.
@@ -119,15 +121,17 @@ var (
 		4: "CPU_EXHAUSTED",
 		5: "MEMORY_OVERFLOW",
 		6: "RUNTIME_ERROR",
+		7: "IDLENESS_LIMIT_EXCEEDED",
 	}
 	Submission_Verdict_value = map[string]int32{
-		"NO_VERDICT":          0,
-		"ACCEPTED":            1,
-		"WRONG_ANSWER":        2,
-		"TIME_LIMIT_EXCEEDED": 3,
-		"CPU_EXHAUSTED":       4,
-		"MEMORY_OVERFLOW":     5,
-		"RUNTIME_ERROR":       6,
+		"NO_VERDICT":              0,
+		"ACCEPTED":                1,
+		"WRONG_ANSWER":            2,
+		"TIME_LIMIT_EXCEEDED":     3,
+		"CPU_EXHAUSTED":           4,
+		"MEMORY_OVERFLOW":         5,
+		"RUNTIME_ERROR":           6,
+		"IDLENESS_LIMIT_EXCEEDED": 7,
 	}
 )
 
@@ -245,8 +249,9 @@ type Submission struct {
 	Cost               float32                 `protobuf:"fixed32,30,opt,name=cost,proto3" json:"cost,omitempty"`                                           // maximum possible score for the submission
 	Score              float32                 `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`                                         // sum of earned points
 	Percentage         float32                 `protobuf:"fixed32,32,opt,name=percentage,proto3" json:"percentage,omitempty"`
-	TimeUsage          uint32                  `protobuf:"varint,41,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"`                            // maximum wall time
+	TimeUsage          uint32                  `protobuf:"varint,41,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"`                            // maximum time usage across runs (see Run.time_usage)
 	CpuUsage           uint32                  `protobuf:"varint,42,opt,name=cpu_usage,json=cpuUsage,proto3" json:"cpu_usage,omitempty"`                               // maximum cpu time
+	TimeLimit          uint32                  `protobuf:"varint,43,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`                            // maximum time limit across runs (see Run.time_limit)
 	MemoryUsage        uint64                  `protobuf:"varint,46,opt,name=memory_usage,json=memoryUsage,proto3" json:"memory_usage,omitempty"`                      // maximum memory usage
 	ResourceUsage      float32                 `protobuf:"fixed32,47,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"`               // maximum resource usage
 	Groups             []*Submission_Group     `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"`                                                    // status for each run by group
@@ -493,6 +498,13 @@ func (x *Submission) GetCpuUsage() uint32 {
 	return 0
 }
 
+func (x *Submission) GetTimeLimit() uint32 {
+	if x != nil {
+		return x.TimeLimit
+	}
+	return 0
+}
+
 func (x *Submission) GetMemoryUsage() uint64 {
 	if x != nil {
 		return x.MemoryUsage
@@ -613,8 +625,9 @@ type Submission_Run struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Index           uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
-	TimeUsage       uint32                 `protobuf:"varint,2,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"` // wall time (real-world time) usage
+	TimeUsage       uint32                 `protobuf:"varint,2,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"` // time usage measured against time_limit: cpu time when the run had a cpu limit, wall time otherwise
 	CpuUsage        uint32                 `protobuf:"varint,3,opt,name=cpu_usage,json=cpuUsage,proto3" json:"cpu_usage,omitempty"`    // cpu time (time cpu was active)
+	TimeLimit       uint32                 `protobuf:"varint,7,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"` // time limit the run was judged against: cpu limit when set, wall time limit otherwise
 	MemoryUsage     uint64                 `protobuf:"varint,4,opt,name=memory_usage,json=memoryUsage,proto3" json:"memory_usage,omitempty"`
 	ResourceUsage   float32                `protobuf:"fixed32,5,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"`
 	InputUrl        string                 `protobuf:"bytes,8,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`
@@ -686,6 +699,13 @@ func (x *Submission_Run) GetTimeUsage() uint32 {
 func (x *Submission_Run) GetCpuUsage() uint32 {
 	if x != nil {
 		return x.CpuUsage
+	}
+	return 0
+}
+
+func (x *Submission_Run) GetTimeLimit() uint32 {
+	if x != nil {
+		return x.TimeLimit
 	}
 	return 0
 }
@@ -791,8 +811,9 @@ type Submission_Group struct {
 	Score          float32                `protobuf:"fixed32,21,opt,name=score,proto3" json:"score,omitempty"`                                                                         // sum of earned points within a group
 	ScoringMode    ScoringMode            `protobuf:"varint,22,opt,name=scoring_mode,json=scoringMode,proto3,enum=eolymp.atlas.ScoringMode" json:"scoring_mode,omitempty"`             // how group is scored
 	FeedbackPolicy FeedbackPolicy         `protobuf:"varint,30,opt,name=feedback_policy,json=feedbackPolicy,proto3,enum=eolymp.atlas.FeedbackPolicy" json:"feedback_policy,omitempty"` // how tests are shown to the user
-	TimeUsage      uint32                 `protobuf:"varint,41,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"`                                                 // provides feedback on wall time usage within the group, depending on feedback mode it might be max execution time in group or time usage in the first non-accepted test
+	TimeUsage      uint32                 `protobuf:"varint,41,opt,name=time_usage,json=timeUsage,proto3" json:"time_usage,omitempty"`                                                 // provides feedback on time usage within the group (see Run.time_usage), depending on feedback mode it might be max execution time in group or time usage in the first non-accepted test
 	CpuUsage       uint32                 `protobuf:"varint,42,opt,name=cpu_usage,json=cpuUsage,proto3" json:"cpu_usage,omitempty"`                                                    // provides feedback on CPU time usage within the group, depending on feedback mode it might be max execution time in group or time usage in the first non-accepted test
+	TimeLimit      uint32                 `protobuf:"varint,43,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`                                                 // time limit the runs of the group were judged against (see Run.time_limit)
 	MemoryUsage    uint64                 `protobuf:"varint,46,opt,name=memory_usage,json=memoryUsage,proto3" json:"memory_usage,omitempty"`                                           // provides feedback on memory usage within the group, depending on feedback mode it might be memory usage peak in group or memory usage in the first non-accepted test
 	ResourceUsage  float32                `protobuf:"fixed32,47,opt,name=resource_usage,json=resourceUsage,proto3" json:"resource_usage,omitempty"`                                    // provides feedback on resource usage within the group, depending on feedback mode it might be resource usage peak in group or resource usage in the first non-accepted test
 	Runs           []*Submission_Run      `protobuf:"bytes,100,rep,name=runs,proto3" json:"runs,omitempty"`                                                                            // runs of the group
@@ -896,6 +917,13 @@ func (x *Submission_Group) GetTimeUsage() uint32 {
 func (x *Submission_Group) GetCpuUsage() uint32 {
 	if x != nil {
 		return x.CpuUsage
+	}
+	return 0
+}
+
+func (x *Submission_Group) GetTimeLimit() uint32 {
+	if x != nil {
+		return x.TimeLimit
 	}
 	return 0
 }
@@ -1328,7 +1356,7 @@ var File_eolymp_atlas_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcd\x1b\n" +
+	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x1c\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12,\n" +
@@ -1363,7 +1391,9 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"percentage\x12\x1d\n" +
 	"\n" +
 	"time_usage\x18) \x01(\rR\ttimeUsage\x12\x1b\n" +
-	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12!\n" +
+	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12\x1d\n" +
+	"\n" +
+	"time_limit\x18+ \x01(\rR\ttimeLimit\x12!\n" +
 	"\fmemory_usage\x18. \x01(\x04R\vmemoryUsage\x12%\n" +
 	"\x0eresource_usage\x18/ \x01(\x02R\rresourceUsage\x126\n" +
 	"\x06groups\x182 \x03(\v2\x1e.eolymp.atlas.Submission.GroupR\x06groups\x12F\n" +
@@ -1376,14 +1406,16 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
 	"\x06GROUPS\x10\x03\x12\b\n" +
 	"\x04RUNS\x10\x04\x12\x0f\n" +
-	"\vFINGERPRINT\x10\x05\x1a\x8d\x05\n" +
+	"\vFINGERPRINT\x10\x05\x1a\xac\x05\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\n" +
 	" \x01(\rR\x05index\x12\x1d\n" +
 	"\n" +
 	"time_usage\x18\x02 \x01(\rR\ttimeUsage\x12\x1b\n" +
-	"\tcpu_usage\x18\x03 \x01(\rR\bcpuUsage\x12!\n" +
+	"\tcpu_usage\x18\x03 \x01(\rR\bcpuUsage\x12\x1d\n" +
+	"\n" +
+	"time_limit\x18\a \x01(\rR\ttimeLimit\x12!\n" +
 	"\fmemory_usage\x18\x04 \x01(\x04R\vmemoryUsage\x12%\n" +
 	"\x0eresource_usage\x18\x05 \x01(\x02R\rresourceUsage\x12\x1b\n" +
 	"\tinput_url\x18\b \x01(\tR\binputUrl\x12\x1d\n" +
@@ -1399,7 +1431,7 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\vdebug_stats\x18\x0e \x01(\v2\x16.eolymp.executor.StatsR\n" +
 	"debugStats\x12;\n" +
 	"\rchecker_stats\x18\x1f \x01(\v2\x16.eolymp.executor.StatsR\fcheckerStats\x12A\n" +
-	"\x10interactor_stats\x18) \x01(\v2\x16.eolymp.executor.StatsR\x0finteractorStats\x1a\x9d\x04\n" +
+	"\x10interactor_stats\x18) \x01(\v2\x16.eolymp.executor.StatsR\x0finteractorStats\x1a\xbc\x04\n" +
 	"\x05Group\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x127\n" +
 	"\x06status\x18\n" +
@@ -1412,7 +1444,9 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\x0ffeedback_policy\x18\x1e \x01(\x0e2\x1c.eolymp.atlas.FeedbackPolicyR\x0efeedbackPolicy\x12\x1d\n" +
 	"\n" +
 	"time_usage\x18) \x01(\rR\ttimeUsage\x12\x1b\n" +
-	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12!\n" +
+	"\tcpu_usage\x18* \x01(\rR\bcpuUsage\x12\x1d\n" +
+	"\n" +
+	"time_limit\x18+ \x01(\rR\ttimeLimit\x12!\n" +
 	"\fmemory_usage\x18. \x01(\x04R\vmemoryUsage\x12%\n" +
 	"\x0eresource_usage\x18/ \x01(\x02R\rresourceUsage\x120\n" +
 	"\x04runs\x18d \x03(\v2\x1c.eolymp.atlas.Submission.RunR\x04runs\x1a\xad\x02\n" +
@@ -1453,16 +1487,17 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\x05ERROR\x10\x05\x12\v\n" +
 	"\aFAILURE\x10\x06\x12\v\n" +
 	"\aSKIPPED\x10\a\x12\v\n" +
-	"\aBLOCKED\x10\b\"\x8d\x01\n" +
+	"\aBLOCKED\x10\b\"\xae\x01\n" +
 	"\aVerdict\x12\x0e\n" +
 	"\n" +
 	"NO_VERDICT\x10\x00\x12\f\n" +
 	"\bACCEPTED\x10\x01\x12\x10\n" +
 	"\fWRONG_ANSWER\x10\x02\x12\x17\n" +
-	"\x13TIME_LIMIT_EXCEEDED\x10\x03\x12\x11\n" +
-	"\rCPU_EXHAUSTED\x10\x04\x12\x13\n" +
+	"\x13TIME_LIMIT_EXCEEDED\x10\x03\x12\x15\n" +
+	"\rCPU_EXHAUSTED\x10\x04\x1a\x02\b\x01\x12\x13\n" +
 	"\x0fMEMORY_OVERFLOW\x10\x05\x12\x11\n" +
-	"\rRUNTIME_ERROR\x10\x06B\v\n" +
+	"\rRUNTIME_ERROR\x10\x06\x12\x1b\n" +
+	"\x17IDLENESS_LIMIT_EXCEEDED\x10\aB\v\n" +
 	"\tsubmitterB\t\n" +
 	"\apayloadB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 

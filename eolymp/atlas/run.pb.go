@@ -25,17 +25,19 @@ const (
 type Run_Status int32
 
 const (
-	Run_UNKNOWN_STATUS  Run_Status = 0 // Reserved, should not be used.
-	Run_PENDING         Run_Status = 1 // Program pending execution.
-	Run_PROVISIONING    Run_Status = 9
-	Run_INITIALIZING    Run_Status = 10
-	Run_EXECUTING       Run_Status = 2 // Program is being executed.
-	Run_EXECUTED        Run_Status = 3 // Program has terminated.
-	Run_TIMEOUT         Run_Status = 4 // Program was terminated due to timeout.
-	Run_CPU_EXHAUSTED   Run_Status = 5 // Program was terminated due to exceeding CPU time limit.
-	Run_MEMORY_OVERFLOW Run_Status = 6 // Program was terminated due to memory overflow.
-	Run_ERROR           Run_Status = 7 // Program executed with an error (see error field for details). Typically this status means compiler or linter has returned an error.
-	Run_FAILURE         Run_Status = 8 // Worker has failed to execute program due to an internal error, try again in this case.
+	Run_UNKNOWN_STATUS Run_Status = 0 // Reserved, should not be used.
+	Run_PENDING        Run_Status = 1 // Program pending execution.
+	Run_PROVISIONING   Run_Status = 9
+	Run_INITIALIZING   Run_Status = 10
+	Run_EXECUTING      Run_Status = 2 // Program is being executed.
+	Run_EXECUTED       Run_Status = 3 // Program has terminated.
+	Run_TIMEOUT        Run_Status = 4 // Program exceeded the time limit: cpu time when the run has a cpu limit, wall time otherwise.
+	// Deprecated: Marked as deprecated in eolymp/atlas/run.proto.
+	Run_CPU_EXHAUSTED           Run_Status = 5  // Superseded by TIMEOUT, no longer produced.
+	Run_MEMORY_OVERFLOW         Run_Status = 6  // Program was terminated due to memory overflow.
+	Run_ERROR                   Run_Status = 7  // Program executed with an error (see error field for details). Typically this status means compiler or linter has returned an error.
+	Run_FAILURE                 Run_Status = 8  // Worker has failed to execute program due to an internal error, try again in this case.
+	Run_IDLENESS_LIMIT_EXCEEDED Run_Status = 11 // Program exceeded the wall time limit while its cpu time stayed within the cpu limit.
 )
 
 // Enum value maps for Run_Status.
@@ -52,19 +54,21 @@ var (
 		6:  "MEMORY_OVERFLOW",
 		7:  "ERROR",
 		8:  "FAILURE",
+		11: "IDLENESS_LIMIT_EXCEEDED",
 	}
 	Run_Status_value = map[string]int32{
-		"UNKNOWN_STATUS":  0,
-		"PENDING":         1,
-		"PROVISIONING":    9,
-		"INITIALIZING":    10,
-		"EXECUTING":       2,
-		"EXECUTED":        3,
-		"TIMEOUT":         4,
-		"CPU_EXHAUSTED":   5,
-		"MEMORY_OVERFLOW": 6,
-		"ERROR":           7,
-		"FAILURE":         8,
+		"UNKNOWN_STATUS":          0,
+		"PENDING":                 1,
+		"PROVISIONING":            9,
+		"INITIALIZING":            10,
+		"EXECUTING":               2,
+		"EXECUTED":                3,
+		"TIMEOUT":                 4,
+		"CPU_EXHAUSTED":           5,
+		"MEMORY_OVERFLOW":         6,
+		"ERROR":                   7,
+		"FAILURE":                 8,
+		"IDLENESS_LIMIT_EXCEEDED": 11,
 	}
 )
 
@@ -270,7 +274,7 @@ var File_eolymp_atlas_run_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_run_proto_rawDesc = "" +
 	"\n" +
-	"\x16eolymp/atlas/run.proto\x12\feolymp.atlas\x1a\x1beolymp/executor/usage.proto\"\xbf\x05\n" +
+	"\x16eolymp/atlas/run.proto\x12\feolymp.atlas\x1a\x1beolymp/executor/usage.proto\"\xe0\x05\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
 	"\aruntime\x18\n" +
@@ -289,7 +293,7 @@ const file_eolymp_atlas_run_proto_rawDesc = "" +
 	"\n" +
 	"output_url\x18* \x01(\tR\toutputUrl\x12\x1b\n" +
 	"\ttrace_url\x18+ \x01(\tR\btraceUrl\x12'\n" +
-	"\x0finteraction_url\x18, \x01(\tR\x0einteractionUrl\"\xb7\x01\n" +
+	"\x0finteraction_url\x18, \x01(\tR\x0einteractionUrl\"\xd8\x01\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\x10\n" +
@@ -298,11 +302,12 @@ const file_eolymp_atlas_run_proto_rawDesc = "" +
 	"\x12\r\n" +
 	"\tEXECUTING\x10\x02\x12\f\n" +
 	"\bEXECUTED\x10\x03\x12\v\n" +
-	"\aTIMEOUT\x10\x04\x12\x11\n" +
-	"\rCPU_EXHAUSTED\x10\x05\x12\x13\n" +
+	"\aTIMEOUT\x10\x04\x12\x15\n" +
+	"\rCPU_EXHAUSTED\x10\x05\x1a\x02\b\x01\x12\x13\n" +
 	"\x0fMEMORY_OVERFLOW\x10\x06\x12\t\n" +
 	"\x05ERROR\x10\a\x12\v\n" +
-	"\aFAILURE\x10\bB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\aFAILURE\x10\b\x12\x1b\n" +
+	"\x17IDLENESS_LIMIT_EXCEEDED\x10\vB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_run_proto_rawDescOnce sync.Once

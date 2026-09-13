@@ -151,20 +151,22 @@ func (EvaluationReport_Type) EnumDescriptor() ([]byte, []int) {
 type EvaluationReport_Run_Status int32
 
 const (
-	EvaluationReport_Run_NONE                 EvaluationReport_Run_Status = 0  // should not be used
-	EvaluationReport_Run_PENDING              EvaluationReport_Run_Status = 1  // pending to be executed
-	EvaluationReport_Run_EXECUTING            EvaluationReport_Run_Status = 2  // executing (see output and stderr for partial data)
-	EvaluationReport_Run_TIMEOUT              EvaluationReport_Run_Status = 3  // timeout reached (wall time usage reached)
-	EvaluationReport_Run_CPU_EXHAUSTED        EvaluationReport_Run_Status = 4  // cpu exhausted (cpu time usage reached)
-	EvaluationReport_Run_MEMORY_OVERFLOW      EvaluationReport_Run_Status = 5  // memory limit reached
-	EvaluationReport_Run_RUNTIME_ERROR        EvaluationReport_Run_Status = 6  // executed, but exit code was non-zero
-	EvaluationReport_Run_EXECUTED             EvaluationReport_Run_Status = 7  // executed (it is a final status for tasks without checker)
-	EvaluationReport_Run_ACCEPTED             EvaluationReport_Run_Status = 8  // executed and output matched answer
-	EvaluationReport_Run_WRONG_ANSWER         EvaluationReport_Run_Status = 9  // executed, but output didn't match answer
-	EvaluationReport_Run_VERIFICATION_FAILURE EvaluationReport_Run_Status = 10 // executed, but checker returned an error during execution (use checker_log to learn more about failure)
-	EvaluationReport_Run_SKIPPED              EvaluationReport_Run_Status = 11 // run won't be executed due to preconditions (overall timeout, block etc)
-	EvaluationReport_Run_INTERACTION_FAILURE  EvaluationReport_Run_Status = 12 // interactor failed (TL-ed, ML-ed, got a runtime error or claimed that the jury had a wrong answer), check interactor_log
-	EvaluationReport_Run_BLOCKED              EvaluationReport_Run_Status = 13 // run can't be executed due to dependencies
+	EvaluationReport_Run_NONE      EvaluationReport_Run_Status = 0 // should not be used
+	EvaluationReport_Run_PENDING   EvaluationReport_Run_Status = 1 // pending to be executed
+	EvaluationReport_Run_EXECUTING EvaluationReport_Run_Status = 2 // executing (see output and stderr for partial data)
+	EvaluationReport_Run_TIMEOUT   EvaluationReport_Run_Status = 3 // time limit exceeded: cpu time over cpu_limit when the run has one, wall time over time_limit otherwise
+	// Deprecated: Marked as deprecated in eolymp/executor/evaluation_report.proto.
+	EvaluationReport_Run_CPU_EXHAUSTED           EvaluationReport_Run_Status = 4  // superseded by TIMEOUT, no longer emitted
+	EvaluationReport_Run_MEMORY_OVERFLOW         EvaluationReport_Run_Status = 5  // memory limit reached
+	EvaluationReport_Run_RUNTIME_ERROR           EvaluationReport_Run_Status = 6  // executed, but exit code was non-zero
+	EvaluationReport_Run_EXECUTED                EvaluationReport_Run_Status = 7  // executed (it is a final status for tasks without checker)
+	EvaluationReport_Run_ACCEPTED                EvaluationReport_Run_Status = 8  // executed and output matched answer
+	EvaluationReport_Run_WRONG_ANSWER            EvaluationReport_Run_Status = 9  // executed, but output didn't match answer
+	EvaluationReport_Run_VERIFICATION_FAILURE    EvaluationReport_Run_Status = 10 // executed, but checker returned an error during execution (use checker_log to learn more about failure)
+	EvaluationReport_Run_SKIPPED                 EvaluationReport_Run_Status = 11 // run won't be executed due to preconditions (overall timeout, block etc)
+	EvaluationReport_Run_INTERACTION_FAILURE     EvaluationReport_Run_Status = 12 // interactor failed (TL-ed, ML-ed, got a runtime error or claimed that the jury had a wrong answer), check interactor_log
+	EvaluationReport_Run_BLOCKED                 EvaluationReport_Run_Status = 13 // run can't be executed due to dependencies
+	EvaluationReport_Run_IDLENESS_LIMIT_EXCEEDED EvaluationReport_Run_Status = 14 // wall time over time_limit while cpu time stayed within cpu_limit, only on runs with a cpu_limit
 )
 
 // Enum value maps for EvaluationReport_Run_Status.
@@ -184,22 +186,24 @@ var (
 		11: "SKIPPED",
 		12: "INTERACTION_FAILURE",
 		13: "BLOCKED",
+		14: "IDLENESS_LIMIT_EXCEEDED",
 	}
 	EvaluationReport_Run_Status_value = map[string]int32{
-		"NONE":                 0,
-		"PENDING":              1,
-		"EXECUTING":            2,
-		"TIMEOUT":              3,
-		"CPU_EXHAUSTED":        4,
-		"MEMORY_OVERFLOW":      5,
-		"RUNTIME_ERROR":        6,
-		"EXECUTED":             7,
-		"ACCEPTED":             8,
-		"WRONG_ANSWER":         9,
-		"VERIFICATION_FAILURE": 10,
-		"SKIPPED":              11,
-		"INTERACTION_FAILURE":  12,
-		"BLOCKED":              13,
+		"NONE":                    0,
+		"PENDING":                 1,
+		"EXECUTING":               2,
+		"TIMEOUT":                 3,
+		"CPU_EXHAUSTED":           4,
+		"MEMORY_OVERFLOW":         5,
+		"RUNTIME_ERROR":           6,
+		"EXECUTED":                7,
+		"ACCEPTED":                8,
+		"WRONG_ANSWER":            9,
+		"VERIFICATION_FAILURE":    10,
+		"SKIPPED":                 11,
+		"INTERACTION_FAILURE":     12,
+		"BLOCKED":                 13,
+		"IDLENESS_LIMIT_EXCEEDED": 14,
 	}
 )
 
@@ -563,7 +567,7 @@ var File_eolymp_executor_evaluation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xb5\r\n" +
+	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xd6\r\n" +
 	"\x10EvaluationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -576,7 +580,7 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	" \x01(\x0e2&.eolymp.executor.EvaluationReport.TypeR\x04type\x12@\n" +
 	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.EvaluationReport.StatusR\x06status\x12#\n" +
 	"\rerror_message\x18\x14 \x01(\tR\ferrorMessage\x129\n" +
-	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\xca\a\n" +
+	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\xeb\a\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
 	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.EvaluationReport.Run.StatusR\x06status\x12\x14\n" +
@@ -602,13 +606,13 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\vdebug_stats\x18Z \x01(\v2\x16.eolymp.executor.StatsR\n" +
 	"debugStats\x12;\n" +
 	"\rchecker_stats\x18# \x01(\v2\x16.eolymp.executor.StatsR\fcheckerStats\x12A\n" +
-	"\x10interactor_stats\x18- \x01(\v2\x16.eolymp.executor.StatsR\x0finteractorStats\"\xf1\x01\n" +
+	"\x10interactor_stats\x18- \x01(\v2\x16.eolymp.executor.StatsR\x0finteractorStats\"\x92\x02\n" +
 	"\x06Status\x12\b\n" +
 	"\x04NONE\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +
 	"\tEXECUTING\x10\x02\x12\v\n" +
-	"\aTIMEOUT\x10\x03\x12\x11\n" +
-	"\rCPU_EXHAUSTED\x10\x04\x12\x13\n" +
+	"\aTIMEOUT\x10\x03\x12\x15\n" +
+	"\rCPU_EXHAUSTED\x10\x04\x1a\x02\b\x01\x12\x13\n" +
 	"\x0fMEMORY_OVERFLOW\x10\x05\x12\x11\n" +
 	"\rRUNTIME_ERROR\x10\x06\x12\f\n" +
 	"\bEXECUTED\x10\a\x12\f\n" +
@@ -618,7 +622,8 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\x12\v\n" +
 	"\aSKIPPED\x10\v\x12\x17\n" +
 	"\x13INTERACTION_FAILURE\x10\f\x12\v\n" +
-	"\aBLOCKED\x10\r\x1a;\n" +
+	"\aBLOCKED\x10\r\x12\x1b\n" +
+	"\x17IDLENESS_LIMIT_EXCEEDED\x10\x0e\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x81\x01\n" +
