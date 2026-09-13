@@ -9,7 +9,6 @@ package resolver
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	judge "github.com/eolymp/go-sdk/eolymp/judge"
-	ranker "github.com/eolymp/go-sdk/eolymp/ranker"
 	universe "github.com/eolymp/go-sdk/eolymp/universe"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -208,7 +207,6 @@ type ResolveNameOutput struct {
 	//
 	//	*ResolveNameOutput_Space
 	//	*ResolveNameOutput_Contest
-	//	*ResolveNameOutput_Scoreboard
 	Targetx isResolveNameOutput_Targetx `protobuf_oneof:"targetx"`
 	// Types that are valid to be assigned to Auth:
 	//
@@ -280,15 +278,6 @@ func (x *ResolveNameOutput) GetContest() *judge.Contest {
 	return nil
 }
 
-func (x *ResolveNameOutput) GetScoreboard() *ranker.Scoreboard {
-	if x != nil {
-		if x, ok := x.Targetx.(*ResolveNameOutput_Scoreboard); ok {
-			return x.Scoreboard
-		}
-	}
-	return nil
-}
-
 func (x *ResolveNameOutput) GetAuth() isResolveNameOutput_Auth {
 	if x != nil {
 		return x.Auth
@@ -317,15 +306,9 @@ type ResolveNameOutput_Contest struct {
 	Contest *judge.Contest `protobuf:"bytes,11,opt,name=contest,proto3,oneof"`
 }
 
-type ResolveNameOutput_Scoreboard struct {
-	Scoreboard *ranker.Scoreboard `protobuf:"bytes,12,opt,name=scoreboard,proto3,oneof"`
-}
-
 func (*ResolveNameOutput_Space) isResolveNameOutput_Targetx() {}
 
 func (*ResolveNameOutput_Contest) isResolveNameOutput_Targetx() {}
-
-func (*ResolveNameOutput_Scoreboard) isResolveNameOutput_Targetx() {}
 
 type isResolveNameOutput_Auth interface {
 	isResolveNameOutput_Auth()
@@ -469,7 +452,7 @@ var File_eolymp_resolver_resolver_proto protoreflect.FileDescriptor
 
 const file_eolymp_resolver_resolver_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/resolver/resolver.proto\x12\x0feolymp.resolver\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1eeolymp/ranker/scoreboard.proto\x1a\x1beolymp/universe/space.proto\"\xe5\x01\n" +
+	"\x1eeolymp/resolver/resolver.proto\x12\x0feolymp.resolver\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1beolymp/universe/space.proto\"\xe5\x01\n" +
 	"\rAuthorization\x1a\xd3\x01\n" +
 	"\x06OAuth2\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12%\n" +
@@ -489,18 +472,15 @@ const file_eolymp_resolver_resolver_proto_rawDesc = "" +
 	"\n" +
 	"SCOREBOARD\x10\x03\"&\n" +
 	"\x10ResolveNameInput\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"\xbf\x02\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"\x88\x02\n" +
 	"\x11ResolveNameOutput\x126\n" +
 	"\x06target\x18\x01 \x01(\v2\x1e.eolymp.resolver.Record.TargetR\x06target\x12.\n" +
 	"\x05space\x18\n" +
 	" \x01(\v2\x16.eolymp.universe.SpaceH\x00R\x05space\x121\n" +
-	"\acontest\x18\v \x01(\v2\x15.eolymp.judge.ContestH\x00R\acontest\x12;\n" +
-	"\n" +
-	"scoreboard\x18\f \x01(\v2\x19.eolymp.ranker.ScoreboardH\x00R\n" +
-	"scoreboard\x12?\n" +
+	"\acontest\x18\v \x01(\v2\x15.eolymp.judge.ContestH\x00R\acontest\x12?\n" +
 	"\x06oauth2\x18\x14 \x01(\v2%.eolymp.resolver.Authorization.OAuth2H\x01R\x06oauth2B\t\n" +
 	"\atargetxB\x06\n" +
-	"\x04auth2\x8f\x01\n" +
+	"\x04authJ\x04\b\f\x10\r2\x8f\x01\n" +
 	"\bResolver\x12\x82\x01\n" +
 	"\vResolveName\x12!.eolymp.resolver.ResolveNameInput\x1a\".eolymp.resolver.ResolveNameOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -533,23 +513,21 @@ var file_eolymp_resolver_resolver_proto_goTypes = []any{
 	(*Record_Target)(nil),        // 6: eolymp.resolver.Record.Target
 	(*universe.Space)(nil),       // 7: eolymp.universe.Space
 	(*judge.Contest)(nil),        // 8: eolymp.judge.Contest
-	(*ranker.Scoreboard)(nil),    // 9: eolymp.ranker.Scoreboard
 }
 var file_eolymp_resolver_resolver_proto_depIdxs = []int32{
 	6, // 0: eolymp.resolver.Record.target:type_name -> eolymp.resolver.Record.Target
 	6, // 1: eolymp.resolver.ResolveNameOutput.target:type_name -> eolymp.resolver.Record.Target
 	7, // 2: eolymp.resolver.ResolveNameOutput.space:type_name -> eolymp.universe.Space
 	8, // 3: eolymp.resolver.ResolveNameOutput.contest:type_name -> eolymp.judge.Contest
-	9, // 4: eolymp.resolver.ResolveNameOutput.scoreboard:type_name -> eolymp.ranker.Scoreboard
-	5, // 5: eolymp.resolver.ResolveNameOutput.oauth2:type_name -> eolymp.resolver.Authorization.OAuth2
-	0, // 6: eolymp.resolver.Record.Target.type:type_name -> eolymp.resolver.Record.Type
-	3, // 7: eolymp.resolver.Resolver.ResolveName:input_type -> eolymp.resolver.ResolveNameInput
-	4, // 8: eolymp.resolver.Resolver.ResolveName:output_type -> eolymp.resolver.ResolveNameOutput
-	8, // [8:9] is the sub-list for method output_type
-	7, // [7:8] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	5, // 4: eolymp.resolver.ResolveNameOutput.oauth2:type_name -> eolymp.resolver.Authorization.OAuth2
+	0, // 5: eolymp.resolver.Record.Target.type:type_name -> eolymp.resolver.Record.Type
+	3, // 6: eolymp.resolver.Resolver.ResolveName:input_type -> eolymp.resolver.ResolveNameInput
+	4, // 7: eolymp.resolver.Resolver.ResolveName:output_type -> eolymp.resolver.ResolveNameOutput
+	7, // [7:8] is the sub-list for method output_type
+	6, // [6:7] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_resolver_resolver_proto_init() }
@@ -560,7 +538,6 @@ func file_eolymp_resolver_resolver_proto_init() {
 	file_eolymp_resolver_resolver_proto_msgTypes[3].OneofWrappers = []any{
 		(*ResolveNameOutput_Space)(nil),
 		(*ResolveNameOutput_Contest)(nil),
-		(*ResolveNameOutput_Scoreboard)(nil),
 		(*ResolveNameOutput_Oauth2)(nil),
 	}
 	type x struct{}
