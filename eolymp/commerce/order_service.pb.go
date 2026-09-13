@@ -430,6 +430,7 @@ type ListOrdersInput_Filter struct {
 	Reference     []*wellknown.ExpressionID   `protobuf:"bytes,2,rep,name=reference,proto3" json:"reference,omitempty"`
 	MemberId      []*wellknown.ExpressionID   `protobuf:"bytes,3,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	Status        []*wellknown.ExpressionEnum `protobuf:"bytes,4,rep,name=status,proto3" json:"status,omitempty"`
+	PaymentStatus []*wellknown.ExpressionEnum `protobuf:"bytes,5,rep,name=payment_status,json=paymentStatus,proto3" json:"payment_status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -492,6 +493,13 @@ func (x *ListOrdersInput_Filter) GetStatus() []*wellknown.ExpressionEnum {
 	return nil
 }
 
+func (x *ListOrdersInput_Filter) GetPaymentStatus() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.PaymentStatus
+	}
+	return nil
+}
+
 var File_eolymp_commerce_order_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_service_proto_rawDesc = "" +
@@ -506,7 +514,7 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\x12DescribeOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"C\n" +
 	"\x13DescribeOrderOutput\x12,\n" +
-	"\x05order\x18\x01 \x01(\v2\x16.eolymp.commerce.OrderR\x05order\"\x93\x04\n" +
+	"\x05order\x18\x01 \x01(\v2\x16.eolymp.commerce.OrderR\x05order\"\xdc\x04\n" +
 	"\x0fListOrdersInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -514,12 +522,13 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12A\n" +
 	"\afilters\x18( \x01(\v2'.eolymp.commerce.ListOrdersInput.FilterR\afilters\x12=\n" +
 	"\x04sort\x182 \x01(\x0e2).eolymp.commerce.ListOrdersInput.SortableR\x04sort\x121\n" +
-	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xed\x01\n" +
+	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x1a\xb6\x02\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12<\n" +
 	"\treference\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\treference\x12;\n" +
 	"\tmember_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x128\n" +
-	"\x06status\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"\x17\n" +
+	"\x06status\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x12G\n" +
+	"\x0epayment_status\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\rpaymentStatus\"\x17\n" +
 	"\bSortable\x12\v\n" +
 	"\aDEFAULT\x10\x00\"V\n" +
 	"\x10ListOrdersOutput\x12\x14\n" +
@@ -593,17 +602,18 @@ var file_eolymp_commerce_order_service_proto_depIdxs = []int32{
 	11, // 8: eolymp.commerce.ListOrdersInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionID
 	11, // 9: eolymp.commerce.ListOrdersInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
 	12, // 10: eolymp.commerce.ListOrdersInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	2,  // 11: eolymp.commerce.OrderService.CancelOrder:input_type -> eolymp.commerce.CancelOrderInput
-	4,  // 12: eolymp.commerce.OrderService.DescribeOrder:input_type -> eolymp.commerce.DescribeOrderInput
-	6,  // 13: eolymp.commerce.OrderService.ListOrders:input_type -> eolymp.commerce.ListOrdersInput
-	3,  // 14: eolymp.commerce.OrderService.CancelOrder:output_type -> eolymp.commerce.CancelOrderOutput
-	5,  // 15: eolymp.commerce.OrderService.DescribeOrder:output_type -> eolymp.commerce.DescribeOrderOutput
-	7,  // 16: eolymp.commerce.OrderService.ListOrders:output_type -> eolymp.commerce.ListOrdersOutput
-	14, // [14:17] is the sub-list for method output_type
-	11, // [11:14] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	12, // 11: eolymp.commerce.ListOrdersInput.Filter.payment_status:type_name -> eolymp.wellknown.ExpressionEnum
+	2,  // 12: eolymp.commerce.OrderService.CancelOrder:input_type -> eolymp.commerce.CancelOrderInput
+	4,  // 13: eolymp.commerce.OrderService.DescribeOrder:input_type -> eolymp.commerce.DescribeOrderInput
+	6,  // 14: eolymp.commerce.OrderService.ListOrders:input_type -> eolymp.commerce.ListOrdersInput
+	3,  // 15: eolymp.commerce.OrderService.CancelOrder:output_type -> eolymp.commerce.CancelOrderOutput
+	5,  // 16: eolymp.commerce.OrderService.DescribeOrder:output_type -> eolymp.commerce.DescribeOrderOutput
+	7,  // 17: eolymp.commerce.OrderService.ListOrders:output_type -> eolymp.commerce.ListOrdersOutput
+	15, // [15:18] is the sub-list for method output_type
+	12, // [12:15] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_order_service_proto_init() }

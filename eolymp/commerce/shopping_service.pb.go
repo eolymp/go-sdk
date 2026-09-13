@@ -742,6 +742,7 @@ type PlaceOrderOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	OrderNumber   string                 `protobuf:"bytes,2,opt,name=order_number,json=orderNumber,proto3" json:"order_number,omitempty"`
+	CheckoutUrl   string                 `protobuf:"bytes,3,opt,name=checkout_url,json=checkoutUrl,proto3" json:"checkout_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -790,6 +791,13 @@ func (x *PlaceOrderOutput) GetOrderNumber() string {
 	return ""
 }
 
+func (x *PlaceOrderOutput) GetCheckoutUrl() string {
+	if x != nil {
+		return x.CheckoutUrl
+	}
+	return ""
+}
+
 var File_eolymp_commerce_shopping_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
@@ -826,10 +834,11 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x18ListShippingMethodsInput\"R\n" +
 	"\x19ListShippingMethodsOutput\x125\n" +
 	"\x05items\x18\x01 \x03(\v2\x1f.eolymp.commerce.ShippingMethodR\x05items\"\x11\n" +
-	"\x0fPlaceOrderInput\"P\n" +
+	"\x0fPlaceOrderInput\"s\n" +
 	"\x10PlaceOrderOutput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12!\n" +
-	"\forder_number\x18\x02 \x01(\tR\vorderNumber2\x9e\f\n" +
+	"\forder_number\x18\x02 \x01(\tR\vorderNumber\x12!\n" +
+	"\fcheckout_url\x18\x03 \x01(\tR\vcheckoutUrl2\x9e\f\n" +
 	"\x0fShoppingService\x12\x9b\x01\n" +
 	"\x14DescribeShoppingCart\x12*.eolymp.commerce.DescribeShoppingCartInput\x1a+.eolymp.commerce.DescribeShoppingCartOutput\"*\xea\xe2\n" +
 	"\v\xf5\xe2\n" +

@@ -86,6 +86,64 @@ func (Order_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type Order_Payment_Status int32
+
+const (
+	Order_Payment_UNKNOWN_STATUS Order_Payment_Status = 0
+	Order_Payment_NOT_REQUIRED   Order_Payment_Status = 1
+	Order_Payment_UNPAID         Order_Payment_Status = 2
+	Order_Payment_PROCESSING     Order_Payment_Status = 3
+	Order_Payment_PAID           Order_Payment_Status = 4
+	Order_Payment_REFUNDED       Order_Payment_Status = 5
+)
+
+// Enum value maps for Order_Payment_Status.
+var (
+	Order_Payment_Status_name = map[int32]string{
+		0: "UNKNOWN_STATUS",
+		1: "NOT_REQUIRED",
+		2: "UNPAID",
+		3: "PROCESSING",
+		4: "PAID",
+		5: "REFUNDED",
+	}
+	Order_Payment_Status_value = map[string]int32{
+		"UNKNOWN_STATUS": 0,
+		"NOT_REQUIRED":   1,
+		"UNPAID":         2,
+		"PROCESSING":     3,
+		"PAID":           4,
+		"REFUNDED":       5,
+	}
+)
+
+func (x Order_Payment_Status) Enum() *Order_Payment_Status {
+	p := new(Order_Payment_Status)
+	*p = x
+	return p
+}
+
+func (x Order_Payment_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Order_Payment_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_commerce_order_proto_enumTypes[1].Descriptor()
+}
+
+func (Order_Payment_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_commerce_order_proto_enumTypes[1]
+}
+
+func (x Order_Payment_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Order_Payment_Status.Descriptor instead.
+func (Order_Payment_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
 // Order represents a finalized and submitted shopping cart.
 // All amounts are specified in cents, for example 100 means €1.
 type Order struct {
@@ -107,6 +165,12 @@ type Order struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"` // in hundredth of percent, e.g. 755 means 7.55%
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
+	CreditAmount          uint32                 `protobuf:"varint,60,opt,name=credit_amount,json=creditAmount,proto3" json:"credit_amount,omitempty"`
+	CreditDiscount        uint32                 `protobuf:"varint,61,opt,name=credit_discount,json=creditDiscount,proto3" json:"credit_discount,omitempty"`
+	PayableAmount         uint32                 `protobuf:"varint,62,opt,name=payable_amount,json=payableAmount,proto3" json:"payable_amount,omitempty"`
+	PaymentStatus         Order_Payment_Status   `protobuf:"varint,63,opt,name=payment_status,json=paymentStatus,proto3,enum=eolymp.commerce.Order_Payment_Status" json:"payment_status,omitempty"`
+	CheckoutUrl           string                 `protobuf:"bytes,64,opt,name=checkout_url,json=checkoutUrl,proto3" json:"checkout_url,omitempty"`
+	PaymentId             string                 `protobuf:"bytes,65,opt,name=payment_id,json=paymentId,proto3" json:"payment_id,omitempty"`
 	TrackingLink          string                 `protobuf:"bytes,50,opt,name=tracking_link,json=trackingLink,proto3" json:"tracking_link,omitempty"`
 	TrackingNumber        string                 `protobuf:"bytes,51,opt,name=tracking_number,json=trackingNumber,proto3" json:"tracking_number,omitempty"`
 	CreatedAt             *timestamppb.Timestamp `protobuf:"bytes,100,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -264,6 +328,48 @@ func (x *Order) GetGrandTotal() uint32 {
 	return 0
 }
 
+func (x *Order) GetCreditAmount() uint32 {
+	if x != nil {
+		return x.CreditAmount
+	}
+	return 0
+}
+
+func (x *Order) GetCreditDiscount() uint32 {
+	if x != nil {
+		return x.CreditDiscount
+	}
+	return 0
+}
+
+func (x *Order) GetPayableAmount() uint32 {
+	if x != nil {
+		return x.PayableAmount
+	}
+	return 0
+}
+
+func (x *Order) GetPaymentStatus() Order_Payment_Status {
+	if x != nil {
+		return x.PaymentStatus
+	}
+	return Order_Payment_UNKNOWN_STATUS
+}
+
+func (x *Order) GetCheckoutUrl() string {
+	if x != nil {
+		return x.CheckoutUrl
+	}
+	return ""
+}
+
+func (x *Order) GetPaymentId() string {
+	if x != nil {
+		return x.PaymentId
+	}
+	return ""
+}
+
 func (x *Order) GetTrackingLink() string {
 	if x != nil {
 		return x.TrackingLink
@@ -292,6 +398,42 @@ func (x *Order) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type Order_Payment struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Order_Payment) Reset() {
+	*x = Order_Payment{}
+	mi := &file_eolymp_commerce_order_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Order_Payment) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Order_Payment) ProtoMessage() {}
+
+func (x *Order_Payment) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_order_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Order_Payment.ProtoReflect.Descriptor instead.
+func (*Order_Payment) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Order_Item struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -313,7 +455,7 @@ type Order_Item struct {
 
 func (x *Order_Item) Reset() {
 	*x = Order_Item{}
-	mi := &file_eolymp_commerce_order_proto_msgTypes[1]
+	mi := &file_eolymp_commerce_order_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -325,7 +467,7 @@ func (x *Order_Item) String() string {
 func (*Order_Item) ProtoMessage() {}
 
 func (x *Order_Item) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_order_proto_msgTypes[1]
+	mi := &file_eolymp_commerce_order_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,7 +480,7 @@ func (x *Order_Item) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Order_Item.ProtoReflect.Descriptor instead.
 func (*Order_Item) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_commerce_order_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Order_Item) GetId() string {
@@ -436,7 +578,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xee\v\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x0e\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
@@ -458,12 +600,29 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
 	"grandTotal\x12#\n" +
+	"\rcredit_amount\x18< \x01(\rR\fcreditAmount\x12'\n" +
+	"\x0fcredit_discount\x18= \x01(\rR\x0ecreditDiscount\x12%\n" +
+	"\x0epayable_amount\x18> \x01(\rR\rpayableAmount\x12L\n" +
+	"\x0epayment_status\x18? \x01(\x0e2%.eolymp.commerce.Order.Payment.StatusR\rpaymentStatus\x12!\n" +
+	"\fcheckout_url\x18@ \x01(\tR\vcheckoutUrl\x12\x1d\n" +
+	"\n" +
+	"payment_id\x18A \x01(\tR\tpaymentId\x12#\n" +
 	"\rtracking_link\x182 \x01(\tR\ftrackingLink\x12'\n" +
 	"\x0ftracking_number\x183 \x01(\tR\x0etrackingNumber\x129\n" +
 	"\n" +
 	"created_at\x18d \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xd3\x03\n" +
+	"updated_at\x18e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1am\n" +
+	"\aPayment\"b\n" +
+	"\x06Status\x12\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\x10\n" +
+	"\fNOT_REQUIRED\x10\x01\x12\n" +
+	"\n" +
+	"\x06UNPAID\x10\x02\x12\x0e\n" +
+	"\n" +
+	"PROCESSING\x10\x03\x12\b\n" +
+	"\x04PAID\x10\x04\x12\f\n" +
+	"\bREFUNDED\x10\x05\x1a\xd3\x03\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1b\n" +
@@ -505,28 +664,31 @@ func file_eolymp_commerce_order_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_order_proto_rawDescData
 }
 
-var file_eolymp_commerce_order_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_commerce_order_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_commerce_order_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_commerce_order_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_commerce_order_proto_goTypes = []any{
 	(Order_Status)(0),             // 0: eolymp.commerce.Order.Status
-	(*Order)(nil),                 // 1: eolymp.commerce.Order
-	(*Order_Item)(nil),            // 2: eolymp.commerce.Order.Item
-	(*Address)(nil),               // 3: eolymp.commerce.Address
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(Order_Payment_Status)(0),     // 1: eolymp.commerce.Order.Payment.Status
+	(*Order)(nil),                 // 2: eolymp.commerce.Order
+	(*Order_Payment)(nil),         // 3: eolymp.commerce.Order.Payment
+	(*Order_Item)(nil),            // 4: eolymp.commerce.Order.Item
+	(*Address)(nil),               // 5: eolymp.commerce.Address
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_eolymp_commerce_order_proto_depIdxs = []int32{
 	0, // 0: eolymp.commerce.Order.status:type_name -> eolymp.commerce.Order.Status
-	2, // 1: eolymp.commerce.Order.items:type_name -> eolymp.commerce.Order.Item
-	3, // 2: eolymp.commerce.Order.billing_address:type_name -> eolymp.commerce.Address
-	3, // 3: eolymp.commerce.Order.shipping_address:type_name -> eolymp.commerce.Address
-	4, // 4: eolymp.commerce.Order.estimated_shipping_date:type_name -> google.protobuf.Timestamp
-	4, // 5: eolymp.commerce.Order.created_at:type_name -> google.protobuf.Timestamp
-	4, // 6: eolymp.commerce.Order.updated_at:type_name -> google.protobuf.Timestamp
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	4, // 1: eolymp.commerce.Order.items:type_name -> eolymp.commerce.Order.Item
+	5, // 2: eolymp.commerce.Order.billing_address:type_name -> eolymp.commerce.Address
+	5, // 3: eolymp.commerce.Order.shipping_address:type_name -> eolymp.commerce.Address
+	6, // 4: eolymp.commerce.Order.estimated_shipping_date:type_name -> google.protobuf.Timestamp
+	1, // 5: eolymp.commerce.Order.payment_status:type_name -> eolymp.commerce.Order.Payment.Status
+	6, // 6: eolymp.commerce.Order.created_at:type_name -> google.protobuf.Timestamp
+	6, // 7: eolymp.commerce.Order.updated_at:type_name -> google.protobuf.Timestamp
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_order_proto_init() }
@@ -540,8 +702,8 @@ func file_eolymp_commerce_order_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_order_proto_rawDesc), len(file_eolymp_commerce_order_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   2,
+			NumEnums:      2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
