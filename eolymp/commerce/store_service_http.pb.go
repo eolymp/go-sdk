@@ -207,6 +207,9 @@ func RegisterStoreServiceHttpHandlers(router *mux.Router, prefix string, cli Sto
 	router.Handle(prefix+"/store", _StoreService_UpdateStore_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.commerce.StoreService.UpdateStore")
+	router.Handle(prefix+"/store/catalog:sync", _StoreService_SyncCatalog_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.StoreService.SyncCatalog")
 }
 
 // RegisterStoreServiceHttpProxy adds proxy handlers for for StoreServiceClient
@@ -247,6 +250,27 @@ func _StoreService_UpdateStore_Rule0(cli StoreServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UpdateStore(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_StoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_StoreService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _StoreService_SyncCatalog_Rule0(cli StoreServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &SyncCatalogInput{}
+
+		if err := _StoreService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_StoreService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.SyncCatalog(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_StoreService_HTTPWriteErrorResponse(w, err)
 			return

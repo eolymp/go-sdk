@@ -182,6 +182,86 @@ func (*UpdateStoreOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_store_service_proto_rawDescGZIP(), []int{3}
 }
 
+type SyncCatalogInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncCatalogInput) Reset() {
+	*x = SyncCatalogInput{}
+	mi := &file_eolymp_commerce_store_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncCatalogInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncCatalogInput) ProtoMessage() {}
+
+func (x *SyncCatalogInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_store_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncCatalogInput.ProtoReflect.Descriptor instead.
+func (*SyncCatalogInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_store_service_proto_rawDescGZIP(), []int{4}
+}
+
+type SyncCatalogOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Synced        int32                  `protobuf:"varint,1,opt,name=synced,proto3" json:"synced,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncCatalogOutput) Reset() {
+	*x = SyncCatalogOutput{}
+	mi := &file_eolymp_commerce_store_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncCatalogOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncCatalogOutput) ProtoMessage() {}
+
+func (x *SyncCatalogOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_store_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncCatalogOutput.ProtoReflect.Descriptor instead.
+func (*SyncCatalogOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_store_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SyncCatalogOutput) GetSynced() int32 {
+	if x != nil {
+		return x.Synced
+	}
+	return 0
+}
+
 var File_eolymp_commerce_store_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_store_service_proto_rawDesc = "" +
@@ -192,7 +272,10 @@ const file_eolymp_commerce_store_service_proto_rawDesc = "" +
 	"\x05store\x18\x01 \x01(\v2\x16.eolymp.commerce.StoreR\x05store\"F\n" +
 	"\x10UpdateStoreInput\x122\n" +
 	"\x05store\x18\x01 \x01(\v2\x1c.eolymp.commerce.Store.PatchR\x05store\"\x13\n" +
-	"\x11UpdateStoreOutput2\xe8\x02\n" +
+	"\x11UpdateStoreOutput\"\x12\n" +
+	"\x10SyncCatalogInput\"+\n" +
+	"\x11SyncCatalogOutput\x12\x16\n" +
+	"\x06synced\x18\x01 \x01(\x05R\x06synced2\x91\x04\n" +
 	"\fStoreService\x12\x9e\x01\n" +
 	"\rDescribeStore\x12#.eolymp.commerce.DescribeStoreInput\x1a$.eolymp.commerce.DescribeStoreOutput\"B\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -209,7 +292,15 @@ const file_eolymp_commerce_store_service_proto_rawDesc = "" +
 	"\x1a\x8a\xe3\n" +
 	"\x16commerce:catalog:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\b\x1a\x06/store\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02\b\x1a\x06/store\x12\xa6\x01\n" +
+	"\vSyncCatalog\x12!.eolymp.commerce.SyncCatalogInput\x1a\".eolymp.commerce.SyncCatalogOutput\"P\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x02\x82\xe3\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16commerce:catalog:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x15\"\x13/store/catalog:sync\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_store_service_proto_rawDescOnce sync.Once
@@ -223,24 +314,28 @@ func file_eolymp_commerce_store_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_store_service_proto_rawDescData
 }
 
-var file_eolymp_commerce_store_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_commerce_store_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_commerce_store_service_proto_goTypes = []any{
 	(*DescribeStoreInput)(nil),  // 0: eolymp.commerce.DescribeStoreInput
 	(*DescribeStoreOutput)(nil), // 1: eolymp.commerce.DescribeStoreOutput
 	(*UpdateStoreInput)(nil),    // 2: eolymp.commerce.UpdateStoreInput
 	(*UpdateStoreOutput)(nil),   // 3: eolymp.commerce.UpdateStoreOutput
-	(*Store)(nil),               // 4: eolymp.commerce.Store
-	(*Store_Patch)(nil),         // 5: eolymp.commerce.Store.Patch
+	(*SyncCatalogInput)(nil),    // 4: eolymp.commerce.SyncCatalogInput
+	(*SyncCatalogOutput)(nil),   // 5: eolymp.commerce.SyncCatalogOutput
+	(*Store)(nil),               // 6: eolymp.commerce.Store
+	(*Store_Patch)(nil),         // 7: eolymp.commerce.Store.Patch
 }
 var file_eolymp_commerce_store_service_proto_depIdxs = []int32{
-	4, // 0: eolymp.commerce.DescribeStoreOutput.store:type_name -> eolymp.commerce.Store
-	5, // 1: eolymp.commerce.UpdateStoreInput.store:type_name -> eolymp.commerce.Store.Patch
+	6, // 0: eolymp.commerce.DescribeStoreOutput.store:type_name -> eolymp.commerce.Store
+	7, // 1: eolymp.commerce.UpdateStoreInput.store:type_name -> eolymp.commerce.Store.Patch
 	0, // 2: eolymp.commerce.StoreService.DescribeStore:input_type -> eolymp.commerce.DescribeStoreInput
 	2, // 3: eolymp.commerce.StoreService.UpdateStore:input_type -> eolymp.commerce.UpdateStoreInput
-	1, // 4: eolymp.commerce.StoreService.DescribeStore:output_type -> eolymp.commerce.DescribeStoreOutput
-	3, // 5: eolymp.commerce.StoreService.UpdateStore:output_type -> eolymp.commerce.UpdateStoreOutput
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+	4, // 4: eolymp.commerce.StoreService.SyncCatalog:input_type -> eolymp.commerce.SyncCatalogInput
+	1, // 5: eolymp.commerce.StoreService.DescribeStore:output_type -> eolymp.commerce.DescribeStoreOutput
+	3, // 6: eolymp.commerce.StoreService.UpdateStore:output_type -> eolymp.commerce.UpdateStoreOutput
+	5, // 7: eolymp.commerce.StoreService.SyncCatalog:output_type -> eolymp.commerce.SyncCatalogOutput
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -258,7 +353,7 @@ func file_eolymp_commerce_store_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_store_service_proto_rawDesc), len(file_eolymp_commerce_store_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

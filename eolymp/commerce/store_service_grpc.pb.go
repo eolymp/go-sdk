@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	StoreService_DescribeStore_FullMethodName = "/eolymp.commerce.StoreService/DescribeStore"
 	StoreService_UpdateStore_FullMethodName   = "/eolymp.commerce.StoreService/UpdateStore"
+	StoreService_SyncCatalog_FullMethodName   = "/eolymp.commerce.StoreService/SyncCatalog"
 )
 
 // StoreServiceClient is the client API for StoreService service.
@@ -31,6 +32,7 @@ const (
 type StoreServiceClient interface {
 	DescribeStore(ctx context.Context, in *DescribeStoreInput, opts ...grpc.CallOption) (*DescribeStoreOutput, error)
 	UpdateStore(ctx context.Context, in *UpdateStoreInput, opts ...grpc.CallOption) (*UpdateStoreOutput, error)
+	SyncCatalog(ctx context.Context, in *SyncCatalogInput, opts ...grpc.CallOption) (*SyncCatalogOutput, error)
 }
 
 type storeServiceClient struct {
@@ -61,6 +63,16 @@ func (c *storeServiceClient) UpdateStore(ctx context.Context, in *UpdateStoreInp
 	return out, nil
 }
 
+func (c *storeServiceClient) SyncCatalog(ctx context.Context, in *SyncCatalogInput, opts ...grpc.CallOption) (*SyncCatalogOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SyncCatalogOutput)
+	err := c.cc.Invoke(ctx, StoreService_SyncCatalog_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoreServiceServer is the server API for StoreService service.
 // All implementations should embed UnimplementedStoreServiceServer
 // for forward compatibility.
@@ -69,6 +81,7 @@ func (c *storeServiceClient) UpdateStore(ctx context.Context, in *UpdateStoreInp
 type StoreServiceServer interface {
 	DescribeStore(context.Context, *DescribeStoreInput) (*DescribeStoreOutput, error)
 	UpdateStore(context.Context, *UpdateStoreInput) (*UpdateStoreOutput, error)
+	SyncCatalog(context.Context, *SyncCatalogInput) (*SyncCatalogOutput, error)
 }
 
 // UnimplementedStoreServiceServer should be embedded to have
@@ -83,6 +96,9 @@ func (UnimplementedStoreServiceServer) DescribeStore(context.Context, *DescribeS
 }
 func (UnimplementedStoreServiceServer) UpdateStore(context.Context, *UpdateStoreInput) (*UpdateStoreOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateStore not implemented")
+}
+func (UnimplementedStoreServiceServer) SyncCatalog(context.Context, *SyncCatalogInput) (*SyncCatalogOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method SyncCatalog not implemented")
 }
 func (UnimplementedStoreServiceServer) testEmbeddedByValue() {}
 
@@ -140,6 +156,24 @@ func _StoreService_UpdateStore_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StoreService_SyncCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncCatalogInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).SyncCatalog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_SyncCatalog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).SyncCatalog(ctx, req.(*SyncCatalogInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StoreService_ServiceDesc is the grpc.ServiceDesc for StoreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +188,10 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateStore",
 			Handler:    _StoreService_UpdateStore_Handler,
+		},
+		{
+			MethodName: "SyncCatalog",
+			Handler:    _StoreService_SyncCatalog_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -121,3 +121,14 @@ func (s *StoreServiceService) UpdateStore(ctx context.Context, in *UpdateStoreIn
 
 	return out, nil
 }
+
+func (s *StoreServiceService) SyncCatalog(ctx context.Context, in *SyncCatalogInput) (*SyncCatalogOutput, error) {
+	out := &SyncCatalogOutput{}
+	path := "/store/catalog:sync"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

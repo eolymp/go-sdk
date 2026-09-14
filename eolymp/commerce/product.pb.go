@@ -7,6 +7,7 @@
 package commerce
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -218,24 +219,26 @@ func (Product_Variant_Patch_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Product struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Summary       *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
-	Description   *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
-	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	OutOfStock    bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"` // all variants are out of stock
-	Featured      bool                   `protobuf:"varint,31,opt,name=featured,proto3" json:"featured,omitempty"`
-	Inactive      bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
-	Backorder     bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
-	Currency      string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
-	Price         uint32                 `protobuf:"varint,21,opt,name=price,proto3" json:"price,omitempty"`                                   // current (sell) price
-	RegularPrice  uint32                 `protobuf:"varint,22,opt,name=regular_price,json=regularPrice,proto3" json:"regular_price,omitempty"` // optionally, regular product price (before discount)
-	Attributes    []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
-	Variants      []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
-	Cursor        string                 `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Summary         *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
+	Description     *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
+	Images          []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
+	OutOfStock      bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"` // all variants are out of stock
+	Featured        bool                   `protobuf:"varint,31,opt,name=featured,proto3" json:"featured,omitempty"`
+	Inactive        bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
+	Backorder       bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
+	Currency        string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
+	Price           uint32                 `protobuf:"varint,21,opt,name=price,proto3" json:"price,omitempty"`                                   // current (sell) price
+	RegularPrice    uint32                 `protobuf:"varint,22,opt,name=regular_price,json=regularPrice,proto3" json:"regular_price,omitempty"` // optionally, regular product price (before discount)
+	Attributes      []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	Variants        []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
+	StripeProductId string                 `protobuf:"bytes,60,opt,name=stripe_product_id,json=stripeProductId,proto3" json:"stripe_product_id,omitempty"`
+	StripePriceId   string                 `protobuf:"bytes,61,opt,name=stripe_price_id,json=stripePriceId,proto3" json:"stripe_price_id,omitempty"`
+	Cursor          string                 `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Product) Reset() {
@@ -364,6 +367,20 @@ func (x *Product) GetVariants() []*Product_Variant {
 		return x.Variants
 	}
 	return nil
+}
+
+func (x *Product) GetStripeProductId() string {
+	if x != nil {
+		return x.StripeProductId
+	}
+	return ""
+}
+
+func (x *Product) GetStripePriceId() string {
+	if x != nil {
+		return x.StripePriceId
+	}
+	return ""
 }
 
 func (x *Product) GetCursor() string {
@@ -723,7 +740,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x18eolymp/ecm/content.proto\"\xdb\f\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xbf\r\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -742,7 +759,9 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
-	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x12\x16\n" +
+	"\bvariants\x182 \x03(\v2 .eolymp.commerce.Product.VariantR\bvariants\x122\n" +
+	"\x11stripe_product_id\x18< \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0fstripeProductId\x12.\n" +
+	"\x0fstripe_price_id\x18= \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rstripePriceId\x12\x16\n" +
 	"\x06cursor\x18d \x01(\tR\x06cursor\x1a\x98\x01\n" +
 	"\x05Extra\"\x8e\x01\n" +
 	"\x05Field\x12\x11\n" +

@@ -7,8 +7,10 @@
 package commerce
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,11 +24,15 @@ const (
 )
 
 type Store struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Currency      string                 `protobuf:"bytes,1,opt,name=currency,proto3" json:"currency,omitempty"`
-	CreditValue   uint32                 `protobuf:"varint,2,opt,name=credit_value,json=creditValue,proto3" json:"credit_value,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Currency        string                 `protobuf:"bytes,1,opt,name=currency,proto3" json:"currency,omitempty"`
+	CreditValue     uint32                 `protobuf:"varint,2,opt,name=credit_value,json=creditValue,proto3" json:"credit_value,omitempty"`
+	StripeLiveMode  bool                   `protobuf:"varint,10,opt,name=stripe_live_mode,json=stripeLiveMode,proto3" json:"stripe_live_mode,omitempty"`
+	StripeLive      *Store_Stripe          `protobuf:"bytes,11,opt,name=stripe_live,json=stripeLive,proto3" json:"stripe_live,omitempty"`
+	StripeTest      *Store_Stripe          `protobuf:"bytes,12,opt,name=stripe_test,json=stripeTest,proto3" json:"stripe_test,omitempty"`
+	CatalogSyncedAt *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=catalog_synced_at,json=catalogSyncedAt,proto3" json:"catalog_synced_at,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Store) Reset() {
@@ -73,12 +79,43 @@ func (x *Store) GetCreditValue() uint32 {
 	return 0
 }
 
+func (x *Store) GetStripeLiveMode() bool {
+	if x != nil {
+		return x.StripeLiveMode
+	}
+	return false
+}
+
+func (x *Store) GetStripeLive() *Store_Stripe {
+	if x != nil {
+		return x.StripeLive
+	}
+	return nil
+}
+
+func (x *Store) GetStripeTest() *Store_Stripe {
+	if x != nil {
+		return x.StripeTest
+	}
+	return nil
+}
+
+func (x *Store) GetCatalogSyncedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CatalogSyncedAt
+	}
+	return nil
+}
+
 type Store_Patch struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Currency      *string                `protobuf:"bytes,1,opt,name=currency,proto3,oneof" json:"currency,omitempty"`
-	CreditValue   *uint32                `protobuf:"varint,2,opt,name=credit_value,json=creditValue,proto3,oneof" json:"credit_value,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Currency       *string                `protobuf:"bytes,1,opt,name=currency,proto3,oneof" json:"currency,omitempty"`
+	CreditValue    *uint32                `protobuf:"varint,2,opt,name=credit_value,json=creditValue,proto3,oneof" json:"credit_value,omitempty"`
+	StripeLiveMode *bool                  `protobuf:"varint,10,opt,name=stripe_live_mode,json=stripeLiveMode,proto3,oneof" json:"stripe_live_mode,omitempty"`
+	StripeLive     *Store_Stripe          `protobuf:"bytes,11,opt,name=stripe_live,json=stripeLive,proto3" json:"stripe_live,omitempty"`
+	StripeTest     *Store_Stripe          `protobuf:"bytes,12,opt,name=stripe_test,json=stripeTest,proto3" json:"stripe_test,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Store_Patch) Reset() {
@@ -125,19 +162,131 @@ func (x *Store_Patch) GetCreditValue() uint32 {
 	return 0
 }
 
+func (x *Store_Patch) GetStripeLiveMode() bool {
+	if x != nil && x.StripeLiveMode != nil {
+		return *x.StripeLiveMode
+	}
+	return false
+}
+
+func (x *Store_Patch) GetStripeLive() *Store_Stripe {
+	if x != nil {
+		return x.StripeLive
+	}
+	return nil
+}
+
+func (x *Store_Patch) GetStripeTest() *Store_Stripe {
+	if x != nil {
+		return x.StripeTest
+	}
+	return nil
+}
+
+type Store_Stripe struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SecretKey     string                 `protobuf:"bytes,1,opt,name=secret_key,json=secretKey,proto3" json:"secret_key,omitempty"`
+	WebhookSecret string                 `protobuf:"bytes,2,opt,name=webhook_secret,json=webhookSecret,proto3" json:"webhook_secret,omitempty"`
+	Configured    bool                   `protobuf:"varint,3,opt,name=configured,proto3" json:"configured,omitempty"`
+	WebhookUrl    string                 `protobuf:"bytes,4,opt,name=webhook_url,json=webhookUrl,proto3" json:"webhook_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Store_Stripe) Reset() {
+	*x = Store_Stripe{}
+	mi := &file_eolymp_commerce_store_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Store_Stripe) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Store_Stripe) ProtoMessage() {}
+
+func (x *Store_Stripe) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_store_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Store_Stripe.ProtoReflect.Descriptor instead.
+func (*Store_Stripe) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_store_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *Store_Stripe) GetSecretKey() string {
+	if x != nil {
+		return x.SecretKey
+	}
+	return ""
+}
+
+func (x *Store_Stripe) GetWebhookSecret() string {
+	if x != nil {
+		return x.WebhookSecret
+	}
+	return ""
+}
+
+func (x *Store_Stripe) GetConfigured() bool {
+	if x != nil {
+		return x.Configured
+	}
+	return false
+}
+
+func (x *Store_Stripe) GetWebhookUrl() string {
+	if x != nil {
+		return x.WebhookUrl
+	}
+	return ""
+}
+
 var File_eolymp_commerce_store_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_store_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/store.proto\x12\x0feolymp.commerce\"\xb6\x01\n" +
+	"\x1beolymp/commerce/store.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x06\n" +
 	"\x05Store\x12\x1a\n" +
 	"\bcurrency\x18\x01 \x01(\tR\bcurrency\x12!\n" +
-	"\fcredit_value\x18\x02 \x01(\rR\vcreditValue\x1an\n" +
+	"\fcredit_value\x18\x02 \x01(\rR\vcreditValue\x12(\n" +
+	"\x10stripe_live_mode\x18\n" +
+	" \x01(\bR\x0estripeLiveMode\x12>\n" +
+	"\vstripe_live\x18\v \x01(\v2\x1d.eolymp.commerce.Store.StripeR\n" +
+	"stripeLive\x12>\n" +
+	"\vstripe_test\x18\f \x01(\v2\x1d.eolymp.commerce.Store.StripeR\n" +
+	"stripeTest\x12N\n" +
+	"\x11catalog_synced_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0fcatalogSyncedAt\x1a\xb2\x02\n" +
 	"\x05Patch\x12\x1f\n" +
 	"\bcurrency\x18\x01 \x01(\tH\x00R\bcurrency\x88\x01\x01\x12&\n" +
-	"\fcredit_value\x18\x02 \x01(\rH\x01R\vcreditValue\x88\x01\x01B\v\n" +
+	"\fcredit_value\x18\x02 \x01(\rH\x01R\vcreditValue\x88\x01\x01\x12-\n" +
+	"\x10stripe_live_mode\x18\n" +
+	" \x01(\bH\x02R\x0estripeLiveMode\x88\x01\x01\x12>\n" +
+	"\vstripe_live\x18\v \x01(\v2\x1d.eolymp.commerce.Store.StripeR\n" +
+	"stripeLive\x12>\n" +
+	"\vstripe_test\x18\f \x01(\v2\x1d.eolymp.commerce.Store.StripeR\n" +
+	"stripeTestB\v\n" +
 	"\t_currencyB\x0f\n" +
-	"\r_credit_valueB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\r_credit_valueB\x13\n" +
+	"\x11_stripe_live_mode\x1a\x9f\x01\n" +
+	"\x06Stripe\x12\x1d\n" +
+	"\n" +
+	"secret_key\x18\x01 \x01(\tR\tsecretKey\x12%\n" +
+	"\x0ewebhook_secret\x18\x02 \x01(\tR\rwebhookSecret\x12&\n" +
+	"\n" +
+	"configured\x18\x03 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"configured\x12'\n" +
+	"\vwebhook_url\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"webhookUrlB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_store_proto_rawDescOnce sync.Once
@@ -151,17 +300,24 @@ func file_eolymp_commerce_store_proto_rawDescGZIP() []byte {
 	return file_eolymp_commerce_store_proto_rawDescData
 }
 
-var file_eolymp_commerce_store_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_commerce_store_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_commerce_store_proto_goTypes = []any{
-	(*Store)(nil),       // 0: eolymp.commerce.Store
-	(*Store_Patch)(nil), // 1: eolymp.commerce.Store.Patch
+	(*Store)(nil),                 // 0: eolymp.commerce.Store
+	(*Store_Patch)(nil),           // 1: eolymp.commerce.Store.Patch
+	(*Store_Stripe)(nil),          // 2: eolymp.commerce.Store.Stripe
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_commerce_store_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: eolymp.commerce.Store.stripe_live:type_name -> eolymp.commerce.Store.Stripe
+	2, // 1: eolymp.commerce.Store.stripe_test:type_name -> eolymp.commerce.Store.Stripe
+	3, // 2: eolymp.commerce.Store.catalog_synced_at:type_name -> google.protobuf.Timestamp
+	2, // 3: eolymp.commerce.Store.Patch.stripe_live:type_name -> eolymp.commerce.Store.Stripe
+	2, // 4: eolymp.commerce.Store.Patch.stripe_test:type_name -> eolymp.commerce.Store.Stripe
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_store_proto_init() }
@@ -176,7 +332,7 @@ func file_eolymp_commerce_store_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_store_proto_rawDesc), len(file_eolymp_commerce_store_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
