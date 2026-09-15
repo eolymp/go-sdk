@@ -653,9 +653,10 @@ func (*DeleteChatOutput) Descriptor() ([]byte, []int) {
 }
 
 type SendMessageInput struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	ChatId string                 `protobuf:"bytes,1,opt,name=chat_id,json=chatId,proto3" json:"chat_id,omitempty"`
-	Model  string                 `protobuf:"bytes,2,opt,name=model,proto3" json:"model,omitempty"` // agent to answer with, see DescribeChatOptions
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	ChatId     string                 `protobuf:"bytes,1,opt,name=chat_id,json=chatId,proto3" json:"chat_id,omitempty"`
+	Model      string                 `protobuf:"bytes,2,opt,name=model,proto3" json:"model,omitempty"`                              // agent to answer with, see DescribeChatOptions
+	ApproveAll bool                   `protobuf:"varint,3,opt,name=approve_all,json=approveAll,proto3" json:"approve_all,omitempty"` // approve every tool call in this run without asking
 	// Types that are valid to be assigned to Content:
 	//
 	//	*SendMessageInput_Message_
@@ -707,6 +708,13 @@ func (x *SendMessageInput) GetModel() string {
 		return x.Model
 	}
 	return ""
+}
+
+func (x *SendMessageInput) GetApproveAll() bool {
+	if x != nil {
+		return x.ApproveAll
+	}
+	return false
 }
 
 func (x *SendMessageInput) GetContent() isSendMessageInput_Content {
@@ -1355,10 +1363,12 @@ const file_eolymp_copilot_chat_service_proto_rawDesc = "" +
 	"\x11ArchiveChatOutput\"*\n" +
 	"\x0fDeleteChatInput\x12\x17\n" +
 	"\achat_id\x18\x01 \x01(\tR\x06chatId\"\x12\n" +
-	"\x10DeleteChatOutput\"\xe7\x02\n" +
+	"\x10DeleteChatOutput\"\x88\x03\n" +
 	"\x10SendMessageInput\x12\x17\n" +
 	"\achat_id\x18\x01 \x01(\tR\x06chatId\x12\x14\n" +
-	"\x05model\x18\x02 \x01(\tR\x05model\x12D\n" +
+	"\x05model\x18\x02 \x01(\tR\x05model\x12\x1f\n" +
+	"\vapprove_all\x18\x03 \x01(\bR\n" +
+	"approveAll\x12D\n" +
 	"\amessage\x18\n" +
 	" \x01(\v2(.eolymp.copilot.SendMessageInput.MessageH\x00R\amessage\x12G\n" +
 	"\bapproval\x18\v \x01(\v2).eolymp.copilot.SendMessageInput.ApprovalH\x00R\bapproval\x1aP\n" +
