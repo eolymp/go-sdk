@@ -395,6 +395,9 @@ type Scoreboard_Contest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	ContestId string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Index     uint32                 `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
+	// Short name the board gives the contest, such as "Day 1" or "Practice". A contest's own name is written for
+	// the contest page and is usually too long for a column, so a board carries its own. Empty when not set.
+	Label string `protobuf:"bytes,3,opt,name=label,proto3" json:"label,omitempty"`
 	// Read-only, resolved from the contest. Carried by the board because a shared scoreboard is read by
 	// people who may not read the contest itself.
 	Name          string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
@@ -449,6 +452,13 @@ func (x *Scoreboard_Contest) GetIndex() uint32 {
 		return x.Index
 	}
 	return 0
+}
+
+func (x *Scoreboard_Contest) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
 }
 
 func (x *Scoreboard_Contest) GetName() string {
@@ -790,6 +800,7 @@ func (x *Scoreboard_Patch) GetVisibility() Scoreboard_Visibility {
 type Scoreboard_Contest_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Index         *uint32                `protobuf:"varint,2,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	Label         *string                `protobuf:"bytes,3,opt,name=label,proto3,oneof" json:"label,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -829,6 +840,13 @@ func (x *Scoreboard_Contest_Patch) GetIndex() uint32 {
 		return *x.Index
 	}
 	return 0
+}
+
+func (x *Scoreboard_Contest_Patch) GetLabel() string {
+	if x != nil && x.Label != nil {
+		return *x.Label
+	}
+	return ""
 }
 
 type Scoreboard_Attribute_Patch struct {
@@ -1181,7 +1199,7 @@ var File_eolymp_scoreboard_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/scoreboard/scoreboard.proto\x12\x11eolymp.scoreboard\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc7\x0e\n" +
+	"\"eolymp/scoreboard/scoreboard.proto\x12\x11eolymp.scoreboard\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x0f\n" +
 	"\n" +
 	"Scoreboard\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
@@ -1198,21 +1216,24 @@ const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18\v \x03(\v2'.eolymp.scoreboard.Scoreboard.AttributeR\n" +
 	"attributes\x12>\n" +
-	"\afilters\x18\f \x03(\v2$.eolymp.scoreboard.Scoreboard.FilterR\afilters\x1a\x84\x03\n" +
+	"\afilters\x18\f \x03(\v2$.eolymp.scoreboard.Scoreboard.FilterR\afilters\x1a\xbf\x03\n" +
 	"\aContest\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x14\n" +
-	"\x05index\x18\x02 \x01(\rR\x05index\x12\x12\n" +
+	"\x05index\x18\x02 \x01(\rR\x05index\x12\x14\n" +
+	"\x05label\x18\x03 \x01(\tR\x05label\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x1b\n" +
 	"\timage_url\x18\v \x01(\tR\bimageUrl\x124\n" +
 	"\x06status\x18\f \x01(\x0e2\x1c.eolymp.judge.Contest.StatusR\x06status\x127\n" +
 	"\tstarts_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\x123\n" +
 	"\aends_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\x06endsAt\x12A\n" +
-	"\bproblems\x18\x14 \x03(\v2%.eolymp.scoreboard.Scoreboard.ProblemR\bproblems\x1a,\n" +
+	"\bproblems\x18\x14 \x03(\v2%.eolymp.scoreboard.Scoreboard.ProblemR\bproblems\x1aQ\n" +
 	"\x05Patch\x12\x19\n" +
-	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01B\b\n" +
-	"\x06_index\x1aT\n" +
+	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12\x19\n" +
+	"\x05label\x18\x03 \x01(\tH\x01R\x05label\x88\x01\x01B\b\n" +
+	"\x06_indexB\b\n" +
+	"\x06_label\x1aT\n" +
 	"\aProblem\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x14\n" +

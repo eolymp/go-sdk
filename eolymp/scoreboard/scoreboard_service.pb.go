@@ -494,6 +494,7 @@ type AddScoreboardContestInput struct {
 	ContestId    string                 `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	// Position to insert at; appended when unset.
 	Index         *uint32 `protobuf:"varint,3,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	Label         string  `protobuf:"bytes,4,opt,name=label,proto3" json:"label,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -547,6 +548,13 @@ func (x *AddScoreboardContestInput) GetIndex() uint32 {
 		return *x.Index
 	}
 	return 0
+}
+
+func (x *AddScoreboardContestInput) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
 }
 
 type AddScoreboardContestOutput struct {
@@ -1878,12 +1886,13 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"contest_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\tcontestId\"b\n" +
 	"\x15ListScoreboardsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x123\n" +
-	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.scoreboard.ScoreboardR\x05items\"\x84\x01\n" +
+	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.scoreboard.ScoreboardR\x05items\"\x9a\x01\n" +
 	"\x19AddScoreboardContestInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x02 \x01(\tR\tcontestId\x12\x19\n" +
-	"\x05index\x18\x03 \x01(\rH\x00R\x05index\x88\x01\x01B\b\n" +
+	"\x05index\x18\x03 \x01(\rH\x00R\x05index\x88\x01\x01\x12\x14\n" +
+	"\x05label\x18\x04 \x01(\tR\x05labelB\b\n" +
 	"\x06_index\"\x1c\n" +
 	"\x1aAddScoreboardContestOutput\"\xa9\x01\n" +
 	"\x1cUpdateScoreboardContestInput\x12#\n" +
