@@ -22,11 +22,15 @@ const (
 )
 
 type Attachment struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"` // deprecate
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Link          string                 `protobuf:"bytes,4,opt,name=link,proto3" json:"link,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Id        string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProblemId string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"` // deprecate
+	Name      string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	// Types that are valid to be assigned to File:
+	//
+	//	*Attachment_Link
+	//	*Attachment_Content
+	File          isAttachment_File `protobuf_oneof:"file"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -82,25 +86,61 @@ func (x *Attachment) GetName() string {
 	return ""
 }
 
+func (x *Attachment) GetFile() isAttachment_File {
+	if x != nil {
+		return x.File
+	}
+	return nil
+}
+
 func (x *Attachment) GetLink() string {
 	if x != nil {
-		return x.Link
+		if x, ok := x.File.(*Attachment_Link); ok {
+			return x.Link
+		}
 	}
 	return ""
 }
+
+func (x *Attachment) GetContent() string {
+	if x != nil {
+		if x, ok := x.File.(*Attachment_Content); ok {
+			return x.Content
+		}
+	}
+	return ""
+}
+
+type isAttachment_File interface {
+	isAttachment_File()
+}
+
+type Attachment_Link struct {
+	Link string `protobuf:"bytes,4,opt,name=link,proto3,oneof"`
+}
+
+type Attachment_Content struct {
+	Content string `protobuf:"bytes,5,opt,name=content,proto3,oneof"`
+}
+
+func (*Attachment_Link) isAttachment_File() {}
+
+func (*Attachment_Content) isAttachment_File() {}
 
 var File_eolymp_atlas_attachment_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_attachment_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/attachment.proto\x12\feolymp.atlas\"c\n" +
+	"\x1deolymp/atlas/attachment.proto\x12\feolymp.atlas\"\x89\x01\n" +
 	"\n" +
 	"Attachment\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12\x12\n" +
-	"\x04link\x18\x04 \x01(\tR\x04linkB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x14\n" +
+	"\x04link\x18\x04 \x01(\tH\x00R\x04link\x12\x1a\n" +
+	"\acontent\x18\x05 \x01(\tH\x00R\acontentB\x06\n" +
+	"\x04fileB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_attachment_proto_rawDescOnce sync.Once
@@ -130,6 +170,10 @@ func init() { file_eolymp_atlas_attachment_proto_init() }
 func file_eolymp_atlas_attachment_proto_init() {
 	if File_eolymp_atlas_attachment_proto != nil {
 		return
+	}
+	file_eolymp_atlas_attachment_proto_msgTypes[0].OneofWrappers = []any{
+		(*Attachment_Link)(nil),
+		(*Attachment_Content)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
