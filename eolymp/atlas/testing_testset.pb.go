@@ -191,7 +191,7 @@ func (x *Testset) GetFeedbackPolicy() FeedbackPolicy {
 	if x != nil {
 		return x.FeedbackPolicy
 	}
-	return FeedbackPolicy_COMPLETE
+	return FeedbackPolicy_UNKNOWN_FEEDBACK_POLICY
 }
 
 var File_eolymp_atlas_testing_testset_proto protoreflect.FileDescriptor

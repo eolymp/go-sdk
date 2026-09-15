@@ -904,7 +904,7 @@ func (x *Submission_Group) GetFeedbackPolicy() FeedbackPolicy {
 	if x != nil {
 		return x.FeedbackPolicy
 	}
-	return FeedbackPolicy_COMPLETE
+	return FeedbackPolicy_UNKNOWN_FEEDBACK_POLICY
 }
 
 func (x *Submission_Group) GetTimeUsage() uint32 {

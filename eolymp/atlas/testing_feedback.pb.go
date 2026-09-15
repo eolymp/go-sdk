@@ -24,22 +24,25 @@ const (
 type FeedbackPolicy int32
 
 const (
-	FeedbackPolicy_COMPLETE      FeedbackPolicy = 0 // show each test individually
-	FeedbackPolicy_ICPC          FeedbackPolicy = 1 // show results as in ICPC contest (only first not accepted test from the set)
-	FeedbackPolicy_ICPC_EXPANDED FeedbackPolicy = 2 // show results as in ICPC contest including number of the test which failed
+	FeedbackPolicy_UNKNOWN_FEEDBACK_POLICY FeedbackPolicy = 0 // not set, treated as COMPLETE
+	FeedbackPolicy_ICPC                    FeedbackPolicy = 1 // show results as in ICPC contest (only first not accepted test from the set)
+	FeedbackPolicy_ICPC_EXPANDED           FeedbackPolicy = 2 // show results as in ICPC contest including number of the test which failed
+	FeedbackPolicy_COMPLETE                FeedbackPolicy = 3 // show each test individually
 )
 
 // Enum value maps for FeedbackPolicy.
 var (
 	FeedbackPolicy_name = map[int32]string{
-		0: "COMPLETE",
+		0: "UNKNOWN_FEEDBACK_POLICY",
 		1: "ICPC",
 		2: "ICPC_EXPANDED",
+		3: "COMPLETE",
 	}
 	FeedbackPolicy_value = map[string]int32{
-		"COMPLETE":      0,
-		"ICPC":          1,
-		"ICPC_EXPANDED": 2,
+		"UNKNOWN_FEEDBACK_POLICY": 0,
+		"ICPC":                    1,
+		"ICPC_EXPANDED":           2,
+		"COMPLETE":                3,
 	}
 )
 
@@ -74,11 +77,12 @@ var File_eolymp_atlas_testing_feedback_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_feedback_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/atlas/testing_feedback.proto\x12\feolymp.atlas*;\n" +
-	"\x0eFeedbackPolicy\x12\f\n" +
-	"\bCOMPLETE\x10\x00\x12\b\n" +
+	"#eolymp/atlas/testing_feedback.proto\x12\feolymp.atlas*X\n" +
+	"\x0eFeedbackPolicy\x12\x1b\n" +
+	"\x17UNKNOWN_FEEDBACK_POLICY\x10\x00\x12\b\n" +
 	"\x04ICPC\x10\x01\x12\x11\n" +
-	"\rICPC_EXPANDED\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\rICPC_EXPANDED\x10\x02\x12\f\n" +
+	"\bCOMPLETE\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_feedback_proto_rawDescOnce sync.Once
