@@ -577,6 +577,9 @@ func (x *Scoreboard_Attribute_Patch) GetLabel() string {
 type Scoreboard_Row_Value struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	ColumnId string                 `protobuf:"bytes,1,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
+	// Type of the column the value belongs to. Carried on the value so a reader can tell a country or region
+	// id from any other string without matching it against the board's columns.
+	Type Scoreboard_Column_Type `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.judge.Scoreboard_Column_Type" json:"type,omitempty"`
 	// Types that are valid to be assigned to Value:
 	//
 	//	*Scoreboard_Row_Value_ProblemScore
@@ -622,6 +625,13 @@ func (x *Scoreboard_Row_Value) GetColumnId() string {
 		return x.ColumnId
 	}
 	return ""
+}
+
+func (x *Scoreboard_Row_Value) GetType() Scoreboard_Column_Type {
+	if x != nil {
+		return x.Type
+	}
+	return Scoreboard_Column_UNKNOWN_TYPE
 }
 
 func (x *Scoreboard_Row_Value) GetValue() isScoreboard_Row_Value_Value {
@@ -787,7 +797,7 @@ var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\"\xee\f\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\"\xa8\r\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -830,7 +840,7 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12\x19\n" +
 	"\x05label\x18\x03 \x01(\tH\x01R\x05label\x88\x01\x01B\b\n" +
 	"\x06_indexB\b\n" +
-	"\x06_label\x1a\xdd\x06\n" +
+	"\x06_label\x1a\x97\a\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x14\n" +
@@ -850,9 +860,10 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"unofficial\x12\"\n" +
 	"\fdisqualified\x18\x1f \x01(\bR\fdisqualified\x12)\n" +
 	"\x05medal\x18  \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x12:\n" +
-	"\x06values\x182 \x03(\v2\".eolymp.judge.Scoreboard.Row.ValueR\x06values\x1a\xb3\x01\n" +
+	"\x06values\x182 \x03(\v2\".eolymp.judge.Scoreboard.Row.ValueR\x06values\x1a\xed\x01\n" +
 	"\x05Value\x12\x1b\n" +
-	"\tcolumn_id\x18\x01 \x01(\tR\bcolumnId\x12P\n" +
+	"\tcolumn_id\x18\x01 \x01(\tR\bcolumnId\x128\n" +
+	"\x04type\x18\x02 \x01(\x0e2$.eolymp.judge.Scoreboard.Column.TypeR\x04type\x12P\n" +
 	"\rproblem_score\x18\f \x01(\v2).eolymp.judge.Scoreboard.Row.ProblemScoreH\x00R\fproblemScore\x12\x18\n" +
 	"\x06string\x18\r \x01(\tH\x00R\x06string\x12\x18\n" +
 	"\x06number\x18\x0e \x01(\tH\x00R\x06numberB\a\n" +
@@ -910,12 +921,13 @@ var file_eolymp_judge_scoreboard_proto_depIdxs = []int32{
 	9,  // 3: eolymp.judge.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
 	10, // 4: eolymp.judge.Scoreboard.Row.medal:type_name -> eolymp.judge.Medal
 	7,  // 5: eolymp.judge.Scoreboard.Row.values:type_name -> eolymp.judge.Scoreboard.Row.Value
-	8,  // 6: eolymp.judge.Scoreboard.Row.Value.problem_score:type_name -> eolymp.judge.Scoreboard.Row.ProblemScore
-	7,  // [7:7] is the sub-list for method output_type
-	7,  // [7:7] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	1,  // 6: eolymp.judge.Scoreboard.Row.Value.type:type_name -> eolymp.judge.Scoreboard.Column.Type
+	8,  // 7: eolymp.judge.Scoreboard.Row.Value.problem_score:type_name -> eolymp.judge.Scoreboard.Row.ProblemScore
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_scoreboard_proto_init() }
