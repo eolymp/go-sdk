@@ -246,11 +246,11 @@ func RegisterTestingServiceHttpHandlers(router *mux.Router, prefix string, cli T
 	router.Handle(prefix+"/problems/{problem_id}/testsets", _TestingService_ListTestsets_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.TestingService.ListTestsets")
-	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule0(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/tests", _TestingService_CreateTest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
 
-	router.Handle(prefix+"/problems/{problem_id}/tests", _TestingService_CreateTest_Rule1(cli)).
+	router.Handle(prefix+"/problems/{problem_id}/testsets/{testset_id}/tests", _TestingService_CreateTest_Rule1(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.TestingService.CreateTest")
 	router.Handle(prefix+"/problems/{problem_id}/tests/{test_id}", _TestingService_UpdateTest_Rule0(cli)).
@@ -665,7 +665,6 @@ func _TestingService_CreateTest_Rule0(cli TestingServiceClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
-		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
 
@@ -690,6 +689,7 @@ func _TestingService_CreateTest_Rule1(cli TestingServiceClient) http.Handler {
 
 		vars := mux.Vars(r)
 		in.ProblemId = vars["problem_id"]
+		in.TestsetId = vars["testset_id"]
 
 		var header, trailer metadata.MD
 

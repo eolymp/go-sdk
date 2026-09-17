@@ -2966,7 +2966,7 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02TZ\x1e\"\x1c/problems/{problem_id}/tests\"2/problems/{problem_id}/testsets/{testset_id}/tests\x12\xef\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02TZ4\"2/problems/{problem_id}/testsets/{testset_id}/tests\"\x1c/problems/{problem_id}/tests\x12\xef\x01\n" +
 	"\n" +
 	"UpdateTest\x12\x1d.eolymp.atlas.UpdateTestInput\x1a\x1e.eolymp.atlas.UpdateTestOutput\"\xa1\x01\xea\xe2\n" +
 	"\f\xf5\xe2\n" +

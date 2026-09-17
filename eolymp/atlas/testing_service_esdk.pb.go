@@ -345,12 +345,11 @@ func (s *TestingServiceService) ListTestsets(ctx context.Context, in *ListTestse
 
 func (s *TestingServiceService) CreateTest(ctx context.Context, in *CreateTestInput) (*CreateTestOutput, error) {
 	out := &CreateTestOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/testsets/" + url.PathEscape(in.GetTestsetId()) + "/tests"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/tests"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
 		in.ProblemId = ""
-		in.TestsetId = ""
 	}
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
