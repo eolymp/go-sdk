@@ -73,6 +73,61 @@ func (Reply_Extra) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_ticket_reply_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type Reply_Canned int32
+
+const (
+	Reply_UNKNOWN_CANNED         Reply_Canned = 0
+	Reply_YES                    Reply_Canned = 1
+	Reply_NO                     Reply_Canned = 2
+	Reply_NO_COMMENTS            Reply_Canned = 3
+	Reply_READ_PROBLEM_STATEMENT Reply_Canned = 4
+)
+
+// Enum value maps for Reply_Canned.
+var (
+	Reply_Canned_name = map[int32]string{
+		0: "UNKNOWN_CANNED",
+		1: "YES",
+		2: "NO",
+		3: "NO_COMMENTS",
+		4: "READ_PROBLEM_STATEMENT",
+	}
+	Reply_Canned_value = map[string]int32{
+		"UNKNOWN_CANNED":         0,
+		"YES":                    1,
+		"NO":                     2,
+		"NO_COMMENTS":            3,
+		"READ_PROBLEM_STATEMENT": 4,
+	}
+)
+
+func (x Reply_Canned) Enum() *Reply_Canned {
+	p := new(Reply_Canned)
+	*p = x
+	return p
+}
+
+func (x Reply_Canned) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Reply_Canned) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_ticket_reply_proto_enumTypes[1].Descriptor()
+}
+
+func (Reply_Canned) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_ticket_reply_proto_enumTypes[1]
+}
+
+func (x Reply_Canned) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Reply_Canned.Descriptor instead.
+func (Reply_Canned) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_ticket_reply_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Reply struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Reply unique identifier.
@@ -86,6 +141,9 @@ type Reply struct {
 	//	*Reply_UserId
 	//	*Reply_MemberId
 	Author isReply_Author `protobuf_oneof:"author"`
+	// Which stock answer this reply is, unset for a reply that was typed rather than picked from the quick
+	// reply buttons; message still carries the English wording of it.
+	Canned Reply_Canned `protobuf:"varint,5,opt,name=canned,proto3,enum=eolymp.judge.Reply_Canned" json:"canned,omitempty"`
 	// Message of the reply.
 	Message *ecm.Content `protobuf:"bytes,10,opt,name=message,proto3" json:"message,omitempty"`
 	// Timestamp when reply was created.
@@ -163,6 +221,13 @@ func (x *Reply) GetMemberId() string {
 	return ""
 }
 
+func (x *Reply) GetCanned() Reply_Canned {
+	if x != nil {
+		return x.Canned
+	}
+	return Reply_UNKNOWN_CANNED
+}
+
 func (x *Reply) GetMessage() *ecm.Content {
 	if x != nil {
 		return x.Message
@@ -197,12 +262,13 @@ var File_eolymp_judge_ticket_reply_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_reply_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/judge/ticket_reply.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x02\n" +
+	"\x1feolymp/judge/ticket_reply.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd8\x03\n" +
 	"\x05Reply\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12#\n" +
 	"\tticket_id\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bticketId\x12!\n" +
 	"\auser_id\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\x06userId\x12%\n" +
-	"\tmember_id\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\bmemberId\x12-\n" +
+	"\tmember_id\x18\x04 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01H\x00R\bmemberId\x122\n" +
+	"\x06canned\x18\x05 \x01(\x0e2\x1a.eolymp.judge.Reply.CannedR\x06canned\x12-\n" +
 	"\amessage\x18\n" +
 	" \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x12A\n" +
 	"\n" +
@@ -210,7 +276,13 @@ const file_eolymp_judge_ticket_reply_proto_rawDesc = "" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eMESSAGE_RENDER\x10\x01\x12\x11\n" +
-	"\rMESSAGE_VALUE\x10\x02B\b\n" +
+	"\rMESSAGE_VALUE\x10\x02\"Z\n" +
+	"\x06Canned\x12\x12\n" +
+	"\x0eUNKNOWN_CANNED\x10\x00\x12\a\n" +
+	"\x03YES\x10\x01\x12\x06\n" +
+	"\x02NO\x10\x02\x12\x0f\n" +
+	"\vNO_COMMENTS\x10\x03\x12\x1a\n" +
+	"\x16READ_PROBLEM_STATEMENT\x10\x04B\b\n" +
 	"\x06authorB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
@@ -225,22 +297,24 @@ func file_eolymp_judge_ticket_reply_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_ticket_reply_proto_rawDescData
 }
 
-var file_eolymp_judge_ticket_reply_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_judge_ticket_reply_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_judge_ticket_reply_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_eolymp_judge_ticket_reply_proto_goTypes = []any{
 	(Reply_Extra)(0),              // 0: eolymp.judge.Reply.Extra
-	(*Reply)(nil),                 // 1: eolymp.judge.Reply
-	(*ecm.Content)(nil),           // 2: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(Reply_Canned)(0),             // 1: eolymp.judge.Reply.Canned
+	(*Reply)(nil),                 // 2: eolymp.judge.Reply
+	(*ecm.Content)(nil),           // 3: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_judge_ticket_reply_proto_depIdxs = []int32{
-	2, // 0: eolymp.judge.Reply.message:type_name -> eolymp.ecm.Content
-	3, // 1: eolymp.judge.Reply.created_at:type_name -> google.protobuf.Timestamp
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // 0: eolymp.judge.Reply.canned:type_name -> eolymp.judge.Reply.Canned
+	3, // 1: eolymp.judge.Reply.message:type_name -> eolymp.ecm.Content
+	4, // 2: eolymp.judge.Reply.created_at:type_name -> google.protobuf.Timestamp
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_ticket_reply_proto_init() }
@@ -257,7 +331,7 @@ func file_eolymp_judge_ticket_reply_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_ticket_reply_proto_rawDesc), len(file_eolymp_judge_ticket_reply_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
