@@ -2371,11 +2371,10 @@ func (x *CreateTestOutput) GetTestId() string {
 
 type UpdateTestInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Test_Patch_Field     `protobuf:"varint,5,rep,packed,name=patch,proto3,enum=eolymp.atlas.Test_Patch_Field" json:"patch,omitempty"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`
+	TestsetId     string                 `protobuf:"bytes,2,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"` // only names the test in the alternative path, never read as a value
 	TestId        string                 `protobuf:"bytes,3,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
-	Test          *Test                  `protobuf:"bytes,4,opt,name=test,proto3" json:"test,omitempty"`
+	Test          *Test_Patch            `protobuf:"bytes,6,opt,name=test,proto3" json:"test,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2410,13 +2409,6 @@ func (*UpdateTestInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_testing_service_proto_rawDescGZIP(), []int{45}
 }
 
-func (x *UpdateTestInput) GetPatch() []Test_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateTestInput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
@@ -2438,7 +2430,7 @@ func (x *UpdateTestInput) GetTestId() string {
 	return ""
 }
 
-func (x *UpdateTestInput) GetTest() *Test {
+func (x *UpdateTestInput) GetTest() *Test_Patch {
 	if x != nil {
 		return x.Test
 	}
@@ -2811,15 +2803,14 @@ const file_eolymp_atlas_testing_service_proto_rawDesc = "" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12&\n" +
 	"\x04test\x18\x03 \x01(\v2\x12.eolymp.atlas.TestR\x04test\"+\n" +
 	"\x10CreateTestOutput\x12\x17\n" +
-	"\atest_id\x18\x01 \x01(\tR\x06testId\"\xc6\x01\n" +
-	"\x0fUpdateTestInput\x124\n" +
-	"\x05patch\x18\x05 \x03(\x0e2\x1e.eolymp.atlas.Test.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\atest_id\x18\x01 \x01(\tR\x06testId\"\xa2\x01\n" +
+	"\x0fUpdateTestInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1d\n" +
 	"\n" +
 	"testset_id\x18\x02 \x01(\tR\ttestsetId\x12\x17\n" +
-	"\atest_id\x18\x03 \x01(\tR\x06testId\x12&\n" +
-	"\x04test\x18\x04 \x01(\v2\x12.eolymp.atlas.TestR\x04test\"\x12\n" +
+	"\atest_id\x18\x03 \x01(\tR\x06testId\x12,\n" +
+	"\x04test\x18\x06 \x01(\v2\x18.eolymp.atlas.Test.PatchR\x04testJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06\"\x12\n" +
 	"\x10UpdateTestOutput\"h\n" +
 	"\x0fDeleteTestInput\x12\x1d\n" +
 	"\n" +
@@ -3082,7 +3073,7 @@ var file_eolymp_atlas_testing_service_proto_goTypes = []any{
 	(*Validator)(nil),                         // 54: eolymp.atlas.Validator
 	(*Testset)(nil),                           // 55: eolymp.atlas.Testset
 	(*Test)(nil),                              // 56: eolymp.atlas.Test
-	(Test_Patch_Field)(0),                     // 57: eolymp.atlas.Test.Patch.Field
+	(*Test_Patch)(nil),                        // 57: eolymp.atlas.Test.Patch
 }
 var file_eolymp_atlas_testing_service_proto_depIdxs = []int32{
 	51, // 0: eolymp.atlas.TestingConfigChangedEvent.before:type_name -> eolymp.atlas.TestingConfig
@@ -3116,57 +3107,56 @@ var file_eolymp_atlas_testing_service_proto_depIdxs = []int32{
 	56, // 28: eolymp.atlas.ListTestsOutput.items:type_name -> eolymp.atlas.Test
 	56, // 29: eolymp.atlas.DescribeTestOutput.test:type_name -> eolymp.atlas.Test
 	56, // 30: eolymp.atlas.CreateTestInput.test:type_name -> eolymp.atlas.Test
-	57, // 31: eolymp.atlas.UpdateTestInput.patch:type_name -> eolymp.atlas.Test.Patch.Field
-	56, // 32: eolymp.atlas.UpdateTestInput.test:type_name -> eolymp.atlas.Test
-	0,  // 33: eolymp.atlas.RunTestScriptOutput.Change.operation:type_name -> eolymp.atlas.RunTestScriptOutput.Change.Operation
-	56, // 34: eolymp.atlas.RunTestScriptOutput.Change.test:type_name -> eolymp.atlas.Test
-	8,  // 35: eolymp.atlas.TestingService.UpdateTestingConfig:input_type -> eolymp.atlas.UpdateTestingConfigInput
-	10, // 36: eolymp.atlas.TestingService.DescribeTestingConfig:input_type -> eolymp.atlas.DescribeTestingConfigInput
-	12, // 37: eolymp.atlas.TestingService.UpdateChecker:input_type -> eolymp.atlas.UpdateCheckerInput
-	14, // 38: eolymp.atlas.TestingService.DescribeChecker:input_type -> eolymp.atlas.DescribeCheckerInput
-	16, // 39: eolymp.atlas.TestingService.UpdateInteractor:input_type -> eolymp.atlas.UpdateInteractorInput
-	18, // 40: eolymp.atlas.TestingService.DescribeInteractor:input_type -> eolymp.atlas.DescribeInteractorInput
-	20, // 41: eolymp.atlas.TestingService.UpdateValidator:input_type -> eolymp.atlas.UpdateValidatorInput
-	22, // 42: eolymp.atlas.TestingService.DescribeValidator:input_type -> eolymp.atlas.DescribeValidatorInput
-	24, // 43: eolymp.atlas.TestingService.DescribeTestScript:input_type -> eolymp.atlas.DescribeTestScriptInput
-	26, // 44: eolymp.atlas.TestingService.RunTestScript:input_type -> eolymp.atlas.RunTestScriptInput
-	32, // 45: eolymp.atlas.TestingService.CreateTestset:input_type -> eolymp.atlas.CreateTestsetInput
-	34, // 46: eolymp.atlas.TestingService.UpdateTestset:input_type -> eolymp.atlas.UpdateTestsetInput
-	36, // 47: eolymp.atlas.TestingService.DeleteTestset:input_type -> eolymp.atlas.DeleteTestsetInput
-	30, // 48: eolymp.atlas.TestingService.DescribeTestset:input_type -> eolymp.atlas.DescribeTestsetInput
-	28, // 49: eolymp.atlas.TestingService.ListTestsets:input_type -> eolymp.atlas.ListTestsetsInput
-	44, // 50: eolymp.atlas.TestingService.CreateTest:input_type -> eolymp.atlas.CreateTestInput
-	46, // 51: eolymp.atlas.TestingService.UpdateTest:input_type -> eolymp.atlas.UpdateTestInput
-	48, // 52: eolymp.atlas.TestingService.DeleteTest:input_type -> eolymp.atlas.DeleteTestInput
-	42, // 53: eolymp.atlas.TestingService.DescribeTest:input_type -> eolymp.atlas.DescribeTestInput
-	40, // 54: eolymp.atlas.TestingService.ListTests:input_type -> eolymp.atlas.ListTestsInput
-	38, // 55: eolymp.atlas.TestingService.ListExamples:input_type -> eolymp.atlas.ListExamplesInput
-	9,  // 56: eolymp.atlas.TestingService.UpdateTestingConfig:output_type -> eolymp.atlas.UpdateTestingConfigOutput
-	11, // 57: eolymp.atlas.TestingService.DescribeTestingConfig:output_type -> eolymp.atlas.DescribeTestingConfigOutput
-	13, // 58: eolymp.atlas.TestingService.UpdateChecker:output_type -> eolymp.atlas.UpdateCheckerOutput
-	15, // 59: eolymp.atlas.TestingService.DescribeChecker:output_type -> eolymp.atlas.DescribeCheckerOutput
-	17, // 60: eolymp.atlas.TestingService.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
-	19, // 61: eolymp.atlas.TestingService.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
-	21, // 62: eolymp.atlas.TestingService.UpdateValidator:output_type -> eolymp.atlas.UpdateValidatorOutput
-	23, // 63: eolymp.atlas.TestingService.DescribeValidator:output_type -> eolymp.atlas.DescribeValidatorOutput
-	25, // 64: eolymp.atlas.TestingService.DescribeTestScript:output_type -> eolymp.atlas.DescribeTestScriptOutput
-	27, // 65: eolymp.atlas.TestingService.RunTestScript:output_type -> eolymp.atlas.RunTestScriptOutput
-	33, // 66: eolymp.atlas.TestingService.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
-	35, // 67: eolymp.atlas.TestingService.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
-	37, // 68: eolymp.atlas.TestingService.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
-	31, // 69: eolymp.atlas.TestingService.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
-	29, // 70: eolymp.atlas.TestingService.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
-	45, // 71: eolymp.atlas.TestingService.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
-	47, // 72: eolymp.atlas.TestingService.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
-	49, // 73: eolymp.atlas.TestingService.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
-	43, // 74: eolymp.atlas.TestingService.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
-	41, // 75: eolymp.atlas.TestingService.ListTests:output_type -> eolymp.atlas.ListTestsOutput
-	39, // 76: eolymp.atlas.TestingService.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
-	56, // [56:77] is the sub-list for method output_type
-	35, // [35:56] is the sub-list for method input_type
-	35, // [35:35] is the sub-list for extension type_name
-	35, // [35:35] is the sub-list for extension extendee
-	0,  // [0:35] is the sub-list for field type_name
+	57, // 31: eolymp.atlas.UpdateTestInput.test:type_name -> eolymp.atlas.Test.Patch
+	0,  // 32: eolymp.atlas.RunTestScriptOutput.Change.operation:type_name -> eolymp.atlas.RunTestScriptOutput.Change.Operation
+	56, // 33: eolymp.atlas.RunTestScriptOutput.Change.test:type_name -> eolymp.atlas.Test
+	8,  // 34: eolymp.atlas.TestingService.UpdateTestingConfig:input_type -> eolymp.atlas.UpdateTestingConfigInput
+	10, // 35: eolymp.atlas.TestingService.DescribeTestingConfig:input_type -> eolymp.atlas.DescribeTestingConfigInput
+	12, // 36: eolymp.atlas.TestingService.UpdateChecker:input_type -> eolymp.atlas.UpdateCheckerInput
+	14, // 37: eolymp.atlas.TestingService.DescribeChecker:input_type -> eolymp.atlas.DescribeCheckerInput
+	16, // 38: eolymp.atlas.TestingService.UpdateInteractor:input_type -> eolymp.atlas.UpdateInteractorInput
+	18, // 39: eolymp.atlas.TestingService.DescribeInteractor:input_type -> eolymp.atlas.DescribeInteractorInput
+	20, // 40: eolymp.atlas.TestingService.UpdateValidator:input_type -> eolymp.atlas.UpdateValidatorInput
+	22, // 41: eolymp.atlas.TestingService.DescribeValidator:input_type -> eolymp.atlas.DescribeValidatorInput
+	24, // 42: eolymp.atlas.TestingService.DescribeTestScript:input_type -> eolymp.atlas.DescribeTestScriptInput
+	26, // 43: eolymp.atlas.TestingService.RunTestScript:input_type -> eolymp.atlas.RunTestScriptInput
+	32, // 44: eolymp.atlas.TestingService.CreateTestset:input_type -> eolymp.atlas.CreateTestsetInput
+	34, // 45: eolymp.atlas.TestingService.UpdateTestset:input_type -> eolymp.atlas.UpdateTestsetInput
+	36, // 46: eolymp.atlas.TestingService.DeleteTestset:input_type -> eolymp.atlas.DeleteTestsetInput
+	30, // 47: eolymp.atlas.TestingService.DescribeTestset:input_type -> eolymp.atlas.DescribeTestsetInput
+	28, // 48: eolymp.atlas.TestingService.ListTestsets:input_type -> eolymp.atlas.ListTestsetsInput
+	44, // 49: eolymp.atlas.TestingService.CreateTest:input_type -> eolymp.atlas.CreateTestInput
+	46, // 50: eolymp.atlas.TestingService.UpdateTest:input_type -> eolymp.atlas.UpdateTestInput
+	48, // 51: eolymp.atlas.TestingService.DeleteTest:input_type -> eolymp.atlas.DeleteTestInput
+	42, // 52: eolymp.atlas.TestingService.DescribeTest:input_type -> eolymp.atlas.DescribeTestInput
+	40, // 53: eolymp.atlas.TestingService.ListTests:input_type -> eolymp.atlas.ListTestsInput
+	38, // 54: eolymp.atlas.TestingService.ListExamples:input_type -> eolymp.atlas.ListExamplesInput
+	9,  // 55: eolymp.atlas.TestingService.UpdateTestingConfig:output_type -> eolymp.atlas.UpdateTestingConfigOutput
+	11, // 56: eolymp.atlas.TestingService.DescribeTestingConfig:output_type -> eolymp.atlas.DescribeTestingConfigOutput
+	13, // 57: eolymp.atlas.TestingService.UpdateChecker:output_type -> eolymp.atlas.UpdateCheckerOutput
+	15, // 58: eolymp.atlas.TestingService.DescribeChecker:output_type -> eolymp.atlas.DescribeCheckerOutput
+	17, // 59: eolymp.atlas.TestingService.UpdateInteractor:output_type -> eolymp.atlas.UpdateInteractorOutput
+	19, // 60: eolymp.atlas.TestingService.DescribeInteractor:output_type -> eolymp.atlas.DescribeInteractorOutput
+	21, // 61: eolymp.atlas.TestingService.UpdateValidator:output_type -> eolymp.atlas.UpdateValidatorOutput
+	23, // 62: eolymp.atlas.TestingService.DescribeValidator:output_type -> eolymp.atlas.DescribeValidatorOutput
+	25, // 63: eolymp.atlas.TestingService.DescribeTestScript:output_type -> eolymp.atlas.DescribeTestScriptOutput
+	27, // 64: eolymp.atlas.TestingService.RunTestScript:output_type -> eolymp.atlas.RunTestScriptOutput
+	33, // 65: eolymp.atlas.TestingService.CreateTestset:output_type -> eolymp.atlas.CreateTestsetOutput
+	35, // 66: eolymp.atlas.TestingService.UpdateTestset:output_type -> eolymp.atlas.UpdateTestsetOutput
+	37, // 67: eolymp.atlas.TestingService.DeleteTestset:output_type -> eolymp.atlas.DeleteTestsetOutput
+	31, // 68: eolymp.atlas.TestingService.DescribeTestset:output_type -> eolymp.atlas.DescribeTestsetOutput
+	29, // 69: eolymp.atlas.TestingService.ListTestsets:output_type -> eolymp.atlas.ListTestsetsOutput
+	45, // 70: eolymp.atlas.TestingService.CreateTest:output_type -> eolymp.atlas.CreateTestOutput
+	47, // 71: eolymp.atlas.TestingService.UpdateTest:output_type -> eolymp.atlas.UpdateTestOutput
+	49, // 72: eolymp.atlas.TestingService.DeleteTest:output_type -> eolymp.atlas.DeleteTestOutput
+	43, // 73: eolymp.atlas.TestingService.DescribeTest:output_type -> eolymp.atlas.DescribeTestOutput
+	41, // 74: eolymp.atlas.TestingService.ListTests:output_type -> eolymp.atlas.ListTestsOutput
+	39, // 75: eolymp.atlas.TestingService.ListExamples:output_type -> eolymp.atlas.ListExamplesOutput
+	55, // [55:76] is the sub-list for method output_type
+	34, // [34:55] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_testing_service_proto_init() }

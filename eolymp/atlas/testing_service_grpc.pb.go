@@ -123,12 +123,13 @@ type TestingServiceClient interface {
 	// produced asynchronously, so such a test stays pending until generation and validation succeed, and a
 	// submission arriving earlier triggers the generation inline.
 	CreateTest(ctx context.Context, in *CreateTestInput, opts ...grpc.CallOption) (*CreateTestOutput, error)
-	// UpdateTest is the only method in this service with a patch mask: only the fields it lists are written.
-	// The testset is one of those fields, so writing another one moves the test; leaving it empty keeps the
-	// test where it is, and the testset in the alternative path is not read. Pointing the input or answer
-	// at a generator makes the data regenerate asynchronously, putting the test back into pending status.
-	// The example overrides change only what the statement displays, which is what interactive problems
-	// need when the stored input and answer are instructions for the interactor rather than real data.
+	// UpdateTest writes the fields the patch carries and leaves the rest alone. The testset is one of them,
+	// so carrying another one moves the test; the testset in the alternative path is not read. Pointing the
+	// input or answer at a generator makes the data regenerate asynchronously, putting the test back into
+	// pending status. The example overrides change only what the statement displays, which is what
+	// interactive problems need when the stored input and answer are instructions for the interactor rather
+	// than real data; `unset_example_input` and `unset_example_answer` drop them, since an absent oneof
+	// means the field was not carried.
 	UpdateTest(ctx context.Context, in *UpdateTestInput, opts ...grpc.CallOption) (*UpdateTestOutput, error)
 	// DeleteTest removes a single test, leaving its testset in place; the testset in the alternative path is
 	// not needed to find the test. Indices are assigned explicitly rather than derived, so the surviving
@@ -447,12 +448,13 @@ type TestingServiceServer interface {
 	// produced asynchronously, so such a test stays pending until generation and validation succeed, and a
 	// submission arriving earlier triggers the generation inline.
 	CreateTest(context.Context, *CreateTestInput) (*CreateTestOutput, error)
-	// UpdateTest is the only method in this service with a patch mask: only the fields it lists are written.
-	// The testset is one of those fields, so writing another one moves the test; leaving it empty keeps the
-	// test where it is, and the testset in the alternative path is not read. Pointing the input or answer
-	// at a generator makes the data regenerate asynchronously, putting the test back into pending status.
-	// The example overrides change only what the statement displays, which is what interactive problems
-	// need when the stored input and answer are instructions for the interactor rather than real data.
+	// UpdateTest writes the fields the patch carries and leaves the rest alone. The testset is one of them,
+	// so carrying another one moves the test; the testset in the alternative path is not read. Pointing the
+	// input or answer at a generator makes the data regenerate asynchronously, putting the test back into
+	// pending status. The example overrides change only what the statement displays, which is what
+	// interactive problems need when the stored input and answer are instructions for the interactor rather
+	// than real data; `unset_example_input` and `unset_example_answer` drop them, since an absent oneof
+	// means the field was not carried.
 	UpdateTest(context.Context, *UpdateTestInput) (*UpdateTestOutput, error)
 	// DeleteTest removes a single test, leaving its testset in place; the testset in the alternative path is
 	// not needed to find the test. Indices are assigned explicitly rather than derived, so the surviving
