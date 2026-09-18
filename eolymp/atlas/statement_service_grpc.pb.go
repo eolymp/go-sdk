@@ -47,8 +47,8 @@ type StatementServiceClient interface {
 	// CreateStatement adds the statement for one locale and returns its id. Publishing the same problem in
 	// another language means creating another statement, not editing this one.
 	CreateStatement(ctx context.Context, in *CreateStatementInput, opts ...grpc.CallOption) (*CreateStatementOutput, error)
-	// UpdateStatement writes new values into an existing statement. Fields outside the patch mask keep the
-	// values they already have, so a title fix does not require resending the content.
+	// UpdateStatement writes new values into an existing statement. Only the fields the patch carries are
+	// written, so a title fix does not require resending the content.
 	UpdateStatement(ctx context.Context, in *UpdateStatementInput, opts ...grpc.CallOption) (*UpdateStatementOutput, error)
 	// DeleteStatement permanently removes a single locale of the problem text. The problem itself and its
 	// statements in other locales are left untouched.
@@ -203,8 +203,8 @@ type StatementServiceServer interface {
 	// CreateStatement adds the statement for one locale and returns its id. Publishing the same problem in
 	// another language means creating another statement, not editing this one.
 	CreateStatement(context.Context, *CreateStatementInput) (*CreateStatementOutput, error)
-	// UpdateStatement writes new values into an existing statement. Fields outside the patch mask keep the
-	// values they already have, so a title fix does not require resending the content.
+	// UpdateStatement writes new values into an existing statement. Only the fields the patch carries are
+	// written, so a title fix does not require resending the content.
 	UpdateStatement(context.Context, *UpdateStatementInput) (*UpdateStatementOutput, error)
 	// DeleteStatement permanently removes a single locale of the problem text. The problem itself and its
 	// statements in other locales are left untouched.

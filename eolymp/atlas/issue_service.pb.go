@@ -515,9 +515,8 @@ func (x *CreateIssueOutput) GetIssueId() string {
 
 type UpdateIssueInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Issue_Patch_Field    `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Issue_Patch_Field" json:"patch,omitempty"`
 	IssueId       string                 `protobuf:"bytes,2,opt,name=issue_id,json=issueId,proto3" json:"issue_id,omitempty"`
-	Issue         *Issue                 `protobuf:"bytes,3,opt,name=issue,proto3" json:"issue,omitempty"`
+	Issue         *Issue_Patch           `protobuf:"bytes,4,opt,name=issue,proto3" json:"issue,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -552,13 +551,6 @@ func (*UpdateIssueInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *UpdateIssueInput) GetPatch() []Issue_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateIssueInput) GetIssueId() string {
 	if x != nil {
 		return x.IssueId
@@ -566,7 +558,7 @@ func (x *UpdateIssueInput) GetIssueId() string {
 	return ""
 }
 
-func (x *UpdateIssueInput) GetIssue() *Issue {
+func (x *UpdateIssueInput) GetIssue() *Issue_Patch {
 	if x != nil {
 		return x.Issue
 	}
@@ -924,11 +916,10 @@ func (x *CreateIssueCommentOutput) GetCommentId() string {
 }
 
 type UpdateIssueCommentInput struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Patch         []IssueActivity_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.IssueActivity_Patch_Field" json:"patch,omitempty"`
-	IssueId       string                      `protobuf:"bytes,2,opt,name=issue_id,json=issueId,proto3" json:"issue_id,omitempty"`
-	CommentId     string                      `protobuf:"bytes,3,opt,name=comment_id,json=commentId,proto3" json:"comment_id,omitempty"`
-	Comment       *IssueActivity_Comment      `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IssueId       string                 `protobuf:"bytes,2,opt,name=issue_id,json=issueId,proto3" json:"issue_id,omitempty"`
+	CommentId     string                 `protobuf:"bytes,3,opt,name=comment_id,json=commentId,proto3" json:"comment_id,omitempty"`
+	Comment       *IssueActivity_Patch   `protobuf:"bytes,5,opt,name=comment,proto3" json:"comment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -963,13 +954,6 @@ func (*UpdateIssueCommentInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_issue_service_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *UpdateIssueCommentInput) GetPatch() []IssueActivity_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateIssueCommentInput) GetIssueId() string {
 	if x != nil {
 		return x.IssueId
@@ -984,7 +968,7 @@ func (x *UpdateIssueCommentInput) GetCommentId() string {
 	return ""
 }
 
-func (x *UpdateIssueCommentInput) GetComment() *IssueActivity_Comment {
+func (x *UpdateIssueCommentInput) GetComment() *IssueActivity_Patch {
 	if x != nil {
 		return x.Comment
 	}
@@ -1265,11 +1249,10 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\x10CreateIssueInput\x12)\n" +
 	"\x05issue\x18\x02 \x01(\v2\x13.eolymp.atlas.IssueR\x05issue\".\n" +
 	"\x11CreateIssueOutput\x12\x19\n" +
-	"\bissue_id\x18\x01 \x01(\tR\aissueId\"\x8f\x01\n" +
-	"\x10UpdateIssueInput\x125\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\x1f.eolymp.atlas.Issue.Patch.FieldR\x05patch\x12\x19\n" +
-	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12)\n" +
-	"\x05issue\x18\x03 \x01(\v2\x13.eolymp.atlas.IssueR\x05issue\"\x13\n" +
+	"\bissue_id\x18\x01 \x01(\tR\aissueId\"j\n" +
+	"\x10UpdateIssueInput\x12\x19\n" +
+	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12/\n" +
+	"\x05issue\x18\x04 \x01(\v2\x19.eolymp.atlas.Issue.PatchR\x05issueJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x13\n" +
 	"\x11UpdateIssueOutput\"-\n" +
 	"\x10DeleteIssueInput\x12\x19\n" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\"\x13\n" +
@@ -1294,13 +1277,12 @@ const file_eolymp_atlas_issue_service_proto_rawDesc = "" +
 	"\acomment\x18\x03 \x01(\v2#.eolymp.atlas.IssueActivity.CommentR\acomment\"9\n" +
 	"\x18CreateIssueCommentOutput\x12\x1d\n" +
 	"\n" +
-	"comment_id\x18\x01 \x01(\tR\tcommentId\"\xd1\x01\n" +
-	"\x17UpdateIssueCommentInput\x12=\n" +
-	"\x05patch\x18\x01 \x03(\x0e2'.eolymp.atlas.IssueActivity.Patch.FieldR\x05patch\x12\x19\n" +
+	"comment_id\x18\x01 \x01(\tR\tcommentId\"\x9c\x01\n" +
+	"\x17UpdateIssueCommentInput\x12\x19\n" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12\x1d\n" +
 	"\n" +
-	"comment_id\x18\x03 \x01(\tR\tcommentId\x12=\n" +
-	"\acomment\x18\x04 \x01(\v2#.eolymp.atlas.IssueActivity.CommentR\acomment\"\x1a\n" +
+	"comment_id\x18\x03 \x01(\tR\tcommentId\x12;\n" +
+	"\acomment\x18\x05 \x01(\v2!.eolymp.atlas.IssueActivity.PatchR\acommentJ\x04\b\x01\x10\x02J\x04\b\x04\x10\x05\"\x1a\n" +
 	"\x18UpdateIssueCommentOutput\"S\n" +
 	"\x17DeleteIssueCommentInput\x12\x19\n" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12\x1d\n" +
@@ -1422,11 +1404,11 @@ var file_eolymp_atlas_issue_service_proto_goTypes = []any{
 	(*Issue)(nil),                          // 22: eolymp.atlas.Issue
 	(wellknown.Direction)(0),               // 23: eolymp.wellknown.Direction
 	(Issue_Extra_Field)(0),                 // 24: eolymp.atlas.Issue.Extra.Field
-	(Issue_Patch_Field)(0),                 // 25: eolymp.atlas.Issue.Patch.Field
+	(*Issue_Patch)(nil),                    // 25: eolymp.atlas.Issue.Patch
 	(IssueActivity_Extra_Field)(0),         // 26: eolymp.atlas.IssueActivity.Extra.Field
 	(*IssueActivity)(nil),                  // 27: eolymp.atlas.IssueActivity
 	(*IssueActivity_Comment)(nil),          // 28: eolymp.atlas.IssueActivity.Comment
-	(IssueActivity_Patch_Field)(0),         // 29: eolymp.atlas.IssueActivity.Patch.Field
+	(*IssueActivity_Patch)(nil),            // 29: eolymp.atlas.IssueActivity.Patch
 	(*wellknown.ExpressionID)(nil),         // 30: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil),       // 31: eolymp.wellknown.ExpressionEnum
 	(*wellknown.ExpressionInt)(nil),        // 32: eolymp.wellknown.ExpressionInt
@@ -1442,46 +1424,44 @@ var file_eolymp_atlas_issue_service_proto_depIdxs = []int32{
 	24, // 7: eolymp.atlas.DescribeIssueInput.extra:type_name -> eolymp.atlas.Issue.Extra.Field
 	22, // 8: eolymp.atlas.DescribeIssueOutput.issue:type_name -> eolymp.atlas.Issue
 	22, // 9: eolymp.atlas.CreateIssueInput.issue:type_name -> eolymp.atlas.Issue
-	25, // 10: eolymp.atlas.UpdateIssueInput.patch:type_name -> eolymp.atlas.Issue.Patch.Field
-	22, // 11: eolymp.atlas.UpdateIssueInput.issue:type_name -> eolymp.atlas.Issue
-	1,  // 12: eolymp.atlas.ListIssueActivitiesInput.sort:type_name -> eolymp.atlas.ListIssueActivitiesInput.Sortable
-	23, // 13: eolymp.atlas.ListIssueActivitiesInput.order:type_name -> eolymp.wellknown.Direction
-	26, // 14: eolymp.atlas.ListIssueActivitiesInput.extra:type_name -> eolymp.atlas.IssueActivity.Extra.Field
-	27, // 15: eolymp.atlas.ListIssueActivitiesOutput.items:type_name -> eolymp.atlas.IssueActivity
-	28, // 16: eolymp.atlas.CreateIssueCommentInput.comment:type_name -> eolymp.atlas.IssueActivity.Comment
-	29, // 17: eolymp.atlas.UpdateIssueCommentInput.patch:type_name -> eolymp.atlas.IssueActivity.Patch.Field
-	28, // 18: eolymp.atlas.UpdateIssueCommentInput.comment:type_name -> eolymp.atlas.IssueActivity.Comment
-	30, // 19: eolymp.atlas.ListIssuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 20: eolymp.atlas.ListIssuesInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 21: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	32, // 22: eolymp.atlas.ListIssuesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
-	30, // 23: eolymp.atlas.ListIssuesInput.Filter.assignee_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 24: eolymp.atlas.ListIssuesInput.Filter.reporter_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 25: eolymp.atlas.ListIssuesInput.Filter.tester_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 26: eolymp.atlas.ListIssuesInput.Filter.tags:type_name -> eolymp.wellknown.ExpressionEnum
-	3,  // 27: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
-	5,  // 28: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
-	7,  // 29: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
-	9,  // 30: eolymp.atlas.IssueService.UpdateIssue:input_type -> eolymp.atlas.UpdateIssueInput
-	11, // 31: eolymp.atlas.IssueService.DeleteIssue:input_type -> eolymp.atlas.DeleteIssueInput
-	13, // 32: eolymp.atlas.IssueService.ListIssueActivities:input_type -> eolymp.atlas.ListIssueActivitiesInput
-	15, // 33: eolymp.atlas.IssueService.CreateIssueComment:input_type -> eolymp.atlas.CreateIssueCommentInput
-	17, // 34: eolymp.atlas.IssueService.UpdateIssueComment:input_type -> eolymp.atlas.UpdateIssueCommentInput
-	19, // 35: eolymp.atlas.IssueService.DeleteIssueComment:input_type -> eolymp.atlas.DeleteIssueCommentInput
-	4,  // 36: eolymp.atlas.IssueService.ListIssues:output_type -> eolymp.atlas.ListIssuesOutput
-	6,  // 37: eolymp.atlas.IssueService.DescribeIssue:output_type -> eolymp.atlas.DescribeIssueOutput
-	8,  // 38: eolymp.atlas.IssueService.CreateIssue:output_type -> eolymp.atlas.CreateIssueOutput
-	10, // 39: eolymp.atlas.IssueService.UpdateIssue:output_type -> eolymp.atlas.UpdateIssueOutput
-	12, // 40: eolymp.atlas.IssueService.DeleteIssue:output_type -> eolymp.atlas.DeleteIssueOutput
-	14, // 41: eolymp.atlas.IssueService.ListIssueActivities:output_type -> eolymp.atlas.ListIssueActivitiesOutput
-	16, // 42: eolymp.atlas.IssueService.CreateIssueComment:output_type -> eolymp.atlas.CreateIssueCommentOutput
-	18, // 43: eolymp.atlas.IssueService.UpdateIssueComment:output_type -> eolymp.atlas.UpdateIssueCommentOutput
-	20, // 44: eolymp.atlas.IssueService.DeleteIssueComment:output_type -> eolymp.atlas.DeleteIssueCommentOutput
-	36, // [36:45] is the sub-list for method output_type
-	27, // [27:36] is the sub-list for method input_type
-	27, // [27:27] is the sub-list for extension type_name
-	27, // [27:27] is the sub-list for extension extendee
-	0,  // [0:27] is the sub-list for field type_name
+	25, // 10: eolymp.atlas.UpdateIssueInput.issue:type_name -> eolymp.atlas.Issue.Patch
+	1,  // 11: eolymp.atlas.ListIssueActivitiesInput.sort:type_name -> eolymp.atlas.ListIssueActivitiesInput.Sortable
+	23, // 12: eolymp.atlas.ListIssueActivitiesInput.order:type_name -> eolymp.wellknown.Direction
+	26, // 13: eolymp.atlas.ListIssueActivitiesInput.extra:type_name -> eolymp.atlas.IssueActivity.Extra.Field
+	27, // 14: eolymp.atlas.ListIssueActivitiesOutput.items:type_name -> eolymp.atlas.IssueActivity
+	28, // 15: eolymp.atlas.CreateIssueCommentInput.comment:type_name -> eolymp.atlas.IssueActivity.Comment
+	29, // 16: eolymp.atlas.UpdateIssueCommentInput.comment:type_name -> eolymp.atlas.IssueActivity.Patch
+	30, // 17: eolymp.atlas.ListIssuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 18: eolymp.atlas.ListIssuesInput.Filter.problem_id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 19: eolymp.atlas.ListIssuesInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	32, // 20: eolymp.atlas.ListIssuesInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	30, // 21: eolymp.atlas.ListIssuesInput.Filter.assignee_id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 22: eolymp.atlas.ListIssuesInput.Filter.reporter_id:type_name -> eolymp.wellknown.ExpressionID
+	30, // 23: eolymp.atlas.ListIssuesInput.Filter.tester_id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 24: eolymp.atlas.ListIssuesInput.Filter.tags:type_name -> eolymp.wellknown.ExpressionEnum
+	3,  // 25: eolymp.atlas.IssueService.ListIssues:input_type -> eolymp.atlas.ListIssuesInput
+	5,  // 26: eolymp.atlas.IssueService.DescribeIssue:input_type -> eolymp.atlas.DescribeIssueInput
+	7,  // 27: eolymp.atlas.IssueService.CreateIssue:input_type -> eolymp.atlas.CreateIssueInput
+	9,  // 28: eolymp.atlas.IssueService.UpdateIssue:input_type -> eolymp.atlas.UpdateIssueInput
+	11, // 29: eolymp.atlas.IssueService.DeleteIssue:input_type -> eolymp.atlas.DeleteIssueInput
+	13, // 30: eolymp.atlas.IssueService.ListIssueActivities:input_type -> eolymp.atlas.ListIssueActivitiesInput
+	15, // 31: eolymp.atlas.IssueService.CreateIssueComment:input_type -> eolymp.atlas.CreateIssueCommentInput
+	17, // 32: eolymp.atlas.IssueService.UpdateIssueComment:input_type -> eolymp.atlas.UpdateIssueCommentInput
+	19, // 33: eolymp.atlas.IssueService.DeleteIssueComment:input_type -> eolymp.atlas.DeleteIssueCommentInput
+	4,  // 34: eolymp.atlas.IssueService.ListIssues:output_type -> eolymp.atlas.ListIssuesOutput
+	6,  // 35: eolymp.atlas.IssueService.DescribeIssue:output_type -> eolymp.atlas.DescribeIssueOutput
+	8,  // 36: eolymp.atlas.IssueService.CreateIssue:output_type -> eolymp.atlas.CreateIssueOutput
+	10, // 37: eolymp.atlas.IssueService.UpdateIssue:output_type -> eolymp.atlas.UpdateIssueOutput
+	12, // 38: eolymp.atlas.IssueService.DeleteIssue:output_type -> eolymp.atlas.DeleteIssueOutput
+	14, // 39: eolymp.atlas.IssueService.ListIssueActivities:output_type -> eolymp.atlas.ListIssueActivitiesOutput
+	16, // 40: eolymp.atlas.IssueService.CreateIssueComment:output_type -> eolymp.atlas.CreateIssueCommentOutput
+	18, // 41: eolymp.atlas.IssueService.UpdateIssueComment:output_type -> eolymp.atlas.UpdateIssueCommentOutput
+	20, // 42: eolymp.atlas.IssueService.DeleteIssueComment:output_type -> eolymp.atlas.DeleteIssueCommentOutput
+	34, // [34:43] is the sub-list for method output_type
+	25, // [25:34] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_issue_service_proto_init() }

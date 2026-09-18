@@ -120,70 +120,6 @@ func (Question_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Question_Patch_Field int32
-
-const (
-	Question_Patch_UNKNOWN_FIELD Question_Patch_Field = 0
-	Question_Patch_INDEX         Question_Patch_Field = 1
-	Question_Patch_TYPE          Question_Patch_Field = 2
-	Question_Patch_CONTENT       Question_Patch_Field = 3
-	Question_Patch_SCORE         Question_Patch_Field = 4
-	Question_Patch_MULTIPLE      Question_Patch_Field = 5
-	Question_Patch_OPTIONS       Question_Patch_Field = 6
-	Question_Patch_ANSWERS       Question_Patch_Field = 7
-)
-
-// Enum value maps for Question_Patch_Field.
-var (
-	Question_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		1: "INDEX",
-		2: "TYPE",
-		3: "CONTENT",
-		4: "SCORE",
-		5: "MULTIPLE",
-		6: "OPTIONS",
-		7: "ANSWERS",
-	}
-	Question_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD": 0,
-		"INDEX":         1,
-		"TYPE":          2,
-		"CONTENT":       3,
-		"SCORE":         4,
-		"MULTIPLE":      5,
-		"OPTIONS":       6,
-		"ANSWERS":       7,
-	}
-)
-
-func (x Question_Patch_Field) Enum() *Question_Patch_Field {
-	p := new(Question_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Question_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Question_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_question_proto_enumTypes[2].Descriptor()
-}
-
-func (Question_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_question_proto_enumTypes[2]
-}
-
-func (x Question_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Question_Patch_Field.Descriptor instead.
-func (Question_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_question_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 type Question struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`        // unique identifier, assigned when the question is created, keep empty when creating a new question
@@ -322,6 +258,13 @@ func (*Question_Extra) Descriptor() ([]byte, []int) {
 
 type Question_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Index         *uint32                `protobuf:"varint,2,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	Type          *Question_Type         `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Question_Type,oneof" json:"type,omitempty"`
+	Content       *ecm.Content           `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	Score         *float32               `protobuf:"fixed32,5,opt,name=score,proto3,oneof" json:"score,omitempty"`
+	Multiple      *bool                  `protobuf:"varint,6,opt,name=multiple,proto3,oneof" json:"multiple,omitempty"`
+	Options       []*Question_Option     `protobuf:"bytes,10,rep,name=options,proto3" json:"options,omitempty"`
+	Answers       []string               `protobuf:"bytes,11,rep,name=answers,proto3" json:"answers,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -354,6 +297,55 @@ func (x *Question_Patch) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Question_Patch.ProtoReflect.Descriptor instead.
 func (*Question_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *Question_Patch) GetIndex() uint32 {
+	if x != nil && x.Index != nil {
+		return *x.Index
+	}
+	return 0
+}
+
+func (x *Question_Patch) GetType() Question_Type {
+	if x != nil && x.Type != nil {
+		return *x.Type
+	}
+	return Question_UNKNOWN_TYPE
+}
+
+func (x *Question_Patch) GetContent() *ecm.Content {
+	if x != nil {
+		return x.Content
+	}
+	return nil
+}
+
+func (x *Question_Patch) GetScore() float32 {
+	if x != nil && x.Score != nil {
+		return *x.Score
+	}
+	return 0
+}
+
+func (x *Question_Patch) GetMultiple() bool {
+	if x != nil && x.Multiple != nil {
+		return *x.Multiple
+	}
+	return false
+}
+
+func (x *Question_Patch) GetOptions() []*Question_Option {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+func (x *Question_Patch) GetAnswers() []string {
+	if x != nil {
+		return x.Answers
+	}
+	return nil
 }
 
 type Question_Option struct {
@@ -428,7 +420,7 @@ var File_eolymp_atlas_question_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_question_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/atlas/question.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\x84\x05\n" +
+	"\x1beolymp/atlas/question.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xcd\x06\n" +
 	"\bQuestion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12/\n" +
@@ -443,17 +435,20 @@ const file_eolymp_atlas_question_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1ax\n" +
-	"\x05Patch\"o\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_FIELD\x10\x00\x12\t\n" +
-	"\x05INDEX\x10\x01\x12\b\n" +
-	"\x04TYPE\x10\x02\x12\v\n" +
-	"\aCONTENT\x10\x03\x12\t\n" +
-	"\x05SCORE\x10\x04\x12\f\n" +
-	"\bMULTIPLE\x10\x05\x12\v\n" +
-	"\aOPTIONS\x10\x06\x12\v\n" +
-	"\aANSWERS\x10\a\x1aw\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\xc0\x02\n" +
+	"\x05Patch\x12\x19\n" +
+	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x124\n" +
+	"\x04type\x18\x03 \x01(\x0e2\x1b.eolymp.atlas.Question.TypeH\x01R\x04type\x88\x01\x01\x12-\n" +
+	"\acontent\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x19\n" +
+	"\x05score\x18\x05 \x01(\x02H\x02R\x05score\x88\x01\x01\x12\x1f\n" +
+	"\bmultiple\x18\x06 \x01(\bH\x03R\bmultiple\x88\x01\x01\x127\n" +
+	"\aoptions\x18\n" +
+	" \x03(\v2\x1d.eolymp.atlas.Question.OptionR\aoptions\x12\x18\n" +
+	"\aanswers\x18\v \x03(\tR\aanswersB\b\n" +
+	"\x06_indexB\a\n" +
+	"\x05_typeB\b\n" +
+	"\x06_scoreB\v\n" +
+	"\t_multiple\x1aw\n" +
 	"\x06Option\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12-\n" +
@@ -477,28 +472,30 @@ func file_eolymp_atlas_question_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_question_proto_rawDescData
 }
 
-var file_eolymp_atlas_question_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_atlas_question_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_atlas_question_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_atlas_question_proto_goTypes = []any{
 	(Question_Type)(0),        // 0: eolymp.atlas.Question.Type
 	(Question_Extra_Field)(0), // 1: eolymp.atlas.Question.Extra.Field
-	(Question_Patch_Field)(0), // 2: eolymp.atlas.Question.Patch.Field
-	(*Question)(nil),          // 3: eolymp.atlas.Question
-	(*Question_Extra)(nil),    // 4: eolymp.atlas.Question.Extra
-	(*Question_Patch)(nil),    // 5: eolymp.atlas.Question.Patch
-	(*Question_Option)(nil),   // 6: eolymp.atlas.Question.Option
-	(*ecm.Content)(nil),       // 7: eolymp.ecm.Content
+	(*Question)(nil),          // 2: eolymp.atlas.Question
+	(*Question_Extra)(nil),    // 3: eolymp.atlas.Question.Extra
+	(*Question_Patch)(nil),    // 4: eolymp.atlas.Question.Patch
+	(*Question_Option)(nil),   // 5: eolymp.atlas.Question.Option
+	(*ecm.Content)(nil),       // 6: eolymp.ecm.Content
 }
 var file_eolymp_atlas_question_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Question.type:type_name -> eolymp.atlas.Question.Type
-	7, // 1: eolymp.atlas.Question.content:type_name -> eolymp.ecm.Content
-	6, // 2: eolymp.atlas.Question.options:type_name -> eolymp.atlas.Question.Option
-	7, // 3: eolymp.atlas.Question.Option.content:type_name -> eolymp.ecm.Content
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6, // 1: eolymp.atlas.Question.content:type_name -> eolymp.ecm.Content
+	5, // 2: eolymp.atlas.Question.options:type_name -> eolymp.atlas.Question.Option
+	0, // 3: eolymp.atlas.Question.Patch.type:type_name -> eolymp.atlas.Question.Type
+	6, // 4: eolymp.atlas.Question.Patch.content:type_name -> eolymp.ecm.Content
+	5, // 5: eolymp.atlas.Question.Patch.options:type_name -> eolymp.atlas.Question.Option
+	6, // 6: eolymp.atlas.Question.Option.content:type_name -> eolymp.ecm.Content
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_question_proto_init() }
@@ -506,12 +503,13 @@ func file_eolymp_atlas_question_proto_init() {
 	if File_eolymp_atlas_question_proto != nil {
 		return
 	}
+	file_eolymp_atlas_question_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_question_proto_rawDesc), len(file_eolymp_atlas_question_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      2,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,

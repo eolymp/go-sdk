@@ -121,64 +121,6 @@ func (Issue_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_issue_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Issue_Patch_Field int32
-
-const (
-	Issue_Patch_UNKNOWN_FIELD Issue_Patch_Field = 0
-	Issue_Patch_STATUS        Issue_Patch_Field = 1
-	Issue_Patch_DESCRIPTION   Issue_Patch_Field = 2
-	Issue_Patch_TITLE         Issue_Patch_Field = 3
-	Issue_Patch_ASSIGNEE      Issue_Patch_Field = 4
-	Issue_Patch_TAGS          Issue_Patch_Field = 5
-)
-
-// Enum value maps for Issue_Patch_Field.
-var (
-	Issue_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		1: "STATUS",
-		2: "DESCRIPTION",
-		3: "TITLE",
-		4: "ASSIGNEE",
-		5: "TAGS",
-	}
-	Issue_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD": 0,
-		"STATUS":        1,
-		"DESCRIPTION":   2,
-		"TITLE":         3,
-		"ASSIGNEE":      4,
-		"TAGS":          5,
-	}
-)
-
-func (x Issue_Patch_Field) Enum() *Issue_Patch_Field {
-	p := new(Issue_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Issue_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Issue_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_issue_proto_enumTypes[2].Descriptor()
-}
-
-func (Issue_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_issue_proto_enumTypes[2]
-}
-
-func (x Issue_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Issue_Patch_Field.Descriptor instead.
-func (Issue_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 type Issue struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -384,6 +326,12 @@ func (*Issue_Extra) Descriptor() ([]byte, []int) {
 
 type Issue_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        *Issue_Status          `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.atlas.Issue_Status,oneof" json:"status,omitempty"`
+	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Title         *string                `protobuf:"bytes,6,opt,name=title,proto3,oneof" json:"title,omitempty"`
+	Assignee      *string                `protobuf:"bytes,7,opt,name=assignee,proto3,oneof" json:"assignee,omitempty"`
+	Tags          []string               `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
+	Untag         *bool                  `protobuf:"varint,14,opt,name=untag,proto3,oneof" json:"untag,omitempty"` // clears the tags, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -418,11 +366,53 @@ func (*Issue_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_issue_proto_rawDescGZIP(), []int{0, 1}
 }
 
+func (x *Issue_Patch) GetStatus() Issue_Status {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return Issue_UNKNOWN_STATUS
+}
+
+func (x *Issue_Patch) GetDescription() *ecm.Content {
+	if x != nil {
+		return x.Description
+	}
+	return nil
+}
+
+func (x *Issue_Patch) GetTitle() string {
+	if x != nil && x.Title != nil {
+		return *x.Title
+	}
+	return ""
+}
+
+func (x *Issue_Patch) GetAssignee() string {
+	if x != nil && x.Assignee != nil {
+		return *x.Assignee
+	}
+	return ""
+}
+
+func (x *Issue_Patch) GetTags() []string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
+}
+
+func (x *Issue_Patch) GetUntag() bool {
+	if x != nil && x.Untag != nil {
+		return *x.Untag
+	}
+	return false
+}
+
 var File_eolymp_atlas_issue_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x05\n" +
+	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdc\x06\n" +
 	"\x05Issue\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -445,16 +435,18 @@ const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
-	"\x12DESCRIPTION_RENDER\x10\x02\x1ac\n" +
-	"\x05Patch\"Z\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_FIELD\x10\x00\x12\n" +
-	"\n" +
-	"\x06STATUS\x10\x01\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x02\x12\t\n" +
-	"\x05TITLE\x10\x03\x12\f\n" +
-	"\bASSIGNEE\x10\x04\x12\b\n" +
-	"\x04TAGS\x10\x05\"2\n" +
+	"\x12DESCRIPTION_RENDER\x10\x02\x1a\x8e\x02\n" +
+	"\x05Patch\x127\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x1a.eolymp.atlas.Issue.StatusH\x00R\x06status\x88\x01\x01\x125\n" +
+	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x19\n" +
+	"\x05title\x18\x06 \x01(\tH\x01R\x05title\x88\x01\x01\x12\x1f\n" +
+	"\bassignee\x18\a \x01(\tH\x02R\bassignee\x88\x01\x01\x12\x12\n" +
+	"\x04tags\x18\t \x03(\tR\x04tags\x12\x19\n" +
+	"\x05untag\x18\x0e \x01(\bH\x03R\x05untag\x88\x01\x01B\t\n" +
+	"\a_statusB\b\n" +
+	"\x06_titleB\v\n" +
+	"\t_assigneeB\b\n" +
+	"\x06_untag\"2\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\b\n" +
 	"\x04OPEN\x10\x01\x12\n" +
@@ -475,28 +467,29 @@ func file_eolymp_atlas_issue_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_issue_proto_rawDescData
 }
 
-var file_eolymp_atlas_issue_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_atlas_issue_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_atlas_issue_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_issue_proto_goTypes = []any{
 	(Issue_Status)(0),             // 0: eolymp.atlas.Issue.Status
 	(Issue_Extra_Field)(0),        // 1: eolymp.atlas.Issue.Extra.Field
-	(Issue_Patch_Field)(0),        // 2: eolymp.atlas.Issue.Patch.Field
-	(*Issue)(nil),                 // 3: eolymp.atlas.Issue
-	(*Issue_Extra)(nil),           // 4: eolymp.atlas.Issue.Extra
-	(*Issue_Patch)(nil),           // 5: eolymp.atlas.Issue.Patch
-	(*ecm.Content)(nil),           // 6: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*Issue)(nil),                 // 2: eolymp.atlas.Issue
+	(*Issue_Extra)(nil),           // 3: eolymp.atlas.Issue.Extra
+	(*Issue_Patch)(nil),           // 4: eolymp.atlas.Issue.Patch
+	(*ecm.Content)(nil),           // 5: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_eolymp_atlas_issue_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Issue.status:type_name -> eolymp.atlas.Issue.Status
-	6, // 1: eolymp.atlas.Issue.description:type_name -> eolymp.ecm.Content
-	7, // 2: eolymp.atlas.Issue.created_at:type_name -> google.protobuf.Timestamp
-	7, // 3: eolymp.atlas.Issue.updated_at:type_name -> google.protobuf.Timestamp
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 1: eolymp.atlas.Issue.description:type_name -> eolymp.ecm.Content
+	6, // 2: eolymp.atlas.Issue.created_at:type_name -> google.protobuf.Timestamp
+	6, // 3: eolymp.atlas.Issue.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 4: eolymp.atlas.Issue.Patch.status:type_name -> eolymp.atlas.Issue.Status
+	5, // 5: eolymp.atlas.Issue.Patch.description:type_name -> eolymp.ecm.Content
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_issue_proto_init() }
@@ -508,12 +501,13 @@ func file_eolymp_atlas_issue_proto_init() {
 		(*Issue_ReporterId)(nil),
 		(*Issue_TesterId)(nil),
 	}
+	file_eolymp_atlas_issue_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_issue_proto_rawDesc), len(file_eolymp_atlas_issue_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      2,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,

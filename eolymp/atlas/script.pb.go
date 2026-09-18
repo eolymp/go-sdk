@@ -68,64 +68,6 @@ func (Script_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type Script_Patch_Field int32
-
-const (
-	Script_Patch_UNKNOWN_PATCH Script_Patch_Field = 0
-	Script_Patch_NAME          Script_Patch_Field = 1
-	Script_Patch_SECRET        Script_Patch_Field = 2
-	Script_Patch_RUNTIME       Script_Patch_Field = 3
-	Script_Patch_SOURCE_URL    Script_Patch_Field = 4
-	Script_Patch_FILES         Script_Patch_Field = 5
-)
-
-// Enum value maps for Script_Patch_Field.
-var (
-	Script_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_PATCH",
-		1: "NAME",
-		2: "SECRET",
-		3: "RUNTIME",
-		4: "SOURCE_URL",
-		5: "FILES",
-	}
-	Script_Patch_Field_value = map[string]int32{
-		"UNKNOWN_PATCH": 0,
-		"NAME":          1,
-		"SECRET":        2,
-		"RUNTIME":       3,
-		"SOURCE_URL":    4,
-		"FILES":         5,
-	}
-)
-
-func (x Script_Patch_Field) Enum() *Script_Patch_Field {
-	p := new(Script_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Script_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Script_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_script_proto_enumTypes[1].Descriptor()
-}
-
-func (Script_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_script_proto_enumTypes[1]
-}
-
-func (x Script_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Script_Patch_Field.Descriptor instead.
-func (Script_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 type Script struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -252,6 +194,12 @@ func (*Script_Extra) Descriptor() ([]byte, []int) {
 
 type Script_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Secret        *bool                  `protobuf:"varint,7,opt,name=secret,proto3,oneof" json:"secret,omitempty"`
+	Runtime       *string                `protobuf:"bytes,10,opt,name=runtime,proto3,oneof" json:"runtime,omitempty"`
+	Source        *string                `protobuf:"bytes,11,opt,name=source,proto3,oneof" json:"source,omitempty"`
+	Files         []*executor.File       `protobuf:"bytes,20,rep,name=files,proto3" json:"files,omitempty"`
+	UnsetFiles    *bool                  `protobuf:"varint,21,opt,name=unset_files,json=unsetFiles,proto3,oneof" json:"unset_files,omitempty"` // clears the files, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -286,11 +234,53 @@ func (*Script_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_script_proto_rawDescGZIP(), []int{0, 1}
 }
 
+func (x *Script_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Script_Patch) GetSecret() bool {
+	if x != nil && x.Secret != nil {
+		return *x.Secret
+	}
+	return false
+}
+
+func (x *Script_Patch) GetRuntime() string {
+	if x != nil && x.Runtime != nil {
+		return *x.Runtime
+	}
+	return ""
+}
+
+func (x *Script_Patch) GetSource() string {
+	if x != nil && x.Source != nil {
+		return *x.Source
+	}
+	return ""
+}
+
+func (x *Script_Patch) GetFiles() []*executor.File {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
+func (x *Script_Patch) GetUnsetFiles() bool {
+	if x != nil && x.UnsetFiles != nil {
+		return *x.UnsetFiles
+	}
+	return false
+}
+
 var File_eolymp_atlas_script_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_script_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/atlas/script.proto\x12\feolymp.atlas\x1a\x1aeolymp/executor/file.proto\"\xb7\x02\n" +
+	"\x19eolymp/atlas/script.proto\x12\feolymp.atlas\x1a\x1aeolymp/executor/file.proto\"\xde\x03\n" +
 	"\x06Script\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -303,17 +293,22 @@ const file_eolymp_atlas_script_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\n" +
 	"\n" +
-	"\x06SOURCE\x10\x01\x1aa\n" +
-	"\x05Patch\"X\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\x12\n" +
+	"\x06SOURCE\x10\x01\x1a\x87\x02\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1b\n" +
+	"\x06secret\x18\a \x01(\bH\x01R\x06secret\x88\x01\x01\x12\x1d\n" +
+	"\aruntime\x18\n" +
+	" \x01(\tH\x02R\aruntime\x88\x01\x01\x12\x1b\n" +
+	"\x06source\x18\v \x01(\tH\x03R\x06source\x88\x01\x01\x12+\n" +
+	"\x05files\x18\x14 \x03(\v2\x15.eolymp.executor.FileR\x05files\x12$\n" +
+	"\vunset_files\x18\x15 \x01(\bH\x04R\n" +
+	"unsetFiles\x88\x01\x01B\a\n" +
+	"\x05_nameB\t\n" +
+	"\a_secretB\n" +
 	"\n" +
-	"\x06SECRET\x10\x02\x12\v\n" +
-	"\aRUNTIME\x10\x03\x12\x0e\n" +
-	"\n" +
-	"SOURCE_URL\x10\x04\x12\t\n" +
-	"\x05FILES\x10\x05B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\b_runtimeB\t\n" +
+	"\a_sourceB\x0e\n" +
+	"\f_unset_filesB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_script_proto_rawDescOnce sync.Once
@@ -327,23 +322,23 @@ func file_eolymp_atlas_script_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_script_proto_rawDescData
 }
 
-var file_eolymp_atlas_script_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_atlas_script_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_atlas_script_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_script_proto_goTypes = []any{
 	(Script_Extra_Field)(0), // 0: eolymp.atlas.Script.Extra.Field
-	(Script_Patch_Field)(0), // 1: eolymp.atlas.Script.Patch.Field
-	(*Script)(nil),          // 2: eolymp.atlas.Script
-	(*Script_Extra)(nil),    // 3: eolymp.atlas.Script.Extra
-	(*Script_Patch)(nil),    // 4: eolymp.atlas.Script.Patch
-	(*executor.File)(nil),   // 5: eolymp.executor.File
+	(*Script)(nil),          // 1: eolymp.atlas.Script
+	(*Script_Extra)(nil),    // 2: eolymp.atlas.Script.Extra
+	(*Script_Patch)(nil),    // 3: eolymp.atlas.Script.Patch
+	(*executor.File)(nil),   // 4: eolymp.executor.File
 }
 var file_eolymp_atlas_script_proto_depIdxs = []int32{
-	5, // 0: eolymp.atlas.Script.files:type_name -> eolymp.executor.File
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 0: eolymp.atlas.Script.files:type_name -> eolymp.executor.File
+	4, // 1: eolymp.atlas.Script.Patch.files:type_name -> eolymp.executor.File
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_script_proto_init() }
@@ -351,12 +346,13 @@ func file_eolymp_atlas_script_proto_init() {
 	if File_eolymp_atlas_script_proto != nil {
 		return
 	}
+	file_eolymp_atlas_script_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_script_proto_rawDesc), len(file_eolymp_atlas_script_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,

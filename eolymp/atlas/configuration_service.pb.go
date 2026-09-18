@@ -104,8 +104,7 @@ func (x *DescribeConfigOutput) GetConfig() *Config {
 
 type UpdateConfigInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Config_Patch_Field   `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Config_Patch_Field" json:"patch,omitempty"` // fields to update; empty or UNKNOWN_PATCH means update all fields
-	Config        *Config                `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
+	Config        *Config_Patch          `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -140,14 +139,7 @@ func (*UpdateConfigInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_configuration_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateConfigInput) GetPatch() []Config_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateConfigInput) GetConfig() *Config {
+func (x *UpdateConfigInput) GetConfig() *Config_Patch {
 	if x != nil {
 		return x.Config
 	}
@@ -197,10 +189,9 @@ const file_eolymp_atlas_configuration_service_proto_rawDesc = "" +
 	"(eolymp/atlas/configuration_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/atlas/configuration.proto\"\x15\n" +
 	"\x13DescribeConfigInput\"D\n" +
 	"\x14DescribeConfigOutput\x12,\n" +
-	"\x06config\x18\x01 \x01(\v2\x14.eolymp.atlas.ConfigR\x06config\"y\n" +
-	"\x11UpdateConfigInput\x126\n" +
-	"\x05patch\x18\x01 \x03(\x0e2 .eolymp.atlas.Config.Patch.FieldR\x05patch\x12,\n" +
-	"\x06config\x18\x02 \x01(\v2\x14.eolymp.atlas.ConfigR\x06config\"\x14\n" +
+	"\x06config\x18\x01 \x01(\v2\x14.eolymp.atlas.ConfigR\x06config\"S\n" +
+	"\x11UpdateConfigInput\x122\n" +
+	"\x06config\x18\x03 \x01(\v2\x1a.eolymp.atlas.Config.PatchR\x06configJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03\"\x14\n" +
 	"\x12UpdateConfigOutput2\xdb\x02\n" +
 	"\x14ConfigurationService\x12\x86\x01\n" +
 	"\x0eDescribeConfig\x12!.eolymp.atlas.DescribeConfigInput\x1a\".eolymp.atlas.DescribeConfigOutput\"-\xea\xe2\n" +
@@ -237,21 +228,20 @@ var file_eolymp_atlas_configuration_service_proto_goTypes = []any{
 	(*UpdateConfigInput)(nil),    // 2: eolymp.atlas.UpdateConfigInput
 	(*UpdateConfigOutput)(nil),   // 3: eolymp.atlas.UpdateConfigOutput
 	(*Config)(nil),               // 4: eolymp.atlas.Config
-	(Config_Patch_Field)(0),      // 5: eolymp.atlas.Config.Patch.Field
+	(*Config_Patch)(nil),         // 5: eolymp.atlas.Config.Patch
 }
 var file_eolymp_atlas_configuration_service_proto_depIdxs = []int32{
 	4, // 0: eolymp.atlas.DescribeConfigOutput.config:type_name -> eolymp.atlas.Config
-	5, // 1: eolymp.atlas.UpdateConfigInput.patch:type_name -> eolymp.atlas.Config.Patch.Field
-	4, // 2: eolymp.atlas.UpdateConfigInput.config:type_name -> eolymp.atlas.Config
-	0, // 3: eolymp.atlas.ConfigurationService.DescribeConfig:input_type -> eolymp.atlas.DescribeConfigInput
-	2, // 4: eolymp.atlas.ConfigurationService.UpdateConfig:input_type -> eolymp.atlas.UpdateConfigInput
-	1, // 5: eolymp.atlas.ConfigurationService.DescribeConfig:output_type -> eolymp.atlas.DescribeConfigOutput
-	3, // 6: eolymp.atlas.ConfigurationService.UpdateConfig:output_type -> eolymp.atlas.UpdateConfigOutput
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	5, // 1: eolymp.atlas.UpdateConfigInput.config:type_name -> eolymp.atlas.Config.Patch
+	0, // 2: eolymp.atlas.ConfigurationService.DescribeConfig:input_type -> eolymp.atlas.DescribeConfigInput
+	2, // 3: eolymp.atlas.ConfigurationService.UpdateConfig:input_type -> eolymp.atlas.UpdateConfigInput
+	1, // 4: eolymp.atlas.ConfigurationService.DescribeConfig:output_type -> eolymp.atlas.DescribeConfigOutput
+	3, // 5: eolymp.atlas.ConfigurationService.UpdateConfig:output_type -> eolymp.atlas.UpdateConfigOutput
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_configuration_service_proto_init() }

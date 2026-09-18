@@ -50,9 +50,9 @@ type ProblemServiceClient interface {
 	// is made asynchronously, so the imported content shows up some time after this call has returned.
 	CreateProblem(ctx context.Context, in *CreateProblemInput, opts ...grpc.CallOption) (*CreateProblemOutput, error)
 	// UpdateProblem changes problem metadata, which is also how a problem is published or unpublished in the
-	// catalog. Only fields named in the patch mask are written, and an empty mask writes all of them, blanking
-	// whatever the request left empty. Problem content such as statements and testsets belongs to other
-	// services and is untouched.
+	// catalog. Only the fields the patch carries are written; the rest keep the values they already have, and
+	// `untopic` clears the topics, which an empty list cannot express. Problem content such as statements and
+	// testsets belongs to other services and is untouched.
 	UpdateProblem(ctx context.Context, in *UpdateProblemInput, opts ...grpc.CallOption) (*UpdateProblemOutput, error)
 	// DeleteProblem permanently removes the problem together with all content attached to it, and there is no
 	// restore. To take a problem out of the catalog while keeping it, make it invisible with UpdateProblem
@@ -215,9 +215,9 @@ type ProblemServiceServer interface {
 	// is made asynchronously, so the imported content shows up some time after this call has returned.
 	CreateProblem(context.Context, *CreateProblemInput) (*CreateProblemOutput, error)
 	// UpdateProblem changes problem metadata, which is also how a problem is published or unpublished in the
-	// catalog. Only fields named in the patch mask are written, and an empty mask writes all of them, blanking
-	// whatever the request left empty. Problem content such as statements and testsets belongs to other
-	// services and is untouched.
+	// catalog. Only the fields the patch carries are written; the rest keep the values they already have, and
+	// `untopic` clears the topics, which an empty list cannot express. Problem content such as statements and
+	// testsets belongs to other services and is untouched.
 	UpdateProblem(context.Context, *UpdateProblemInput) (*UpdateProblemOutput, error)
 	// DeleteProblem permanently removes the problem together with all content attached to it, and there is no
 	// restore. To take a problem out of the catalog while keeping it, make it invisible with UpdateProblem

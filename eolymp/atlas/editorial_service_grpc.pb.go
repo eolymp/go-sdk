@@ -45,9 +45,8 @@ type EditorialServiceClient interface {
 	// CreateEditorial adds the editorial for one locale and returns its id. Other languages are separate
 	// editorials, created by calling this again.
 	CreateEditorial(ctx context.Context, in *CreateEditorialInput, opts ...grpc.CallOption) (*CreateEditorialOutput, error)
-	// UpdateEditorial writes new values into an existing editorial. Fields outside the patch mask keep the
-	// values they already have, unless the mask selects them all, which also overwrites the ones left empty in
-	// the request.
+	// UpdateEditorial writes new values into an existing editorial. Only the fields the patch carries are
+	// written; the rest keep the values they already have.
 	UpdateEditorial(ctx context.Context, in *UpdateEditorialInput, opts ...grpc.CallOption) (*UpdateEditorialOutput, error)
 	// DeleteEditorial permanently removes the write-up for a single locale. The problem, its statements, its
 	// solutions and the editorials in other locales are untouched.
@@ -175,9 +174,8 @@ type EditorialServiceServer interface {
 	// CreateEditorial adds the editorial for one locale and returns its id. Other languages are separate
 	// editorials, created by calling this again.
 	CreateEditorial(context.Context, *CreateEditorialInput) (*CreateEditorialOutput, error)
-	// UpdateEditorial writes new values into an existing editorial. Fields outside the patch mask keep the
-	// values they already have, unless the mask selects them all, which also overwrites the ones left empty in
-	// the request.
+	// UpdateEditorial writes new values into an existing editorial. Only the fields the patch carries are
+	// written; the rest keep the values they already have.
 	UpdateEditorial(context.Context, *UpdateEditorialInput) (*UpdateEditorialOutput, error)
 	// DeleteEditorial permanently removes the write-up for a single locale. The problem, its statements, its
 	// solutions and the editorials in other locales are untouched.

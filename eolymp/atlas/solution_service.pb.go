@@ -513,10 +513,9 @@ func (x *CreateSolutionOutput) GetSolutionId() string {
 
 type UpdateSolutionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Solution_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Solution_Patch_Field" json:"patch,omitempty"`
 	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	SolutionId    string                 `protobuf:"bytes,3,opt,name=solution_id,json=solutionId,proto3" json:"solution_id,omitempty"`
-	Solution      *Solution              `protobuf:"bytes,4,opt,name=solution,proto3" json:"solution,omitempty"`
+	Solution      *Solution_Patch        `protobuf:"bytes,5,opt,name=solution,proto3" json:"solution,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -551,13 +550,6 @@ func (*UpdateSolutionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_service_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *UpdateSolutionInput) GetPatch() []Solution_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateSolutionInput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
@@ -572,7 +564,7 @@ func (x *UpdateSolutionInput) GetSolutionId() string {
 	return ""
 }
 
-func (x *UpdateSolutionInput) GetSolution() *Solution {
+func (x *UpdateSolutionInput) GetSolution() *Solution_Patch {
 	if x != nil {
 		return x.Solution
 	}
@@ -892,14 +884,13 @@ const file_eolymp_atlas_solution_service_proto_rawDesc = "" +
 	"\bsolution\x18\x02 \x01(\v2\x16.eolymp.atlas.SolutionR\bsolution\"7\n" +
 	"\x14CreateSolutionOutput\x12\x1f\n" +
 	"\vsolution_id\x18\x01 \x01(\tR\n" +
-	"solutionId\"\xc3\x01\n" +
-	"\x13UpdateSolutionInput\x128\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\".eolymp.atlas.Solution.Patch.FieldR\x05patch\x12\x1d\n" +
+	"solutionId\"\x9b\x01\n" +
+	"\x13UpdateSolutionInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vsolution_id\x18\x03 \x01(\tR\n" +
-	"solutionId\x122\n" +
-	"\bsolution\x18\x04 \x01(\v2\x16.eolymp.atlas.SolutionR\bsolution\"\x16\n" +
+	"solutionId\x128\n" +
+	"\bsolution\x18\x05 \x01(\v2\x1c.eolymp.atlas.Solution.PatchR\bsolutionJ\x04\b\x01\x10\x02J\x04\b\x04\x10\x05\"\x16\n" +
 	"\x14UpdateSolutionOutput\"U\n" +
 	"\x13DeleteSolutionInput\x12\x1d\n" +
 	"\n" +
@@ -989,7 +980,7 @@ var file_eolymp_atlas_solution_service_proto_goTypes = []any{
 	(*CheckSolutionsInput_Filter)(nil), // 14: eolymp.atlas.CheckSolutionsInput.Filter
 	(wellknown.Direction)(0),           // 15: eolymp.wellknown.Direction
 	(*Solution)(nil),                   // 16: eolymp.atlas.Solution
-	(Solution_Patch_Field)(0),          // 17: eolymp.atlas.Solution.Patch.Field
+	(*Solution_Patch)(nil),             // 17: eolymp.atlas.Solution.Patch
 	(*wellknown.ExpressionID)(nil),     // 18: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil),   // 19: eolymp.wellknown.ExpressionEnum
 	(*wellknown.ExpressionString)(nil), // 20: eolymp.wellknown.ExpressionString
@@ -1002,33 +993,32 @@ var file_eolymp_atlas_solution_service_proto_depIdxs = []int32{
 	14, // 4: eolymp.atlas.CheckSolutionsInput.filters:type_name -> eolymp.atlas.CheckSolutionsInput.Filter
 	16, // 5: eolymp.atlas.DescribeSolutionOutput.solution:type_name -> eolymp.atlas.Solution
 	16, // 6: eolymp.atlas.CreateSolutionInput.solution:type_name -> eolymp.atlas.Solution
-	17, // 7: eolymp.atlas.UpdateSolutionInput.patch:type_name -> eolymp.atlas.Solution.Patch.Field
-	16, // 8: eolymp.atlas.UpdateSolutionInput.solution:type_name -> eolymp.atlas.Solution
-	18, // 9: eolymp.atlas.ListSolutionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	19, // 10: eolymp.atlas.ListSolutionsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	20, // 11: eolymp.atlas.ListSolutionsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	19, // 12: eolymp.atlas.ListSolutionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	18, // 13: eolymp.atlas.CheckSolutionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	19, // 14: eolymp.atlas.CheckSolutionsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	20, // 15: eolymp.atlas.CheckSolutionsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	19, // 16: eolymp.atlas.CheckSolutionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
-	7,  // 17: eolymp.atlas.SolutionService.CreateSolution:input_type -> eolymp.atlas.CreateSolutionInput
-	9,  // 18: eolymp.atlas.SolutionService.UpdateSolution:input_type -> eolymp.atlas.UpdateSolutionInput
-	11, // 19: eolymp.atlas.SolutionService.DeleteSolution:input_type -> eolymp.atlas.DeleteSolutionInput
-	5,  // 20: eolymp.atlas.SolutionService.DescribeSolution:input_type -> eolymp.atlas.DescribeSolutionInput
-	1,  // 21: eolymp.atlas.SolutionService.ListSolutions:input_type -> eolymp.atlas.ListSolutionsInput
-	3,  // 22: eolymp.atlas.SolutionService.CheckSolutions:input_type -> eolymp.atlas.CheckSolutionsInput
-	8,  // 23: eolymp.atlas.SolutionService.CreateSolution:output_type -> eolymp.atlas.CreateSolutionOutput
-	10, // 24: eolymp.atlas.SolutionService.UpdateSolution:output_type -> eolymp.atlas.UpdateSolutionOutput
-	12, // 25: eolymp.atlas.SolutionService.DeleteSolution:output_type -> eolymp.atlas.DeleteSolutionOutput
-	6,  // 26: eolymp.atlas.SolutionService.DescribeSolution:output_type -> eolymp.atlas.DescribeSolutionOutput
-	2,  // 27: eolymp.atlas.SolutionService.ListSolutions:output_type -> eolymp.atlas.ListSolutionsOutput
-	4,  // 28: eolymp.atlas.SolutionService.CheckSolutions:output_type -> eolymp.atlas.CheckSolutionsOutput
-	23, // [23:29] is the sub-list for method output_type
-	17, // [17:23] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	17, // 7: eolymp.atlas.UpdateSolutionInput.solution:type_name -> eolymp.atlas.Solution.Patch
+	18, // 8: eolymp.atlas.ListSolutionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	19, // 9: eolymp.atlas.ListSolutionsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	20, // 10: eolymp.atlas.ListSolutionsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	19, // 11: eolymp.atlas.ListSolutionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	18, // 12: eolymp.atlas.CheckSolutionsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	19, // 13: eolymp.atlas.CheckSolutionsInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	20, // 14: eolymp.atlas.CheckSolutionsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	19, // 15: eolymp.atlas.CheckSolutionsInput.Filter.runtime:type_name -> eolymp.wellknown.ExpressionEnum
+	7,  // 16: eolymp.atlas.SolutionService.CreateSolution:input_type -> eolymp.atlas.CreateSolutionInput
+	9,  // 17: eolymp.atlas.SolutionService.UpdateSolution:input_type -> eolymp.atlas.UpdateSolutionInput
+	11, // 18: eolymp.atlas.SolutionService.DeleteSolution:input_type -> eolymp.atlas.DeleteSolutionInput
+	5,  // 19: eolymp.atlas.SolutionService.DescribeSolution:input_type -> eolymp.atlas.DescribeSolutionInput
+	1,  // 20: eolymp.atlas.SolutionService.ListSolutions:input_type -> eolymp.atlas.ListSolutionsInput
+	3,  // 21: eolymp.atlas.SolutionService.CheckSolutions:input_type -> eolymp.atlas.CheckSolutionsInput
+	8,  // 22: eolymp.atlas.SolutionService.CreateSolution:output_type -> eolymp.atlas.CreateSolutionOutput
+	10, // 23: eolymp.atlas.SolutionService.UpdateSolution:output_type -> eolymp.atlas.UpdateSolutionOutput
+	12, // 24: eolymp.atlas.SolutionService.DeleteSolution:output_type -> eolymp.atlas.DeleteSolutionOutput
+	6,  // 25: eolymp.atlas.SolutionService.DescribeSolution:output_type -> eolymp.atlas.DescribeSolutionOutput
+	2,  // 26: eolymp.atlas.SolutionService.ListSolutions:output_type -> eolymp.atlas.ListSolutionsOutput
+	4,  // 27: eolymp.atlas.SolutionService.CheckSolutions:output_type -> eolymp.atlas.CheckSolutionsOutput
+	22, // [22:28] is the sub-list for method output_type
+	16, // [16:22] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_solution_service_proto_init() }

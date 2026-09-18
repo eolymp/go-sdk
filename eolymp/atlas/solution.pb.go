@@ -146,64 +146,6 @@ func (Solution_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_proto_rawDescGZIP(), []int{0, 1}
 }
 
-type Solution_Patch_Field int32
-
-const (
-	Solution_Patch_UNKNOWN_PATCH Solution_Patch_Field = 0
-	Solution_Patch_NAME          Solution_Patch_Field = 1
-	Solution_Patch_TYPE          Solution_Patch_Field = 2
-	Solution_Patch_RUNTIME       Solution_Patch_Field = 3
-	Solution_Patch_SOURCE        Solution_Patch_Field = 4
-	Solution_Patch_SECRET        Solution_Patch_Field = 5
-)
-
-// Enum value maps for Solution_Patch_Field.
-var (
-	Solution_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_PATCH",
-		1: "NAME",
-		2: "TYPE",
-		3: "RUNTIME",
-		4: "SOURCE",
-		5: "SECRET",
-	}
-	Solution_Patch_Field_value = map[string]int32{
-		"UNKNOWN_PATCH": 0,
-		"NAME":          1,
-		"TYPE":          2,
-		"RUNTIME":       3,
-		"SOURCE":        4,
-		"SECRET":        5,
-	}
-)
-
-func (x Solution_Patch_Field) Enum() *Solution_Patch_Field {
-	p := new(Solution_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Solution_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Solution_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_solution_proto_enumTypes[2].Descriptor()
-}
-
-func (Solution_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_solution_proto_enumTypes[2]
-}
-
-func (x Solution_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Solution_Patch_Field.Descriptor instead.
-func (Solution_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_solution_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 type Solution struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`            // unique identifier
@@ -306,6 +248,11 @@ func (x *Solution) GetSubmissionId() string {
 
 type Solution_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Secret        *bool                  `protobuf:"varint,4,opt,name=secret,proto3,oneof" json:"secret,omitempty"`
+	Runtime       *string                `protobuf:"bytes,10,opt,name=runtime,proto3,oneof" json:"runtime,omitempty"`
+	Source        *string                `protobuf:"bytes,11,opt,name=source,proto3,oneof" json:"source,omitempty"`
+	Type          *Solution_Type         `protobuf:"varint,20,opt,name=type,proto3,enum=eolymp.atlas.Solution_Type,oneof" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -340,11 +287,46 @@ func (*Solution_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_solution_proto_rawDescGZIP(), []int{0, 0}
 }
 
+func (x *Solution_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Solution_Patch) GetSecret() bool {
+	if x != nil && x.Secret != nil {
+		return *x.Secret
+	}
+	return false
+}
+
+func (x *Solution_Patch) GetRuntime() string {
+	if x != nil && x.Runtime != nil {
+		return *x.Runtime
+	}
+	return ""
+}
+
+func (x *Solution_Patch) GetSource() string {
+	if x != nil && x.Source != nil {
+		return *x.Source
+	}
+	return ""
+}
+
+func (x *Solution_Patch) GetType() Solution_Type {
+	if x != nil && x.Type != nil {
+		return *x.Type
+	}
+	return Solution_UNSET
+}
+
 var File_eolymp_atlas_solution_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_solution_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/atlas/solution.proto\x12\feolymp.atlas\"\xd8\x04\n" +
+	"\x1beolymp/atlas/solution.proto\x12\feolymp.atlas\"\xe0\x05\n" +
 	"\bSolution\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
@@ -354,17 +336,20 @@ const file_eolymp_atlas_solution_proto_rawDesc = "" +
 	"\x06source\x18\v \x01(\tR\x06source\x12/\n" +
 	"\x04type\x18\x14 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeR\x04type\x125\n" +
 	"\x06status\x18\x1e \x01(\x0e2\x1d.eolymp.atlas.Solution.StatusR\x06status\x12#\n" +
-	"\rsubmission_id\x18\x1f \x01(\tR\fsubmissionId\x1a\\\n" +
-	"\x05Patch\"S\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\x12\b\n" +
-	"\x04TYPE\x10\x02\x12\v\n" +
-	"\aRUNTIME\x10\x03\x12\n" +
+	"\rsubmission_id\x18\x1f \x01(\tR\fsubmissionId\x1a\xe3\x01\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1b\n" +
+	"\x06secret\x18\x04 \x01(\bH\x01R\x06secret\x88\x01\x01\x12\x1d\n" +
+	"\aruntime\x18\n" +
+	" \x01(\tH\x02R\aruntime\x88\x01\x01\x12\x1b\n" +
+	"\x06source\x18\v \x01(\tH\x03R\x06source\x88\x01\x01\x124\n" +
+	"\x04type\x18\x14 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeH\x04R\x04type\x88\x01\x01B\a\n" +
+	"\x05_nameB\t\n" +
+	"\a_secretB\n" +
 	"\n" +
-	"\x06SOURCE\x10\x04\x12\n" +
-	"\n" +
-	"\x06SECRET\x10\x05\"\xa8\x01\n" +
+	"\b_runtimeB\t\n" +
+	"\a_sourceB\a\n" +
+	"\x05_type\"\xa8\x01\n" +
 	"\x04Type\x12\t\n" +
 	"\x05UNSET\x10\x00\x12\v\n" +
 	"\aCORRECT\x10\x01\x12\r\n" +
@@ -395,23 +380,23 @@ func file_eolymp_atlas_solution_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_solution_proto_rawDescData
 }
 
-var file_eolymp_atlas_solution_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_atlas_solution_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_atlas_solution_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_atlas_solution_proto_goTypes = []any{
-	(Solution_Type)(0),        // 0: eolymp.atlas.Solution.Type
-	(Solution_Status)(0),      // 1: eolymp.atlas.Solution.Status
-	(Solution_Patch_Field)(0), // 2: eolymp.atlas.Solution.Patch.Field
-	(*Solution)(nil),          // 3: eolymp.atlas.Solution
-	(*Solution_Patch)(nil),    // 4: eolymp.atlas.Solution.Patch
+	(Solution_Type)(0),     // 0: eolymp.atlas.Solution.Type
+	(Solution_Status)(0),   // 1: eolymp.atlas.Solution.Status
+	(*Solution)(nil),       // 2: eolymp.atlas.Solution
+	(*Solution_Patch)(nil), // 3: eolymp.atlas.Solution.Patch
 }
 var file_eolymp_atlas_solution_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Solution.type:type_name -> eolymp.atlas.Solution.Type
 	1, // 1: eolymp.atlas.Solution.status:type_name -> eolymp.atlas.Solution.Status
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 2: eolymp.atlas.Solution.Patch.type:type_name -> eolymp.atlas.Solution.Type
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_solution_proto_init() }
@@ -419,12 +404,13 @@ func file_eolymp_atlas_solution_proto_init() {
 	if File_eolymp_atlas_solution_proto != nil {
 		return
 	}
+	file_eolymp_atlas_solution_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_solution_proto_rawDesc), len(file_eolymp_atlas_solution_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      2,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

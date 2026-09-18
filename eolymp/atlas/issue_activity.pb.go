@@ -72,52 +72,6 @@ func (IssueActivity_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_atlas_issue_activity_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-type IssueActivity_Patch_Field int32
-
-const (
-	IssueActivity_Patch_UNKNOWN_FIELD IssueActivity_Patch_Field = 0
-	IssueActivity_Patch_MESSAGE       IssueActivity_Patch_Field = 1
-)
-
-// Enum value maps for IssueActivity_Patch_Field.
-var (
-	IssueActivity_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		1: "MESSAGE",
-	}
-	IssueActivity_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD": 0,
-		"MESSAGE":       1,
-	}
-)
-
-func (x IssueActivity_Patch_Field) Enum() *IssueActivity_Patch_Field {
-	p := new(IssueActivity_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x IssueActivity_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (IssueActivity_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_atlas_issue_activity_proto_enumTypes[1].Descriptor()
-}
-
-func (IssueActivity_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_atlas_issue_activity_proto_enumTypes[1]
-}
-
-func (x IssueActivity_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use IssueActivity_Patch_Field.Descriptor instead.
-func (IssueActivity_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_atlas_issue_activity_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 // IssueActivity is a single record in an issue's activity thread: a user comment,
 // an automatically recorded change or another kind of activity.
 type IssueActivity struct {
@@ -322,6 +276,7 @@ func (*IssueActivity_Extra) Descriptor() ([]byte, []int) {
 
 type IssueActivity_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       *ecm.Content           `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -354,6 +309,13 @@ func (x *IssueActivity_Patch) ProtoReflect() protoreflect.Message {
 // Deprecated: Use IssueActivity_Patch.ProtoReflect.Descriptor instead.
 func (*IssueActivity_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_issue_activity_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *IssueActivity_Patch) GetMessage() *ecm.Content {
+	if x != nil {
+		return x.Message
+	}
+	return nil
 }
 
 // Comment is a message posted by a user or member.
@@ -459,7 +421,7 @@ var File_eolymp_atlas_issue_activity_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_activity_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/issue_activity.proto\x12\feolymp.atlas\x1a\x18eolymp/atlas/issue.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x96\x05\n" +
+	"!eolymp/atlas/issue_activity.proto\x12\feolymp.atlas\x1a\x18eolymp/atlas/issue.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9c\x05\n" +
 	"\rIssueActivity\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12\x19\n" +
@@ -476,11 +438,9 @@ const file_eolymp_atlas_issue_activity_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x11\n" +
 	"\rMESSAGE_VALUE\x10\x01\x12\x12\n" +
-	"\x0eMESSAGE_RENDER\x10\x02\x1a0\n" +
-	"\x05Patch\"'\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_FIELD\x10\x00\x12\v\n" +
-	"\aMESSAGE\x10\x01\x1a8\n" +
+	"\x0eMESSAGE_RENDER\x10\x02\x1a6\n" +
+	"\x05Patch\x12-\n" +
+	"\amessage\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x1a8\n" +
 	"\aComment\x12-\n" +
 	"\amessage\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x1a`\n" +
 	"\x06Change\x12+\n" +
@@ -501,33 +461,33 @@ func file_eolymp_atlas_issue_activity_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_issue_activity_proto_rawDescData
 }
 
-var file_eolymp_atlas_issue_activity_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_atlas_issue_activity_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_atlas_issue_activity_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_atlas_issue_activity_proto_goTypes = []any{
 	(IssueActivity_Extra_Field)(0), // 0: eolymp.atlas.IssueActivity.Extra.Field
-	(IssueActivity_Patch_Field)(0), // 1: eolymp.atlas.IssueActivity.Patch.Field
-	(*IssueActivity)(nil),          // 2: eolymp.atlas.IssueActivity
-	(*IssueActivity_Extra)(nil),    // 3: eolymp.atlas.IssueActivity.Extra
-	(*IssueActivity_Patch)(nil),    // 4: eolymp.atlas.IssueActivity.Patch
-	(*IssueActivity_Comment)(nil),  // 5: eolymp.atlas.IssueActivity.Comment
-	(*IssueActivity_Change)(nil),   // 6: eolymp.atlas.IssueActivity.Change
-	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
-	(*ecm.Content)(nil),            // 8: eolymp.ecm.Content
-	(*Issue)(nil),                  // 9: eolymp.atlas.Issue
+	(*IssueActivity)(nil),          // 1: eolymp.atlas.IssueActivity
+	(*IssueActivity_Extra)(nil),    // 2: eolymp.atlas.IssueActivity.Extra
+	(*IssueActivity_Patch)(nil),    // 3: eolymp.atlas.IssueActivity.Patch
+	(*IssueActivity_Comment)(nil),  // 4: eolymp.atlas.IssueActivity.Comment
+	(*IssueActivity_Change)(nil),   // 5: eolymp.atlas.IssueActivity.Change
+	(*timestamppb.Timestamp)(nil),  // 6: google.protobuf.Timestamp
+	(*ecm.Content)(nil),            // 7: eolymp.ecm.Content
+	(*Issue)(nil),                  // 8: eolymp.atlas.Issue
 }
 var file_eolymp_atlas_issue_activity_proto_depIdxs = []int32{
-	7, // 0: eolymp.atlas.IssueActivity.created_at:type_name -> google.protobuf.Timestamp
-	7, // 1: eolymp.atlas.IssueActivity.updated_at:type_name -> google.protobuf.Timestamp
-	5, // 2: eolymp.atlas.IssueActivity.comment:type_name -> eolymp.atlas.IssueActivity.Comment
-	6, // 3: eolymp.atlas.IssueActivity.change:type_name -> eolymp.atlas.IssueActivity.Change
-	8, // 4: eolymp.atlas.IssueActivity.Comment.message:type_name -> eolymp.ecm.Content
-	9, // 5: eolymp.atlas.IssueActivity.Change.before:type_name -> eolymp.atlas.Issue
-	9, // 6: eolymp.atlas.IssueActivity.Change.after:type_name -> eolymp.atlas.Issue
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	6, // 0: eolymp.atlas.IssueActivity.created_at:type_name -> google.protobuf.Timestamp
+	6, // 1: eolymp.atlas.IssueActivity.updated_at:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.atlas.IssueActivity.comment:type_name -> eolymp.atlas.IssueActivity.Comment
+	5, // 3: eolymp.atlas.IssueActivity.change:type_name -> eolymp.atlas.IssueActivity.Change
+	7, // 4: eolymp.atlas.IssueActivity.Patch.message:type_name -> eolymp.ecm.Content
+	7, // 5: eolymp.atlas.IssueActivity.Comment.message:type_name -> eolymp.ecm.Content
+	8, // 6: eolymp.atlas.IssueActivity.Change.before:type_name -> eolymp.atlas.Issue
+	8, // 7: eolymp.atlas.IssueActivity.Change.after:type_name -> eolymp.atlas.Issue
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_issue_activity_proto_init() }
@@ -547,7 +507,7 @@ func file_eolymp_atlas_issue_activity_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_issue_activity_proto_rawDesc), len(file_eolymp_atlas_issue_activity_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,

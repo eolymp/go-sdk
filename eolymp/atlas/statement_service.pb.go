@@ -771,11 +771,10 @@ func (x *CreateStatementOutput) GetStatementId() string {
 }
 
 type UpdateStatementInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Patch         []Statement_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Statement_Patch_Field" json:"patch,omitempty"`
-	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	StatementId   string                  `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
-	Statement     *Statement              `protobuf:"bytes,3,opt,name=statement,proto3" json:"statement,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	StatementId   string                 `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	Statement     *Statement_Patch       `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -810,13 +809,6 @@ func (*UpdateStatementInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_statement_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *UpdateStatementInput) GetPatch() []Statement_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateStatementInput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
@@ -831,7 +823,7 @@ func (x *UpdateStatementInput) GetStatementId() string {
 	return ""
 }
 
-func (x *UpdateStatementInput) GetStatement() *Statement {
+func (x *UpdateStatementInput) GetStatement() *Statement_Patch {
 	if x != nil {
 		return x.Statement
 	}
@@ -1250,14 +1242,13 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\":\n" +
 	"\x15CreateStatementOutput\x12!\n" +
-	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xca\x01\n" +
-	"\x14UpdateStatementInput\x129\n" +
-	"\x05patch\x18\n" +
-	" \x03(\x0e2#.eolymp.atlas.Statement.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xa1\x01\n" +
+	"\x14UpdateStatementInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
-	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x125\n" +
-	"\tstatement\x18\x03 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\"\x17\n" +
+	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x12;\n" +
+	"\tstatement\x18\x04 \x01(\v2\x1d.eolymp.atlas.Statement.PatchR\tstatementJ\x04\b\x03\x10\x04J\x04\b\n" +
+	"\x10\v\"\x17\n" +
 	"\x15UpdateStatementOutput\"X\n" +
 	"\x14DeleteStatementInput\x12\x1d\n" +
 	"\n" +
@@ -1401,7 +1392,7 @@ var file_eolymp_atlas_statement_service_proto_goTypes = []any{
 	(*ListStatementVersionsOutput)(nil), // 20: eolymp.atlas.ListStatementVersionsOutput
 	(*Statement)(nil),                   // 21: eolymp.atlas.Statement
 	(Statement_Extra_Field)(0),          // 22: eolymp.atlas.Statement.Extra.Field
-	(Statement_Patch_Field)(0),          // 23: eolymp.atlas.Statement.Patch.Field
+	(*Statement_Patch)(nil),             // 23: eolymp.atlas.Statement.Patch
 }
 var file_eolymp_atlas_statement_service_proto_depIdxs = []int32{
 	21, // 0: eolymp.atlas.StatementChangedEvent.before:type_name -> eolymp.atlas.Statement
@@ -1415,35 +1406,34 @@ var file_eolymp_atlas_statement_service_proto_depIdxs = []int32{
 	21, // 8: eolymp.atlas.PreviewStatementInput.statement:type_name -> eolymp.atlas.Statement
 	21, // 9: eolymp.atlas.PreviewStatementOutput.statement:type_name -> eolymp.atlas.Statement
 	21, // 10: eolymp.atlas.CreateStatementInput.statement:type_name -> eolymp.atlas.Statement
-	23, // 11: eolymp.atlas.UpdateStatementInput.patch:type_name -> eolymp.atlas.Statement.Patch.Field
-	21, // 12: eolymp.atlas.UpdateStatementInput.statement:type_name -> eolymp.atlas.Statement
-	22, // 13: eolymp.atlas.ListStatementVersionsInput.extra:type_name -> eolymp.atlas.Statement.Extra.Field
-	21, // 14: eolymp.atlas.ListStatementVersionsOutput.items:type_name -> eolymp.atlas.Statement
-	11, // 15: eolymp.atlas.StatementService.CreateStatement:input_type -> eolymp.atlas.CreateStatementInput
-	13, // 16: eolymp.atlas.StatementService.UpdateStatement:input_type -> eolymp.atlas.UpdateStatementInput
-	15, // 17: eolymp.atlas.StatementService.DeleteStatement:input_type -> eolymp.atlas.DeleteStatementInput
-	5,  // 18: eolymp.atlas.StatementService.DescribeStatement:input_type -> eolymp.atlas.DescribeStatementInput
-	7,  // 19: eolymp.atlas.StatementService.LookupStatement:input_type -> eolymp.atlas.LookupStatementInput
-	9,  // 20: eolymp.atlas.StatementService.PreviewStatement:input_type -> eolymp.atlas.PreviewStatementInput
-	1,  // 21: eolymp.atlas.StatementService.ListStatements:input_type -> eolymp.atlas.ListStatementsInput
-	3,  // 22: eolymp.atlas.StatementService.TranslateStatements:input_type -> eolymp.atlas.TranslateStatementsInput
-	17, // 23: eolymp.atlas.StatementService.ExportStatement:input_type -> eolymp.atlas.ExportStatementInput
-	19, // 24: eolymp.atlas.StatementService.ListStatementVersions:input_type -> eolymp.atlas.ListStatementVersionsInput
-	12, // 25: eolymp.atlas.StatementService.CreateStatement:output_type -> eolymp.atlas.CreateStatementOutput
-	14, // 26: eolymp.atlas.StatementService.UpdateStatement:output_type -> eolymp.atlas.UpdateStatementOutput
-	16, // 27: eolymp.atlas.StatementService.DeleteStatement:output_type -> eolymp.atlas.DeleteStatementOutput
-	6,  // 28: eolymp.atlas.StatementService.DescribeStatement:output_type -> eolymp.atlas.DescribeStatementOutput
-	8,  // 29: eolymp.atlas.StatementService.LookupStatement:output_type -> eolymp.atlas.LookupStatementOutput
-	10, // 30: eolymp.atlas.StatementService.PreviewStatement:output_type -> eolymp.atlas.PreviewStatementOutput
-	2,  // 31: eolymp.atlas.StatementService.ListStatements:output_type -> eolymp.atlas.ListStatementsOutput
-	4,  // 32: eolymp.atlas.StatementService.TranslateStatements:output_type -> eolymp.atlas.TranslateStatementsOutput
-	18, // 33: eolymp.atlas.StatementService.ExportStatement:output_type -> eolymp.atlas.ExportStatementOutput
-	20, // 34: eolymp.atlas.StatementService.ListStatementVersions:output_type -> eolymp.atlas.ListStatementVersionsOutput
-	25, // [25:35] is the sub-list for method output_type
-	15, // [15:25] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	23, // 11: eolymp.atlas.UpdateStatementInput.statement:type_name -> eolymp.atlas.Statement.Patch
+	22, // 12: eolymp.atlas.ListStatementVersionsInput.extra:type_name -> eolymp.atlas.Statement.Extra.Field
+	21, // 13: eolymp.atlas.ListStatementVersionsOutput.items:type_name -> eolymp.atlas.Statement
+	11, // 14: eolymp.atlas.StatementService.CreateStatement:input_type -> eolymp.atlas.CreateStatementInput
+	13, // 15: eolymp.atlas.StatementService.UpdateStatement:input_type -> eolymp.atlas.UpdateStatementInput
+	15, // 16: eolymp.atlas.StatementService.DeleteStatement:input_type -> eolymp.atlas.DeleteStatementInput
+	5,  // 17: eolymp.atlas.StatementService.DescribeStatement:input_type -> eolymp.atlas.DescribeStatementInput
+	7,  // 18: eolymp.atlas.StatementService.LookupStatement:input_type -> eolymp.atlas.LookupStatementInput
+	9,  // 19: eolymp.atlas.StatementService.PreviewStatement:input_type -> eolymp.atlas.PreviewStatementInput
+	1,  // 20: eolymp.atlas.StatementService.ListStatements:input_type -> eolymp.atlas.ListStatementsInput
+	3,  // 21: eolymp.atlas.StatementService.TranslateStatements:input_type -> eolymp.atlas.TranslateStatementsInput
+	17, // 22: eolymp.atlas.StatementService.ExportStatement:input_type -> eolymp.atlas.ExportStatementInput
+	19, // 23: eolymp.atlas.StatementService.ListStatementVersions:input_type -> eolymp.atlas.ListStatementVersionsInput
+	12, // 24: eolymp.atlas.StatementService.CreateStatement:output_type -> eolymp.atlas.CreateStatementOutput
+	14, // 25: eolymp.atlas.StatementService.UpdateStatement:output_type -> eolymp.atlas.UpdateStatementOutput
+	16, // 26: eolymp.atlas.StatementService.DeleteStatement:output_type -> eolymp.atlas.DeleteStatementOutput
+	6,  // 27: eolymp.atlas.StatementService.DescribeStatement:output_type -> eolymp.atlas.DescribeStatementOutput
+	8,  // 28: eolymp.atlas.StatementService.LookupStatement:output_type -> eolymp.atlas.LookupStatementOutput
+	10, // 29: eolymp.atlas.StatementService.PreviewStatement:output_type -> eolymp.atlas.PreviewStatementOutput
+	2,  // 30: eolymp.atlas.StatementService.ListStatements:output_type -> eolymp.atlas.ListStatementsOutput
+	4,  // 31: eolymp.atlas.StatementService.TranslateStatements:output_type -> eolymp.atlas.TranslateStatementsOutput
+	18, // 32: eolymp.atlas.StatementService.ExportStatement:output_type -> eolymp.atlas.ExportStatementOutput
+	20, // 33: eolymp.atlas.StatementService.ListStatementVersions:output_type -> eolymp.atlas.ListStatementVersionsOutput
+	24, // [24:34] is the sub-list for method output_type
+	14, // [14:24] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_statement_service_proto_init() }

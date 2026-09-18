@@ -744,11 +744,9 @@ func (*UpdatePrivacyOutput) Descriptor() ([]byte, []int) {
 }
 
 type UpdateProblemInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// specify list of fields to update, if empty all fields are updated
-	Patch         []Problem_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.atlas.Problem_Patch_Field" json:"patch,omitempty"`
-	ProblemId     string                `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	Problem       *Problem              `protobuf:"bytes,3,opt,name=problem,proto3" json:"problem,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Problem       *Problem_Patch         `protobuf:"bytes,4,opt,name=problem,proto3" json:"problem,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -783,13 +781,6 @@ func (*UpdateProblemInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *UpdateProblemInput) GetPatch() []Problem_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateProblemInput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
@@ -797,7 +788,7 @@ func (x *UpdateProblemInput) GetProblemId() string {
 	return ""
 }
 
-func (x *UpdateProblemInput) GetProblem() *Problem {
+func (x *UpdateProblemInput) GetProblem() *Problem_Patch {
 	if x != nil {
 		return x.Problem
 	}
@@ -1597,12 +1588,11 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aprivate\x18\x02 \x01(\bR\aprivate\"\x15\n" +
-	"\x13UpdatePrivacyOutput\"\x9d\x01\n" +
-	"\x12UpdateProblemInput\x127\n" +
-	"\x05patch\x18\x01 \x03(\x0e2!.eolymp.atlas.Problem.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\x13UpdatePrivacyOutput\"v\n" +
+	"\x12UpdateProblemInput\x12\x1d\n" +
 	"\n" +
-	"problem_id\x18\x02 \x01(\tR\tproblemId\x12/\n" +
-	"\aproblem\x18\x03 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\"\x15\n" +
+	"problem_id\x18\x02 \x01(\tR\tproblemId\x125\n" +
+	"\aproblem\x18\x04 \x01(\v2\x1b.eolymp.atlas.Problem.PatchR\aproblemJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x15\n" +
 	"\x13UpdateProblemOutput\"1\n" +
 	"\x10SyncProblemInput\x12\x1d\n" +
 	"\n" +
@@ -1782,7 +1772,7 @@ var file_eolymp_atlas_problem_service_proto_goTypes = []any{
 	(*Statement)(nil),                     // 30: eolymp.atlas.Statement
 	(Problem_Extra_Field)(0),              // 31: eolymp.atlas.Problem.Extra.Field
 	(wellknown.Direction)(0),              // 32: eolymp.wellknown.Direction
-	(Problem_Patch_Field)(0),              // 33: eolymp.atlas.Problem.Patch.Field
+	(*Problem_Patch)(nil),                 // 33: eolymp.atlas.Problem.Patch
 	(*runtime.Runtime)(nil),               // 34: eolymp.runtime.Runtime
 	(*wellknown.ExpressionID)(nil),        // 35: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionBool)(nil),      // 36: eolymp.wellknown.ExpressionBool
@@ -1805,50 +1795,49 @@ var file_eolymp_atlas_problem_service_proto_depIdxs = []int32{
 	32, // 9: eolymp.atlas.ListProblemsInput.order:type_name -> eolymp.wellknown.Direction
 	31, // 10: eolymp.atlas.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
 	28, // 11: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
-	33, // 12: eolymp.atlas.UpdateProblemInput.patch:type_name -> eolymp.atlas.Problem.Patch.Field
-	28, // 13: eolymp.atlas.UpdateProblemInput.problem:type_name -> eolymp.atlas.Problem
-	27, // 14: eolymp.atlas.ListVersionsInput.filters:type_name -> eolymp.atlas.ListVersionsInput.Filter
-	29, // 15: eolymp.atlas.ListVersionsOutput.items:type_name -> eolymp.atlas.Version
-	34, // 16: eolymp.atlas.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
-	35, // 17: eolymp.atlas.ListProblemsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	35, // 18: eolymp.atlas.ListProblemsInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
-	36, // 19: eolymp.atlas.ListProblemsInput.Filter.is_visible:type_name -> eolymp.wellknown.ExpressionBool
-	36, // 20: eolymp.atlas.ListProblemsInput.Filter.is_private:type_name -> eolymp.wellknown.ExpressionBool
-	37, // 21: eolymp.atlas.ListProblemsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
-	37, // 22: eolymp.atlas.ListProblemsInput.Filter.difficulty:type_name -> eolymp.wellknown.ExpressionInt
-	38, // 23: eolymp.atlas.ListProblemsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	39, // 24: eolymp.atlas.ListProblemsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	36, // 25: eolymp.atlas.ListProblemsInput.Filter.is_bookmarked:type_name -> eolymp.wellknown.ExpressionBool
-	37, // 26: eolymp.atlas.ListVersionsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
-	35, // 27: eolymp.atlas.ListVersionsInput.Filter.created_by:type_name -> eolymp.wellknown.ExpressionID
-	40, // 28: eolymp.atlas.ListVersionsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	38, // 29: eolymp.atlas.ListVersionsInput.Filter.change_op:type_name -> eolymp.wellknown.ExpressionEnum
-	41, // 30: eolymp.atlas.ListVersionsInput.Filter.change_path:type_name -> eolymp.wellknown.ExpressionString
-	2,  // 31: eolymp.atlas.ProblemService.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
-	14, // 32: eolymp.atlas.ProblemService.UpdateProblem:input_type -> eolymp.atlas.UpdateProblemInput
-	4,  // 33: eolymp.atlas.ProblemService.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
-	6,  // 34: eolymp.atlas.ProblemService.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
-	8,  // 35: eolymp.atlas.ProblemService.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
-	16, // 36: eolymp.atlas.ProblemService.SyncProblem:input_type -> eolymp.atlas.SyncProblemInput
-	20, // 37: eolymp.atlas.ProblemService.VoteProblem:input_type -> eolymp.atlas.VoteProblemInput
-	18, // 38: eolymp.atlas.ProblemService.ListVersions:input_type -> eolymp.atlas.ListVersionsInput
-	22, // 39: eolymp.atlas.ProblemService.ListRuntimes:input_type -> eolymp.atlas.ListRuntimesInput
-	24, // 40: eolymp.atlas.ProblemService.ExportProblem:input_type -> eolymp.atlas.ExportProblemInput
-	3,  // 41: eolymp.atlas.ProblemService.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
-	15, // 42: eolymp.atlas.ProblemService.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
-	5,  // 43: eolymp.atlas.ProblemService.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
-	7,  // 44: eolymp.atlas.ProblemService.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
-	9,  // 45: eolymp.atlas.ProblemService.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
-	17, // 46: eolymp.atlas.ProblemService.SyncProblem:output_type -> eolymp.atlas.SyncProblemOutput
-	21, // 47: eolymp.atlas.ProblemService.VoteProblem:output_type -> eolymp.atlas.VoteProblemOutput
-	19, // 48: eolymp.atlas.ProblemService.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
-	23, // 49: eolymp.atlas.ProblemService.ListRuntimes:output_type -> eolymp.atlas.ListRuntimesOutput
-	25, // 50: eolymp.atlas.ProblemService.ExportProblem:output_type -> eolymp.atlas.ExportProblemOutput
-	41, // [41:51] is the sub-list for method output_type
-	31, // [31:41] is the sub-list for method input_type
-	31, // [31:31] is the sub-list for extension type_name
-	31, // [31:31] is the sub-list for extension extendee
-	0,  // [0:31] is the sub-list for field type_name
+	33, // 12: eolymp.atlas.UpdateProblemInput.problem:type_name -> eolymp.atlas.Problem.Patch
+	27, // 13: eolymp.atlas.ListVersionsInput.filters:type_name -> eolymp.atlas.ListVersionsInput.Filter
+	29, // 14: eolymp.atlas.ListVersionsOutput.items:type_name -> eolymp.atlas.Version
+	34, // 15: eolymp.atlas.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	35, // 16: eolymp.atlas.ListProblemsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	35, // 17: eolymp.atlas.ListProblemsInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
+	36, // 18: eolymp.atlas.ListProblemsInput.Filter.is_visible:type_name -> eolymp.wellknown.ExpressionBool
+	36, // 19: eolymp.atlas.ListProblemsInput.Filter.is_private:type_name -> eolymp.wellknown.ExpressionBool
+	37, // 20: eolymp.atlas.ListProblemsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	37, // 21: eolymp.atlas.ListProblemsInput.Filter.difficulty:type_name -> eolymp.wellknown.ExpressionInt
+	38, // 22: eolymp.atlas.ListProblemsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 23: eolymp.atlas.ListProblemsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	36, // 24: eolymp.atlas.ListProblemsInput.Filter.is_bookmarked:type_name -> eolymp.wellknown.ExpressionBool
+	37, // 25: eolymp.atlas.ListVersionsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	35, // 26: eolymp.atlas.ListVersionsInput.Filter.created_by:type_name -> eolymp.wellknown.ExpressionID
+	40, // 27: eolymp.atlas.ListVersionsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	38, // 28: eolymp.atlas.ListVersionsInput.Filter.change_op:type_name -> eolymp.wellknown.ExpressionEnum
+	41, // 29: eolymp.atlas.ListVersionsInput.Filter.change_path:type_name -> eolymp.wellknown.ExpressionString
+	2,  // 30: eolymp.atlas.ProblemService.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
+	14, // 31: eolymp.atlas.ProblemService.UpdateProblem:input_type -> eolymp.atlas.UpdateProblemInput
+	4,  // 32: eolymp.atlas.ProblemService.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
+	6,  // 33: eolymp.atlas.ProblemService.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
+	8,  // 34: eolymp.atlas.ProblemService.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
+	16, // 35: eolymp.atlas.ProblemService.SyncProblem:input_type -> eolymp.atlas.SyncProblemInput
+	20, // 36: eolymp.atlas.ProblemService.VoteProblem:input_type -> eolymp.atlas.VoteProblemInput
+	18, // 37: eolymp.atlas.ProblemService.ListVersions:input_type -> eolymp.atlas.ListVersionsInput
+	22, // 38: eolymp.atlas.ProblemService.ListRuntimes:input_type -> eolymp.atlas.ListRuntimesInput
+	24, // 39: eolymp.atlas.ProblemService.ExportProblem:input_type -> eolymp.atlas.ExportProblemInput
+	3,  // 40: eolymp.atlas.ProblemService.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
+	15, // 41: eolymp.atlas.ProblemService.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
+	5,  // 42: eolymp.atlas.ProblemService.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
+	7,  // 43: eolymp.atlas.ProblemService.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
+	9,  // 44: eolymp.atlas.ProblemService.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
+	17, // 45: eolymp.atlas.ProblemService.SyncProblem:output_type -> eolymp.atlas.SyncProblemOutput
+	21, // 46: eolymp.atlas.ProblemService.VoteProblem:output_type -> eolymp.atlas.VoteProblemOutput
+	19, // 47: eolymp.atlas.ProblemService.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
+	23, // 48: eolymp.atlas.ProblemService.ListRuntimes:output_type -> eolymp.atlas.ListRuntimesOutput
+	25, // 49: eolymp.atlas.ProblemService.ExportProblem:output_type -> eolymp.atlas.ExportProblemOutput
+	40, // [40:50] is the sub-list for method output_type
+	30, // [30:40] is the sub-list for method input_type
+	30, // [30:30] is the sub-list for extension type_name
+	30, // [30:30] is the sub-list for extension extendee
+	0,  // [0:30] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_problem_service_proto_init() }

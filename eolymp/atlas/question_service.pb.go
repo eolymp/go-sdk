@@ -180,10 +180,9 @@ func (x *CreateQuestionOutput) GetQuestionId() string {
 
 type UpdateQuestionInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Question_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Question_Patch_Field" json:"patch,omitempty"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	QuestionId    string                 `protobuf:"bytes,2,opt,name=question_id,json=questionId,proto3" json:"question_id,omitempty"`
-	Question      *Question              `protobuf:"bytes,3,opt,name=question,proto3" json:"question,omitempty"`
+	Question      *Question_Patch        `protobuf:"bytes,4,opt,name=question,proto3" json:"question,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -218,13 +217,6 @@ func (*UpdateQuestionInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_question_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UpdateQuestionInput) GetPatch() []Question_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateQuestionInput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
@@ -239,7 +231,7 @@ func (x *UpdateQuestionInput) GetQuestionId() string {
 	return ""
 }
 
-func (x *UpdateQuestionInput) GetQuestion() *Question {
+func (x *UpdateQuestionInput) GetQuestion() *Question_Patch {
 	if x != nil {
 		return x.Question
 	}
@@ -627,15 +619,14 @@ const file_eolymp_atlas_question_service_proto_rawDesc = "" +
 	"\bquestion\x18\x02 \x01(\v2\x16.eolymp.atlas.QuestionR\bquestion\"7\n" +
 	"\x14CreateQuestionOutput\x12\x1f\n" +
 	"\vquestion_id\x18\x01 \x01(\tR\n" +
-	"questionId\"\xc3\x01\n" +
-	"\x13UpdateQuestionInput\x128\n" +
-	"\x05patch\x18\n" +
-	" \x03(\x0e2\".eolymp.atlas.Question.Patch.FieldR\x05patch\x12\x1d\n" +
+	"questionId\"\x9b\x01\n" +
+	"\x13UpdateQuestionInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
 	"\vquestion_id\x18\x02 \x01(\tR\n" +
-	"questionId\x122\n" +
-	"\bquestion\x18\x03 \x01(\v2\x16.eolymp.atlas.QuestionR\bquestion\"\x16\n" +
+	"questionId\x128\n" +
+	"\bquestion\x18\x04 \x01(\v2\x1c.eolymp.atlas.Question.PatchR\bquestionJ\x04\b\x03\x10\x04J\x04\b\n" +
+	"\x10\v\"\x16\n" +
 	"\x14UpdateQuestionOutput\"U\n" +
 	"\x13DeleteQuestionInput\x12\x1d\n" +
 	"\n" +
@@ -731,34 +722,33 @@ var file_eolymp_atlas_question_service_proto_goTypes = []any{
 	(*ListQuestionsInput)(nil),     // 9: eolymp.atlas.ListQuestionsInput
 	(*ListQuestionsOutput)(nil),    // 10: eolymp.atlas.ListQuestionsOutput
 	(*Question)(nil),               // 11: eolymp.atlas.Question
-	(Question_Patch_Field)(0),      // 12: eolymp.atlas.Question.Patch.Field
+	(*Question_Patch)(nil),         // 12: eolymp.atlas.Question.Patch
 	(Question_Extra_Field)(0),      // 13: eolymp.atlas.Question.Extra.Field
 }
 var file_eolymp_atlas_question_service_proto_depIdxs = []int32{
 	11, // 0: eolymp.atlas.QuestionChangedEvent.before:type_name -> eolymp.atlas.Question
 	11, // 1: eolymp.atlas.QuestionChangedEvent.after:type_name -> eolymp.atlas.Question
 	11, // 2: eolymp.atlas.CreateQuestionInput.question:type_name -> eolymp.atlas.Question
-	12, // 3: eolymp.atlas.UpdateQuestionInput.patch:type_name -> eolymp.atlas.Question.Patch.Field
-	11, // 4: eolymp.atlas.UpdateQuestionInput.question:type_name -> eolymp.atlas.Question
-	13, // 5: eolymp.atlas.DescribeQuestionInput.extra:type_name -> eolymp.atlas.Question.Extra.Field
-	11, // 6: eolymp.atlas.DescribeQuestionOutput.question:type_name -> eolymp.atlas.Question
-	13, // 7: eolymp.atlas.ListQuestionsInput.extra:type_name -> eolymp.atlas.Question.Extra.Field
-	11, // 8: eolymp.atlas.ListQuestionsOutput.items:type_name -> eolymp.atlas.Question
-	1,  // 9: eolymp.atlas.QuestionService.CreateQuestion:input_type -> eolymp.atlas.CreateQuestionInput
-	3,  // 10: eolymp.atlas.QuestionService.UpdateQuestion:input_type -> eolymp.atlas.UpdateQuestionInput
-	5,  // 11: eolymp.atlas.QuestionService.DeleteQuestion:input_type -> eolymp.atlas.DeleteQuestionInput
-	7,  // 12: eolymp.atlas.QuestionService.DescribeQuestion:input_type -> eolymp.atlas.DescribeQuestionInput
-	9,  // 13: eolymp.atlas.QuestionService.ListQuestions:input_type -> eolymp.atlas.ListQuestionsInput
-	2,  // 14: eolymp.atlas.QuestionService.CreateQuestion:output_type -> eolymp.atlas.CreateQuestionOutput
-	4,  // 15: eolymp.atlas.QuestionService.UpdateQuestion:output_type -> eolymp.atlas.UpdateQuestionOutput
-	6,  // 16: eolymp.atlas.QuestionService.DeleteQuestion:output_type -> eolymp.atlas.DeleteQuestionOutput
-	8,  // 17: eolymp.atlas.QuestionService.DescribeQuestion:output_type -> eolymp.atlas.DescribeQuestionOutput
-	10, // 18: eolymp.atlas.QuestionService.ListQuestions:output_type -> eolymp.atlas.ListQuestionsOutput
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	12, // 3: eolymp.atlas.UpdateQuestionInput.question:type_name -> eolymp.atlas.Question.Patch
+	13, // 4: eolymp.atlas.DescribeQuestionInput.extra:type_name -> eolymp.atlas.Question.Extra.Field
+	11, // 5: eolymp.atlas.DescribeQuestionOutput.question:type_name -> eolymp.atlas.Question
+	13, // 6: eolymp.atlas.ListQuestionsInput.extra:type_name -> eolymp.atlas.Question.Extra.Field
+	11, // 7: eolymp.atlas.ListQuestionsOutput.items:type_name -> eolymp.atlas.Question
+	1,  // 8: eolymp.atlas.QuestionService.CreateQuestion:input_type -> eolymp.atlas.CreateQuestionInput
+	3,  // 9: eolymp.atlas.QuestionService.UpdateQuestion:input_type -> eolymp.atlas.UpdateQuestionInput
+	5,  // 10: eolymp.atlas.QuestionService.DeleteQuestion:input_type -> eolymp.atlas.DeleteQuestionInput
+	7,  // 11: eolymp.atlas.QuestionService.DescribeQuestion:input_type -> eolymp.atlas.DescribeQuestionInput
+	9,  // 12: eolymp.atlas.QuestionService.ListQuestions:input_type -> eolymp.atlas.ListQuestionsInput
+	2,  // 13: eolymp.atlas.QuestionService.CreateQuestion:output_type -> eolymp.atlas.CreateQuestionOutput
+	4,  // 14: eolymp.atlas.QuestionService.UpdateQuestion:output_type -> eolymp.atlas.UpdateQuestionOutput
+	6,  // 15: eolymp.atlas.QuestionService.DeleteQuestion:output_type -> eolymp.atlas.DeleteQuestionOutput
+	8,  // 16: eolymp.atlas.QuestionService.DescribeQuestion:output_type -> eolymp.atlas.DescribeQuestionOutput
+	10, // 17: eolymp.atlas.QuestionService.ListQuestions:output_type -> eolymp.atlas.ListQuestionsOutput
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_question_service_proto_init() }

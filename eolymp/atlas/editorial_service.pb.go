@@ -568,11 +568,10 @@ func (x *CreateEditorialOutput) GetEditorialId() string {
 }
 
 type UpdateEditorialInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Patch         []Editorial_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.atlas.Editorial_Patch_Field" json:"patch,omitempty"`
-	ProblemId     string                  `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
-	EditorialId   string                  `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
-	Editorial     *Editorial              `protobuf:"bytes,3,opt,name=editorial,proto3" json:"editorial,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	EditorialId   string                 `protobuf:"bytes,2,opt,name=editorial_id,json=editorialId,proto3" json:"editorial_id,omitempty"`
+	Editorial     *Editorial_Patch       `protobuf:"bytes,4,opt,name=editorial,proto3" json:"editorial,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -607,13 +606,6 @@ func (*UpdateEditorialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *UpdateEditorialInput) GetPatch() []Editorial_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateEditorialInput) GetProblemId() string {
 	if x != nil {
 		return x.ProblemId
@@ -628,7 +620,7 @@ func (x *UpdateEditorialInput) GetEditorialId() string {
 	return ""
 }
 
-func (x *UpdateEditorialInput) GetEditorial() *Editorial {
+func (x *UpdateEditorialInput) GetEditorial() *Editorial_Patch {
 	if x != nil {
 		return x.Editorial
 	}
@@ -922,14 +914,13 @@ const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\teditorial\x18\x02 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\":\n" +
 	"\x15CreateEditorialOutput\x12!\n" +
-	"\feditorial_id\x18\x01 \x01(\tR\veditorialId\"\xca\x01\n" +
-	"\x14UpdateEditorialInput\x129\n" +
-	"\x05patch\x18\n" +
-	" \x03(\x0e2#.eolymp.atlas.Editorial.Patch.FieldR\x05patch\x12\x1d\n" +
+	"\feditorial_id\x18\x01 \x01(\tR\veditorialId\"\xa1\x01\n" +
+	"\x14UpdateEditorialInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
-	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\x125\n" +
-	"\teditorial\x18\x03 \x01(\v2\x17.eolymp.atlas.EditorialR\teditorial\"\x17\n" +
+	"\feditorial_id\x18\x02 \x01(\tR\veditorialId\x12;\n" +
+	"\teditorial\x18\x04 \x01(\v2\x1d.eolymp.atlas.Editorial.PatchR\teditorialJ\x04\b\x03\x10\x04J\x04\b\n" +
+	"\x10\v\"\x17\n" +
 	"\x15UpdateEditorialOutput\"X\n" +
 	"\x14DeleteEditorialInput\x12\x1d\n" +
 	"\n" +
@@ -1044,7 +1035,7 @@ var file_eolymp_atlas_editorial_service_proto_goTypes = []any{
 	(*TranslateEditorialsOutput)(nil), // 15: eolymp.atlas.TranslateEditorialsOutput
 	(Editorial_Extra_Field)(0),        // 16: eolymp.atlas.Editorial.Extra.Field
 	(*Editorial)(nil),                 // 17: eolymp.atlas.Editorial
-	(Editorial_Patch_Field)(0),        // 18: eolymp.atlas.Editorial.Patch.Field
+	(*Editorial_Patch)(nil),           // 18: eolymp.atlas.Editorial.Patch
 }
 var file_eolymp_atlas_editorial_service_proto_depIdxs = []int32{
 	16, // 0: eolymp.atlas.ListEditorialsInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
@@ -1056,29 +1047,28 @@ var file_eolymp_atlas_editorial_service_proto_depIdxs = []int32{
 	17, // 6: eolymp.atlas.PreviewEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
 	17, // 7: eolymp.atlas.PreviewEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
 	17, // 8: eolymp.atlas.CreateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
-	18, // 9: eolymp.atlas.UpdateEditorialInput.patch:type_name -> eolymp.atlas.Editorial.Patch.Field
-	17, // 10: eolymp.atlas.UpdateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
-	8,  // 11: eolymp.atlas.EditorialService.CreateEditorial:input_type -> eolymp.atlas.CreateEditorialInput
-	10, // 12: eolymp.atlas.EditorialService.UpdateEditorial:input_type -> eolymp.atlas.UpdateEditorialInput
-	12, // 13: eolymp.atlas.EditorialService.DeleteEditorial:input_type -> eolymp.atlas.DeleteEditorialInput
-	2,  // 14: eolymp.atlas.EditorialService.DescribeEditorial:input_type -> eolymp.atlas.DescribeEditorialInput
-	4,  // 15: eolymp.atlas.EditorialService.LookupEditorial:input_type -> eolymp.atlas.LookupEditorialInput
-	6,  // 16: eolymp.atlas.EditorialService.PreviewEditorial:input_type -> eolymp.atlas.PreviewEditorialInput
-	0,  // 17: eolymp.atlas.EditorialService.ListEditorials:input_type -> eolymp.atlas.ListEditorialsInput
-	14, // 18: eolymp.atlas.EditorialService.TranslateEditorials:input_type -> eolymp.atlas.TranslateEditorialsInput
-	9,  // 19: eolymp.atlas.EditorialService.CreateEditorial:output_type -> eolymp.atlas.CreateEditorialOutput
-	11, // 20: eolymp.atlas.EditorialService.UpdateEditorial:output_type -> eolymp.atlas.UpdateEditorialOutput
-	13, // 21: eolymp.atlas.EditorialService.DeleteEditorial:output_type -> eolymp.atlas.DeleteEditorialOutput
-	3,  // 22: eolymp.atlas.EditorialService.DescribeEditorial:output_type -> eolymp.atlas.DescribeEditorialOutput
-	5,  // 23: eolymp.atlas.EditorialService.LookupEditorial:output_type -> eolymp.atlas.LookupEditorialOutput
-	7,  // 24: eolymp.atlas.EditorialService.PreviewEditorial:output_type -> eolymp.atlas.PreviewEditorialOutput
-	1,  // 25: eolymp.atlas.EditorialService.ListEditorials:output_type -> eolymp.atlas.ListEditorialsOutput
-	15, // 26: eolymp.atlas.EditorialService.TranslateEditorials:output_type -> eolymp.atlas.TranslateEditorialsOutput
-	19, // [19:27] is the sub-list for method output_type
-	11, // [11:19] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	18, // 9: eolymp.atlas.UpdateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial.Patch
+	8,  // 10: eolymp.atlas.EditorialService.CreateEditorial:input_type -> eolymp.atlas.CreateEditorialInput
+	10, // 11: eolymp.atlas.EditorialService.UpdateEditorial:input_type -> eolymp.atlas.UpdateEditorialInput
+	12, // 12: eolymp.atlas.EditorialService.DeleteEditorial:input_type -> eolymp.atlas.DeleteEditorialInput
+	2,  // 13: eolymp.atlas.EditorialService.DescribeEditorial:input_type -> eolymp.atlas.DescribeEditorialInput
+	4,  // 14: eolymp.atlas.EditorialService.LookupEditorial:input_type -> eolymp.atlas.LookupEditorialInput
+	6,  // 15: eolymp.atlas.EditorialService.PreviewEditorial:input_type -> eolymp.atlas.PreviewEditorialInput
+	0,  // 16: eolymp.atlas.EditorialService.ListEditorials:input_type -> eolymp.atlas.ListEditorialsInput
+	14, // 17: eolymp.atlas.EditorialService.TranslateEditorials:input_type -> eolymp.atlas.TranslateEditorialsInput
+	9,  // 18: eolymp.atlas.EditorialService.CreateEditorial:output_type -> eolymp.atlas.CreateEditorialOutput
+	11, // 19: eolymp.atlas.EditorialService.UpdateEditorial:output_type -> eolymp.atlas.UpdateEditorialOutput
+	13, // 20: eolymp.atlas.EditorialService.DeleteEditorial:output_type -> eolymp.atlas.DeleteEditorialOutput
+	3,  // 21: eolymp.atlas.EditorialService.DescribeEditorial:output_type -> eolymp.atlas.DescribeEditorialOutput
+	5,  // 22: eolymp.atlas.EditorialService.LookupEditorial:output_type -> eolymp.atlas.LookupEditorialOutput
+	7,  // 23: eolymp.atlas.EditorialService.PreviewEditorial:output_type -> eolymp.atlas.PreviewEditorialOutput
+	1,  // 24: eolymp.atlas.EditorialService.ListEditorials:output_type -> eolymp.atlas.ListEditorialsOutput
+	15, // 25: eolymp.atlas.EditorialService.TranslateEditorials:output_type -> eolymp.atlas.TranslateEditorialsOutput
+	18, // [18:26] is the sub-list for method output_type
+	10, // [10:18] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_editorial_service_proto_init() }
