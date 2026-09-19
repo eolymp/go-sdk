@@ -46,7 +46,7 @@ const (
 // Each record carries identity details, the space's own profile fields and the person's preferences, though
 // whether the space may edit the identity details at all depends on the identity provider it runs, which is
 // configured through ConfigurationService. Turning a member on or off and moving them between official and
-// unofficial standing have no methods of their own and are reached through UpdateMember's patch mask. What
+// unofficial standing have no methods of their own and are reached through UpdateMember's patch. What
 // someone is allowed to administer is not part of their member record: administrators are Eolymp identities
 // governed by eolymp.acl policies.
 type MemberServiceClient interface {
@@ -55,14 +55,15 @@ type MemberServiceClient interface {
 	// request that fills in none of them is rejected. Users count against the space's member quota and a user
 	// can be placed into an existing team as it is created; teams and ghosts consume no quota.
 	CreateMember(ctx context.Context, in *CreateMemberInput, opts ...grpc.CallOption) (*CreateMemberOutput, error)
-	// UpdateMember writes the values selected by the patch mask, and this is where most administration of a
-	// member happens: disabling a member so they can no longer sign in or reach the space, and marking them
-	// unofficial so they are left out of official rankings, are patches rather than methods of their own.
+	// UpdateMember writes the fields the patch carries and no others, and this is where most administration
+	// of a member happens: disabling a member so they can no longer sign in or reach the space, and marking
+	// them unofficial so they are left out of official rankings, are patches rather than methods of their own.
 	// Disabling can be immediate or scheduled through separate fields — a scheduled deactivation never raises
 	// the inactive flag, although a read still reports a member outside their active period as inactive.
-	// Identity details of a member owned by an external identity provider cannot be changed here, and asking
-	// for them is ignored rather than refused. A member can belong to at most 10 groups, and a patch that
-	// would take them past that is rejected with InvalidArgument on the groups argument.
+	// Identity details of a member owned by an external identity provider cannot be changed here: carrying one
+	// is refused rather than ignored, so a caller is never told a write succeeded when nothing was written. A
+	// member can belong to at most 10 groups, and a patch that would take them past that is rejected with
+	// InvalidArgument on the groups argument.
 	UpdateMember(ctx context.Context, in *UpdateMemberInput, opts ...grpc.CallOption) (*UpdateMemberOutput, error)
 	// UpdateMemberPicture stores a new profile picture for a member and returns the URL it was saved at,
 	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image
@@ -254,7 +255,7 @@ type MemberService_StreamMemberReferencesClient = grpc.ServerStreamingClient[Str
 // Each record carries identity details, the space's own profile fields and the person's preferences, though
 // whether the space may edit the identity details at all depends on the identity provider it runs, which is
 // configured through ConfigurationService. Turning a member on or off and moving them between official and
-// unofficial standing have no methods of their own and are reached through UpdateMember's patch mask. What
+// unofficial standing have no methods of their own and are reached through UpdateMember's patch. What
 // someone is allowed to administer is not part of their member record: administrators are Eolymp identities
 // governed by eolymp.acl policies.
 type MemberServiceServer interface {
@@ -263,14 +264,15 @@ type MemberServiceServer interface {
 	// request that fills in none of them is rejected. Users count against the space's member quota and a user
 	// can be placed into an existing team as it is created; teams and ghosts consume no quota.
 	CreateMember(context.Context, *CreateMemberInput) (*CreateMemberOutput, error)
-	// UpdateMember writes the values selected by the patch mask, and this is where most administration of a
-	// member happens: disabling a member so they can no longer sign in or reach the space, and marking them
-	// unofficial so they are left out of official rankings, are patches rather than methods of their own.
+	// UpdateMember writes the fields the patch carries and no others, and this is where most administration
+	// of a member happens: disabling a member so they can no longer sign in or reach the space, and marking
+	// them unofficial so they are left out of official rankings, are patches rather than methods of their own.
 	// Disabling can be immediate or scheduled through separate fields — a scheduled deactivation never raises
 	// the inactive flag, although a read still reports a member outside their active period as inactive.
-	// Identity details of a member owned by an external identity provider cannot be changed here, and asking
-	// for them is ignored rather than refused. A member can belong to at most 10 groups, and a patch that
-	// would take them past that is rejected with InvalidArgument on the groups argument.
+	// Identity details of a member owned by an external identity provider cannot be changed here: carrying one
+	// is refused rather than ignored, so a caller is never told a write succeeded when nothing was written. A
+	// member can belong to at most 10 groups, and a patch that would take them past that is rejected with
+	// InvalidArgument on the groups argument.
 	UpdateMember(context.Context, *UpdateMemberInput) (*UpdateMemberOutput, error)
 	// UpdateMemberPicture stores a new profile picture for a member and returns the URL it was saved at,
 	// discarding the previous one unless that was an external URL. Only PNG and JPEG are accepted; the image

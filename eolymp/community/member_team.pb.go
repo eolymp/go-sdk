@@ -73,14 +73,61 @@ func (x *Team) GetStaffed() bool {
 	return false
 }
 
+type Team_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Team_Patch) Reset() {
+	*x = Team_Patch{}
+	mi := &file_eolymp_community_member_team_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Team_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Team_Patch) ProtoMessage() {}
+
+func (x *Team_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_team_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Team_Patch.ProtoReflect.Descriptor instead.
+func (*Team_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_team_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Team_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
 var File_eolymp_community_member_team_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_team_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_team.proto\x12\x10eolymp.community\"4\n" +
+	"\"eolymp/community/member_team.proto\x12\x10eolymp.community\"_\n" +
 	"\x04Team\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
-	"\astaffed\x18\x02 \x01(\bR\astaffedB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\astaffed\x18\x02 \x01(\bR\astaffed\x1a)\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x01 \x01(\tH\x00R\x04name\x88\x01\x01B\a\n" +
+	"\x05_nameB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_member_team_proto_rawDescOnce sync.Once
@@ -94,9 +141,10 @@ func file_eolymp_community_member_team_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_member_team_proto_rawDescData
 }
 
-var file_eolymp_community_member_team_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_community_member_team_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_community_member_team_proto_goTypes = []any{
-	(*Team)(nil), // 0: eolymp.community.Team
+	(*Team)(nil),       // 0: eolymp.community.Team
+	(*Team_Patch)(nil), // 1: eolymp.community.Team.Patch
 }
 var file_eolymp_community_member_team_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -111,13 +159,14 @@ func file_eolymp_community_member_team_proto_init() {
 	if File_eolymp_community_member_team_proto != nil {
 		return
 	}
+	file_eolymp_community_member_team_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_member_team_proto_rawDesc), len(file_eolymp_community_member_team_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

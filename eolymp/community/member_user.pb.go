@@ -272,6 +272,131 @@ func (x *User_Preferences) GetRuntime() string {
 	return ""
 }
 
+// Fields an account update may write. The picture is set through UpdateMemberPicture, not here.
+type User_Patch struct {
+	state              protoimpl.MessageState  `protogen:"open.v1"`
+	Nickname           *string                 `protobuf:"bytes,10,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`
+	Email              *string                 `protobuf:"bytes,20,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	EmailSubscriptions []mail.EmailType        `protobuf:"varint,22,rep,packed,name=email_subscriptions,json=emailSubscriptions,proto3,enum=eolymp.mail.EmailType" json:"email_subscriptions,omitempty"`
+	Unsubscribe        *bool                   `protobuf:"varint,23,opt,name=unsubscribe,proto3,oneof" json:"unsubscribe,omitempty"` // clears the subscriptions, which an empty list cannot express
+	Password           *string                 `protobuf:"bytes,30,opt,name=password,proto3,oneof" json:"password,omitempty"`
+	Name               *string                 `protobuf:"bytes,40,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Birthday           *timestamppb.Timestamp  `protobuf:"bytes,60,opt,name=birthday,proto3" json:"birthday,omitempty"`
+	Country            *string                 `protobuf:"bytes,70,opt,name=country,proto3,oneof" json:"country,omitempty"`
+	City               *string                 `protobuf:"bytes,73,opt,name=city,proto3,oneof" json:"city,omitempty"`
+	Pronoun            *string                 `protobuf:"bytes,80,opt,name=pronoun,proto3,oneof" json:"pronoun,omitempty"`
+	Preferences        *User_Preferences_Patch `protobuf:"bytes,800,opt,name=preferences,proto3" json:"preferences,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *User_Patch) Reset() {
+	*x = User_Patch{}
+	mi := &file_eolymp_community_member_user_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *User_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*User_Patch) ProtoMessage() {}
+
+func (x *User_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_user_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use User_Patch.ProtoReflect.Descriptor instead.
+func (*User_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_user_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *User_Patch) GetNickname() string {
+	if x != nil && x.Nickname != nil {
+		return *x.Nickname
+	}
+	return ""
+}
+
+func (x *User_Patch) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
+	}
+	return ""
+}
+
+func (x *User_Patch) GetEmailSubscriptions() []mail.EmailType {
+	if x != nil {
+		return x.EmailSubscriptions
+	}
+	return nil
+}
+
+func (x *User_Patch) GetUnsubscribe() bool {
+	if x != nil && x.Unsubscribe != nil {
+		return *x.Unsubscribe
+	}
+	return false
+}
+
+func (x *User_Patch) GetPassword() string {
+	if x != nil && x.Password != nil {
+		return *x.Password
+	}
+	return ""
+}
+
+func (x *User_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *User_Patch) GetBirthday() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Birthday
+	}
+	return nil
+}
+
+func (x *User_Patch) GetCountry() string {
+	if x != nil && x.Country != nil {
+		return *x.Country
+	}
+	return ""
+}
+
+func (x *User_Patch) GetCity() string {
+	if x != nil && x.City != nil {
+		return *x.City
+	}
+	return ""
+}
+
+func (x *User_Patch) GetPronoun() string {
+	if x != nil && x.Pronoun != nil {
+		return *x.Pronoun
+	}
+	return ""
+}
+
+func (x *User_Patch) GetPreferences() *User_Preferences_Patch {
+	if x != nil {
+		return x.Preferences
+	}
+	return nil
+}
+
 type User_Alias struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Nickname      string                 `protobuf:"bytes,1,opt,name=nickname,proto3" json:"nickname,omitempty"`                    // the nickname used by a user in the past
@@ -282,7 +407,7 @@ type User_Alias struct {
 
 func (x *User_Alias) Reset() {
 	*x = User_Alias{}
-	mi := &file_eolymp_community_member_user_proto_msgTypes[2]
+	mi := &file_eolymp_community_member_user_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -294,7 +419,7 @@ func (x *User_Alias) String() string {
 func (*User_Alias) ProtoMessage() {}
 
 func (x *User_Alias) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_member_user_proto_msgTypes[2]
+	mi := &file_eolymp_community_member_user_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -307,7 +432,7 @@ func (x *User_Alias) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User_Alias.ProtoReflect.Descriptor instead.
 func (*User_Alias) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_member_user_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_community_member_user_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *User_Alias) GetNickname() string {
@@ -324,11 +449,71 @@ func (x *User_Alias) GetChangedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type User_Preferences_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Locale        *string                `protobuf:"bytes,1,opt,name=locale,proto3,oneof" json:"locale,omitempty"`
+	Timezone      *string                `protobuf:"bytes,2,opt,name=timezone,proto3,oneof" json:"timezone,omitempty"`
+	Runtime       *string                `protobuf:"bytes,10,opt,name=runtime,proto3,oneof" json:"runtime,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *User_Preferences_Patch) Reset() {
+	*x = User_Preferences_Patch{}
+	mi := &file_eolymp_community_member_user_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *User_Preferences_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*User_Preferences_Patch) ProtoMessage() {}
+
+func (x *User_Preferences_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_member_user_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use User_Preferences_Patch.ProtoReflect.Descriptor instead.
+func (*User_Preferences_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_member_user_proto_rawDescGZIP(), []int{0, 0, 0}
+}
+
+func (x *User_Preferences_Patch) GetLocale() string {
+	if x != nil && x.Locale != nil {
+		return *x.Locale
+	}
+	return ""
+}
+
+func (x *User_Preferences_Patch) GetTimezone() string {
+	if x != nil && x.Timezone != nil {
+		return *x.Timezone
+	}
+	return ""
+}
+
+func (x *User_Preferences_Patch) GetRuntime() string {
+	if x != nil && x.Runtime != nil {
+		return *x.Runtime
+	}
+	return ""
+}
+
 var File_eolymp_community_member_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\a\n" +
+	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\f\n" +
 	"\x04User\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
 	"\asubject\x18\x02 \x01(\tR\asubject\x12\x1a\n" +
@@ -349,12 +534,44 @@ const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\x04city\x18I \x01(\tR\x04city\x12\x18\n" +
 	"\apronoun\x18P \x01(\tR\apronoun\x12\x17\n" +
 	"\ateam_id\x18d \x01(\tR\x06teamId\x12E\n" +
-	"\vpreferences\x18\xa0\x06 \x01(\v2\".eolymp.community.User.PreferencesR\vpreferences\x1a[\n" +
+	"\vpreferences\x18\xa0\x06 \x01(\v2\".eolymp.community.User.PreferencesR\vpreferences\x1a\xe6\x01\n" +
 	"\vPreferences\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x1a\n" +
 	"\btimezone\x18\x02 \x01(\tR\btimezone\x12\x18\n" +
 	"\aruntime\x18\n" +
-	" \x01(\tR\aruntime\x1a^\n" +
+	" \x01(\tR\aruntime\x1a\x88\x01\n" +
+	"\x05Patch\x12\x1b\n" +
+	"\x06locale\x18\x01 \x01(\tH\x00R\x06locale\x88\x01\x01\x12\x1f\n" +
+	"\btimezone\x18\x02 \x01(\tH\x01R\btimezone\x88\x01\x01\x12\x1d\n" +
+	"\aruntime\x18\n" +
+	" \x01(\tH\x02R\aruntime\x88\x01\x01B\t\n" +
+	"\a_localeB\v\n" +
+	"\t_timezoneB\n" +
+	"\n" +
+	"\b_runtime\x1a\xa7\x04\n" +
+	"\x05Patch\x12\x1f\n" +
+	"\bnickname\x18\n" +
+	" \x01(\tH\x00R\bnickname\x88\x01\x01\x12\x19\n" +
+	"\x05email\x18\x14 \x01(\tH\x01R\x05email\x88\x01\x01\x12G\n" +
+	"\x13email_subscriptions\x18\x16 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\x12emailSubscriptions\x12%\n" +
+	"\vunsubscribe\x18\x17 \x01(\bH\x02R\vunsubscribe\x88\x01\x01\x12\x1f\n" +
+	"\bpassword\x18\x1e \x01(\tH\x03R\bpassword\x88\x01\x01\x12\x17\n" +
+	"\x04name\x18( \x01(\tH\x04R\x04name\x88\x01\x01\x126\n" +
+	"\bbirthday\x18< \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x12\x1d\n" +
+	"\acountry\x18F \x01(\tH\x05R\acountry\x88\x01\x01\x12\x17\n" +
+	"\x04city\x18I \x01(\tH\x06R\x04city\x88\x01\x01\x12\x1d\n" +
+	"\apronoun\x18P \x01(\tH\aR\apronoun\x88\x01\x01\x12K\n" +
+	"\vpreferences\x18\xa0\x06 \x01(\v2(.eolymp.community.User.Preferences.PatchR\vpreferencesB\v\n" +
+	"\t_nicknameB\b\n" +
+	"\x06_emailB\x0e\n" +
+	"\f_unsubscribeB\v\n" +
+	"\t_passwordB\a\n" +
+	"\x05_nameB\n" +
+	"\n" +
+	"\b_countryB\a\n" +
+	"\x05_cityB\n" +
+	"\n" +
+	"\b_pronoun\x1a^\n" +
 	"\x05Alias\x12\x1a\n" +
 	"\bnickname\x18\x01 \x01(\tR\bnickname\x129\n" +
 	"\n" +
@@ -372,25 +589,30 @@ func file_eolymp_community_member_user_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_member_user_proto_rawDescData
 }
 
-var file_eolymp_community_member_user_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_community_member_user_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_community_member_user_proto_goTypes = []any{
-	(*User)(nil),                  // 0: eolymp.community.User
-	(*User_Preferences)(nil),      // 1: eolymp.community.User.Preferences
-	(*User_Alias)(nil),            // 2: eolymp.community.User.Alias
-	(mail.EmailType)(0),           // 3: eolymp.mail.EmailType
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*User)(nil),                   // 0: eolymp.community.User
+	(*User_Preferences)(nil),       // 1: eolymp.community.User.Preferences
+	(*User_Patch)(nil),             // 2: eolymp.community.User.Patch
+	(*User_Alias)(nil),             // 3: eolymp.community.User.Alias
+	(*User_Preferences_Patch)(nil), // 4: eolymp.community.User.Preferences.Patch
+	(mail.EmailType)(0),            // 5: eolymp.mail.EmailType
+	(*timestamppb.Timestamp)(nil),  // 6: google.protobuf.Timestamp
 }
 var file_eolymp_community_member_user_proto_depIdxs = []int32{
-	2, // 0: eolymp.community.User.aliases:type_name -> eolymp.community.User.Alias
-	3, // 1: eolymp.community.User.email_subscriptions:type_name -> eolymp.mail.EmailType
-	4, // 2: eolymp.community.User.birthday:type_name -> google.protobuf.Timestamp
+	3, // 0: eolymp.community.User.aliases:type_name -> eolymp.community.User.Alias
+	5, // 1: eolymp.community.User.email_subscriptions:type_name -> eolymp.mail.EmailType
+	6, // 2: eolymp.community.User.birthday:type_name -> google.protobuf.Timestamp
 	1, // 3: eolymp.community.User.preferences:type_name -> eolymp.community.User.Preferences
-	4, // 4: eolymp.community.User.Alias.changed_at:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 4: eolymp.community.User.Patch.email_subscriptions:type_name -> eolymp.mail.EmailType
+	6, // 5: eolymp.community.User.Patch.birthday:type_name -> google.protobuf.Timestamp
+	4, // 6: eolymp.community.User.Patch.preferences:type_name -> eolymp.community.User.Preferences.Patch
+	6, // 7: eolymp.community.User.Alias.changed_at:type_name -> google.protobuf.Timestamp
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_member_user_proto_init() }
@@ -398,13 +620,15 @@ func file_eolymp_community_member_user_proto_init() {
 	if File_eolymp_community_member_user_proto != nil {
 		return
 	}
+	file_eolymp_community_member_user_proto_msgTypes[2].OneofWrappers = []any{}
+	file_eolymp_community_member_user_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_member_user_proto_rawDesc), len(file_eolymp_community_member_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

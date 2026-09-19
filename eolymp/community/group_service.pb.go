@@ -165,9 +165,8 @@ func (x *CreateGroupOutput) GetGroupId() string {
 
 type UpdateGroupInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Group_Patch_Field    `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.community.Group_Patch_Field" json:"patch,omitempty"` // defines group props to be updated, empty means update everything
 	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	Group         *Group                 `protobuf:"bytes,3,opt,name=group,proto3" json:"group,omitempty"`
+	Group         *Group_Patch           `protobuf:"bytes,4,opt,name=group,proto3" json:"group,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -202,13 +201,6 @@ func (*UpdateGroupInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_group_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UpdateGroupInput) GetPatch() []Group_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateGroupInput) GetGroupId() string {
 	if x != nil {
 		return x.GroupId
@@ -216,7 +208,7 @@ func (x *UpdateGroupInput) GetGroupId() string {
 	return ""
 }
 
-func (x *UpdateGroupInput) GetGroup() *Group {
+func (x *UpdateGroupInput) GetGroup() *Group_Patch {
 	if x != nil {
 		return x.Group
 	}
@@ -628,11 +620,10 @@ const file_eolymp_community_group_service_proto_rawDesc = "" +
 	"\x10CreateGroupInput\x12-\n" +
 	"\x05group\x18\x01 \x01(\v2\x17.eolymp.community.GroupR\x05group\".\n" +
 	"\x11CreateGroupOutput\x12\x19\n" +
-	"\bgroup_id\x18\x01 \x01(\tR\agroupId\"\x97\x01\n" +
-	"\x10UpdateGroupInput\x129\n" +
-	"\x05patch\x18\x01 \x03(\x0e2#.eolymp.community.Group.Patch.FieldR\x05patch\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x12-\n" +
-	"\x05group\x18\x03 \x01(\v2\x17.eolymp.community.GroupR\x05group\"\x13\n" +
+	"\bgroup_id\x18\x01 \x01(\tR\agroupId\"n\n" +
+	"\x10UpdateGroupInput\x12\x19\n" +
+	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x123\n" +
+	"\x05group\x18\x04 \x01(\v2\x1d.eolymp.community.Group.PatchR\x05groupJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x13\n" +
 	"\x11UpdateGroupOutput\"-\n" +
 	"\x10DeleteGroupInput\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\tR\agroupId\"\x13\n" +
@@ -725,7 +716,7 @@ var file_eolymp_community_group_service_proto_goTypes = []any{
 	(*ListGroupsOutput)(nil),           // 10: eolymp.community.ListGroupsOutput
 	(*ListGroupsInput_Filter)(nil),     // 11: eolymp.community.ListGroupsInput.Filter
 	(*Group)(nil),                      // 12: eolymp.community.Group
-	(Group_Patch_Field)(0),             // 13: eolymp.community.Group.Patch.Field
+	(*Group_Patch)(nil),                // 13: eolymp.community.Group.Patch
 	(*wellknown.ExpressionID)(nil),     // 14: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil), // 15: eolymp.wellknown.ExpressionString
 }
@@ -733,29 +724,28 @@ var file_eolymp_community_group_service_proto_depIdxs = []int32{
 	12, // 0: eolymp.community.GroupChangedEvent.before:type_name -> eolymp.community.Group
 	12, // 1: eolymp.community.GroupChangedEvent.after:type_name -> eolymp.community.Group
 	12, // 2: eolymp.community.CreateGroupInput.group:type_name -> eolymp.community.Group
-	13, // 3: eolymp.community.UpdateGroupInput.patch:type_name -> eolymp.community.Group.Patch.Field
-	12, // 4: eolymp.community.UpdateGroupInput.group:type_name -> eolymp.community.Group
-	12, // 5: eolymp.community.DescribeGroupOutput.group:type_name -> eolymp.community.Group
-	11, // 6: eolymp.community.ListGroupsInput.filters:type_name -> eolymp.community.ListGroupsInput.Filter
-	12, // 7: eolymp.community.ListGroupsOutput.items:type_name -> eolymp.community.Group
-	14, // 8: eolymp.community.ListGroupsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 9: eolymp.community.ListGroupsInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
-	15, // 10: eolymp.community.ListGroupsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	1,  // 11: eolymp.community.GroupService.CreateGroup:input_type -> eolymp.community.CreateGroupInput
-	3,  // 12: eolymp.community.GroupService.UpdateGroup:input_type -> eolymp.community.UpdateGroupInput
-	5,  // 13: eolymp.community.GroupService.DeleteGroup:input_type -> eolymp.community.DeleteGroupInput
-	7,  // 14: eolymp.community.GroupService.DescribeGroup:input_type -> eolymp.community.DescribeGroupInput
-	9,  // 15: eolymp.community.GroupService.ListGroups:input_type -> eolymp.community.ListGroupsInput
-	2,  // 16: eolymp.community.GroupService.CreateGroup:output_type -> eolymp.community.CreateGroupOutput
-	4,  // 17: eolymp.community.GroupService.UpdateGroup:output_type -> eolymp.community.UpdateGroupOutput
-	6,  // 18: eolymp.community.GroupService.DeleteGroup:output_type -> eolymp.community.DeleteGroupOutput
-	8,  // 19: eolymp.community.GroupService.DescribeGroup:output_type -> eolymp.community.DescribeGroupOutput
-	10, // 20: eolymp.community.GroupService.ListGroups:output_type -> eolymp.community.ListGroupsOutput
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	13, // 3: eolymp.community.UpdateGroupInput.group:type_name -> eolymp.community.Group.Patch
+	12, // 4: eolymp.community.DescribeGroupOutput.group:type_name -> eolymp.community.Group
+	11, // 5: eolymp.community.ListGroupsInput.filters:type_name -> eolymp.community.ListGroupsInput.Filter
+	12, // 6: eolymp.community.ListGroupsOutput.items:type_name -> eolymp.community.Group
+	14, // 7: eolymp.community.ListGroupsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 8: eolymp.community.ListGroupsInput.Filter.external_ref:type_name -> eolymp.wellknown.ExpressionID
+	15, // 9: eolymp.community.ListGroupsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	1,  // 10: eolymp.community.GroupService.CreateGroup:input_type -> eolymp.community.CreateGroupInput
+	3,  // 11: eolymp.community.GroupService.UpdateGroup:input_type -> eolymp.community.UpdateGroupInput
+	5,  // 12: eolymp.community.GroupService.DeleteGroup:input_type -> eolymp.community.DeleteGroupInput
+	7,  // 13: eolymp.community.GroupService.DescribeGroup:input_type -> eolymp.community.DescribeGroupInput
+	9,  // 14: eolymp.community.GroupService.ListGroups:input_type -> eolymp.community.ListGroupsInput
+	2,  // 15: eolymp.community.GroupService.CreateGroup:output_type -> eolymp.community.CreateGroupOutput
+	4,  // 16: eolymp.community.GroupService.UpdateGroup:output_type -> eolymp.community.UpdateGroupOutput
+	6,  // 17: eolymp.community.GroupService.DeleteGroup:output_type -> eolymp.community.DeleteGroupOutput
+	8,  // 18: eolymp.community.GroupService.DescribeGroup:output_type -> eolymp.community.DescribeGroupOutput
+	10, // 19: eolymp.community.GroupService.ListGroups:output_type -> eolymp.community.ListGroupsOutput
+	15, // [15:20] is the sub-list for method output_type
+	10, // [10:15] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_group_service_proto_init() }

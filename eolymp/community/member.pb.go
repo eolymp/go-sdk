@@ -87,130 +87,6 @@ func (Member_Extra_Field) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
-type Member_Patch_Field int32
-
-const (
-	Member_Patch_UNKNOWN_PATCH             Member_Patch_Field = 0 // change all properties (same as an empty patch)
-	Member_Patch_EXTERNAL_REF              Member_Patch_Field = 6
-	Member_Patch_INACTIVE                  Member_Patch_Field = 1   // change active/inactive flag
-	Member_Patch_UNOFFICIAL                Member_Patch_Field = 2   // change official/unofficial flag
-	Member_Patch_ACTIVE_PERIOD_START       Member_Patch_Field = 7   // apply active period start/end dates
-	Member_Patch_ACTIVE_PERIOD_END         Member_Patch_Field = 8   // apply active period start/end dates
-	Member_Patch_GROUPS                    Member_Patch_Field = 3   // change groups
-	Member_Patch_GROUPS_ADD                Member_Patch_Field = 4   // add new groups specified in member.groups to the existing ones
-	Member_Patch_GROUPS_REMOVE             Member_Patch_Field = 5   // remove groups specified in member.groups from the existing ones
-	Member_Patch_ACCOUNT                   Member_Patch_Field = 100 // change all account details
-	Member_Patch_USER_NICKNAME             Member_Patch_Field = 101
-	Member_Patch_USER_EMAIL                Member_Patch_Field = 102
-	Member_Patch_USER_PASSWORD             Member_Patch_Field = 103
-	Member_Patch_USER_NAME                 Member_Patch_Field = 104
-	Member_Patch_USER_PICTURE              Member_Patch_Field = 105
-	Member_Patch_USER_BIRTHDAY             Member_Patch_Field = 106
-	Member_Patch_USER_COUNTRY              Member_Patch_Field = 107
-	Member_Patch_USER_CITY                 Member_Patch_Field = 108
-	Member_Patch_USER_PREFERENCES          Member_Patch_Field = 109
-	Member_Patch_USER_PREFERENCES_LOCALE   Member_Patch_Field = 190
-	Member_Patch_USER_PREFERENCES_TIMEZONE Member_Patch_Field = 191
-	Member_Patch_USER_PREFERENCES_RUNTIME  Member_Patch_Field = 192
-	Member_Patch_USER_EMAIL_SUBSCRIPTIONS  Member_Patch_Field = 110
-	Member_Patch_USER_PRONOUN              Member_Patch_Field = 111
-	Member_Patch_TEAM_NAME                 Member_Patch_Field = 200
-	Member_Patch_GHOST_NAME                Member_Patch_Field = 300
-	Member_Patch_ATTRIBUTES                Member_Patch_Field = 900
-	Member_Patch_METADATA                  Member_Patch_Field = 901
-)
-
-// Enum value maps for Member_Patch_Field.
-var (
-	Member_Patch_Field_name = map[int32]string{
-		0:   "UNKNOWN_PATCH",
-		6:   "EXTERNAL_REF",
-		1:   "INACTIVE",
-		2:   "UNOFFICIAL",
-		7:   "ACTIVE_PERIOD_START",
-		8:   "ACTIVE_PERIOD_END",
-		3:   "GROUPS",
-		4:   "GROUPS_ADD",
-		5:   "GROUPS_REMOVE",
-		100: "ACCOUNT",
-		101: "USER_NICKNAME",
-		102: "USER_EMAIL",
-		103: "USER_PASSWORD",
-		104: "USER_NAME",
-		105: "USER_PICTURE",
-		106: "USER_BIRTHDAY",
-		107: "USER_COUNTRY",
-		108: "USER_CITY",
-		109: "USER_PREFERENCES",
-		190: "USER_PREFERENCES_LOCALE",
-		191: "USER_PREFERENCES_TIMEZONE",
-		192: "USER_PREFERENCES_RUNTIME",
-		110: "USER_EMAIL_SUBSCRIPTIONS",
-		111: "USER_PRONOUN",
-		200: "TEAM_NAME",
-		300: "GHOST_NAME",
-		900: "ATTRIBUTES",
-		901: "METADATA",
-	}
-	Member_Patch_Field_value = map[string]int32{
-		"UNKNOWN_PATCH":             0,
-		"EXTERNAL_REF":              6,
-		"INACTIVE":                  1,
-		"UNOFFICIAL":                2,
-		"ACTIVE_PERIOD_START":       7,
-		"ACTIVE_PERIOD_END":         8,
-		"GROUPS":                    3,
-		"GROUPS_ADD":                4,
-		"GROUPS_REMOVE":             5,
-		"ACCOUNT":                   100,
-		"USER_NICKNAME":             101,
-		"USER_EMAIL":                102,
-		"USER_PASSWORD":             103,
-		"USER_NAME":                 104,
-		"USER_PICTURE":              105,
-		"USER_BIRTHDAY":             106,
-		"USER_COUNTRY":              107,
-		"USER_CITY":                 108,
-		"USER_PREFERENCES":          109,
-		"USER_PREFERENCES_LOCALE":   190,
-		"USER_PREFERENCES_TIMEZONE": 191,
-		"USER_PREFERENCES_RUNTIME":  192,
-		"USER_EMAIL_SUBSCRIPTIONS":  110,
-		"USER_PRONOUN":              111,
-		"TEAM_NAME":                 200,
-		"GHOST_NAME":                300,
-		"ATTRIBUTES":                900,
-		"METADATA":                  901,
-	}
-)
-
-func (x Member_Patch_Field) Enum() *Member_Patch_Field {
-	p := new(Member_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Member_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Member_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_member_proto_enumTypes[1].Descriptor()
-}
-
-func (Member_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_community_member_proto_enumTypes[1]
-}
-
-func (x Member_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Member_Patch_Field.Descriptor instead.
-func (Member_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 2, 0}
-}
-
 type Member struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -618,7 +494,24 @@ func (*Member_Extra) Descriptor() ([]byte, []int) {
 }
 
 type Member_Patch struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Inactive          *bool                  `protobuf:"varint,11,opt,name=inactive,proto3,oneof" json:"inactive,omitempty"`
+	Unofficial        *bool                  `protobuf:"varint,30,opt,name=unofficial,proto3,oneof" json:"unofficial,omitempty"`
+	ActivePeriodStart *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=active_period_start,json=activePeriodStart,proto3" json:"active_period_start,omitempty"`
+	ActivePeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=active_period_end,json=activePeriodEnd,proto3" json:"active_period_end,omitempty"`
+	// Exactly one of the three may be carried: groups replaces the list, add_groups and remove_groups
+	// change it in place, and ungroup empties it. Carrying more than one is rejected.
+	Groups       []string           `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
+	AddGroups    []string           `protobuf:"bytes,201,rep,name=add_groups,json=addGroups,proto3" json:"add_groups,omitempty"`
+	RemoveGroups []string           `protobuf:"bytes,202,rep,name=remove_groups,json=removeGroups,proto3" json:"remove_groups,omitempty"`
+	Ungroup      *bool              `protobuf:"varint,203,opt,name=ungroup,proto3,oneof" json:"ungroup,omitempty"` // clears the groups, which an empty list cannot express
+	Attributes   []*Attribute_Value `protobuf:"bytes,900,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	// Types that are valid to be assigned to Account:
+	//
+	//	*Member_Patch_User
+	//	*Member_Patch_Team
+	//	*Member_Patch_Ghost
+	Account       isMember_Patch_Account `protobuf_oneof:"account"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -652,6 +545,125 @@ func (x *Member_Patch) ProtoReflect() protoreflect.Message {
 func (*Member_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_member_proto_rawDescGZIP(), []int{0, 2}
 }
+
+func (x *Member_Patch) GetInactive() bool {
+	if x != nil && x.Inactive != nil {
+		return *x.Inactive
+	}
+	return false
+}
+
+func (x *Member_Patch) GetUnofficial() bool {
+	if x != nil && x.Unofficial != nil {
+		return *x.Unofficial
+	}
+	return false
+}
+
+func (x *Member_Patch) GetActivePeriodStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActivePeriodStart
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetActivePeriodEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActivePeriodEnd
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetGroups() []string {
+	if x != nil {
+		return x.Groups
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetAddGroups() []string {
+	if x != nil {
+		return x.AddGroups
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetRemoveGroups() []string {
+	if x != nil {
+		return x.RemoveGroups
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetUngroup() bool {
+	if x != nil && x.Ungroup != nil {
+		return *x.Ungroup
+	}
+	return false
+}
+
+func (x *Member_Patch) GetAttributes() []*Attribute_Value {
+	if x != nil {
+		return x.Attributes
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetAccount() isMember_Patch_Account {
+	if x != nil {
+		return x.Account
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetUser() *User_Patch {
+	if x != nil {
+		if x, ok := x.Account.(*Member_Patch_User); ok {
+			return x.User
+		}
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetTeam() *Team_Patch {
+	if x != nil {
+		if x, ok := x.Account.(*Member_Patch_Team); ok {
+			return x.Team
+		}
+	}
+	return nil
+}
+
+func (x *Member_Patch) GetGhost() *Ghost_Patch {
+	if x != nil {
+		if x, ok := x.Account.(*Member_Patch_Ghost); ok {
+			return x.Ghost
+		}
+	}
+	return nil
+}
+
+type isMember_Patch_Account interface {
+	isMember_Patch_Account()
+}
+
+type Member_Patch_User struct {
+	User *User_Patch `protobuf:"bytes,100,opt,name=user,proto3,oneof"`
+}
+
+type Member_Patch_Team struct {
+	Team *Team_Patch `protobuf:"bytes,101,opt,name=team,proto3,oneof"`
+}
+
+type Member_Patch_Ghost struct {
+	Ghost *Ghost_Patch `protobuf:"bytes,102,opt,name=ghost,proto3,oneof"`
+}
+
+func (*Member_Patch_User) isMember_Patch_Account() {}
+
+func (*Member_Patch_Team) isMember_Patch_Account() {}
+
+func (*Member_Patch_Ghost) isMember_Patch_Account() {}
 
 type Member_Stats struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
@@ -725,7 +737,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf6\x11\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x12\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -780,43 +792,30 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
 	"\bMETADATA\x10\x05\x12\x10\n" +
 	"\fRESTRICTIONS\x10\x06\x12\x10\n" +
-	"\fPRIVATE_DATA\x10\a\x1a\xaf\x04\n" +
-	"\x05Patch\"\xa5\x04\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\x10\n" +
-	"\fEXTERNAL_REF\x10\x06\x12\f\n" +
-	"\bINACTIVE\x10\x01\x12\x0e\n" +
+	"\fPRIVATE_DATA\x10\a\x1a\xf6\x04\n" +
+	"\x05Patch\x12\x1f\n" +
+	"\binactive\x18\v \x01(\bH\x01R\binactive\x88\x01\x01\x12#\n" +
 	"\n" +
-	"UNOFFICIAL\x10\x02\x12\x17\n" +
-	"\x13ACTIVE_PERIOD_START\x10\a\x12\x15\n" +
-	"\x11ACTIVE_PERIOD_END\x10\b\x12\n" +
+	"unofficial\x18\x1e \x01(\bH\x02R\n" +
+	"unofficial\x88\x01\x01\x12J\n" +
+	"\x13active_period_start\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x11activePeriodStart\x12F\n" +
+	"\x11active_period_end\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x0factivePeriodEnd\x12\x17\n" +
+	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12\x1e\n" +
 	"\n" +
-	"\x06GROUPS\x10\x03\x12\x0e\n" +
+	"add_groups\x18\xc9\x01 \x03(\tR\taddGroups\x12$\n" +
+	"\rremove_groups\x18\xca\x01 \x03(\tR\fremoveGroups\x12\x1e\n" +
+	"\aungroup\x18\xcb\x01 \x01(\bH\x03R\aungroup\x88\x01\x01\x12B\n" +
 	"\n" +
-	"GROUPS_ADD\x10\x04\x12\x11\n" +
-	"\rGROUPS_REMOVE\x10\x05\x12\v\n" +
-	"\aACCOUNT\x10d\x12\x11\n" +
-	"\rUSER_NICKNAME\x10e\x12\x0e\n" +
+	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
+	"attributes\x122\n" +
+	"\x04user\x18d \x01(\v2\x1c.eolymp.community.User.PatchH\x00R\x04user\x122\n" +
+	"\x04team\x18e \x01(\v2\x1c.eolymp.community.Team.PatchH\x00R\x04team\x125\n" +
+	"\x05ghost\x18f \x01(\v2\x1d.eolymp.community.Ghost.PatchH\x00R\x05ghostB\t\n" +
+	"\aaccountB\v\n" +
+	"\t_inactiveB\r\n" +
+	"\v_unofficialB\n" +
 	"\n" +
-	"USER_EMAIL\x10f\x12\x11\n" +
-	"\rUSER_PASSWORD\x10g\x12\r\n" +
-	"\tUSER_NAME\x10h\x12\x10\n" +
-	"\fUSER_PICTURE\x10i\x12\x11\n" +
-	"\rUSER_BIRTHDAY\x10j\x12\x10\n" +
-	"\fUSER_COUNTRY\x10k\x12\r\n" +
-	"\tUSER_CITY\x10l\x12\x14\n" +
-	"\x10USER_PREFERENCES\x10m\x12\x1c\n" +
-	"\x17USER_PREFERENCES_LOCALE\x10\xbe\x01\x12\x1e\n" +
-	"\x19USER_PREFERENCES_TIMEZONE\x10\xbf\x01\x12\x1d\n" +
-	"\x18USER_PREFERENCES_RUNTIME\x10\xc0\x01\x12\x1c\n" +
-	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x10\n" +
-	"\fUSER_PRONOUN\x10o\x12\x0e\n" +
-	"\tTEAM_NAME\x10\xc8\x01\x12\x0f\n" +
-	"\n" +
-	"GHOST_NAME\x10\xac\x02\x12\x0f\n" +
-	"\n" +
-	"ATTRIBUTES\x10\x84\a\x12\r\n" +
-	"\bMETADATA\x10\x85\a\x1a\xa8\x01\n" +
+	"\b_ungroup\x1a\xa8\x01\n" +
 	"\x05Stats\x12\x16\n" +
 	"\x06streak\x18\n" +
 	" \x01(\x05R\x06streak\x12'\n" +
@@ -840,40 +839,48 @@ func file_eolymp_community_member_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_member_proto_rawDescData
 }
 
-var file_eolymp_community_member_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_community_member_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_community_member_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_community_member_proto_goTypes = []any{
 	(Member_Extra_Field)(0),       // 0: eolymp.community.Member.Extra.Field
-	(Member_Patch_Field)(0),       // 1: eolymp.community.Member.Patch.Field
-	(*Member)(nil),                // 2: eolymp.community.Member
-	(*Member_Reference)(nil),      // 3: eolymp.community.Member.Reference
-	(*Member_Extra)(nil),          // 4: eolymp.community.Member.Extra
-	(*Member_Patch)(nil),          // 5: eolymp.community.Member.Patch
-	(*Member_Stats)(nil),          // 6: eolymp.community.Member.Stats
-	nil,                           // 7: eolymp.community.Member.MetadataEntry
-	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
-	(*User)(nil),                  // 9: eolymp.community.User
-	(*Team)(nil),                  // 10: eolymp.community.Team
-	(*Ghost)(nil),                 // 11: eolymp.community.Ghost
-	(*Attribute_Value)(nil),       // 12: eolymp.community.Attribute.Value
+	(*Member)(nil),                // 1: eolymp.community.Member
+	(*Member_Reference)(nil),      // 2: eolymp.community.Member.Reference
+	(*Member_Extra)(nil),          // 3: eolymp.community.Member.Extra
+	(*Member_Patch)(nil),          // 4: eolymp.community.Member.Patch
+	(*Member_Stats)(nil),          // 5: eolymp.community.Member.Stats
+	nil,                           // 6: eolymp.community.Member.MetadataEntry
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*User)(nil),                  // 8: eolymp.community.User
+	(*Team)(nil),                  // 9: eolymp.community.Team
+	(*Ghost)(nil),                 // 10: eolymp.community.Ghost
+	(*Attribute_Value)(nil),       // 11: eolymp.community.Attribute.Value
+	(*User_Patch)(nil),            // 12: eolymp.community.User.Patch
+	(*Team_Patch)(nil),            // 13: eolymp.community.Team.Patch
+	(*Ghost_Patch)(nil),           // 14: eolymp.community.Ghost.Patch
 }
 var file_eolymp_community_member_proto_depIdxs = []int32{
-	8,  // 0: eolymp.community.Member.active_period_start:type_name -> google.protobuf.Timestamp
-	8,  // 1: eolymp.community.Member.active_period_end:type_name -> google.protobuf.Timestamp
-	8,  // 2: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
-	8,  // 3: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
-	8,  // 4: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
-	9,  // 5: eolymp.community.Member.user:type_name -> eolymp.community.User
-	10, // 6: eolymp.community.Member.team:type_name -> eolymp.community.Team
-	11, // 7: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
-	6,  // 8: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
-	12, // 9: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
-	7,  // 10: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	7,  // 0: eolymp.community.Member.active_period_start:type_name -> google.protobuf.Timestamp
+	7,  // 1: eolymp.community.Member.active_period_end:type_name -> google.protobuf.Timestamp
+	7,  // 2: eolymp.community.Member.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 3: eolymp.community.Member.seated_at:type_name -> google.protobuf.Timestamp
+	7,  // 4: eolymp.community.Member.active_at:type_name -> google.protobuf.Timestamp
+	8,  // 5: eolymp.community.Member.user:type_name -> eolymp.community.User
+	9,  // 6: eolymp.community.Member.team:type_name -> eolymp.community.Team
+	10, // 7: eolymp.community.Member.ghost:type_name -> eolymp.community.Ghost
+	5,  // 8: eolymp.community.Member.stats:type_name -> eolymp.community.Member.Stats
+	11, // 9: eolymp.community.Member.attributes:type_name -> eolymp.community.Attribute.Value
+	6,  // 10: eolymp.community.Member.metadata:type_name -> eolymp.community.Member.MetadataEntry
+	7,  // 11: eolymp.community.Member.Patch.active_period_start:type_name -> google.protobuf.Timestamp
+	7,  // 12: eolymp.community.Member.Patch.active_period_end:type_name -> google.protobuf.Timestamp
+	11, // 13: eolymp.community.Member.Patch.attributes:type_name -> eolymp.community.Attribute.Value
+	12, // 14: eolymp.community.Member.Patch.user:type_name -> eolymp.community.User.Patch
+	13, // 15: eolymp.community.Member.Patch.team:type_name -> eolymp.community.Team.Patch
+	14, // 16: eolymp.community.Member.Patch.ghost:type_name -> eolymp.community.Ghost.Patch
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_member_proto_init() }
@@ -890,12 +897,17 @@ func file_eolymp_community_member_proto_init() {
 		(*Member_Team)(nil),
 		(*Member_Ghost)(nil),
 	}
+	file_eolymp_community_member_proto_msgTypes[3].OneofWrappers = []any{
+		(*Member_Patch_User)(nil),
+		(*Member_Patch_Team)(nil),
+		(*Member_Patch_Ghost)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_member_proto_rawDesc), len(file_eolymp_community_member_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,

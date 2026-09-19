@@ -21,70 +21,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Group_Patch_Field int32
-
-const (
-	Group_Patch_UNKNOWN      Group_Patch_Field = 0
-	Group_Patch_NAME         Group_Patch_Field = 1
-	Group_Patch_DESCRIPTION  Group_Patch_Field = 2
-	Group_Patch_EXTERNAL_REF Group_Patch_Field = 3
-	Group_Patch_ICON         Group_Patch_Field = 4
-	Group_Patch_BADGE        Group_Patch_Field = 5
-	Group_Patch_COLOR        Group_Patch_Field = 6
-	Group_Patch_METADATA     Group_Patch_Field = 7
-)
-
-// Enum value maps for Group_Patch_Field.
-var (
-	Group_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN",
-		1: "NAME",
-		2: "DESCRIPTION",
-		3: "EXTERNAL_REF",
-		4: "ICON",
-		5: "BADGE",
-		6: "COLOR",
-		7: "METADATA",
-	}
-	Group_Patch_Field_value = map[string]int32{
-		"UNKNOWN":      0,
-		"NAME":         1,
-		"DESCRIPTION":  2,
-		"EXTERNAL_REF": 3,
-		"ICON":         4,
-		"BADGE":        5,
-		"COLOR":        6,
-		"METADATA":     7,
-	}
-)
-
-func (x Group_Patch_Field) Enum() *Group_Patch_Field {
-	p := new(Group_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Group_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Group_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_group_proto_enumTypes[0].Descriptor()
-}
-
-func (Group_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_community_group_proto_enumTypes[0]
-}
-
-func (x Group_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Group_Patch_Field.Descriptor instead.
-func (Group_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_group_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 // Group describes a group of members in the space.
 //
 // A member can belong to at most 10 groups, a fixed platform limit. A group itself has no size limit and
@@ -194,6 +130,12 @@ func (x *Group) GetMetadata() map[string]string {
 
 type Group_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	ExternalRef   *string                `protobuf:"bytes,4,opt,name=external_ref,json=externalRef,proto3,oneof" json:"external_ref,omitempty"`
+	Icon          *string                `protobuf:"bytes,10,opt,name=icon,proto3,oneof" json:"icon,omitempty"`
+	Badge         *string                `protobuf:"bytes,11,opt,name=badge,proto3,oneof" json:"badge,omitempty"`
+	Color         *string                `protobuf:"bytes,12,opt,name=color,proto3,oneof" json:"color,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -228,11 +170,53 @@ func (*Group_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_group_proto_rawDescGZIP(), []int{0, 0}
 }
 
+func (x *Group_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Group_Patch) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
+func (x *Group_Patch) GetExternalRef() string {
+	if x != nil && x.ExternalRef != nil {
+		return *x.ExternalRef
+	}
+	return ""
+}
+
+func (x *Group_Patch) GetIcon() string {
+	if x != nil && x.Icon != nil {
+		return *x.Icon
+	}
+	return ""
+}
+
+func (x *Group_Patch) GetBadge() string {
+	if x != nil && x.Badge != nil {
+		return *x.Badge
+	}
+	return ""
+}
+
+func (x *Group_Patch) GetColor() string {
+	if x != nil && x.Color != nil {
+		return *x.Color
+	}
+	return ""
+}
+
 var File_eolymp_community_group_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_group_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\xab\x03\n" +
+	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\xb9\x04\n" +
 	"\x05Group\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -242,17 +226,21 @@ const file_eolymp_community_group_proto_rawDesc = "" +
 	" \x01(\tR\x04icon\x12\x14\n" +
 	"\x05badge\x18\v \x01(\tR\x05badge\x12\x14\n" +
 	"\x05color\x18\f \x01(\tR\x05color\x12B\n" +
-	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1ax\n" +
-	"\x05Patch\"o\n" +
-	"\x05Field\x12\v\n" +
-	"\aUNKNOWN\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x02\x12\x10\n" +
-	"\fEXTERNAL_REF\x10\x03\x12\b\n" +
-	"\x04ICON\x10\x04\x12\t\n" +
-	"\x05BADGE\x10\x05\x12\t\n" +
-	"\x05COLOR\x10\x06\x12\f\n" +
-	"\bMETADATA\x10\a\x1a;\n" +
+	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1a\x85\x02\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
+	"\vdescription\x18\x03 \x01(\tH\x01R\vdescription\x88\x01\x01\x12&\n" +
+	"\fexternal_ref\x18\x04 \x01(\tH\x02R\vexternalRef\x88\x01\x01\x12\x17\n" +
+	"\x04icon\x18\n" +
+	" \x01(\tH\x03R\x04icon\x88\x01\x01\x12\x19\n" +
+	"\x05badge\x18\v \x01(\tH\x04R\x05badge\x88\x01\x01\x12\x19\n" +
+	"\x05color\x18\f \x01(\tH\x05R\x05color\x88\x01\x01B\a\n" +
+	"\x05_nameB\x0e\n" +
+	"\f_descriptionB\x0f\n" +
+	"\r_external_refB\a\n" +
+	"\x05_iconB\b\n" +
+	"\x06_badgeB\b\n" +
+	"\x06_color\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
@@ -269,16 +257,14 @@ func file_eolymp_community_group_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_group_proto_rawDescData
 }
 
-var file_eolymp_community_group_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_community_group_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_community_group_proto_goTypes = []any{
-	(Group_Patch_Field)(0), // 0: eolymp.community.Group.Patch.Field
-	(*Group)(nil),          // 1: eolymp.community.Group
-	(*Group_Patch)(nil),    // 2: eolymp.community.Group.Patch
-	nil,                    // 3: eolymp.community.Group.MetadataEntry
+	(*Group)(nil),       // 0: eolymp.community.Group
+	(*Group_Patch)(nil), // 1: eolymp.community.Group.Patch
+	nil,                 // 2: eolymp.community.Group.MetadataEntry
 }
 var file_eolymp_community_group_proto_depIdxs = []int32{
-	3, // 0: eolymp.community.Group.metadata:type_name -> eolymp.community.Group.MetadataEntry
+	2, // 0: eolymp.community.Group.metadata:type_name -> eolymp.community.Group.MetadataEntry
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -291,19 +277,19 @@ func file_eolymp_community_group_proto_init() {
 	if File_eolymp_community_group_proto != nil {
 		return
 	}
+	file_eolymp_community_group_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_group_proto_rawDesc), len(file_eolymp_community_group_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_community_group_proto_goTypes,
 		DependencyIndexes: file_eolymp_community_group_proto_depIdxs,
-		EnumInfos:         file_eolymp_community_group_proto_enumTypes,
 		MessageInfos:      file_eolymp_community_group_proto_msgTypes,
 	}.Build()
 	File_eolymp_community_group_proto = out.File

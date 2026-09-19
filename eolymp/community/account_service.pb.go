@@ -23,94 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateAccountInput_Patch int32
-
-const (
-	UpdateAccountInput_ALL                       UpdateAccountInput_Patch = 0
-	UpdateAccountInput_USER_NICKNAME             UpdateAccountInput_Patch = 101
-	UpdateAccountInput_USER_EMAIL                UpdateAccountInput_Patch = 102
-	UpdateAccountInput_USER_PASSWORD             UpdateAccountInput_Patch = 103
-	UpdateAccountInput_USER_NAME                 UpdateAccountInput_Patch = 104
-	UpdateAccountInput_USER_PICTURE              UpdateAccountInput_Patch = 105
-	UpdateAccountInput_USER_BIRTHDAY             UpdateAccountInput_Patch = 106
-	UpdateAccountInput_USER_COUNTRY              UpdateAccountInput_Patch = 107
-	UpdateAccountInput_USER_CITY                 UpdateAccountInput_Patch = 108
-	UpdateAccountInput_USER_PREFERENCES          UpdateAccountInput_Patch = 109
-	UpdateAccountInput_USER_PREFERENCES_LOCALE   UpdateAccountInput_Patch = 190
-	UpdateAccountInput_USER_PREFERENCES_TIMEZONE UpdateAccountInput_Patch = 191
-	UpdateAccountInput_USER_PREFERENCES_RUNTIME  UpdateAccountInput_Patch = 192
-	UpdateAccountInput_USER_EMAIL_SUBSCRIPTIONS  UpdateAccountInput_Patch = 110
-	UpdateAccountInput_USER_PRONOUN              UpdateAccountInput_Patch = 111
-	UpdateAccountInput_ATTRIBUTES                UpdateAccountInput_Patch = 900
-)
-
-// Enum value maps for UpdateAccountInput_Patch.
-var (
-	UpdateAccountInput_Patch_name = map[int32]string{
-		0:   "ALL",
-		101: "USER_NICKNAME",
-		102: "USER_EMAIL",
-		103: "USER_PASSWORD",
-		104: "USER_NAME",
-		105: "USER_PICTURE",
-		106: "USER_BIRTHDAY",
-		107: "USER_COUNTRY",
-		108: "USER_CITY",
-		109: "USER_PREFERENCES",
-		190: "USER_PREFERENCES_LOCALE",
-		191: "USER_PREFERENCES_TIMEZONE",
-		192: "USER_PREFERENCES_RUNTIME",
-		110: "USER_EMAIL_SUBSCRIPTIONS",
-		111: "USER_PRONOUN",
-		900: "ATTRIBUTES",
-	}
-	UpdateAccountInput_Patch_value = map[string]int32{
-		"ALL":                       0,
-		"USER_NICKNAME":             101,
-		"USER_EMAIL":                102,
-		"USER_PASSWORD":             103,
-		"USER_NAME":                 104,
-		"USER_PICTURE":              105,
-		"USER_BIRTHDAY":             106,
-		"USER_COUNTRY":              107,
-		"USER_CITY":                 108,
-		"USER_PREFERENCES":          109,
-		"USER_PREFERENCES_LOCALE":   190,
-		"USER_PREFERENCES_TIMEZONE": 191,
-		"USER_PREFERENCES_RUNTIME":  192,
-		"USER_EMAIL_SUBSCRIPTIONS":  110,
-		"USER_PRONOUN":              111,
-		"ATTRIBUTES":                900,
-	}
-)
-
-func (x UpdateAccountInput_Patch) Enum() *UpdateAccountInput_Patch {
-	p := new(UpdateAccountInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateAccountInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateAccountInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_account_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateAccountInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_community_account_service_proto_enumTypes[0]
-}
-
-func (x UpdateAccountInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateAccountInput_Patch.Descriptor instead.
-func (UpdateAccountInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_account_service_proto_rawDescGZIP(), []int{4, 0}
-}
-
 type CreateAccountInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Member        *Member                `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
@@ -312,10 +224,9 @@ func (x *DescribeAccountOutput) GetExtra() []*Member_Extra {
 }
 
 type UpdateAccountInput struct {
-	state           protoimpl.MessageState     `protogen:"open.v1"`
-	Patch           []UpdateAccountInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.community.UpdateAccountInput_Patch" json:"patch,omitempty"`
-	CurrentPassword string                     `protobuf:"bytes,2,opt,name=current_password,json=currentPassword,proto3" json:"current_password,omitempty"`
-	Member          *Member                    `protobuf:"bytes,10,opt,name=member,proto3" json:"member,omitempty"`
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	CurrentPassword string                 `protobuf:"bytes,2,opt,name=current_password,json=currentPassword,proto3" json:"current_password,omitempty"`
+	Member          *Member_Patch          `protobuf:"bytes,11,opt,name=member,proto3" json:"member,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -350,13 +261,6 @@ func (*UpdateAccountInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_account_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *UpdateAccountInput) GetPatch() []UpdateAccountInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateAccountInput) GetCurrentPassword() string {
 	if x != nil {
 		return x.CurrentPassword
@@ -364,7 +268,7 @@ func (x *UpdateAccountInput) GetCurrentPassword() string {
 	return ""
 }
 
-func (x *UpdateAccountInput) GetMember() *Member {
+func (x *UpdateAccountInput) GetMember() *Member_Patch {
 	if x != nil {
 		return x.Member
 	}
@@ -1174,31 +1078,11 @@ const file_eolymp_community_account_service_proto_rawDesc = "" +
 	"\x15DescribeAccountOutput\x120\n" +
 	"\x06member\x18\x01 \x01(\v2\x18.eolymp.community.MemberR\x06member\x12,\n" +
 	"\x04team\x18\x02 \x01(\v2\x18.eolymp.community.MemberR\x04team\x125\n" +
-	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\"\x85\x04\n" +
-	"\x12UpdateAccountInput\x12@\n" +
-	"\x05patch\x18\x01 \x03(\x0e2*.eolymp.community.UpdateAccountInput.PatchR\x05patch\x12)\n" +
-	"\x10current_password\x18\x02 \x01(\tR\x0fcurrentPassword\x120\n" +
-	"\x06member\x18\n" +
-	" \x01(\v2\x18.eolymp.community.MemberR\x06member\"\xcf\x02\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\x11\n" +
-	"\rUSER_NICKNAME\x10e\x12\x0e\n" +
-	"\n" +
-	"USER_EMAIL\x10f\x12\x11\n" +
-	"\rUSER_PASSWORD\x10g\x12\r\n" +
-	"\tUSER_NAME\x10h\x12\x10\n" +
-	"\fUSER_PICTURE\x10i\x12\x11\n" +
-	"\rUSER_BIRTHDAY\x10j\x12\x10\n" +
-	"\fUSER_COUNTRY\x10k\x12\r\n" +
-	"\tUSER_CITY\x10l\x12\x14\n" +
-	"\x10USER_PREFERENCES\x10m\x12\x1c\n" +
-	"\x17USER_PREFERENCES_LOCALE\x10\xbe\x01\x12\x1e\n" +
-	"\x19USER_PREFERENCES_TIMEZONE\x10\xbf\x01\x12\x1d\n" +
-	"\x18USER_PREFERENCES_RUNTIME\x10\xc0\x01\x12\x1c\n" +
-	"\x18USER_EMAIL_SUBSCRIPTIONS\x10n\x12\x10\n" +
-	"\fUSER_PRONOUN\x10o\x12\x0f\n" +
-	"\n" +
-	"ATTRIBUTES\x10\x84\a\")\n" +
+	"\x05extra\x18\xe3\b \x03(\v2\x1e.eolymp.community.Member.ExtraR\x05extra\"\x83\x01\n" +
+	"\x12UpdateAccountInput\x12)\n" +
+	"\x10current_password\x18\x02 \x01(\tR\x0fcurrentPassword\x126\n" +
+	"\x06member\x18\v \x01(\v2\x1e.eolymp.community.Member.PatchR\x06memberJ\x04\b\x01\x10\x02J\x04\b\n" +
+	"\x10\v\")\n" +
 	"\x13UpdateAccountOutput\x12\x12\n" +
 	"\x04hint\x18\x01 \x01(\tR\x04hint\"\x8e\x01\n" +
 	"\x12UploadPictureInput\x12\x1a\n" +
@@ -1326,72 +1210,70 @@ func file_eolymp_community_account_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_account_service_proto_rawDescData
 }
 
-var file_eolymp_community_account_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_community_account_service_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_eolymp_community_account_service_proto_goTypes = []any{
-	(UpdateAccountInput_Patch)(0),           // 0: eolymp.community.UpdateAccountInput.Patch
-	(*CreateAccountInput)(nil),              // 1: eolymp.community.CreateAccountInput
-	(*CreateAccountOutput)(nil),             // 2: eolymp.community.CreateAccountOutput
-	(*DescribeAccountInput)(nil),            // 3: eolymp.community.DescribeAccountInput
-	(*DescribeAccountOutput)(nil),           // 4: eolymp.community.DescribeAccountOutput
-	(*UpdateAccountInput)(nil),              // 5: eolymp.community.UpdateAccountInput
-	(*UpdateAccountOutput)(nil),             // 6: eolymp.community.UpdateAccountOutput
-	(*UploadPictureInput)(nil),              // 7: eolymp.community.UploadPictureInput
-	(*UploadPictureOutput)(nil),             // 8: eolymp.community.UploadPictureOutput
-	(*DeleteAccountInput)(nil),              // 9: eolymp.community.DeleteAccountInput
-	(*DeleteAccountOutput)(nil),             // 10: eolymp.community.DeleteAccountOutput
-	(*ResendVerificationInput)(nil),         // 11: eolymp.community.ResendVerificationInput
-	(*ResendVerificationOutput)(nil),        // 12: eolymp.community.ResendVerificationOutput
-	(*CompleteVerificationInput)(nil),       // 13: eolymp.community.CompleteVerificationInput
-	(*CompleteVerificationOutput)(nil),      // 14: eolymp.community.CompleteVerificationOutput
-	(*StartRecoveryInput)(nil),              // 15: eolymp.community.StartRecoveryInput
-	(*StartRecoveryOutput)(nil),             // 16: eolymp.community.StartRecoveryOutput
-	(*CompleteRecoverInput)(nil),            // 17: eolymp.community.CompleteRecoverInput
-	(*CompleteRecoverOutput)(nil),           // 18: eolymp.community.CompleteRecoverOutput
-	(*DescribeEmailSubscriptionInput)(nil),  // 19: eolymp.community.DescribeEmailSubscriptionInput
-	(*DescribeEmailSubscriptionOutput)(nil), // 20: eolymp.community.DescribeEmailSubscriptionOutput
-	(*UpdateEmailSubscriptionInput)(nil),    // 21: eolymp.community.UpdateEmailSubscriptionInput
-	(*UpdateEmailSubscriptionOutput)(nil),   // 22: eolymp.community.UpdateEmailSubscriptionOutput
-	(*Member)(nil),                          // 23: eolymp.community.Member
-	(*Member_Extra)(nil),                    // 24: eolymp.community.Member.Extra
+	(*CreateAccountInput)(nil),              // 0: eolymp.community.CreateAccountInput
+	(*CreateAccountOutput)(nil),             // 1: eolymp.community.CreateAccountOutput
+	(*DescribeAccountInput)(nil),            // 2: eolymp.community.DescribeAccountInput
+	(*DescribeAccountOutput)(nil),           // 3: eolymp.community.DescribeAccountOutput
+	(*UpdateAccountInput)(nil),              // 4: eolymp.community.UpdateAccountInput
+	(*UpdateAccountOutput)(nil),             // 5: eolymp.community.UpdateAccountOutput
+	(*UploadPictureInput)(nil),              // 6: eolymp.community.UploadPictureInput
+	(*UploadPictureOutput)(nil),             // 7: eolymp.community.UploadPictureOutput
+	(*DeleteAccountInput)(nil),              // 8: eolymp.community.DeleteAccountInput
+	(*DeleteAccountOutput)(nil),             // 9: eolymp.community.DeleteAccountOutput
+	(*ResendVerificationInput)(nil),         // 10: eolymp.community.ResendVerificationInput
+	(*ResendVerificationOutput)(nil),        // 11: eolymp.community.ResendVerificationOutput
+	(*CompleteVerificationInput)(nil),       // 12: eolymp.community.CompleteVerificationInput
+	(*CompleteVerificationOutput)(nil),      // 13: eolymp.community.CompleteVerificationOutput
+	(*StartRecoveryInput)(nil),              // 14: eolymp.community.StartRecoveryInput
+	(*StartRecoveryOutput)(nil),             // 15: eolymp.community.StartRecoveryOutput
+	(*CompleteRecoverInput)(nil),            // 16: eolymp.community.CompleteRecoverInput
+	(*CompleteRecoverOutput)(nil),           // 17: eolymp.community.CompleteRecoverOutput
+	(*DescribeEmailSubscriptionInput)(nil),  // 18: eolymp.community.DescribeEmailSubscriptionInput
+	(*DescribeEmailSubscriptionOutput)(nil), // 19: eolymp.community.DescribeEmailSubscriptionOutput
+	(*UpdateEmailSubscriptionInput)(nil),    // 20: eolymp.community.UpdateEmailSubscriptionInput
+	(*UpdateEmailSubscriptionOutput)(nil),   // 21: eolymp.community.UpdateEmailSubscriptionOutput
+	(*Member)(nil),                          // 22: eolymp.community.Member
+	(*Member_Extra)(nil),                    // 23: eolymp.community.Member.Extra
+	(*Member_Patch)(nil),                    // 24: eolymp.community.Member.Patch
 	(mail.EmailType)(0),                     // 25: eolymp.mail.EmailType
 }
 var file_eolymp_community_account_service_proto_depIdxs = []int32{
-	23, // 0: eolymp.community.CreateAccountInput.member:type_name -> eolymp.community.Member
-	23, // 1: eolymp.community.DescribeAccountOutput.member:type_name -> eolymp.community.Member
-	23, // 2: eolymp.community.DescribeAccountOutput.team:type_name -> eolymp.community.Member
-	24, // 3: eolymp.community.DescribeAccountOutput.extra:type_name -> eolymp.community.Member.Extra
-	0,  // 4: eolymp.community.UpdateAccountInput.patch:type_name -> eolymp.community.UpdateAccountInput.Patch
-	23, // 5: eolymp.community.UpdateAccountInput.member:type_name -> eolymp.community.Member
-	25, // 6: eolymp.community.DescribeEmailSubscriptionOutput.subscriptions:type_name -> eolymp.mail.EmailType
-	25, // 7: eolymp.community.UpdateEmailSubscriptionInput.subscriptions:type_name -> eolymp.mail.EmailType
-	1,  // 8: eolymp.community.AccountService.CreateAccount:input_type -> eolymp.community.CreateAccountInput
-	3,  // 9: eolymp.community.AccountService.DescribeAccount:input_type -> eolymp.community.DescribeAccountInput
-	5,  // 10: eolymp.community.AccountService.UpdateAccount:input_type -> eolymp.community.UpdateAccountInput
-	7,  // 11: eolymp.community.AccountService.UploadPicture:input_type -> eolymp.community.UploadPictureInput
-	9,  // 12: eolymp.community.AccountService.DeleteAccount:input_type -> eolymp.community.DeleteAccountInput
-	11, // 13: eolymp.community.AccountService.ResendVerification:input_type -> eolymp.community.ResendVerificationInput
-	13, // 14: eolymp.community.AccountService.CompleteVerification:input_type -> eolymp.community.CompleteVerificationInput
-	15, // 15: eolymp.community.AccountService.StartRecovery:input_type -> eolymp.community.StartRecoveryInput
-	17, // 16: eolymp.community.AccountService.CompleteRecovery:input_type -> eolymp.community.CompleteRecoverInput
-	19, // 17: eolymp.community.AccountService.DescribeEmailSubscription:input_type -> eolymp.community.DescribeEmailSubscriptionInput
-	21, // 18: eolymp.community.AccountService.UpdateEmailSubscription:input_type -> eolymp.community.UpdateEmailSubscriptionInput
-	2,  // 19: eolymp.community.AccountService.CreateAccount:output_type -> eolymp.community.CreateAccountOutput
-	4,  // 20: eolymp.community.AccountService.DescribeAccount:output_type -> eolymp.community.DescribeAccountOutput
-	6,  // 21: eolymp.community.AccountService.UpdateAccount:output_type -> eolymp.community.UpdateAccountOutput
-	8,  // 22: eolymp.community.AccountService.UploadPicture:output_type -> eolymp.community.UploadPictureOutput
-	10, // 23: eolymp.community.AccountService.DeleteAccount:output_type -> eolymp.community.DeleteAccountOutput
-	12, // 24: eolymp.community.AccountService.ResendVerification:output_type -> eolymp.community.ResendVerificationOutput
-	14, // 25: eolymp.community.AccountService.CompleteVerification:output_type -> eolymp.community.CompleteVerificationOutput
-	16, // 26: eolymp.community.AccountService.StartRecovery:output_type -> eolymp.community.StartRecoveryOutput
-	18, // 27: eolymp.community.AccountService.CompleteRecovery:output_type -> eolymp.community.CompleteRecoverOutput
-	20, // 28: eolymp.community.AccountService.DescribeEmailSubscription:output_type -> eolymp.community.DescribeEmailSubscriptionOutput
-	22, // 29: eolymp.community.AccountService.UpdateEmailSubscription:output_type -> eolymp.community.UpdateEmailSubscriptionOutput
-	19, // [19:30] is the sub-list for method output_type
-	8,  // [8:19] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	22, // 0: eolymp.community.CreateAccountInput.member:type_name -> eolymp.community.Member
+	22, // 1: eolymp.community.DescribeAccountOutput.member:type_name -> eolymp.community.Member
+	22, // 2: eolymp.community.DescribeAccountOutput.team:type_name -> eolymp.community.Member
+	23, // 3: eolymp.community.DescribeAccountOutput.extra:type_name -> eolymp.community.Member.Extra
+	24, // 4: eolymp.community.UpdateAccountInput.member:type_name -> eolymp.community.Member.Patch
+	25, // 5: eolymp.community.DescribeEmailSubscriptionOutput.subscriptions:type_name -> eolymp.mail.EmailType
+	25, // 6: eolymp.community.UpdateEmailSubscriptionInput.subscriptions:type_name -> eolymp.mail.EmailType
+	0,  // 7: eolymp.community.AccountService.CreateAccount:input_type -> eolymp.community.CreateAccountInput
+	2,  // 8: eolymp.community.AccountService.DescribeAccount:input_type -> eolymp.community.DescribeAccountInput
+	4,  // 9: eolymp.community.AccountService.UpdateAccount:input_type -> eolymp.community.UpdateAccountInput
+	6,  // 10: eolymp.community.AccountService.UploadPicture:input_type -> eolymp.community.UploadPictureInput
+	8,  // 11: eolymp.community.AccountService.DeleteAccount:input_type -> eolymp.community.DeleteAccountInput
+	10, // 12: eolymp.community.AccountService.ResendVerification:input_type -> eolymp.community.ResendVerificationInput
+	12, // 13: eolymp.community.AccountService.CompleteVerification:input_type -> eolymp.community.CompleteVerificationInput
+	14, // 14: eolymp.community.AccountService.StartRecovery:input_type -> eolymp.community.StartRecoveryInput
+	16, // 15: eolymp.community.AccountService.CompleteRecovery:input_type -> eolymp.community.CompleteRecoverInput
+	18, // 16: eolymp.community.AccountService.DescribeEmailSubscription:input_type -> eolymp.community.DescribeEmailSubscriptionInput
+	20, // 17: eolymp.community.AccountService.UpdateEmailSubscription:input_type -> eolymp.community.UpdateEmailSubscriptionInput
+	1,  // 18: eolymp.community.AccountService.CreateAccount:output_type -> eolymp.community.CreateAccountOutput
+	3,  // 19: eolymp.community.AccountService.DescribeAccount:output_type -> eolymp.community.DescribeAccountOutput
+	5,  // 20: eolymp.community.AccountService.UpdateAccount:output_type -> eolymp.community.UpdateAccountOutput
+	7,  // 21: eolymp.community.AccountService.UploadPicture:output_type -> eolymp.community.UploadPictureOutput
+	9,  // 22: eolymp.community.AccountService.DeleteAccount:output_type -> eolymp.community.DeleteAccountOutput
+	11, // 23: eolymp.community.AccountService.ResendVerification:output_type -> eolymp.community.ResendVerificationOutput
+	13, // 24: eolymp.community.AccountService.CompleteVerification:output_type -> eolymp.community.CompleteVerificationOutput
+	15, // 25: eolymp.community.AccountService.StartRecovery:output_type -> eolymp.community.StartRecoveryOutput
+	17, // 26: eolymp.community.AccountService.CompleteRecovery:output_type -> eolymp.community.CompleteRecoverOutput
+	19, // 27: eolymp.community.AccountService.DescribeEmailSubscription:output_type -> eolymp.community.DescribeEmailSubscriptionOutput
+	21, // 28: eolymp.community.AccountService.UpdateEmailSubscription:output_type -> eolymp.community.UpdateEmailSubscriptionOutput
+	18, // [18:29] is the sub-list for method output_type
+	7,  // [7:18] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_account_service_proto_init() }
@@ -1405,14 +1287,13 @@ func file_eolymp_community_account_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_account_service_proto_rawDesc), len(file_eolymp_community_account_service_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_community_account_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_community_account_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_community_account_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_community_account_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_community_account_service_proto = out.File
