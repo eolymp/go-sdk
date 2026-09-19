@@ -136,6 +136,8 @@ type Group_Patch struct {
 	Icon          *string                `protobuf:"bytes,10,opt,name=icon,proto3,oneof" json:"icon,omitempty"`
 	Badge         *string                `protobuf:"bytes,11,opt,name=badge,proto3,oneof" json:"badge,omitempty"`
 	Color         *string                `protobuf:"bytes,12,opt,name=color,proto3,oneof" json:"color,omitempty"`
+	Metadata      map[string]string      `protobuf:"bytes,1024,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	UnsetMetadata *bool                  `protobuf:"varint,1025,opt,name=unset_metadata,json=unsetMetadata,proto3,oneof" json:"unset_metadata,omitempty"` // clears the metadata, which an empty map cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -212,11 +214,25 @@ func (x *Group_Patch) GetColor() string {
 	return ""
 }
 
+func (x *Group_Patch) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (x *Group_Patch) GetUnsetMetadata() bool {
+	if x != nil && x.UnsetMetadata != nil {
+		return *x.UnsetMetadata
+	}
+	return false
+}
+
 var File_eolymp_community_group_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_group_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\xb9\x04\n" +
+	"\x1ceolymp/community/group.proto\x12\x10eolymp.community\"\x80\x06\n" +
 	"\x05Group\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -226,7 +242,7 @@ const file_eolymp_community_group_proto_rawDesc = "" +
 	" \x01(\tR\x04icon\x12\x14\n" +
 	"\x05badge\x18\v \x01(\tR\x05badge\x12\x14\n" +
 	"\x05color\x18\f \x01(\tR\x05color\x12B\n" +
-	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1a\x85\x02\n" +
+	"\bmetadata\x18\x80\b \x03(\v2%.eolymp.community.Group.MetadataEntryR\bmetadata\x1a\xcc\x03\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
 	"\vdescription\x18\x03 \x01(\tH\x01R\vdescription\x88\x01\x01\x12&\n" +
@@ -234,13 +250,19 @@ const file_eolymp_community_group_proto_rawDesc = "" +
 	"\x04icon\x18\n" +
 	" \x01(\tH\x03R\x04icon\x88\x01\x01\x12\x19\n" +
 	"\x05badge\x18\v \x01(\tH\x04R\x05badge\x88\x01\x01\x12\x19\n" +
-	"\x05color\x18\f \x01(\tH\x05R\x05color\x88\x01\x01B\a\n" +
+	"\x05color\x18\f \x01(\tH\x05R\x05color\x88\x01\x01\x12H\n" +
+	"\bmetadata\x18\x80\b \x03(\v2+.eolymp.community.Group.Patch.MetadataEntryR\bmetadata\x12+\n" +
+	"\x0eunset_metadata\x18\x81\b \x01(\bH\x06R\runsetMetadata\x88\x01\x01\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\x0f\n" +
 	"\r_external_refB\a\n" +
 	"\x05_iconB\b\n" +
 	"\x06_badgeB\b\n" +
-	"\x06_color\x1a;\n" +
+	"\x06_colorB\x11\n" +
+	"\x0f_unset_metadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
@@ -257,19 +279,21 @@ func file_eolymp_community_group_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_group_proto_rawDescData
 }
 
-var file_eolymp_community_group_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_community_group_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_community_group_proto_goTypes = []any{
 	(*Group)(nil),       // 0: eolymp.community.Group
 	(*Group_Patch)(nil), // 1: eolymp.community.Group.Patch
 	nil,                 // 2: eolymp.community.Group.MetadataEntry
+	nil,                 // 3: eolymp.community.Group.Patch.MetadataEntry
 }
 var file_eolymp_community_group_proto_depIdxs = []int32{
 	2, // 0: eolymp.community.Group.metadata:type_name -> eolymp.community.Group.MetadataEntry
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 1: eolymp.community.Group.Patch.metadata:type_name -> eolymp.community.Group.Patch.MetadataEntry
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_group_proto_init() }
@@ -284,7 +308,7 @@ func file_eolymp_community_group_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_group_proto_rawDesc), len(file_eolymp_community_group_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
