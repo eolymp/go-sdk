@@ -80,73 +80,6 @@ func (Vendor_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Vendor_Patch_Field int32
-
-const (
-	Vendor_Patch_UNKNONWN_FIELD Vendor_Patch_Field = 0
-	Vendor_Patch_FIRST_NAME     Vendor_Patch_Field = 1
-	Vendor_Patch_LAST_NAME      Vendor_Patch_Field = 2
-	Vendor_Patch_COMPANY_NAME   Vendor_Patch_Field = 3
-	Vendor_Patch_BIRTHDAY       Vendor_Patch_Field = 4
-	Vendor_Patch_EMAIL          Vendor_Patch_Field = 5
-	Vendor_Patch_PHONE          Vendor_Patch_Field = 6
-	Vendor_Patch_TAX_ID         Vendor_Patch_Field = 7
-	Vendor_Patch_ADDRESS        Vendor_Patch_Field = 8
-)
-
-// Enum value maps for Vendor_Patch_Field.
-var (
-	Vendor_Patch_Field_name = map[int32]string{
-		0: "UNKNONWN_FIELD",
-		1: "FIRST_NAME",
-		2: "LAST_NAME",
-		3: "COMPANY_NAME",
-		4: "BIRTHDAY",
-		5: "EMAIL",
-		6: "PHONE",
-		7: "TAX_ID",
-		8: "ADDRESS",
-	}
-	Vendor_Patch_Field_value = map[string]int32{
-		"UNKNONWN_FIELD": 0,
-		"FIRST_NAME":     1,
-		"LAST_NAME":      2,
-		"COMPANY_NAME":   3,
-		"BIRTHDAY":       4,
-		"EMAIL":          5,
-		"PHONE":          6,
-		"TAX_ID":         7,
-		"ADDRESS":        8,
-	}
-)
-
-func (x Vendor_Patch_Field) Enum() *Vendor_Patch_Field {
-	p := new(Vendor_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Vendor_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Vendor_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_vendor_vendor_proto_enumTypes[1].Descriptor()
-}
-
-func (Vendor_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_vendor_vendor_proto_enumTypes[1]
-}
-
-func (x Vendor_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Vendor_Patch_Field.Descriptor instead.
-func (Vendor_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 type Vendor struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -329,6 +262,19 @@ func (x *Vendor) GetUpdatedAt() *timestamppb.Timestamp {
 
 type Vendor_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	FirstName     *string                `protobuf:"bytes,10,opt,name=first_name,json=firstName,proto3,oneof" json:"first_name,omitempty"`
+	LastName      *string                `protobuf:"bytes,11,opt,name=last_name,json=lastName,proto3,oneof" json:"last_name,omitempty"`
+	Birthday      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=birthday,proto3" json:"birthday,omitempty"` // a message field already carries presence
+	Email         *string                `protobuf:"bytes,13,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	Phone         *string                `protobuf:"bytes,14,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
+	TaxId         *string                `protobuf:"bytes,15,opt,name=tax_id,json=taxId,proto3,oneof" json:"tax_id,omitempty"`
+	CompanyName   *string                `protobuf:"bytes,16,opt,name=company_name,json=companyName,proto3,oneof" json:"company_name,omitempty"`
+	Country       *string                `protobuf:"bytes,200,opt,name=country,proto3,oneof" json:"country,omitempty"`
+	State         *string                `protobuf:"bytes,201,opt,name=state,proto3,oneof" json:"state,omitempty"`
+	PostalCode    *string                `protobuf:"bytes,202,opt,name=postal_code,json=postalCode,proto3,oneof" json:"postal_code,omitempty"`
+	City          *string                `protobuf:"bytes,203,opt,name=city,proto3,oneof" json:"city,omitempty"`
+	Line1         *string                `protobuf:"bytes,210,opt,name=line1,proto3,oneof" json:"line1,omitempty"`
+	Line2         *string                `protobuf:"bytes,211,opt,name=line2,proto3,oneof" json:"line2,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -363,11 +309,102 @@ func (*Vendor_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_vendor_proto_rawDescGZIP(), []int{0, 0}
 }
 
+func (x *Vendor_Patch) GetFirstName() string {
+	if x != nil && x.FirstName != nil {
+		return *x.FirstName
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetLastName() string {
+	if x != nil && x.LastName != nil {
+		return *x.LastName
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetBirthday() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Birthday
+	}
+	return nil
+}
+
+func (x *Vendor_Patch) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetPhone() string {
+	if x != nil && x.Phone != nil {
+		return *x.Phone
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetTaxId() string {
+	if x != nil && x.TaxId != nil {
+		return *x.TaxId
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetCompanyName() string {
+	if x != nil && x.CompanyName != nil {
+		return *x.CompanyName
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetCountry() string {
+	if x != nil && x.Country != nil {
+		return *x.Country
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetState() string {
+	if x != nil && x.State != nil {
+		return *x.State
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetPostalCode() string {
+	if x != nil && x.PostalCode != nil {
+		return *x.PostalCode
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetCity() string {
+	if x != nil && x.City != nil {
+		return *x.City
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetLine1() string {
+	if x != nil && x.Line1 != nil {
+		return *x.Line1
+	}
+	return ""
+}
+
+func (x *Vendor_Patch) GetLine2() string {
+	if x != nil && x.Line2 != nil {
+		return *x.Line2
+	}
+	return ""
+}
+
 var File_eolymp_vendor_vendor_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_vendor_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/vendor/vendor.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcd\x06\n" +
+	"\x1aeolymp/vendor/vendor.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfe\t\n" +
 	"\x06Vendor\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x124\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1c.eolymp.vendor.Vendor.StatusR\x06status\x12#\n" +
@@ -391,20 +428,39 @@ const file_eolymp_vendor_vendor_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\x93\x01\n" +
-	"\x05Patch\"\x89\x01\n" +
-	"\x05Field\x12\x12\n" +
-	"\x0eUNKNONWN_FIELD\x10\x00\x12\x0e\n" +
+	"updated_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xc4\x04\n" +
+	"\x05Patch\x12\"\n" +
 	"\n" +
-	"FIRST_NAME\x10\x01\x12\r\n" +
-	"\tLAST_NAME\x10\x02\x12\x10\n" +
-	"\fCOMPANY_NAME\x10\x03\x12\f\n" +
-	"\bBIRTHDAY\x10\x04\x12\t\n" +
-	"\x05EMAIL\x10\x05\x12\t\n" +
-	"\x05PHONE\x10\x06\x12\n" +
+	"first_name\x18\n" +
+	" \x01(\tH\x00R\tfirstName\x88\x01\x01\x12 \n" +
+	"\tlast_name\x18\v \x01(\tH\x01R\blastName\x88\x01\x01\x126\n" +
+	"\bbirthday\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x12\x19\n" +
+	"\x05email\x18\r \x01(\tH\x02R\x05email\x88\x01\x01\x12\x19\n" +
+	"\x05phone\x18\x0e \x01(\tH\x03R\x05phone\x88\x01\x01\x12\x1a\n" +
+	"\x06tax_id\x18\x0f \x01(\tH\x04R\x05taxId\x88\x01\x01\x12&\n" +
+	"\fcompany_name\x18\x10 \x01(\tH\x05R\vcompanyName\x88\x01\x01\x12\x1e\n" +
+	"\acountry\x18\xc8\x01 \x01(\tH\x06R\acountry\x88\x01\x01\x12\x1a\n" +
+	"\x05state\x18\xc9\x01 \x01(\tH\aR\x05state\x88\x01\x01\x12%\n" +
+	"\vpostal_code\x18\xca\x01 \x01(\tH\bR\n" +
+	"postalCode\x88\x01\x01\x12\x18\n" +
+	"\x04city\x18\xcb\x01 \x01(\tH\tR\x04city\x88\x01\x01\x12\x1a\n" +
+	"\x05line1\x18\xd2\x01 \x01(\tH\n" +
+	"R\x05line1\x88\x01\x01\x12\x1a\n" +
+	"\x05line2\x18\xd3\x01 \x01(\tH\vR\x05line2\x88\x01\x01B\r\n" +
+	"\v_first_nameB\f\n" +
 	"\n" +
-	"\x06TAX_ID\x10\a\x12\v\n" +
-	"\aADDRESS\x10\b\"[\n" +
+	"_last_nameB\b\n" +
+	"\x06_emailB\b\n" +
+	"\x06_phoneB\t\n" +
+	"\a_tax_idB\x0f\n" +
+	"\r_company_nameB\n" +
+	"\n" +
+	"\b_countryB\b\n" +
+	"\x06_stateB\x0e\n" +
+	"\f_postal_codeB\a\n" +
+	"\x05_cityB\b\n" +
+	"\x06_line1B\b\n" +
+	"\x06_line2\"[\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
 	"\x05DRAFT\x10\x01\x12\n" +
@@ -427,25 +483,25 @@ func file_eolymp_vendor_vendor_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_vendor_proto_rawDescData
 }
 
-var file_eolymp_vendor_vendor_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_vendor_vendor_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_vendor_vendor_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_vendor_vendor_proto_goTypes = []any{
 	(Vendor_Status)(0),            // 0: eolymp.vendor.Vendor.Status
-	(Vendor_Patch_Field)(0),       // 1: eolymp.vendor.Vendor.Patch.Field
-	(*Vendor)(nil),                // 2: eolymp.vendor.Vendor
-	(*Vendor_Patch)(nil),          // 3: eolymp.vendor.Vendor.Patch
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Vendor)(nil),                // 1: eolymp.vendor.Vendor
+	(*Vendor_Patch)(nil),          // 2: eolymp.vendor.Vendor.Patch
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_vendor_vendor_proto_depIdxs = []int32{
 	0, // 0: eolymp.vendor.Vendor.status:type_name -> eolymp.vendor.Vendor.Status
-	4, // 1: eolymp.vendor.Vendor.birthday:type_name -> google.protobuf.Timestamp
-	4, // 2: eolymp.vendor.Vendor.created_at:type_name -> google.protobuf.Timestamp
-	4, // 3: eolymp.vendor.Vendor.updated_at:type_name -> google.protobuf.Timestamp
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3, // 1: eolymp.vendor.Vendor.birthday:type_name -> google.protobuf.Timestamp
+	3, // 2: eolymp.vendor.Vendor.created_at:type_name -> google.protobuf.Timestamp
+	3, // 3: eolymp.vendor.Vendor.updated_at:type_name -> google.protobuf.Timestamp
+	3, // 4: eolymp.vendor.Vendor.Patch.birthday:type_name -> google.protobuf.Timestamp
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_vendor_proto_init() }
@@ -453,12 +509,13 @@ func file_eolymp_vendor_vendor_proto_init() {
 	if File_eolymp_vendor_vendor_proto != nil {
 		return
 	}
+	file_eolymp_vendor_vendor_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_vendor_proto_rawDesc), len(file_eolymp_vendor_vendor_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

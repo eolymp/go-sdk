@@ -113,9 +113,8 @@ func (x *CreateSpaceOutput) GetSpaceId() string {
 
 type UpdateSpaceInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Space_Patch_Field    `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.universe.Space_Patch_Field" json:"patch,omitempty"`
 	SpaceId       string                 `protobuf:"bytes,1,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
-	Space         *Space                 `protobuf:"bytes,2,opt,name=space,proto3" json:"space,omitempty"`
+	Space         *Space_Patch           `protobuf:"bytes,4,opt,name=space,proto3" json:"space,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -150,13 +149,6 @@ func (*UpdateSpaceInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateSpaceInput) GetPatch() []Space_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateSpaceInput) GetSpaceId() string {
 	if x != nil {
 		return x.SpaceId
@@ -164,7 +156,7 @@ func (x *UpdateSpaceInput) GetSpaceId() string {
 	return ""
 }
 
-func (x *UpdateSpaceInput) GetSpace() *Space {
+func (x *UpdateSpaceInput) GetSpace() *Space_Patch {
 	if x != nil {
 		return x.Space
 	}
@@ -869,11 +861,10 @@ const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\x10CreateSpaceInput\x12,\n" +
 	"\x05space\x18\x01 \x01(\v2\x16.eolymp.universe.SpaceR\x05space\".\n" +
 	"\x11CreateSpaceOutput\x12\x19\n" +
-	"\bspace_id\x18\x01 \x01(\tR\aspaceId\"\x95\x01\n" +
-	"\x10UpdateSpaceInput\x128\n" +
-	"\x05patch\x18\x03 \x03(\x0e2\".eolymp.universe.Space.Patch.FieldR\x05patch\x12\x19\n" +
-	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12,\n" +
-	"\x05space\x18\x02 \x01(\v2\x16.eolymp.universe.SpaceR\x05space\"\x13\n" +
+	"\bspace_id\x18\x01 \x01(\tR\aspaceId\"m\n" +
+	"\x10UpdateSpaceInput\x12\x19\n" +
+	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x122\n" +
+	"\x05space\x18\x04 \x01(\v2\x1c.eolymp.universe.Space.PatchR\x05spaceJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x13\n" +
 	"\x11UpdateSpaceOutput\"-\n" +
 	"\x10DeleteSpaceInput\x12\x19\n" +
 	"\bspace_id\x18\x01 \x01(\tR\aspaceId\"\x13\n" +
@@ -992,7 +983,7 @@ var file_eolymp_universe_space_service_proto_goTypes = []any{
 	(*ListSpacesOutput)(nil),           // 15: eolymp.universe.ListSpacesOutput
 	(*ListSpacesInput_Filter)(nil),     // 16: eolymp.universe.ListSpacesInput.Filter
 	(*Space)(nil),                      // 17: eolymp.universe.Space
-	(Space_Patch_Field)(0),             // 18: eolymp.universe.Space.Patch.Field
+	(*Space_Patch)(nil),                // 18: eolymp.universe.Space.Patch
 	(Space_Extra_Field)(0),             // 19: eolymp.universe.Space.Extra.Field
 	(*Quota)(nil),                      // 20: eolymp.universe.Quota
 	(*wellknown.ExpressionID)(nil),     // 21: eolymp.wellknown.ExpressionID
@@ -1001,38 +992,37 @@ var file_eolymp_universe_space_service_proto_goTypes = []any{
 }
 var file_eolymp_universe_space_service_proto_depIdxs = []int32{
 	17, // 0: eolymp.universe.CreateSpaceInput.space:type_name -> eolymp.universe.Space
-	18, // 1: eolymp.universe.UpdateSpaceInput.patch:type_name -> eolymp.universe.Space.Patch.Field
-	17, // 2: eolymp.universe.UpdateSpaceInput.space:type_name -> eolymp.universe.Space
-	19, // 3: eolymp.universe.LookupSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
-	17, // 4: eolymp.universe.LookupSpaceOutput.space:type_name -> eolymp.universe.Space
-	19, // 5: eolymp.universe.DescribeSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
-	17, // 6: eolymp.universe.DescribeSpaceOutput.space:type_name -> eolymp.universe.Space
-	20, // 7: eolymp.universe.DescribeQuotaOutput.quota:type_name -> eolymp.universe.Quota
-	20, // 8: eolymp.universe.UpdateQuotaInput.quota:type_name -> eolymp.universe.Quota
-	16, // 9: eolymp.universe.ListSpacesInput.filters:type_name -> eolymp.universe.ListSpacesInput.Filter
-	19, // 10: eolymp.universe.ListSpacesInput.extra:type_name -> eolymp.universe.Space.Extra.Field
-	17, // 11: eolymp.universe.ListSpacesOutput.items:type_name -> eolymp.universe.Space
-	21, // 12: eolymp.universe.ListSpacesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	21, // 13: eolymp.universe.ListSpacesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionID
-	22, // 14: eolymp.universe.ListSpacesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	23, // 15: eolymp.universe.ListSpacesInput.Filter.own:type_name -> eolymp.wellknown.ExpressionBool
-	6,  // 16: eolymp.universe.SpaceService.LookupSpace:input_type -> eolymp.universe.LookupSpaceInput
-	0,  // 17: eolymp.universe.SpaceService.CreateSpace:input_type -> eolymp.universe.CreateSpaceInput
-	2,  // 18: eolymp.universe.SpaceService.UpdateSpace:input_type -> eolymp.universe.UpdateSpaceInput
-	4,  // 19: eolymp.universe.SpaceService.DeleteSpace:input_type -> eolymp.universe.DeleteSpaceInput
-	8,  // 20: eolymp.universe.SpaceService.DescribeSpace:input_type -> eolymp.universe.DescribeSpaceInput
-	14, // 21: eolymp.universe.SpaceService.ListSpaces:input_type -> eolymp.universe.ListSpacesInput
-	7,  // 22: eolymp.universe.SpaceService.LookupSpace:output_type -> eolymp.universe.LookupSpaceOutput
-	1,  // 23: eolymp.universe.SpaceService.CreateSpace:output_type -> eolymp.universe.CreateSpaceOutput
-	3,  // 24: eolymp.universe.SpaceService.UpdateSpace:output_type -> eolymp.universe.UpdateSpaceOutput
-	5,  // 25: eolymp.universe.SpaceService.DeleteSpace:output_type -> eolymp.universe.DeleteSpaceOutput
-	9,  // 26: eolymp.universe.SpaceService.DescribeSpace:output_type -> eolymp.universe.DescribeSpaceOutput
-	15, // 27: eolymp.universe.SpaceService.ListSpaces:output_type -> eolymp.universe.ListSpacesOutput
-	22, // [22:28] is the sub-list for method output_type
-	16, // [16:22] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	18, // 1: eolymp.universe.UpdateSpaceInput.space:type_name -> eolymp.universe.Space.Patch
+	19, // 2: eolymp.universe.LookupSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
+	17, // 3: eolymp.universe.LookupSpaceOutput.space:type_name -> eolymp.universe.Space
+	19, // 4: eolymp.universe.DescribeSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
+	17, // 5: eolymp.universe.DescribeSpaceOutput.space:type_name -> eolymp.universe.Space
+	20, // 6: eolymp.universe.DescribeQuotaOutput.quota:type_name -> eolymp.universe.Quota
+	20, // 7: eolymp.universe.UpdateQuotaInput.quota:type_name -> eolymp.universe.Quota
+	16, // 8: eolymp.universe.ListSpacesInput.filters:type_name -> eolymp.universe.ListSpacesInput.Filter
+	19, // 9: eolymp.universe.ListSpacesInput.extra:type_name -> eolymp.universe.Space.Extra.Field
+	17, // 10: eolymp.universe.ListSpacesOutput.items:type_name -> eolymp.universe.Space
+	21, // 11: eolymp.universe.ListSpacesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	21, // 12: eolymp.universe.ListSpacesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionID
+	22, // 13: eolymp.universe.ListSpacesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	23, // 14: eolymp.universe.ListSpacesInput.Filter.own:type_name -> eolymp.wellknown.ExpressionBool
+	6,  // 15: eolymp.universe.SpaceService.LookupSpace:input_type -> eolymp.universe.LookupSpaceInput
+	0,  // 16: eolymp.universe.SpaceService.CreateSpace:input_type -> eolymp.universe.CreateSpaceInput
+	2,  // 17: eolymp.universe.SpaceService.UpdateSpace:input_type -> eolymp.universe.UpdateSpaceInput
+	4,  // 18: eolymp.universe.SpaceService.DeleteSpace:input_type -> eolymp.universe.DeleteSpaceInput
+	8,  // 19: eolymp.universe.SpaceService.DescribeSpace:input_type -> eolymp.universe.DescribeSpaceInput
+	14, // 20: eolymp.universe.SpaceService.ListSpaces:input_type -> eolymp.universe.ListSpacesInput
+	7,  // 21: eolymp.universe.SpaceService.LookupSpace:output_type -> eolymp.universe.LookupSpaceOutput
+	1,  // 22: eolymp.universe.SpaceService.CreateSpace:output_type -> eolymp.universe.CreateSpaceOutput
+	3,  // 23: eolymp.universe.SpaceService.UpdateSpace:output_type -> eolymp.universe.UpdateSpaceOutput
+	5,  // 24: eolymp.universe.SpaceService.DeleteSpace:output_type -> eolymp.universe.DeleteSpaceOutput
+	9,  // 25: eolymp.universe.SpaceService.DescribeSpace:output_type -> eolymp.universe.DescribeSpaceOutput
+	15, // 26: eolymp.universe.SpaceService.ListSpaces:output_type -> eolymp.universe.ListSpacesOutput
+	21, // [21:27] is the sub-list for method output_type
+	15, // [15:21] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_universe_space_service_proto_init() }

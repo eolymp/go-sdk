@@ -202,9 +202,8 @@ func (x *CreateProductOutput) GetProductId() string {
 
 type UpdateProductInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Product_Patch_Field  `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.commerce.Product_Patch_Field" json:"patch,omitempty"`
 	ProductId     string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	Product       *Product               `protobuf:"bytes,2,opt,name=product,proto3" json:"product,omitempty"`
+	Product       *Product_Patch         `protobuf:"bytes,4,opt,name=product,proto3" json:"product,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -239,13 +238,6 @@ func (*UpdateProductInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateProductInput) GetPatch() []Product_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateProductInput) GetProductId() string {
 	if x != nil {
 		return x.ProductId
@@ -253,7 +245,7 @@ func (x *UpdateProductInput) GetProductId() string {
 	return ""
 }
 
-func (x *UpdateProductInput) GetProduct() *Product {
+func (x *UpdateProductInput) GetProduct() *Product_Patch {
 	if x != nil {
 		return x.Product
 	}
@@ -739,11 +731,10 @@ func (x *CreateProductVariantOutput) GetVariantId() string {
 }
 
 type UpdateProductVariantInput struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Patch         []Product_Variant_Patch_Field `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.commerce.Product_Variant_Patch_Field" json:"patch,omitempty"`
-	ProductId     string                        `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	VariantId     string                        `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
-	Variant       *Product_Variant              `protobuf:"bytes,4,opt,name=variant,proto3" json:"variant,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	VariantId     string                 `protobuf:"bytes,3,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	Variant       *Product_Variant_Patch `protobuf:"bytes,5,opt,name=variant,proto3" json:"variant,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -778,13 +769,6 @@ func (*UpdateProductVariantInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_product_service_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *UpdateProductVariantInput) GetPatch() []Product_Variant_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateProductVariantInput) GetProductId() string {
 	if x != nil {
 		return x.ProductId
@@ -799,7 +783,7 @@ func (x *UpdateProductVariantInput) GetVariantId() string {
 	return ""
 }
 
-func (x *UpdateProductVariantInput) GetVariant() *Product_Variant {
+func (x *UpdateProductVariantInput) GetVariant() *Product_Variant_Patch {
 	if x != nil {
 		return x.Variant
 	}
@@ -1309,12 +1293,11 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\aproduct\x18\x01 \x01(\v2\x18.eolymp.commerce.ProductR\aproduct\"4\n" +
 	"\x13CreateProductOutput\x12\x1d\n" +
 	"\n" +
-	"product_id\x18\x01 \x01(\tR\tproductId\"\xa3\x01\n" +
-	"\x12UpdateProductInput\x12:\n" +
-	"\x05patch\x18\x03 \x03(\x0e2$.eolymp.commerce.Product.Patch.FieldR\x05patch\x12\x1d\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\"y\n" +
+	"\x12UpdateProductInput\x12\x1d\n" +
 	"\n" +
-	"product_id\x18\x01 \x01(\tR\tproductId\x122\n" +
-	"\aproduct\x18\x02 \x01(\v2\x18.eolymp.commerce.ProductR\aproduct\"\x15\n" +
+	"product_id\x18\x01 \x01(\tR\tproductId\x128\n" +
+	"\aproduct\x18\x04 \x01(\v2\x1e.eolymp.commerce.Product.PatchR\aproductJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x15\n" +
 	"\x13UpdateProductOutput\"3\n" +
 	"\x12DeleteProductInput\x12\x1d\n" +
 	"\n" +
@@ -1355,14 +1338,13 @@ const file_eolymp_commerce_product_service_proto_rawDesc = "" +
 	"\avariant\x18\x02 \x01(\v2 .eolymp.commerce.Product.VariantR\avariant\";\n" +
 	"\x1aCreateProductVariantOutput\x12\x1d\n" +
 	"\n" +
-	"variant_id\x18\x01 \x01(\tR\tvariantId\"\xd9\x01\n" +
-	"\x19UpdateProductVariantInput\x12B\n" +
-	"\x05patch\x18\x01 \x03(\x0e2,.eolymp.commerce.Product.Variant.Patch.FieldR\x05patch\x12\x1d\n" +
+	"variant_id\x18\x01 \x01(\tR\tvariantId\"\xa7\x01\n" +
+	"\x19UpdateProductVariantInput\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x02 \x01(\tR\tproductId\x12\x1d\n" +
 	"\n" +
-	"variant_id\x18\x03 \x01(\tR\tvariantId\x12:\n" +
-	"\avariant\x18\x04 \x01(\v2 .eolymp.commerce.Product.VariantR\avariant\"\x1c\n" +
+	"variant_id\x18\x03 \x01(\tR\tvariantId\x12@\n" +
+	"\avariant\x18\x05 \x01(\v2&.eolymp.commerce.Product.Variant.PatchR\avariantJ\x04\b\x01\x10\x02J\x04\b\x04\x10\x05\"\x1c\n" +
 	"\x1aUpdateProductVariantOutput\"Y\n" +
 	"\x19DeleteProductVariantInput\x12\x1d\n" +
 	"\n" +
@@ -1520,11 +1502,11 @@ var file_eolymp_commerce_product_service_proto_goTypes = []any{
 	(*ListProductsInput_Filter)(nil),        // 22: eolymp.commerce.ListProductsInput.Filter
 	(*ListProductVariantsInput_Filter)(nil), // 23: eolymp.commerce.ListProductVariantsInput.Filter
 	(*Product)(nil),                         // 24: eolymp.commerce.Product
-	(Product_Patch_Field)(0),                // 25: eolymp.commerce.Product.Patch.Field
+	(*Product_Patch)(nil),                   // 25: eolymp.commerce.Product.Patch
 	(Product_Extra_Field)(0),                // 26: eolymp.commerce.Product.Extra.Field
 	(wellknown.Direction)(0),                // 27: eolymp.wellknown.Direction
 	(*Product_Variant)(nil),                 // 28: eolymp.commerce.Product.Variant
-	(Product_Variant_Patch_Field)(0),        // 29: eolymp.commerce.Product.Variant.Patch.Field
+	(*Product_Variant_Patch)(nil),           // 29: eolymp.commerce.Product.Variant.Patch
 	(*wellknown.ExpressionID)(nil),          // 30: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil),      // 31: eolymp.wellknown.ExpressionString
 	(*wellknown.ExpressionBool)(nil),        // 32: eolymp.wellknown.ExpressionBool
@@ -1532,55 +1514,53 @@ var file_eolymp_commerce_product_service_proto_goTypes = []any{
 }
 var file_eolymp_commerce_product_service_proto_depIdxs = []int32{
 	24, // 0: eolymp.commerce.CreateProductInput.product:type_name -> eolymp.commerce.Product
-	25, // 1: eolymp.commerce.UpdateProductInput.patch:type_name -> eolymp.commerce.Product.Patch.Field
-	24, // 2: eolymp.commerce.UpdateProductInput.product:type_name -> eolymp.commerce.Product
-	26, // 3: eolymp.commerce.DescribeProductInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
-	24, // 4: eolymp.commerce.DescribeProductOutput.product:type_name -> eolymp.commerce.Product
-	22, // 5: eolymp.commerce.ListProductsInput.filters:type_name -> eolymp.commerce.ListProductsInput.Filter
-	0,  // 6: eolymp.commerce.ListProductsInput.sort:type_name -> eolymp.commerce.ListProductsInput.Sortable
-	27, // 7: eolymp.commerce.ListProductsInput.order:type_name -> eolymp.wellknown.Direction
-	26, // 8: eolymp.commerce.ListProductsInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
-	24, // 9: eolymp.commerce.ListProductsOutput.items:type_name -> eolymp.commerce.Product
-	28, // 10: eolymp.commerce.CreateProductVariantInput.variant:type_name -> eolymp.commerce.Product.Variant
-	29, // 11: eolymp.commerce.UpdateProductVariantInput.patch:type_name -> eolymp.commerce.Product.Variant.Patch.Field
-	28, // 12: eolymp.commerce.UpdateProductVariantInput.variant:type_name -> eolymp.commerce.Product.Variant
-	28, // 13: eolymp.commerce.DescribeProductVariantOutput.variant:type_name -> eolymp.commerce.Product.Variant
-	23, // 14: eolymp.commerce.ListProductVariantsInput.filters:type_name -> eolymp.commerce.ListProductVariantsInput.Filter
-	1,  // 15: eolymp.commerce.ListProductVariantsInput.sort:type_name -> eolymp.commerce.ListProductVariantsInput.Sortable
-	27, // 16: eolymp.commerce.ListProductVariantsInput.order:type_name -> eolymp.wellknown.Direction
-	28, // 17: eolymp.commerce.ListProductVariantsOutput.items:type_name -> eolymp.commerce.Product.Variant
-	30, // 18: eolymp.commerce.ListProductsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 19: eolymp.commerce.ListProductsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	32, // 20: eolymp.commerce.ListProductsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
-	33, // 21: eolymp.commerce.ListProductsInput.Filter.price:type_name -> eolymp.wellknown.ExpressionInt
-	30, // 22: eolymp.commerce.ListProductVariantsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 23: eolymp.commerce.ListProductVariantsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	32, // 24: eolymp.commerce.ListProductVariantsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
-	2,  // 25: eolymp.commerce.ProductService.CreateProduct:input_type -> eolymp.commerce.CreateProductInput
-	4,  // 26: eolymp.commerce.ProductService.UpdateProduct:input_type -> eolymp.commerce.UpdateProductInput
-	6,  // 27: eolymp.commerce.ProductService.DeleteProduct:input_type -> eolymp.commerce.DeleteProductInput
-	8,  // 28: eolymp.commerce.ProductService.DescribeProduct:input_type -> eolymp.commerce.DescribeProductInput
-	10, // 29: eolymp.commerce.ProductService.ListProducts:input_type -> eolymp.commerce.ListProductsInput
-	12, // 30: eolymp.commerce.ProductService.CreateProductVariant:input_type -> eolymp.commerce.CreateProductVariantInput
-	14, // 31: eolymp.commerce.ProductService.UpdateProductVariant:input_type -> eolymp.commerce.UpdateProductVariantInput
-	16, // 32: eolymp.commerce.ProductService.DeleteProductVariant:input_type -> eolymp.commerce.DeleteProductVariantInput
-	18, // 33: eolymp.commerce.ProductService.DescribeProductVariant:input_type -> eolymp.commerce.DescribeProductVariantInput
-	20, // 34: eolymp.commerce.ProductService.ListProductVariants:input_type -> eolymp.commerce.ListProductVariantsInput
-	3,  // 35: eolymp.commerce.ProductService.CreateProduct:output_type -> eolymp.commerce.CreateProductOutput
-	5,  // 36: eolymp.commerce.ProductService.UpdateProduct:output_type -> eolymp.commerce.UpdateProductOutput
-	7,  // 37: eolymp.commerce.ProductService.DeleteProduct:output_type -> eolymp.commerce.DeleteProductOutput
-	9,  // 38: eolymp.commerce.ProductService.DescribeProduct:output_type -> eolymp.commerce.DescribeProductOutput
-	11, // 39: eolymp.commerce.ProductService.ListProducts:output_type -> eolymp.commerce.ListProductsOutput
-	13, // 40: eolymp.commerce.ProductService.CreateProductVariant:output_type -> eolymp.commerce.CreateProductVariantOutput
-	15, // 41: eolymp.commerce.ProductService.UpdateProductVariant:output_type -> eolymp.commerce.UpdateProductVariantOutput
-	17, // 42: eolymp.commerce.ProductService.DeleteProductVariant:output_type -> eolymp.commerce.DeleteProductVariantOutput
-	19, // 43: eolymp.commerce.ProductService.DescribeProductVariant:output_type -> eolymp.commerce.DescribeProductVariantOutput
-	21, // 44: eolymp.commerce.ProductService.ListProductVariants:output_type -> eolymp.commerce.ListProductVariantsOutput
-	35, // [35:45] is the sub-list for method output_type
-	25, // [25:35] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	25, // 1: eolymp.commerce.UpdateProductInput.product:type_name -> eolymp.commerce.Product.Patch
+	26, // 2: eolymp.commerce.DescribeProductInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
+	24, // 3: eolymp.commerce.DescribeProductOutput.product:type_name -> eolymp.commerce.Product
+	22, // 4: eolymp.commerce.ListProductsInput.filters:type_name -> eolymp.commerce.ListProductsInput.Filter
+	0,  // 5: eolymp.commerce.ListProductsInput.sort:type_name -> eolymp.commerce.ListProductsInput.Sortable
+	27, // 6: eolymp.commerce.ListProductsInput.order:type_name -> eolymp.wellknown.Direction
+	26, // 7: eolymp.commerce.ListProductsInput.extra:type_name -> eolymp.commerce.Product.Extra.Field
+	24, // 8: eolymp.commerce.ListProductsOutput.items:type_name -> eolymp.commerce.Product
+	28, // 9: eolymp.commerce.CreateProductVariantInput.variant:type_name -> eolymp.commerce.Product.Variant
+	29, // 10: eolymp.commerce.UpdateProductVariantInput.variant:type_name -> eolymp.commerce.Product.Variant.Patch
+	28, // 11: eolymp.commerce.DescribeProductVariantOutput.variant:type_name -> eolymp.commerce.Product.Variant
+	23, // 12: eolymp.commerce.ListProductVariantsInput.filters:type_name -> eolymp.commerce.ListProductVariantsInput.Filter
+	1,  // 13: eolymp.commerce.ListProductVariantsInput.sort:type_name -> eolymp.commerce.ListProductVariantsInput.Sortable
+	27, // 14: eolymp.commerce.ListProductVariantsInput.order:type_name -> eolymp.wellknown.Direction
+	28, // 15: eolymp.commerce.ListProductVariantsOutput.items:type_name -> eolymp.commerce.Product.Variant
+	30, // 16: eolymp.commerce.ListProductsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 17: eolymp.commerce.ListProductsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	32, // 18: eolymp.commerce.ListProductsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
+	33, // 19: eolymp.commerce.ListProductsInput.Filter.price:type_name -> eolymp.wellknown.ExpressionInt
+	30, // 20: eolymp.commerce.ListProductVariantsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 21: eolymp.commerce.ListProductVariantsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	32, // 22: eolymp.commerce.ListProductVariantsInput.Filter.out_of_stock:type_name -> eolymp.wellknown.ExpressionBool
+	2,  // 23: eolymp.commerce.ProductService.CreateProduct:input_type -> eolymp.commerce.CreateProductInput
+	4,  // 24: eolymp.commerce.ProductService.UpdateProduct:input_type -> eolymp.commerce.UpdateProductInput
+	6,  // 25: eolymp.commerce.ProductService.DeleteProduct:input_type -> eolymp.commerce.DeleteProductInput
+	8,  // 26: eolymp.commerce.ProductService.DescribeProduct:input_type -> eolymp.commerce.DescribeProductInput
+	10, // 27: eolymp.commerce.ProductService.ListProducts:input_type -> eolymp.commerce.ListProductsInput
+	12, // 28: eolymp.commerce.ProductService.CreateProductVariant:input_type -> eolymp.commerce.CreateProductVariantInput
+	14, // 29: eolymp.commerce.ProductService.UpdateProductVariant:input_type -> eolymp.commerce.UpdateProductVariantInput
+	16, // 30: eolymp.commerce.ProductService.DeleteProductVariant:input_type -> eolymp.commerce.DeleteProductVariantInput
+	18, // 31: eolymp.commerce.ProductService.DescribeProductVariant:input_type -> eolymp.commerce.DescribeProductVariantInput
+	20, // 32: eolymp.commerce.ProductService.ListProductVariants:input_type -> eolymp.commerce.ListProductVariantsInput
+	3,  // 33: eolymp.commerce.ProductService.CreateProduct:output_type -> eolymp.commerce.CreateProductOutput
+	5,  // 34: eolymp.commerce.ProductService.UpdateProduct:output_type -> eolymp.commerce.UpdateProductOutput
+	7,  // 35: eolymp.commerce.ProductService.DeleteProduct:output_type -> eolymp.commerce.DeleteProductOutput
+	9,  // 36: eolymp.commerce.ProductService.DescribeProduct:output_type -> eolymp.commerce.DescribeProductOutput
+	11, // 37: eolymp.commerce.ProductService.ListProducts:output_type -> eolymp.commerce.ListProductsOutput
+	13, // 38: eolymp.commerce.ProductService.CreateProductVariant:output_type -> eolymp.commerce.CreateProductVariantOutput
+	15, // 39: eolymp.commerce.ProductService.UpdateProductVariant:output_type -> eolymp.commerce.UpdateProductVariantOutput
+	17, // 40: eolymp.commerce.ProductService.DeleteProductVariant:output_type -> eolymp.commerce.DeleteProductVariantOutput
+	19, // 41: eolymp.commerce.ProductService.DescribeProductVariant:output_type -> eolymp.commerce.DescribeProductVariantOutput
+	21, // 42: eolymp.commerce.ProductService.ListProductVariants:output_type -> eolymp.commerce.ListProductVariantsOutput
+	33, // [33:43] is the sub-list for method output_type
+	23, // [23:33] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_product_service_proto_init() }

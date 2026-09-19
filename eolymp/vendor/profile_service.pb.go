@@ -104,8 +104,7 @@ func (x *DescribeProfileOutput) GetProfile() *Vendor {
 
 type UpdateProfileInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Vendor_Patch_Field   `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.vendor.Vendor_Patch_Field" json:"patch,omitempty"`
-	Profile       *Vendor                `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
+	Profile       *Vendor_Patch          `protobuf:"bytes,3,opt,name=profile,proto3" json:"profile,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -140,14 +139,7 @@ func (*UpdateProfileInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_profile_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateProfileInput) GetPatch() []Vendor_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
-func (x *UpdateProfileInput) GetProfile() *Vendor {
+func (x *UpdateProfileInput) GetProfile() *Vendor_Patch {
 	if x != nil {
 		return x.Profile
 	}
@@ -269,10 +261,9 @@ const file_eolymp_vendor_profile_service_proto_rawDesc = "" +
 	"#eolymp/vendor/profile_service.proto\x12\reolymp.vendor\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/vendor/vendor.proto\"\x16\n" +
 	"\x14DescribeProfileInput\"H\n" +
 	"\x15DescribeProfileOutput\x12/\n" +
-	"\aprofile\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"~\n" +
-	"\x12UpdateProfileInput\x127\n" +
-	"\x05patch\x18\x01 \x03(\x0e2!.eolymp.vendor.Vendor.Patch.FieldR\x05patch\x12/\n" +
-	"\aprofile\x18\x02 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"\x15\n" +
+	"\aprofile\x18\x01 \x01(\v2\x15.eolymp.vendor.VendorR\aprofile\"W\n" +
+	"\x12UpdateProfileInput\x125\n" +
+	"\aprofile\x18\x03 \x01(\v2\x1b.eolymp.vendor.Vendor.PatchR\aprofileJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03\"\x15\n" +
 	"\x13UpdateProfileOutput\"\x14\n" +
 	"\x12SubmitProfileInput\"\x15\n" +
 	"\x13SubmitProfileOutput2\x8b\x04\n" +
@@ -323,23 +314,22 @@ var file_eolymp_vendor_profile_service_proto_goTypes = []any{
 	(*SubmitProfileInput)(nil),    // 4: eolymp.vendor.SubmitProfileInput
 	(*SubmitProfileOutput)(nil),   // 5: eolymp.vendor.SubmitProfileOutput
 	(*Vendor)(nil),                // 6: eolymp.vendor.Vendor
-	(Vendor_Patch_Field)(0),       // 7: eolymp.vendor.Vendor.Patch.Field
+	(*Vendor_Patch)(nil),          // 7: eolymp.vendor.Vendor.Patch
 }
 var file_eolymp_vendor_profile_service_proto_depIdxs = []int32{
 	6, // 0: eolymp.vendor.DescribeProfileOutput.profile:type_name -> eolymp.vendor.Vendor
-	7, // 1: eolymp.vendor.UpdateProfileInput.patch:type_name -> eolymp.vendor.Vendor.Patch.Field
-	6, // 2: eolymp.vendor.UpdateProfileInput.profile:type_name -> eolymp.vendor.Vendor
-	0, // 3: eolymp.vendor.ProfileService.DescribeProfile:input_type -> eolymp.vendor.DescribeProfileInput
-	2, // 4: eolymp.vendor.ProfileService.UpdateProfile:input_type -> eolymp.vendor.UpdateProfileInput
-	4, // 5: eolymp.vendor.ProfileService.SubmitProfile:input_type -> eolymp.vendor.SubmitProfileInput
-	1, // 6: eolymp.vendor.ProfileService.DescribeProfile:output_type -> eolymp.vendor.DescribeProfileOutput
-	3, // 7: eolymp.vendor.ProfileService.UpdateProfile:output_type -> eolymp.vendor.UpdateProfileOutput
-	5, // 8: eolymp.vendor.ProfileService.SubmitProfile:output_type -> eolymp.vendor.SubmitProfileOutput
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	7, // 1: eolymp.vendor.UpdateProfileInput.profile:type_name -> eolymp.vendor.Vendor.Patch
+	0, // 2: eolymp.vendor.ProfileService.DescribeProfile:input_type -> eolymp.vendor.DescribeProfileInput
+	2, // 3: eolymp.vendor.ProfileService.UpdateProfile:input_type -> eolymp.vendor.UpdateProfileInput
+	4, // 4: eolymp.vendor.ProfileService.SubmitProfile:input_type -> eolymp.vendor.SubmitProfileInput
+	1, // 5: eolymp.vendor.ProfileService.DescribeProfile:output_type -> eolymp.vendor.DescribeProfileOutput
+	3, // 6: eolymp.vendor.ProfileService.UpdateProfile:output_type -> eolymp.vendor.UpdateProfileOutput
+	5, // 7: eolymp.vendor.ProfileService.SubmitProfile:output_type -> eolymp.vendor.SubmitProfileOutput
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_profile_service_proto_init() }

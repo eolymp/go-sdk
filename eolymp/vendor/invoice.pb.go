@@ -80,67 +80,6 @@ func (Invoice_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_vendor_invoice_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Invoice_Patch_Field int32
-
-const (
-	Invoice_Patch_UNKNOWN_FIELD  Invoice_Patch_Field = 0
-	Invoice_Patch_NUMBER         Invoice_Patch_Field = 1
-	Invoice_Patch_CURRENCY       Invoice_Patch_Field = 5
-	Invoice_Patch_INVOICE_DATE   Invoice_Patch_Field = 2
-	Invoice_Patch_DUE_DATE       Invoice_Patch_Field = 3
-	Invoice_Patch_LINES          Invoice_Patch_Field = 4
-	Invoice_Patch_PAYMENT_METHOD Invoice_Patch_Field = 6
-)
-
-// Enum value maps for Invoice_Patch_Field.
-var (
-	Invoice_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		1: "NUMBER",
-		5: "CURRENCY",
-		2: "INVOICE_DATE",
-		3: "DUE_DATE",
-		4: "LINES",
-		6: "PAYMENT_METHOD",
-	}
-	Invoice_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD":  0,
-		"NUMBER":         1,
-		"CURRENCY":       5,
-		"INVOICE_DATE":   2,
-		"DUE_DATE":       3,
-		"LINES":          4,
-		"PAYMENT_METHOD": 6,
-	}
-)
-
-func (x Invoice_Patch_Field) Enum() *Invoice_Patch_Field {
-	p := new(Invoice_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Invoice_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Invoice_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_vendor_invoice_proto_enumTypes[1].Descriptor()
-}
-
-func (Invoice_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_vendor_invoice_proto_enumTypes[1]
-}
-
-func (x Invoice_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Invoice_Patch_Field.Descriptor instead.
-func (Invoice_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_vendor_invoice_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
 type Invoice struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -374,9 +313,17 @@ func (x *Invoice_Line) GetTotalPrice() float32 {
 }
 
 type Invoice_Patch struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Number          *string                `protobuf:"bytes,2,opt,name=number,proto3,oneof" json:"number,omitempty"`
+	InvoiceDate     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=invoice_date,json=invoiceDate,proto3" json:"invoice_date,omitempty"` // a message field already carries presence
+	DueDate         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=due_date,json=dueDate,proto3" json:"due_date,omitempty"`
+	Lines           []*Invoice_Line        `protobuf:"bytes,5,rep,name=lines,proto3" json:"lines,omitempty"`
+	TaxAmount       *float32               `protobuf:"fixed32,7,opt,name=tax_amount,json=taxAmount,proto3,oneof" json:"tax_amount,omitempty"`
+	Currency        *string                `protobuf:"bytes,10,opt,name=currency,proto3,oneof" json:"currency,omitempty"`
+	StatusReason    *string                `protobuf:"bytes,12,opt,name=status_reason,json=statusReason,proto3,oneof" json:"status_reason,omitempty"`
+	PaymentMethodId *string                `protobuf:"bytes,14,opt,name=payment_method_id,json=paymentMethodId,proto3,oneof" json:"payment_method_id,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Invoice_Patch) Reset() {
@@ -409,11 +356,68 @@ func (*Invoice_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_vendor_invoice_proto_rawDescGZIP(), []int{0, 1}
 }
 
+func (x *Invoice_Patch) GetNumber() string {
+	if x != nil && x.Number != nil {
+		return *x.Number
+	}
+	return ""
+}
+
+func (x *Invoice_Patch) GetInvoiceDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.InvoiceDate
+	}
+	return nil
+}
+
+func (x *Invoice_Patch) GetDueDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.DueDate
+	}
+	return nil
+}
+
+func (x *Invoice_Patch) GetLines() []*Invoice_Line {
+	if x != nil {
+		return x.Lines
+	}
+	return nil
+}
+
+func (x *Invoice_Patch) GetTaxAmount() float32 {
+	if x != nil && x.TaxAmount != nil {
+		return *x.TaxAmount
+	}
+	return 0
+}
+
+func (x *Invoice_Patch) GetCurrency() string {
+	if x != nil && x.Currency != nil {
+		return *x.Currency
+	}
+	return ""
+}
+
+func (x *Invoice_Patch) GetStatusReason() string {
+	if x != nil && x.StatusReason != nil {
+		return *x.StatusReason
+	}
+	return ""
+}
+
+func (x *Invoice_Patch) GetPaymentMethodId() string {
+	if x != nil && x.PaymentMethodId != nil {
+		return *x.PaymentMethodId
+	}
+	return ""
+}
+
 var File_eolymp_vendor_invoice_proto protoreflect.FileDescriptor
 
 const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/vendor/invoice.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\a\n" +
+	"\x1beolymp/vendor/invoice.proto\x12\reolymp.vendor\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa5\n" +
+	"\n" +
 	"\aInvoice\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06number\x18\x02 \x01(\tR\x06number\x12\x1a\n" +
@@ -441,17 +445,23 @@ const file_eolymp_vendor_invoice_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1f\n" +
 	"\vtotal_price\x18\x04 \x01(\x02R\n" +
-	"totalPrice\x1a|\n" +
-	"\x05Patch\"s\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_FIELD\x10\x00\x12\n" +
+	"totalPrice\x1a\xbc\x03\n" +
+	"\x05Patch\x12\x1b\n" +
+	"\x06number\x18\x02 \x01(\tH\x00R\x06number\x88\x01\x01\x12=\n" +
+	"\finvoice_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\vinvoiceDate\x125\n" +
+	"\bdue_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\adueDate\x121\n" +
+	"\x05lines\x18\x05 \x03(\v2\x1b.eolymp.vendor.Invoice.LineR\x05lines\x12\"\n" +
 	"\n" +
-	"\x06NUMBER\x10\x01\x12\f\n" +
-	"\bCURRENCY\x10\x05\x12\x10\n" +
-	"\fINVOICE_DATE\x10\x02\x12\f\n" +
-	"\bDUE_DATE\x10\x03\x12\t\n" +
-	"\x05LINES\x10\x04\x12\x12\n" +
-	"\x0ePAYMENT_METHOD\x10\x06\"Z\n" +
+	"tax_amount\x18\a \x01(\x02H\x01R\ttaxAmount\x88\x01\x01\x12\x1f\n" +
+	"\bcurrency\x18\n" +
+	" \x01(\tH\x02R\bcurrency\x88\x01\x01\x12(\n" +
+	"\rstatus_reason\x18\f \x01(\tH\x03R\fstatusReason\x88\x01\x01\x12/\n" +
+	"\x11payment_method_id\x18\x0e \x01(\tH\x04R\x0fpaymentMethodId\x88\x01\x01B\t\n" +
+	"\a_numberB\r\n" +
+	"\v_tax_amountB\v\n" +
+	"\t_currencyB\x10\n" +
+	"\x0e_status_reasonB\x14\n" +
+	"\x12_payment_method_id\"Z\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
 	"\x05DRAFT\x10\x01\x12\v\n" +
@@ -472,28 +482,30 @@ func file_eolymp_vendor_invoice_proto_rawDescGZIP() []byte {
 	return file_eolymp_vendor_invoice_proto_rawDescData
 }
 
-var file_eolymp_vendor_invoice_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_vendor_invoice_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_vendor_invoice_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_vendor_invoice_proto_goTypes = []any{
 	(Invoice_Status)(0),           // 0: eolymp.vendor.Invoice.Status
-	(Invoice_Patch_Field)(0),      // 1: eolymp.vendor.Invoice.Patch.Field
-	(*Invoice)(nil),               // 2: eolymp.vendor.Invoice
-	(*Invoice_Line)(nil),          // 3: eolymp.vendor.Invoice.Line
-	(*Invoice_Patch)(nil),         // 4: eolymp.vendor.Invoice.Patch
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*Invoice)(nil),               // 1: eolymp.vendor.Invoice
+	(*Invoice_Line)(nil),          // 2: eolymp.vendor.Invoice.Line
+	(*Invoice_Patch)(nil),         // 3: eolymp.vendor.Invoice.Patch
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_vendor_invoice_proto_depIdxs = []int32{
 	0, // 0: eolymp.vendor.Invoice.status:type_name -> eolymp.vendor.Invoice.Status
-	5, // 1: eolymp.vendor.Invoice.invoice_date:type_name -> google.protobuf.Timestamp
-	5, // 2: eolymp.vendor.Invoice.due_date:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.vendor.Invoice.lines:type_name -> eolymp.vendor.Invoice.Line
-	5, // 4: eolymp.vendor.Invoice.created_at:type_name -> google.protobuf.Timestamp
-	5, // 5: eolymp.vendor.Invoice.updated_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	4, // 1: eolymp.vendor.Invoice.invoice_date:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.vendor.Invoice.due_date:type_name -> google.protobuf.Timestamp
+	2, // 3: eolymp.vendor.Invoice.lines:type_name -> eolymp.vendor.Invoice.Line
+	4, // 4: eolymp.vendor.Invoice.created_at:type_name -> google.protobuf.Timestamp
+	4, // 5: eolymp.vendor.Invoice.updated_at:type_name -> google.protobuf.Timestamp
+	4, // 6: eolymp.vendor.Invoice.Patch.invoice_date:type_name -> google.protobuf.Timestamp
+	4, // 7: eolymp.vendor.Invoice.Patch.due_date:type_name -> google.protobuf.Timestamp
+	2, // 8: eolymp.vendor.Invoice.Patch.lines:type_name -> eolymp.vendor.Invoice.Line
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_vendor_invoice_proto_init() }
@@ -501,12 +513,13 @@ func file_eolymp_vendor_invoice_proto_init() {
 	if File_eolymp_vendor_invoice_proto != nil {
 		return
 	}
+	file_eolymp_vendor_invoice_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_vendor_invoice_proto_rawDesc), len(file_eolymp_vendor_invoice_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
