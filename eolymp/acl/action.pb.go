@@ -24,52 +24,56 @@ const (
 type Action int32
 
 const (
-	Action_UNKNOWN_ACTION   Action = 0
-	Action_SPACE_LIST       Action = 10 // if set, the space will appear in the ListSpaces API, automatically assigned if user has any permissions in the space
-	Action_SPACE_READ       Action = 11
-	Action_SPACE_WRITE      Action = 13
-	Action_SPACE_DELETE     Action = 16
-	Action_BILLING_READ     Action = 12
-	Action_BILLING_WRITE    Action = 15
-	Action_POLICY_LIST      Action = 22 // allows to list policies, automatically assigned if user has read access to any of the policies
-	Action_POLICY_READ      Action = 20 // view/list space permissions
-	Action_POLICY_WRITE     Action = 21 // create/update space permissions
-	Action_PROBLEM_LIST     Action = 30 // allows to list problems, automatically assigned if user has read access to any of the problems
-	Action_PROBLEM_READ     Action = 31
-	Action_PROBLEM_WRITE    Action = 36
-	Action_PROBLEM_TESTING  Action = 34 // access to testing configuration, tests, solutions, submissions etc
-	Action_CONTEST_LIST     Action = 50 // allows to list contests, automatically assigned if user has read access to any of the contests
-	Action_CONTEST_READ     Action = 51
-	Action_CONTEST_WRITE    Action = 62
-	Action_CONTEST_ADMIT    Action = 63 // allows to admit participants to the contest (CONTEST_WRITE also allows to admit)
-	Action_TICKET_LIST      Action = 72 // allows to list tickets, automatically assigned if user has read access to any of the tickets
-	Action_TICKET_READ      Action = 70
-	Action_TICKET_WRITE     Action = 71 // modify tickets: reply, close etc
-	Action_MEMBER_LIST      Action = 90 // allows to list members, automatically assigned if user has read access to any of the members
-	Action_MEMBER_READ      Action = 91
-	Action_MEMBER_WRITE     Action = 92
-	Action_SCOREBOARD_LIST  Action = 110 // allows to list scoreboards, automatically assigned if user has read access to any of the scoreboards
-	Action_SCOREBOARD_READ  Action = 111
-	Action_SCOREBOARD_WRITE Action = 112
-	Action_CONTENT_LIST     Action = 122 // allows to list fragments, automatically assigned if user has read access to any of the fragments
-	Action_CONTENT_READ     Action = 120
-	Action_CONTENT_WRITE    Action = 121
-	Action_COURSE_LIST      Action = 133 // allows to list courses, automatically assigned if user has read access to any of the courses
-	Action_COURSE_READ      Action = 130
-	Action_COURSE_WRITE     Action = 131
-	Action_COURSE_ASSIGN    Action = 132 // limited write permission to add students to the course and manage assignments
-	Action_POST_LIST        Action = 142 // allows to list posts, automatically assigned if user has read access to any of the posts
-	Action_POST_READ        Action = 140
-	Action_POST_WRITE       Action = 141
-	Action_STORE_READ       Action = 150
-	Action_STORE_WRITE      Action = 151
-	Action_NEWSLETTER_LIST  Action = 162 // allows to list newsletters, automatically assigned if user has read access to any of the newsletters
-	Action_NEWSLETTER_READ  Action = 160
-	Action_NEWSLETTER_WRITE Action = 161
-	Action_AUTOMATION_LIST  Action = 172 // allows to list automation rules, automatically assigned if user has read access to automation
-	Action_AUTOMATION_READ  Action = 170 // view automation rules and execution logs
-	Action_AUTOMATION_WRITE Action = 171 // create/update/delete automation rules
-	Action_AUDIT_READ       Action = 180 // read the space audit log: who called what, from where, with which payload
+	Action_UNKNOWN_ACTION     Action = 0
+	Action_SPACE_LIST         Action = 10 // if set, the space will appear in the ListSpaces API, automatically assigned if user has any permissions in the space
+	Action_SPACE_READ         Action = 11
+	Action_SPACE_WRITE        Action = 13
+	Action_SPACE_DELETE       Action = 16
+	Action_BILLING_READ       Action = 12
+	Action_BILLING_WRITE      Action = 15
+	Action_POLICY_LIST        Action = 22 // allows to list policies, automatically assigned if user has read access to any of the policies
+	Action_POLICY_READ        Action = 20 // view/list space permissions
+	Action_POLICY_WRITE       Action = 21 // create/update space permissions
+	Action_PROBLEM_LIST       Action = 30 // allows to list problems, automatically assigned if user has read access to any of the problems
+	Action_PROBLEM_READ       Action = 31
+	Action_PROBLEM_WRITE      Action = 36
+	Action_PROBLEM_TESTING    Action = 34 // access to testing configuration, tests, solutions, submissions etc
+	Action_CONTEST_LIST       Action = 50 // allows to list contests, automatically assigned if user has read access to any of the contests
+	Action_CONTEST_READ       Action = 51
+	Action_CONTEST_WRITE      Action = 62
+	Action_CONTEST_ADMIT      Action = 63 // allows to admit participants to the contest (CONTEST_WRITE also allows to admit)
+	Action_TICKET_LIST        Action = 72 // allows to list tickets, automatically assigned if user has read access to any of the tickets
+	Action_TICKET_READ        Action = 70
+	Action_TICKET_WRITE       Action = 71 // modify tickets: reply, close etc
+	Action_MEMBER_LIST        Action = 90 // allows to list members, automatically assigned if user has read access to any of the members
+	Action_MEMBER_READ        Action = 91
+	Action_MEMBER_WRITE       Action = 92
+	Action_SCOREBOARD_LIST    Action = 110 // allows to list scoreboards, automatically assigned if user has read access to any of the scoreboards
+	Action_SCOREBOARD_READ    Action = 111
+	Action_SCOREBOARD_WRITE   Action = 112
+	Action_CONTENT_LIST       Action = 122 // allows to list fragments, automatically assigned if user has read access to any of the fragments
+	Action_CONTENT_READ       Action = 120
+	Action_CONTENT_WRITE      Action = 121
+	Action_COURSE_LIST        Action = 133 // allows to list courses, automatically assigned if user has read access to any of the courses
+	Action_COURSE_READ        Action = 130
+	Action_COURSE_WRITE       Action = 131
+	Action_COURSE_ASSIGN      Action = 132 // limited write permission to add students to the course and manage assignments
+	Action_POST_LIST          Action = 142 // allows to list posts, automatically assigned if user has read access to any of the posts
+	Action_POST_READ          Action = 140
+	Action_POST_WRITE         Action = 141
+	Action_STORE_READ         Action = 150
+	Action_STORE_WRITE        Action = 151
+	Action_NEWSLETTER_LIST    Action = 162 // allows to list newsletters, automatically assigned if user has read access to any of the newsletters
+	Action_NEWSLETTER_READ    Action = 160
+	Action_NEWSLETTER_WRITE   Action = 161
+	Action_AUTOMATION_LIST    Action = 172 // allows to list automation rules, automatically assigned if user has read access to automation
+	Action_AUTOMATION_READ    Action = 170 // view automation rules and execution logs
+	Action_AUTOMATION_WRITE   Action = 171 // create/update/delete automation rules
+	Action_AUDIT_READ         Action = 180 // read the space audit log: who called what, from where, with which payload
+	Action_INTEGRATION_READ   Action = 190 // view connections to external platforms, e.g. Discord
+	Action_INTEGRATION_WRITE  Action = 191 // connect and disconnect external platforms, e.g. Discord
+	Action_NOTIFICATION_READ  Action = 200 // view notification channels and messages
+	Action_NOTIFICATION_WRITE Action = 201 // manage notification channels, write and publish messages
 )
 
 // Enum value maps for Action.
@@ -121,54 +125,62 @@ var (
 		170: "AUTOMATION_READ",
 		171: "AUTOMATION_WRITE",
 		180: "AUDIT_READ",
+		190: "INTEGRATION_READ",
+		191: "INTEGRATION_WRITE",
+		200: "NOTIFICATION_READ",
+		201: "NOTIFICATION_WRITE",
 	}
 	Action_value = map[string]int32{
-		"UNKNOWN_ACTION":   0,
-		"SPACE_LIST":       10,
-		"SPACE_READ":       11,
-		"SPACE_WRITE":      13,
-		"SPACE_DELETE":     16,
-		"BILLING_READ":     12,
-		"BILLING_WRITE":    15,
-		"POLICY_LIST":      22,
-		"POLICY_READ":      20,
-		"POLICY_WRITE":     21,
-		"PROBLEM_LIST":     30,
-		"PROBLEM_READ":     31,
-		"PROBLEM_WRITE":    36,
-		"PROBLEM_TESTING":  34,
-		"CONTEST_LIST":     50,
-		"CONTEST_READ":     51,
-		"CONTEST_WRITE":    62,
-		"CONTEST_ADMIT":    63,
-		"TICKET_LIST":      72,
-		"TICKET_READ":      70,
-		"TICKET_WRITE":     71,
-		"MEMBER_LIST":      90,
-		"MEMBER_READ":      91,
-		"MEMBER_WRITE":     92,
-		"SCOREBOARD_LIST":  110,
-		"SCOREBOARD_READ":  111,
-		"SCOREBOARD_WRITE": 112,
-		"CONTENT_LIST":     122,
-		"CONTENT_READ":     120,
-		"CONTENT_WRITE":    121,
-		"COURSE_LIST":      133,
-		"COURSE_READ":      130,
-		"COURSE_WRITE":     131,
-		"COURSE_ASSIGN":    132,
-		"POST_LIST":        142,
-		"POST_READ":        140,
-		"POST_WRITE":       141,
-		"STORE_READ":       150,
-		"STORE_WRITE":      151,
-		"NEWSLETTER_LIST":  162,
-		"NEWSLETTER_READ":  160,
-		"NEWSLETTER_WRITE": 161,
-		"AUTOMATION_LIST":  172,
-		"AUTOMATION_READ":  170,
-		"AUTOMATION_WRITE": 171,
-		"AUDIT_READ":       180,
+		"UNKNOWN_ACTION":     0,
+		"SPACE_LIST":         10,
+		"SPACE_READ":         11,
+		"SPACE_WRITE":        13,
+		"SPACE_DELETE":       16,
+		"BILLING_READ":       12,
+		"BILLING_WRITE":      15,
+		"POLICY_LIST":        22,
+		"POLICY_READ":        20,
+		"POLICY_WRITE":       21,
+		"PROBLEM_LIST":       30,
+		"PROBLEM_READ":       31,
+		"PROBLEM_WRITE":      36,
+		"PROBLEM_TESTING":    34,
+		"CONTEST_LIST":       50,
+		"CONTEST_READ":       51,
+		"CONTEST_WRITE":      62,
+		"CONTEST_ADMIT":      63,
+		"TICKET_LIST":        72,
+		"TICKET_READ":        70,
+		"TICKET_WRITE":       71,
+		"MEMBER_LIST":        90,
+		"MEMBER_READ":        91,
+		"MEMBER_WRITE":       92,
+		"SCOREBOARD_LIST":    110,
+		"SCOREBOARD_READ":    111,
+		"SCOREBOARD_WRITE":   112,
+		"CONTENT_LIST":       122,
+		"CONTENT_READ":       120,
+		"CONTENT_WRITE":      121,
+		"COURSE_LIST":        133,
+		"COURSE_READ":        130,
+		"COURSE_WRITE":       131,
+		"COURSE_ASSIGN":      132,
+		"POST_LIST":          142,
+		"POST_READ":          140,
+		"POST_WRITE":         141,
+		"STORE_READ":         150,
+		"STORE_WRITE":        151,
+		"NEWSLETTER_LIST":    162,
+		"NEWSLETTER_READ":    160,
+		"NEWSLETTER_WRITE":   161,
+		"AUTOMATION_LIST":    172,
+		"AUTOMATION_READ":    170,
+		"AUTOMATION_WRITE":   171,
+		"AUDIT_READ":         180,
+		"INTEGRATION_READ":   190,
+		"INTEGRATION_WRITE":  191,
+		"NOTIFICATION_READ":  200,
+		"NOTIFICATION_WRITE": 201,
 	}
 )
 
@@ -204,7 +216,7 @@ var File_eolymp_acl_action_proto protoreflect.FileDescriptor
 const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/action.proto\x12\n" +
-	"eolymp.acl*\xe3\x06\n" +
+	"eolymp.acl*\xc3\a\n" +
 	"\x06Action\x12\x12\n" +
 	"\x0eUNKNOWN_ACTION\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -257,7 +269,11 @@ const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\x0fAUTOMATION_READ\x10\xaa\x01\x12\x15\n" +
 	"\x10AUTOMATION_WRITE\x10\xab\x01\x12\x0f\n" +
 	"\n" +
-	"AUDIT_READ\x10\xb4\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"AUDIT_READ\x10\xb4\x01\x12\x15\n" +
+	"\x10INTEGRATION_READ\x10\xbe\x01\x12\x16\n" +
+	"\x11INTEGRATION_WRITE\x10\xbf\x01\x12\x16\n" +
+	"\x11NOTIFICATION_READ\x10\xc8\x01\x12\x17\n" +
+	"\x12NOTIFICATION_WRITE\x10\xc9\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_action_proto_rawDescOnce sync.Once
