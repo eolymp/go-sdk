@@ -424,7 +424,7 @@ type Message_Patch struct {
 	Title           *string                `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty"`
 	Content         *ecm.Content           `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	ChannelIds      []string               `protobuf:"bytes,4,rep,name=channel_ids,json=channelIds,proto3" json:"channel_ids,omitempty"`
-	ClearChannelIds *bool                  `protobuf:"varint,8,opt,name=clear_channel_ids,json=clearChannelIds,proto3,oneof" json:"clear_channel_ids,omitempty"` // clears the channels, which an empty list cannot express
+	UnsetChannelIds *bool                  `protobuf:"varint,8,opt,name=unset_channel_ids,json=unsetChannelIds,proto3,oneof" json:"unset_channel_ids,omitempty"` // clears channel_ids, which an empty list cannot express
 	ScheduledAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
 	Unschedule      *bool                  `protobuf:"varint,6,opt,name=unschedule,proto3,oneof" json:"unschedule,omitempty"` // clears scheduled_at, which a nil timestamp cannot express
 	Reference       *string                `protobuf:"bytes,7,opt,name=reference,proto3,oneof" json:"reference,omitempty"`
@@ -483,9 +483,9 @@ func (x *Message_Patch) GetChannelIds() []string {
 	return nil
 }
 
-func (x *Message_Patch) GetClearChannelIds() bool {
-	if x != nil && x.ClearChannelIds != nil {
-		return *x.ClearChannelIds
+func (x *Message_Patch) GetUnsetChannelIds() bool {
+	if x != nil && x.UnsetChannelIds != nil {
+		return *x.UnsetChannelIds
 	}
 	return false
 }
@@ -555,14 +555,14 @@ const file_eolymp_notify_message_proto_rawDesc = "" +
 	"\acontent\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1f\n" +
 	"\vchannel_ids\x18\x04 \x03(\tR\n" +
 	"channelIds\x12/\n" +
-	"\x11clear_channel_ids\x18\b \x01(\bH\x01R\x0fclearChannelIds\x88\x01\x01\x12=\n" +
+	"\x11unset_channel_ids\x18\b \x01(\bH\x01R\x0funsetChannelIds\x88\x01\x01\x12=\n" +
 	"\fscheduled_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\x12#\n" +
 	"\n" +
 	"unschedule\x18\x06 \x01(\bH\x02R\n" +
 	"unschedule\x88\x01\x01\x12!\n" +
 	"\treference\x18\a \x01(\tH\x03R\treference\x88\x01\x01B\b\n" +
 	"\x06_titleB\x14\n" +
-	"\x12_clear_channel_idsB\r\n" +
+	"\x12_unset_channel_idsB\r\n" +
 	"\v_unscheduleB\f\n" +
 	"\n" +
 	"_reference\"\xca\x02\n" +
