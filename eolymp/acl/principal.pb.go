@@ -68,61 +68,6 @@ func (Principal_Role) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_acl_principal_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Principal_Patch_Field int32
-
-const (
-	Principal_Patch_UNKNOWN_PATCH Principal_Patch_Field = 0
-	Principal_Patch_ALL           Principal_Patch_Field = 1
-	Principal_Patch_NAME          Principal_Patch_Field = 2
-	Principal_Patch_ROLE          Principal_Patch_Field = 3
-	Principal_Patch_ALLOWS        Principal_Patch_Field = 4
-)
-
-// Enum value maps for Principal_Patch_Field.
-var (
-	Principal_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_PATCH",
-		1: "ALL",
-		2: "NAME",
-		3: "ROLE",
-		4: "ALLOWS",
-	}
-	Principal_Patch_Field_value = map[string]int32{
-		"UNKNOWN_PATCH": 0,
-		"ALL":           1,
-		"NAME":          2,
-		"ROLE":          3,
-		"ALLOWS":        4,
-	}
-)
-
-func (x Principal_Patch_Field) Enum() *Principal_Patch_Field {
-	p := new(Principal_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Principal_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Principal_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_acl_principal_proto_enumTypes[1].Descriptor()
-}
-
-func (Principal_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_acl_principal_proto_enumTypes[1]
-}
-
-func (x Principal_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Principal_Patch_Field.Descriptor instead.
-func (Principal_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_acl_principal_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 type Principal struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -201,6 +146,10 @@ func (x *Principal) GetAllows() []Action {
 
 type Principal_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Role          *Principal_Role        `protobuf:"varint,10,opt,name=role,proto3,enum=eolymp.acl.Principal_Role,oneof" json:"role,omitempty"`
+	Allows        []Action               `protobuf:"varint,11,rep,packed,name=allows,proto3,enum=eolymp.acl.Action" json:"allows,omitempty"`
+	Disallow      *bool                  `protobuf:"varint,12,opt,name=disallow,proto3,oneof" json:"disallow,omitempty"` // clears the permissions, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -235,27 +184,56 @@ func (*Principal_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_acl_principal_proto_rawDescGZIP(), []int{0, 0}
 }
 
+func (x *Principal_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Principal_Patch) GetRole() Principal_Role {
+	if x != nil && x.Role != nil {
+		return *x.Role
+	}
+	return Principal_UNKNOWN_ROLE
+}
+
+func (x *Principal_Patch) GetAllows() []Action {
+	if x != nil {
+		return x.Allows
+	}
+	return nil
+}
+
+func (x *Principal_Patch) GetDisallow() bool {
+	if x != nil && x.Disallow != nil {
+		return *x.Disallow
+	}
+	return false
+}
+
 var File_eolymp_acl_principal_proto protoreflect.FileDescriptor
 
 const file_eolymp_acl_principal_proto_rawDesc = "" +
 	"\n" +
 	"\x1aeolymp/acl/principal.proto\x12\n" +
-	"eolymp.acl\x1a\x17eolymp/acl/action.proto\x1a\x1ceolymp/annotations/mcp.proto\"\x9f\x02\n" +
+	"eolymp.acl\x1a\x17eolymp/acl/action.proto\x1a\x1ceolymp/annotations/mcp.proto\"\x95\x03\n" +
 	"\tPrincipal\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12.\n" +
 	"\x04role\x18\n" +
 	" \x01(\x0e2\x1a.eolymp.acl.Principal.RoleR\x04role\x12*\n" +
-	"\x06allows\x18\v \x03(\x0e2\x12.eolymp.acl.ActionR\x06allows\x1aL\n" +
-	"\x05Patch\"C\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_PATCH\x10\x00\x12\a\n" +
-	"\x03ALL\x10\x01\x12\b\n" +
-	"\x04NAME\x10\x02\x12\b\n" +
-	"\x04ROLE\x10\x03\x12\n" +
-	"\n" +
-	"\x06ALLOWS\x10\x04\"#\n" +
+	"\x06allows\x18\v \x03(\x0e2\x12.eolymp.acl.ActionR\x06allows\x1a\xc1\x01\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x123\n" +
+	"\x04role\x18\n" +
+	" \x01(\x0e2\x1a.eolymp.acl.Principal.RoleH\x01R\x04role\x88\x01\x01\x12*\n" +
+	"\x06allows\x18\v \x03(\x0e2\x12.eolymp.acl.ActionR\x06allows\x12\x1f\n" +
+	"\bdisallow\x18\f \x01(\bH\x02R\bdisallow\x88\x01\x01B\a\n" +
+	"\x05_nameB\a\n" +
+	"\x05_roleB\v\n" +
+	"\t_disallow\"#\n" +
 	"\x04Role\x12\x10\n" +
 	"\fUNKNOWN_ROLE\x10\x00\x12\t\n" +
 	"\x05OWNER\x10\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
@@ -272,23 +250,24 @@ func file_eolymp_acl_principal_proto_rawDescGZIP() []byte {
 	return file_eolymp_acl_principal_proto_rawDescData
 }
 
-var file_eolymp_acl_principal_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_acl_principal_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_acl_principal_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_acl_principal_proto_goTypes = []any{
-	(Principal_Role)(0),        // 0: eolymp.acl.Principal.Role
-	(Principal_Patch_Field)(0), // 1: eolymp.acl.Principal.Patch.Field
-	(*Principal)(nil),          // 2: eolymp.acl.Principal
-	(*Principal_Patch)(nil),    // 3: eolymp.acl.Principal.Patch
-	(Action)(0),                // 4: eolymp.acl.Action
+	(Principal_Role)(0),     // 0: eolymp.acl.Principal.Role
+	(*Principal)(nil),       // 1: eolymp.acl.Principal
+	(*Principal_Patch)(nil), // 2: eolymp.acl.Principal.Patch
+	(Action)(0),             // 3: eolymp.acl.Action
 }
 var file_eolymp_acl_principal_proto_depIdxs = []int32{
 	0, // 0: eolymp.acl.Principal.role:type_name -> eolymp.acl.Principal.Role
-	4, // 1: eolymp.acl.Principal.allows:type_name -> eolymp.acl.Action
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 1: eolymp.acl.Principal.allows:type_name -> eolymp.acl.Action
+	0, // 2: eolymp.acl.Principal.Patch.role:type_name -> eolymp.acl.Principal.Role
+	3, // 3: eolymp.acl.Principal.Patch.allows:type_name -> eolymp.acl.Action
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_acl_principal_proto_init() }
@@ -297,12 +276,13 @@ func file_eolymp_acl_principal_proto_init() {
 		return
 	}
 	file_eolymp_acl_action_proto_init()
+	file_eolymp_acl_principal_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_acl_principal_proto_rawDesc), len(file_eolymp_acl_principal_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

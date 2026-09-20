@@ -158,10 +158,9 @@ func (x *CreatePrincipalOutput) GetPrincipalId() string {
 }
 
 type UpdatePrincipalInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Patch         []Principal_Patch_Field `protobuf:"varint,10,rep,packed,name=patch,proto3,enum=eolymp.acl.Principal_Patch_Field" json:"patch,omitempty"`
-	PrincipalId   string                  `protobuf:"bytes,1,opt,name=principal_id,json=principalId,proto3" json:"principal_id,omitempty"`
-	Principal     *Principal              `protobuf:"bytes,2,opt,name=principal,proto3" json:"principal,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PrincipalId   string                 `protobuf:"bytes,1,opt,name=principal_id,json=principalId,proto3" json:"principal_id,omitempty"`
+	Principal     *Principal_Patch       `protobuf:"bytes,3,opt,name=principal,proto3" json:"principal,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -196,13 +195,6 @@ func (*UpdatePrincipalInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_acl_principal_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdatePrincipalInput) GetPatch() []Principal_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdatePrincipalInput) GetPrincipalId() string {
 	if x != nil {
 		return x.PrincipalId
@@ -210,7 +202,7 @@ func (x *UpdatePrincipalInput) GetPrincipalId() string {
 	return ""
 }
 
-func (x *UpdatePrincipalInput) GetPrincipal() *Principal {
+func (x *UpdatePrincipalInput) GetPrincipal() *Principal_Patch {
 	if x != nil {
 		return x.Principal
 	}
@@ -636,12 +628,11 @@ const file_eolymp_acl_principal_service_proto_rawDesc = "" +
 	"\x14CreatePrincipalInput\x123\n" +
 	"\tprincipal\x18\x01 \x01(\v2\x15.eolymp.acl.PrincipalR\tprincipal\":\n" +
 	"\x15CreatePrincipalOutput\x12!\n" +
-	"\fprincipal_id\x18\x01 \x01(\tR\vprincipalId\"\xa7\x01\n" +
-	"\x14UpdatePrincipalInput\x127\n" +
-	"\x05patch\x18\n" +
-	" \x03(\x0e2!.eolymp.acl.Principal.Patch.FieldR\x05patch\x12!\n" +
-	"\fprincipal_id\x18\x01 \x01(\tR\vprincipalId\x123\n" +
-	"\tprincipal\x18\x02 \x01(\v2\x15.eolymp.acl.PrincipalR\tprincipal\"\x17\n" +
+	"\fprincipal_id\x18\x01 \x01(\tR\vprincipalId\"\x80\x01\n" +
+	"\x14UpdatePrincipalInput\x12!\n" +
+	"\fprincipal_id\x18\x01 \x01(\tR\vprincipalId\x129\n" +
+	"\tprincipal\x18\x03 \x01(\v2\x1b.eolymp.acl.Principal.PatchR\tprincipalJ\x04\b\x02\x10\x03J\x04\b\n" +
+	"\x10\v\"\x17\n" +
 	"\x15UpdatePrincipalOutput\"9\n" +
 	"\x14DeletePrincipalInput\x12!\n" +
 	"\fprincipal_id\x18\x01 \x01(\tR\vprincipalId\"\x17\n" +
@@ -740,38 +731,37 @@ var file_eolymp_acl_principal_service_proto_goTypes = []any{
 	(*ListPrincipalsOutput)(nil),       // 10: eolymp.acl.ListPrincipalsOutput
 	(*ListPrincipalsInput_Filter)(nil), // 11: eolymp.acl.ListPrincipalsInput.Filter
 	(*Principal)(nil),                  // 12: eolymp.acl.Principal
-	(Principal_Patch_Field)(0),         // 13: eolymp.acl.Principal.Patch.Field
+	(*Principal_Patch)(nil),            // 13: eolymp.acl.Principal.Patch
 	(wellknown.Direction)(0),           // 14: eolymp.wellknown.Direction
 	(*wellknown.ExpressionID)(nil),     // 15: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil), // 16: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_acl_principal_service_proto_depIdxs = []int32{
 	12, // 0: eolymp.acl.CreatePrincipalInput.principal:type_name -> eolymp.acl.Principal
-	13, // 1: eolymp.acl.UpdatePrincipalInput.patch:type_name -> eolymp.acl.Principal.Patch.Field
-	12, // 2: eolymp.acl.UpdatePrincipalInput.principal:type_name -> eolymp.acl.Principal
-	12, // 3: eolymp.acl.DescribePrincipalOutput.principal:type_name -> eolymp.acl.Principal
-	11, // 4: eolymp.acl.ListPrincipalsInput.filters:type_name -> eolymp.acl.ListPrincipalsInput.Filter
-	0,  // 5: eolymp.acl.ListPrincipalsInput.sort:type_name -> eolymp.acl.ListPrincipalsInput.Sortable
-	14, // 6: eolymp.acl.ListPrincipalsInput.order:type_name -> eolymp.wellknown.Direction
-	12, // 7: eolymp.acl.ListPrincipalsOutput.items:type_name -> eolymp.acl.Principal
-	15, // 8: eolymp.acl.ListPrincipalsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	15, // 9: eolymp.acl.ListPrincipalsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	16, // 10: eolymp.acl.ListPrincipalsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	1,  // 11: eolymp.acl.PrincipalService.CreatePrincipal:input_type -> eolymp.acl.CreatePrincipalInput
-	3,  // 12: eolymp.acl.PrincipalService.UpdatePrincipal:input_type -> eolymp.acl.UpdatePrincipalInput
-	5,  // 13: eolymp.acl.PrincipalService.DeletePrincipal:input_type -> eolymp.acl.DeletePrincipalInput
-	7,  // 14: eolymp.acl.PrincipalService.DescribePrincipal:input_type -> eolymp.acl.DescribePrincipalInput
-	9,  // 15: eolymp.acl.PrincipalService.ListPrincipals:input_type -> eolymp.acl.ListPrincipalsInput
-	2,  // 16: eolymp.acl.PrincipalService.CreatePrincipal:output_type -> eolymp.acl.CreatePrincipalOutput
-	4,  // 17: eolymp.acl.PrincipalService.UpdatePrincipal:output_type -> eolymp.acl.UpdatePrincipalOutput
-	6,  // 18: eolymp.acl.PrincipalService.DeletePrincipal:output_type -> eolymp.acl.DeletePrincipalOutput
-	8,  // 19: eolymp.acl.PrincipalService.DescribePrincipal:output_type -> eolymp.acl.DescribePrincipalOutput
-	10, // 20: eolymp.acl.PrincipalService.ListPrincipals:output_type -> eolymp.acl.ListPrincipalsOutput
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	13, // 1: eolymp.acl.UpdatePrincipalInput.principal:type_name -> eolymp.acl.Principal.Patch
+	12, // 2: eolymp.acl.DescribePrincipalOutput.principal:type_name -> eolymp.acl.Principal
+	11, // 3: eolymp.acl.ListPrincipalsInput.filters:type_name -> eolymp.acl.ListPrincipalsInput.Filter
+	0,  // 4: eolymp.acl.ListPrincipalsInput.sort:type_name -> eolymp.acl.ListPrincipalsInput.Sortable
+	14, // 5: eolymp.acl.ListPrincipalsInput.order:type_name -> eolymp.wellknown.Direction
+	12, // 6: eolymp.acl.ListPrincipalsOutput.items:type_name -> eolymp.acl.Principal
+	15, // 7: eolymp.acl.ListPrincipalsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	15, // 8: eolymp.acl.ListPrincipalsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	16, // 9: eolymp.acl.ListPrincipalsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	1,  // 10: eolymp.acl.PrincipalService.CreatePrincipal:input_type -> eolymp.acl.CreatePrincipalInput
+	3,  // 11: eolymp.acl.PrincipalService.UpdatePrincipal:input_type -> eolymp.acl.UpdatePrincipalInput
+	5,  // 12: eolymp.acl.PrincipalService.DeletePrincipal:input_type -> eolymp.acl.DeletePrincipalInput
+	7,  // 13: eolymp.acl.PrincipalService.DescribePrincipal:input_type -> eolymp.acl.DescribePrincipalInput
+	9,  // 14: eolymp.acl.PrincipalService.ListPrincipals:input_type -> eolymp.acl.ListPrincipalsInput
+	2,  // 15: eolymp.acl.PrincipalService.CreatePrincipal:output_type -> eolymp.acl.CreatePrincipalOutput
+	4,  // 16: eolymp.acl.PrincipalService.UpdatePrincipal:output_type -> eolymp.acl.UpdatePrincipalOutput
+	6,  // 17: eolymp.acl.PrincipalService.DeletePrincipal:output_type -> eolymp.acl.DeletePrincipalOutput
+	8,  // 18: eolymp.acl.PrincipalService.DescribePrincipal:output_type -> eolymp.acl.DescribePrincipalOutput
+	10, // 19: eolymp.acl.PrincipalService.ListPrincipals:output_type -> eolymp.acl.ListPrincipalsOutput
+	15, // [15:20] is the sub-list for method output_type
+	10, // [10:15] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_acl_principal_service_proto_init() }
