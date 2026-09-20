@@ -173,11 +173,88 @@ func (x *Penalty) GetCancelledAt() *timestamppb.Timestamp {
 	return nil
 }
 
+// Patch describes the fields UpdatePenalty can change, a field is written only if it is set.
+type Penalty_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Summary       *string                `protobuf:"bytes,2,opt,name=summary,proto3,oneof" json:"summary,omitempty"`
+	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	Scope         []string               `protobuf:"bytes,20,rep,name=scope,proto3" json:"scope,omitempty"`
+	Unscope       *bool                  `protobuf:"varint,21,opt,name=unscope,proto3,oneof" json:"unscope,omitempty"` // scope carries no presence of its own, so clearing it has to be asked for
+	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3,oneof" json:"expires_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Penalty_Patch) Reset() {
+	*x = Penalty_Patch{}
+	mi := &file_eolymp_community_penalty_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Penalty_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Penalty_Patch) ProtoMessage() {}
+
+func (x *Penalty_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_penalty_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Penalty_Patch.ProtoReflect.Descriptor instead.
+func (*Penalty_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_penalty_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Penalty_Patch) GetSummary() string {
+	if x != nil && x.Summary != nil {
+		return *x.Summary
+	}
+	return ""
+}
+
+func (x *Penalty_Patch) GetDescription() *ecm.Content {
+	if x != nil {
+		return x.Description
+	}
+	return nil
+}
+
+func (x *Penalty_Patch) GetScope() []string {
+	if x != nil {
+		return x.Scope
+	}
+	return nil
+}
+
+func (x *Penalty_Patch) GetUnscope() bool {
+	if x != nil && x.Unscope != nil {
+		return *x.Unscope
+	}
+	return false
+}
+
+func (x *Penalty_Patch) GetExpiresAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
 var File_eolymp_community_penalty_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_penalty_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb3\x03\n" +
+	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc4\x05\n" +
 	"\aPenalty\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\asummary\x18\x02 \x01(\tR\asummary\x125\n" +
@@ -189,7 +266,20 @@ const file_eolymp_community_penalty_proto_rawDesc = "" +
 	" \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
 	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\texpiresAt\x12E\n" +
-	"\fcancelled_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vcancelledAt\"D\n" +
+	"\fcancelled_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vcancelledAt\x1a\x8e\x02\n" +
+	"\x05Patch\x12\x1d\n" +
+	"\asummary\x18\x02 \x01(\tH\x00R\asummary\x88\x01\x01\x12:\n" +
+	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentH\x01R\vdescription\x88\x01\x01\x12\x14\n" +
+	"\x05scope\x18\x14 \x03(\tR\x05scope\x12\x1d\n" +
+	"\aunscope\x18\x15 \x01(\bH\x02R\aunscope\x88\x01\x01\x12>\n" +
+	"\n" +
+	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampH\x03R\texpiresAt\x88\x01\x01B\n" +
+	"\n" +
+	"\b_summaryB\x0e\n" +
+	"\f_descriptionB\n" +
+	"\n" +
+	"\b_unscopeB\r\n" +
+	"\v_expires_at\"D\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
@@ -208,23 +298,26 @@ func file_eolymp_community_penalty_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_community_penalty_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_community_penalty_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_community_penalty_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_community_penalty_proto_goTypes = []any{
 	(Penalty_Extra)(0),            // 0: eolymp.community.Penalty.Extra
 	(*Penalty)(nil),               // 1: eolymp.community.Penalty
-	(*ecm.Content)(nil),           // 2: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*Penalty_Patch)(nil),         // 2: eolymp.community.Penalty.Patch
+	(*ecm.Content)(nil),           // 3: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_community_penalty_proto_depIdxs = []int32{
-	2, // 0: eolymp.community.Penalty.description:type_name -> eolymp.ecm.Content
-	3, // 1: eolymp.community.Penalty.created_at:type_name -> google.protobuf.Timestamp
-	3, // 2: eolymp.community.Penalty.expires_at:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.community.Penalty.cancelled_at:type_name -> google.protobuf.Timestamp
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3, // 0: eolymp.community.Penalty.description:type_name -> eolymp.ecm.Content
+	4, // 1: eolymp.community.Penalty.created_at:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.community.Penalty.expires_at:type_name -> google.protobuf.Timestamp
+	4, // 3: eolymp.community.Penalty.cancelled_at:type_name -> google.protobuf.Timestamp
+	3, // 4: eolymp.community.Penalty.Patch.description:type_name -> eolymp.ecm.Content
+	4, // 5: eolymp.community.Penalty.Patch.expires_at:type_name -> google.protobuf.Timestamp
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_penalty_proto_init() }
@@ -232,13 +325,14 @@ func file_eolymp_community_penalty_proto_init() {
 	if File_eolymp_community_penalty_proto != nil {
 		return
 	}
+	file_eolymp_community_penalty_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_penalty_proto_rawDesc), len(file_eolymp_community_penalty_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

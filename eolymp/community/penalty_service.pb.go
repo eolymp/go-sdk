@@ -22,61 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdatePenaltyInput_Patch int32
-
-const (
-	UpdatePenaltyInput_ALL         UpdatePenaltyInput_Patch = 0
-	UpdatePenaltyInput_SUMMARY     UpdatePenaltyInput_Patch = 1
-	UpdatePenaltyInput_DESCRIPTION UpdatePenaltyInput_Patch = 2
-	UpdatePenaltyInput_SCOPE       UpdatePenaltyInput_Patch = 3
-	UpdatePenaltyInput_EXPIRES_AT  UpdatePenaltyInput_Patch = 4
-)
-
-// Enum value maps for UpdatePenaltyInput_Patch.
-var (
-	UpdatePenaltyInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "SUMMARY",
-		2: "DESCRIPTION",
-		3: "SCOPE",
-		4: "EXPIRES_AT",
-	}
-	UpdatePenaltyInput_Patch_value = map[string]int32{
-		"ALL":         0,
-		"SUMMARY":     1,
-		"DESCRIPTION": 2,
-		"SCOPE":       3,
-		"EXPIRES_AT":  4,
-	}
-)
-
-func (x UpdatePenaltyInput_Patch) Enum() *UpdatePenaltyInput_Patch {
-	p := new(UpdatePenaltyInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdatePenaltyInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdatePenaltyInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_penalty_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdatePenaltyInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_community_penalty_service_proto_enumTypes[0]
-}
-
-func (x UpdatePenaltyInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdatePenaltyInput_Patch.Descriptor instead.
-func (UpdatePenaltyInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_penalty_service_proto_rawDescGZIP(), []int{2, 0}
-}
-
 type CreatePenaltyInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
@@ -174,11 +119,10 @@ func (x *CreatePenaltyOutput) GetPenaltyId() string {
 }
 
 type UpdatePenaltyInput struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Patch         []UpdatePenaltyInput_Patch `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.community.UpdatePenaltyInput_Patch" json:"patch,omitempty"`
-	MemberId      string                     `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	PenaltyId     string                     `protobuf:"bytes,1,opt,name=penalty_id,json=penaltyId,proto3" json:"penalty_id,omitempty"`
-	Penalty       *Penalty                   `protobuf:"bytes,2,opt,name=penalty,proto3" json:"penalty,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PenaltyId     string                 `protobuf:"bytes,1,opt,name=penalty_id,json=penaltyId,proto3" json:"penalty_id,omitempty"`
+	MemberId      string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	Penalty       *Penalty_Patch         `protobuf:"bytes,5,opt,name=penalty,proto3" json:"penalty,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -213,11 +157,11 @@ func (*UpdatePenaltyInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_penalty_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdatePenaltyInput) GetPatch() []UpdatePenaltyInput_Patch {
+func (x *UpdatePenaltyInput) GetPenaltyId() string {
 	if x != nil {
-		return x.Patch
+		return x.PenaltyId
 	}
-	return nil
+	return ""
 }
 
 func (x *UpdatePenaltyInput) GetMemberId() string {
@@ -227,14 +171,7 @@ func (x *UpdatePenaltyInput) GetMemberId() string {
 	return ""
 }
 
-func (x *UpdatePenaltyInput) GetPenaltyId() string {
-	if x != nil {
-		return x.PenaltyId
-	}
-	return ""
-}
-
-func (x *UpdatePenaltyInput) GetPenalty() *Penalty {
+func (x *UpdatePenaltyInput) GetPenalty() *Penalty_Patch {
 	if x != nil {
 		return x.Penalty
 	}
@@ -599,20 +536,12 @@ const file_eolymp_community_penalty_service_proto_rawDesc = "" +
 	"\apenalty\x18\x01 \x01(\v2\x19.eolymp.community.PenaltyR\apenalty\"4\n" +
 	"\x13CreatePenaltyOutput\x12\x1d\n" +
 	"\n" +
-	"penalty_id\x18\x01 \x01(\tR\tpenaltyId\"\x92\x02\n" +
-	"\x12UpdatePenaltyInput\x12@\n" +
-	"\x05patch\x18\x03 \x03(\x0e2*.eolymp.community.UpdatePenaltyInput.PatchR\x05patch\x12\x1b\n" +
-	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12\x1d\n" +
+	"penalty_id\x18\x01 \x01(\tR\tpenaltyId\"\x97\x01\n" +
+	"\x12UpdatePenaltyInput\x12\x1d\n" +
 	"\n" +
-	"penalty_id\x18\x01 \x01(\tR\tpenaltyId\x123\n" +
-	"\apenalty\x18\x02 \x01(\v2\x19.eolymp.community.PenaltyR\apenalty\"I\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\v\n" +
-	"\aSUMMARY\x10\x01\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x02\x12\t\n" +
-	"\x05SCOPE\x10\x03\x12\x0e\n" +
-	"\n" +
-	"EXPIRES_AT\x10\x04\"\x15\n" +
+	"penalty_id\x18\x01 \x01(\tR\tpenaltyId\x12\x1b\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x129\n" +
+	"\apenalty\x18\x05 \x01(\v2\x1f.eolymp.community.Penalty.PatchR\apenaltyJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x15\n" +
 	"\x13UpdatePenaltyOutput\"P\n" +
 	"\x12DeletePenaltyInput\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x1d\n" +
@@ -689,46 +618,44 @@ func file_eolymp_community_penalty_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_penalty_service_proto_rawDescData
 }
 
-var file_eolymp_community_penalty_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_community_penalty_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_community_penalty_service_proto_goTypes = []any{
-	(UpdatePenaltyInput_Patch)(0), // 0: eolymp.community.UpdatePenaltyInput.Patch
-	(*CreatePenaltyInput)(nil),    // 1: eolymp.community.CreatePenaltyInput
-	(*CreatePenaltyOutput)(nil),   // 2: eolymp.community.CreatePenaltyOutput
-	(*UpdatePenaltyInput)(nil),    // 3: eolymp.community.UpdatePenaltyInput
-	(*UpdatePenaltyOutput)(nil),   // 4: eolymp.community.UpdatePenaltyOutput
-	(*DeletePenaltyInput)(nil),    // 5: eolymp.community.DeletePenaltyInput
-	(*DeletePenaltyOutput)(nil),   // 6: eolymp.community.DeletePenaltyOutput
-	(*DescribePenaltyInput)(nil),  // 7: eolymp.community.DescribePenaltyInput
-	(*DescribePenaltyOutput)(nil), // 8: eolymp.community.DescribePenaltyOutput
-	(*ListPenaltiesInput)(nil),    // 9: eolymp.community.ListPenaltiesInput
-	(*ListPenaltiesOutput)(nil),   // 10: eolymp.community.ListPenaltiesOutput
-	(*Penalty)(nil),               // 11: eolymp.community.Penalty
+	(*CreatePenaltyInput)(nil),    // 0: eolymp.community.CreatePenaltyInput
+	(*CreatePenaltyOutput)(nil),   // 1: eolymp.community.CreatePenaltyOutput
+	(*UpdatePenaltyInput)(nil),    // 2: eolymp.community.UpdatePenaltyInput
+	(*UpdatePenaltyOutput)(nil),   // 3: eolymp.community.UpdatePenaltyOutput
+	(*DeletePenaltyInput)(nil),    // 4: eolymp.community.DeletePenaltyInput
+	(*DeletePenaltyOutput)(nil),   // 5: eolymp.community.DeletePenaltyOutput
+	(*DescribePenaltyInput)(nil),  // 6: eolymp.community.DescribePenaltyInput
+	(*DescribePenaltyOutput)(nil), // 7: eolymp.community.DescribePenaltyOutput
+	(*ListPenaltiesInput)(nil),    // 8: eolymp.community.ListPenaltiesInput
+	(*ListPenaltiesOutput)(nil),   // 9: eolymp.community.ListPenaltiesOutput
+	(*Penalty)(nil),               // 10: eolymp.community.Penalty
+	(*Penalty_Patch)(nil),         // 11: eolymp.community.Penalty.Patch
 	(Penalty_Extra)(0),            // 12: eolymp.community.Penalty.Extra
 }
 var file_eolymp_community_penalty_service_proto_depIdxs = []int32{
-	11, // 0: eolymp.community.CreatePenaltyInput.penalty:type_name -> eolymp.community.Penalty
-	0,  // 1: eolymp.community.UpdatePenaltyInput.patch:type_name -> eolymp.community.UpdatePenaltyInput.Patch
-	11, // 2: eolymp.community.UpdatePenaltyInput.penalty:type_name -> eolymp.community.Penalty
-	12, // 3: eolymp.community.DescribePenaltyInput.extra:type_name -> eolymp.community.Penalty.Extra
-	11, // 4: eolymp.community.DescribePenaltyOutput.penalty:type_name -> eolymp.community.Penalty
-	12, // 5: eolymp.community.ListPenaltiesInput.extra:type_name -> eolymp.community.Penalty.Extra
-	11, // 6: eolymp.community.ListPenaltiesOutput.items:type_name -> eolymp.community.Penalty
-	1,  // 7: eolymp.community.PenaltyService.CreatePenalty:input_type -> eolymp.community.CreatePenaltyInput
-	3,  // 8: eolymp.community.PenaltyService.UpdatePenalty:input_type -> eolymp.community.UpdatePenaltyInput
-	5,  // 9: eolymp.community.PenaltyService.DeletePenalty:input_type -> eolymp.community.DeletePenaltyInput
-	7,  // 10: eolymp.community.PenaltyService.DescribePenalty:input_type -> eolymp.community.DescribePenaltyInput
-	9,  // 11: eolymp.community.PenaltyService.ListPenalties:input_type -> eolymp.community.ListPenaltiesInput
-	2,  // 12: eolymp.community.PenaltyService.CreatePenalty:output_type -> eolymp.community.CreatePenaltyOutput
-	4,  // 13: eolymp.community.PenaltyService.UpdatePenalty:output_type -> eolymp.community.UpdatePenaltyOutput
-	6,  // 14: eolymp.community.PenaltyService.DeletePenalty:output_type -> eolymp.community.DeletePenaltyOutput
-	8,  // 15: eolymp.community.PenaltyService.DescribePenalty:output_type -> eolymp.community.DescribePenaltyOutput
-	10, // 16: eolymp.community.PenaltyService.ListPenalties:output_type -> eolymp.community.ListPenaltiesOutput
-	12, // [12:17] is the sub-list for method output_type
-	7,  // [7:12] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	10, // 0: eolymp.community.CreatePenaltyInput.penalty:type_name -> eolymp.community.Penalty
+	11, // 1: eolymp.community.UpdatePenaltyInput.penalty:type_name -> eolymp.community.Penalty.Patch
+	12, // 2: eolymp.community.DescribePenaltyInput.extra:type_name -> eolymp.community.Penalty.Extra
+	10, // 3: eolymp.community.DescribePenaltyOutput.penalty:type_name -> eolymp.community.Penalty
+	12, // 4: eolymp.community.ListPenaltiesInput.extra:type_name -> eolymp.community.Penalty.Extra
+	10, // 5: eolymp.community.ListPenaltiesOutput.items:type_name -> eolymp.community.Penalty
+	0,  // 6: eolymp.community.PenaltyService.CreatePenalty:input_type -> eolymp.community.CreatePenaltyInput
+	2,  // 7: eolymp.community.PenaltyService.UpdatePenalty:input_type -> eolymp.community.UpdatePenaltyInput
+	4,  // 8: eolymp.community.PenaltyService.DeletePenalty:input_type -> eolymp.community.DeletePenaltyInput
+	6,  // 9: eolymp.community.PenaltyService.DescribePenalty:input_type -> eolymp.community.DescribePenaltyInput
+	8,  // 10: eolymp.community.PenaltyService.ListPenalties:input_type -> eolymp.community.ListPenaltiesInput
+	1,  // 11: eolymp.community.PenaltyService.CreatePenalty:output_type -> eolymp.community.CreatePenaltyOutput
+	3,  // 12: eolymp.community.PenaltyService.UpdatePenalty:output_type -> eolymp.community.UpdatePenaltyOutput
+	5,  // 13: eolymp.community.PenaltyService.DeletePenalty:output_type -> eolymp.community.DeletePenaltyOutput
+	7,  // 14: eolymp.community.PenaltyService.DescribePenalty:output_type -> eolymp.community.DescribePenaltyOutput
+	9,  // 15: eolymp.community.PenaltyService.ListPenalties:output_type -> eolymp.community.ListPenaltiesOutput
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_penalty_service_proto_init() }
@@ -742,14 +669,13 @@ func file_eolymp_community_penalty_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_penalty_service_proto_rawDesc), len(file_eolymp_community_penalty_service_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_community_penalty_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_community_penalty_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_community_penalty_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_community_penalty_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_community_penalty_service_proto = out.File
