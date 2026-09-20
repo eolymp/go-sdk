@@ -389,9 +389,8 @@ func (x *DescribeRuleOutput) GetRule() *Rule {
 
 type UpdateRuleInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Rule_Patch_Field     `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.automation.Rule_Patch_Field" json:"patch,omitempty"`
 	RuleId        string                 `protobuf:"bytes,2,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
-	Rule          *Rule                  `protobuf:"bytes,3,opt,name=rule,proto3" json:"rule,omitempty"`
+	Rule          *Rule_Patch            `protobuf:"bytes,4,opt,name=rule,proto3" json:"rule,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -426,13 +425,6 @@ func (*UpdateRuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_automation_rule_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateRuleInput) GetPatch() []Rule_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateRuleInput) GetRuleId() string {
 	if x != nil {
 		return x.RuleId
@@ -440,7 +432,7 @@ func (x *UpdateRuleInput) GetRuleId() string {
 	return ""
 }
 
-func (x *UpdateRuleInput) GetRule() *Rule {
+func (x *UpdateRuleInput) GetRule() *Rule_Patch {
 	if x != nil {
 		return x.Rule
 	}
@@ -873,11 +865,10 @@ const file_eolymp_automation_rule_service_proto_rawDesc = "" +
 	"\x11DescribeRuleInput\x12\x17\n" +
 	"\arule_id\x18\x01 \x01(\tR\x06ruleId\"A\n" +
 	"\x12DescribeRuleOutput\x12+\n" +
-	"\x04rule\x18\x01 \x01(\v2\x17.eolymp.automation.RuleR\x04rule\"\x92\x01\n" +
-	"\x0fUpdateRuleInput\x129\n" +
-	"\x05patch\x18\x01 \x03(\x0e2#.eolymp.automation.Rule.Patch.FieldR\x05patch\x12\x17\n" +
-	"\arule_id\x18\x02 \x01(\tR\x06ruleId\x12+\n" +
-	"\x04rule\x18\x03 \x01(\v2\x17.eolymp.automation.RuleR\x04rule\"\x12\n" +
+	"\x04rule\x18\x01 \x01(\v2\x17.eolymp.automation.RuleR\x04rule\"i\n" +
+	"\x0fUpdateRuleInput\x12\x17\n" +
+	"\arule_id\x18\x02 \x01(\tR\x06ruleId\x121\n" +
+	"\x04rule\x18\x04 \x01(\v2\x1d.eolymp.automation.Rule.PatchR\x04ruleJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x12\n" +
 	"\x10UpdateRuleOutput\"*\n" +
 	"\x0fDeleteRuleInput\x12\x17\n" +
 	"\arule_id\x18\x01 \x01(\tR\x06ruleId\"\x12\n" +
@@ -1004,7 +995,7 @@ var file_eolymp_automation_rule_service_proto_goTypes = []any{
 	nil,                                // 17: eolymp.automation.ListActionsInput.ReferencesEntry
 	(wellknown.Direction)(0),           // 18: eolymp.wellknown.Direction
 	(*Rule)(nil),                       // 19: eolymp.automation.Rule
-	(Rule_Patch_Field)(0),              // 20: eolymp.automation.Rule.Patch.Field
+	(*Rule_Patch)(nil),                 // 20: eolymp.automation.Rule.Patch
 	(Rule_Trigger)(0),                  // 21: eolymp.automation.Rule.Trigger
 	(*wellknown.ExpressionID)(nil),     // 22: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil), // 23: eolymp.wellknown.ExpressionString
@@ -1018,35 +1009,34 @@ var file_eolymp_automation_rule_service_proto_depIdxs = []int32{
 	19, // 3: eolymp.automation.ListRulesOutput.items:type_name -> eolymp.automation.Rule
 	19, // 4: eolymp.automation.CreateRuleInput.rule:type_name -> eolymp.automation.Rule
 	19, // 5: eolymp.automation.DescribeRuleOutput.rule:type_name -> eolymp.automation.Rule
-	20, // 6: eolymp.automation.UpdateRuleInput.patch:type_name -> eolymp.automation.Rule.Patch.Field
-	19, // 7: eolymp.automation.UpdateRuleInput.rule:type_name -> eolymp.automation.Rule
-	16, // 8: eolymp.automation.TriggerRuleInput.references:type_name -> eolymp.automation.TriggerRuleInput.ReferencesEntry
-	17, // 9: eolymp.automation.ListActionsInput.references:type_name -> eolymp.automation.ListActionsInput.ReferencesEntry
-	21, // 10: eolymp.automation.ListActionsInput.trigger:type_name -> eolymp.automation.Rule.Trigger
-	19, // 11: eolymp.automation.ListActionsOutput.items:type_name -> eolymp.automation.Rule
-	22, // 12: eolymp.automation.ListRulesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	23, // 13: eolymp.automation.ListRulesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	24, // 14: eolymp.automation.ListRulesInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
-	25, // 15: eolymp.automation.ListRulesInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
-	1,  // 16: eolymp.automation.RuleService.ListRules:input_type -> eolymp.automation.ListRulesInput
-	3,  // 17: eolymp.automation.RuleService.CreateRule:input_type -> eolymp.automation.CreateRuleInput
-	5,  // 18: eolymp.automation.RuleService.DescribeRule:input_type -> eolymp.automation.DescribeRuleInput
-	7,  // 19: eolymp.automation.RuleService.UpdateRule:input_type -> eolymp.automation.UpdateRuleInput
-	9,  // 20: eolymp.automation.RuleService.DeleteRule:input_type -> eolymp.automation.DeleteRuleInput
-	11, // 21: eolymp.automation.RuleService.TriggerRule:input_type -> eolymp.automation.TriggerRuleInput
-	13, // 22: eolymp.automation.RuleService.ListActions:input_type -> eolymp.automation.ListActionsInput
-	2,  // 23: eolymp.automation.RuleService.ListRules:output_type -> eolymp.automation.ListRulesOutput
-	4,  // 24: eolymp.automation.RuleService.CreateRule:output_type -> eolymp.automation.CreateRuleOutput
-	6,  // 25: eolymp.automation.RuleService.DescribeRule:output_type -> eolymp.automation.DescribeRuleOutput
-	8,  // 26: eolymp.automation.RuleService.UpdateRule:output_type -> eolymp.automation.UpdateRuleOutput
-	10, // 27: eolymp.automation.RuleService.DeleteRule:output_type -> eolymp.automation.DeleteRuleOutput
-	12, // 28: eolymp.automation.RuleService.TriggerRule:output_type -> eolymp.automation.TriggerRuleOutput
-	14, // 29: eolymp.automation.RuleService.ListActions:output_type -> eolymp.automation.ListActionsOutput
-	23, // [23:30] is the sub-list for method output_type
-	16, // [16:23] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	20, // 6: eolymp.automation.UpdateRuleInput.rule:type_name -> eolymp.automation.Rule.Patch
+	16, // 7: eolymp.automation.TriggerRuleInput.references:type_name -> eolymp.automation.TriggerRuleInput.ReferencesEntry
+	17, // 8: eolymp.automation.ListActionsInput.references:type_name -> eolymp.automation.ListActionsInput.ReferencesEntry
+	21, // 9: eolymp.automation.ListActionsInput.trigger:type_name -> eolymp.automation.Rule.Trigger
+	19, // 10: eolymp.automation.ListActionsOutput.items:type_name -> eolymp.automation.Rule
+	22, // 11: eolymp.automation.ListRulesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	23, // 12: eolymp.automation.ListRulesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	24, // 13: eolymp.automation.ListRulesInput.Filter.trigger:type_name -> eolymp.wellknown.ExpressionEnum
+	25, // 14: eolymp.automation.ListRulesInput.Filter.inactive:type_name -> eolymp.wellknown.ExpressionBool
+	1,  // 15: eolymp.automation.RuleService.ListRules:input_type -> eolymp.automation.ListRulesInput
+	3,  // 16: eolymp.automation.RuleService.CreateRule:input_type -> eolymp.automation.CreateRuleInput
+	5,  // 17: eolymp.automation.RuleService.DescribeRule:input_type -> eolymp.automation.DescribeRuleInput
+	7,  // 18: eolymp.automation.RuleService.UpdateRule:input_type -> eolymp.automation.UpdateRuleInput
+	9,  // 19: eolymp.automation.RuleService.DeleteRule:input_type -> eolymp.automation.DeleteRuleInput
+	11, // 20: eolymp.automation.RuleService.TriggerRule:input_type -> eolymp.automation.TriggerRuleInput
+	13, // 21: eolymp.automation.RuleService.ListActions:input_type -> eolymp.automation.ListActionsInput
+	2,  // 22: eolymp.automation.RuleService.ListRules:output_type -> eolymp.automation.ListRulesOutput
+	4,  // 23: eolymp.automation.RuleService.CreateRule:output_type -> eolymp.automation.CreateRuleOutput
+	6,  // 24: eolymp.automation.RuleService.DescribeRule:output_type -> eolymp.automation.DescribeRuleOutput
+	8,  // 25: eolymp.automation.RuleService.UpdateRule:output_type -> eolymp.automation.UpdateRuleOutput
+	10, // 26: eolymp.automation.RuleService.DeleteRule:output_type -> eolymp.automation.DeleteRuleOutput
+	12, // 27: eolymp.automation.RuleService.TriggerRule:output_type -> eolymp.automation.TriggerRuleOutput
+	14, // 28: eolymp.automation.RuleService.ListActions:output_type -> eolymp.automation.ListActionsOutput
+	22, // [22:29] is the sub-list for method output_type
+	15, // [15:22] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_automation_rule_service_proto_init() }
