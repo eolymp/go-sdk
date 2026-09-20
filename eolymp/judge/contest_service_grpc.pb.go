@@ -51,7 +51,7 @@ const (
 // transitions between those states; there is no draft status, an unlisted or private contest which has not
 // started plays that role. Almost every setting a contest has, from participation and scoreboard behaviour to
 // rating, plagiarism, certification, classification and available runtimes, is written through UpdateContest
-// with a patch mask rather than through a method of its own. Unlike most other judge services this one is
+// with a patch rather than through a method of its own. Unlike most other judge services this one is
 // scoped to a space, so its calls sit under the space rather than under a contest, and each contest carries a
 // read-only url field holding its own base URL to use with the contest-scoped services. Note that judge has
 // its own ProblemService and SubmissionService, distinct from the same-named services in atlas: atlas owns
@@ -67,8 +67,8 @@ type ContestServiceClient interface {
 	// in it, change its visibility with UpdateContest instead.
 	DeleteContest(ctx context.Context, in *DeleteContestInput, opts ...grpc.CallOption) (*DeleteContestOutput, error)
 	// UpdateContest is the single entry point for contest settings, from schedule and visibility down to each
-	// of the configuration blocks. Only fields named in the patch mask are written, and an empty mask writes
-	// all of them, blanking whatever the request left empty. It never moves the contest between statuses — the
+	// of the configuration blocks. Only the fields the patch carries are written; the rest keep the values
+	// they already have. It never moves the contest between statuses — the
 	// transition methods below do that — and it cannot change the format of a contest which already has
 	// submissions.
 	UpdateContest(ctx context.Context, in *UpdateContestInput, opts ...grpc.CallOption) (*UpdateContestOutput, error)
@@ -324,7 +324,7 @@ func (c *contestServiceClient) DescribeContestUsage(ctx context.Context, in *Des
 // transitions between those states; there is no draft status, an unlisted or private contest which has not
 // started plays that role. Almost every setting a contest has, from participation and scoreboard behaviour to
 // rating, plagiarism, certification, classification and available runtimes, is written through UpdateContest
-// with a patch mask rather than through a method of its own. Unlike most other judge services this one is
+// with a patch rather than through a method of its own. Unlike most other judge services this one is
 // scoped to a space, so its calls sit under the space rather than under a contest, and each contest carries a
 // read-only url field holding its own base URL to use with the contest-scoped services. Note that judge has
 // its own ProblemService and SubmissionService, distinct from the same-named services in atlas: atlas owns
@@ -340,8 +340,8 @@ type ContestServiceServer interface {
 	// in it, change its visibility with UpdateContest instead.
 	DeleteContest(context.Context, *DeleteContestInput) (*DeleteContestOutput, error)
 	// UpdateContest is the single entry point for contest settings, from schedule and visibility down to each
-	// of the configuration blocks. Only fields named in the patch mask are written, and an empty mask writes
-	// all of them, blanking whatever the request left empty. It never moves the contest between statuses — the
+	// of the configuration blocks. Only the fields the patch carries are written; the rest keep the values
+	// they already have. It never moves the contest between statuses — the
 	// transition methods below do that — and it cannot change the format of a contest which already has
 	// submissions.
 	UpdateContest(context.Context, *UpdateContestInput) (*UpdateContestOutput, error)

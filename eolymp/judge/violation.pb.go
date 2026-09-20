@@ -183,55 +183,6 @@ func (Violation_Type) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_violation_proto_rawDescGZIP(), []int{0, 2}
 }
 
-type Violation_Patch_Field int32
-
-const (
-	Violation_Patch_UNSPECIFIED Violation_Patch_Field = 0
-	Violation_Patch_SUMMARY     Violation_Patch_Field = 1
-	Violation_Patch_STATUS      Violation_Patch_Field = 2
-)
-
-// Enum value maps for Violation_Patch_Field.
-var (
-	Violation_Patch_Field_name = map[int32]string{
-		0: "UNSPECIFIED",
-		1: "SUMMARY",
-		2: "STATUS",
-	}
-	Violation_Patch_Field_value = map[string]int32{
-		"UNSPECIFIED": 0,
-		"SUMMARY":     1,
-		"STATUS":      2,
-	}
-)
-
-func (x Violation_Patch_Field) Enum() *Violation_Patch_Field {
-	p := new(Violation_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Violation_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Violation_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_violation_proto_enumTypes[3].Descriptor()
-}
-
-func (Violation_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_violation_proto_enumTypes[3]
-}
-
-func (x Violation_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Violation_Patch_Field.Descriptor instead.
-func (Violation_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_violation_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 type Violation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -366,6 +317,8 @@ func (x *Violation) GetConfirmedAt() *timestamppb.Timestamp {
 
 type Violation_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Summary       *ecm.Content           `protobuf:"bytes,1,opt,name=summary,proto3" json:"summary,omitempty"`
+	Status        *Violation_Status      `protobuf:"varint,2,opt,name=status,proto3,enum=eolymp.judge.Violation_Status,oneof" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -400,11 +353,25 @@ func (*Violation_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_judge_violation_proto_rawDescGZIP(), []int{0, 0}
 }
 
+func (x *Violation_Patch) GetSummary() *ecm.Content {
+	if x != nil {
+		return x.Summary
+	}
+	return nil
+}
+
+func (x *Violation_Patch) GetStatus() Violation_Status {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return Violation_UNKNOWN_STATUS
+}
+
 var File_eolymp_judge_violation_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x06\n" +
+	"\x1ceolymp/judge/violation.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\a\n" +
 	"\tViolation\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12-\n" +
 	"\x0eparticipant_id\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rparticipantId\x12>\n" +
@@ -423,13 +390,11 @@ const file_eolymp_judge_violation_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12)\n" +
 	"\fconfirmed_by\x18\f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedBy\x12E\n" +
-	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedAt\x1a:\n" +
-	"\x05Patch\"1\n" +
-	"\x05Field\x12\x0f\n" +
-	"\vUNSPECIFIED\x10\x00\x12\v\n" +
-	"\aSUMMARY\x10\x01\x12\n" +
-	"\n" +
-	"\x06STATUS\x10\x02\"G\n" +
+	"\fconfirmed_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconfirmedAt\x1a~\n" +
+	"\x05Patch\x12-\n" +
+	"\asummary\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x12;\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x1e.eolymp.judge.Violation.StatusH\x00R\x06status\x88\x01\x01B\t\n" +
+	"\a_status\"G\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +
@@ -462,30 +427,31 @@ func file_eolymp_judge_violation_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_violation_proto_rawDescData
 }
 
-var file_eolymp_judge_violation_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_eolymp_judge_violation_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_judge_violation_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_judge_violation_proto_goTypes = []any{
 	(Violation_Status)(0),         // 0: eolymp.judge.Violation.Status
 	(Violation_Confidence)(0),     // 1: eolymp.judge.Violation.Confidence
 	(Violation_Type)(0),           // 2: eolymp.judge.Violation.Type
-	(Violation_Patch_Field)(0),    // 3: eolymp.judge.Violation.Patch.Field
-	(*Violation)(nil),             // 4: eolymp.judge.Violation
-	(*Violation_Patch)(nil),       // 5: eolymp.judge.Violation.Patch
-	(*ecm.Content)(nil),           // 6: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*Violation)(nil),             // 3: eolymp.judge.Violation
+	(*Violation_Patch)(nil),       // 4: eolymp.judge.Violation.Patch
+	(*ecm.Content)(nil),           // 5: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_eolymp_judge_violation_proto_depIdxs = []int32{
 	0, // 0: eolymp.judge.Violation.status:type_name -> eolymp.judge.Violation.Status
 	2, // 1: eolymp.judge.Violation.type:type_name -> eolymp.judge.Violation.Type
 	1, // 2: eolymp.judge.Violation.confidence:type_name -> eolymp.judge.Violation.Confidence
-	6, // 3: eolymp.judge.Violation.summary:type_name -> eolymp.ecm.Content
-	7, // 4: eolymp.judge.Violation.created_at:type_name -> google.protobuf.Timestamp
-	7, // 5: eolymp.judge.Violation.confirmed_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 3: eolymp.judge.Violation.summary:type_name -> eolymp.ecm.Content
+	6, // 4: eolymp.judge.Violation.created_at:type_name -> google.protobuf.Timestamp
+	6, // 5: eolymp.judge.Violation.confirmed_at:type_name -> google.protobuf.Timestamp
+	5, // 6: eolymp.judge.Violation.Patch.summary:type_name -> eolymp.ecm.Content
+	0, // 7: eolymp.judge.Violation.Patch.status:type_name -> eolymp.judge.Violation.Status
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_violation_proto_init() }
@@ -493,12 +459,13 @@ func file_eolymp_judge_violation_proto_init() {
 	if File_eolymp_judge_violation_proto != nil {
 		return
 	}
+	file_eolymp_judge_violation_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_violation_proto_rawDesc), len(file_eolymp_judge_violation_proto_rawDesc)),
-			NumEnums:      4,
+			NumEnums:      3,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

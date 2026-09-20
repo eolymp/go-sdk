@@ -56,15 +56,15 @@ type ParticipantServiceClient interface {
 	//
 	// EnableParticipant gives a participant back the access to the contest that was previously
 	// withheld, leaving their score, start time and submissions as they were. Use UpdateParticipant
-	// instead, which reaches the same state through the patch mask.
+	// instead, which reaches the same state through a patch.
 	EnableParticipant(ctx context.Context, in *EnableParticipantInput, opts ...grpc.CallOption) (*EnableParticipantOutput, error)
 	// deprecated
 	//
 	// DisableParticipant withdraws a participant's access to the contest while keeping their record
 	// intact, which is neither a deletion nor a disqualification. Use UpdateParticipant instead, which
-	// reaches the same state through the patch mask.
+	// reaches the same state through a patch.
 	DisableParticipant(ctx context.Context, in *DisableParticipantInput, opts ...grpc.CallOption) (*DisableParticipantOutput, error)
-	// UpdateParticipant writes the fields selected by the patch mask, and is where most organiser
+	// UpdateParticipant writes the fields the patch carries, and is where most organiser
 	// actions on a participant live: there is no dedicated method for moving someone between official
 	// and unofficial ranking, for awarding a medal or for granting extra time on top of the contest
 	// duration. Extra time is counted in seconds, whereas organiser tooling normally asks for it in
@@ -294,15 +294,15 @@ type ParticipantServiceServer interface {
 	//
 	// EnableParticipant gives a participant back the access to the contest that was previously
 	// withheld, leaving their score, start time and submissions as they were. Use UpdateParticipant
-	// instead, which reaches the same state through the patch mask.
+	// instead, which reaches the same state through a patch.
 	EnableParticipant(context.Context, *EnableParticipantInput) (*EnableParticipantOutput, error)
 	// deprecated
 	//
 	// DisableParticipant withdraws a participant's access to the contest while keeping their record
 	// intact, which is neither a deletion nor a disqualification. Use UpdateParticipant instead, which
-	// reaches the same state through the patch mask.
+	// reaches the same state through a patch.
 	DisableParticipant(context.Context, *DisableParticipantInput) (*DisableParticipantOutput, error)
-	// UpdateParticipant writes the fields selected by the patch mask, and is where most organiser
+	// UpdateParticipant writes the fields the patch carries, and is where most organiser
 	// actions on a participant live: there is no dedicated method for moving someone between official
 	// and unofficial ranking, for awarding a medal or for granting extra time on top of the contest
 	// duration. Extra time is counted in seconds, whereas organiser tooling normally asks for it in
