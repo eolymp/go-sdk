@@ -23,110 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateEnumInput_Patch int32
-
-const (
-	UpdateEnumInput_ALL  UpdateEnumInput_Patch = 0
-	UpdateEnumInput_NAME UpdateEnumInput_Patch = 1
-)
-
-// Enum value maps for UpdateEnumInput_Patch.
-var (
-	UpdateEnumInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "NAME",
-	}
-	UpdateEnumInput_Patch_value = map[string]int32{
-		"ALL":  0,
-		"NAME": 1,
-	}
-)
-
-func (x UpdateEnumInput_Patch) Enum() *UpdateEnumInput_Patch {
-	p := new(UpdateEnumInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateEnumInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateEnumInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_taxonomy_enum_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateEnumInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_taxonomy_enum_service_proto_enumTypes[0]
-}
-
-func (x UpdateEnumInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateEnumInput_Patch.Descriptor instead.
-func (UpdateEnumInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_taxonomy_enum_service_proto_rawDescGZIP(), []int{4, 0}
-}
-
-type UpdateValueInput_Patch int32
-
-const (
-	UpdateValueInput_ALL      UpdateValueInput_Patch = 0
-	UpdateValueInput_NAME     UpdateValueInput_Patch = 1
-	UpdateValueInput_ABBR     UpdateValueInput_Patch = 2
-	UpdateValueInput_SUMMARY  UpdateValueInput_Patch = 3
-	UpdateValueInput_IMAGE    UpdateValueInput_Patch = 4
-	UpdateValueInput_KEYWORDS UpdateValueInput_Patch = 5
-)
-
-// Enum value maps for UpdateValueInput_Patch.
-var (
-	UpdateValueInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "NAME",
-		2: "ABBR",
-		3: "SUMMARY",
-		4: "IMAGE",
-		5: "KEYWORDS",
-	}
-	UpdateValueInput_Patch_value = map[string]int32{
-		"ALL":      0,
-		"NAME":     1,
-		"ABBR":     2,
-		"SUMMARY":  3,
-		"IMAGE":    4,
-		"KEYWORDS": 5,
-	}
-)
-
-func (x UpdateValueInput_Patch) Enum() *UpdateValueInput_Patch {
-	p := new(UpdateValueInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateValueInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateValueInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_taxonomy_enum_service_proto_enumTypes[1].Descriptor()
-}
-
-func (UpdateValueInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_taxonomy_enum_service_proto_enumTypes[1]
-}
-
-func (x UpdateValueInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateValueInput_Patch.Descriptor instead.
-func (UpdateValueInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_taxonomy_enum_service_proto_rawDescGZIP(), []int{14, 0}
-}
-
 type CreateEnumInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Enum          *Enum                  `protobuf:"bytes,1,opt,name=enum,proto3" json:"enum,omitempty"`
@@ -296,10 +192,9 @@ func (*DeleteEnumOutput) Descriptor() ([]byte, []int) {
 }
 
 type UpdateEnumInput struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Patch         []UpdateEnumInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.taxonomy.UpdateEnumInput_Patch" json:"patch,omitempty"` // patch defines which fields should be set, if empty ALL fields are set
-	EnumId        string                  `protobuf:"bytes,2,opt,name=enum_id,json=enumId,proto3" json:"enum_id,omitempty"`                                    // enum to update
-	Enum          *Enum                   `protobuf:"bytes,3,opt,name=enum,proto3" json:"enum,omitempty"`                                                      // value to set (id field is ignored during update)
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EnumId        string                 `protobuf:"bytes,2,opt,name=enum_id,json=enumId,proto3" json:"enum_id,omitempty"` // enum to update
+	Enum          *Enum_Patch            `protobuf:"bytes,4,opt,name=enum,proto3" json:"enum,omitempty"`                   // fields to write
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -334,13 +229,6 @@ func (*UpdateEnumInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_taxonomy_enum_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *UpdateEnumInput) GetPatch() []UpdateEnumInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateEnumInput) GetEnumId() string {
 	if x != nil {
 		return x.EnumId
@@ -348,7 +236,7 @@ func (x *UpdateEnumInput) GetEnumId() string {
 	return ""
 }
 
-func (x *UpdateEnumInput) GetEnum() *Enum {
+func (x *UpdateEnumInput) GetEnum() *Enum_Patch {
 	if x != nil {
 		return x.Enum
 	}
@@ -786,11 +674,10 @@ func (*DeleteValueOutput) Descriptor() ([]byte, []int) {
 }
 
 type UpdateValueInput struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Patch         []UpdateValueInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.taxonomy.UpdateValueInput_Patch" json:"patch,omitempty"` // patch defines which fields should be set, if empty ALL fields are set
-	EnumId        string                   `protobuf:"bytes,2,opt,name=enum_id,json=enumId,proto3" json:"enum_id,omitempty"`
-	ValueId       string                   `protobuf:"bytes,3,opt,name=value_id,json=valueId,proto3" json:"value_id,omitempty"` // value to update
-	Value         *Value                   `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`                    // value to set (id field is ignored during update)
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EnumId        string                 `protobuf:"bytes,2,opt,name=enum_id,json=enumId,proto3" json:"enum_id,omitempty"`
+	ValueId       string                 `protobuf:"bytes,3,opt,name=value_id,json=valueId,proto3" json:"value_id,omitempty"` // value to update
+	Value         *Value_Patch           `protobuf:"bytes,5,opt,name=value,proto3" json:"value,omitempty"`                    // fields to write
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -825,13 +712,6 @@ func (*UpdateValueInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_taxonomy_enum_service_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *UpdateValueInput) GetPatch() []UpdateValueInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateValueInput) GetEnumId() string {
 	if x != nil {
 		return x.EnumId
@@ -846,7 +726,7 @@ func (x *UpdateValueInput) GetValueId() string {
 	return ""
 }
 
-func (x *UpdateValueInput) GetValue() *Value {
+func (x *UpdateValueInput) GetValue() *Value_Patch {
 	if x != nil {
 		return x.Value
 	}
@@ -1642,14 +1522,10 @@ const file_eolymp_taxonomy_enum_service_proto_rawDesc = "" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\"*\n" +
 	"\x0fDeleteEnumInput\x12\x17\n" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\"\x12\n" +
-	"\x10DeleteEnumOutput\"\xaf\x01\n" +
-	"\x0fUpdateEnumInput\x12<\n" +
-	"\x05patch\x18\x01 \x03(\x0e2&.eolymp.taxonomy.UpdateEnumInput.PatchR\x05patch\x12\x17\n" +
-	"\aenum_id\x18\x02 \x01(\tR\x06enumId\x12)\n" +
-	"\x04enum\x18\x03 \x01(\v2\x15.eolymp.taxonomy.EnumR\x04enum\"\x1a\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\"\x12\n" +
+	"\x10DeleteEnumOutput\"g\n" +
+	"\x0fUpdateEnumInput\x12\x17\n" +
+	"\aenum_id\x18\x02 \x01(\tR\x06enumId\x12/\n" +
+	"\x04enum\x18\x04 \x01(\v2\x1b.eolymp.taxonomy.Enum.PatchR\x04enumJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x12\n" +
 	"\x10UpdateEnumOutput\",\n" +
 	"\x11DescribeEnumInput\x12\x17\n" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\"?\n" +
@@ -1676,19 +1552,11 @@ const file_eolymp_taxonomy_enum_service_proto_rawDesc = "" +
 	"\x10DeleteValueInput\x12\x17\n" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\x12\x19\n" +
 	"\bvalue_id\x18\x02 \x01(\tR\avalueId\"\x13\n" +
-	"\x11DeleteValueOutput\"\xff\x01\n" +
-	"\x10UpdateValueInput\x12=\n" +
-	"\x05patch\x18\x01 \x03(\x0e2'.eolymp.taxonomy.UpdateValueInput.PatchR\x05patch\x12\x17\n" +
+	"\x11DeleteValueOutput\"\x86\x01\n" +
+	"\x10UpdateValueInput\x12\x17\n" +
 	"\aenum_id\x18\x02 \x01(\tR\x06enumId\x12\x19\n" +
-	"\bvalue_id\x18\x03 \x01(\tR\avalueId\x12,\n" +
-	"\x05value\x18\x04 \x01(\v2\x16.eolymp.taxonomy.ValueR\x05value\"J\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x01\x12\b\n" +
-	"\x04ABBR\x10\x02\x12\v\n" +
-	"\aSUMMARY\x10\x03\x12\t\n" +
-	"\x05IMAGE\x10\x04\x12\f\n" +
-	"\bKEYWORDS\x10\x05\"\x13\n" +
+	"\bvalue_id\x18\x03 \x01(\tR\avalueId\x122\n" +
+	"\x05value\x18\x05 \x01(\v2\x1c.eolymp.taxonomy.Value.PatchR\x05valueJ\x04\b\x01\x10\x02J\x04\b\x04\x10\x05\"\x13\n" +
 	"\x11UpdateValueOutput\"`\n" +
 	"\x12DescribeValueInput\x12\x17\n" +
 	"\aenum_id\x18\x01 \x01(\tR\x06enumId\x12\x19\n" +
@@ -1855,99 +1723,96 @@ func file_eolymp_taxonomy_enum_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_taxonomy_enum_service_proto_rawDescData
 }
 
-var file_eolymp_taxonomy_enum_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_taxonomy_enum_service_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_eolymp_taxonomy_enum_service_proto_goTypes = []any{
-	(UpdateEnumInput_Patch)(0),           // 0: eolymp.taxonomy.UpdateEnumInput.Patch
-	(UpdateValueInput_Patch)(0),          // 1: eolymp.taxonomy.UpdateValueInput.Patch
-	(*CreateEnumInput)(nil),              // 2: eolymp.taxonomy.CreateEnumInput
-	(*CreateEnumOutput)(nil),             // 3: eolymp.taxonomy.CreateEnumOutput
-	(*DeleteEnumInput)(nil),              // 4: eolymp.taxonomy.DeleteEnumInput
-	(*DeleteEnumOutput)(nil),             // 5: eolymp.taxonomy.DeleteEnumOutput
-	(*UpdateEnumInput)(nil),              // 6: eolymp.taxonomy.UpdateEnumInput
-	(*UpdateEnumOutput)(nil),             // 7: eolymp.taxonomy.UpdateEnumOutput
-	(*DescribeEnumInput)(nil),            // 8: eolymp.taxonomy.DescribeEnumInput
-	(*DescribeEnumOutput)(nil),           // 9: eolymp.taxonomy.DescribeEnumOutput
-	(*ListEnumsInput)(nil),               // 10: eolymp.taxonomy.ListEnumsInput
-	(*ListEnumsOutput)(nil),              // 11: eolymp.taxonomy.ListEnumsOutput
-	(*CreateValueInput)(nil),             // 12: eolymp.taxonomy.CreateValueInput
-	(*CreateValueOutput)(nil),            // 13: eolymp.taxonomy.CreateValueOutput
-	(*DeleteValueInput)(nil),             // 14: eolymp.taxonomy.DeleteValueInput
-	(*DeleteValueOutput)(nil),            // 15: eolymp.taxonomy.DeleteValueOutput
-	(*UpdateValueInput)(nil),             // 16: eolymp.taxonomy.UpdateValueInput
-	(*UpdateValueOutput)(nil),            // 17: eolymp.taxonomy.UpdateValueOutput
-	(*DescribeValueInput)(nil),           // 18: eolymp.taxonomy.DescribeValueInput
-	(*DescribeValueOutput)(nil),          // 19: eolymp.taxonomy.DescribeValueOutput
-	(*ListValuesInput)(nil),              // 20: eolymp.taxonomy.ListValuesInput
-	(*ListValuesOutput)(nil),             // 21: eolymp.taxonomy.ListValuesOutput
-	(*TranslateValueInput)(nil),          // 22: eolymp.taxonomy.TranslateValueInput
-	(*TranslateValueOutput)(nil),         // 23: eolymp.taxonomy.TranslateValueOutput
-	(*DeleteTranslationInput)(nil),       // 24: eolymp.taxonomy.DeleteTranslationInput
-	(*DeleteTranslationOutput)(nil),      // 25: eolymp.taxonomy.DeleteTranslationOutput
-	(*ListTranslationsInput)(nil),        // 26: eolymp.taxonomy.ListTranslationsInput
-	(*ListTranslationsOutput)(nil),       // 27: eolymp.taxonomy.ListTranslationsOutput
-	(*ListEnumsInput_Filter)(nil),        // 28: eolymp.taxonomy.ListEnumsInput.Filter
-	(*ListValuesInput_Filter)(nil),       // 29: eolymp.taxonomy.ListValuesInput.Filter
-	(*ListTranslationsInput_Filter)(nil), // 30: eolymp.taxonomy.ListTranslationsInput.Filter
-	(*Enum)(nil),                         // 31: eolymp.taxonomy.Enum
-	(*Value)(nil),                        // 32: eolymp.taxonomy.Value
+	(*CreateEnumInput)(nil),              // 0: eolymp.taxonomy.CreateEnumInput
+	(*CreateEnumOutput)(nil),             // 1: eolymp.taxonomy.CreateEnumOutput
+	(*DeleteEnumInput)(nil),              // 2: eolymp.taxonomy.DeleteEnumInput
+	(*DeleteEnumOutput)(nil),             // 3: eolymp.taxonomy.DeleteEnumOutput
+	(*UpdateEnumInput)(nil),              // 4: eolymp.taxonomy.UpdateEnumInput
+	(*UpdateEnumOutput)(nil),             // 5: eolymp.taxonomy.UpdateEnumOutput
+	(*DescribeEnumInput)(nil),            // 6: eolymp.taxonomy.DescribeEnumInput
+	(*DescribeEnumOutput)(nil),           // 7: eolymp.taxonomy.DescribeEnumOutput
+	(*ListEnumsInput)(nil),               // 8: eolymp.taxonomy.ListEnumsInput
+	(*ListEnumsOutput)(nil),              // 9: eolymp.taxonomy.ListEnumsOutput
+	(*CreateValueInput)(nil),             // 10: eolymp.taxonomy.CreateValueInput
+	(*CreateValueOutput)(nil),            // 11: eolymp.taxonomy.CreateValueOutput
+	(*DeleteValueInput)(nil),             // 12: eolymp.taxonomy.DeleteValueInput
+	(*DeleteValueOutput)(nil),            // 13: eolymp.taxonomy.DeleteValueOutput
+	(*UpdateValueInput)(nil),             // 14: eolymp.taxonomy.UpdateValueInput
+	(*UpdateValueOutput)(nil),            // 15: eolymp.taxonomy.UpdateValueOutput
+	(*DescribeValueInput)(nil),           // 16: eolymp.taxonomy.DescribeValueInput
+	(*DescribeValueOutput)(nil),          // 17: eolymp.taxonomy.DescribeValueOutput
+	(*ListValuesInput)(nil),              // 18: eolymp.taxonomy.ListValuesInput
+	(*ListValuesOutput)(nil),             // 19: eolymp.taxonomy.ListValuesOutput
+	(*TranslateValueInput)(nil),          // 20: eolymp.taxonomy.TranslateValueInput
+	(*TranslateValueOutput)(nil),         // 21: eolymp.taxonomy.TranslateValueOutput
+	(*DeleteTranslationInput)(nil),       // 22: eolymp.taxonomy.DeleteTranslationInput
+	(*DeleteTranslationOutput)(nil),      // 23: eolymp.taxonomy.DeleteTranslationOutput
+	(*ListTranslationsInput)(nil),        // 24: eolymp.taxonomy.ListTranslationsInput
+	(*ListTranslationsOutput)(nil),       // 25: eolymp.taxonomy.ListTranslationsOutput
+	(*ListEnumsInput_Filter)(nil),        // 26: eolymp.taxonomy.ListEnumsInput.Filter
+	(*ListValuesInput_Filter)(nil),       // 27: eolymp.taxonomy.ListValuesInput.Filter
+	(*ListTranslationsInput_Filter)(nil), // 28: eolymp.taxonomy.ListTranslationsInput.Filter
+	(*Enum)(nil),                         // 29: eolymp.taxonomy.Enum
+	(*Enum_Patch)(nil),                   // 30: eolymp.taxonomy.Enum.Patch
+	(*Value)(nil),                        // 31: eolymp.taxonomy.Value
+	(*Value_Patch)(nil),                  // 32: eolymp.taxonomy.Value.Patch
 	(*Value_Translation)(nil),            // 33: eolymp.taxonomy.Value.Translation
 	(*wellknown.ExpressionID)(nil),       // 34: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionString)(nil),   // 35: eolymp.wellknown.ExpressionString
 	(*wellknown.ExpressionEnum)(nil),     // 36: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_taxonomy_enum_service_proto_depIdxs = []int32{
-	31, // 0: eolymp.taxonomy.CreateEnumInput.enum:type_name -> eolymp.taxonomy.Enum
-	0,  // 1: eolymp.taxonomy.UpdateEnumInput.patch:type_name -> eolymp.taxonomy.UpdateEnumInput.Patch
-	31, // 2: eolymp.taxonomy.UpdateEnumInput.enum:type_name -> eolymp.taxonomy.Enum
-	31, // 3: eolymp.taxonomy.DescribeEnumOutput.enum:type_name -> eolymp.taxonomy.Enum
-	28, // 4: eolymp.taxonomy.ListEnumsInput.filters:type_name -> eolymp.taxonomy.ListEnumsInput.Filter
-	31, // 5: eolymp.taxonomy.ListEnumsOutput.items:type_name -> eolymp.taxonomy.Enum
-	32, // 6: eolymp.taxonomy.CreateValueInput.value:type_name -> eolymp.taxonomy.Value
-	1,  // 7: eolymp.taxonomy.UpdateValueInput.patch:type_name -> eolymp.taxonomy.UpdateValueInput.Patch
-	32, // 8: eolymp.taxonomy.UpdateValueInput.value:type_name -> eolymp.taxonomy.Value
-	32, // 9: eolymp.taxonomy.DescribeValueOutput.value:type_name -> eolymp.taxonomy.Value
-	29, // 10: eolymp.taxonomy.ListValuesInput.filters:type_name -> eolymp.taxonomy.ListValuesInput.Filter
-	32, // 11: eolymp.taxonomy.ListValuesOutput.items:type_name -> eolymp.taxonomy.Value
-	33, // 12: eolymp.taxonomy.TranslateValueInput.translation:type_name -> eolymp.taxonomy.Value.Translation
-	30, // 13: eolymp.taxonomy.ListTranslationsInput.filters:type_name -> eolymp.taxonomy.ListTranslationsInput.Filter
-	33, // 14: eolymp.taxonomy.ListTranslationsOutput.items:type_name -> eolymp.taxonomy.Value.Translation
-	34, // 15: eolymp.taxonomy.ListEnumsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	35, // 16: eolymp.taxonomy.ListEnumsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	34, // 17: eolymp.taxonomy.ListValuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	35, // 18: eolymp.taxonomy.ListValuesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	36, // 19: eolymp.taxonomy.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	2,  // 20: eolymp.taxonomy.EnumService.CreateEnum:input_type -> eolymp.taxonomy.CreateEnumInput
-	4,  // 21: eolymp.taxonomy.EnumService.DeleteEnum:input_type -> eolymp.taxonomy.DeleteEnumInput
-	6,  // 22: eolymp.taxonomy.EnumService.UpdateEnum:input_type -> eolymp.taxonomy.UpdateEnumInput
-	8,  // 23: eolymp.taxonomy.EnumService.DescribeEnum:input_type -> eolymp.taxonomy.DescribeEnumInput
-	10, // 24: eolymp.taxonomy.EnumService.ListEnums:input_type -> eolymp.taxonomy.ListEnumsInput
-	12, // 25: eolymp.taxonomy.EnumService.CreateValue:input_type -> eolymp.taxonomy.CreateValueInput
-	14, // 26: eolymp.taxonomy.EnumService.DeleteValue:input_type -> eolymp.taxonomy.DeleteValueInput
-	16, // 27: eolymp.taxonomy.EnumService.UpdateValue:input_type -> eolymp.taxonomy.UpdateValueInput
-	18, // 28: eolymp.taxonomy.EnumService.DescribeValue:input_type -> eolymp.taxonomy.DescribeValueInput
-	20, // 29: eolymp.taxonomy.EnumService.ListValues:input_type -> eolymp.taxonomy.ListValuesInput
-	22, // 30: eolymp.taxonomy.EnumService.TranslateValue:input_type -> eolymp.taxonomy.TranslateValueInput
-	24, // 31: eolymp.taxonomy.EnumService.DeleteTranslation:input_type -> eolymp.taxonomy.DeleteTranslationInput
-	26, // 32: eolymp.taxonomy.EnumService.ListTranslations:input_type -> eolymp.taxonomy.ListTranslationsInput
-	3,  // 33: eolymp.taxonomy.EnumService.CreateEnum:output_type -> eolymp.taxonomy.CreateEnumOutput
-	5,  // 34: eolymp.taxonomy.EnumService.DeleteEnum:output_type -> eolymp.taxonomy.DeleteEnumOutput
-	7,  // 35: eolymp.taxonomy.EnumService.UpdateEnum:output_type -> eolymp.taxonomy.UpdateEnumOutput
-	9,  // 36: eolymp.taxonomy.EnumService.DescribeEnum:output_type -> eolymp.taxonomy.DescribeEnumOutput
-	11, // 37: eolymp.taxonomy.EnumService.ListEnums:output_type -> eolymp.taxonomy.ListEnumsOutput
-	13, // 38: eolymp.taxonomy.EnumService.CreateValue:output_type -> eolymp.taxonomy.CreateValueOutput
-	15, // 39: eolymp.taxonomy.EnumService.DeleteValue:output_type -> eolymp.taxonomy.DeleteValueOutput
-	17, // 40: eolymp.taxonomy.EnumService.UpdateValue:output_type -> eolymp.taxonomy.UpdateValueOutput
-	19, // 41: eolymp.taxonomy.EnumService.DescribeValue:output_type -> eolymp.taxonomy.DescribeValueOutput
-	21, // 42: eolymp.taxonomy.EnumService.ListValues:output_type -> eolymp.taxonomy.ListValuesOutput
-	23, // 43: eolymp.taxonomy.EnumService.TranslateValue:output_type -> eolymp.taxonomy.TranslateValueOutput
-	25, // 44: eolymp.taxonomy.EnumService.DeleteTranslation:output_type -> eolymp.taxonomy.DeleteTranslationOutput
-	27, // 45: eolymp.taxonomy.EnumService.ListTranslations:output_type -> eolymp.taxonomy.ListTranslationsOutput
-	33, // [33:46] is the sub-list for method output_type
-	20, // [20:33] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	29, // 0: eolymp.taxonomy.CreateEnumInput.enum:type_name -> eolymp.taxonomy.Enum
+	30, // 1: eolymp.taxonomy.UpdateEnumInput.enum:type_name -> eolymp.taxonomy.Enum.Patch
+	29, // 2: eolymp.taxonomy.DescribeEnumOutput.enum:type_name -> eolymp.taxonomy.Enum
+	26, // 3: eolymp.taxonomy.ListEnumsInput.filters:type_name -> eolymp.taxonomy.ListEnumsInput.Filter
+	29, // 4: eolymp.taxonomy.ListEnumsOutput.items:type_name -> eolymp.taxonomy.Enum
+	31, // 5: eolymp.taxonomy.CreateValueInput.value:type_name -> eolymp.taxonomy.Value
+	32, // 6: eolymp.taxonomy.UpdateValueInput.value:type_name -> eolymp.taxonomy.Value.Patch
+	31, // 7: eolymp.taxonomy.DescribeValueOutput.value:type_name -> eolymp.taxonomy.Value
+	27, // 8: eolymp.taxonomy.ListValuesInput.filters:type_name -> eolymp.taxonomy.ListValuesInput.Filter
+	31, // 9: eolymp.taxonomy.ListValuesOutput.items:type_name -> eolymp.taxonomy.Value
+	33, // 10: eolymp.taxonomy.TranslateValueInput.translation:type_name -> eolymp.taxonomy.Value.Translation
+	28, // 11: eolymp.taxonomy.ListTranslationsInput.filters:type_name -> eolymp.taxonomy.ListTranslationsInput.Filter
+	33, // 12: eolymp.taxonomy.ListTranslationsOutput.items:type_name -> eolymp.taxonomy.Value.Translation
+	34, // 13: eolymp.taxonomy.ListEnumsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	35, // 14: eolymp.taxonomy.ListEnumsInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	34, // 15: eolymp.taxonomy.ListValuesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	35, // 16: eolymp.taxonomy.ListValuesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	36, // 17: eolymp.taxonomy.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 18: eolymp.taxonomy.EnumService.CreateEnum:input_type -> eolymp.taxonomy.CreateEnumInput
+	2,  // 19: eolymp.taxonomy.EnumService.DeleteEnum:input_type -> eolymp.taxonomy.DeleteEnumInput
+	4,  // 20: eolymp.taxonomy.EnumService.UpdateEnum:input_type -> eolymp.taxonomy.UpdateEnumInput
+	6,  // 21: eolymp.taxonomy.EnumService.DescribeEnum:input_type -> eolymp.taxonomy.DescribeEnumInput
+	8,  // 22: eolymp.taxonomy.EnumService.ListEnums:input_type -> eolymp.taxonomy.ListEnumsInput
+	10, // 23: eolymp.taxonomy.EnumService.CreateValue:input_type -> eolymp.taxonomy.CreateValueInput
+	12, // 24: eolymp.taxonomy.EnumService.DeleteValue:input_type -> eolymp.taxonomy.DeleteValueInput
+	14, // 25: eolymp.taxonomy.EnumService.UpdateValue:input_type -> eolymp.taxonomy.UpdateValueInput
+	16, // 26: eolymp.taxonomy.EnumService.DescribeValue:input_type -> eolymp.taxonomy.DescribeValueInput
+	18, // 27: eolymp.taxonomy.EnumService.ListValues:input_type -> eolymp.taxonomy.ListValuesInput
+	20, // 28: eolymp.taxonomy.EnumService.TranslateValue:input_type -> eolymp.taxonomy.TranslateValueInput
+	22, // 29: eolymp.taxonomy.EnumService.DeleteTranslation:input_type -> eolymp.taxonomy.DeleteTranslationInput
+	24, // 30: eolymp.taxonomy.EnumService.ListTranslations:input_type -> eolymp.taxonomy.ListTranslationsInput
+	1,  // 31: eolymp.taxonomy.EnumService.CreateEnum:output_type -> eolymp.taxonomy.CreateEnumOutput
+	3,  // 32: eolymp.taxonomy.EnumService.DeleteEnum:output_type -> eolymp.taxonomy.DeleteEnumOutput
+	5,  // 33: eolymp.taxonomy.EnumService.UpdateEnum:output_type -> eolymp.taxonomy.UpdateEnumOutput
+	7,  // 34: eolymp.taxonomy.EnumService.DescribeEnum:output_type -> eolymp.taxonomy.DescribeEnumOutput
+	9,  // 35: eolymp.taxonomy.EnumService.ListEnums:output_type -> eolymp.taxonomy.ListEnumsOutput
+	11, // 36: eolymp.taxonomy.EnumService.CreateValue:output_type -> eolymp.taxonomy.CreateValueOutput
+	13, // 37: eolymp.taxonomy.EnumService.DeleteValue:output_type -> eolymp.taxonomy.DeleteValueOutput
+	15, // 38: eolymp.taxonomy.EnumService.UpdateValue:output_type -> eolymp.taxonomy.UpdateValueOutput
+	17, // 39: eolymp.taxonomy.EnumService.DescribeValue:output_type -> eolymp.taxonomy.DescribeValueOutput
+	19, // 40: eolymp.taxonomy.EnumService.ListValues:output_type -> eolymp.taxonomy.ListValuesOutput
+	21, // 41: eolymp.taxonomy.EnumService.TranslateValue:output_type -> eolymp.taxonomy.TranslateValueOutput
+	23, // 42: eolymp.taxonomy.EnumService.DeleteTranslation:output_type -> eolymp.taxonomy.DeleteTranslationOutput
+	25, // 43: eolymp.taxonomy.EnumService.ListTranslations:output_type -> eolymp.taxonomy.ListTranslationsOutput
+	31, // [31:44] is the sub-list for method output_type
+	18, // [18:31] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_taxonomy_enum_service_proto_init() }
@@ -1962,14 +1827,13 @@ func file_eolymp_taxonomy_enum_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_taxonomy_enum_service_proto_rawDesc), len(file_eolymp_taxonomy_enum_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      0,
 			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_taxonomy_enum_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_taxonomy_enum_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_taxonomy_enum_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_taxonomy_enum_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_taxonomy_enum_service_proto = out.File
