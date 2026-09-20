@@ -265,11 +265,112 @@ func (x *Course) GetEstimate() uint32 {
 	return 0
 }
 
+// Patch describes the fields UpdateCourse can change, a field is written only if it is set.
+type Course_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Locale        *string                `protobuf:"bytes,10,opt,name=locale,proto3,oneof" json:"locale,omitempty"`
+	Name          *string                `protobuf:"bytes,11,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Description   *ecm.Content           `protobuf:"bytes,12,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	ImageUrl      *string                `protobuf:"bytes,13,opt,name=image_url,json=imageUrl,proto3,oneof" json:"image_url,omitempty"`
+	Visibility    *Course_Visibility     `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.course.Course_Visibility,oneof" json:"visibility,omitempty"`
+	Duration      *uint32                `protobuf:"varint,15,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
+	Topics        []string               `protobuf:"bytes,16,rep,name=topics,proto3" json:"topics,omitempty"`
+	Untopic       *bool                  `protobuf:"varint,17,opt,name=untopic,proto3,oneof" json:"untopic,omitempty"` // topics carries no presence of its own, so clearing it has to be asked for
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Course_Patch) Reset() {
+	*x = Course_Patch{}
+	mi := &file_eolymp_course_course_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Course_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Course_Patch) ProtoMessage() {}
+
+func (x *Course_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_course_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Course_Patch.ProtoReflect.Descriptor instead.
+func (*Course_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_course_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Course_Patch) GetLocale() string {
+	if x != nil && x.Locale != nil {
+		return *x.Locale
+	}
+	return ""
+}
+
+func (x *Course_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Course_Patch) GetDescription() *ecm.Content {
+	if x != nil {
+		return x.Description
+	}
+	return nil
+}
+
+func (x *Course_Patch) GetImageUrl() string {
+	if x != nil && x.ImageUrl != nil {
+		return *x.ImageUrl
+	}
+	return ""
+}
+
+func (x *Course_Patch) GetVisibility() Course_Visibility {
+	if x != nil && x.Visibility != nil {
+		return *x.Visibility
+	}
+	return Course_UNKNOWN_VISIBILITY
+}
+
+func (x *Course_Patch) GetDuration() uint32 {
+	if x != nil && x.Duration != nil {
+		return *x.Duration
+	}
+	return 0
+}
+
+func (x *Course_Patch) GetTopics() []string {
+	if x != nil {
+		return x.Topics
+	}
+	return nil
+}
+
+func (x *Course_Patch) GetUntopic() bool {
+	if x != nil && x.Untopic != nil {
+		return *x.Untopic
+	}
+	return false
+}
+
 var File_eolymp_course_course_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_course_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/course/course.proto\x12\reolymp.course\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xd6\x04\n" +
+	"\x1aeolymp/course/course.proto\x12\reolymp.course\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xed\a\n" +
 	"\x06Course\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12,\n" +
@@ -287,7 +388,28 @@ const file_eolymp_course_course_proto_rawDesc = "" +
 	"visibility\x12\x1a\n" +
 	"\bduration\x18\x0f \x01(\rR\bduration\x12\x16\n" +
 	"\x06topics\x18\x10 \x03(\tR\x06topics\x12\x1a\n" +
-	"\bestimate\x18\x14 \x01(\rR\bestimate\"I\n" +
+	"\bestimate\x18\x14 \x01(\rR\bestimate\x1a\x94\x03\n" +
+	"\x05Patch\x12\x1b\n" +
+	"\x06locale\x18\n" +
+	" \x01(\tH\x00R\x06locale\x88\x01\x01\x12\x17\n" +
+	"\x04name\x18\v \x01(\tH\x01R\x04name\x88\x01\x01\x12:\n" +
+	"\vdescription\x18\f \x01(\v2\x13.eolymp.ecm.ContentH\x02R\vdescription\x88\x01\x01\x12 \n" +
+	"\timage_url\x18\r \x01(\tH\x03R\bimageUrl\x88\x01\x01\x12E\n" +
+	"\n" +
+	"visibility\x18\x0e \x01(\x0e2 .eolymp.course.Course.VisibilityH\x04R\n" +
+	"visibility\x88\x01\x01\x12\x1f\n" +
+	"\bduration\x18\x0f \x01(\rH\x05R\bduration\x88\x01\x01\x12\x16\n" +
+	"\x06topics\x18\x10 \x03(\tR\x06topics\x12\x1d\n" +
+	"\auntopic\x18\x11 \x01(\bH\x06R\auntopic\x88\x01\x01B\t\n" +
+	"\a_localeB\a\n" +
+	"\x05_nameB\x0e\n" +
+	"\f_descriptionB\f\n" +
+	"\n" +
+	"_image_urlB\r\n" +
+	"\v_visibilityB\v\n" +
+	"\t_durationB\n" +
+	"\n" +
+	"\b_untopic\"I\n" +
 	"\x05Extra\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
@@ -313,21 +435,24 @@ func file_eolymp_course_course_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_course_course_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_course_course_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_course_course_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_course_course_proto_goTypes = []any{
 	(Course_Extra)(0),      // 0: eolymp.course.Course.Extra
 	(Course_Visibility)(0), // 1: eolymp.course.Course.Visibility
 	(*Course)(nil),         // 2: eolymp.course.Course
-	(*ecm.Content)(nil),    // 3: eolymp.ecm.Content
+	(*Course_Patch)(nil),   // 3: eolymp.course.Course.Patch
+	(*ecm.Content)(nil),    // 4: eolymp.ecm.Content
 }
 var file_eolymp_course_course_proto_depIdxs = []int32{
-	3, // 0: eolymp.course.Course.description:type_name -> eolymp.ecm.Content
+	4, // 0: eolymp.course.Course.description:type_name -> eolymp.ecm.Content
 	1, // 1: eolymp.course.Course.visibility:type_name -> eolymp.course.Course.Visibility
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 2: eolymp.course.Course.Patch.description:type_name -> eolymp.ecm.Content
+	1, // 3: eolymp.course.Course.Patch.visibility:type_name -> eolymp.course.Course.Visibility
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_course_proto_init() }
@@ -335,13 +460,14 @@ func file_eolymp_course_course_proto_init() {
 	if File_eolymp_course_course_proto != nil {
 		return
 	}
+	file_eolymp_course_course_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_course_proto_rawDesc), len(file_eolymp_course_course_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

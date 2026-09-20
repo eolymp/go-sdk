@@ -66,70 +66,6 @@ func (ListCoursesInput_Sortable) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_course_course_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type UpdateCourseInput_Patch int32
-
-const (
-	UpdateCourseInput_ALL         UpdateCourseInput_Patch = 0
-	UpdateCourseInput_LOCALE      UpdateCourseInput_Patch = 1
-	UpdateCourseInput_NAME        UpdateCourseInput_Patch = 2
-	UpdateCourseInput_DESCRIPTION UpdateCourseInput_Patch = 3
-	UpdateCourseInput_IMAGE       UpdateCourseInput_Patch = 4
-	UpdateCourseInput_VISIBILITY  UpdateCourseInput_Patch = 5
-	UpdateCourseInput_DURATION    UpdateCourseInput_Patch = 6
-	UpdateCourseInput_TOPICS      UpdateCourseInput_Patch = 7
-)
-
-// Enum value maps for UpdateCourseInput_Patch.
-var (
-	UpdateCourseInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "LOCALE",
-		2: "NAME",
-		3: "DESCRIPTION",
-		4: "IMAGE",
-		5: "VISIBILITY",
-		6: "DURATION",
-		7: "TOPICS",
-	}
-	UpdateCourseInput_Patch_value = map[string]int32{
-		"ALL":         0,
-		"LOCALE":      1,
-		"NAME":        2,
-		"DESCRIPTION": 3,
-		"IMAGE":       4,
-		"VISIBILITY":  5,
-		"DURATION":    6,
-		"TOPICS":      7,
-	}
-)
-
-func (x UpdateCourseInput_Patch) Enum() *UpdateCourseInput_Patch {
-	p := new(UpdateCourseInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateCourseInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateCourseInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_course_service_proto_enumTypes[1].Descriptor()
-}
-
-func (UpdateCourseInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_course_course_service_proto_enumTypes[1]
-}
-
-func (x UpdateCourseInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateCourseInput_Patch.Descriptor instead.
-func (UpdateCourseInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_course_course_service_proto_rawDescGZIP(), []int{6, 0}
-}
-
 type CopyCourseInput_Scope int32
 
 const (
@@ -169,11 +105,11 @@ func (x CopyCourseInput_Scope) String() string {
 }
 
 func (CopyCourseInput_Scope) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_course_service_proto_enumTypes[2].Descriptor()
+	return file_eolymp_course_course_service_proto_enumTypes[1].Descriptor()
 }
 
 func (CopyCourseInput_Scope) Type() protoreflect.EnumType {
-	return &file_eolymp_course_course_service_proto_enumTypes[2]
+	return &file_eolymp_course_course_service_proto_enumTypes[1]
 }
 
 func (x CopyCourseInput_Scope) Number() protoreflect.EnumNumber {
@@ -516,11 +452,9 @@ func (x *CreateCourseOutput) GetCourseId() string {
 }
 
 type UpdateCourseInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// specify list of fields to update, if empty all fields are updated
-	Patch         []UpdateCourseInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateCourseInput_Patch" json:"patch,omitempty"`
-	CourseId      string                    `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	Course        *Course                   `protobuf:"bytes,3,opt,name=course,proto3" json:"course,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Course        *Course_Patch          `protobuf:"bytes,4,opt,name=course,proto3" json:"course,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -555,13 +489,6 @@ func (*UpdateCourseInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_course_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateCourseInput) GetPatch() []UpdateCourseInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateCourseInput) GetCourseId() string {
 	if x != nil {
 		return x.CourseId
@@ -569,7 +496,7 @@ func (x *UpdateCourseInput) GetCourseId() string {
 	return ""
 }
 
-func (x *UpdateCourseInput) GetCourse() *Course {
+func (x *UpdateCourseInput) GetCourse() *Course_Patch {
 	if x != nil {
 		return x.Course
 	}
@@ -888,23 +815,10 @@ const file_eolymp_course_course_service_proto_rawDesc = "" +
 	"\x11CreateCourseInput\x12-\n" +
 	"\x06course\x18\x01 \x01(\v2\x15.eolymp.course.CourseR\x06course\"1\n" +
 	"\x12CreateCourseOutput\x12\x1b\n" +
-	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\"\x8b\x02\n" +
-	"\x11UpdateCourseInput\x12<\n" +
-	"\x05patch\x18\x01 \x03(\x0e2&.eolymp.course.UpdateCourseInput.PatchR\x05patch\x12\x1b\n" +
-	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12-\n" +
-	"\x06course\x18\x03 \x01(\v2\x15.eolymp.course.CourseR\x06course\"l\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\n" +
-	"\n" +
-	"\x06LOCALE\x10\x01\x12\b\n" +
-	"\x04NAME\x10\x02\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x03\x12\t\n" +
-	"\x05IMAGE\x10\x04\x12\x0e\n" +
-	"\n" +
-	"VISIBILITY\x10\x05\x12\f\n" +
-	"\bDURATION\x10\x06\x12\n" +
-	"\n" +
-	"\x06TOPICS\x10\a\"\x14\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\"q\n" +
+	"\x11UpdateCourseInput\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x123\n" +
+	"\x06course\x18\x04 \x01(\v2\x1b.eolymp.course.Course.PatchR\x06courseJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x14\n" +
 	"\x12UpdateCourseOutput\"0\n" +
 	"\x11DeleteCourseInput\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\"\x14\n" +
@@ -987,63 +901,62 @@ func file_eolymp_course_course_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_course_course_service_proto_rawDescData
 }
 
-var file_eolymp_course_course_service_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_eolymp_course_course_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_eolymp_course_course_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_eolymp_course_course_service_proto_goTypes = []any{
 	(ListCoursesInput_Sortable)(0),   // 0: eolymp.course.ListCoursesInput.Sortable
-	(UpdateCourseInput_Patch)(0),     // 1: eolymp.course.UpdateCourseInput.Patch
-	(CopyCourseInput_Scope)(0),       // 2: eolymp.course.CopyCourseInput.Scope
-	(*ListCoursesInput)(nil),         // 3: eolymp.course.ListCoursesInput
-	(*ListCoursesOutput)(nil),        // 4: eolymp.course.ListCoursesOutput
-	(*DescribeCourseInput)(nil),      // 5: eolymp.course.DescribeCourseInput
-	(*DescribeCourseOutput)(nil),     // 6: eolymp.course.DescribeCourseOutput
-	(*CreateCourseInput)(nil),        // 7: eolymp.course.CreateCourseInput
-	(*CreateCourseOutput)(nil),       // 8: eolymp.course.CreateCourseOutput
-	(*UpdateCourseInput)(nil),        // 9: eolymp.course.UpdateCourseInput
-	(*UpdateCourseOutput)(nil),       // 10: eolymp.course.UpdateCourseOutput
-	(*DeleteCourseInput)(nil),        // 11: eolymp.course.DeleteCourseInput
-	(*DeleteCourseOutput)(nil),       // 12: eolymp.course.DeleteCourseOutput
-	(*CopyCourseInput)(nil),          // 13: eolymp.course.CopyCourseInput
-	(*CopyCourseOutput)(nil),         // 14: eolymp.course.CopyCourseOutput
-	(*ListCoursesInput_Filter)(nil),  // 15: eolymp.course.ListCoursesInput.Filter
-	(wellknown.Direction)(0),         // 16: eolymp.wellknown.Direction
-	(Course_Extra)(0),                // 17: eolymp.course.Course.Extra
-	(*Course)(nil),                   // 18: eolymp.course.Course
+	(CopyCourseInput_Scope)(0),       // 1: eolymp.course.CopyCourseInput.Scope
+	(*ListCoursesInput)(nil),         // 2: eolymp.course.ListCoursesInput
+	(*ListCoursesOutput)(nil),        // 3: eolymp.course.ListCoursesOutput
+	(*DescribeCourseInput)(nil),      // 4: eolymp.course.DescribeCourseInput
+	(*DescribeCourseOutput)(nil),     // 5: eolymp.course.DescribeCourseOutput
+	(*CreateCourseInput)(nil),        // 6: eolymp.course.CreateCourseInput
+	(*CreateCourseOutput)(nil),       // 7: eolymp.course.CreateCourseOutput
+	(*UpdateCourseInput)(nil),        // 8: eolymp.course.UpdateCourseInput
+	(*UpdateCourseOutput)(nil),       // 9: eolymp.course.UpdateCourseOutput
+	(*DeleteCourseInput)(nil),        // 10: eolymp.course.DeleteCourseInput
+	(*DeleteCourseOutput)(nil),       // 11: eolymp.course.DeleteCourseOutput
+	(*CopyCourseInput)(nil),          // 12: eolymp.course.CopyCourseInput
+	(*CopyCourseOutput)(nil),         // 13: eolymp.course.CopyCourseOutput
+	(*ListCoursesInput_Filter)(nil),  // 14: eolymp.course.ListCoursesInput.Filter
+	(wellknown.Direction)(0),         // 15: eolymp.wellknown.Direction
+	(Course_Extra)(0),                // 16: eolymp.course.Course.Extra
+	(*Course)(nil),                   // 17: eolymp.course.Course
+	(*Course_Patch)(nil),             // 18: eolymp.course.Course.Patch
 	(*wellknown.ExpressionID)(nil),   // 19: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil), // 20: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_course_course_service_proto_depIdxs = []int32{
-	15, // 0: eolymp.course.ListCoursesInput.filters:type_name -> eolymp.course.ListCoursesInput.Filter
+	14, // 0: eolymp.course.ListCoursesInput.filters:type_name -> eolymp.course.ListCoursesInput.Filter
 	0,  // 1: eolymp.course.ListCoursesInput.sort:type_name -> eolymp.course.ListCoursesInput.Sortable
-	16, // 2: eolymp.course.ListCoursesInput.order:type_name -> eolymp.wellknown.Direction
-	17, // 3: eolymp.course.ListCoursesInput.extra:type_name -> eolymp.course.Course.Extra
-	18, // 4: eolymp.course.ListCoursesOutput.items:type_name -> eolymp.course.Course
-	17, // 5: eolymp.course.DescribeCourseInput.extra:type_name -> eolymp.course.Course.Extra
-	18, // 6: eolymp.course.DescribeCourseOutput.course:type_name -> eolymp.course.Course
-	18, // 7: eolymp.course.CreateCourseInput.course:type_name -> eolymp.course.Course
-	1,  // 8: eolymp.course.UpdateCourseInput.patch:type_name -> eolymp.course.UpdateCourseInput.Patch
-	18, // 9: eolymp.course.UpdateCourseInput.course:type_name -> eolymp.course.Course
-	2,  // 10: eolymp.course.CopyCourseInput.copy_scope:type_name -> eolymp.course.CopyCourseInput.Scope
-	19, // 11: eolymp.course.ListCoursesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	19, // 12: eolymp.course.ListCoursesInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
-	20, // 13: eolymp.course.ListCoursesInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	7,  // 14: eolymp.course.CourseService.CreateCourse:input_type -> eolymp.course.CreateCourseInput
-	9,  // 15: eolymp.course.CourseService.UpdateCourse:input_type -> eolymp.course.UpdateCourseInput
-	11, // 16: eolymp.course.CourseService.DeleteCourse:input_type -> eolymp.course.DeleteCourseInput
-	5,  // 17: eolymp.course.CourseService.DescribeCourse:input_type -> eolymp.course.DescribeCourseInput
-	3,  // 18: eolymp.course.CourseService.ListCourses:input_type -> eolymp.course.ListCoursesInput
-	13, // 19: eolymp.course.CourseService.CopyCourse:input_type -> eolymp.course.CopyCourseInput
-	8,  // 20: eolymp.course.CourseService.CreateCourse:output_type -> eolymp.course.CreateCourseOutput
-	10, // 21: eolymp.course.CourseService.UpdateCourse:output_type -> eolymp.course.UpdateCourseOutput
-	12, // 22: eolymp.course.CourseService.DeleteCourse:output_type -> eolymp.course.DeleteCourseOutput
-	6,  // 23: eolymp.course.CourseService.DescribeCourse:output_type -> eolymp.course.DescribeCourseOutput
-	4,  // 24: eolymp.course.CourseService.ListCourses:output_type -> eolymp.course.ListCoursesOutput
-	14, // 25: eolymp.course.CourseService.CopyCourse:output_type -> eolymp.course.CopyCourseOutput
-	20, // [20:26] is the sub-list for method output_type
-	14, // [14:20] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	15, // 2: eolymp.course.ListCoursesInput.order:type_name -> eolymp.wellknown.Direction
+	16, // 3: eolymp.course.ListCoursesInput.extra:type_name -> eolymp.course.Course.Extra
+	17, // 4: eolymp.course.ListCoursesOutput.items:type_name -> eolymp.course.Course
+	16, // 5: eolymp.course.DescribeCourseInput.extra:type_name -> eolymp.course.Course.Extra
+	17, // 6: eolymp.course.DescribeCourseOutput.course:type_name -> eolymp.course.Course
+	17, // 7: eolymp.course.CreateCourseInput.course:type_name -> eolymp.course.Course
+	18, // 8: eolymp.course.UpdateCourseInput.course:type_name -> eolymp.course.Course.Patch
+	1,  // 9: eolymp.course.CopyCourseInput.copy_scope:type_name -> eolymp.course.CopyCourseInput.Scope
+	19, // 10: eolymp.course.ListCoursesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	19, // 11: eolymp.course.ListCoursesInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
+	20, // 12: eolymp.course.ListCoursesInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
+	6,  // 13: eolymp.course.CourseService.CreateCourse:input_type -> eolymp.course.CreateCourseInput
+	8,  // 14: eolymp.course.CourseService.UpdateCourse:input_type -> eolymp.course.UpdateCourseInput
+	10, // 15: eolymp.course.CourseService.DeleteCourse:input_type -> eolymp.course.DeleteCourseInput
+	4,  // 16: eolymp.course.CourseService.DescribeCourse:input_type -> eolymp.course.DescribeCourseInput
+	2,  // 17: eolymp.course.CourseService.ListCourses:input_type -> eolymp.course.ListCoursesInput
+	12, // 18: eolymp.course.CourseService.CopyCourse:input_type -> eolymp.course.CopyCourseInput
+	7,  // 19: eolymp.course.CourseService.CreateCourse:output_type -> eolymp.course.CreateCourseOutput
+	9,  // 20: eolymp.course.CourseService.UpdateCourse:output_type -> eolymp.course.UpdateCourseOutput
+	11, // 21: eolymp.course.CourseService.DeleteCourse:output_type -> eolymp.course.DeleteCourseOutput
+	5,  // 22: eolymp.course.CourseService.DescribeCourse:output_type -> eolymp.course.DescribeCourseOutput
+	3,  // 23: eolymp.course.CourseService.ListCourses:output_type -> eolymp.course.ListCoursesOutput
+	13, // 24: eolymp.course.CourseService.CopyCourse:output_type -> eolymp.course.CopyCourseOutput
+	19, // [19:25] is the sub-list for method output_type
+	13, // [13:19] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_course_service_proto_init() }
@@ -1057,7 +970,7 @@ func file_eolymp_course_course_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_course_service_proto_rawDesc), len(file_eolymp_course_course_service_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      2,
 			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,

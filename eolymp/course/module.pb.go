@@ -226,6 +226,99 @@ func (x *Module) GetAssignment() *Assignment {
 	return nil
 }
 
+// Patch describes the fields UpdateModule can change, a field is written only if it is set.
+type Module_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Draft         *bool                  `protobuf:"varint,3,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
+	Name          *string                `protobuf:"bytes,4,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	ImageUrl      *string                `protobuf:"bytes,5,opt,name=image_url,json=imageUrl,proto3,oneof" json:"image_url,omitempty"`
+	Index         *uint32                `protobuf:"varint,6,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	Extra         *bool                  `protobuf:"varint,7,opt,name=extra,proto3,oneof" json:"extra,omitempty"`
+	Weight        *float32               `protobuf:"fixed32,8,opt,name=weight,proto3,oneof" json:"weight,omitempty"`
+	Description   *ecm.Content           `protobuf:"bytes,10,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Module_Patch) Reset() {
+	*x = Module_Patch{}
+	mi := &file_eolymp_course_module_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Module_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Module_Patch) ProtoMessage() {}
+
+func (x *Module_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_module_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Module_Patch.ProtoReflect.Descriptor instead.
+func (*Module_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Module_Patch) GetDraft() bool {
+	if x != nil && x.Draft != nil {
+		return *x.Draft
+	}
+	return false
+}
+
+func (x *Module_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Module_Patch) GetImageUrl() string {
+	if x != nil && x.ImageUrl != nil {
+		return *x.ImageUrl
+	}
+	return ""
+}
+
+func (x *Module_Patch) GetIndex() uint32 {
+	if x != nil && x.Index != nil {
+		return *x.Index
+	}
+	return 0
+}
+
+func (x *Module_Patch) GetExtra() bool {
+	if x != nil && x.Extra != nil {
+		return *x.Extra
+	}
+	return false
+}
+
+func (x *Module_Patch) GetWeight() float32 {
+	if x != nil && x.Weight != nil {
+		return *x.Weight
+	}
+	return 0
+}
+
+func (x *Module_Patch) GetDescription() *ecm.Content {
+	if x != nil {
+		return x.Description
+	}
+	return nil
+}
+
 type Module_Progress struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Status         Assignment_Status      `protobuf:"varint,10,opt,name=status,proto3,enum=eolymp.course.Assignment_Status" json:"status,omitempty"`
@@ -247,7 +340,7 @@ type Module_Progress struct {
 
 func (x *Module_Progress) Reset() {
 	*x = Module_Progress{}
-	mi := &file_eolymp_course_module_proto_msgTypes[1]
+	mi := &file_eolymp_course_module_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -259,7 +352,7 @@ func (x *Module_Progress) String() string {
 func (*Module_Progress) ProtoMessage() {}
 
 func (x *Module_Progress) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_module_proto_msgTypes[1]
+	mi := &file_eolymp_course_module_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -272,7 +365,7 @@ func (x *Module_Progress) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Module_Progress.ProtoReflect.Descriptor instead.
 func (*Module_Progress) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_course_module_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Module_Progress) GetStatus() Assignment_Status {
@@ -370,7 +463,7 @@ var File_eolymp_course_module_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_module_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/course/module.proto\x12\reolymp.course\x1a\x1eeolymp/course/assignment.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc0\t\n" +
+	"\x1aeolymp/course/module.proto\x12\reolymp.course\x1a\x1eeolymp/course/assignment.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xff\v\n" +
 	"\x06Module\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x14\n" +
@@ -389,7 +482,24 @@ const file_eolymp_course_module_proto_rawDesc = "" +
 	"\bprogress\x18\x1f \x01(\v2\x1e.eolymp.course.Module.ProgressR\bprogress\x129\n" +
 	"\n" +
 	"assignment\x18  \x01(\v2\x19.eolymp.course.AssignmentR\n" +
-	"assignment\x1a\xd3\x04\n" +
+	"assignment\x1a\xbc\x02\n" +
+	"\x05Patch\x12\x19\n" +
+	"\x05draft\x18\x03 \x01(\bH\x00R\x05draft\x88\x01\x01\x12\x17\n" +
+	"\x04name\x18\x04 \x01(\tH\x01R\x04name\x88\x01\x01\x12 \n" +
+	"\timage_url\x18\x05 \x01(\tH\x02R\bimageUrl\x88\x01\x01\x12\x19\n" +
+	"\x05index\x18\x06 \x01(\rH\x03R\x05index\x88\x01\x01\x12\x19\n" +
+	"\x05extra\x18\a \x01(\bH\x04R\x05extra\x88\x01\x01\x12\x1b\n" +
+	"\x06weight\x18\b \x01(\x02H\x05R\x06weight\x88\x01\x01\x12:\n" +
+	"\vdescription\x18\n" +
+	" \x01(\v2\x13.eolymp.ecm.ContentH\x06R\vdescription\x88\x01\x01B\b\n" +
+	"\x06_draftB\a\n" +
+	"\x05_nameB\f\n" +
+	"\n" +
+	"_image_urlB\b\n" +
+	"\x06_indexB\b\n" +
+	"\x06_extraB\t\n" +
+	"\a_weightB\x0e\n" +
+	"\f_description\x1a\xd3\x04\n" +
 	"\bProgress\x128\n" +
 	"\x06status\x18\n" +
 	" \x01(\x0e2 .eolymp.course.Assignment.StatusR\x06status\x12\x1e\n" +
@@ -431,33 +541,35 @@ func file_eolymp_course_module_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_course_module_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_course_module_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_course_module_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_course_module_proto_goTypes = []any{
 	(Module_Extra)(0),             // 0: eolymp.course.Module.Extra
 	(*Module)(nil),                // 1: eolymp.course.Module
-	(*Module_Progress)(nil),       // 2: eolymp.course.Module.Progress
-	(*ecm.Content)(nil),           // 3: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
-	(*Assignment)(nil),            // 5: eolymp.course.Assignment
-	(Assignment_Status)(0),        // 6: eolymp.course.Assignment.Status
+	(*Module_Patch)(nil),          // 2: eolymp.course.Module.Patch
+	(*Module_Progress)(nil),       // 3: eolymp.course.Module.Progress
+	(*ecm.Content)(nil),           // 4: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*Assignment)(nil),            // 6: eolymp.course.Assignment
+	(Assignment_Status)(0),        // 7: eolymp.course.Assignment.Status
 }
 var file_eolymp_course_module_proto_depIdxs = []int32{
-	3,  // 0: eolymp.course.Module.description:type_name -> eolymp.ecm.Content
-	4,  // 1: eolymp.course.Module.start_after:type_name -> google.protobuf.Timestamp
-	4,  // 2: eolymp.course.Module.complete_before:type_name -> google.protobuf.Timestamp
-	2,  // 3: eolymp.course.Module.progress:type_name -> eolymp.course.Module.Progress
-	5,  // 4: eolymp.course.Module.assignment:type_name -> eolymp.course.Assignment
-	6,  // 5: eolymp.course.Module.Progress.status:type_name -> eolymp.course.Assignment.Status
-	4,  // 6: eolymp.course.Module.Progress.start_after:type_name -> google.protobuf.Timestamp
-	4,  // 7: eolymp.course.Module.Progress.complete_before:type_name -> google.protobuf.Timestamp
-	4,  // 8: eolymp.course.Module.Progress.assigned_at:type_name -> google.protobuf.Timestamp
-	4,  // 9: eolymp.course.Module.Progress.started_at:type_name -> google.protobuf.Timestamp
-	4,  // 10: eolymp.course.Module.Progress.completed_at:type_name -> google.protobuf.Timestamp
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	4,  // 0: eolymp.course.Module.description:type_name -> eolymp.ecm.Content
+	5,  // 1: eolymp.course.Module.start_after:type_name -> google.protobuf.Timestamp
+	5,  // 2: eolymp.course.Module.complete_before:type_name -> google.protobuf.Timestamp
+	3,  // 3: eolymp.course.Module.progress:type_name -> eolymp.course.Module.Progress
+	6,  // 4: eolymp.course.Module.assignment:type_name -> eolymp.course.Assignment
+	4,  // 5: eolymp.course.Module.Patch.description:type_name -> eolymp.ecm.Content
+	7,  // 6: eolymp.course.Module.Progress.status:type_name -> eolymp.course.Assignment.Status
+	5,  // 7: eolymp.course.Module.Progress.start_after:type_name -> google.protobuf.Timestamp
+	5,  // 8: eolymp.course.Module.Progress.complete_before:type_name -> google.protobuf.Timestamp
+	5,  // 9: eolymp.course.Module.Progress.assigned_at:type_name -> google.protobuf.Timestamp
+	5,  // 10: eolymp.course.Module.Progress.started_at:type_name -> google.protobuf.Timestamp
+	5,  // 11: eolymp.course.Module.Progress.completed_at:type_name -> google.protobuf.Timestamp
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_module_proto_init() }
@@ -466,13 +578,14 @@ func file_eolymp_course_module_proto_init() {
 		return
 	}
 	file_eolymp_course_assignment_proto_init()
+	file_eolymp_course_module_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_module_proto_rawDesc), len(file_eolymp_course_module_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

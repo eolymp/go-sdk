@@ -23,70 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateModuleInput_Patch int32
-
-const (
-	UpdateModuleInput_ALL         UpdateModuleInput_Patch = 0
-	UpdateModuleInput_DRAFT       UpdateModuleInput_Patch = 1
-	UpdateModuleInput_EXTRA       UpdateModuleInput_Patch = 6
-	UpdateModuleInput_NAME        UpdateModuleInput_Patch = 2
-	UpdateModuleInput_IMAGE_URL   UpdateModuleInput_Patch = 3
-	UpdateModuleInput_INDEX       UpdateModuleInput_Patch = 4
-	UpdateModuleInput_DESCRIPTION UpdateModuleInput_Patch = 5
-	UpdateModuleInput_WEIGHT      UpdateModuleInput_Patch = 7
-)
-
-// Enum value maps for UpdateModuleInput_Patch.
-var (
-	UpdateModuleInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "DRAFT",
-		6: "EXTRA",
-		2: "NAME",
-		3: "IMAGE_URL",
-		4: "INDEX",
-		5: "DESCRIPTION",
-		7: "WEIGHT",
-	}
-	UpdateModuleInput_Patch_value = map[string]int32{
-		"ALL":         0,
-		"DRAFT":       1,
-		"EXTRA":       6,
-		"NAME":        2,
-		"IMAGE_URL":   3,
-		"INDEX":       4,
-		"DESCRIPTION": 5,
-		"WEIGHT":      7,
-	}
-)
-
-func (x UpdateModuleInput_Patch) Enum() *UpdateModuleInput_Patch {
-	p := new(UpdateModuleInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateModuleInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateModuleInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_module_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateModuleInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_course_module_service_proto_enumTypes[0]
-}
-
-func (x UpdateModuleInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateModuleInput_Patch.Descriptor instead.
-func (UpdateModuleInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{2, 0}
-}
-
 type ListModulesInput_Sort int32
 
 const (
@@ -114,11 +50,11 @@ func (x ListModulesInput_Sort) String() string {
 }
 
 func (ListModulesInput_Sort) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_module_service_proto_enumTypes[1].Descriptor()
+	return file_eolymp_course_module_service_proto_enumTypes[0].Descriptor()
 }
 
 func (ListModulesInput_Sort) Type() protoreflect.EnumType {
-	return &file_eolymp_course_module_service_proto_enumTypes[1]
+	return &file_eolymp_course_module_service_proto_enumTypes[0]
 }
 
 func (x ListModulesInput_Sort) Number() protoreflect.EnumNumber {
@@ -227,12 +163,10 @@ func (x *CreateModuleOutput) GetModuleId() string {
 }
 
 type UpdateModuleInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// specify list of fields to update, if empty all fields are updated
-	Patch         []UpdateModuleInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateModuleInput_Patch" json:"patch,omitempty"`
-	CourseId      string                    `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	ModuleId      string                    `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
-	Module        *Module                   `protobuf:"bytes,3,opt,name=module,proto3" json:"module,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	ModuleId      string                 `protobuf:"bytes,2,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
+	Module        *Module_Patch          `protobuf:"bytes,5,opt,name=module,proto3" json:"module,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -267,13 +201,6 @@ func (*UpdateModuleInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_module_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateModuleInput) GetPatch() []UpdateModuleInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateModuleInput) GetCourseId() string {
 	if x != nil {
 		return x.CourseId
@@ -288,7 +215,7 @@ func (x *UpdateModuleInput) GetModuleId() string {
 	return ""
 }
 
-func (x *UpdateModuleInput) GetModule() *Module {
+func (x *UpdateModuleInput) GetModule() *Module_Patch {
 	if x != nil {
 		return x.Module
 	}
@@ -1076,22 +1003,11 @@ const file_eolymp_course_module_service_proto_rawDesc = "" +
 	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12-\n" +
 	"\x06module\x18\x01 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"1\n" +
 	"\x12CreateModuleOutput\x12\x1b\n" +
-	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"\xa3\x02\n" +
-	"\x11UpdateModuleInput\x12<\n" +
-	"\x05patch\x18\x01 \x03(\x0e2&.eolymp.course.UpdateModuleInput.PatchR\x05patch\x12\x1b\n" +
+	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\"\x8e\x01\n" +
+	"\x11UpdateModuleInput\x12\x1b\n" +
 	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1b\n" +
-	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\x12-\n" +
-	"\x06module\x18\x03 \x01(\v2\x15.eolymp.course.ModuleR\x06module\"g\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\t\n" +
-	"\x05DRAFT\x10\x01\x12\t\n" +
-	"\x05EXTRA\x10\x06\x12\b\n" +
-	"\x04NAME\x10\x02\x12\r\n" +
-	"\tIMAGE_URL\x10\x03\x12\t\n" +
-	"\x05INDEX\x10\x04\x12\x0f\n" +
-	"\vDESCRIPTION\x10\x05\x12\n" +
-	"\n" +
-	"\x06WEIGHT\x10\a\"\x14\n" +
+	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\x123\n" +
+	"\x06module\x18\x05 \x01(\v2\x1b.eolymp.course.Module.PatchR\x06moduleJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x14\n" +
 	"\x12UpdateModuleOutput\"M\n" +
 	"\x11DeleteModuleInput\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12\x1b\n" +
@@ -1214,66 +1130,65 @@ func file_eolymp_course_module_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_course_module_service_proto_rawDescData
 }
 
-var file_eolymp_course_module_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_course_module_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_course_module_service_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_eolymp_course_module_service_proto_goTypes = []any{
-	(UpdateModuleInput_Patch)(0),     // 0: eolymp.course.UpdateModuleInput.Patch
-	(ListModulesInput_Sort)(0),       // 1: eolymp.course.ListModulesInput.Sort
-	(*CreateModuleInput)(nil),        // 2: eolymp.course.CreateModuleInput
-	(*CreateModuleOutput)(nil),       // 3: eolymp.course.CreateModuleOutput
-	(*UpdateModuleInput)(nil),        // 4: eolymp.course.UpdateModuleInput
-	(*UpdateModuleOutput)(nil),       // 5: eolymp.course.UpdateModuleOutput
-	(*DeleteModuleInput)(nil),        // 6: eolymp.course.DeleteModuleInput
-	(*DeleteModuleOutput)(nil),       // 7: eolymp.course.DeleteModuleOutput
-	(*DescribeModuleInput)(nil),      // 8: eolymp.course.DescribeModuleInput
-	(*DescribeModuleOutput)(nil),     // 9: eolymp.course.DescribeModuleOutput
-	(*ListModulesInput)(nil),         // 10: eolymp.course.ListModulesInput
-	(*ListModulesOutput)(nil),        // 11: eolymp.course.ListModulesOutput
-	(*StartModuleInput)(nil),         // 12: eolymp.course.StartModuleInput
-	(*StartModuleOutput)(nil),        // 13: eolymp.course.StartModuleOutput
-	(*GradeModuleInput)(nil),         // 14: eolymp.course.GradeModuleInput
-	(*GradeModuleOutput)(nil),        // 15: eolymp.course.GradeModuleOutput
-	(*ListModulesInput_Filter)(nil),  // 16: eolymp.course.ListModulesInput.Filter
-	(*Module)(nil),                   // 17: eolymp.course.Module
+	(ListModulesInput_Sort)(0),       // 0: eolymp.course.ListModulesInput.Sort
+	(*CreateModuleInput)(nil),        // 1: eolymp.course.CreateModuleInput
+	(*CreateModuleOutput)(nil),       // 2: eolymp.course.CreateModuleOutput
+	(*UpdateModuleInput)(nil),        // 3: eolymp.course.UpdateModuleInput
+	(*UpdateModuleOutput)(nil),       // 4: eolymp.course.UpdateModuleOutput
+	(*DeleteModuleInput)(nil),        // 5: eolymp.course.DeleteModuleInput
+	(*DeleteModuleOutput)(nil),       // 6: eolymp.course.DeleteModuleOutput
+	(*DescribeModuleInput)(nil),      // 7: eolymp.course.DescribeModuleInput
+	(*DescribeModuleOutput)(nil),     // 8: eolymp.course.DescribeModuleOutput
+	(*ListModulesInput)(nil),         // 9: eolymp.course.ListModulesInput
+	(*ListModulesOutput)(nil),        // 10: eolymp.course.ListModulesOutput
+	(*StartModuleInput)(nil),         // 11: eolymp.course.StartModuleInput
+	(*StartModuleOutput)(nil),        // 12: eolymp.course.StartModuleOutput
+	(*GradeModuleInput)(nil),         // 13: eolymp.course.GradeModuleInput
+	(*GradeModuleOutput)(nil),        // 14: eolymp.course.GradeModuleOutput
+	(*ListModulesInput_Filter)(nil),  // 15: eolymp.course.ListModulesInput.Filter
+	(*Module)(nil),                   // 16: eolymp.course.Module
+	(*Module_Patch)(nil),             // 17: eolymp.course.Module.Patch
 	(Module_Extra)(0),                // 18: eolymp.course.Module.Extra
 	(wellknown.Direction)(0),         // 19: eolymp.wellknown.Direction
 	(*wellknown.ExpressionBool)(nil), // 20: eolymp.wellknown.ExpressionBool
 	(*wellknown.ExpressionInt)(nil),  // 21: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_course_module_service_proto_depIdxs = []int32{
-	17, // 0: eolymp.course.CreateModuleInput.module:type_name -> eolymp.course.Module
-	0,  // 1: eolymp.course.UpdateModuleInput.patch:type_name -> eolymp.course.UpdateModuleInput.Patch
-	17, // 2: eolymp.course.UpdateModuleInput.module:type_name -> eolymp.course.Module
-	18, // 3: eolymp.course.DescribeModuleInput.extra:type_name -> eolymp.course.Module.Extra
-	17, // 4: eolymp.course.DescribeModuleOutput.module:type_name -> eolymp.course.Module
-	16, // 5: eolymp.course.ListModulesInput.filters:type_name -> eolymp.course.ListModulesInput.Filter
-	1,  // 6: eolymp.course.ListModulesInput.sort:type_name -> eolymp.course.ListModulesInput.Sort
-	19, // 7: eolymp.course.ListModulesInput.order:type_name -> eolymp.wellknown.Direction
-	18, // 8: eolymp.course.ListModulesInput.extra:type_name -> eolymp.course.Module.Extra
-	17, // 9: eolymp.course.ListModulesOutput.items:type_name -> eolymp.course.Module
-	20, // 10: eolymp.course.ListModulesInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
-	20, // 11: eolymp.course.ListModulesInput.Filter.extra:type_name -> eolymp.wellknown.ExpressionBool
-	20, // 12: eolymp.course.ListModulesInput.Filter.graded:type_name -> eolymp.wellknown.ExpressionBool
-	21, // 13: eolymp.course.ListModulesInput.Filter.weight:type_name -> eolymp.wellknown.ExpressionInt
-	2,  // 14: eolymp.course.ModuleService.CreateModule:input_type -> eolymp.course.CreateModuleInput
-	4,  // 15: eolymp.course.ModuleService.UpdateModule:input_type -> eolymp.course.UpdateModuleInput
-	6,  // 16: eolymp.course.ModuleService.DeleteModule:input_type -> eolymp.course.DeleteModuleInput
-	8,  // 17: eolymp.course.ModuleService.DescribeModule:input_type -> eolymp.course.DescribeModuleInput
-	10, // 18: eolymp.course.ModuleService.ListModules:input_type -> eolymp.course.ListModulesInput
-	12, // 19: eolymp.course.ModuleService.StartModule:input_type -> eolymp.course.StartModuleInput
-	14, // 20: eolymp.course.ModuleService.GradeModule:input_type -> eolymp.course.GradeModuleInput
-	3,  // 21: eolymp.course.ModuleService.CreateModule:output_type -> eolymp.course.CreateModuleOutput
-	5,  // 22: eolymp.course.ModuleService.UpdateModule:output_type -> eolymp.course.UpdateModuleOutput
-	7,  // 23: eolymp.course.ModuleService.DeleteModule:output_type -> eolymp.course.DeleteModuleOutput
-	9,  // 24: eolymp.course.ModuleService.DescribeModule:output_type -> eolymp.course.DescribeModuleOutput
-	11, // 25: eolymp.course.ModuleService.ListModules:output_type -> eolymp.course.ListModulesOutput
-	13, // 26: eolymp.course.ModuleService.StartModule:output_type -> eolymp.course.StartModuleOutput
-	15, // 27: eolymp.course.ModuleService.GradeModule:output_type -> eolymp.course.GradeModuleOutput
-	21, // [21:28] is the sub-list for method output_type
-	14, // [14:21] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	16, // 0: eolymp.course.CreateModuleInput.module:type_name -> eolymp.course.Module
+	17, // 1: eolymp.course.UpdateModuleInput.module:type_name -> eolymp.course.Module.Patch
+	18, // 2: eolymp.course.DescribeModuleInput.extra:type_name -> eolymp.course.Module.Extra
+	16, // 3: eolymp.course.DescribeModuleOutput.module:type_name -> eolymp.course.Module
+	15, // 4: eolymp.course.ListModulesInput.filters:type_name -> eolymp.course.ListModulesInput.Filter
+	0,  // 5: eolymp.course.ListModulesInput.sort:type_name -> eolymp.course.ListModulesInput.Sort
+	19, // 6: eolymp.course.ListModulesInput.order:type_name -> eolymp.wellknown.Direction
+	18, // 7: eolymp.course.ListModulesInput.extra:type_name -> eolymp.course.Module.Extra
+	16, // 8: eolymp.course.ListModulesOutput.items:type_name -> eolymp.course.Module
+	20, // 9: eolymp.course.ListModulesInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
+	20, // 10: eolymp.course.ListModulesInput.Filter.extra:type_name -> eolymp.wellknown.ExpressionBool
+	20, // 11: eolymp.course.ListModulesInput.Filter.graded:type_name -> eolymp.wellknown.ExpressionBool
+	21, // 12: eolymp.course.ListModulesInput.Filter.weight:type_name -> eolymp.wellknown.ExpressionInt
+	1,  // 13: eolymp.course.ModuleService.CreateModule:input_type -> eolymp.course.CreateModuleInput
+	3,  // 14: eolymp.course.ModuleService.UpdateModule:input_type -> eolymp.course.UpdateModuleInput
+	5,  // 15: eolymp.course.ModuleService.DeleteModule:input_type -> eolymp.course.DeleteModuleInput
+	7,  // 16: eolymp.course.ModuleService.DescribeModule:input_type -> eolymp.course.DescribeModuleInput
+	9,  // 17: eolymp.course.ModuleService.ListModules:input_type -> eolymp.course.ListModulesInput
+	11, // 18: eolymp.course.ModuleService.StartModule:input_type -> eolymp.course.StartModuleInput
+	13, // 19: eolymp.course.ModuleService.GradeModule:input_type -> eolymp.course.GradeModuleInput
+	2,  // 20: eolymp.course.ModuleService.CreateModule:output_type -> eolymp.course.CreateModuleOutput
+	4,  // 21: eolymp.course.ModuleService.UpdateModule:output_type -> eolymp.course.UpdateModuleOutput
+	6,  // 22: eolymp.course.ModuleService.DeleteModule:output_type -> eolymp.course.DeleteModuleOutput
+	8,  // 23: eolymp.course.ModuleService.DescribeModule:output_type -> eolymp.course.DescribeModuleOutput
+	10, // 24: eolymp.course.ModuleService.ListModules:output_type -> eolymp.course.ListModulesOutput
+	12, // 25: eolymp.course.ModuleService.StartModule:output_type -> eolymp.course.StartModuleOutput
+	14, // 26: eolymp.course.ModuleService.GradeModule:output_type -> eolymp.course.GradeModuleOutput
+	20, // [20:27] is the sub-list for method output_type
+	13, // [13:20] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_module_service_proto_init() }
@@ -1299,7 +1214,7 @@ func file_eolymp_course_module_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_module_service_proto_rawDesc), len(file_eolymp_course_module_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,

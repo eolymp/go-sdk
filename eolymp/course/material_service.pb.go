@@ -23,70 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdateMaterialInput_Patch int32
-
-const (
-	UpdateMaterialInput_ALL       UpdateMaterialInput_Patch = 0
-	UpdateMaterialInput_DRAFT     UpdateMaterialInput_Patch = 1
-	UpdateMaterialInput_NAME      UpdateMaterialInput_Patch = 2
-	UpdateMaterialInput_IMAGE_URL UpdateMaterialInput_Patch = 3
-	UpdateMaterialInput_INDEX     UpdateMaterialInput_Patch = 4
-	UpdateMaterialInput_DEPTH     UpdateMaterialInput_Patch = 5
-	UpdateMaterialInput_CONTENT   UpdateMaterialInput_Patch = 6
-	UpdateMaterialInput_GRADING   UpdateMaterialInput_Patch = 7
-)
-
-// Enum value maps for UpdateMaterialInput_Patch.
-var (
-	UpdateMaterialInput_Patch_name = map[int32]string{
-		0: "ALL",
-		1: "DRAFT",
-		2: "NAME",
-		3: "IMAGE_URL",
-		4: "INDEX",
-		5: "DEPTH",
-		6: "CONTENT",
-		7: "GRADING",
-	}
-	UpdateMaterialInput_Patch_value = map[string]int32{
-		"ALL":       0,
-		"DRAFT":     1,
-		"NAME":      2,
-		"IMAGE_URL": 3,
-		"INDEX":     4,
-		"DEPTH":     5,
-		"CONTENT":   6,
-		"GRADING":   7,
-	}
-)
-
-func (x UpdateMaterialInput_Patch) Enum() *UpdateMaterialInput_Patch {
-	p := new(UpdateMaterialInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdateMaterialInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdateMaterialInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_material_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdateMaterialInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_course_material_service_proto_enumTypes[0]
-}
-
-func (x UpdateMaterialInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdateMaterialInput_Patch.Descriptor instead.
-func (UpdateMaterialInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{2, 0}
-}
-
 type ListMaterialsInput_Sort int32
 
 const (
@@ -114,11 +50,11 @@ func (x ListMaterialsInput_Sort) String() string {
 }
 
 func (ListMaterialsInput_Sort) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_course_material_service_proto_enumTypes[1].Descriptor()
+	return file_eolymp_course_material_service_proto_enumTypes[0].Descriptor()
 }
 
 func (ListMaterialsInput_Sort) Type() protoreflect.EnumType {
-	return &file_eolymp_course_material_service_proto_enumTypes[1]
+	return &file_eolymp_course_material_service_proto_enumTypes[0]
 }
 
 func (x ListMaterialsInput_Sort) Number() protoreflect.EnumNumber {
@@ -235,12 +171,10 @@ func (x *CreateMaterialOutput) GetMaterialId() string {
 }
 
 type UpdateMaterialInput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// specify list of fields to update, if empty all fields are updated
-	Patch         []UpdateMaterialInput_Patch `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.course.UpdateMaterialInput_Patch" json:"patch,omitempty"`
-	CourseId      string                      `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	MaterialId    string                      `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
-	Material      *Material                   `protobuf:"bytes,3,opt,name=material,proto3" json:"material,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	MaterialId    string                 `protobuf:"bytes,2,opt,name=material_id,json=materialId,proto3" json:"material_id,omitempty"`
+	Material      *Material_Patch        `protobuf:"bytes,5,opt,name=material,proto3" json:"material,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -275,13 +209,6 @@ func (*UpdateMaterialInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_course_material_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateMaterialInput) GetPatch() []UpdateMaterialInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateMaterialInput) GetCourseId() string {
 	if x != nil {
 		return x.CourseId
@@ -296,7 +223,7 @@ func (x *UpdateMaterialInput) GetMaterialId() string {
 	return ""
 }
 
-func (x *UpdateMaterialInput) GetMaterial() *Material {
+func (x *UpdateMaterialInput) GetMaterial() *Material_Patch {
 	if x != nil {
 		return x.Material
 	}
@@ -1122,22 +1049,12 @@ const file_eolymp_course_material_service_proto_rawDesc = "" +
 	"\tmodule_id\x18\x02 \x01(\tR\bmoduleId\"7\n" +
 	"\x14CreateMaterialOutput\x12\x1f\n" +
 	"\vmaterial_id\x18\x01 \x01(\tR\n" +
-	"materialId\"\xae\x02\n" +
-	"\x13UpdateMaterialInput\x12>\n" +
-	"\x05patch\x18\x01 \x03(\x0e2(.eolymp.course.UpdateMaterialInput.PatchR\x05patch\x12\x1b\n" +
+	"materialId\"\x9a\x01\n" +
+	"\x13UpdateMaterialInput\x12\x1b\n" +
 	"\tcourse_id\x18\x04 \x01(\tR\bcourseId\x12\x1f\n" +
 	"\vmaterial_id\x18\x02 \x01(\tR\n" +
-	"materialId\x123\n" +
-	"\bmaterial\x18\x03 \x01(\v2\x17.eolymp.course.MaterialR\bmaterial\"d\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\t\n" +
-	"\x05DRAFT\x10\x01\x12\b\n" +
-	"\x04NAME\x10\x02\x12\r\n" +
-	"\tIMAGE_URL\x10\x03\x12\t\n" +
-	"\x05INDEX\x10\x04\x12\t\n" +
-	"\x05DEPTH\x10\x05\x12\v\n" +
-	"\aCONTENT\x10\x06\x12\v\n" +
-	"\aGRADING\x10\a\"\x16\n" +
+	"materialId\x129\n" +
+	"\bmaterial\x18\x05 \x01(\v2\x1d.eolymp.course.Material.PatchR\bmaterialJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x16\n" +
 	"\x14UpdateMaterialOutput\"\xaf\x01\n" +
 	"\x11MoveMaterialInput\x12\x1b\n" +
 	"\tcourse_id\x18\x05 \x01(\tR\bcourseId\x12\x1f\n" +
@@ -1273,68 +1190,67 @@ func file_eolymp_course_material_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_course_material_service_proto_rawDescData
 }
 
-var file_eolymp_course_material_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_course_material_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_course_material_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_eolymp_course_material_service_proto_goTypes = []any{
-	(UpdateMaterialInput_Patch)(0),    // 0: eolymp.course.UpdateMaterialInput.Patch
-	(ListMaterialsInput_Sort)(0),      // 1: eolymp.course.ListMaterialsInput.Sort
-	(*CreateMaterialInput)(nil),       // 2: eolymp.course.CreateMaterialInput
-	(*CreateMaterialOutput)(nil),      // 3: eolymp.course.CreateMaterialOutput
-	(*UpdateMaterialInput)(nil),       // 4: eolymp.course.UpdateMaterialInput
-	(*UpdateMaterialOutput)(nil),      // 5: eolymp.course.UpdateMaterialOutput
-	(*MoveMaterialInput)(nil),         // 6: eolymp.course.MoveMaterialInput
-	(*MoveMaterialOutput)(nil),        // 7: eolymp.course.MoveMaterialOutput
-	(*DeleteMaterialInput)(nil),       // 8: eolymp.course.DeleteMaterialInput
-	(*DeleteMaterialOutput)(nil),      // 9: eolymp.course.DeleteMaterialOutput
-	(*DescribeMaterialInput)(nil),     // 10: eolymp.course.DescribeMaterialInput
-	(*DescribeMaterialOutput)(nil),    // 11: eolymp.course.DescribeMaterialOutput
-	(*ListMaterialsInput)(nil),        // 12: eolymp.course.ListMaterialsInput
-	(*ListMaterialsOutput)(nil),       // 13: eolymp.course.ListMaterialsOutput
-	(*ReportProgressInput)(nil),       // 14: eolymp.course.ReportProgressInput
-	(*ReportProgressOutput)(nil),      // 15: eolymp.course.ReportProgressOutput
-	(*GradeMaterialInput)(nil),        // 16: eolymp.course.GradeMaterialInput
-	(*GradeMaterialOutput)(nil),       // 17: eolymp.course.GradeMaterialOutput
-	(*ListMaterialsInput_Filter)(nil), // 18: eolymp.course.ListMaterialsInput.Filter
-	(*Material)(nil),                  // 19: eolymp.course.Material
+	(ListMaterialsInput_Sort)(0),      // 0: eolymp.course.ListMaterialsInput.Sort
+	(*CreateMaterialInput)(nil),       // 1: eolymp.course.CreateMaterialInput
+	(*CreateMaterialOutput)(nil),      // 2: eolymp.course.CreateMaterialOutput
+	(*UpdateMaterialInput)(nil),       // 3: eolymp.course.UpdateMaterialInput
+	(*UpdateMaterialOutput)(nil),      // 4: eolymp.course.UpdateMaterialOutput
+	(*MoveMaterialInput)(nil),         // 5: eolymp.course.MoveMaterialInput
+	(*MoveMaterialOutput)(nil),        // 6: eolymp.course.MoveMaterialOutput
+	(*DeleteMaterialInput)(nil),       // 7: eolymp.course.DeleteMaterialInput
+	(*DeleteMaterialOutput)(nil),      // 8: eolymp.course.DeleteMaterialOutput
+	(*DescribeMaterialInput)(nil),     // 9: eolymp.course.DescribeMaterialInput
+	(*DescribeMaterialOutput)(nil),    // 10: eolymp.course.DescribeMaterialOutput
+	(*ListMaterialsInput)(nil),        // 11: eolymp.course.ListMaterialsInput
+	(*ListMaterialsOutput)(nil),       // 12: eolymp.course.ListMaterialsOutput
+	(*ReportProgressInput)(nil),       // 13: eolymp.course.ReportProgressInput
+	(*ReportProgressOutput)(nil),      // 14: eolymp.course.ReportProgressOutput
+	(*GradeMaterialInput)(nil),        // 15: eolymp.course.GradeMaterialInput
+	(*GradeMaterialOutput)(nil),       // 16: eolymp.course.GradeMaterialOutput
+	(*ListMaterialsInput_Filter)(nil), // 17: eolymp.course.ListMaterialsInput.Filter
+	(*Material)(nil),                  // 18: eolymp.course.Material
+	(*Material_Patch)(nil),            // 19: eolymp.course.Material.Patch
 	(Material_Extra)(0),               // 20: eolymp.course.Material.Extra
 	(wellknown.Direction)(0),          // 21: eolymp.wellknown.Direction
 	(*wellknown.ExpressionBool)(nil),  // 22: eolymp.wellknown.ExpressionBool
 	(*wellknown.ExpressionInt)(nil),   // 23: eolymp.wellknown.ExpressionInt
 }
 var file_eolymp_course_material_service_proto_depIdxs = []int32{
-	19, // 0: eolymp.course.CreateMaterialInput.material:type_name -> eolymp.course.Material
-	0,  // 1: eolymp.course.UpdateMaterialInput.patch:type_name -> eolymp.course.UpdateMaterialInput.Patch
-	19, // 2: eolymp.course.UpdateMaterialInput.material:type_name -> eolymp.course.Material
-	20, // 3: eolymp.course.DescribeMaterialInput.extra:type_name -> eolymp.course.Material.Extra
-	19, // 4: eolymp.course.DescribeMaterialOutput.material:type_name -> eolymp.course.Material
-	18, // 5: eolymp.course.ListMaterialsInput.filters:type_name -> eolymp.course.ListMaterialsInput.Filter
-	1,  // 6: eolymp.course.ListMaterialsInput.sort:type_name -> eolymp.course.ListMaterialsInput.Sort
-	21, // 7: eolymp.course.ListMaterialsInput.order:type_name -> eolymp.wellknown.Direction
-	20, // 8: eolymp.course.ListMaterialsInput.extra:type_name -> eolymp.course.Material.Extra
-	19, // 9: eolymp.course.ListMaterialsOutput.items:type_name -> eolymp.course.Material
-	22, // 10: eolymp.course.ListMaterialsInput.Filter.graded:type_name -> eolymp.wellknown.ExpressionBool
-	23, // 11: eolymp.course.ListMaterialsInput.Filter.weight:type_name -> eolymp.wellknown.ExpressionInt
-	2,  // 12: eolymp.course.MaterialService.CreateMaterial:input_type -> eolymp.course.CreateMaterialInput
-	4,  // 13: eolymp.course.MaterialService.UpdateMaterial:input_type -> eolymp.course.UpdateMaterialInput
-	6,  // 14: eolymp.course.MaterialService.MoveMaterial:input_type -> eolymp.course.MoveMaterialInput
-	8,  // 15: eolymp.course.MaterialService.DeleteMaterial:input_type -> eolymp.course.DeleteMaterialInput
-	10, // 16: eolymp.course.MaterialService.DescribeMaterial:input_type -> eolymp.course.DescribeMaterialInput
-	12, // 17: eolymp.course.MaterialService.ListMaterials:input_type -> eolymp.course.ListMaterialsInput
-	14, // 18: eolymp.course.MaterialService.ReportProgress:input_type -> eolymp.course.ReportProgressInput
-	16, // 19: eolymp.course.MaterialService.GradeMaterial:input_type -> eolymp.course.GradeMaterialInput
-	3,  // 20: eolymp.course.MaterialService.CreateMaterial:output_type -> eolymp.course.CreateMaterialOutput
-	5,  // 21: eolymp.course.MaterialService.UpdateMaterial:output_type -> eolymp.course.UpdateMaterialOutput
-	7,  // 22: eolymp.course.MaterialService.MoveMaterial:output_type -> eolymp.course.MoveMaterialOutput
-	9,  // 23: eolymp.course.MaterialService.DeleteMaterial:output_type -> eolymp.course.DeleteMaterialOutput
-	11, // 24: eolymp.course.MaterialService.DescribeMaterial:output_type -> eolymp.course.DescribeMaterialOutput
-	13, // 25: eolymp.course.MaterialService.ListMaterials:output_type -> eolymp.course.ListMaterialsOutput
-	15, // 26: eolymp.course.MaterialService.ReportProgress:output_type -> eolymp.course.ReportProgressOutput
-	17, // 27: eolymp.course.MaterialService.GradeMaterial:output_type -> eolymp.course.GradeMaterialOutput
-	20, // [20:28] is the sub-list for method output_type
-	12, // [12:20] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	18, // 0: eolymp.course.CreateMaterialInput.material:type_name -> eolymp.course.Material
+	19, // 1: eolymp.course.UpdateMaterialInput.material:type_name -> eolymp.course.Material.Patch
+	20, // 2: eolymp.course.DescribeMaterialInput.extra:type_name -> eolymp.course.Material.Extra
+	18, // 3: eolymp.course.DescribeMaterialOutput.material:type_name -> eolymp.course.Material
+	17, // 4: eolymp.course.ListMaterialsInput.filters:type_name -> eolymp.course.ListMaterialsInput.Filter
+	0,  // 5: eolymp.course.ListMaterialsInput.sort:type_name -> eolymp.course.ListMaterialsInput.Sort
+	21, // 6: eolymp.course.ListMaterialsInput.order:type_name -> eolymp.wellknown.Direction
+	20, // 7: eolymp.course.ListMaterialsInput.extra:type_name -> eolymp.course.Material.Extra
+	18, // 8: eolymp.course.ListMaterialsOutput.items:type_name -> eolymp.course.Material
+	22, // 9: eolymp.course.ListMaterialsInput.Filter.graded:type_name -> eolymp.wellknown.ExpressionBool
+	23, // 10: eolymp.course.ListMaterialsInput.Filter.weight:type_name -> eolymp.wellknown.ExpressionInt
+	1,  // 11: eolymp.course.MaterialService.CreateMaterial:input_type -> eolymp.course.CreateMaterialInput
+	3,  // 12: eolymp.course.MaterialService.UpdateMaterial:input_type -> eolymp.course.UpdateMaterialInput
+	5,  // 13: eolymp.course.MaterialService.MoveMaterial:input_type -> eolymp.course.MoveMaterialInput
+	7,  // 14: eolymp.course.MaterialService.DeleteMaterial:input_type -> eolymp.course.DeleteMaterialInput
+	9,  // 15: eolymp.course.MaterialService.DescribeMaterial:input_type -> eolymp.course.DescribeMaterialInput
+	11, // 16: eolymp.course.MaterialService.ListMaterials:input_type -> eolymp.course.ListMaterialsInput
+	13, // 17: eolymp.course.MaterialService.ReportProgress:input_type -> eolymp.course.ReportProgressInput
+	15, // 18: eolymp.course.MaterialService.GradeMaterial:input_type -> eolymp.course.GradeMaterialInput
+	2,  // 19: eolymp.course.MaterialService.CreateMaterial:output_type -> eolymp.course.CreateMaterialOutput
+	4,  // 20: eolymp.course.MaterialService.UpdateMaterial:output_type -> eolymp.course.UpdateMaterialOutput
+	6,  // 21: eolymp.course.MaterialService.MoveMaterial:output_type -> eolymp.course.MoveMaterialOutput
+	8,  // 22: eolymp.course.MaterialService.DeleteMaterial:output_type -> eolymp.course.DeleteMaterialOutput
+	10, // 23: eolymp.course.MaterialService.DescribeMaterial:output_type -> eolymp.course.DescribeMaterialOutput
+	12, // 24: eolymp.course.MaterialService.ListMaterials:output_type -> eolymp.course.ListMaterialsOutput
+	14, // 25: eolymp.course.MaterialService.ReportProgress:output_type -> eolymp.course.ReportProgressOutput
+	16, // 26: eolymp.course.MaterialService.GradeMaterial:output_type -> eolymp.course.GradeMaterialOutput
+	19, // [19:27] is the sub-list for method output_type
+	11, // [11:19] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_material_service_proto_init() }
@@ -1352,7 +1268,7 @@ func file_eolymp_course_material_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_material_service_proto_rawDesc), len(file_eolymp_course_material_service_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,

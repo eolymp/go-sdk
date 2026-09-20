@@ -200,6 +200,59 @@ func (x *Student) GetCursor() string {
 	return ""
 }
 
+// Patch describes the fields UpdateStudent can change, a field is written only if it is set.
+type Student_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Inactive      *bool                  `protobuf:"varint,4,opt,name=inactive,proto3,oneof" json:"inactive,omitempty"`
+	AssignAll     *bool                  `protobuf:"varint,5,opt,name=assign_all,json=assignAll,proto3,oneof" json:"assign_all,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Student_Patch) Reset() {
+	*x = Student_Patch{}
+	mi := &file_eolymp_course_student_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Student_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Student_Patch) ProtoMessage() {}
+
+func (x *Student_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_student_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Student_Patch.ProtoReflect.Descriptor instead.
+func (*Student_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_student_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Student_Patch) GetInactive() bool {
+	if x != nil && x.Inactive != nil {
+		return *x.Inactive
+	}
+	return false
+}
+
+func (x *Student_Patch) GetAssignAll() bool {
+	if x != nil && x.AssignAll != nil {
+		return *x.AssignAll
+	}
+	return false
+}
+
 type Student_Grade struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	ModuleId       string                 `protobuf:"bytes,1,opt,name=module_id,json=moduleId,proto3" json:"module_id,omitempty"`
@@ -213,7 +266,7 @@ type Student_Grade struct {
 
 func (x *Student_Grade) Reset() {
 	*x = Student_Grade{}
-	mi := &file_eolymp_course_student_proto_msgTypes[1]
+	mi := &file_eolymp_course_student_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -225,7 +278,7 @@ func (x *Student_Grade) String() string {
 func (*Student_Grade) ProtoMessage() {}
 
 func (x *Student_Grade) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_student_proto_msgTypes[1]
+	mi := &file_eolymp_course_student_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -238,7 +291,7 @@ func (x *Student_Grade) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Student_Grade.ProtoReflect.Descriptor instead.
 func (*Student_Grade) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_student_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_course_student_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Student_Grade) GetModuleId() string {
@@ -280,7 +333,7 @@ var File_eolymp_course_student_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_student_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/course/student.proto\x12\reolymp.course\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9f\x05\n" +
+	"\x1beolymp/course/student.proto\x12\reolymp.course\x1a\x1fgoogle/protobuf/timestamp.proto\"\x89\x06\n" +
 	"\aStudent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x1b\n" +
@@ -297,7 +350,13 @@ const file_eolymp_course_student_proto_rawDesc = "" +
 	"updated_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
 	"\n" +
 	"created_at\x18\x1b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x16\n" +
-	"\x06cursor\x18d \x01(\tR\x06cursor\x1a\xa4\x01\n" +
+	"\x06cursor\x18d \x01(\tR\x06cursor\x1ah\n" +
+	"\x05Patch\x12\x1f\n" +
+	"\binactive\x18\x04 \x01(\bH\x00R\binactive\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"assign_all\x18\x05 \x01(\bH\x01R\tassignAll\x88\x01\x01B\v\n" +
+	"\t_inactiveB\r\n" +
+	"\v_assign_all\x1a\xa4\x01\n" +
 	"\x05Grade\x12\x1b\n" +
 	"\tmodule_id\x18\x01 \x01(\tR\bmoduleId\x12\x14\n" +
 	"\x05grade\x18\n" +
@@ -323,18 +382,19 @@ func file_eolymp_course_student_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_course_student_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_course_student_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_course_student_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_course_student_proto_goTypes = []any{
 	(Student_Extra)(0),            // 0: eolymp.course.Student.Extra
 	(*Student)(nil),               // 1: eolymp.course.Student
-	(*Student_Grade)(nil),         // 2: eolymp.course.Student.Grade
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*Student_Patch)(nil),         // 2: eolymp.course.Student.Patch
+	(*Student_Grade)(nil),         // 3: eolymp.course.Student.Grade
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_eolymp_course_student_proto_depIdxs = []int32{
-	2, // 0: eolymp.course.Student.grades:type_name -> eolymp.course.Student.Grade
-	3, // 1: eolymp.course.Student.graded_at:type_name -> google.protobuf.Timestamp
-	3, // 2: eolymp.course.Student.updated_at:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.course.Student.created_at:type_name -> google.protobuf.Timestamp
+	3, // 0: eolymp.course.Student.grades:type_name -> eolymp.course.Student.Grade
+	4, // 1: eolymp.course.Student.graded_at:type_name -> google.protobuf.Timestamp
+	4, // 2: eolymp.course.Student.updated_at:type_name -> google.protobuf.Timestamp
+	4, // 3: eolymp.course.Student.created_at:type_name -> google.protobuf.Timestamp
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -347,13 +407,14 @@ func file_eolymp_course_student_proto_init() {
 	if File_eolymp_course_student_proto != nil {
 		return
 	}
+	file_eolymp_course_student_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_student_proto_rawDesc), len(file_eolymp_course_student_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

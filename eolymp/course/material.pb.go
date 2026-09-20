@@ -261,6 +261,137 @@ func (*Material_Document_) isMaterial_Content() {}
 
 func (*Material_Task_) isMaterial_Content() {}
 
+// Patch describes the fields UpdateMaterial can change, a field is written only if it is set.
+type Material_Patch struct {
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Draft    *bool                  `protobuf:"varint,3,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
+	Name     *string                `protobuf:"bytes,4,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	ImageUrl *string                `protobuf:"bytes,5,opt,name=image_url,json=imageUrl,proto3,oneof" json:"image_url,omitempty"`
+	Index    *uint32                `protobuf:"varint,11,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	Depth    *uint32                `protobuf:"varint,12,opt,name=depth,proto3,oneof" json:"depth,omitempty"`
+	Grading  *Material_Grading      `protobuf:"bytes,30,opt,name=grading,proto3,oneof" json:"grading,omitempty"`
+	// Types that are valid to be assigned to Content:
+	//
+	//	*Material_Patch_Document
+	//	*Material_Patch_Task
+	Content       isMaterial_Patch_Content `protobuf_oneof:"content"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Material_Patch) Reset() {
+	*x = Material_Patch{}
+	mi := &file_eolymp_course_material_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Material_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Material_Patch) ProtoMessage() {}
+
+func (x *Material_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_course_material_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Material_Patch.ProtoReflect.Descriptor instead.
+func (*Material_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Material_Patch) GetDraft() bool {
+	if x != nil && x.Draft != nil {
+		return *x.Draft
+	}
+	return false
+}
+
+func (x *Material_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Material_Patch) GetImageUrl() string {
+	if x != nil && x.ImageUrl != nil {
+		return *x.ImageUrl
+	}
+	return ""
+}
+
+func (x *Material_Patch) GetIndex() uint32 {
+	if x != nil && x.Index != nil {
+		return *x.Index
+	}
+	return 0
+}
+
+func (x *Material_Patch) GetDepth() uint32 {
+	if x != nil && x.Depth != nil {
+		return *x.Depth
+	}
+	return 0
+}
+
+func (x *Material_Patch) GetGrading() *Material_Grading {
+	if x != nil {
+		return x.Grading
+	}
+	return nil
+}
+
+func (x *Material_Patch) GetContent() isMaterial_Patch_Content {
+	if x != nil {
+		return x.Content
+	}
+	return nil
+}
+
+func (x *Material_Patch) GetDocument() *Material_Document {
+	if x != nil {
+		if x, ok := x.Content.(*Material_Patch_Document); ok {
+			return x.Document
+		}
+	}
+	return nil
+}
+
+func (x *Material_Patch) GetTask() *Material_Task {
+	if x != nil {
+		if x, ok := x.Content.(*Material_Patch_Task); ok {
+			return x.Task
+		}
+	}
+	return nil
+}
+
+type isMaterial_Patch_Content interface {
+	isMaterial_Patch_Content()
+}
+
+type Material_Patch_Document struct {
+	Document *Material_Document `protobuf:"bytes,100,opt,name=document,proto3,oneof"`
+}
+
+type Material_Patch_Task struct {
+	Task *Material_Task `protobuf:"bytes,101,opt,name=task,proto3,oneof"`
+}
+
+func (*Material_Patch_Document) isMaterial_Patch_Content() {}
+
+func (*Material_Patch_Task) isMaterial_Patch_Content() {}
+
 type Material_Document struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Content       *ecm.Content           `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
@@ -270,7 +401,7 @@ type Material_Document struct {
 
 func (x *Material_Document) Reset() {
 	*x = Material_Document{}
-	mi := &file_eolymp_course_material_proto_msgTypes[1]
+	mi := &file_eolymp_course_material_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -282,7 +413,7 @@ func (x *Material_Document) String() string {
 func (*Material_Document) ProtoMessage() {}
 
 func (x *Material_Document) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_material_proto_msgTypes[1]
+	mi := &file_eolymp_course_material_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -295,7 +426,7 @@ func (x *Material_Document) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Material_Document.ProtoReflect.Descriptor instead.
 func (*Material_Document) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Material_Document) GetContent() *ecm.Content {
@@ -314,7 +445,7 @@ type Material_Task struct {
 
 func (x *Material_Task) Reset() {
 	*x = Material_Task{}
-	mi := &file_eolymp_course_material_proto_msgTypes[2]
+	mi := &file_eolymp_course_material_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -326,7 +457,7 @@ func (x *Material_Task) String() string {
 func (*Material_Task) ProtoMessage() {}
 
 func (x *Material_Task) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_material_proto_msgTypes[2]
+	mi := &file_eolymp_course_material_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -339,7 +470,7 @@ func (x *Material_Task) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Material_Task.ProtoReflect.Descriptor instead.
 func (*Material_Task) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Material_Task) GetProblemId() string {
@@ -359,7 +490,7 @@ type Material_Grading struct {
 
 func (x *Material_Grading) Reset() {
 	*x = Material_Grading{}
-	mi := &file_eolymp_course_material_proto_msgTypes[3]
+	mi := &file_eolymp_course_material_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -371,7 +502,7 @@ func (x *Material_Grading) String() string {
 func (*Material_Grading) ProtoMessage() {}
 
 func (x *Material_Grading) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_material_proto_msgTypes[3]
+	mi := &file_eolymp_course_material_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -384,7 +515,7 @@ func (x *Material_Grading) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Material_Grading.ProtoReflect.Descriptor instead.
 func (*Material_Grading) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 3}
 }
 
 func (x *Material_Grading) GetMaxScore() uint32 {
@@ -414,7 +545,7 @@ type Material_Progress struct {
 
 func (x *Material_Progress) Reset() {
 	*x = Material_Progress{}
-	mi := &file_eolymp_course_material_proto_msgTypes[4]
+	mi := &file_eolymp_course_material_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -426,7 +557,7 @@ func (x *Material_Progress) String() string {
 func (*Material_Progress) ProtoMessage() {}
 
 func (x *Material_Progress) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_course_material_proto_msgTypes[4]
+	mi := &file_eolymp_course_material_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -439,7 +570,7 @@ func (x *Material_Progress) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Material_Progress.ProtoReflect.Descriptor instead.
 func (*Material_Progress) Descriptor() ([]byte, []int) {
-	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 3}
+	return file_eolymp_course_material_proto_rawDescGZIP(), []int{0, 4}
 }
 
 func (x *Material_Progress) GetPercentage() float32 {
@@ -481,7 +612,8 @@ var File_eolymp_course_material_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_material_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/course/material.proto\x12\reolymp.course\x1a\x18eolymp/ecm/content.proto\"\xb2\a\n" +
+	"\x1ceolymp/course/material.proto\x12\reolymp.course\x1a\x18eolymp/ecm/content.proto\"\xc8\n" +
+	"\n" +
 	"\bMaterial\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x14\n" +
@@ -498,7 +630,25 @@ const file_eolymp_course_material_proto_rawDesc = "" +
 	"percentage\x18\x14 \x01(\x02R\n" +
 	"percentage\x12\x14\n" +
 	"\x05grade\x18\x15 \x01(\rR\x05grade\x12<\n" +
-	"\bprogress\x18\x16 \x01(\v2 .eolymp.course.Material.ProgressR\bprogress\x1a9\n" +
+	"\bprogress\x18\x16 \x01(\v2 .eolymp.course.Material.ProgressR\bprogress\x1a\x93\x03\n" +
+	"\x05Patch\x12\x19\n" +
+	"\x05draft\x18\x03 \x01(\bH\x01R\x05draft\x88\x01\x01\x12\x17\n" +
+	"\x04name\x18\x04 \x01(\tH\x02R\x04name\x88\x01\x01\x12 \n" +
+	"\timage_url\x18\x05 \x01(\tH\x03R\bimageUrl\x88\x01\x01\x12\x19\n" +
+	"\x05index\x18\v \x01(\rH\x04R\x05index\x88\x01\x01\x12\x19\n" +
+	"\x05depth\x18\f \x01(\rH\x05R\x05depth\x88\x01\x01\x12>\n" +
+	"\agrading\x18\x1e \x01(\v2\x1f.eolymp.course.Material.GradingH\x06R\agrading\x88\x01\x01\x12>\n" +
+	"\bdocument\x18d \x01(\v2 .eolymp.course.Material.DocumentH\x00R\bdocument\x122\n" +
+	"\x04task\x18e \x01(\v2\x1c.eolymp.course.Material.TaskH\x00R\x04taskB\t\n" +
+	"\acontentB\b\n" +
+	"\x06_draftB\a\n" +
+	"\x05_nameB\f\n" +
+	"\n" +
+	"_image_urlB\b\n" +
+	"\x06_indexB\b\n" +
+	"\x06_depthB\n" +
+	"\n" +
+	"\b_grading\x1a9\n" +
 	"\bDocument\x12-\n" +
 	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x1a%\n" +
 	"\x04Task\x12\x1d\n" +
@@ -539,27 +689,31 @@ func file_eolymp_course_material_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_course_material_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_course_material_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_course_material_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_course_material_proto_goTypes = []any{
 	(Material_Extra)(0),       // 0: eolymp.course.Material.Extra
 	(*Material)(nil),          // 1: eolymp.course.Material
-	(*Material_Document)(nil), // 2: eolymp.course.Material.Document
-	(*Material_Task)(nil),     // 3: eolymp.course.Material.Task
-	(*Material_Grading)(nil),  // 4: eolymp.course.Material.Grading
-	(*Material_Progress)(nil), // 5: eolymp.course.Material.Progress
-	(*ecm.Content)(nil),       // 6: eolymp.ecm.Content
+	(*Material_Patch)(nil),    // 2: eolymp.course.Material.Patch
+	(*Material_Document)(nil), // 3: eolymp.course.Material.Document
+	(*Material_Task)(nil),     // 4: eolymp.course.Material.Task
+	(*Material_Grading)(nil),  // 5: eolymp.course.Material.Grading
+	(*Material_Progress)(nil), // 6: eolymp.course.Material.Progress
+	(*ecm.Content)(nil),       // 7: eolymp.ecm.Content
 }
 var file_eolymp_course_material_proto_depIdxs = []int32{
-	4, // 0: eolymp.course.Material.grading:type_name -> eolymp.course.Material.Grading
-	2, // 1: eolymp.course.Material.document:type_name -> eolymp.course.Material.Document
-	3, // 2: eolymp.course.Material.task:type_name -> eolymp.course.Material.Task
-	5, // 3: eolymp.course.Material.progress:type_name -> eolymp.course.Material.Progress
-	6, // 4: eolymp.course.Material.Document.content:type_name -> eolymp.ecm.Content
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 0: eolymp.course.Material.grading:type_name -> eolymp.course.Material.Grading
+	3, // 1: eolymp.course.Material.document:type_name -> eolymp.course.Material.Document
+	4, // 2: eolymp.course.Material.task:type_name -> eolymp.course.Material.Task
+	6, // 3: eolymp.course.Material.progress:type_name -> eolymp.course.Material.Progress
+	5, // 4: eolymp.course.Material.Patch.grading:type_name -> eolymp.course.Material.Grading
+	3, // 5: eolymp.course.Material.Patch.document:type_name -> eolymp.course.Material.Document
+	4, // 6: eolymp.course.Material.Patch.task:type_name -> eolymp.course.Material.Task
+	7, // 7: eolymp.course.Material.Document.content:type_name -> eolymp.ecm.Content
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_material_proto_init() }
@@ -571,13 +725,17 @@ func file_eolymp_course_material_proto_init() {
 		(*Material_Document_)(nil),
 		(*Material_Task_)(nil),
 	}
+	file_eolymp_course_material_proto_msgTypes[1].OneofWrappers = []any{
+		(*Material_Patch_Document)(nil),
+		(*Material_Patch_Task)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_course_material_proto_rawDesc), len(file_eolymp_course_material_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
