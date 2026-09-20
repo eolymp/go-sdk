@@ -313,9 +313,8 @@ func (x *CreateClientOutput) GetSecret() string {
 
 type UpdateClientInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Client_Patch_Field   `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.auth.Client_Patch_Field" json:"patch,omitempty"`
 	ClientId      string                 `protobuf:"bytes,2,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	Client        *Client                `protobuf:"bytes,3,opt,name=client,proto3" json:"client,omitempty"`
+	Client        *Client_Patch          `protobuf:"bytes,4,opt,name=client,proto3" json:"client,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -350,13 +349,6 @@ func (*UpdateClientInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_auth_client_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateClientInput) GetPatch() []Client_Patch_Field {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateClientInput) GetClientId() string {
 	if x != nil {
 		return x.ClientId
@@ -364,7 +356,7 @@ func (x *UpdateClientInput) GetClientId() string {
 	return ""
 }
 
-func (x *UpdateClientInput) GetClient() *Client {
+func (x *UpdateClientInput) GetClient() *Client_Patch {
 	if x != nil {
 		return x.Client
 	}
@@ -931,11 +923,10 @@ const file_eolymp_auth_client_service_proto_rawDesc = "" +
 	"\x06client\x18\x01 \x01(\v2\x13.eolymp.auth.ClientR\x06client\"I\n" +
 	"\x12CreateClientOutput\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12\x16\n" +
-	"\x06secret\x18\x02 \x01(\tR\x06secret\"\x94\x01\n" +
-	"\x11UpdateClientInput\x125\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\x1f.eolymp.auth.Client.Patch.FieldR\x05patch\x12\x1b\n" +
-	"\tclient_id\x18\x02 \x01(\tR\bclientId\x12+\n" +
-	"\x06client\x18\x03 \x01(\v2\x13.eolymp.auth.ClientR\x06client\"\x14\n" +
+	"\x06secret\x18\x02 \x01(\tR\x06secret\"o\n" +
+	"\x11UpdateClientInput\x12\x1b\n" +
+	"\tclient_id\x18\x02 \x01(\tR\bclientId\x121\n" +
+	"\x06client\x18\x04 \x01(\v2\x19.eolymp.auth.Client.PatchR\x06clientJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x14\n" +
 	"\x12UpdateClientOutput\"0\n" +
 	"\x11DeleteClientInput\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\"\x14\n" +
@@ -1073,36 +1064,35 @@ var file_eolymp_auth_client_service_proto_goTypes = []any{
 	(*RegisterClientInput)(nil),     // 12: eolymp.auth.RegisterClientInput
 	(*RegisterClientOutput)(nil),    // 13: eolymp.auth.RegisterClientOutput
 	(*Client)(nil),                  // 14: eolymp.auth.Client
-	(Client_Patch_Field)(0),         // 15: eolymp.auth.Client.Patch.Field
+	(*Client_Patch)(nil),            // 15: eolymp.auth.Client.Patch
 	(*timestamppb.Timestamp)(nil),   // 16: google.protobuf.Timestamp
 }
 var file_eolymp_auth_client_service_proto_depIdxs = []int32{
 	14, // 0: eolymp.auth.ListClientsOutput.items:type_name -> eolymp.auth.Client
 	14, // 1: eolymp.auth.DescribeClientOutput.client:type_name -> eolymp.auth.Client
 	14, // 2: eolymp.auth.CreateClientInput.client:type_name -> eolymp.auth.Client
-	15, // 3: eolymp.auth.UpdateClientInput.patch:type_name -> eolymp.auth.Client.Patch.Field
-	14, // 4: eolymp.auth.UpdateClientInput.client:type_name -> eolymp.auth.Client
-	16, // 5: eolymp.auth.RegisterClientOutput.client_id_issued_at:type_name -> google.protobuf.Timestamp
-	16, // 6: eolymp.auth.RegisterClientOutput.client_secret_expires_at:type_name -> google.protobuf.Timestamp
-	0,  // 7: eolymp.auth.ClientService.ListClients:input_type -> eolymp.auth.ListClientsInput
-	2,  // 8: eolymp.auth.ClientService.DescribeClient:input_type -> eolymp.auth.DescribeClientInput
-	4,  // 9: eolymp.auth.ClientService.CreateClient:input_type -> eolymp.auth.CreateClientInput
-	6,  // 10: eolymp.auth.ClientService.UpdateClient:input_type -> eolymp.auth.UpdateClientInput
-	8,  // 11: eolymp.auth.ClientService.DeleteClient:input_type -> eolymp.auth.DeleteClientInput
-	10, // 12: eolymp.auth.ClientService.ResetClientSecret:input_type -> eolymp.auth.ResetClientSecretInput
-	12, // 13: eolymp.auth.ClientService.RegisterClient:input_type -> eolymp.auth.RegisterClientInput
-	1,  // 14: eolymp.auth.ClientService.ListClients:output_type -> eolymp.auth.ListClientsOutput
-	3,  // 15: eolymp.auth.ClientService.DescribeClient:output_type -> eolymp.auth.DescribeClientOutput
-	5,  // 16: eolymp.auth.ClientService.CreateClient:output_type -> eolymp.auth.CreateClientOutput
-	7,  // 17: eolymp.auth.ClientService.UpdateClient:output_type -> eolymp.auth.UpdateClientOutput
-	9,  // 18: eolymp.auth.ClientService.DeleteClient:output_type -> eolymp.auth.DeleteClientOutput
-	11, // 19: eolymp.auth.ClientService.ResetClientSecret:output_type -> eolymp.auth.ResetClientSecretOutput
-	13, // 20: eolymp.auth.ClientService.RegisterClient:output_type -> eolymp.auth.RegisterClientOutput
-	14, // [14:21] is the sub-list for method output_type
-	7,  // [7:14] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	15, // 3: eolymp.auth.UpdateClientInput.client:type_name -> eolymp.auth.Client.Patch
+	16, // 4: eolymp.auth.RegisterClientOutput.client_id_issued_at:type_name -> google.protobuf.Timestamp
+	16, // 5: eolymp.auth.RegisterClientOutput.client_secret_expires_at:type_name -> google.protobuf.Timestamp
+	0,  // 6: eolymp.auth.ClientService.ListClients:input_type -> eolymp.auth.ListClientsInput
+	2,  // 7: eolymp.auth.ClientService.DescribeClient:input_type -> eolymp.auth.DescribeClientInput
+	4,  // 8: eolymp.auth.ClientService.CreateClient:input_type -> eolymp.auth.CreateClientInput
+	6,  // 9: eolymp.auth.ClientService.UpdateClient:input_type -> eolymp.auth.UpdateClientInput
+	8,  // 10: eolymp.auth.ClientService.DeleteClient:input_type -> eolymp.auth.DeleteClientInput
+	10, // 11: eolymp.auth.ClientService.ResetClientSecret:input_type -> eolymp.auth.ResetClientSecretInput
+	12, // 12: eolymp.auth.ClientService.RegisterClient:input_type -> eolymp.auth.RegisterClientInput
+	1,  // 13: eolymp.auth.ClientService.ListClients:output_type -> eolymp.auth.ListClientsOutput
+	3,  // 14: eolymp.auth.ClientService.DescribeClient:output_type -> eolymp.auth.DescribeClientOutput
+	5,  // 15: eolymp.auth.ClientService.CreateClient:output_type -> eolymp.auth.CreateClientOutput
+	7,  // 16: eolymp.auth.ClientService.UpdateClient:output_type -> eolymp.auth.UpdateClientOutput
+	9,  // 17: eolymp.auth.ClientService.DeleteClient:output_type -> eolymp.auth.DeleteClientOutput
+	11, // 18: eolymp.auth.ClientService.ResetClientSecret:output_type -> eolymp.auth.ResetClientSecretOutput
+	13, // 19: eolymp.auth.ClientService.RegisterClient:output_type -> eolymp.auth.RegisterClientOutput
+	13, // [13:20] is the sub-list for method output_type
+	6,  // [6:13] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_auth_client_service_proto_init() }

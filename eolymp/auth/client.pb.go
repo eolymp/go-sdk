@@ -22,55 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Client_Patch_Field int32
-
-const (
-	Client_Patch_UNKNOWN_FIELD Client_Patch_Field = 0
-	Client_Patch_NAME          Client_Patch_Field = 2
-	Client_Patch_REDIRECT_URI  Client_Patch_Field = 3
-)
-
-// Enum value maps for Client_Patch_Field.
-var (
-	Client_Patch_Field_name = map[int32]string{
-		0: "UNKNOWN_FIELD",
-		2: "NAME",
-		3: "REDIRECT_URI",
-	}
-	Client_Patch_Field_value = map[string]int32{
-		"UNKNOWN_FIELD": 0,
-		"NAME":          2,
-		"REDIRECT_URI":  3,
-	}
-)
-
-func (x Client_Patch_Field) Enum() *Client_Patch_Field {
-	p := new(Client_Patch_Field)
-	*p = x
-	return p
-}
-
-func (x Client_Patch_Field) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Client_Patch_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_auth_client_proto_enumTypes[0].Descriptor()
-}
-
-func (Client_Patch_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_auth_client_proto_enumTypes[0]
-}
-
-func (x Client_Patch_Field) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Client_Patch_Field.Descriptor instead.
-func (Client_Patch_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_auth_client_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 type Client struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -157,6 +108,8 @@ func (x *Client) GetUpdatedAt() *timestamppb.Timestamp {
 
 type Client_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	RedirectUri   []string               `protobuf:"bytes,4,rep,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -191,11 +144,25 @@ func (*Client_Patch) Descriptor() ([]byte, []int) {
 	return file_eolymp_auth_client_proto_rawDescGZIP(), []int{0, 0}
 }
 
+func (x *Client_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Client_Patch) GetRedirectUri() []string {
+	if x != nil {
+		return x.RedirectUri
+	}
+	return nil
+}
+
 var File_eolymp_auth_client_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_client_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/auth/client.proto\x12\veolymp.auth\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9e\x02\n" +
+	"\x18eolymp/auth/client.proto\x12\veolymp.auth\x1a\x1fgoogle/protobuf/timestamp.proto\"\xab\x02\n" +
 	"\x06Client\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06secret\x18\x02 \x01(\tR\x06secret\x12\x12\n" +
@@ -205,12 +172,11 @@ const file_eolymp_auth_client_proto_rawDesc = "" +
 	"created_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a?\n" +
-	"\x05Patch\"6\n" +
-	"\x05Field\x12\x11\n" +
-	"\rUNKNOWN_FIELD\x10\x00\x12\b\n" +
-	"\x04NAME\x10\x02\x12\x10\n" +
-	"\fREDIRECT_URI\x10\x03B+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1aL\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12!\n" +
+	"\fredirect_uri\x18\x04 \x03(\tR\vredirectUriB\a\n" +
+	"\x05_nameB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_client_proto_rawDescOnce sync.Once
@@ -224,17 +190,15 @@ func file_eolymp_auth_client_proto_rawDescGZIP() []byte {
 	return file_eolymp_auth_client_proto_rawDescData
 }
 
-var file_eolymp_auth_client_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_auth_client_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_auth_client_proto_goTypes = []any{
-	(Client_Patch_Field)(0),       // 0: eolymp.auth.Client.Patch.Field
-	(*Client)(nil),                // 1: eolymp.auth.Client
-	(*Client_Patch)(nil),          // 2: eolymp.auth.Client.Patch
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*Client)(nil),                // 0: eolymp.auth.Client
+	(*Client_Patch)(nil),          // 1: eolymp.auth.Client.Patch
+	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 }
 var file_eolymp_auth_client_proto_depIdxs = []int32{
-	3, // 0: eolymp.auth.Client.created_at:type_name -> google.protobuf.Timestamp
-	3, // 1: eolymp.auth.Client.updated_at:type_name -> google.protobuf.Timestamp
+	2, // 0: eolymp.auth.Client.created_at:type_name -> google.protobuf.Timestamp
+	2, // 1: eolymp.auth.Client.updated_at:type_name -> google.protobuf.Timestamp
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -247,19 +211,19 @@ func file_eolymp_auth_client_proto_init() {
 	if File_eolymp_auth_client_proto != nil {
 		return
 	}
+	file_eolymp_auth_client_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_auth_client_proto_rawDesc), len(file_eolymp_auth_client_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_auth_client_proto_goTypes,
 		DependencyIndexes: file_eolymp_auth_client_proto_depIdxs,
-		EnumInfos:         file_eolymp_auth_client_proto_enumTypes,
 		MessageInfos:      file_eolymp_auth_client_proto_msgTypes,
 	}.Build()
 	File_eolymp_auth_client_proto = out.File
