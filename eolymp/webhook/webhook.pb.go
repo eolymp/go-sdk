@@ -128,64 +128,6 @@ func (Webhook_Event) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_webhook_webhook_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Webhook_Patch int32
-
-const (
-	Webhook_PATCH_UNKNOWN  Webhook_Patch = 0
-	Webhook_PATCH_ALL      Webhook_Patch = 1
-	Webhook_PATCH_NAME     Webhook_Patch = 2
-	Webhook_PATCH_ENDPOINT Webhook_Patch = 3
-	Webhook_PATCH_INACTIVE Webhook_Patch = 4
-	Webhook_PATCH_EVENTS   Webhook_Patch = 5
-)
-
-// Enum value maps for Webhook_Patch.
-var (
-	Webhook_Patch_name = map[int32]string{
-		0: "PATCH_UNKNOWN",
-		1: "PATCH_ALL",
-		2: "PATCH_NAME",
-		3: "PATCH_ENDPOINT",
-		4: "PATCH_INACTIVE",
-		5: "PATCH_EVENTS",
-	}
-	Webhook_Patch_value = map[string]int32{
-		"PATCH_UNKNOWN":  0,
-		"PATCH_ALL":      1,
-		"PATCH_NAME":     2,
-		"PATCH_ENDPOINT": 3,
-		"PATCH_INACTIVE": 4,
-		"PATCH_EVENTS":   5,
-	}
-)
-
-func (x Webhook_Patch) Enum() *Webhook_Patch {
-	p := new(Webhook_Patch)
-	*p = x
-	return p
-}
-
-func (x Webhook_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Webhook_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_webhook_webhook_proto_enumTypes[1].Descriptor()
-}
-
-func (Webhook_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_webhook_webhook_proto_enumTypes[1]
-}
-
-func (x Webhook_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Webhook_Patch.Descriptor instead.
-func (Webhook_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_webhook_webhook_proto_rawDescGZIP(), []int{0, 1}
-}
-
 type Webhook struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -310,11 +252,89 @@ func (x *Webhook) GetFailureCount() int32 {
 	return 0
 }
 
+// Patch describes the fields UpdateWebhook can change, a field is written only if it is set.
+type Webhook_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Endpoint      *string                `protobuf:"bytes,4,opt,name=endpoint,proto3,oneof" json:"endpoint,omitempty"`
+	Inactive      *bool                  `protobuf:"varint,5,opt,name=inactive,proto3,oneof" json:"inactive,omitempty"`
+	Events        []Webhook_Event        `protobuf:"varint,10,rep,packed,name=events,proto3,enum=eolymp.webhook.Webhook_Event" json:"events,omitempty"`
+	Unsubscribe   *bool                  `protobuf:"varint,11,opt,name=unsubscribe,proto3,oneof" json:"unsubscribe,omitempty"` // clears the event list, which an empty list cannot express
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Webhook_Patch) Reset() {
+	*x = Webhook_Patch{}
+	mi := &file_eolymp_webhook_webhook_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Webhook_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Webhook_Patch) ProtoMessage() {}
+
+func (x *Webhook_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_webhook_webhook_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Webhook_Patch.ProtoReflect.Descriptor instead.
+func (*Webhook_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_webhook_webhook_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Webhook_Patch) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *Webhook_Patch) GetEndpoint() string {
+	if x != nil && x.Endpoint != nil {
+		return *x.Endpoint
+	}
+	return ""
+}
+
+func (x *Webhook_Patch) GetInactive() bool {
+	if x != nil && x.Inactive != nil {
+		return *x.Inactive
+	}
+	return false
+}
+
+func (x *Webhook_Patch) GetEvents() []Webhook_Event {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *Webhook_Patch) GetUnsubscribe() bool {
+	if x != nil && x.Unsubscribe != nil {
+		return *x.Unsubscribe
+	}
+	return false
+}
+
 var File_eolymp_webhook_webhook_proto protoreflect.FileDescriptor
 
 const file_eolymp_webhook_webhook_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/webhook/webhook.proto\x12\x0eeolymp.webhook\x1a\x1fgoogle/protobuf/timestamp.proto\"\x92\t\n" +
+	"\x1ceolymp/webhook/webhook.proto\x12\x0eeolymp.webhook\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\n" +
+	"\n" +
 	"\aWebhook\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -328,7 +348,18 @@ const file_eolymp_webhook_webhook_proto_rawDesc = "" +
 	"\x0flast_failure_at\x18  \x01(\v2\x1a.google.protobuf.TimestampR\rlastFailureAt\x12B\n" +
 	"\x0flast_success_at\x18! \x01(\v2\x1a.google.protobuf.TimestampR\rlastSuccessAt\x12%\n" +
 	"\x0edelivery_count\x18\x14 \x01(\x05R\rdeliveryCount\x12#\n" +
-	"\rfailure_count\x18\x15 \x01(\x05R\ffailureCount\"\xd7\x04\n" +
+	"\rfailure_count\x18\x15 \x01(\x05R\ffailureCount\x1a\xf3\x01\n" +
+	"\x05Patch\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1f\n" +
+	"\bendpoint\x18\x04 \x01(\tH\x01R\bendpoint\x88\x01\x01\x12\x1f\n" +
+	"\binactive\x18\x05 \x01(\bH\x02R\binactive\x88\x01\x01\x125\n" +
+	"\x06events\x18\n" +
+	" \x03(\x0e2\x1d.eolymp.webhook.Webhook.EventR\x06events\x12%\n" +
+	"\vunsubscribe\x18\v \x01(\bH\x03R\vunsubscribe\x88\x01\x01B\a\n" +
+	"\x05_nameB\v\n" +
+	"\t_endpointB\v\n" +
+	"\t_inactiveB\x0e\n" +
+	"\f_unsubscribe\"\xd7\x04\n" +
 	"\x05Event\x12\x11\n" +
 	"\rUNKNOWN_EVENT\x10\x00\x12\x13\n" +
 	"\x0fPROBLEM_CHANGED\x10d\x12\x1d\n" +
@@ -351,15 +382,7 @@ const file_eolymp_webhook_webhook_proto_rawDesc = "" +
 	"\x1cCONTEST_SUBMISSION_COMPLETED\x10\xa0\x06\x12\x1a\n" +
 	"\x15CONTEST_SCORE_CHANGED\x10\xa1\x06\x12 \n" +
 	"\x1bCONTEST_PARTICIPANT_CHANGED\x10\xa2\x06\x12\x1f\n" +
-	"\x1aCONTEST_PARTICIPANT_JOINED\x10\xa3\x06\"s\n" +
-	"\x05Patch\x12\x11\n" +
-	"\rPATCH_UNKNOWN\x10\x00\x12\r\n" +
-	"\tPATCH_ALL\x10\x01\x12\x0e\n" +
-	"\n" +
-	"PATCH_NAME\x10\x02\x12\x12\n" +
-	"\x0ePATCH_ENDPOINT\x10\x03\x12\x12\n" +
-	"\x0ePATCH_INACTIVE\x10\x04\x12\x10\n" +
-	"\fPATCH_EVENTS\x10\x05B1Z/github.com/eolymp/go-sdk/eolymp/webhook;webhookb\x06proto3"
+	"\x1aCONTEST_PARTICIPANT_JOINED\x10\xa3\x06B1Z/github.com/eolymp/go-sdk/eolymp/webhook;webhookb\x06proto3"
 
 var (
 	file_eolymp_webhook_webhook_proto_rawDescOnce sync.Once
@@ -373,12 +396,12 @@ func file_eolymp_webhook_webhook_proto_rawDescGZIP() []byte {
 	return file_eolymp_webhook_webhook_proto_rawDescData
 }
 
-var file_eolymp_webhook_webhook_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_webhook_webhook_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_webhook_webhook_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_webhook_webhook_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_webhook_webhook_proto_goTypes = []any{
 	(Webhook_Event)(0),            // 0: eolymp.webhook.Webhook.Event
-	(Webhook_Patch)(0),            // 1: eolymp.webhook.Webhook.Patch
-	(*Webhook)(nil),               // 2: eolymp.webhook.Webhook
+	(*Webhook)(nil),               // 1: eolymp.webhook.Webhook
+	(*Webhook_Patch)(nil),         // 2: eolymp.webhook.Webhook.Patch
 	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_webhook_webhook_proto_depIdxs = []int32{
@@ -386,11 +409,12 @@ var file_eolymp_webhook_webhook_proto_depIdxs = []int32{
 	3, // 1: eolymp.webhook.Webhook.created_at:type_name -> google.protobuf.Timestamp
 	3, // 2: eolymp.webhook.Webhook.last_failure_at:type_name -> google.protobuf.Timestamp
 	3, // 3: eolymp.webhook.Webhook.last_success_at:type_name -> google.protobuf.Timestamp
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0, // 4: eolymp.webhook.Webhook.Patch.events:type_name -> eolymp.webhook.Webhook.Event
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_webhook_webhook_proto_init() }
@@ -398,13 +422,14 @@ func file_eolymp_webhook_webhook_proto_init() {
 	if File_eolymp_webhook_webhook_proto != nil {
 		return
 	}
+	file_eolymp_webhook_webhook_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_webhook_webhook_proto_rawDesc), len(file_eolymp_webhook_webhook_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   1,
+			NumEnums:      1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

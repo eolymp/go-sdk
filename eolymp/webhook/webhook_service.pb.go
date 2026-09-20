@@ -112,9 +112,8 @@ func (x *CreateWebhookOutput) GetWebhookId() string {
 
 type UpdateWebhookInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Webhook_Patch        `protobuf:"varint,1,rep,packed,name=patch,proto3,enum=eolymp.webhook.Webhook_Patch" json:"patch,omitempty"`
 	WebhookId     string                 `protobuf:"bytes,2,opt,name=webhook_id,json=webhookId,proto3" json:"webhook_id,omitempty"`
-	Webhook       *Webhook               `protobuf:"bytes,3,opt,name=webhook,proto3" json:"webhook,omitempty"`
+	Webhook       *Webhook_Patch         `protobuf:"bytes,4,opt,name=webhook,proto3" json:"webhook,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -149,13 +148,6 @@ func (*UpdateWebhookInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_webhook_webhook_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateWebhookInput) GetPatch() []Webhook_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateWebhookInput) GetWebhookId() string {
 	if x != nil {
 		return x.WebhookId
@@ -163,7 +155,7 @@ func (x *UpdateWebhookInput) GetWebhookId() string {
 	return ""
 }
 
-func (x *UpdateWebhookInput) GetWebhook() *Webhook {
+func (x *UpdateWebhookInput) GetWebhook() *Webhook_Patch {
 	if x != nil {
 		return x.Webhook
 	}
@@ -583,12 +575,11 @@ const file_eolymp_webhook_webhook_service_proto_rawDesc = "" +
 	"\awebhook\x18\x01 \x01(\v2\x17.eolymp.webhook.WebhookR\awebhook\"4\n" +
 	"\x13CreateWebhookOutput\x12\x1d\n" +
 	"\n" +
-	"webhook_id\x18\x01 \x01(\tR\twebhookId\"\x9b\x01\n" +
-	"\x12UpdateWebhookInput\x123\n" +
-	"\x05patch\x18\x01 \x03(\x0e2\x1d.eolymp.webhook.Webhook.PatchR\x05patch\x12\x1d\n" +
+	"webhook_id\x18\x01 \x01(\tR\twebhookId\"x\n" +
+	"\x12UpdateWebhookInput\x12\x1d\n" +
 	"\n" +
-	"webhook_id\x18\x02 \x01(\tR\twebhookId\x121\n" +
-	"\awebhook\x18\x03 \x01(\v2\x17.eolymp.webhook.WebhookR\awebhook\"\x15\n" +
+	"webhook_id\x18\x02 \x01(\tR\twebhookId\x127\n" +
+	"\awebhook\x18\x04 \x01(\v2\x1d.eolymp.webhook.Webhook.PatchR\awebhookJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x15\n" +
 	"\x13UpdateWebhookOutput\"3\n" +
 	"\x12DeleteWebhookInput\x12\x1d\n" +
 	"\n" +
@@ -689,31 +680,30 @@ var file_eolymp_webhook_webhook_service_proto_goTypes = []any{
 	(*TestWebhookInput)(nil),      // 10: eolymp.webhook.TestWebhookInput
 	(*TestWebhookOutput)(nil),     // 11: eolymp.webhook.TestWebhookOutput
 	(*Webhook)(nil),               // 12: eolymp.webhook.Webhook
-	(Webhook_Patch)(0),            // 13: eolymp.webhook.Webhook.Patch
+	(*Webhook_Patch)(nil),         // 13: eolymp.webhook.Webhook.Patch
 }
 var file_eolymp_webhook_webhook_service_proto_depIdxs = []int32{
 	12, // 0: eolymp.webhook.CreateWebhookInput.webhook:type_name -> eolymp.webhook.Webhook
-	13, // 1: eolymp.webhook.UpdateWebhookInput.patch:type_name -> eolymp.webhook.Webhook.Patch
-	12, // 2: eolymp.webhook.UpdateWebhookInput.webhook:type_name -> eolymp.webhook.Webhook
-	12, // 3: eolymp.webhook.DescribeWebhookOutput.webhook:type_name -> eolymp.webhook.Webhook
-	12, // 4: eolymp.webhook.ListWebhooksOutput.items:type_name -> eolymp.webhook.Webhook
-	0,  // 5: eolymp.webhook.WebhookService.CreateWebhook:input_type -> eolymp.webhook.CreateWebhookInput
-	2,  // 6: eolymp.webhook.WebhookService.UpdateWebhook:input_type -> eolymp.webhook.UpdateWebhookInput
-	4,  // 7: eolymp.webhook.WebhookService.DeleteWebhook:input_type -> eolymp.webhook.DeleteWebhookInput
-	6,  // 8: eolymp.webhook.WebhookService.DescribeWebhook:input_type -> eolymp.webhook.DescribeWebhookInput
-	8,  // 9: eolymp.webhook.WebhookService.ListWebhooks:input_type -> eolymp.webhook.ListWebhooksInput
-	10, // 10: eolymp.webhook.WebhookService.TestWebhook:input_type -> eolymp.webhook.TestWebhookInput
-	1,  // 11: eolymp.webhook.WebhookService.CreateWebhook:output_type -> eolymp.webhook.CreateWebhookOutput
-	3,  // 12: eolymp.webhook.WebhookService.UpdateWebhook:output_type -> eolymp.webhook.UpdateWebhookOutput
-	5,  // 13: eolymp.webhook.WebhookService.DeleteWebhook:output_type -> eolymp.webhook.DeleteWebhookOutput
-	7,  // 14: eolymp.webhook.WebhookService.DescribeWebhook:output_type -> eolymp.webhook.DescribeWebhookOutput
-	9,  // 15: eolymp.webhook.WebhookService.ListWebhooks:output_type -> eolymp.webhook.ListWebhooksOutput
-	11, // 16: eolymp.webhook.WebhookService.TestWebhook:output_type -> eolymp.webhook.TestWebhookOutput
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	13, // 1: eolymp.webhook.UpdateWebhookInput.webhook:type_name -> eolymp.webhook.Webhook.Patch
+	12, // 2: eolymp.webhook.DescribeWebhookOutput.webhook:type_name -> eolymp.webhook.Webhook
+	12, // 3: eolymp.webhook.ListWebhooksOutput.items:type_name -> eolymp.webhook.Webhook
+	0,  // 4: eolymp.webhook.WebhookService.CreateWebhook:input_type -> eolymp.webhook.CreateWebhookInput
+	2,  // 5: eolymp.webhook.WebhookService.UpdateWebhook:input_type -> eolymp.webhook.UpdateWebhookInput
+	4,  // 6: eolymp.webhook.WebhookService.DeleteWebhook:input_type -> eolymp.webhook.DeleteWebhookInput
+	6,  // 7: eolymp.webhook.WebhookService.DescribeWebhook:input_type -> eolymp.webhook.DescribeWebhookInput
+	8,  // 8: eolymp.webhook.WebhookService.ListWebhooks:input_type -> eolymp.webhook.ListWebhooksInput
+	10, // 9: eolymp.webhook.WebhookService.TestWebhook:input_type -> eolymp.webhook.TestWebhookInput
+	1,  // 10: eolymp.webhook.WebhookService.CreateWebhook:output_type -> eolymp.webhook.CreateWebhookOutput
+	3,  // 11: eolymp.webhook.WebhookService.UpdateWebhook:output_type -> eolymp.webhook.UpdateWebhookOutput
+	5,  // 12: eolymp.webhook.WebhookService.DeleteWebhook:output_type -> eolymp.webhook.DeleteWebhookOutput
+	7,  // 13: eolymp.webhook.WebhookService.DescribeWebhook:output_type -> eolymp.webhook.DescribeWebhookOutput
+	9,  // 14: eolymp.webhook.WebhookService.ListWebhooks:output_type -> eolymp.webhook.ListWebhooksOutput
+	11, // 15: eolymp.webhook.WebhookService.TestWebhook:output_type -> eolymp.webhook.TestWebhookOutput
+	10, // [10:16] is the sub-list for method output_type
+	4,  // [4:10] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_webhook_webhook_service_proto_init() }

@@ -113,9 +113,8 @@ func (*CreateAttributeOutput) Descriptor() ([]byte, []int) {
 
 type UpdateAttributeInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Patch         []Attribute_Patch      `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.community.Attribute_Patch" json:"patch,omitempty"`
 	AttributeKey  string                 `protobuf:"bytes,1,opt,name=attribute_key,json=attributeKey,proto3" json:"attribute_key,omitempty"`
-	Attribute     *Attribute             `protobuf:"bytes,2,opt,name=attribute,proto3" json:"attribute,omitempty"`
+	Attribute     *Attribute_Patch       `protobuf:"bytes,4,opt,name=attribute,proto3" json:"attribute,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -150,13 +149,6 @@ func (*UpdateAttributeInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_attribute_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateAttributeInput) GetPatch() []Attribute_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdateAttributeInput) GetAttributeKey() string {
 	if x != nil {
 		return x.AttributeKey
@@ -164,7 +156,7 @@ func (x *UpdateAttributeInput) GetAttributeKey() string {
 	return ""
 }
 
-func (x *UpdateAttributeInput) GetAttribute() *Attribute {
+func (x *UpdateAttributeInput) GetAttribute() *Attribute_Patch {
 	if x != nil {
 		return x.Attribute
 	}
@@ -563,11 +555,10 @@ const file_eolymp_community_attribute_service_proto_rawDesc = "" +
 	"\x14CreateAttributeInput\x12#\n" +
 	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x129\n" +
 	"\tattribute\x18\x02 \x01(\v2\x1b.eolymp.community.AttributeR\tattribute\"\x17\n" +
-	"\x15CreateAttributeOutput\"\xaf\x01\n" +
-	"\x14UpdateAttributeInput\x127\n" +
-	"\x05patch\x18\x03 \x03(\x0e2!.eolymp.community.Attribute.PatchR\x05patch\x12#\n" +
-	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x129\n" +
-	"\tattribute\x18\x02 \x01(\v2\x1b.eolymp.community.AttributeR\tattribute\"\x17\n" +
+	"\x15CreateAttributeOutput\"\x88\x01\n" +
+	"\x14UpdateAttributeInput\x12#\n" +
+	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x12?\n" +
+	"\tattribute\x18\x04 \x01(\v2!.eolymp.community.Attribute.PatchR\tattributeJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x17\n" +
 	"\x15UpdateAttributeOutput\";\n" +
 	"\x14RemoveAttributeInput\x12#\n" +
 	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\"\x17\n" +
@@ -657,37 +648,36 @@ var file_eolymp_community_attribute_service_proto_goTypes = []any{
 	(*ListAttributesOutput)(nil),       // 9: eolymp.community.ListAttributesOutput
 	(*ListAttributesInput_Filter)(nil), // 10: eolymp.community.ListAttributesInput.Filter
 	(*Attribute)(nil),                  // 11: eolymp.community.Attribute
-	(Attribute_Patch)(0),               // 12: eolymp.community.Attribute.Patch
+	(*Attribute_Patch)(nil),            // 12: eolymp.community.Attribute.Patch
 	(*wellknown.ExpressionID)(nil),     // 13: eolymp.wellknown.ExpressionID
 	(*wellknown.ExpressionEnum)(nil),   // 14: eolymp.wellknown.ExpressionEnum
 	(*wellknown.ExpressionBool)(nil),   // 15: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_community_attribute_service_proto_depIdxs = []int32{
 	11, // 0: eolymp.community.CreateAttributeInput.attribute:type_name -> eolymp.community.Attribute
-	12, // 1: eolymp.community.UpdateAttributeInput.patch:type_name -> eolymp.community.Attribute.Patch
-	11, // 2: eolymp.community.UpdateAttributeInput.attribute:type_name -> eolymp.community.Attribute
-	11, // 3: eolymp.community.DescribeAttributeOutput.attribute:type_name -> eolymp.community.Attribute
-	10, // 4: eolymp.community.ListAttributesInput.filters:type_name -> eolymp.community.ListAttributesInput.Filter
-	11, // 5: eolymp.community.ListAttributesOutput.items:type_name -> eolymp.community.Attribute
-	13, // 6: eolymp.community.ListAttributesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 7: eolymp.community.ListAttributesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionEnum
-	15, // 8: eolymp.community.ListAttributesInput.Filter.required:type_name -> eolymp.wellknown.ExpressionBool
-	14, // 9: eolymp.community.ListAttributesInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
-	0,  // 10: eolymp.community.AttributeService.CreateAttribute:input_type -> eolymp.community.CreateAttributeInput
-	2,  // 11: eolymp.community.AttributeService.UpdateAttribute:input_type -> eolymp.community.UpdateAttributeInput
-	4,  // 12: eolymp.community.AttributeService.RemoveAttribute:input_type -> eolymp.community.RemoveAttributeInput
-	6,  // 13: eolymp.community.AttributeService.DescribeAttribute:input_type -> eolymp.community.DescribeAttributeInput
-	8,  // 14: eolymp.community.AttributeService.ListAttributes:input_type -> eolymp.community.ListAttributesInput
-	1,  // 15: eolymp.community.AttributeService.CreateAttribute:output_type -> eolymp.community.CreateAttributeOutput
-	3,  // 16: eolymp.community.AttributeService.UpdateAttribute:output_type -> eolymp.community.UpdateAttributeOutput
-	5,  // 17: eolymp.community.AttributeService.RemoveAttribute:output_type -> eolymp.community.RemoveAttributeOutput
-	7,  // 18: eolymp.community.AttributeService.DescribeAttribute:output_type -> eolymp.community.DescribeAttributeOutput
-	9,  // 19: eolymp.community.AttributeService.ListAttributes:output_type -> eolymp.community.ListAttributesOutput
-	15, // [15:20] is the sub-list for method output_type
-	10, // [10:15] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	12, // 1: eolymp.community.UpdateAttributeInput.attribute:type_name -> eolymp.community.Attribute.Patch
+	11, // 2: eolymp.community.DescribeAttributeOutput.attribute:type_name -> eolymp.community.Attribute
+	10, // 3: eolymp.community.ListAttributesInput.filters:type_name -> eolymp.community.ListAttributesInput.Filter
+	11, // 4: eolymp.community.ListAttributesOutput.items:type_name -> eolymp.community.Attribute
+	13, // 5: eolymp.community.ListAttributesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 6: eolymp.community.ListAttributesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionEnum
+	15, // 7: eolymp.community.ListAttributesInput.Filter.required:type_name -> eolymp.wellknown.ExpressionBool
+	14, // 8: eolymp.community.ListAttributesInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 9: eolymp.community.AttributeService.CreateAttribute:input_type -> eolymp.community.CreateAttributeInput
+	2,  // 10: eolymp.community.AttributeService.UpdateAttribute:input_type -> eolymp.community.UpdateAttributeInput
+	4,  // 11: eolymp.community.AttributeService.RemoveAttribute:input_type -> eolymp.community.RemoveAttributeInput
+	6,  // 12: eolymp.community.AttributeService.DescribeAttribute:input_type -> eolymp.community.DescribeAttributeInput
+	8,  // 13: eolymp.community.AttributeService.ListAttributes:input_type -> eolymp.community.ListAttributesInput
+	1,  // 14: eolymp.community.AttributeService.CreateAttribute:output_type -> eolymp.community.CreateAttributeOutput
+	3,  // 15: eolymp.community.AttributeService.UpdateAttribute:output_type -> eolymp.community.UpdateAttributeOutput
+	5,  // 16: eolymp.community.AttributeService.RemoveAttribute:output_type -> eolymp.community.RemoveAttributeOutput
+	7,  // 17: eolymp.community.AttributeService.DescribeAttribute:output_type -> eolymp.community.DescribeAttributeOutput
+	9,  // 18: eolymp.community.AttributeService.ListAttributes:output_type -> eolymp.community.ListAttributesOutput
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_attribute_service_proto_init() }

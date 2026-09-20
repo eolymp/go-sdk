@@ -21,85 +21,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Attribute_Patch int32
-
-const (
-	Attribute_PATCH_ALL         Attribute_Patch = 0
-	Attribute_PATCH_LABEL       Attribute_Patch = 1
-	Attribute_PATCH_HELP        Attribute_Patch = 2
-	Attribute_PATCH_TYPE        Attribute_Patch = 3
-	Attribute_PATCH_INDEX       Attribute_Patch = 4
-	Attribute_PATCH_REQUIRED    Attribute_Patch = 5
-	Attribute_PATCH_READONLY    Attribute_Patch = 6
-	Attribute_PATCH_VISIBILITY  Attribute_Patch = 7
-	Attribute_PATCH_REGEXP      Attribute_Patch = 8
-	Attribute_PATCH_MIN         Attribute_Patch = 9
-	Attribute_PATCH_MAX         Attribute_Patch = 10
-	Attribute_PATCH_CHOICES     Attribute_Patch = 11
-	Attribute_PATCH_CONSTRAINTS Attribute_Patch = 12
-)
-
-// Enum value maps for Attribute_Patch.
-var (
-	Attribute_Patch_name = map[int32]string{
-		0:  "PATCH_ALL",
-		1:  "PATCH_LABEL",
-		2:  "PATCH_HELP",
-		3:  "PATCH_TYPE",
-		4:  "PATCH_INDEX",
-		5:  "PATCH_REQUIRED",
-		6:  "PATCH_READONLY",
-		7:  "PATCH_VISIBILITY",
-		8:  "PATCH_REGEXP",
-		9:  "PATCH_MIN",
-		10: "PATCH_MAX",
-		11: "PATCH_CHOICES",
-		12: "PATCH_CONSTRAINTS",
-	}
-	Attribute_Patch_value = map[string]int32{
-		"PATCH_ALL":         0,
-		"PATCH_LABEL":       1,
-		"PATCH_HELP":        2,
-		"PATCH_TYPE":        3,
-		"PATCH_INDEX":       4,
-		"PATCH_REQUIRED":    5,
-		"PATCH_READONLY":    6,
-		"PATCH_VISIBILITY":  7,
-		"PATCH_REGEXP":      8,
-		"PATCH_MIN":         9,
-		"PATCH_MAX":         10,
-		"PATCH_CHOICES":     11,
-		"PATCH_CONSTRAINTS": 12,
-	}
-)
-
-func (x Attribute_Patch) Enum() *Attribute_Patch {
-	p := new(Attribute_Patch)
-	*p = x
-	return p
-}
-
-func (x Attribute_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Attribute_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_attribute_proto_enumTypes[0].Descriptor()
-}
-
-func (Attribute_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_community_attribute_proto_enumTypes[0]
-}
-
-func (x Attribute_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Attribute_Patch.Descriptor instead.
-func (Attribute_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // Field type defines looks and type of the data for the field.
 type Attribute_Type int32
 
@@ -242,11 +163,11 @@ func (x Attribute_Type) String() string {
 }
 
 func (Attribute_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_attribute_proto_enumTypes[1].Descriptor()
+	return file_eolymp_community_attribute_proto_enumTypes[0].Descriptor()
 }
 
 func (Attribute_Type) Type() protoreflect.EnumType {
-	return &file_eolymp_community_attribute_proto_enumTypes[1]
+	return &file_eolymp_community_attribute_proto_enumTypes[0]
 }
 
 func (x Attribute_Type) Number() protoreflect.EnumNumber {
@@ -255,7 +176,7 @@ func (x Attribute_Type) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Attribute_Type.Descriptor instead.
 func (Attribute_Type) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Attribute_Visibility int32
@@ -294,11 +215,11 @@ func (x Attribute_Visibility) String() string {
 }
 
 func (Attribute_Visibility) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_community_attribute_proto_enumTypes[2].Descriptor()
+	return file_eolymp_community_attribute_proto_enumTypes[1].Descriptor()
 }
 
 func (Attribute_Visibility) Type() protoreflect.EnumType {
-	return &file_eolymp_community_attribute_proto_enumTypes[2]
+	return &file_eolymp_community_attribute_proto_enumTypes[1]
 }
 
 func (x Attribute_Visibility) Number() protoreflect.EnumNumber {
@@ -307,7 +228,7 @@ func (x Attribute_Visibility) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Attribute_Visibility.Descriptor instead.
 func (Attribute_Visibility) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Attribute struct {
@@ -475,6 +396,163 @@ func (x *Attribute) GetConstraints() []string {
 	return nil
 }
 
+// Patch describes the fields UpdateAttribute can change, a field is written only if it is set.
+type Attribute_Patch struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Label            *string                `protobuf:"bytes,2,opt,name=label,proto3,oneof" json:"label,omitempty"`
+	Help             *string                `protobuf:"bytes,3,opt,name=help,proto3,oneof" json:"help,omitempty"`
+	Type             *Attribute_Type        `protobuf:"varint,20,opt,name=type,proto3,enum=eolymp.community.Attribute_Type,oneof" json:"type,omitempty"`
+	Index            *uint32                `protobuf:"varint,21,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	Required         *bool                  `protobuf:"varint,31,opt,name=required,proto3,oneof" json:"required,omitempty"`
+	Readonly         *bool                  `protobuf:"varint,33,opt,name=readonly,proto3,oneof" json:"readonly,omitempty"`
+	Visibility       *Attribute_Visibility  `protobuf:"varint,34,opt,name=visibility,proto3,enum=eolymp.community.Attribute_Visibility,oneof" json:"visibility,omitempty"`
+	Regexp           *string                `protobuf:"bytes,100,opt,name=regexp,proto3,oneof" json:"regexp,omitempty"`
+	Min              *int32                 `protobuf:"varint,101,opt,name=min,proto3,oneof" json:"min,omitempty"`
+	Max              *int32                 `protobuf:"varint,102,opt,name=max,proto3,oneof" json:"max,omitempty"`
+	Choices          []string               `protobuf:"bytes,103,rep,name=choices,proto3" json:"choices,omitempty"`
+	UnsetChoices     *bool                  `protobuf:"varint,106,opt,name=unset_choices,json=unsetChoices,proto3,oneof" json:"unset_choices,omitempty"` // choices carries no presence of its own, so clearing it has to be asked for
+	Country          *string                `protobuf:"bytes,104,opt,name=country,proto3,oneof" json:"country,omitempty"`
+	Constraints      []string               `protobuf:"bytes,105,rep,name=constraints,proto3" json:"constraints,omitempty"`
+	UnsetConstraints *bool                  `protobuf:"varint,107,opt,name=unset_constraints,json=unsetConstraints,proto3,oneof" json:"unset_constraints,omitempty"` // constraints carries no presence of its own, so clearing it has to be asked for
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *Attribute_Patch) Reset() {
+	*x = Attribute_Patch{}
+	mi := &file_eolymp_community_attribute_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Attribute_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Attribute_Patch) ProtoMessage() {}
+
+func (x *Attribute_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_attribute_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Attribute_Patch.ProtoReflect.Descriptor instead.
+func (*Attribute_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Attribute_Patch) GetLabel() string {
+	if x != nil && x.Label != nil {
+		return *x.Label
+	}
+	return ""
+}
+
+func (x *Attribute_Patch) GetHelp() string {
+	if x != nil && x.Help != nil {
+		return *x.Help
+	}
+	return ""
+}
+
+func (x *Attribute_Patch) GetType() Attribute_Type {
+	if x != nil && x.Type != nil {
+		return *x.Type
+	}
+	return Attribute_UNKNOWN_TYPE
+}
+
+func (x *Attribute_Patch) GetIndex() uint32 {
+	if x != nil && x.Index != nil {
+		return *x.Index
+	}
+	return 0
+}
+
+func (x *Attribute_Patch) GetRequired() bool {
+	if x != nil && x.Required != nil {
+		return *x.Required
+	}
+	return false
+}
+
+func (x *Attribute_Patch) GetReadonly() bool {
+	if x != nil && x.Readonly != nil {
+		return *x.Readonly
+	}
+	return false
+}
+
+func (x *Attribute_Patch) GetVisibility() Attribute_Visibility {
+	if x != nil && x.Visibility != nil {
+		return *x.Visibility
+	}
+	return Attribute_UNKNOWN_VISIBILITY
+}
+
+func (x *Attribute_Patch) GetRegexp() string {
+	if x != nil && x.Regexp != nil {
+		return *x.Regexp
+	}
+	return ""
+}
+
+func (x *Attribute_Patch) GetMin() int32 {
+	if x != nil && x.Min != nil {
+		return *x.Min
+	}
+	return 0
+}
+
+func (x *Attribute_Patch) GetMax() int32 {
+	if x != nil && x.Max != nil {
+		return *x.Max
+	}
+	return 0
+}
+
+func (x *Attribute_Patch) GetChoices() []string {
+	if x != nil {
+		return x.Choices
+	}
+	return nil
+}
+
+func (x *Attribute_Patch) GetUnsetChoices() bool {
+	if x != nil && x.UnsetChoices != nil {
+		return *x.UnsetChoices
+	}
+	return false
+}
+
+func (x *Attribute_Patch) GetCountry() string {
+	if x != nil && x.Country != nil {
+		return *x.Country
+	}
+	return ""
+}
+
+func (x *Attribute_Patch) GetConstraints() []string {
+	if x != nil {
+		return x.Constraints
+	}
+	return nil
+}
+
+func (x *Attribute_Patch) GetUnsetConstraints() bool {
+	if x != nil && x.UnsetConstraints != nil {
+		return *x.UnsetConstraints
+	}
+	return false
+}
+
 // Description provides localized information about field.
 type Attribute_Description struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -488,7 +566,7 @@ type Attribute_Description struct {
 
 func (x *Attribute_Description) Reset() {
 	*x = Attribute_Description{}
-	mi := &file_eolymp_community_attribute_proto_msgTypes[1]
+	mi := &file_eolymp_community_attribute_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -500,7 +578,7 @@ func (x *Attribute_Description) String() string {
 func (*Attribute_Description) ProtoMessage() {}
 
 func (x *Attribute_Description) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_attribute_proto_msgTypes[1]
+	mi := &file_eolymp_community_attribute_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -513,7 +591,7 @@ func (x *Attribute_Description) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Attribute_Description.ProtoReflect.Descriptor instead.
 func (*Attribute_Description) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Attribute_Description) GetLocale() string {
@@ -560,7 +638,7 @@ type Attribute_Value struct {
 
 func (x *Attribute_Value) Reset() {
 	*x = Attribute_Value{}
-	mi := &file_eolymp_community_attribute_proto_msgTypes[2]
+	mi := &file_eolymp_community_attribute_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -572,7 +650,7 @@ func (x *Attribute_Value) String() string {
 func (*Attribute_Value) ProtoMessage() {}
 
 func (x *Attribute_Value) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_community_attribute_proto_msgTypes[2]
+	mi := &file_eolymp_community_attribute_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -585,7 +663,7 @@ func (x *Attribute_Value) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Attribute_Value.ProtoReflect.Descriptor instead.
 func (*Attribute_Value) Descriptor() ([]byte, []int) {
-	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_community_attribute_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Attribute_Value) GetAttributeKey() string {
@@ -647,7 +725,7 @@ var File_eolymp_community_attribute_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/community/attribute.proto\x12\x10eolymp.community\"\xd8\t\n" +
+	" eolymp/community/attribute.proto\x12\x10eolymp.community\"\xa8\r\n" +
 	"\tAttribute\x12\x0e\n" +
 	"\x02id\x18\x04 \x01(\tR\x02id\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -666,7 +744,40 @@ const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\x03max\x18f \x01(\x05R\x03max\x12\x18\n" +
 	"\achoices\x18g \x03(\tR\achoices\x12\x18\n" +
 	"\acountry\x18h \x01(\tR\acountry\x12 \n" +
-	"\vconstraints\x18i \x03(\tR\vconstraints\x1ai\n" +
+	"\vconstraints\x18i \x03(\tR\vconstraints\x1a\xc0\x05\n" +
+	"\x05Patch\x12\x19\n" +
+	"\x05label\x18\x02 \x01(\tH\x00R\x05label\x88\x01\x01\x12\x17\n" +
+	"\x04help\x18\x03 \x01(\tH\x01R\x04help\x88\x01\x01\x129\n" +
+	"\x04type\x18\x14 \x01(\x0e2 .eolymp.community.Attribute.TypeH\x02R\x04type\x88\x01\x01\x12\x19\n" +
+	"\x05index\x18\x15 \x01(\rH\x03R\x05index\x88\x01\x01\x12\x1f\n" +
+	"\brequired\x18\x1f \x01(\bH\x04R\brequired\x88\x01\x01\x12\x1f\n" +
+	"\breadonly\x18! \x01(\bH\x05R\breadonly\x88\x01\x01\x12K\n" +
+	"\n" +
+	"visibility\x18\" \x01(\x0e2&.eolymp.community.Attribute.VisibilityH\x06R\n" +
+	"visibility\x88\x01\x01\x12\x1b\n" +
+	"\x06regexp\x18d \x01(\tH\aR\x06regexp\x88\x01\x01\x12\x15\n" +
+	"\x03min\x18e \x01(\x05H\bR\x03min\x88\x01\x01\x12\x15\n" +
+	"\x03max\x18f \x01(\x05H\tR\x03max\x88\x01\x01\x12\x18\n" +
+	"\achoices\x18g \x03(\tR\achoices\x12(\n" +
+	"\runset_choices\x18j \x01(\bH\n" +
+	"R\funsetChoices\x88\x01\x01\x12\x1d\n" +
+	"\acountry\x18h \x01(\tH\vR\acountry\x88\x01\x01\x12 \n" +
+	"\vconstraints\x18i \x03(\tR\vconstraints\x120\n" +
+	"\x11unset_constraints\x18k \x01(\bH\fR\x10unsetConstraints\x88\x01\x01B\b\n" +
+	"\x06_labelB\a\n" +
+	"\x05_helpB\a\n" +
+	"\x05_typeB\b\n" +
+	"\x06_indexB\v\n" +
+	"\t_requiredB\v\n" +
+	"\t_readonlyB\r\n" +
+	"\v_visibilityB\t\n" +
+	"\a_regexpB\x06\n" +
+	"\x04_minB\x06\n" +
+	"\x04_maxB\x10\n" +
+	"\x0e_unset_choicesB\n" +
+	"\n" +
+	"\b_countryB\x14\n" +
+	"\x12_unset_constraints\x1ai\n" +
 	"\vDescription\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x14\n" +
 	"\x05label\x18\x03 \x01(\tR\x05label\x12\x12\n" +
@@ -678,24 +789,7 @@ const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\x06string\x18\n" +
 	" \x01(\tH\x00R\x06string\x12\x18\n" +
 	"\x06number\x18\v \x01(\x05H\x00R\x06numberB\a\n" +
-	"\x05value\"\xf0\x01\n" +
-	"\x05Patch\x12\r\n" +
-	"\tPATCH_ALL\x10\x00\x12\x0f\n" +
-	"\vPATCH_LABEL\x10\x01\x12\x0e\n" +
-	"\n" +
-	"PATCH_HELP\x10\x02\x12\x0e\n" +
-	"\n" +
-	"PATCH_TYPE\x10\x03\x12\x0f\n" +
-	"\vPATCH_INDEX\x10\x04\x12\x12\n" +
-	"\x0ePATCH_REQUIRED\x10\x05\x12\x12\n" +
-	"\x0ePATCH_READONLY\x10\x06\x12\x14\n" +
-	"\x10PATCH_VISIBILITY\x10\a\x12\x10\n" +
-	"\fPATCH_REGEXP\x10\b\x12\r\n" +
-	"\tPATCH_MIN\x10\t\x12\r\n" +
-	"\tPATCH_MAX\x10\n" +
-	"\x12\x11\n" +
-	"\rPATCH_CHOICES\x10\v\x12\x15\n" +
-	"\x11PATCH_CONSTRAINTS\x10\f\"\xa8\x01\n" +
+	"\x05value\"\xa8\x01\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\n" +
 	"\n" +
@@ -735,25 +829,27 @@ func file_eolymp_community_attribute_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_attribute_proto_rawDescData
 }
 
-var file_eolymp_community_attribute_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_community_attribute_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_community_attribute_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_community_attribute_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_community_attribute_proto_goTypes = []any{
-	(Attribute_Patch)(0),          // 0: eolymp.community.Attribute.Patch
-	(Attribute_Type)(0),           // 1: eolymp.community.Attribute.Type
-	(Attribute_Visibility)(0),     // 2: eolymp.community.Attribute.Visibility
-	(*Attribute)(nil),             // 3: eolymp.community.Attribute
+	(Attribute_Type)(0),           // 0: eolymp.community.Attribute.Type
+	(Attribute_Visibility)(0),     // 1: eolymp.community.Attribute.Visibility
+	(*Attribute)(nil),             // 2: eolymp.community.Attribute
+	(*Attribute_Patch)(nil),       // 3: eolymp.community.Attribute.Patch
 	(*Attribute_Description)(nil), // 4: eolymp.community.Attribute.Description
 	(*Attribute_Value)(nil),       // 5: eolymp.community.Attribute.Value
 }
 var file_eolymp_community_attribute_proto_depIdxs = []int32{
-	1, // 0: eolymp.community.Attribute.type:type_name -> eolymp.community.Attribute.Type
-	2, // 1: eolymp.community.Attribute.visibility:type_name -> eolymp.community.Attribute.Visibility
-	1, // 2: eolymp.community.Attribute.Value.attribute_type:type_name -> eolymp.community.Attribute.Type
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 0: eolymp.community.Attribute.type:type_name -> eolymp.community.Attribute.Type
+	1, // 1: eolymp.community.Attribute.visibility:type_name -> eolymp.community.Attribute.Visibility
+	0, // 2: eolymp.community.Attribute.Patch.type:type_name -> eolymp.community.Attribute.Type
+	1, // 3: eolymp.community.Attribute.Patch.visibility:type_name -> eolymp.community.Attribute.Visibility
+	0, // 4: eolymp.community.Attribute.Value.attribute_type:type_name -> eolymp.community.Attribute.Type
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_attribute_proto_init() }
@@ -761,7 +857,8 @@ func file_eolymp_community_attribute_proto_init() {
 	if File_eolymp_community_attribute_proto != nil {
 		return
 	}
-	file_eolymp_community_attribute_proto_msgTypes[2].OneofWrappers = []any{
+	file_eolymp_community_attribute_proto_msgTypes[1].OneofWrappers = []any{}
+	file_eolymp_community_attribute_proto_msgTypes[3].OneofWrappers = []any{
 		(*Attribute_Value_String_)(nil),
 		(*Attribute_Value_Number)(nil),
 	}
@@ -770,8 +867,8 @@ func file_eolymp_community_attribute_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_attribute_proto_rawDesc), len(file_eolymp_community_attribute_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   3,
+			NumEnums:      2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
