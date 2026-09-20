@@ -116,6 +116,22 @@ func (s *OrderServiceService) CancelOrder(ctx context.Context, in *CancelOrderIn
 	return out, nil
 }
 
+func (s *OrderServiceService) PayOrder(ctx context.Context, in *PayOrderInput) (*PayOrderOutput, error) {
+	out := &PayOrderOutput{}
+	path := "/store/orders/" + url.PathEscape(in.GetOrderId()) + "/pay"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.OrderId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *OrderServiceService) DescribeOrder(ctx context.Context, in *DescribeOrderInput) (*DescribeOrderOutput, error) {
 	out := &DescribeOrderOutput{}
 	path := "/store/orders/" + url.PathEscape(in.GetOrderId())

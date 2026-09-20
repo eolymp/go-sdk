@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	OrderService_CancelOrder_FullMethodName   = "/eolymp.commerce.OrderService/CancelOrder"
+	OrderService_PayOrder_FullMethodName      = "/eolymp.commerce.OrderService/PayOrder"
 	OrderService_DescribeOrder_FullMethodName = "/eolymp.commerce.OrderService/DescribeOrder"
 	OrderService_ListOrders_FullMethodName    = "/eolymp.commerce.OrderService/ListOrders"
 )
@@ -31,6 +32,7 @@ const (
 // internal
 type OrderServiceClient interface {
 	CancelOrder(ctx context.Context, in *CancelOrderInput, opts ...grpc.CallOption) (*CancelOrderOutput, error)
+	PayOrder(ctx context.Context, in *PayOrderInput, opts ...grpc.CallOption) (*PayOrderOutput, error)
 	DescribeOrder(ctx context.Context, in *DescribeOrderInput, opts ...grpc.CallOption) (*DescribeOrderOutput, error)
 	ListOrders(ctx context.Context, in *ListOrdersInput, opts ...grpc.CallOption) (*ListOrdersOutput, error)
 }
@@ -47,6 +49,16 @@ func (c *orderServiceClient) CancelOrder(ctx context.Context, in *CancelOrderInp
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CancelOrderOutput)
 	err := c.cc.Invoke(ctx, OrderService_CancelOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderServiceClient) PayOrder(ctx context.Context, in *PayOrderInput, opts ...grpc.CallOption) (*PayOrderOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PayOrderOutput)
+	err := c.cc.Invoke(ctx, OrderService_PayOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,6 +92,7 @@ func (c *orderServiceClient) ListOrders(ctx context.Context, in *ListOrdersInput
 // internal
 type OrderServiceServer interface {
 	CancelOrder(context.Context, *CancelOrderInput) (*CancelOrderOutput, error)
+	PayOrder(context.Context, *PayOrderInput) (*PayOrderOutput, error)
 	DescribeOrder(context.Context, *DescribeOrderInput) (*DescribeOrderOutput, error)
 	ListOrders(context.Context, *ListOrdersInput) (*ListOrdersOutput, error)
 }
@@ -93,6 +106,9 @@ type UnimplementedOrderServiceServer struct{}
 
 func (UnimplementedOrderServiceServer) CancelOrder(context.Context, *CancelOrderInput) (*CancelOrderOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method CancelOrder not implemented")
+}
+func (UnimplementedOrderServiceServer) PayOrder(context.Context, *PayOrderInput) (*PayOrderOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method PayOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) DescribeOrder(context.Context, *DescribeOrderInput) (*DescribeOrderOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeOrder not implemented")
@@ -134,6 +150,24 @@ func _OrderService_CancelOrder_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServiceServer).CancelOrder(ctx, req.(*CancelOrderInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderService_PayOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayOrderInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).PayOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderService_PayOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).PayOrder(ctx, req.(*PayOrderInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -184,6 +218,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelOrder",
 			Handler:    _OrderService_CancelOrder_Handler,
+		},
+		{
+			MethodName: "PayOrder",
+			Handler:    _OrderService_PayOrder_Handler,
 		},
 		{
 			MethodName: "DescribeOrder",

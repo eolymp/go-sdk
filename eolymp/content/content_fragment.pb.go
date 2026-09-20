@@ -128,7 +128,10 @@ type Fragment struct {
 	ResourceLink  string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
 	SpaceLink     string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
 	ConsoleLink   string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
-	Path          string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`
+	Path          string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                       // derived: the parent's path plus this fragment's slug; eolymp.judge still authors it
+	ParentId      string                 `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Slug          string                 `protobuf:"bytes,18,opt,name=slug,proto3" json:"slug,omitempty"`
+	Position      int32                  `protobuf:"varint,19,opt,name=position,proto3" json:"position,omitempty"`                                             // order among the fragments sharing a parent
 	Locale        string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // locale of the translation being read, empty when reading the fragment itself
 	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`                                                // locales this fragment has translations for
 	Draft         bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                   // content is only visible to admin
@@ -206,6 +209,27 @@ func (x *Fragment) GetPath() string {
 		return x.Path
 	}
 	return ""
+}
+
+func (x *Fragment) GetParentId() string {
+	if x != nil {
+		return x.ParentId
+	}
+	return ""
+}
+
+func (x *Fragment) GetSlug() string {
+	if x != nil {
+		return x.Slug
+	}
+	return ""
+}
+
+func (x *Fragment) GetPosition() int32 {
+	if x != nil {
+		return x.Position
+	}
+	return 0
 }
 
 func (x *Fragment) GetLocale() string {
@@ -316,7 +340,10 @@ func (*Fragment_Extra) Descriptor() ([]byte, []int) {
 
 type Fragment_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Path          *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"`
+	Path          *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"` // set parent_id and slug instead, the path is derived from them
+	ParentId      *string                `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
+	Slug          *string                `protobuf:"bytes,18,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
+	Position      *int32                 `protobuf:"varint,19,opt,name=position,proto3,oneof" json:"position,omitempty"`
 	Draft         *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
 	Automatic     *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
 	Title         *string                `protobuf:"bytes,12,opt,name=title,proto3,oneof" json:"title,omitempty"`
@@ -363,6 +390,27 @@ func (x *Fragment_Patch) GetPath() string {
 		return *x.Path
 	}
 	return ""
+}
+
+func (x *Fragment_Patch) GetParentId() string {
+	if x != nil && x.ParentId != nil {
+		return *x.ParentId
+	}
+	return ""
+}
+
+func (x *Fragment_Patch) GetSlug() string {
+	if x != nil && x.Slug != nil {
+		return *x.Slug
+	}
+	return ""
+}
+
+func (x *Fragment_Patch) GetPosition() int32 {
+	if x != nil && x.Position != nil {
+		return *x.Position
+	}
+	return 0
 }
 
 func (x *Fragment_Patch) GetDraft() bool {
@@ -418,7 +466,7 @@ var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd9\t\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe7\f\n" +
 	"\bFragment\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12,\n" +
 	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
@@ -426,7 +474,10 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12*\n" +
 	"\fconsole_link\x18\xeb\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconsoleLink\x12\x12\n" +
 	"\x04path\x18\n" +
-	" \x01(\tR\x04path\x12\x16\n" +
+	" \x01(\tR\x04path\x12i\n" +
+	"\tparent_id\x18\x11 \x01(\tBL\xa2\xf0\xf0\xe4\x01Fid of the fragment this one sits under, empty when it sits at the rootR\bparentId\x12\x84\x01\n" +
+	"\x04slug\x18\x12 \x01(\tBp\xa2\xf0\xf0\xe4\x01jthis fragment's own path segment, \"scoring\" in /rules/scoring; lowercase letters, digits, \"-\", \"_\" and \".\"R\x04slug\x12\x1a\n" +
+	"\bposition\x18\x13 \x01(\x05R\bposition\x12\x16\n" +
 	"\x06locale\x18\v \x01(\tR\x06locale\x12\x18\n" +
 	"\alocales\x18\x0e \x03(\tR\alocales\x12\x14\n" +
 	"\x05draft\x18\r \x01(\bR\x05draft\x12\x1c\n" +
@@ -445,20 +496,27 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1a\xf5\x02\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\xf5\x03\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04path\x18\n" +
-	" \x01(\tH\x00R\x04path\x88\x01\x01\x12\x19\n" +
-	"\x05draft\x18\r \x01(\bH\x01R\x05draft\x88\x01\x01\x12!\n" +
-	"\tautomatic\x18\x0f \x01(\bH\x02R\tautomatic\x88\x01\x01\x12\x19\n" +
-	"\x05title\x18\f \x01(\tH\x03R\x05title\x88\x01\x01\x12H\n" +
+	" \x01(\tH\x00R\x04path\x88\x01\x01\x12 \n" +
+	"\tparent_id\x18\x11 \x01(\tH\x01R\bparentId\x88\x01\x01\x12\x17\n" +
+	"\x04slug\x18\x12 \x01(\tH\x02R\x04slug\x88\x01\x01\x12\x1f\n" +
+	"\bposition\x18\x13 \x01(\x05H\x03R\bposition\x88\x01\x01\x12\x19\n" +
+	"\x05draft\x18\r \x01(\bH\x04R\x05draft\x88\x01\x01\x12!\n" +
+	"\tautomatic\x18\x0f \x01(\bH\x05R\tautomatic\x88\x01\x01\x12\x19\n" +
+	"\x05title\x18\f \x01(\tH\x06R\x05title\x88\x01\x01\x12H\n" +
 	"\n" +
-	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityH\x04R\n" +
+	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityH\aR\n" +
 	"visibility\x88\x01\x01\x12-\n" +
 	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
 	"\x06labels\x18d \x03(\tR\x06labels\x12\x1d\n" +
-	"\aunlabel\x18e \x01(\bH\x05R\aunlabel\x88\x01\x01B\a\n" +
-	"\x05_pathB\b\n" +
+	"\aunlabel\x18e \x01(\bH\bR\aunlabel\x88\x01\x01B\a\n" +
+	"\x05_pathB\f\n" +
+	"\n" +
+	"_parent_idB\a\n" +
+	"\x05_slugB\v\n" +
+	"\t_positionB\b\n" +
 	"\x06_draftB\f\n" +
 	"\n" +
 	"_automaticB\b\n" +

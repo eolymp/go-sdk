@@ -204,6 +204,9 @@ func RegisterOrderServiceHttpHandlers(router *mux.Router, prefix string, cli Ord
 	router.Handle(prefix+"/store/orders/{order_id}/cancel", _OrderService_CancelOrder_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.OrderService.CancelOrder")
+	router.Handle(prefix+"/store/orders/{order_id}/pay", _OrderService_PayOrder_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.commerce.OrderService.PayOrder")
 	router.Handle(prefix+"/store/orders/{order_id}", _OrderService_DescribeOrder_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.commerce.OrderService.DescribeOrder")
@@ -232,6 +235,30 @@ func _OrderService_CancelOrder_Rule0(cli OrderServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.CancelOrder(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_OrderService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_OrderService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _OrderService_PayOrder_Rule0(cli OrderServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &PayOrderInput{}
+
+		if err := _OrderService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_OrderService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.OrderId = vars["order_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.PayOrder(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_OrderService_HTTPWriteErrorResponse(w, err)
 			return

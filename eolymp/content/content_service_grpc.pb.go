@@ -36,16 +36,23 @@ const (
 // ContentService manages the pages of a space.
 //
 // A page — a fragment on the wire — is content an admin writes for members: space information, rules,
-// contact details, a schedule. Its path, not its title, is what places it on the site: `/pages/rules` is
-// served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the navigation menu.
+// contact details, a schedule. Pages form a tree: a page has a parent and a slug of its own, and its path
+// is the parent's path followed by that slug, so `/rules/scoring` is the page `scoring` sitting under the
+// page `rules`. A page without a parent sits at the root.
+//
+// The path is derived from that chain and returned read-only. It is what places the page on the site:
+// `/rules` is served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the
+// navigation menu. Moving a page — a new parent, a new slug — moves everything below it with it.
+//
+// Pages sharing a parent carry a position and are read in that order, which is what an ordered menu needs.
 //
 // A contest has its own pages, managed by eolymp.judge.ContentService. The two sets are independent.
 //
 // A page has no locale of its own. It holds the source title and content plus a complete translation of
 // them per locale, and the locale on a request picks between them: reading falls back to the page when the
-// translation does not exist, writing creates it from the page. The path, the draft flag and the labels are
-// not translatable and always belong to the page. Content is Markdown or LaTeX with a parsed tree
-// alongside it, and reads leave it out unless asked for it.
+// translation does not exist, writing creates it from the page. Its place in the tree, the draft flag and
+// the labels are not translatable and always belong to the page. Content is Markdown or LaTeX with a
+// parsed tree alongside it, and reads leave it out unless asked for it.
 type ContentServiceClient interface {
 	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
 	// path. The requested locale selects a translation and falls back to the page itself when that
@@ -53,23 +60,29 @@ type ContentServiceClient interface {
 	// reader.
 	DescribeFragment(ctx context.Context, in *DescribeFragmentInput, opts ...grpc.CallOption) (*DescribeFragmentOutput, error)
 	// ListFragments enumerates the pages of the space or contest being addressed, which is how to discover
-	// what paths exist there. Labels are free-form strings a client attaches to organise pages and listing
-	// can be narrowed by them; prefixed conventions seen in Eolymp's own content are a client convention
-	// only, as the platform attaches no meaning to a label and never acts on one.
+	// what paths exist there. Filtering by parent returns one level of the tree — the children of a page, or
+	// the pages at the root for an empty parent — which is how a menu or a page browser walks it. Labels are
+	// free-form strings a client attaches to organise pages and listing can be narrowed by them; prefixed
+	// conventions seen in Eolymp's own content are a client convention only, as the platform attaches no
+	// meaning to a label and never acts on one.
 	ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error)
-	// CreateFragment adds a page to the space or contest being addressed and returns its id. The path given
-	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
-	// how a page can be written before members are meant to see it.
+	// CreateFragment adds a page to the space or contest being addressed and returns its id. The parent and
+	// the slug are what make the page reachable: they place it in the tree and the path follows from them,
+	// and the parent has to exist. A page marked as a draft is visible to admins only, which is how a page
+	// can be written before members are meant to see it.
 	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
 	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
-	// written, so moving a page to another path does not mean resending its content. Aimed at a locale it
-	// writes that page's translation instead, creating it from the page when the translation does not exist
-	// yet; the path, the draft flag and the labels are not translatable, so they still land on the page
-	// itself rather than being dropped.
+	// written, so moving a page — a new parent, a new slug — does not mean resending its content. A move
+	// takes the pages below it along, and their paths are rewritten with it. Aimed at a locale it writes
+	// that page's translation instead, creating it from the page when the translation does not exist yet;
+	// the page's place in the tree, the draft flag and the labels are not translatable, so they still land
+	// on the page itself rather than being dropped.
 	UpdateFragment(ctx context.Context, in *UpdateFragmentInput, opts ...grpc.CallOption) (*UpdateFragmentOutput, error)
 	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at,
-	// and takes the page's translations with it. Aimed at a single locale it removes only that translation
-	// and leaves the page itself in place.
+	// and takes the page's translations with it. A page with pages under it is not removed unless the request
+	// asks for it, and asking removes the whole branch — otherwise deleting a section would silently take
+	// everything in it. Aimed at a single locale it removes only that translation and leaves the page itself
+	// in place.
 	DeleteFragment(ctx context.Context, in *DeleteFragmentInput, opts ...grpc.CallOption) (*DeleteFragmentOutput, error)
 	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
 	// work runs asynchronously, so the translations appear some time after the call returns and are found by
@@ -81,8 +94,9 @@ type ContentServiceClient interface {
 	// DescribeFragment, honouring the requested locale and its fallback.
 	DescribePath(ctx context.Context, in *DescribePathInput, opts ...grpc.CallOption) (*DescribePathOutput, error)
 	// ListParents returns the pages lying above a path — the ancestors of `/overview/rules/scoring`, not the
-	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. Whole
-	// pages come back, so a path segment that has no page of its own cannot appear among them.
+	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. It
+	// follows the page's parents upwards, so the trail is complete; use ListFragments with a parent filter
+	// for the other direction.
 	ListParents(ctx context.Context, in *ListParentsInput, opts ...grpc.CallOption) (*ListParentsOutput, error)
 }
 
@@ -181,16 +195,23 @@ func (c *contentServiceClient) ListParents(ctx context.Context, in *ListParentsI
 // ContentService manages the pages of a space.
 //
 // A page — a fragment on the wire — is content an admin writes for members: space information, rules,
-// contact details, a schedule. Its path, not its title, is what places it on the site: `/pages/rules` is
-// served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the navigation menu.
+// contact details, a schedule. Pages form a tree: a page has a parent and a slug of its own, and its path
+// is the parent's path followed by that slug, so `/rules/scoring` is the page `scoring` sitting under the
+// page `rules`. A page without a parent sits at the root.
+//
+// The path is derived from that chain and returned read-only. It is what places the page on the site:
+// `/rules` is served at `<space>.eolymp.space/rules`, `/index` replaces the home page and `/nav` the
+// navigation menu. Moving a page — a new parent, a new slug — moves everything below it with it.
+//
+// Pages sharing a parent carry a position and are read in that order, which is what an ordered menu needs.
 //
 // A contest has its own pages, managed by eolymp.judge.ContentService. The two sets are independent.
 //
 // A page has no locale of its own. It holds the source title and content plus a complete translation of
 // them per locale, and the locale on a request picks between them: reading falls back to the page when the
-// translation does not exist, writing creates it from the page. The path, the draft flag and the labels are
-// not translatable and always belong to the page. Content is Markdown or LaTeX with a parsed tree
-// alongside it, and reads leave it out unless asked for it.
+// translation does not exist, writing creates it from the page. Its place in the tree, the draft flag and
+// the labels are not translatable and always belong to the page. Content is Markdown or LaTeX with a
+// parsed tree alongside it, and reads leave it out unless asked for it.
 type ContentServiceServer interface {
 	// DescribeFragment returns a single page by id, for callers that already hold an id rather than only a
 	// path. The requested locale selects a translation and falls back to the page itself when that
@@ -198,23 +219,29 @@ type ContentServiceServer interface {
 	// reader.
 	DescribeFragment(context.Context, *DescribeFragmentInput) (*DescribeFragmentOutput, error)
 	// ListFragments enumerates the pages of the space or contest being addressed, which is how to discover
-	// what paths exist there. Labels are free-form strings a client attaches to organise pages and listing
-	// can be narrowed by them; prefixed conventions seen in Eolymp's own content are a client convention
-	// only, as the platform attaches no meaning to a label and never acts on one.
+	// what paths exist there. Filtering by parent returns one level of the tree — the children of a page, or
+	// the pages at the root for an empty parent — which is how a menu or a page browser walks it. Labels are
+	// free-form strings a client attaches to organise pages and listing can be narrowed by them; prefixed
+	// conventions seen in Eolymp's own content are a client convention only, as the platform attaches no
+	// meaning to a label and never acts on one.
 	ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error)
-	// CreateFragment adds a page to the space or contest being addressed and returns its id. The path given
-	// here is what makes the page reachable, and a page marked as a draft is visible to admins only, which is
-	// how a page can be written before members are meant to see it.
+	// CreateFragment adds a page to the space or contest being addressed and returns its id. The parent and
+	// the slug are what make the page reachable: they place it in the tree and the path follows from them,
+	// and the parent has to exist. A page marked as a draft is visible to admins only, which is how a page
+	// can be written before members are meant to see it.
 	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
 	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
-	// written, so moving a page to another path does not mean resending its content. Aimed at a locale it
-	// writes that page's translation instead, creating it from the page when the translation does not exist
-	// yet; the path, the draft flag and the labels are not translatable, so they still land on the page
-	// itself rather than being dropped.
+	// written, so moving a page — a new parent, a new slug — does not mean resending its content. A move
+	// takes the pages below it along, and their paths are rewritten with it. Aimed at a locale it writes
+	// that page's translation instead, creating it from the page when the translation does not exist yet;
+	// the page's place in the tree, the draft flag and the labels are not translatable, so they still land
+	// on the page itself rather than being dropped.
 	UpdateFragment(context.Context, *UpdateFragmentInput) (*UpdateFragmentOutput, error)
 	// DeleteFragment permanently removes a page, freeing its path and with it the URL the page was served at,
-	// and takes the page's translations with it. Aimed at a single locale it removes only that translation
-	// and leaves the page itself in place.
+	// and takes the page's translations with it. A page with pages under it is not removed unless the request
+	// asks for it, and asking removes the whole branch — otherwise deleting a section would silently take
+	// everything in it. Aimed at a single locale it removes only that translation and leaves the page itself
+	// in place.
 	DeleteFragment(context.Context, *DeleteFragmentInput) (*DeleteFragmentOutput, error)
 	// TranslateFragment starts automatic translation of a page into other locales and returns a task id; the
 	// work runs asynchronously, so the translations appear some time after the call returns and are found by
@@ -226,8 +253,9 @@ type ContentServiceServer interface {
 	// DescribeFragment, honouring the requested locale and its fallback.
 	DescribePath(context.Context, *DescribePathInput) (*DescribePathOutput, error)
 	// ListParents returns the pages lying above a path — the ancestors of `/overview/rules/scoring`, not the
-	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. Whole
-	// pages come back, so a path segment that has no page of its own cannot appear among them.
+	// pages nested under it — which is what building a breadcrumb trail or a surrounding menu needs. It
+	// follows the page's parents upwards, so the trail is complete; use ListFragments with a parent filter
+	// for the other direction.
 	ListParents(context.Context, *ListParentsInput) (*ListParentsOutput, error)
 }
 

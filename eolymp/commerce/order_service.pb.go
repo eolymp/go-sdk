@@ -63,7 +63,7 @@ func (x ListOrdersInput_Sortable) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListOrdersInput_Sortable.Descriptor instead.
 func (ListOrdersInput_Sortable) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{5, 0}
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{7, 0}
 }
 
 type OrderChangedEvent struct {
@@ -198,6 +198,94 @@ func (*CancelOrderOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{2}
 }
 
+type PayOrderInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PayOrderInput) Reset() {
+	*x = PayOrderInput{}
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PayOrderInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PayOrderInput) ProtoMessage() {}
+
+func (x *PayOrderInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PayOrderInput.ProtoReflect.Descriptor instead.
+func (*PayOrderInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PayOrderInput) GetOrderId() string {
+	if x != nil {
+		return x.OrderId
+	}
+	return ""
+}
+
+type PayOrderOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CheckoutUrl   string                 `protobuf:"bytes,1,opt,name=checkout_url,json=checkoutUrl,proto3" json:"checkout_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PayOrderOutput) Reset() {
+	*x = PayOrderOutput{}
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PayOrderOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PayOrderOutput) ProtoMessage() {}
+
+func (x *PayOrderOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PayOrderOutput.ProtoReflect.Descriptor instead.
+func (*PayOrderOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *PayOrderOutput) GetCheckoutUrl() string {
+	if x != nil {
+		return x.CheckoutUrl
+	}
+	return ""
+}
+
 type DescribeOrderInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
@@ -207,7 +295,7 @@ type DescribeOrderInput struct {
 
 func (x *DescribeOrderInput) Reset() {
 	*x = DescribeOrderInput{}
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[3]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -219,7 +307,7 @@ func (x *DescribeOrderInput) String() string {
 func (*DescribeOrderInput) ProtoMessage() {}
 
 func (x *DescribeOrderInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[3]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -232,7 +320,7 @@ func (x *DescribeOrderInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeOrderInput.ProtoReflect.Descriptor instead.
 func (*DescribeOrderInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DescribeOrderInput) GetOrderId() string {
@@ -251,7 +339,7 @@ type DescribeOrderOutput struct {
 
 func (x *DescribeOrderOutput) Reset() {
 	*x = DescribeOrderOutput{}
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[4]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -263,7 +351,7 @@ func (x *DescribeOrderOutput) String() string {
 func (*DescribeOrderOutput) ProtoMessage() {}
 
 func (x *DescribeOrderOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[4]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -276,7 +364,7 @@ func (x *DescribeOrderOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeOrderOutput.ProtoReflect.Descriptor instead.
 func (*DescribeOrderOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DescribeOrderOutput) GetOrder() *Order {
@@ -302,7 +390,7 @@ type ListOrdersInput struct {
 
 func (x *ListOrdersInput) Reset() {
 	*x = ListOrdersInput{}
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[5]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +402,7 @@ func (x *ListOrdersInput) String() string {
 func (*ListOrdersInput) ProtoMessage() {}
 
 func (x *ListOrdersInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[5]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +415,7 @@ func (x *ListOrdersInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrdersInput.ProtoReflect.Descriptor instead.
 func (*ListOrdersInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListOrdersInput) GetOffset() int32 {
@@ -382,7 +470,7 @@ type ListOrdersOutput struct {
 
 func (x *ListOrdersOutput) Reset() {
 	*x = ListOrdersOutput{}
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[6]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -394,7 +482,7 @@ func (x *ListOrdersOutput) String() string {
 func (*ListOrdersOutput) ProtoMessage() {}
 
 func (x *ListOrdersOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[6]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,7 +495,7 @@ func (x *ListOrdersOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrdersOutput.ProtoReflect.Descriptor instead.
 func (*ListOrdersOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListOrdersOutput) GetTotal() int32 {
@@ -437,7 +525,7 @@ type ListOrdersInput_Filter struct {
 
 func (x *ListOrdersInput_Filter) Reset() {
 	*x = ListOrdersInput_Filter{}
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[7]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -449,7 +537,7 @@ func (x *ListOrdersInput_Filter) String() string {
 func (*ListOrdersInput_Filter) ProtoMessage() {}
 
 func (x *ListOrdersInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_commerce_order_service_proto_msgTypes[7]
+	mi := &file_eolymp_commerce_order_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -462,7 +550,7 @@ func (x *ListOrdersInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrdersInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListOrdersInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{5, 0}
+	return file_eolymp_commerce_order_service_proto_rawDescGZIP(), []int{7, 0}
 }
 
 func (x *ListOrdersInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -510,7 +598,11 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\x05after\x18\x02 \x01(\v2\x16.eolymp.commerce.OrderR\x05after\"-\n" +
 	"\x10CancelOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x13\n" +
-	"\x11CancelOrderOutput\"/\n" +
+	"\x11CancelOrderOutput\"*\n" +
+	"\rPayOrderInput\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\"3\n" +
+	"\x0ePayOrderOutput\x12!\n" +
+	"\fcheckout_url\x18\x01 \x01(\tR\vcheckoutUrl\"/\n" +
 	"\x12DescribeOrderInput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"C\n" +
 	"\x13DescribeOrderOutput\x12,\n" +
@@ -533,7 +625,7 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\aDEFAULT\x10\x00\"V\n" +
 	"\x10ListOrdersOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.commerce.OrderR\x05items2\xb5\x04\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.commerce.OrderR\x05items2\xdf\x05\n" +
 	"\fOrderService\x12\xb3\x01\n" +
 	"\vCancelOrder\x12!.eolymp.commerce.CancelOrderInput\x1a\".eolymp.commerce.CancelOrderOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -542,7 +634,15 @@ const file_eolymp_commerce_order_service_proto_rawDesc = "" +
 	"\x1b\x8a\xe3\n" +
 	"\x17commerce:shopping:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/cancel\x12\xb1\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/store/orders/{order_id}/cancel\x12\xa7\x01\n" +
+	"\bPayOrder\x12\x1e.eolymp.commerce.PayOrderInput\x1a\x1f.eolymp.commerce.PayOrderOutput\"Z\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x1b\x8a\xe3\n" +
+	"\x17commerce:shopping:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1e\"\x1c/store/orders/{order_id}/pay\x12\xb1\x01\n" +
 	"\rDescribeOrder\x12#.eolymp.commerce.DescribeOrderInput\x1a$.eolymp.commerce.DescribeOrderOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
@@ -574,43 +674,47 @@ func file_eolymp_commerce_order_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_commerce_order_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_commerce_order_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_eolymp_commerce_order_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_eolymp_commerce_order_service_proto_goTypes = []any{
 	(ListOrdersInput_Sortable)(0),    // 0: eolymp.commerce.ListOrdersInput.Sortable
 	(*OrderChangedEvent)(nil),        // 1: eolymp.commerce.OrderChangedEvent
 	(*CancelOrderInput)(nil),         // 2: eolymp.commerce.CancelOrderInput
 	(*CancelOrderOutput)(nil),        // 3: eolymp.commerce.CancelOrderOutput
-	(*DescribeOrderInput)(nil),       // 4: eolymp.commerce.DescribeOrderInput
-	(*DescribeOrderOutput)(nil),      // 5: eolymp.commerce.DescribeOrderOutput
-	(*ListOrdersInput)(nil),          // 6: eolymp.commerce.ListOrdersInput
-	(*ListOrdersOutput)(nil),         // 7: eolymp.commerce.ListOrdersOutput
-	(*ListOrdersInput_Filter)(nil),   // 8: eolymp.commerce.ListOrdersInput.Filter
-	(*Order)(nil),                    // 9: eolymp.commerce.Order
-	(wellknown.Direction)(0),         // 10: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),   // 11: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil), // 12: eolymp.wellknown.ExpressionEnum
+	(*PayOrderInput)(nil),            // 4: eolymp.commerce.PayOrderInput
+	(*PayOrderOutput)(nil),           // 5: eolymp.commerce.PayOrderOutput
+	(*DescribeOrderInput)(nil),       // 6: eolymp.commerce.DescribeOrderInput
+	(*DescribeOrderOutput)(nil),      // 7: eolymp.commerce.DescribeOrderOutput
+	(*ListOrdersInput)(nil),          // 8: eolymp.commerce.ListOrdersInput
+	(*ListOrdersOutput)(nil),         // 9: eolymp.commerce.ListOrdersOutput
+	(*ListOrdersInput_Filter)(nil),   // 10: eolymp.commerce.ListOrdersInput.Filter
+	(*Order)(nil),                    // 11: eolymp.commerce.Order
+	(wellknown.Direction)(0),         // 12: eolymp.wellknown.Direction
+	(*wellknown.ExpressionID)(nil),   // 13: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil), // 14: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_commerce_order_service_proto_depIdxs = []int32{
-	9,  // 0: eolymp.commerce.OrderChangedEvent.before:type_name -> eolymp.commerce.Order
-	9,  // 1: eolymp.commerce.OrderChangedEvent.after:type_name -> eolymp.commerce.Order
-	9,  // 2: eolymp.commerce.DescribeOrderOutput.order:type_name -> eolymp.commerce.Order
-	8,  // 3: eolymp.commerce.ListOrdersInput.filters:type_name -> eolymp.commerce.ListOrdersInput.Filter
+	11, // 0: eolymp.commerce.OrderChangedEvent.before:type_name -> eolymp.commerce.Order
+	11, // 1: eolymp.commerce.OrderChangedEvent.after:type_name -> eolymp.commerce.Order
+	11, // 2: eolymp.commerce.DescribeOrderOutput.order:type_name -> eolymp.commerce.Order
+	10, // 3: eolymp.commerce.ListOrdersInput.filters:type_name -> eolymp.commerce.ListOrdersInput.Filter
 	0,  // 4: eolymp.commerce.ListOrdersInput.sort:type_name -> eolymp.commerce.ListOrdersInput.Sortable
-	10, // 5: eolymp.commerce.ListOrdersInput.order:type_name -> eolymp.wellknown.Direction
-	9,  // 6: eolymp.commerce.ListOrdersOutput.items:type_name -> eolymp.commerce.Order
-	11, // 7: eolymp.commerce.ListOrdersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	11, // 8: eolymp.commerce.ListOrdersInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionID
-	11, // 9: eolymp.commerce.ListOrdersInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	12, // 10: eolymp.commerce.ListOrdersInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	12, // 11: eolymp.commerce.ListOrdersInput.Filter.payment_status:type_name -> eolymp.wellknown.ExpressionEnum
+	12, // 5: eolymp.commerce.ListOrdersInput.order:type_name -> eolymp.wellknown.Direction
+	11, // 6: eolymp.commerce.ListOrdersOutput.items:type_name -> eolymp.commerce.Order
+	13, // 7: eolymp.commerce.ListOrdersInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	13, // 8: eolymp.commerce.ListOrdersInput.Filter.reference:type_name -> eolymp.wellknown.ExpressionID
+	13, // 9: eolymp.commerce.ListOrdersInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 10: eolymp.commerce.ListOrdersInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	14, // 11: eolymp.commerce.ListOrdersInput.Filter.payment_status:type_name -> eolymp.wellknown.ExpressionEnum
 	2,  // 12: eolymp.commerce.OrderService.CancelOrder:input_type -> eolymp.commerce.CancelOrderInput
-	4,  // 13: eolymp.commerce.OrderService.DescribeOrder:input_type -> eolymp.commerce.DescribeOrderInput
-	6,  // 14: eolymp.commerce.OrderService.ListOrders:input_type -> eolymp.commerce.ListOrdersInput
-	3,  // 15: eolymp.commerce.OrderService.CancelOrder:output_type -> eolymp.commerce.CancelOrderOutput
-	5,  // 16: eolymp.commerce.OrderService.DescribeOrder:output_type -> eolymp.commerce.DescribeOrderOutput
-	7,  // 17: eolymp.commerce.OrderService.ListOrders:output_type -> eolymp.commerce.ListOrdersOutput
-	15, // [15:18] is the sub-list for method output_type
-	12, // [12:15] is the sub-list for method input_type
+	4,  // 13: eolymp.commerce.OrderService.PayOrder:input_type -> eolymp.commerce.PayOrderInput
+	6,  // 14: eolymp.commerce.OrderService.DescribeOrder:input_type -> eolymp.commerce.DescribeOrderInput
+	8,  // 15: eolymp.commerce.OrderService.ListOrders:input_type -> eolymp.commerce.ListOrdersInput
+	3,  // 16: eolymp.commerce.OrderService.CancelOrder:output_type -> eolymp.commerce.CancelOrderOutput
+	5,  // 17: eolymp.commerce.OrderService.PayOrder:output_type -> eolymp.commerce.PayOrderOutput
+	7,  // 18: eolymp.commerce.OrderService.DescribeOrder:output_type -> eolymp.commerce.DescribeOrderOutput
+	9,  // 19: eolymp.commerce.OrderService.ListOrders:output_type -> eolymp.commerce.ListOrdersOutput
+	16, // [16:20] is the sub-list for method output_type
+	12, // [12:16] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name
 	12, // [12:12] is the sub-list for extension extendee
 	0,  // [0:12] is the sub-list for field type_name
@@ -628,7 +732,7 @@ func file_eolymp_commerce_order_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_commerce_order_service_proto_rawDesc), len(file_eolymp_commerce_order_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

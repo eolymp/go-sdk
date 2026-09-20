@@ -169,7 +169,6 @@ type Order struct {
 	CreditDiscount        uint32                 `protobuf:"varint,61,opt,name=credit_discount,json=creditDiscount,proto3" json:"credit_discount,omitempty"`
 	PayableAmount         uint32                 `protobuf:"varint,62,opt,name=payable_amount,json=payableAmount,proto3" json:"payable_amount,omitempty"`
 	PaymentStatus         Order_Payment_Status   `protobuf:"varint,63,opt,name=payment_status,json=paymentStatus,proto3,enum=eolymp.commerce.Order_Payment_Status" json:"payment_status,omitempty"`
-	CheckoutUrl           string                 `protobuf:"bytes,64,opt,name=checkout_url,json=checkoutUrl,proto3" json:"checkout_url,omitempty"`
 	PaymentId             string                 `protobuf:"bytes,65,opt,name=payment_id,json=paymentId,proto3" json:"payment_id,omitempty"`
 	TrackingLink          string                 `protobuf:"bytes,50,opt,name=tracking_link,json=trackingLink,proto3" json:"tracking_link,omitempty"`
 	TrackingNumber        string                 `protobuf:"bytes,51,opt,name=tracking_number,json=trackingNumber,proto3" json:"tracking_number,omitempty"`
@@ -354,13 +353,6 @@ func (x *Order) GetPaymentStatus() Order_Payment_Status {
 		return x.PaymentStatus
 	}
 	return Order_Payment_UNKNOWN_STATUS
-}
-
-func (x *Order) GetCheckoutUrl() string {
-	if x != nil {
-		return x.CheckoutUrl
-	}
-	return ""
 }
 
 func (x *Order) GetPaymentId() string {
@@ -578,7 +570,7 @@ var File_eolymp_commerce_order_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x0e\n" +
+	"\x1beolymp/commerce/order.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc5\x0e\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x1b\n" +
@@ -603,8 +595,7 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\rcredit_amount\x18< \x01(\rR\fcreditAmount\x12'\n" +
 	"\x0fcredit_discount\x18= \x01(\rR\x0ecreditDiscount\x12%\n" +
 	"\x0epayable_amount\x18> \x01(\rR\rpayableAmount\x12L\n" +
-	"\x0epayment_status\x18? \x01(\x0e2%.eolymp.commerce.Order.Payment.StatusR\rpaymentStatus\x12!\n" +
-	"\fcheckout_url\x18@ \x01(\tR\vcheckoutUrl\x12\x1d\n" +
+	"\x0epayment_status\x18? \x01(\x0e2%.eolymp.commerce.Order.Payment.StatusR\rpaymentStatus\x12\x1d\n" +
 	"\n" +
 	"payment_id\x18A \x01(\tR\tpaymentId\x12#\n" +
 	"\rtracking_link\x182 \x01(\tR\ftrackingLink\x12'\n" +
@@ -650,7 +641,7 @@ const file_eolymp_commerce_order_proto_rawDesc = "" +
 	"\bCANCELED\x10\x04\x12\v\n" +
 	"\aSHIPPED\x10\x05\x12\f\n" +
 	"\bCOMPLETE\x10\x06\x12\f\n" +
-	"\bRETURNED\x10\aB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\bRETURNED\x10\aJ\x04\b@\x10AB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_order_proto_rawDescOnce sync.Once

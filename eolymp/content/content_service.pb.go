@@ -29,6 +29,7 @@ const (
 	ListFragmentsInput_DEFAULT    ListFragmentsInput_Sort = 0
 	ListFragmentsInput_PATH       ListFragmentsInput_Sort = 1
 	ListFragmentsInput_CREATED_AT ListFragmentsInput_Sort = 2
+	ListFragmentsInput_POSITION   ListFragmentsInput_Sort = 3
 )
 
 // Enum value maps for ListFragmentsInput_Sort.
@@ -37,11 +38,13 @@ var (
 		0: "DEFAULT",
 		1: "PATH",
 		2: "CREATED_AT",
+		3: "POSITION",
 	}
 	ListFragmentsInput_Sort_value = map[string]int32{
 		"DEFAULT":    0,
 		"PATH":       1,
 		"CREATED_AT": 2,
+		"POSITION":   3,
 	}
 )
 
@@ -577,7 +580,8 @@ func (*UpdateFragmentOutput) Descriptor() ([]byte, []int) {
 type DeleteFragmentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FragmentId    string                 `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"` // delete the fragment when empty, delete only its translation when set
+	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`        // delete the fragment when empty, delete only its translation when set
+	Recursive     bool                   `protobuf:"varint,3,opt,name=recursive,proto3" json:"recursive,omitempty"` // delete the fragments nested under this one, without which deleting one fails
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -624,6 +628,13 @@ func (x *DeleteFragmentInput) GetLocale() string {
 		return x.Locale
 	}
 	return ""
+}
+
+func (x *DeleteFragmentInput) GetRecursive() bool {
+	if x != nil {
+		return x.Recursive
+	}
+	return false
 }
 
 type DeleteFragmentOutput struct {
@@ -1005,6 +1016,7 @@ type ListFragmentsInput_Filter struct {
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Path          []*wellknown.ExpressionString `protobuf:"bytes,3,rep,name=path,proto3" json:"path,omitempty"`
 	Label         []*wellknown.ExpressionEnum   `protobuf:"bytes,5,rep,name=label,proto3" json:"label,omitempty"`
+	Parent        []*wellknown.ExpressionID     `protobuf:"bytes,6,rep,name=parent,proto3" json:"parent,omitempty"` // an empty value matches the fragments at the root
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1068,6 +1080,13 @@ func (x *ListFragmentsInput_Filter) GetLabel() []*wellknown.ExpressionEnum {
 	return nil
 }
 
+func (x *ListFragmentsInput_Filter) GetParent() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Parent
+	}
+	return nil
+}
+
 var File_eolymp_content_content_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_service_proto_rawDesc = "" +
@@ -1084,7 +1103,7 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"fragmentId\x12;\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"N\n" +
 	"\x16DescribeFragmentOutput\x124\n" +
-	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xdd\x04\n" +
+	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"\xa3\x05\n" +
 	"\x12ListFragmentsInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -1094,17 +1113,19 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"\x04sort\x182 \x01(\x0e2'.eolymp.content.ListFragmentsInput.SortR\x04sort\x121\n" +
 	"\x05order\x183 \x01(\x0e2\x1b.eolymp.wellknown.DirectionR\x05order\x12\x17\n" +
 	"\x06locale\x18\xe2\b \x01(\tR\x06locale\x12;\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\xc8\x01\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\x1a\x80\x02\n" +
 	"\x06Filter\x12\x18\n" +
 	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
 	"\x04path\x18\x03 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04path\x126\n" +
-	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\x04\x10\x05\"-\n" +
+	"\x05label\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05label\x126\n" +
+	"\x06parent\x18\x06 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06parentJ\x04\b\x04\x10\x05\";\n" +
 	"\x04Sort\x12\v\n" +
 	"\aDEFAULT\x10\x00\x12\b\n" +
 	"\x04PATH\x10\x01\x12\x0e\n" +
 	"\n" +
-	"CREATED_AT\x10\x02\"[\n" +
+	"CREATED_AT\x10\x02\x12\f\n" +
+	"\bPOSITION\x10\x03\"[\n" +
 	"\x13ListFragmentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
 	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items\"K\n" +
@@ -1118,11 +1139,12 @@ const file_eolymp_content_content_service_proto_rawDesc = "" +
 	"fragmentId\x12\x16\n" +
 	"\x06locale\x18\x05 \x01(\tR\x06locale\x12:\n" +
 	"\bfragment\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\bfragmentJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x16\n" +
-	"\x14UpdateFragmentOutput\"N\n" +
+	"\x14UpdateFragmentOutput\"l\n" +
 	"\x13DeleteFragmentInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12\x16\n" +
-	"\x06locale\x18\x02 \x01(\tR\x06locale\"\x16\n" +
+	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x1c\n" +
+	"\trecursive\x18\x03 \x01(\bR\trecursive\"\x16\n" +
 	"\x14DeleteFragmentOutput\"\xbd\x01\n" +
 	"\x16TranslateFragmentInput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
@@ -1274,27 +1296,28 @@ var file_eolymp_content_content_service_proto_depIdxs = []int32{
 	23, // 15: eolymp.content.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	24, // 16: eolymp.content.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
 	25, // 17: eolymp.content.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
-	2,  // 18: eolymp.content.ContentService.DescribeFragment:input_type -> eolymp.content.DescribeFragmentInput
-	4,  // 19: eolymp.content.ContentService.ListFragments:input_type -> eolymp.content.ListFragmentsInput
-	6,  // 20: eolymp.content.ContentService.CreateFragment:input_type -> eolymp.content.CreateFragmentInput
-	8,  // 21: eolymp.content.ContentService.UpdateFragment:input_type -> eolymp.content.UpdateFragmentInput
-	10, // 22: eolymp.content.ContentService.DeleteFragment:input_type -> eolymp.content.DeleteFragmentInput
-	12, // 23: eolymp.content.ContentService.TranslateFragment:input_type -> eolymp.content.TranslateFragmentInput
-	14, // 24: eolymp.content.ContentService.DescribePath:input_type -> eolymp.content.DescribePathInput
-	16, // 25: eolymp.content.ContentService.ListParents:input_type -> eolymp.content.ListParentsInput
-	3,  // 26: eolymp.content.ContentService.DescribeFragment:output_type -> eolymp.content.DescribeFragmentOutput
-	5,  // 27: eolymp.content.ContentService.ListFragments:output_type -> eolymp.content.ListFragmentsOutput
-	7,  // 28: eolymp.content.ContentService.CreateFragment:output_type -> eolymp.content.CreateFragmentOutput
-	9,  // 29: eolymp.content.ContentService.UpdateFragment:output_type -> eolymp.content.UpdateFragmentOutput
-	11, // 30: eolymp.content.ContentService.DeleteFragment:output_type -> eolymp.content.DeleteFragmentOutput
-	13, // 31: eolymp.content.ContentService.TranslateFragment:output_type -> eolymp.content.TranslateFragmentOutput
-	15, // 32: eolymp.content.ContentService.DescribePath:output_type -> eolymp.content.DescribePathOutput
-	17, // 33: eolymp.content.ContentService.ListParents:output_type -> eolymp.content.ListParentsOutput
-	26, // [26:34] is the sub-list for method output_type
-	18, // [18:26] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	23, // 18: eolymp.content.ListFragmentsInput.Filter.parent:type_name -> eolymp.wellknown.ExpressionID
+	2,  // 19: eolymp.content.ContentService.DescribeFragment:input_type -> eolymp.content.DescribeFragmentInput
+	4,  // 20: eolymp.content.ContentService.ListFragments:input_type -> eolymp.content.ListFragmentsInput
+	6,  // 21: eolymp.content.ContentService.CreateFragment:input_type -> eolymp.content.CreateFragmentInput
+	8,  // 22: eolymp.content.ContentService.UpdateFragment:input_type -> eolymp.content.UpdateFragmentInput
+	10, // 23: eolymp.content.ContentService.DeleteFragment:input_type -> eolymp.content.DeleteFragmentInput
+	12, // 24: eolymp.content.ContentService.TranslateFragment:input_type -> eolymp.content.TranslateFragmentInput
+	14, // 25: eolymp.content.ContentService.DescribePath:input_type -> eolymp.content.DescribePathInput
+	16, // 26: eolymp.content.ContentService.ListParents:input_type -> eolymp.content.ListParentsInput
+	3,  // 27: eolymp.content.ContentService.DescribeFragment:output_type -> eolymp.content.DescribeFragmentOutput
+	5,  // 28: eolymp.content.ContentService.ListFragments:output_type -> eolymp.content.ListFragmentsOutput
+	7,  // 29: eolymp.content.ContentService.CreateFragment:output_type -> eolymp.content.CreateFragmentOutput
+	9,  // 30: eolymp.content.ContentService.UpdateFragment:output_type -> eolymp.content.UpdateFragmentOutput
+	11, // 31: eolymp.content.ContentService.DeleteFragment:output_type -> eolymp.content.DeleteFragmentOutput
+	13, // 32: eolymp.content.ContentService.TranslateFragment:output_type -> eolymp.content.TranslateFragmentOutput
+	15, // 33: eolymp.content.ContentService.DescribePath:output_type -> eolymp.content.DescribePathOutput
+	17, // 34: eolymp.content.ContentService.ListParents:output_type -> eolymp.content.ListParentsOutput
+	27, // [27:35] is the sub-list for method output_type
+	19, // [19:27] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_content_service_proto_init() }
