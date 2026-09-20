@@ -240,6 +240,67 @@ func (x *Problem) GetExamples() []*atlas.Problem_Example {
 	return nil
 }
 
+// Patch describes the fields UpdateProblem can change, a field is written only if it is set.
+type Problem_Patch struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Index              *uint32                `protobuf:"varint,2,opt,name=index,proto3,oneof" json:"index,omitempty"`
+	SubmitLimit        *uint32                `protobuf:"varint,203,opt,name=submit_limit,json=submitLimit,proto3,oneof" json:"submit_limit,omitempty"`
+	ScoreByBestTestset *bool                  `protobuf:"varint,210,opt,name=score_by_best_testset,json=scoreByBestTestset,proto3,oneof" json:"score_by_best_testset,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *Problem_Patch) Reset() {
+	*x = Problem_Patch{}
+	mi := &file_eolymp_judge_problem_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Patch) ProtoMessage() {}
+
+func (x *Problem_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_problem_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Patch.ProtoReflect.Descriptor instead.
+func (*Problem_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Problem_Patch) GetIndex() uint32 {
+	if x != nil && x.Index != nil {
+		return *x.Index
+	}
+	return 0
+}
+
+func (x *Problem_Patch) GetSubmitLimit() uint32 {
+	if x != nil && x.SubmitLimit != nil {
+		return *x.SubmitLimit
+	}
+	return 0
+}
+
+func (x *Problem_Patch) GetScoreByBestTestset() bool {
+	if x != nil && x.ScoreByBestTestset != nil {
+		return *x.ScoreByBestTestset
+	}
+	return false
+}
+
 // Statement is localized problem statement
 type Problem_Statement struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -253,7 +314,7 @@ type Problem_Statement struct {
 
 func (x *Problem_Statement) Reset() {
 	*x = Problem_Statement{}
-	mi := &file_eolymp_judge_problem_proto_msgTypes[1]
+	mi := &file_eolymp_judge_problem_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -265,7 +326,7 @@ func (x *Problem_Statement) String() string {
 func (*Problem_Statement) ProtoMessage() {}
 
 func (x *Problem_Statement) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_proto_msgTypes[1]
+	mi := &file_eolymp_judge_problem_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -278,7 +339,7 @@ func (x *Problem_Statement) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Problem_Statement.ProtoReflect.Descriptor instead.
 func (*Problem_Statement) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Problem_Statement) GetLocale() string {
@@ -324,7 +385,7 @@ type Problem_Test struct {
 
 func (x *Problem_Test) Reset() {
 	*x = Problem_Test{}
-	mi := &file_eolymp_judge_problem_proto_msgTypes[2]
+	mi := &file_eolymp_judge_problem_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -336,7 +397,7 @@ func (x *Problem_Test) String() string {
 func (*Problem_Test) ProtoMessage() {}
 
 func (x *Problem_Test) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_proto_msgTypes[2]
+	mi := &file_eolymp_judge_problem_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -349,7 +410,7 @@ func (x *Problem_Test) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Problem_Test.ProtoReflect.Descriptor instead.
 func (*Problem_Test) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Problem_Test) GetIndex() uint32 {
@@ -406,7 +467,7 @@ type Problem_Attachment struct {
 
 func (x *Problem_Attachment) Reset() {
 	*x = Problem_Attachment{}
-	mi := &file_eolymp_judge_problem_proto_msgTypes[3]
+	mi := &file_eolymp_judge_problem_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -418,7 +479,7 @@ func (x *Problem_Attachment) String() string {
 func (*Problem_Attachment) ProtoMessage() {}
 
 func (x *Problem_Attachment) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_problem_proto_msgTypes[3]
+	mi := &file_eolymp_judge_problem_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -431,7 +492,7 @@ func (x *Problem_Attachment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Problem_Attachment.ProtoReflect.Descriptor instead.
 func (*Problem_Attachment) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_judge_problem_proto_rawDescGZIP(), []int{0, 3}
 }
 
 func (x *Problem_Attachment) GetId() string {
@@ -459,7 +520,7 @@ var File_eolymp_judge_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\xda\f\n" +
+	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\x96\x0e\n" +
 	"\aProblem\x12!\n" +
 	"\n" +
 	"contest_id\x18\x05 \x01(\tB\x02\x18\x01R\tcontestId\x12\x0e\n" +
@@ -484,7 +545,14 @@ const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\acontent\x18\x16 \x01(\v2\x13.eolymp.ecm.ContentB-\xa2\xf0\xf0\xe4\x01'problem statement in requested languageR\acontent\x12U\n" +
 	"\rdownload_link\x18\x18 \x01(\tB0\xa2\xf0\xf0\xe4\x01*a link to download statement in PDF formatR\fdownloadLink\x12\x1c\n" +
 	"\tlanguages\x18\x19 \x03(\tR\tlanguages\x129\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x1a\x8a\x01\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x1a\xb9\x01\n" +
+	"\x05Patch\x12\x19\n" +
+	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12'\n" +
+	"\fsubmit_limit\x18\xcb\x01 \x01(\rH\x01R\vsubmitLimit\x88\x01\x01\x127\n" +
+	"\x15score_by_best_testset\x18\xd2\x01 \x01(\bH\x02R\x12scoreByBestTestset\x88\x01\x01B\b\n" +
+	"\x06_indexB\x0f\n" +
+	"\r_submit_limitB\x18\n" +
+	"\x16_score_by_best_testset\x1a\x8a\x01\n" +
 	"\tStatement\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12*\n" +
@@ -516,31 +584,32 @@ func file_eolymp_judge_problem_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_problem_proto_rawDescData
 }
 
-var file_eolymp_judge_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_judge_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_judge_problem_proto_goTypes = []any{
 	(*Problem)(nil),                   // 0: eolymp.judge.Problem
-	(*Problem_Statement)(nil),         // 1: eolymp.judge.Problem.Statement
-	(*Problem_Test)(nil),              // 2: eolymp.judge.Problem.Test
-	(*Problem_Attachment)(nil),        // 3: eolymp.judge.Problem.Attachment
-	(atlas.Problem_Type)(0),           // 4: eolymp.atlas.Problem.Type
-	(atlas.FeedbackPolicy)(0),         // 5: eolymp.atlas.FeedbackPolicy
-	(*atlas.Problem_Constraints)(nil), // 6: eolymp.atlas.Problem.Constraints
-	(*ecm.Content)(nil),               // 7: eolymp.ecm.Content
-	(*atlas.Problem_Example)(nil),     // 8: eolymp.atlas.Problem.Example
-	(*ecm.Node)(nil),                  // 9: eolymp.ecm.Node
+	(*Problem_Patch)(nil),             // 1: eolymp.judge.Problem.Patch
+	(*Problem_Statement)(nil),         // 2: eolymp.judge.Problem.Statement
+	(*Problem_Test)(nil),              // 3: eolymp.judge.Problem.Test
+	(*Problem_Attachment)(nil),        // 4: eolymp.judge.Problem.Attachment
+	(atlas.Problem_Type)(0),           // 5: eolymp.atlas.Problem.Type
+	(atlas.FeedbackPolicy)(0),         // 6: eolymp.atlas.FeedbackPolicy
+	(*atlas.Problem_Constraints)(nil), // 7: eolymp.atlas.Problem.Constraints
+	(*ecm.Content)(nil),               // 8: eolymp.ecm.Content
+	(*atlas.Problem_Example)(nil),     // 9: eolymp.atlas.Problem.Example
+	(*ecm.Node)(nil),                  // 10: eolymp.ecm.Node
 }
 var file_eolymp_judge_problem_proto_depIdxs = []int32{
-	4, // 0: eolymp.judge.Problem.type:type_name -> eolymp.atlas.Problem.Type
-	5, // 1: eolymp.judge.Problem.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
-	6, // 2: eolymp.judge.Problem.constraints:type_name -> eolymp.atlas.Problem.Constraints
-	7, // 3: eolymp.judge.Problem.content:type_name -> eolymp.ecm.Content
-	8, // 4: eolymp.judge.Problem.examples:type_name -> eolymp.atlas.Problem.Example
-	9, // 5: eolymp.judge.Problem.Statement.content:type_name -> eolymp.ecm.Node
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5,  // 0: eolymp.judge.Problem.type:type_name -> eolymp.atlas.Problem.Type
+	6,  // 1: eolymp.judge.Problem.feedback_policy:type_name -> eolymp.atlas.FeedbackPolicy
+	7,  // 2: eolymp.judge.Problem.constraints:type_name -> eolymp.atlas.Problem.Constraints
+	8,  // 3: eolymp.judge.Problem.content:type_name -> eolymp.ecm.Content
+	9,  // 4: eolymp.judge.Problem.examples:type_name -> eolymp.atlas.Problem.Example
+	10, // 5: eolymp.judge.Problem.Statement.content:type_name -> eolymp.ecm.Node
+	6,  // [6:6] is the sub-list for method output_type
+	6,  // [6:6] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_problem_proto_init() }
@@ -548,13 +617,14 @@ func file_eolymp_judge_problem_proto_init() {
 	if File_eolymp_judge_problem_proto != nil {
 		return
 	}
+	file_eolymp_judge_problem_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_problem_proto_rawDesc), len(file_eolymp_judge_problem_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

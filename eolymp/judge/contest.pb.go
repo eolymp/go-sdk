@@ -850,7 +850,7 @@ type Contest_Patch struct {
 	Name                       *string                      `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	ImageUrl                   *string                      `protobuf:"bytes,4,opt,name=image_url,json=imageUrl,proto3,oneof" json:"image_url,omitempty"`
 	StartsAt                   *timestamppb.Timestamp       `protobuf:"bytes,10,opt,name=starts_at,json=startsAt,proto3" json:"starts_at,omitempty"`
-	Duration                   uint32                       `protobuf:"varint,12,opt,name=duration,proto3" json:"duration,omitempty"`
+	Duration                   *uint32                      `protobuf:"varint,12,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
 	EnableReminderNotification *bool                        `protobuf:"varint,13,opt,name=enable_reminder_notification,json=enableReminderNotification,proto3,oneof" json:"enable_reminder_notification,omitempty"`
 	EndsAt                     *timestamppb.Timestamp       `protobuf:"bytes,15,opt,name=ends_at,json=endsAt,proto3" json:"ends_at,omitempty"`
 	EnableResultNotification   *bool                        `protobuf:"varint,16,opt,name=enable_result_notification,json=enableResultNotification,proto3,oneof" json:"enable_result_notification,omitempty"`
@@ -928,8 +928,8 @@ func (x *Contest_Patch) GetStartsAt() *timestamppb.Timestamp {
 }
 
 func (x *Contest_Patch) GetDuration() uint32 {
-	if x != nil {
-		return x.Duration
+	if x != nil && x.Duration != nil {
+		return *x.Duration
 	}
 	return 0
 }
@@ -1581,7 +1581,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb23\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc43\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -1630,42 +1630,43 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x129\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\x94\r\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xa6\r\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12 \n" +
 	"\timage_url\x18\x04 \x01(\tH\x01R\bimageUrl\x88\x01\x01\x127\n" +
 	"\tstarts_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\x12\x1a\n" +
-	"\bduration\x18\f \x01(\rR\bduration\x12E\n" +
-	"\x1cenable_reminder_notification\x18\r \x01(\bH\x02R\x1aenableReminderNotification\x88\x01\x01\x123\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\x12\x1f\n" +
+	"\bduration\x18\f \x01(\rH\x02R\bduration\x88\x01\x01\x12E\n" +
+	"\x1cenable_reminder_notification\x18\r \x01(\bH\x03R\x1aenableReminderNotification\x88\x01\x01\x123\n" +
 	"\aends_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\x06endsAt\x12A\n" +
-	"\x1aenable_result_notification\x18\x10 \x01(\bH\x03R\x18enableResultNotification\x88\x01\x01\x12E\n" +
+	"\x1aenable_result_notification\x18\x10 \x01(\bH\x04R\x18enableResultNotification\x88\x01\x01\x12E\n" +
 	"\n" +
-	"visibility\x18\x1e \x01(\x0e2 .eolymp.judge.Contest.VisibilityH\x04R\n" +
+	"visibility\x18\x1e \x01(\x0e2 .eolymp.judge.Contest.VisibilityH\x05R\n" +
 	"visibility\x88\x01\x01\x120\n" +
-	"\x11join_unofficially\x18! \x01(\bH\x05R\x10joinUnofficially\x88\x01\x01\x120\n" +
-	"\x11require_admission\x18# \x01(\bH\x06R\x10requireAdmission\x88\x01\x01\x12$\n" +
-	"\vallow_pause\x18$ \x01(\bH\aR\n" +
+	"\x11join_unofficially\x18! \x01(\bH\x06R\x10joinUnofficially\x88\x01\x01\x120\n" +
+	"\x11require_admission\x18# \x01(\bH\aR\x10requireAdmission\x88\x01\x01\x12$\n" +
+	"\vallow_pause\x18$ \x01(\bH\bR\n" +
 	"allowPause\x88\x01\x01\x121\n" +
-	"\x12allow_finish_early\x18% \x01(\bH\bR\x10allowFinishEarly\x88\x01\x01\x12(\n" +
-	"\rallow_upsolve\x18& \x01(\bH\tR\fallowUpsolve\x88\x01\x01\x12*\n" +
-	"\x0eallow_followup\x18' \x01(\bH\n" +
-	"R\rallowFollowup\x88\x01\x01\x12\x15\n" +
-	"\x03key\x18( \x01(\tH\vR\x03key\x88\x01\x01\x122\n" +
-	"\x12display_editorials\x18) \x01(\bH\fR\x11displayEditorials\x88\x01\x01\x12\x17\n" +
-	"\x04slug\x18* \x01(\tH\rR\x04slug\x88\x01\x01\x121\n" +
-	"\x12hide_jury_identity\x18+ \x01(\bH\x0eR\x10hideJuryIdentity\x88\x01\x01\x12A\n" +
+	"\x12allow_finish_early\x18% \x01(\bH\tR\x10allowFinishEarly\x88\x01\x01\x12(\n" +
+	"\rallow_upsolve\x18& \x01(\bH\n" +
+	"R\fallowUpsolve\x88\x01\x01\x12*\n" +
+	"\x0eallow_followup\x18' \x01(\bH\vR\rallowFollowup\x88\x01\x01\x12\x15\n" +
+	"\x03key\x18( \x01(\tH\fR\x03key\x88\x01\x01\x122\n" +
+	"\x12display_editorials\x18) \x01(\bH\rR\x11displayEditorials\x88\x01\x01\x12\x17\n" +
+	"\x04slug\x18* \x01(\tH\x0eR\x04slug\x88\x01\x01\x121\n" +
+	"\x12hide_jury_identity\x18+ \x01(\bH\x0fR\x10hideJuryIdentity\x88\x01\x01\x12A\n" +
 	"\x0efeatured_until\x182 \x01(\v2\x1a.google.protobuf.TimestampR\rfeaturedUntil\x12\"\n" +
 	"\n" +
-	"printer_id\x18G \x01(\tH\x0fR\tprinterId\x88\x01\x01\x12S\n" +
+	"printer_id\x18G \x01(\tH\x10R\tprinterId\x88\x01\x01\x12S\n" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12Q\n" +
-	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationH\x10R\x0eclassification\x88\x01\x01\x12V\n" +
+	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationH\x11R\x0eclassification\x88\x01\x01\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfigB\a\n" +
 	"\x05_nameB\f\n" +
 	"\n" +
-	"_image_urlB\x1f\n" +
+	"_image_urlB\v\n" +
+	"\t_durationB\x1f\n" +
 	"\x1d_enable_reminder_notificationB\x1d\n" +
 	"\x1b_enable_result_notificationB\r\n" +
 	"\v_visibilityB\x14\n" +

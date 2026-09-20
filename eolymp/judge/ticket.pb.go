@@ -350,11 +350,64 @@ func (x *TicketSummary) GetUnresolvedCount() uint32 {
 	return 0
 }
 
+// Patch describes the fields UpdateTicket can change, a field is written only if it is set.
+type Ticket_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        *Ticket_Status         `protobuf:"varint,5,opt,name=status,proto3,enum=eolymp.judge.Ticket_Status,oneof" json:"status,omitempty"`
+	Subject       *string                `protobuf:"bytes,10,opt,name=subject,proto3,oneof" json:"subject,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Ticket_Patch) Reset() {
+	*x = Ticket_Patch{}
+	mi := &file_eolymp_judge_ticket_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Ticket_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Ticket_Patch) ProtoMessage() {}
+
+func (x *Ticket_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_ticket_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Ticket_Patch.ProtoReflect.Descriptor instead.
+func (*Ticket_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_ticket_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Ticket_Patch) GetStatus() Ticket_Status {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return Ticket_UNKNOWN_STATUS
+}
+
+func (x *Ticket_Patch) GetSubject() string {
+	if x != nil && x.Subject != nil {
+		return *x.Subject
+	}
+	return ""
+}
+
 var File_eolymp_judge_ticket_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_ticket_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/judge/ticket.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x06\n" +
+	"\x19eolymp/judge/ticket.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbc\a\n" +
 	"\x06Ticket\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12%\n" +
 	"\n" +
@@ -376,7 +429,14 @@ const file_eolymp_judge_ticket_proto_rawDesc = "" +
 	"updated_at\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tupdatedAt\x12;\n" +
 	"\aread_at\x18\x19 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06readAt\x12F\n" +
 	"\rlast_reply_at\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vlastReplyAt\x12\x1e\n" +
-	"\x06cursor\x18d \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06cursor\"<\n" +
+	"\x06cursor\x18d \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06cursor\x1aw\n" +
+	"\x05Patch\x128\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x1b.eolymp.judge.Ticket.StatusH\x00R\x06status\x88\x01\x01\x12\x1d\n" +
+	"\asubject\x18\n" +
+	" \x01(\tH\x01R\asubject\x88\x01\x01B\t\n" +
+	"\a_statusB\n" +
+	"\n" +
+	"\b_subject\"<\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eMESSAGE_RENDER\x10\x01\x12\x11\n" +
@@ -404,27 +464,29 @@ func file_eolymp_judge_ticket_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_ticket_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_judge_ticket_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_judge_ticket_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_judge_ticket_proto_goTypes = []any{
 	(Ticket_Extra)(0),             // 0: eolymp.judge.Ticket.Extra
 	(Ticket_Status)(0),            // 1: eolymp.judge.Ticket.Status
 	(*Ticket)(nil),                // 2: eolymp.judge.Ticket
 	(*TicketSummary)(nil),         // 3: eolymp.judge.TicketSummary
-	(*ecm.Content)(nil),           // 4: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*Ticket_Patch)(nil),          // 4: eolymp.judge.Ticket.Patch
+	(*ecm.Content)(nil),           // 5: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_eolymp_judge_ticket_proto_depIdxs = []int32{
 	1, // 0: eolymp.judge.Ticket.status:type_name -> eolymp.judge.Ticket.Status
-	4, // 1: eolymp.judge.Ticket.message:type_name -> eolymp.ecm.Content
-	5, // 2: eolymp.judge.Ticket.created_at:type_name -> google.protobuf.Timestamp
-	5, // 3: eolymp.judge.Ticket.updated_at:type_name -> google.protobuf.Timestamp
-	5, // 4: eolymp.judge.Ticket.read_at:type_name -> google.protobuf.Timestamp
-	5, // 5: eolymp.judge.Ticket.last_reply_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 1: eolymp.judge.Ticket.message:type_name -> eolymp.ecm.Content
+	6, // 2: eolymp.judge.Ticket.created_at:type_name -> google.protobuf.Timestamp
+	6, // 3: eolymp.judge.Ticket.updated_at:type_name -> google.protobuf.Timestamp
+	6, // 4: eolymp.judge.Ticket.read_at:type_name -> google.protobuf.Timestamp
+	6, // 5: eolymp.judge.Ticket.last_reply_at:type_name -> google.protobuf.Timestamp
+	1, // 6: eolymp.judge.Ticket.Patch.status:type_name -> eolymp.judge.Ticket.Status
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_ticket_proto_init() }
@@ -432,13 +494,14 @@ func file_eolymp_judge_ticket_proto_init() {
 	if File_eolymp_judge_ticket_proto != nil {
 		return
 	}
+	file_eolymp_judge_ticket_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_ticket_proto_rawDesc), len(file_eolymp_judge_ticket_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
