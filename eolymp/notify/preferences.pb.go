@@ -117,6 +117,77 @@ func (x *Preferences) GetSubscriptions() []*Preferences_Subscription {
 	return nil
 }
 
+// Patch describes the fields UpdatePreferences can change, a field is written only if it is set.
+type Preferences_Patch struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Exactly one of the three may be carried: subscriptions replaces the list, add_subscriptions and
+	// remove_subscriptions change it in place, and unsubscribe empties it. Carrying more than one is rejected.
+	Subscriptions       []*Preferences_Subscription `protobuf:"bytes,10,rep,name=subscriptions,proto3" json:"subscriptions,omitempty"`
+	AddSubscriptions    []*Preferences_Subscription `protobuf:"bytes,11,rep,name=add_subscriptions,json=addSubscriptions,proto3" json:"add_subscriptions,omitempty"`
+	RemoveSubscriptions []*Preferences_Subscription `protobuf:"bytes,12,rep,name=remove_subscriptions,json=removeSubscriptions,proto3" json:"remove_subscriptions,omitempty"`
+	Unsubscribe         *bool                       `protobuf:"varint,13,opt,name=unsubscribe,proto3,oneof" json:"unsubscribe,omitempty"` // clears the subscriptions, which an empty list cannot express
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *Preferences_Patch) Reset() {
+	*x = Preferences_Patch{}
+	mi := &file_eolymp_notify_preferences_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Preferences_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Preferences_Patch) ProtoMessage() {}
+
+func (x *Preferences_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_notify_preferences_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Preferences_Patch.ProtoReflect.Descriptor instead.
+func (*Preferences_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_notify_preferences_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Preferences_Patch) GetSubscriptions() []*Preferences_Subscription {
+	if x != nil {
+		return x.Subscriptions
+	}
+	return nil
+}
+
+func (x *Preferences_Patch) GetAddSubscriptions() []*Preferences_Subscription {
+	if x != nil {
+		return x.AddSubscriptions
+	}
+	return nil
+}
+
+func (x *Preferences_Patch) GetRemoveSubscriptions() []*Preferences_Subscription {
+	if x != nil {
+		return x.RemoveSubscriptions
+	}
+	return nil
+}
+
+func (x *Preferences_Patch) GetUnsubscribe() bool {
+	if x != nil && x.Unsubscribe != nil {
+		return *x.Unsubscribe
+	}
+	return false
+}
+
 type Preferences_Subscription struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Topic         string                 `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`
@@ -127,7 +198,7 @@ type Preferences_Subscription struct {
 
 func (x *Preferences_Subscription) Reset() {
 	*x = Preferences_Subscription{}
-	mi := &file_eolymp_notify_preferences_proto_msgTypes[1]
+	mi := &file_eolymp_notify_preferences_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -139,7 +210,7 @@ func (x *Preferences_Subscription) String() string {
 func (*Preferences_Subscription) ProtoMessage() {}
 
 func (x *Preferences_Subscription) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_notify_preferences_proto_msgTypes[1]
+	mi := &file_eolymp_notify_preferences_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -152,7 +223,7 @@ func (x *Preferences_Subscription) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Preferences_Subscription.ProtoReflect.Descriptor instead.
 func (*Preferences_Subscription) Descriptor() ([]byte, []int) {
-	return file_eolymp_notify_preferences_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_notify_preferences_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Preferences_Subscription) GetTopic() string {
@@ -173,10 +244,17 @@ var File_eolymp_notify_preferences_proto protoreflect.FileDescriptor
 
 const file_eolymp_notify_preferences_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/notify/preferences.proto\x12\reolymp.notify\"\x81\x02\n" +
+	"\x1feolymp/notify/preferences.proto\x12\reolymp.notify\"\xc3\x04\n" +
 	"\vPreferences\x12M\n" +
 	"\rsubscriptions\x18\n" +
-	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x1a_\n" +
+	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x1a\xbf\x02\n" +
+	"\x05Patch\x12M\n" +
+	"\rsubscriptions\x18\n" +
+	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x12T\n" +
+	"\x11add_subscriptions\x18\v \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\x10addSubscriptions\x12Z\n" +
+	"\x14remove_subscriptions\x18\f \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\x13removeSubscriptions\x12%\n" +
+	"\vunsubscribe\x18\r \x01(\bH\x00R\vunsubscribe\x88\x01\x01B\x0e\n" +
+	"\f_unsubscribe\x1a_\n" +
 	"\fSubscription\x12\x14\n" +
 	"\x05topic\x18\x01 \x01(\tR\x05topic\x129\n" +
 	"\x06digest\x18\x02 \x01(\x0e2!.eolymp.notify.Preferences.DigestR\x06digest\"B\n" +
@@ -200,20 +278,24 @@ func file_eolymp_notify_preferences_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_notify_preferences_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_notify_preferences_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_notify_preferences_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_notify_preferences_proto_goTypes = []any{
 	(Preferences_Digest)(0),          // 0: eolymp.notify.Preferences.Digest
 	(*Preferences)(nil),              // 1: eolymp.notify.Preferences
-	(*Preferences_Subscription)(nil), // 2: eolymp.notify.Preferences.Subscription
+	(*Preferences_Patch)(nil),        // 2: eolymp.notify.Preferences.Patch
+	(*Preferences_Subscription)(nil), // 3: eolymp.notify.Preferences.Subscription
 }
 var file_eolymp_notify_preferences_proto_depIdxs = []int32{
-	2, // 0: eolymp.notify.Preferences.subscriptions:type_name -> eolymp.notify.Preferences.Subscription
-	0, // 1: eolymp.notify.Preferences.Subscription.digest:type_name -> eolymp.notify.Preferences.Digest
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 0: eolymp.notify.Preferences.subscriptions:type_name -> eolymp.notify.Preferences.Subscription
+	3, // 1: eolymp.notify.Preferences.Patch.subscriptions:type_name -> eolymp.notify.Preferences.Subscription
+	3, // 2: eolymp.notify.Preferences.Patch.add_subscriptions:type_name -> eolymp.notify.Preferences.Subscription
+	3, // 3: eolymp.notify.Preferences.Patch.remove_subscriptions:type_name -> eolymp.notify.Preferences.Subscription
+	0, // 4: eolymp.notify.Preferences.Subscription.digest:type_name -> eolymp.notify.Preferences.Digest
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_notify_preferences_proto_init() }
@@ -221,13 +303,14 @@ func file_eolymp_notify_preferences_proto_init() {
 	if File_eolymp_notify_preferences_proto != nil {
 		return
 	}
+	file_eolymp_notify_preferences_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_notify_preferences_proto_rawDesc), len(file_eolymp_notify_preferences_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

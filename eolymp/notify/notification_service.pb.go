@@ -22,58 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpdatePreferencesInput_Patch int32
-
-const (
-	UpdatePreferencesInput_ALL                  UpdatePreferencesInput_Patch = 0
-	UpdatePreferencesInput_SUBSCRIPTIONS        UpdatePreferencesInput_Patch = 10
-	UpdatePreferencesInput_SUBSCRIPTIONS_ADD    UpdatePreferencesInput_Patch = 11
-	UpdatePreferencesInput_SUBSCRIPTIONS_REMOVE UpdatePreferencesInput_Patch = 12
-)
-
-// Enum value maps for UpdatePreferencesInput_Patch.
-var (
-	UpdatePreferencesInput_Patch_name = map[int32]string{
-		0:  "ALL",
-		10: "SUBSCRIPTIONS",
-		11: "SUBSCRIPTIONS_ADD",
-		12: "SUBSCRIPTIONS_REMOVE",
-	}
-	UpdatePreferencesInput_Patch_value = map[string]int32{
-		"ALL":                  0,
-		"SUBSCRIPTIONS":        10,
-		"SUBSCRIPTIONS_ADD":    11,
-		"SUBSCRIPTIONS_REMOVE": 12,
-	}
-)
-
-func (x UpdatePreferencesInput_Patch) Enum() *UpdatePreferencesInput_Patch {
-	p := new(UpdatePreferencesInput_Patch)
-	*p = x
-	return p
-}
-
-func (x UpdatePreferencesInput_Patch) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UpdatePreferencesInput_Patch) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_notify_notification_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UpdatePreferencesInput_Patch) Type() protoreflect.EnumType {
-	return &file_eolymp_notify_notification_service_proto_enumTypes[0]
-}
-
-func (x UpdatePreferencesInput_Patch) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UpdatePreferencesInput_Patch.Descriptor instead.
-func (UpdatePreferencesInput_Patch) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_notify_notification_service_proto_rawDescGZIP(), []int{13, 0}
-}
-
 type NotificationEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Notification  *Notification          `protobuf:"bytes,1,opt,name=notification,proto3" json:"notification,omitempty"`
@@ -639,10 +587,9 @@ func (x *DescribePreferencesOutput) GetPreferences() *Preferences {
 }
 
 type UpdatePreferencesInput struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Patch         []UpdatePreferencesInput_Patch `protobuf:"varint,3,rep,packed,name=patch,proto3,enum=eolymp.notify.UpdatePreferencesInput_Patch" json:"patch,omitempty"`
-	SpaceId       string                         `protobuf:"bytes,1,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
-	Preferences   *Preferences                   `protobuf:"bytes,2,opt,name=preferences,proto3" json:"preferences,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SpaceId       string                 `protobuf:"bytes,1,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
+	Preferences   *Preferences_Patch     `protobuf:"bytes,4,opt,name=preferences,proto3" json:"preferences,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -677,13 +624,6 @@ func (*UpdatePreferencesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_notify_notification_service_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *UpdatePreferencesInput) GetPatch() []UpdatePreferencesInput_Patch {
-	if x != nil {
-		return x.Patch
-	}
-	return nil
-}
-
 func (x *UpdatePreferencesInput) GetSpaceId() string {
 	if x != nil {
 		return x.SpaceId
@@ -691,7 +631,7 @@ func (x *UpdatePreferencesInput) GetSpaceId() string {
 	return ""
 }
 
-func (x *UpdatePreferencesInput) GetPreferences() *Preferences {
+func (x *UpdatePreferencesInput) GetPreferences() *Preferences_Patch {
 	if x != nil {
 		return x.Preferences
 	}
@@ -763,17 +703,10 @@ const file_eolymp_notify_notification_service_proto_rawDesc = "" +
 	"\x18DescribePreferencesInput\x12\x19\n" +
 	"\bspace_id\x18\x01 \x01(\tR\aspaceId\"Y\n" +
 	"\x19DescribePreferencesOutput\x12<\n" +
-	"\vpreferences\x18\x01 \x01(\v2\x1a.eolymp.notify.PreferencesR\vpreferences\"\x8a\x02\n" +
-	"\x16UpdatePreferencesInput\x12A\n" +
-	"\x05patch\x18\x03 \x03(\x0e2+.eolymp.notify.UpdatePreferencesInput.PatchR\x05patch\x12\x19\n" +
-	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12<\n" +
-	"\vpreferences\x18\x02 \x01(\v2\x1a.eolymp.notify.PreferencesR\vpreferences\"T\n" +
-	"\x05Patch\x12\a\n" +
-	"\x03ALL\x10\x00\x12\x11\n" +
-	"\rSUBSCRIPTIONS\x10\n" +
-	"\x12\x15\n" +
-	"\x11SUBSCRIPTIONS_ADD\x10\v\x12\x18\n" +
-	"\x14SUBSCRIPTIONS_REMOVE\x10\f\"\x19\n" +
+	"\vpreferences\x18\x01 \x01(\v2\x1a.eolymp.notify.PreferencesR\vpreferences\"\x83\x01\n" +
+	"\x16UpdatePreferencesInput\x12\x19\n" +
+	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12B\n" +
+	"\vpreferences\x18\x04 \x01(\v2 .eolymp.notify.Preferences.PatchR\vpreferencesJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\"\x19\n" +
 	"\x17UpdatePreferencesOutput2\x8c\t\n" +
 	"\x13NotificationService\x12~\n" +
 	"\x12CreateNotification\x12&.eolymp.notify.CreateNotificationInput\x1a'.eolymp.notify.CreateNotificationOutput\"\x17\xea\xe2\n" +
@@ -833,55 +766,53 @@ func file_eolymp_notify_notification_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_notify_notification_service_proto_rawDescData
 }
 
-var file_eolymp_notify_notification_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_notify_notification_service_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_eolymp_notify_notification_service_proto_goTypes = []any{
-	(UpdatePreferencesInput_Patch)(0),  // 0: eolymp.notify.UpdatePreferencesInput.Patch
-	(*NotificationEvent)(nil),          // 1: eolymp.notify.NotificationEvent
-	(*CreateNotificationInput)(nil),    // 2: eolymp.notify.CreateNotificationInput
-	(*CreateNotificationOutput)(nil),   // 3: eolymp.notify.CreateNotificationOutput
-	(*DescribeNotificationInput)(nil),  // 4: eolymp.notify.DescribeNotificationInput
-	(*DescribeNotificationOutput)(nil), // 5: eolymp.notify.DescribeNotificationOutput
-	(*ReadNotificationInput)(nil),      // 6: eolymp.notify.ReadNotificationInput
-	(*ReadNotificationOutput)(nil),     // 7: eolymp.notify.ReadNotificationOutput
-	(*DeleteNotificationInput)(nil),    // 8: eolymp.notify.DeleteNotificationInput
-	(*DeleteNotificationOutput)(nil),   // 9: eolymp.notify.DeleteNotificationOutput
-	(*ListNotificationsInput)(nil),     // 10: eolymp.notify.ListNotificationsInput
-	(*ListNotificationsOutput)(nil),    // 11: eolymp.notify.ListNotificationsOutput
-	(*DescribePreferencesInput)(nil),   // 12: eolymp.notify.DescribePreferencesInput
-	(*DescribePreferencesOutput)(nil),  // 13: eolymp.notify.DescribePreferencesOutput
-	(*UpdatePreferencesInput)(nil),     // 14: eolymp.notify.UpdatePreferencesInput
-	(*UpdatePreferencesOutput)(nil),    // 15: eolymp.notify.UpdatePreferencesOutput
-	(*Notification)(nil),               // 16: eolymp.notify.Notification
-	(*Preferences)(nil),                // 17: eolymp.notify.Preferences
+	(*NotificationEvent)(nil),          // 0: eolymp.notify.NotificationEvent
+	(*CreateNotificationInput)(nil),    // 1: eolymp.notify.CreateNotificationInput
+	(*CreateNotificationOutput)(nil),   // 2: eolymp.notify.CreateNotificationOutput
+	(*DescribeNotificationInput)(nil),  // 3: eolymp.notify.DescribeNotificationInput
+	(*DescribeNotificationOutput)(nil), // 4: eolymp.notify.DescribeNotificationOutput
+	(*ReadNotificationInput)(nil),      // 5: eolymp.notify.ReadNotificationInput
+	(*ReadNotificationOutput)(nil),     // 6: eolymp.notify.ReadNotificationOutput
+	(*DeleteNotificationInput)(nil),    // 7: eolymp.notify.DeleteNotificationInput
+	(*DeleteNotificationOutput)(nil),   // 8: eolymp.notify.DeleteNotificationOutput
+	(*ListNotificationsInput)(nil),     // 9: eolymp.notify.ListNotificationsInput
+	(*ListNotificationsOutput)(nil),    // 10: eolymp.notify.ListNotificationsOutput
+	(*DescribePreferencesInput)(nil),   // 11: eolymp.notify.DescribePreferencesInput
+	(*DescribePreferencesOutput)(nil),  // 12: eolymp.notify.DescribePreferencesOutput
+	(*UpdatePreferencesInput)(nil),     // 13: eolymp.notify.UpdatePreferencesInput
+	(*UpdatePreferencesOutput)(nil),    // 14: eolymp.notify.UpdatePreferencesOutput
+	(*Notification)(nil),               // 15: eolymp.notify.Notification
+	(*Preferences)(nil),                // 16: eolymp.notify.Preferences
+	(*Preferences_Patch)(nil),          // 17: eolymp.notify.Preferences.Patch
 }
 var file_eolymp_notify_notification_service_proto_depIdxs = []int32{
-	16, // 0: eolymp.notify.NotificationEvent.notification:type_name -> eolymp.notify.Notification
-	16, // 1: eolymp.notify.CreateNotificationInput.notification:type_name -> eolymp.notify.Notification
-	16, // 2: eolymp.notify.DescribeNotificationOutput.notification:type_name -> eolymp.notify.Notification
-	16, // 3: eolymp.notify.ListNotificationsOutput.items:type_name -> eolymp.notify.Notification
-	17, // 4: eolymp.notify.DescribePreferencesOutput.preferences:type_name -> eolymp.notify.Preferences
-	0,  // 5: eolymp.notify.UpdatePreferencesInput.patch:type_name -> eolymp.notify.UpdatePreferencesInput.Patch
-	17, // 6: eolymp.notify.UpdatePreferencesInput.preferences:type_name -> eolymp.notify.Preferences
-	2,  // 7: eolymp.notify.NotificationService.CreateNotification:input_type -> eolymp.notify.CreateNotificationInput
-	4,  // 8: eolymp.notify.NotificationService.DescribeNotification:input_type -> eolymp.notify.DescribeNotificationInput
-	6,  // 9: eolymp.notify.NotificationService.ReadNotification:input_type -> eolymp.notify.ReadNotificationInput
-	8,  // 10: eolymp.notify.NotificationService.DeleteNotification:input_type -> eolymp.notify.DeleteNotificationInput
-	10, // 11: eolymp.notify.NotificationService.ListNotifications:input_type -> eolymp.notify.ListNotificationsInput
-	12, // 12: eolymp.notify.NotificationService.DescribePreferences:input_type -> eolymp.notify.DescribePreferencesInput
-	14, // 13: eolymp.notify.NotificationService.UpdatePreferences:input_type -> eolymp.notify.UpdatePreferencesInput
-	3,  // 14: eolymp.notify.NotificationService.CreateNotification:output_type -> eolymp.notify.CreateNotificationOutput
-	5,  // 15: eolymp.notify.NotificationService.DescribeNotification:output_type -> eolymp.notify.DescribeNotificationOutput
-	7,  // 16: eolymp.notify.NotificationService.ReadNotification:output_type -> eolymp.notify.ReadNotificationOutput
-	9,  // 17: eolymp.notify.NotificationService.DeleteNotification:output_type -> eolymp.notify.DeleteNotificationOutput
-	11, // 18: eolymp.notify.NotificationService.ListNotifications:output_type -> eolymp.notify.ListNotificationsOutput
-	13, // 19: eolymp.notify.NotificationService.DescribePreferences:output_type -> eolymp.notify.DescribePreferencesOutput
-	15, // 20: eolymp.notify.NotificationService.UpdatePreferences:output_type -> eolymp.notify.UpdatePreferencesOutput
-	14, // [14:21] is the sub-list for method output_type
-	7,  // [7:14] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	15, // 0: eolymp.notify.NotificationEvent.notification:type_name -> eolymp.notify.Notification
+	15, // 1: eolymp.notify.CreateNotificationInput.notification:type_name -> eolymp.notify.Notification
+	15, // 2: eolymp.notify.DescribeNotificationOutput.notification:type_name -> eolymp.notify.Notification
+	15, // 3: eolymp.notify.ListNotificationsOutput.items:type_name -> eolymp.notify.Notification
+	16, // 4: eolymp.notify.DescribePreferencesOutput.preferences:type_name -> eolymp.notify.Preferences
+	17, // 5: eolymp.notify.UpdatePreferencesInput.preferences:type_name -> eolymp.notify.Preferences.Patch
+	1,  // 6: eolymp.notify.NotificationService.CreateNotification:input_type -> eolymp.notify.CreateNotificationInput
+	3,  // 7: eolymp.notify.NotificationService.DescribeNotification:input_type -> eolymp.notify.DescribeNotificationInput
+	5,  // 8: eolymp.notify.NotificationService.ReadNotification:input_type -> eolymp.notify.ReadNotificationInput
+	7,  // 9: eolymp.notify.NotificationService.DeleteNotification:input_type -> eolymp.notify.DeleteNotificationInput
+	9,  // 10: eolymp.notify.NotificationService.ListNotifications:input_type -> eolymp.notify.ListNotificationsInput
+	11, // 11: eolymp.notify.NotificationService.DescribePreferences:input_type -> eolymp.notify.DescribePreferencesInput
+	13, // 12: eolymp.notify.NotificationService.UpdatePreferences:input_type -> eolymp.notify.UpdatePreferencesInput
+	2,  // 13: eolymp.notify.NotificationService.CreateNotification:output_type -> eolymp.notify.CreateNotificationOutput
+	4,  // 14: eolymp.notify.NotificationService.DescribeNotification:output_type -> eolymp.notify.DescribeNotificationOutput
+	6,  // 15: eolymp.notify.NotificationService.ReadNotification:output_type -> eolymp.notify.ReadNotificationOutput
+	8,  // 16: eolymp.notify.NotificationService.DeleteNotification:output_type -> eolymp.notify.DeleteNotificationOutput
+	10, // 17: eolymp.notify.NotificationService.ListNotifications:output_type -> eolymp.notify.ListNotificationsOutput
+	12, // 18: eolymp.notify.NotificationService.DescribePreferences:output_type -> eolymp.notify.DescribePreferencesOutput
+	14, // 19: eolymp.notify.NotificationService.UpdatePreferences:output_type -> eolymp.notify.UpdatePreferencesOutput
+	13, // [13:20] is the sub-list for method output_type
+	6,  // [6:13] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_notify_notification_service_proto_init() }
@@ -896,14 +827,13 @@ func file_eolymp_notify_notification_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_notify_notification_service_proto_rawDesc), len(file_eolymp_notify_notification_service_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_notify_notification_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_notify_notification_service_proto_depIdxs,
-		EnumInfos:         file_eolymp_notify_notification_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_notify_notification_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_notify_notification_service_proto = out.File
