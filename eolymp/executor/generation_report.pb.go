@@ -88,15 +88,17 @@ func (GenerationReport_Status) EnumDescriptor() ([]byte, []int) {
 }
 
 type GenerationReport struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	TaskId        string                  `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	Reference     string                  `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
-	Origin        string                  `protobuf:"bytes,3,opt,name=origin,proto3" json:"origin,omitempty"`
-	Metadata      map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Agent         string                  `protobuf:"bytes,4,opt,name=agent,proto3" json:"agent,omitempty"`
-	Status        GenerationReport_Status `protobuf:"varint,11,opt,name=status,proto3,enum=eolymp.executor.GenerationReport_Status" json:"status,omitempty"`
-	Runs          []*GenerationReport_Run `protobuf:"bytes,40,rep,name=runs,proto3" json:"runs,omitempty"`
-	ErrorMessage  string                  `protobuf:"bytes,50,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	state        protoimpl.MessageState  `protogen:"open.v1"`
+	TaskId       string                  `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	Reference    string                  `protobuf:"bytes,2,opt,name=reference,proto3" json:"reference,omitempty"`
+	Origin       string                  `protobuf:"bytes,3,opt,name=origin,proto3" json:"origin,omitempty"`
+	Metadata     map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Agent        string                  `protobuf:"bytes,4,opt,name=agent,proto3" json:"agent,omitempty"`
+	Status       GenerationReport_Status `protobuf:"varint,11,opt,name=status,proto3,enum=eolymp.executor.GenerationReport_Status" json:"status,omitempty"`
+	Runs         []*GenerationReport_Run `protobuf:"bytes,40,rep,name=runs,proto3" json:"runs,omitempty"`
+	ErrorMessage string                  `protobuf:"bytes,50,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	// Warnings collected across all runs, deduped and capped at 50.
+	Warnings      []*Warning `protobuf:"bytes,60,rep,name=warnings,proto3" json:"warnings,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -185,6 +187,13 @@ func (x *GenerationReport) GetErrorMessage() string {
 		return x.ErrorMessage
 	}
 	return ""
+}
+
+func (x *GenerationReport) GetWarnings() []*Warning {
+	if x != nil {
+		return x.Warnings
+	}
+	return nil
 }
 
 // Run represents a single execution
@@ -300,7 +309,7 @@ var File_eolymp_executor_generation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/generation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xe1\a\n" +
+	"'eolymp/executor/generation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\x1a\x1deolymp/executor/warning.proto\"\x97\b\n" +
 	"\x10GenerationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -309,7 +318,8 @@ const file_eolymp_executor_generation_report_proto_rawDesc = "" +
 	"\x05agent\x18\x04 \x01(\tR\x05agent\x12@\n" +
 	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.GenerationReport.StatusR\x06status\x129\n" +
 	"\x04runs\x18( \x03(\v2%.eolymp.executor.GenerationReport.RunR\x04runs\x12#\n" +
-	"\rerror_message\x182 \x01(\tR\ferrorMessage\x1a\xb7\x03\n" +
+	"\rerror_message\x182 \x01(\tR\ferrorMessage\x124\n" +
+	"\bwarnings\x18< \x03(\v2\x18.eolymp.executor.WarningR\bwarnings\x1a\xb7\x03\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12@\n" +
 	"\x06status\x18\x02 \x01(\x0e2(.eolymp.executor.GenerationReport.StatusR\x06status\x12\x14\n" +
@@ -355,21 +365,23 @@ var file_eolymp_executor_generation_report_proto_goTypes = []any{
 	(*GenerationReport)(nil),     // 1: eolymp.executor.GenerationReport
 	(*GenerationReport_Run)(nil), // 2: eolymp.executor.GenerationReport.Run
 	nil,                          // 3: eolymp.executor.GenerationReport.MetadataEntry
-	(*Stats)(nil),                // 4: eolymp.executor.Stats
+	(*Warning)(nil),              // 4: eolymp.executor.Warning
+	(*Stats)(nil),                // 5: eolymp.executor.Stats
 }
 var file_eolymp_executor_generation_report_proto_depIdxs = []int32{
 	3, // 0: eolymp.executor.GenerationReport.metadata:type_name -> eolymp.executor.GenerationReport.MetadataEntry
 	0, // 1: eolymp.executor.GenerationReport.status:type_name -> eolymp.executor.GenerationReport.Status
 	2, // 2: eolymp.executor.GenerationReport.runs:type_name -> eolymp.executor.GenerationReport.Run
-	0, // 3: eolymp.executor.GenerationReport.Run.status:type_name -> eolymp.executor.GenerationReport.Status
-	4, // 4: eolymp.executor.GenerationReport.Run.input_generator_stats:type_name -> eolymp.executor.Stats
-	4, // 5: eolymp.executor.GenerationReport.Run.answer_generator_stats:type_name -> eolymp.executor.Stats
-	4, // 6: eolymp.executor.GenerationReport.Run.validator_stats:type_name -> eolymp.executor.Stats
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	4, // 3: eolymp.executor.GenerationReport.warnings:type_name -> eolymp.executor.Warning
+	0, // 4: eolymp.executor.GenerationReport.Run.status:type_name -> eolymp.executor.GenerationReport.Status
+	5, // 5: eolymp.executor.GenerationReport.Run.input_generator_stats:type_name -> eolymp.executor.Stats
+	5, // 6: eolymp.executor.GenerationReport.Run.answer_generator_stats:type_name -> eolymp.executor.Stats
+	5, // 7: eolymp.executor.GenerationReport.Run.validator_stats:type_name -> eolymp.executor.Stats
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_generation_report_proto_init() }
@@ -378,6 +390,7 @@ func file_eolymp_executor_generation_report_proto_init() {
 		return
 	}
 	file_eolymp_executor_stats_proto_init()
+	file_eolymp_executor_warning_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

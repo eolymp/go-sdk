@@ -263,8 +263,10 @@ type EvaluationReport struct {
 	// Status of the evaluation
 	Status EvaluationReport_Status `protobuf:"varint,11,opt,name=status,proto3,enum=eolymp.executor.EvaluationReport_Status" json:"status,omitempty"`
 	// Error message
-	ErrorMessage  string                  `protobuf:"bytes,20,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	Runs          []*EvaluationReport_Run `protobuf:"bytes,40,rep,name=runs,proto3" json:"runs,omitempty"`
+	ErrorMessage string                  `protobuf:"bytes,20,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	Runs         []*EvaluationReport_Run `protobuf:"bytes,40,rep,name=runs,proto3" json:"runs,omitempty"`
+	// Warnings collected across all runs, deduped and capped at 50.
+	Warnings      []*Warning `protobuf:"bytes,60,rep,name=warnings,proto3" json:"warnings,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -372,6 +374,13 @@ func (x *EvaluationReport) GetErrorMessage() string {
 func (x *EvaluationReport) GetRuns() []*EvaluationReport_Run {
 	if x != nil {
 		return x.Runs
+	}
+	return nil
+}
+
+func (x *EvaluationReport) GetWarnings() []*Warning {
+	if x != nil {
+		return x.Warnings
 	}
 	return nil
 }
@@ -570,7 +579,7 @@ var File_eolymp_executor_evaluation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xed\r\n" +
+	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\x1a\x1deolymp/executor/warning.proto\"\xa3\x0e\n" +
 	"\x10EvaluationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -583,7 +592,8 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	" \x01(\x0e2&.eolymp.executor.EvaluationReport.TypeR\x04type\x12@\n" +
 	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.EvaluationReport.StatusR\x06status\x12#\n" +
 	"\rerror_message\x18\x14 \x01(\tR\ferrorMessage\x129\n" +
-	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\x82\b\n" +
+	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x124\n" +
+	"\bwarnings\x18< \x03(\v2\x18.eolymp.executor.WarningR\bwarnings\x1a\x82\b\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
 	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.EvaluationReport.Run.StatusR\x06status\x12\x14\n" +
@@ -669,22 +679,24 @@ var file_eolymp_executor_evaluation_report_proto_goTypes = []any{
 	(*EvaluationReport)(nil),         // 3: eolymp.executor.EvaluationReport
 	(*EvaluationReport_Run)(nil),     // 4: eolymp.executor.EvaluationReport.Run
 	nil,                              // 5: eolymp.executor.EvaluationReport.MetadataEntry
-	(*Stats)(nil),                    // 6: eolymp.executor.Stats
+	(*Warning)(nil),                  // 6: eolymp.executor.Warning
+	(*Stats)(nil),                    // 7: eolymp.executor.Stats
 }
 var file_eolymp_executor_evaluation_report_proto_depIdxs = []int32{
 	5, // 0: eolymp.executor.EvaluationReport.metadata:type_name -> eolymp.executor.EvaluationReport.MetadataEntry
 	1, // 1: eolymp.executor.EvaluationReport.type:type_name -> eolymp.executor.EvaluationReport.Type
 	0, // 2: eolymp.executor.EvaluationReport.status:type_name -> eolymp.executor.EvaluationReport.Status
 	4, // 3: eolymp.executor.EvaluationReport.runs:type_name -> eolymp.executor.EvaluationReport.Run
-	2, // 4: eolymp.executor.EvaluationReport.Run.status:type_name -> eolymp.executor.EvaluationReport.Run.Status
-	6, // 5: eolymp.executor.EvaluationReport.Run.debug_stats:type_name -> eolymp.executor.Stats
-	6, // 6: eolymp.executor.EvaluationReport.Run.checker_stats:type_name -> eolymp.executor.Stats
-	6, // 7: eolymp.executor.EvaluationReport.Run.interactor_stats:type_name -> eolymp.executor.Stats
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	6, // 4: eolymp.executor.EvaluationReport.warnings:type_name -> eolymp.executor.Warning
+	2, // 5: eolymp.executor.EvaluationReport.Run.status:type_name -> eolymp.executor.EvaluationReport.Run.Status
+	7, // 6: eolymp.executor.EvaluationReport.Run.debug_stats:type_name -> eolymp.executor.Stats
+	7, // 7: eolymp.executor.EvaluationReport.Run.checker_stats:type_name -> eolymp.executor.Stats
+	7, // 8: eolymp.executor.EvaluationReport.Run.interactor_stats:type_name -> eolymp.executor.Stats
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_evaluation_report_proto_init() }
@@ -693,6 +705,7 @@ func file_eolymp_executor_evaluation_report_proto_init() {
 		return
 	}
 	file_eolymp_executor_stats_proto_init()
+	file_eolymp_executor_warning_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

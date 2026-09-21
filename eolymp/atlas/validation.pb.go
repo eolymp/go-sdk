@@ -7,6 +7,7 @@
 package atlas
 
 import (
+	executor "github.com/eolymp/go-sdk/eolymp/executor"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -153,6 +154,7 @@ type Validation struct {
 	Error         string                 `protobuf:"bytes,21,opt,name=error,proto3" json:"error,omitempty"`                                           // error message in case status is ERROR
 	ErrorUrl      string                 `protobuf:"bytes,23,opt,name=error_url,json=errorUrl,proto3" json:"error_url,omitempty"`                     // a URL with error output, eg. compiler log
 	Groups        []*Validation_Group    `protobuf:"bytes,50,rep,name=groups,proto3" json:"groups,omitempty"`                                         // status for each run by group
+	Warnings      []*executor.Warning    `protobuf:"bytes,60,rep,name=warnings,proto3" json:"warnings,omitempty"`                                     // warnings collected across all runs, deduped and capped at 50
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -239,6 +241,13 @@ func (x *Validation) GetErrorUrl() string {
 func (x *Validation) GetGroups() []*Validation_Group {
 	if x != nil {
 		return x.Groups
+	}
+	return nil
+}
+
+func (x *Validation) GetWarnings() []*executor.Warning {
+	if x != nil {
+		return x.Warnings
 	}
 	return nil
 }
@@ -391,7 +400,7 @@ var File_eolymp_atlas_validation_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/validation.proto\x12\feolymp.atlas\"\xde\x06\n" +
+	"\x1deolymp/atlas/validation.proto\x12\feolymp.atlas\x1a\x1deolymp/executor/warning.proto\"\x94\a\n" +
 	"\n" +
 	"Validation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
@@ -402,7 +411,8 @@ const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\averdict\x18\x16 \x01(\x0e2 .eolymp.atlas.Validation.VerdictR\averdict\x12\x14\n" +
 	"\x05error\x18\x15 \x01(\tR\x05error\x12\x1b\n" +
 	"\terror_url\x18\x17 \x01(\tR\berrorUrl\x126\n" +
-	"\x06groups\x182 \x03(\v2\x1e.eolymp.atlas.Validation.GroupR\x06groups\x1a\xdc\x01\n" +
+	"\x06groups\x182 \x03(\v2\x1e.eolymp.atlas.Validation.GroupR\x06groups\x124\n" +
+	"\bwarnings\x18< \x03(\v2\x18.eolymp.executor.WarningR\bwarnings\x1a\xdc\x01\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\n" +
@@ -457,19 +467,21 @@ var file_eolymp_atlas_validation_proto_goTypes = []any{
 	(*Validation)(nil),       // 2: eolymp.atlas.Validation
 	(*Validation_Run)(nil),   // 3: eolymp.atlas.Validation.Run
 	(*Validation_Group)(nil), // 4: eolymp.atlas.Validation.Group
+	(*executor.Warning)(nil), // 5: eolymp.executor.Warning
 }
 var file_eolymp_atlas_validation_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Validation.status:type_name -> eolymp.atlas.Validation.Status
 	1, // 1: eolymp.atlas.Validation.verdict:type_name -> eolymp.atlas.Validation.Verdict
 	4, // 2: eolymp.atlas.Validation.groups:type_name -> eolymp.atlas.Validation.Group
-	0, // 3: eolymp.atlas.Validation.Run.status:type_name -> eolymp.atlas.Validation.Status
-	1, // 4: eolymp.atlas.Validation.Run.verdict:type_name -> eolymp.atlas.Validation.Verdict
-	3, // 5: eolymp.atlas.Validation.Group.runs:type_name -> eolymp.atlas.Validation.Run
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 3: eolymp.atlas.Validation.warnings:type_name -> eolymp.executor.Warning
+	0, // 4: eolymp.atlas.Validation.Run.status:type_name -> eolymp.atlas.Validation.Status
+	1, // 5: eolymp.atlas.Validation.Run.verdict:type_name -> eolymp.atlas.Validation.Verdict
+	3, // 6: eolymp.atlas.Validation.Group.runs:type_name -> eolymp.atlas.Validation.Run
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_validation_proto_init() }
