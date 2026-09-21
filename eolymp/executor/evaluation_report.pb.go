@@ -167,6 +167,7 @@ const (
 	EvaluationReport_Run_INTERACTION_FAILURE     EvaluationReport_Run_Status = 12 // interactor failed (TL-ed, ML-ed, got a runtime error or claimed that the jury had a wrong answer), check interactor_log
 	EvaluationReport_Run_BLOCKED                 EvaluationReport_Run_Status = 13 // run can't be executed due to dependencies
 	EvaluationReport_Run_IDLENESS_LIMIT_EXCEEDED EvaluationReport_Run_Status = 14 // wall time over time_limit while cpu time stayed within cpu_limit, only on runs with a cpu_limit
+	EvaluationReport_Run_PARTIALLY_CORRECT       EvaluationReport_Run_Status = 15 // executed, checker reported a partial score (testlib quitp / _points), see score
 )
 
 // Enum value maps for EvaluationReport_Run_Status.
@@ -187,6 +188,7 @@ var (
 		12: "INTERACTION_FAILURE",
 		13: "BLOCKED",
 		14: "IDLENESS_LIMIT_EXCEEDED",
+		15: "PARTIALLY_CORRECT",
 	}
 	EvaluationReport_Run_Status_value = map[string]int32{
 		"NONE":                    0,
@@ -204,6 +206,7 @@ var (
 		"INTERACTION_FAILURE":     12,
 		"BLOCKED":                 13,
 		"IDLENESS_LIMIT_EXCEEDED": 14,
+		"PARTIALLY_CORRECT":       15,
 	}
 )
 
@@ -567,7 +570,7 @@ var File_eolymp_executor_evaluation_report_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xd6\r\n" +
+	"'eolymp/executor/evaluation_report.proto\x12\x0feolymp.executor\x1a\x1beolymp/executor/stats.proto\"\xed\r\n" +
 	"\x10EvaluationReport\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x1c\n" +
 	"\treference\x18\x02 \x01(\tR\treference\x12\x16\n" +
@@ -580,7 +583,7 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	" \x01(\x0e2&.eolymp.executor.EvaluationReport.TypeR\x04type\x12@\n" +
 	"\x06status\x18\v \x01(\x0e2(.eolymp.executor.EvaluationReport.StatusR\x06status\x12#\n" +
 	"\rerror_message\x18\x14 \x01(\tR\ferrorMessage\x129\n" +
-	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\xeb\a\n" +
+	"\x04runs\x18( \x03(\v2%.eolymp.executor.EvaluationReport.RunR\x04runs\x1a\x82\b\n" +
 	"\x03Run\x12\x1c\n" +
 	"\treference\x18\x01 \x01(\tR\treference\x12D\n" +
 	"\x06status\x18\x02 \x01(\x0e2,.eolymp.executor.EvaluationReport.Run.StatusR\x06status\x12\x14\n" +
@@ -606,7 +609,7 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\vdebug_stats\x18Z \x01(\v2\x16.eolymp.executor.StatsR\n" +
 	"debugStats\x12;\n" +
 	"\rchecker_stats\x18# \x01(\v2\x16.eolymp.executor.StatsR\fcheckerStats\x12A\n" +
-	"\x10interactor_stats\x18- \x01(\v2\x16.eolymp.executor.StatsR\x0finteractorStats\"\x92\x02\n" +
+	"\x10interactor_stats\x18- \x01(\v2\x16.eolymp.executor.StatsR\x0finteractorStats\"\xa9\x02\n" +
 	"\x06Status\x12\b\n" +
 	"\x04NONE\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +
@@ -623,7 +626,8 @@ const file_eolymp_executor_evaluation_report_proto_rawDesc = "" +
 	"\aSKIPPED\x10\v\x12\x17\n" +
 	"\x13INTERACTION_FAILURE\x10\f\x12\v\n" +
 	"\aBLOCKED\x10\r\x12\x1b\n" +
-	"\x17IDLENESS_LIMIT_EXCEEDED\x10\x0e\x1a;\n" +
+	"\x17IDLENESS_LIMIT_EXCEEDED\x10\x0e\x12\x15\n" +
+	"\x11PARTIALLY_CORRECT\x10\x0f\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x81\x01\n" +

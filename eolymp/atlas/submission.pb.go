@@ -109,6 +109,7 @@ const (
 	Submission_MEMORY_OVERFLOW         Submission_Verdict = 5 // Memory usage limit exceeded
 	Submission_RUNTIME_ERROR           Submission_Verdict = 6 // Solution finished with an error
 	Submission_IDLENESS_LIMIT_EXCEEDED Submission_Verdict = 7 // Wall time limit exceeded while cpu time stayed within the time limit, only on problems with a cpu limit
+	Submission_PARTIALLY_CORRECT       Submission_Verdict = 8 // checker awarded a partial score for the test (testlib quitp / _points)
 )
 
 // Enum value maps for Submission_Verdict.
@@ -122,6 +123,7 @@ var (
 		5: "MEMORY_OVERFLOW",
 		6: "RUNTIME_ERROR",
 		7: "IDLENESS_LIMIT_EXCEEDED",
+		8: "PARTIALLY_CORRECT",
 	}
 	Submission_Verdict_value = map[string]int32{
 		"NO_VERDICT":              0,
@@ -132,6 +134,7 @@ var (
 		"MEMORY_OVERFLOW":         5,
 		"RUNTIME_ERROR":           6,
 		"IDLENESS_LIMIT_EXCEEDED": 7,
+		"PARTIALLY_CORRECT":       8,
 	}
 )
 
@@ -1356,7 +1359,7 @@ var File_eolymp_atlas_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x1c\n" +
+	"\x1deolymp/atlas/submission.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1beolymp/executor/stats.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x1c\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12,\n" +
@@ -1487,7 +1490,7 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\x05ERROR\x10\x05\x12\v\n" +
 	"\aFAILURE\x10\x06\x12\v\n" +
 	"\aSKIPPED\x10\a\x12\v\n" +
-	"\aBLOCKED\x10\b\"\xae\x01\n" +
+	"\aBLOCKED\x10\b\"\xc5\x01\n" +
 	"\aVerdict\x12\x0e\n" +
 	"\n" +
 	"NO_VERDICT\x10\x00\x12\f\n" +
@@ -1497,7 +1500,8 @@ const file_eolymp_atlas_submission_proto_rawDesc = "" +
 	"\rCPU_EXHAUSTED\x10\x04\x1a\x02\b\x01\x12\x13\n" +
 	"\x0fMEMORY_OVERFLOW\x10\x05\x12\x11\n" +
 	"\rRUNTIME_ERROR\x10\x06\x12\x1b\n" +
-	"\x17IDLENESS_LIMIT_EXCEEDED\x10\aB\v\n" +
+	"\x17IDLENESS_LIMIT_EXCEEDED\x10\a\x12\x15\n" +
+	"\x11PARTIALLY_CORRECT\x10\bB\v\n" +
 	"\tsubmitterB\t\n" +
 	"\apayloadB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
