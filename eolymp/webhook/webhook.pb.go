@@ -259,7 +259,7 @@ type Webhook_Patch struct {
 	Endpoint      *string                `protobuf:"bytes,4,opt,name=endpoint,proto3,oneof" json:"endpoint,omitempty"`
 	Inactive      *bool                  `protobuf:"varint,5,opt,name=inactive,proto3,oneof" json:"inactive,omitempty"`
 	Events        []Webhook_Event        `protobuf:"varint,10,rep,packed,name=events,proto3,enum=eolymp.webhook.Webhook_Event" json:"events,omitempty"`
-	Unsubscribe   *bool                  `protobuf:"varint,11,opt,name=unsubscribe,proto3,oneof" json:"unsubscribe,omitempty"` // clears the event list, which an empty list cannot express
+	UnsetEvents   *bool                  `protobuf:"varint,11,opt,name=unset_events,json=unsetEvents,proto3,oneof" json:"unset_events,omitempty"` // clears the event list, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -322,9 +322,9 @@ func (x *Webhook_Patch) GetEvents() []Webhook_Event {
 	return nil
 }
 
-func (x *Webhook_Patch) GetUnsubscribe() bool {
-	if x != nil && x.Unsubscribe != nil {
-		return *x.Unsubscribe
+func (x *Webhook_Patch) GetUnsetEvents() bool {
+	if x != nil && x.UnsetEvents != nil {
+		return *x.UnsetEvents
 	}
 	return false
 }
@@ -333,7 +333,7 @@ var File_eolymp_webhook_webhook_proto protoreflect.FileDescriptor
 
 const file_eolymp_webhook_webhook_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/webhook/webhook.proto\x12\x0eeolymp.webhook\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\n" +
+	"\x1ceolymp/webhook/webhook.proto\x12\x0eeolymp.webhook\x1a\x1fgoogle/protobuf/timestamp.proto\"\x95\n" +
 	"\n" +
 	"\aWebhook\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
@@ -348,18 +348,18 @@ const file_eolymp_webhook_webhook_proto_rawDesc = "" +
 	"\x0flast_failure_at\x18  \x01(\v2\x1a.google.protobuf.TimestampR\rlastFailureAt\x12B\n" +
 	"\x0flast_success_at\x18! \x01(\v2\x1a.google.protobuf.TimestampR\rlastSuccessAt\x12%\n" +
 	"\x0edelivery_count\x18\x14 \x01(\x05R\rdeliveryCount\x12#\n" +
-	"\rfailure_count\x18\x15 \x01(\x05R\ffailureCount\x1a\xf3\x01\n" +
+	"\rfailure_count\x18\x15 \x01(\x05R\ffailureCount\x1a\xf5\x01\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1f\n" +
 	"\bendpoint\x18\x04 \x01(\tH\x01R\bendpoint\x88\x01\x01\x12\x1f\n" +
 	"\binactive\x18\x05 \x01(\bH\x02R\binactive\x88\x01\x01\x125\n" +
 	"\x06events\x18\n" +
-	" \x03(\x0e2\x1d.eolymp.webhook.Webhook.EventR\x06events\x12%\n" +
-	"\vunsubscribe\x18\v \x01(\bH\x03R\vunsubscribe\x88\x01\x01B\a\n" +
+	" \x03(\x0e2\x1d.eolymp.webhook.Webhook.EventR\x06events\x12&\n" +
+	"\funset_events\x18\v \x01(\bH\x03R\vunsetEvents\x88\x01\x01B\a\n" +
 	"\x05_nameB\v\n" +
 	"\t_endpointB\v\n" +
-	"\t_inactiveB\x0e\n" +
-	"\f_unsubscribe\"\xd7\x04\n" +
+	"\t_inactiveB\x0f\n" +
+	"\r_unset_events\"\xd7\x04\n" +
 	"\x05Event\x12\x11\n" +
 	"\rUNKNOWN_EVENT\x10\x00\x12\x13\n" +
 	"\x0fPROBLEM_CHANGED\x10d\x12\x1d\n" +

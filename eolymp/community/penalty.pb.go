@@ -179,7 +179,7 @@ type Penalty_Patch struct {
 	Summary       *string                `protobuf:"bytes,2,opt,name=summary,proto3,oneof" json:"summary,omitempty"`
 	Description   *ecm.Content           `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
 	Scope         []string               `protobuf:"bytes,20,rep,name=scope,proto3" json:"scope,omitempty"`
-	Unscope       *bool                  `protobuf:"varint,21,opt,name=unscope,proto3,oneof" json:"unscope,omitempty"` // scope carries no presence of its own, so clearing it has to be asked for
+	UnsetScope    *bool                  `protobuf:"varint,21,opt,name=unset_scope,json=unsetScope,proto3,oneof" json:"unset_scope,omitempty"` // scope carries no presence of its own, so clearing it has to be asked for
 	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=expires_at,json=expiresAt,proto3,oneof" json:"expires_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -236,9 +236,9 @@ func (x *Penalty_Patch) GetScope() []string {
 	return nil
 }
 
-func (x *Penalty_Patch) GetUnscope() bool {
-	if x != nil && x.Unscope != nil {
-		return *x.Unscope
+func (x *Penalty_Patch) GetUnsetScope() bool {
+	if x != nil && x.UnsetScope != nil {
+		return *x.UnsetScope
 	}
 	return false
 }
@@ -254,7 +254,7 @@ var File_eolymp_community_penalty_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_penalty_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc4\x05\n" +
+	"\x1eeolymp/community/penalty.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcf\x05\n" +
 	"\aPenalty\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\asummary\x18\x02 \x01(\tR\asummary\x125\n" +
@@ -266,19 +266,19 @@ const file_eolymp_community_penalty_proto_rawDesc = "" +
 	" \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
 	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\texpiresAt\x12E\n" +
-	"\fcancelled_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vcancelledAt\x1a\x8e\x02\n" +
+	"\fcancelled_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vcancelledAt\x1a\x99\x02\n" +
 	"\x05Patch\x12\x1d\n" +
 	"\asummary\x18\x02 \x01(\tH\x00R\asummary\x88\x01\x01\x12:\n" +
 	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentH\x01R\vdescription\x88\x01\x01\x12\x14\n" +
-	"\x05scope\x18\x14 \x03(\tR\x05scope\x12\x1d\n" +
-	"\aunscope\x18\x15 \x01(\bH\x02R\aunscope\x88\x01\x01\x12>\n" +
+	"\x05scope\x18\x14 \x03(\tR\x05scope\x12$\n" +
+	"\vunset_scope\x18\x15 \x01(\bH\x02R\n" +
+	"unsetScope\x88\x01\x01\x12>\n" +
 	"\n" +
 	"expires_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampH\x03R\texpiresAt\x88\x01\x01B\n" +
 	"\n" +
 	"\b_summaryB\x0e\n" +
-	"\f_descriptionB\n" +
-	"\n" +
-	"\b_unscopeB\r\n" +
+	"\f_descriptionB\x0e\n" +
+	"\f_unset_scopeB\r\n" +
 	"\v_expires_at\"D\n" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x15\n" +

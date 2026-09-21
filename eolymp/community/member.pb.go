@@ -499,12 +499,12 @@ type Member_Patch struct {
 	Unofficial        *bool                  `protobuf:"varint,30,opt,name=unofficial,proto3,oneof" json:"unofficial,omitempty"`
 	ActivePeriodStart *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=active_period_start,json=activePeriodStart,proto3" json:"active_period_start,omitempty"`
 	ActivePeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=active_period_end,json=activePeriodEnd,proto3" json:"active_period_end,omitempty"`
-	// Exactly one of the three may be carried: groups replaces the list, add_groups and remove_groups
-	// change it in place, and ungroup empties it. Carrying more than one is rejected.
+	// These combine, and are applied in the order they are written here: groups replaces the list,
+	// unset_groups empties it, then remove_groups and add_groups adjust whatever is left.
 	Groups       []string           `protobuf:"bytes,200,rep,name=groups,proto3" json:"groups,omitempty"`
-	AddGroups    []string           `protobuf:"bytes,201,rep,name=add_groups,json=addGroups,proto3" json:"add_groups,omitempty"`
+	UnsetGroups  *bool              `protobuf:"varint,203,opt,name=unset_groups,json=unsetGroups,proto3,oneof" json:"unset_groups,omitempty"` // clears the groups, which an empty list cannot express
 	RemoveGroups []string           `protobuf:"bytes,202,rep,name=remove_groups,json=removeGroups,proto3" json:"remove_groups,omitempty"`
-	Ungroup      *bool              `protobuf:"varint,203,opt,name=ungroup,proto3,oneof" json:"ungroup,omitempty"` // clears the groups, which an empty list cannot express
+	AddGroups    []string           `protobuf:"bytes,201,rep,name=add_groups,json=addGroups,proto3" json:"add_groups,omitempty"`
 	Attributes   []*Attribute_Value `protobuf:"bytes,900,rep,name=attributes,proto3" json:"attributes,omitempty"`
 	// Types that are valid to be assigned to Account:
 	//
@@ -581,11 +581,11 @@ func (x *Member_Patch) GetGroups() []string {
 	return nil
 }
 
-func (x *Member_Patch) GetAddGroups() []string {
-	if x != nil {
-		return x.AddGroups
+func (x *Member_Patch) GetUnsetGroups() bool {
+	if x != nil && x.UnsetGroups != nil {
+		return *x.UnsetGroups
 	}
-	return nil
+	return false
 }
 
 func (x *Member_Patch) GetRemoveGroups() []string {
@@ -595,11 +595,11 @@ func (x *Member_Patch) GetRemoveGroups() []string {
 	return nil
 }
 
-func (x *Member_Patch) GetUngroup() bool {
-	if x != nil && x.Ungroup != nil {
-		return *x.Ungroup
+func (x *Member_Patch) GetAddGroups() []string {
+	if x != nil {
+		return x.AddGroups
 	}
-	return false
+	return nil
 }
 
 func (x *Member_Patch) GetAttributes() []*Attribute_Value {
@@ -737,7 +737,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x12\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x12\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -792,7 +792,7 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"ATTRIBUTES\x10\x04\x12\f\n" +
 	"\bMETADATA\x10\x05\x12\x10\n" +
 	"\fRESTRICTIONS\x10\x06\x12\x10\n" +
-	"\fPRIVATE_DATA\x10\a\x1a\xf6\x04\n" +
+	"\fPRIVATE_DATA\x10\a\x1a\x84\x05\n" +
 	"\x05Patch\x12\x1f\n" +
 	"\binactive\x18\v \x01(\bH\x01R\binactive\x88\x01\x01\x12#\n" +
 	"\n" +
@@ -800,11 +800,11 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"unofficial\x88\x01\x01\x12J\n" +
 	"\x13active_period_start\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x11activePeriodStart\x12F\n" +
 	"\x11active_period_end\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x0factivePeriodEnd\x12\x17\n" +
-	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12\x1e\n" +
-	"\n" +
-	"add_groups\x18\xc9\x01 \x03(\tR\taddGroups\x12$\n" +
+	"\x06groups\x18\xc8\x01 \x03(\tR\x06groups\x12'\n" +
+	"\funset_groups\x18\xcb\x01 \x01(\bH\x03R\vunsetGroups\x88\x01\x01\x12$\n" +
 	"\rremove_groups\x18\xca\x01 \x03(\tR\fremoveGroups\x12\x1e\n" +
-	"\aungroup\x18\xcb\x01 \x01(\bH\x03R\aungroup\x88\x01\x01\x12B\n" +
+	"\n" +
+	"add_groups\x18\xc9\x01 \x03(\tR\taddGroups\x12B\n" +
 	"\n" +
 	"attributes\x18\x84\a \x03(\v2!.eolymp.community.Attribute.ValueR\n" +
 	"attributes\x122\n" +
@@ -813,9 +813,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\x05ghost\x18f \x01(\v2\x1d.eolymp.community.Ghost.PatchH\x00R\x05ghostB\t\n" +
 	"\aaccountB\v\n" +
 	"\t_inactiveB\r\n" +
-	"\v_unofficialB\n" +
-	"\n" +
-	"\b_ungroup\x1a\xa8\x01\n" +
+	"\v_unofficialB\x0f\n" +
+	"\r_unset_groups\x1a\xa8\x01\n" +
 	"\x05Stats\x12\x16\n" +
 	"\x06streak\x18\n" +
 	" \x01(\x05R\x06streak\x12'\n" +

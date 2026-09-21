@@ -274,20 +274,20 @@ func (x *User_Preferences) GetRuntime() string {
 
 // Fields an account update may write. The picture is set through UpdateMemberPicture, not here.
 type User_Patch struct {
-	state              protoimpl.MessageState  `protogen:"open.v1"`
-	Nickname           *string                 `protobuf:"bytes,10,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`
-	Email              *string                 `protobuf:"bytes,20,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	EmailSubscriptions []mail.EmailType        `protobuf:"varint,22,rep,packed,name=email_subscriptions,json=emailSubscriptions,proto3,enum=eolymp.mail.EmailType" json:"email_subscriptions,omitempty"`
-	Unsubscribe        *bool                   `protobuf:"varint,23,opt,name=unsubscribe,proto3,oneof" json:"unsubscribe,omitempty"` // clears the subscriptions, which an empty list cannot express
-	Password           *string                 `protobuf:"bytes,30,opt,name=password,proto3,oneof" json:"password,omitempty"`
-	Name               *string                 `protobuf:"bytes,40,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Birthday           *timestamppb.Timestamp  `protobuf:"bytes,60,opt,name=birthday,proto3" json:"birthday,omitempty"`
-	Country            *string                 `protobuf:"bytes,70,opt,name=country,proto3,oneof" json:"country,omitempty"`
-	City               *string                 `protobuf:"bytes,73,opt,name=city,proto3,oneof" json:"city,omitempty"`
-	Pronoun            *string                 `protobuf:"bytes,80,opt,name=pronoun,proto3,oneof" json:"pronoun,omitempty"`
-	Preferences        *User_Preferences_Patch `protobuf:"bytes,800,opt,name=preferences,proto3" json:"preferences,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state                   protoimpl.MessageState  `protogen:"open.v1"`
+	Nickname                *string                 `protobuf:"bytes,10,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`
+	Email                   *string                 `protobuf:"bytes,20,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	EmailSubscriptions      []mail.EmailType        `protobuf:"varint,22,rep,packed,name=email_subscriptions,json=emailSubscriptions,proto3,enum=eolymp.mail.EmailType" json:"email_subscriptions,omitempty"`
+	UnsetEmailSubscriptions *bool                   `protobuf:"varint,23,opt,name=unset_email_subscriptions,json=unsetEmailSubscriptions,proto3,oneof" json:"unset_email_subscriptions,omitempty"` // clears the subscriptions, which an empty list cannot express
+	Password                *string                 `protobuf:"bytes,30,opt,name=password,proto3,oneof" json:"password,omitempty"`
+	Name                    *string                 `protobuf:"bytes,40,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Birthday                *timestamppb.Timestamp  `protobuf:"bytes,60,opt,name=birthday,proto3" json:"birthday,omitempty"`
+	Country                 *string                 `protobuf:"bytes,70,opt,name=country,proto3,oneof" json:"country,omitempty"`
+	City                    *string                 `protobuf:"bytes,73,opt,name=city,proto3,oneof" json:"city,omitempty"`
+	Pronoun                 *string                 `protobuf:"bytes,80,opt,name=pronoun,proto3,oneof" json:"pronoun,omitempty"`
+	Preferences             *User_Preferences_Patch `protobuf:"bytes,800,opt,name=preferences,proto3" json:"preferences,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *User_Patch) Reset() {
@@ -341,9 +341,9 @@ func (x *User_Patch) GetEmailSubscriptions() []mail.EmailType {
 	return nil
 }
 
-func (x *User_Patch) GetUnsubscribe() bool {
-	if x != nil && x.Unsubscribe != nil {
-		return *x.Unsubscribe
+func (x *User_Patch) GetUnsetEmailSubscriptions() bool {
+	if x != nil && x.UnsetEmailSubscriptions != nil {
+		return *x.UnsetEmailSubscriptions
 	}
 	return false
 }
@@ -513,7 +513,7 @@ var File_eolymp_community_member_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\f\n" +
+	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\r\n" +
 	"\x04User\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
 	"\asubject\x18\x02 \x01(\tR\asubject\x12\x1a\n" +
@@ -548,13 +548,13 @@ const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\a_localeB\v\n" +
 	"\t_timezoneB\n" +
 	"\n" +
-	"\b_runtime\x1a\xa7\x04\n" +
+	"\b_runtime\x1a\xcf\x04\n" +
 	"\x05Patch\x12\x1f\n" +
 	"\bnickname\x18\n" +
 	" \x01(\tH\x00R\bnickname\x88\x01\x01\x12\x19\n" +
 	"\x05email\x18\x14 \x01(\tH\x01R\x05email\x88\x01\x01\x12G\n" +
-	"\x13email_subscriptions\x18\x16 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\x12emailSubscriptions\x12%\n" +
-	"\vunsubscribe\x18\x17 \x01(\bH\x02R\vunsubscribe\x88\x01\x01\x12\x1f\n" +
+	"\x13email_subscriptions\x18\x16 \x03(\x0e2\x16.eolymp.mail.EmailTypeR\x12emailSubscriptions\x12?\n" +
+	"\x19unset_email_subscriptions\x18\x17 \x01(\bH\x02R\x17unsetEmailSubscriptions\x88\x01\x01\x12\x1f\n" +
 	"\bpassword\x18\x1e \x01(\tH\x03R\bpassword\x88\x01\x01\x12\x17\n" +
 	"\x04name\x18( \x01(\tH\x04R\x04name\x88\x01\x01\x126\n" +
 	"\bbirthday\x18< \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x12\x1d\n" +
@@ -563,8 +563,8 @@ const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\apronoun\x18P \x01(\tH\aR\apronoun\x88\x01\x01\x12K\n" +
 	"\vpreferences\x18\xa0\x06 \x01(\v2(.eolymp.community.User.Preferences.PatchR\vpreferencesB\v\n" +
 	"\t_nicknameB\b\n" +
-	"\x06_emailB\x0e\n" +
-	"\f_unsubscribeB\v\n" +
+	"\x06_emailB\x1c\n" +
+	"\x1a_unset_email_subscriptionsB\v\n" +
 	"\t_passwordB\a\n" +
 	"\x05_nameB\n" +
 	"\n" +

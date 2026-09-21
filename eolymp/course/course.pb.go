@@ -275,7 +275,7 @@ type Course_Patch struct {
 	Visibility    *Course_Visibility     `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.course.Course_Visibility,oneof" json:"visibility,omitempty"`
 	Duration      *uint32                `protobuf:"varint,15,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
 	Topics        []string               `protobuf:"bytes,16,rep,name=topics,proto3" json:"topics,omitempty"`
-	Untopic       *bool                  `protobuf:"varint,17,opt,name=untopic,proto3,oneof" json:"untopic,omitempty"` // topics carries no presence of its own, so clearing it has to be asked for
+	UnsetTopics   *bool                  `protobuf:"varint,17,opt,name=unset_topics,json=unsetTopics,proto3,oneof" json:"unset_topics,omitempty"` // topics carries no presence of its own, so clearing it has to be asked for
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -359,9 +359,9 @@ func (x *Course_Patch) GetTopics() []string {
 	return nil
 }
 
-func (x *Course_Patch) GetUntopic() bool {
-	if x != nil && x.Untopic != nil {
-		return *x.Untopic
+func (x *Course_Patch) GetUnsetTopics() bool {
+	if x != nil && x.UnsetTopics != nil {
+		return *x.UnsetTopics
 	}
 	return false
 }
@@ -370,7 +370,7 @@ var File_eolymp_course_course_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_course_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/course/course.proto\x12\reolymp.course\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xed\a\n" +
+	"\x1aeolymp/course/course.proto\x12\reolymp.course\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xfb\a\n" +
 	"\x06Course\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12,\n" +
@@ -388,7 +388,7 @@ const file_eolymp_course_course_proto_rawDesc = "" +
 	"visibility\x12\x1a\n" +
 	"\bduration\x18\x0f \x01(\rR\bduration\x12\x16\n" +
 	"\x06topics\x18\x10 \x03(\tR\x06topics\x12\x1a\n" +
-	"\bestimate\x18\x14 \x01(\rR\bestimate\x1a\x94\x03\n" +
+	"\bestimate\x18\x14 \x01(\rR\bestimate\x1a\xa2\x03\n" +
 	"\x05Patch\x12\x1b\n" +
 	"\x06locale\x18\n" +
 	" \x01(\tH\x00R\x06locale\x88\x01\x01\x12\x17\n" +
@@ -399,17 +399,16 @@ const file_eolymp_course_course_proto_rawDesc = "" +
 	"visibility\x18\x0e \x01(\x0e2 .eolymp.course.Course.VisibilityH\x04R\n" +
 	"visibility\x88\x01\x01\x12\x1f\n" +
 	"\bduration\x18\x0f \x01(\rH\x05R\bduration\x88\x01\x01\x12\x16\n" +
-	"\x06topics\x18\x10 \x03(\tR\x06topics\x12\x1d\n" +
-	"\auntopic\x18\x11 \x01(\bH\x06R\auntopic\x88\x01\x01B\t\n" +
+	"\x06topics\x18\x10 \x03(\tR\x06topics\x12&\n" +
+	"\funset_topics\x18\x11 \x01(\bH\x06R\vunsetTopics\x88\x01\x01B\t\n" +
 	"\a_localeB\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\f\n" +
 	"\n" +
 	"_image_urlB\r\n" +
 	"\v_visibilityB\v\n" +
-	"\t_durationB\n" +
-	"\n" +
-	"\b_untopic\"I\n" +
+	"\t_durationB\x0f\n" +
+	"\r_unset_topics\"I\n" +
 	"\x05Extra\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +

@@ -350,7 +350,7 @@ type Fragment_Patch struct {
 	Visibility    *Fragment_Visibility   `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility,oneof" json:"visibility,omitempty"`
 	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
 	Labels        []string               `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
-	Unlabel       *bool                  `protobuf:"varint,101,opt,name=unlabel,proto3,oneof" json:"unlabel,omitempty"` // clears the labels, which an empty list cannot express
+	UnsetLabels   *bool                  `protobuf:"varint,101,opt,name=unset_labels,json=unsetLabels,proto3,oneof" json:"unset_labels,omitempty"` // clears the labels, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -455,9 +455,9 @@ func (x *Fragment_Patch) GetLabels() []string {
 	return nil
 }
 
-func (x *Fragment_Patch) GetUnlabel() bool {
-	if x != nil && x.Unlabel != nil {
-		return *x.Unlabel
+func (x *Fragment_Patch) GetUnsetLabels() bool {
+	if x != nil && x.UnsetLabels != nil {
+		return *x.UnsetLabels
 	}
 	return false
 }
@@ -466,7 +466,7 @@ var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe7\f\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf5\f\n" +
 	"\bFragment\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12,\n" +
 	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
@@ -496,7 +496,7 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1a\xf5\x03\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\x83\x04\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04path\x18\n" +
 	" \x01(\tH\x00R\x04path\x88\x01\x01\x12 \n" +
@@ -510,8 +510,8 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityH\aR\n" +
 	"visibility\x88\x01\x01\x12-\n" +
 	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
-	"\x06labels\x18d \x03(\tR\x06labels\x12\x1d\n" +
-	"\aunlabel\x18e \x01(\bH\bR\aunlabel\x88\x01\x01B\a\n" +
+	"\x06labels\x18d \x03(\tR\x06labels\x12&\n" +
+	"\funset_labels\x18e \x01(\bH\bR\vunsetLabels\x88\x01\x01B\a\n" +
 	"\x05_pathB\f\n" +
 	"\n" +
 	"_parent_idB\a\n" +
@@ -521,9 +521,8 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
 	"_automaticB\b\n" +
 	"\x06_titleB\r\n" +
-	"\v_visibilityB\n" +
-	"\n" +
-	"\b_unlabelJ\x04\b\v\x10\f\"\xcc\x01\n" +
+	"\v_visibilityB\x0f\n" +
+	"\r_unset_labelsJ\x04\b\v\x10\f\"\xcc\x01\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
 	"\x12VISIBILITY_UNKNOWN\x10\x00\x12;\n" +

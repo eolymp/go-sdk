@@ -301,18 +301,18 @@ func (x *Rule) GetUpdatedAt() *timestamppb.Timestamp {
 }
 
 type Rule_Patch struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Trigger       *Rule_Trigger          `protobuf:"varint,3,opt,name=trigger,proto3,enum=eolymp.automation.Rule_Trigger,oneof" json:"trigger,omitempty"`
-	Conditions    []*Condition           `protobuf:"bytes,4,rep,name=conditions,proto3" json:"conditions,omitempty"`
-	Uncondition   *bool                  `protobuf:"varint,7,opt,name=uncondition,proto3,oneof" json:"uncondition,omitempty"` // clears the conditions, so the rule runs on every trigger
-	Inactive      *bool                  `protobuf:"varint,5,opt,name=inactive,proto3,oneof" json:"inactive,omitempty"`
-	DryRun        *bool                  `protobuf:"varint,6,opt,name=dry_run,json=dryRun,proto3,oneof" json:"dry_run,omitempty"`
-	Label         *string                `protobuf:"bytes,9,opt,name=label,proto3,oneof" json:"label,omitempty"`
-	Schedule      *Rule_Schedule         `protobuf:"varint,10,opt,name=schedule,proto3,enum=eolymp.automation.Rule_Schedule,oneof" json:"schedule,omitempty"`
-	Actions       []*Action              `protobuf:"bytes,100,rep,name=actions,proto3" json:"actions,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Name            *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Trigger         *Rule_Trigger          `protobuf:"varint,3,opt,name=trigger,proto3,enum=eolymp.automation.Rule_Trigger,oneof" json:"trigger,omitempty"`
+	Conditions      []*Condition           `protobuf:"bytes,4,rep,name=conditions,proto3" json:"conditions,omitempty"`
+	UnsetConditions *bool                  `protobuf:"varint,7,opt,name=unset_conditions,json=unsetConditions,proto3,oneof" json:"unset_conditions,omitempty"` // clears the conditions, so the rule runs on every trigger
+	Inactive        *bool                  `protobuf:"varint,5,opt,name=inactive,proto3,oneof" json:"inactive,omitempty"`
+	DryRun          *bool                  `protobuf:"varint,6,opt,name=dry_run,json=dryRun,proto3,oneof" json:"dry_run,omitempty"`
+	Label           *string                `protobuf:"bytes,9,opt,name=label,proto3,oneof" json:"label,omitempty"`
+	Schedule        *Rule_Schedule         `protobuf:"varint,10,opt,name=schedule,proto3,enum=eolymp.automation.Rule_Schedule,oneof" json:"schedule,omitempty"`
+	Actions         []*Action              `protobuf:"bytes,100,rep,name=actions,proto3" json:"actions,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Rule_Patch) Reset() {
@@ -366,9 +366,9 @@ func (x *Rule_Patch) GetConditions() []*Condition {
 	return nil
 }
 
-func (x *Rule_Patch) GetUncondition() bool {
-	if x != nil && x.Uncondition != nil {
-		return *x.Uncondition
+func (x *Rule_Patch) GetUnsetConditions() bool {
+	if x != nil && x.UnsetConditions != nil {
+		return *x.UnsetConditions
 	}
 	return false
 }
@@ -412,7 +412,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\f\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd6\f\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -430,14 +430,14 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18Z \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xec\x03\n" +
+	"updated_at\x18[ \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\xfa\x03\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12>\n" +
 	"\atrigger\x18\x03 \x01(\x0e2\x1f.eolymp.automation.Rule.TriggerH\x01R\atrigger\x88\x01\x01\x12<\n" +
 	"\n" +
 	"conditions\x18\x04 \x03(\v2\x1c.eolymp.automation.ConditionR\n" +
-	"conditions\x12%\n" +
-	"\vuncondition\x18\a \x01(\bH\x02R\vuncondition\x88\x01\x01\x12\x1f\n" +
+	"conditions\x12.\n" +
+	"\x10unset_conditions\x18\a \x01(\bH\x02R\x0funsetConditions\x88\x01\x01\x12\x1f\n" +
 	"\binactive\x18\x05 \x01(\bH\x03R\binactive\x88\x01\x01\x12\x1c\n" +
 	"\adry_run\x18\x06 \x01(\bH\x04R\x06dryRun\x88\x01\x01\x12\x19\n" +
 	"\x05label\x18\t \x01(\tH\x05R\x05label\x88\x01\x01\x12A\n" +
@@ -446,8 +446,8 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\aactions\x18d \x03(\v2\x19.eolymp.automation.ActionR\aactionsB\a\n" +
 	"\x05_nameB\n" +
 	"\n" +
-	"\b_triggerB\x0e\n" +
-	"\f_unconditionB\v\n" +
+	"\b_triggerB\x13\n" +
+	"\x11_unset_conditionsB\v\n" +
 	"\t_inactiveB\n" +
 	"\n" +
 	"\b_dry_runB\b\n" +

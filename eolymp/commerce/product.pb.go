@@ -298,7 +298,7 @@ type Product_Patch struct {
 	Summary       *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
 	Description   *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	Images        []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	Unimage       *bool                  `protobuf:"varint,11,opt,name=unimage,proto3,oneof" json:"unimage,omitempty"` // clears the images, which an empty list cannot express
+	UnsetImages   *bool                  `protobuf:"varint,11,opt,name=unset_images,json=unsetImages,proto3,oneof" json:"unset_images,omitempty"` // clears the images, which an empty list cannot express
 	Price         *uint32                `protobuf:"varint,21,opt,name=price,proto3,oneof" json:"price,omitempty"`
 	RegularPrice  *uint32                `protobuf:"varint,22,opt,name=regular_price,json=regularPrice,proto3,oneof" json:"regular_price,omitempty"`
 	Featured      *bool                  `protobuf:"varint,31,opt,name=featured,proto3,oneof" json:"featured,omitempty"`
@@ -367,9 +367,9 @@ func (x *Product_Patch) GetImages() []string {
 	return nil
 }
 
-func (x *Product_Patch) GetUnimage() bool {
-	if x != nil && x.Unimage != nil {
-		return *x.Unimage
+func (x *Product_Patch) GetUnsetImages() bool {
+	if x != nil && x.UnsetImages != nil {
+		return *x.UnsetImages
 	}
 	return false
 }
@@ -659,7 +659,7 @@ type Product_Variant_Patch struct {
 	Name              *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	Values            map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	Unimage           *bool                  `protobuf:"varint,11,opt,name=unimage,proto3,oneof" json:"unimage,omitempty"` // clears the images, which an empty list cannot express
+	UnsetImages       *bool                  `protobuf:"varint,11,opt,name=unset_images,json=unsetImages,proto3,oneof" json:"unset_images,omitempty"` // clears the images, which an empty list cannot express
 	AvailableQuantity *int32                 `protobuf:"varint,33,opt,name=available_quantity,json=availableQuantity,proto3,oneof" json:"available_quantity,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
@@ -716,9 +716,9 @@ func (x *Product_Variant_Patch) GetImages() []string {
 	return nil
 }
 
-func (x *Product_Variant_Patch) GetUnimage() bool {
-	if x != nil && x.Unimage != nil {
-		return *x.Unimage
+func (x *Product_Variant_Patch) GetUnsetImages() bool {
+	if x != nil && x.UnsetImages != nil {
+		return *x.UnsetImages
 	}
 	return false
 }
@@ -734,7 +734,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xe2\x11\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xfe\x11\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -766,14 +766,14 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\x12DESCRIPTION_RENDER\x10\x02\x12\x0e\n" +
 	"\n" +
 	"ATTRIBUTES\x10\x03\x12\f\n" +
-	"\bVARIANTS\x10\x04\x1a\x84\x04\n" +
+	"\bVARIANTS\x10\x04\x1a\x92\x04\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12-\n" +
 	"\asummary\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x125\n" +
 	"\vdescription\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x16\n" +
 	"\x06images\x18\n" +
-	" \x03(\tR\x06images\x12\x1d\n" +
-	"\aunimage\x18\v \x01(\bH\x01R\aunimage\x88\x01\x01\x12\x19\n" +
+	" \x03(\tR\x06images\x12&\n" +
+	"\funset_images\x18\v \x01(\bH\x01R\vunsetImages\x88\x01\x01\x12\x19\n" +
 	"\x05price\x18\x15 \x01(\rH\x02R\x05price\x88\x01\x01\x12(\n" +
 	"\rregular_price\x18\x16 \x01(\rH\x03R\fregularPrice\x88\x01\x01\x12\x1f\n" +
 	"\bfeatured\x18\x1f \x01(\bH\x04R\bfeatured\x88\x01\x01\x12\x1f\n" +
@@ -782,9 +782,8 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributesB\a\n" +
-	"\x05_nameB\n" +
-	"\n" +
-	"\b_unimageB\b\n" +
+	"\x05_nameB\x0f\n" +
+	"\r_unset_imagesB\b\n" +
 	"\x06_priceB\x10\n" +
 	"\x0e_regular_priceB\v\n" +
 	"\t_featuredB\v\n" +
@@ -793,7 +792,7 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"_backorder\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x1a\x9a\x05\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xa8\x05\n" +
 	"\aVariant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -805,20 +804,19 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
 	"outOfStock\x12!\n" +
 	"\fmax_quantity\x18\" \x01(\x05R\vmaxQuantity\x12-\n" +
-	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a\xbe\x02\n" +
+	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a\xcc\x02\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12J\n" +
 	"\x06values\x18\x02 \x03(\v22.eolymp.commerce.Product.Variant.Patch.ValuesEntryR\x06values\x12\x16\n" +
 	"\x06images\x18\n" +
-	" \x03(\tR\x06images\x12\x1d\n" +
-	"\aunimage\x18\v \x01(\bH\x01R\aunimage\x88\x01\x01\x122\n" +
+	" \x03(\tR\x06images\x12&\n" +
+	"\funset_images\x18\v \x01(\bH\x01R\vunsetImages\x88\x01\x01\x122\n" +
 	"\x12available_quantity\x18! \x01(\x05H\x02R\x11availableQuantity\x88\x01\x01\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\a\n" +
-	"\x05_nameB\n" +
-	"\n" +
-	"\b_unimageB\x15\n" +
+	"\x05_nameB\x0f\n" +
+	"\r_unset_imagesB\x15\n" +
 	"\x13_available_quantity\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +

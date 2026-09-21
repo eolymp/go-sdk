@@ -420,16 +420,16 @@ func (x *Message_Delivery) GetDeliveredAt() *timestamppb.Timestamp {
 }
 
 type Message_Patch struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Title           *string                `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty"`
-	Content         *ecm.Content           `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	ChannelIds      []string               `protobuf:"bytes,4,rep,name=channel_ids,json=channelIds,proto3" json:"channel_ids,omitempty"`
-	UnsetChannelIds *bool                  `protobuf:"varint,8,opt,name=unset_channel_ids,json=unsetChannelIds,proto3,oneof" json:"unset_channel_ids,omitempty"` // clears channel_ids, which an empty list cannot express
-	ScheduledAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
-	Unschedule      *bool                  `protobuf:"varint,6,opt,name=unschedule,proto3,oneof" json:"unschedule,omitempty"` // clears scheduled_at, which a nil timestamp cannot express
-	Reference       *string                `protobuf:"bytes,7,opt,name=reference,proto3,oneof" json:"reference,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Title            *string                `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty"`
+	Content          *ecm.Content           `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	ChannelIds       []string               `protobuf:"bytes,4,rep,name=channel_ids,json=channelIds,proto3" json:"channel_ids,omitempty"`
+	UnsetChannelIds  *bool                  `protobuf:"varint,8,opt,name=unset_channel_ids,json=unsetChannelIds,proto3,oneof" json:"unset_channel_ids,omitempty"` // clears channel_ids, which an empty list cannot express
+	ScheduledAt      *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
+	UnsetScheduledAt *bool                  `protobuf:"varint,6,opt,name=unset_scheduled_at,json=unsetScheduledAt,proto3,oneof" json:"unset_scheduled_at,omitempty"` // clears scheduled_at, which a nil timestamp cannot express
+	Reference        *string                `protobuf:"bytes,7,opt,name=reference,proto3,oneof" json:"reference,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Message_Patch) Reset() {
@@ -497,9 +497,9 @@ func (x *Message_Patch) GetScheduledAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Message_Patch) GetUnschedule() bool {
-	if x != nil && x.Unschedule != nil {
-		return *x.Unschedule
+func (x *Message_Patch) GetUnsetScheduledAt() bool {
+	if x != nil && x.UnsetScheduledAt != nil {
+		return *x.UnsetScheduledAt
 	}
 	return false
 }
@@ -515,7 +515,7 @@ var File_eolymp_notify_message_proto protoreflect.FileDescriptor
 
 const file_eolymp_notify_message_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/notify/message.proto\x12\reolymp.notify\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xce\x0f\n" +
+	"\x1beolymp/notify/message.proto\x12\reolymp.notify\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe4\x0f\n" +
 	"\aMessage\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12J\n" +
 	"\x05title\x18\x02 \x01(\tB4\xa2\xf0\xf0\xe4\x01.short headline, shown as the title of the postR\x05title\x12n\n" +
@@ -549,21 +549,19 @@ const file_eolymp_notify_message_proto_rawDesc = "" +
 	"\aPENDING\x10\x01\x12\b\n" +
 	"\x04SENT\x10\x02\x12\n" +
 	"\n" +
-	"\x06FAILED\x10\x03\x1a\xe7\x02\n" +
+	"\x06FAILED\x10\x03\x1a\xfd\x02\n" +
 	"\x05Patch\x12\x19\n" +
 	"\x05title\x18\x02 \x01(\tH\x00R\x05title\x88\x01\x01\x12-\n" +
 	"\acontent\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x1f\n" +
 	"\vchannel_ids\x18\x04 \x03(\tR\n" +
 	"channelIds\x12/\n" +
 	"\x11unset_channel_ids\x18\b \x01(\bH\x01R\x0funsetChannelIds\x88\x01\x01\x12=\n" +
-	"\fscheduled_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\x12#\n" +
-	"\n" +
-	"unschedule\x18\x06 \x01(\bH\x02R\n" +
-	"unschedule\x88\x01\x01\x12!\n" +
+	"\fscheduled_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\x121\n" +
+	"\x12unset_scheduled_at\x18\x06 \x01(\bH\x02R\x10unsetScheduledAt\x88\x01\x01\x12!\n" +
 	"\treference\x18\a \x01(\tH\x03R\treference\x88\x01\x01B\b\n" +
 	"\x06_titleB\x14\n" +
-	"\x12_unset_channel_idsB\r\n" +
-	"\v_unscheduleB\f\n" +
+	"\x12_unset_channel_idsB\x15\n" +
+	"\x13_unset_scheduled_atB\f\n" +
 	"\n" +
 	"_reference\"\xca\x02\n" +
 	"\x06Status\x12\x12\n" +

@@ -452,7 +452,7 @@ type Post_Patch struct {
 	Automatic     *bool                  `protobuf:"varint,14,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
 	Content       *ecm.Content           `protobuf:"bytes,101,opt,name=content,proto3" json:"content,omitempty"`
 	Labels        []string               `protobuf:"bytes,120,rep,name=labels,proto3" json:"labels,omitempty"`
-	Unlabel       *bool                  `protobuf:"varint,121,opt,name=unlabel,proto3,oneof" json:"unlabel,omitempty"` // clears the labels, which an empty list cannot express
+	UnsetLabels   *bool                  `protobuf:"varint,121,opt,name=unset_labels,json=unsetLabels,proto3,oneof" json:"unset_labels,omitempty"` // clears the labels, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -529,9 +529,9 @@ func (x *Post_Patch) GetLabels() []string {
 	return nil
 }
 
-func (x *Post_Patch) GetUnlabel() bool {
-	if x != nil && x.Unlabel != nil {
-		return *x.Unlabel
+func (x *Post_Patch) GetUnsetLabels() bool {
+	if x != nil && x.UnsetLabels != nil {
+		return *x.UnsetLabels
 	}
 	return false
 }
@@ -668,7 +668,7 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x0e\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd9\x0e\n" +
 	"\x04Post\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -708,23 +708,22 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\vreply_count\x18\x1f \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
 	"replyCount\x12\x16\n" +
 	"\x06labels\x18x \x03(\tR\x06labels\x125\n" +
-	"\x05links\x18\xc8\x01 \x03(\v2\x16.eolymp.wellknown.LinkB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05links\x1a\xaa\x02\n" +
+	"\x05links\x18\xc8\x01 \x03(\v2\x16.eolymp.wellknown.LinkB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05links\x1a\xb8\x02\n" +
 	"\x05Patch\x12\x1c\n" +
 	"\atype_id\x18\x06 \x01(\tH\x00R\x06typeId\x88\x01\x01\x12\x1f\n" +
 	"\bfeatured\x18\t \x01(\bH\x01R\bfeatured\x88\x01\x01\x12\x1b\n" +
 	"\x06pinned\x18\r \x01(\bH\x02R\x06pinned\x88\x01\x01\x12!\n" +
 	"\tautomatic\x18\x0e \x01(\bH\x03R\tautomatic\x88\x01\x01\x12-\n" +
 	"\acontent\x18e \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
-	"\x06labels\x18x \x03(\tR\x06labels\x12\x1d\n" +
-	"\aunlabel\x18y \x01(\bH\x04R\aunlabel\x88\x01\x01B\n" +
+	"\x06labels\x18x \x03(\tR\x06labels\x12&\n" +
+	"\funset_labels\x18y \x01(\bH\x04R\vunsetLabels\x88\x01\x01B\n" +
 	"\n" +
 	"\b_type_idB\v\n" +
 	"\t_featuredB\t\n" +
 	"\a_pinnedB\f\n" +
 	"\n" +
-	"_automaticB\n" +
-	"\n" +
-	"\b_unlabel\x1a]\n" +
+	"_automaticB\x0f\n" +
+	"\r_unset_labels\x1a]\n" +
 	"\x05Image\x12\x10\n" +
 	"\x03src\x18\x01 \x01(\tR\x03src\x12\x14\n" +
 	"\x05width\x18\x02 \x01(\x05R\x05width\x12\x16\n" +

@@ -257,16 +257,16 @@ func (*Newsletter_Extra) Descriptor() ([]byte, []int) {
 }
 
 type Newsletter_Patch struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          *EmailType             `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.mail.EmailType,oneof" json:"type,omitempty"`
-	Name          *string                `protobuf:"bytes,10,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Subject       *string                `protobuf:"bytes,11,opt,name=subject,proto3,oneof" json:"subject,omitempty"`
-	Content       *ecm.Content           `protobuf:"bytes,12,opt,name=content,proto3" json:"content,omitempty"`
-	Automatic     *bool                  `protobuf:"varint,13,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
-	ScheduledAt   *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
-	Unschedule    *bool                  `protobuf:"varint,22,opt,name=unschedule,proto3,oneof" json:"unschedule,omitempty"` // clears scheduled_at, which a nil timestamp cannot express
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Type             *EmailType             `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.mail.EmailType,oneof" json:"type,omitempty"`
+	Name             *string                `protobuf:"bytes,10,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Subject          *string                `protobuf:"bytes,11,opt,name=subject,proto3,oneof" json:"subject,omitempty"`
+	Content          *ecm.Content           `protobuf:"bytes,12,opt,name=content,proto3" json:"content,omitempty"`
+	Automatic        *bool                  `protobuf:"varint,13,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
+	ScheduledAt      *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
+	UnsetScheduledAt *bool                  `protobuf:"varint,22,opt,name=unset_scheduled_at,json=unsetScheduledAt,proto3,oneof" json:"unset_scheduled_at,omitempty"` // clears scheduled_at, which a nil timestamp cannot express
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Newsletter_Patch) Reset() {
@@ -341,9 +341,9 @@ func (x *Newsletter_Patch) GetScheduledAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Newsletter_Patch) GetUnschedule() bool {
-	if x != nil && x.Unschedule != nil {
-		return *x.Unschedule
+func (x *Newsletter_Patch) GetUnsetScheduledAt() bool {
+	if x != nil && x.UnsetScheduledAt != nil {
+		return *x.UnsetScheduledAt
 	}
 	return false
 }
@@ -352,7 +352,7 @@ var File_eolymp_mail_newsletter_proto protoreflect.FileDescriptor
 
 const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/mail/newsletter.proto\x12\veolymp.mail\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xaf\a\n" +
+	"\x1ceolymp/mail/newsletter.proto\x12\veolymp.mail\x1a\x18eolymp/ecm/content.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc5\a\n" +
 	"\n" +
 	"Newsletter\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12*\n" +
@@ -377,7 +377,7 @@ const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x11\n" +
 	"\rCONTENT_VALUE\x10\x01\x12\x12\n" +
-	"\x0eCONTENT_RENDER\x10\x02\x1a\xe1\x02\n" +
+	"\x0eCONTENT_RENDER\x10\x02\x1a\xf7\x02\n" +
 	"\x05Patch\x12/\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x16.eolymp.mail.EmailTypeH\x00R\x04type\x88\x01\x01\x12\x17\n" +
 	"\x04name\x18\n" +
@@ -385,17 +385,15 @@ const file_eolymp_mail_newsletter_proto_rawDesc = "" +
 	"\asubject\x18\v \x01(\tH\x02R\asubject\x88\x01\x01\x12-\n" +
 	"\acontent\x18\f \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12!\n" +
 	"\tautomatic\x18\r \x01(\bH\x03R\tautomatic\x88\x01\x01\x12=\n" +
-	"\fscheduled_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\x12#\n" +
-	"\n" +
-	"unschedule\x18\x16 \x01(\bH\x04R\n" +
-	"unschedule\x88\x01\x01B\a\n" +
+	"\fscheduled_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\x121\n" +
+	"\x12unset_scheduled_at\x18\x16 \x01(\bH\x04R\x10unsetScheduledAt\x88\x01\x01B\a\n" +
 	"\x05_typeB\a\n" +
 	"\x05_nameB\n" +
 	"\n" +
 	"\b_subjectB\f\n" +
 	"\n" +
-	"_automaticB\r\n" +
-	"\v_unscheduleB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
+	"_automaticB\x15\n" +
+	"\x13_unset_scheduled_atB+Z)github.com/eolymp/go-sdk/eolymp/mail;mailb\x06proto3"
 
 var (
 	file_eolymp_mail_newsletter_proto_rawDescOnce sync.Once

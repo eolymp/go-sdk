@@ -120,12 +120,12 @@ func (x *Preferences) GetSubscriptions() []*Preferences_Subscription {
 // Patch describes the fields UpdatePreferences can change, a field is written only if it is set.
 type Preferences_Patch struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Exactly one of the three may be carried: subscriptions replaces the list, add_subscriptions and
-	// remove_subscriptions change it in place, and unsubscribe empties it. Carrying more than one is rejected.
+	// These combine, and are applied in the order they are written here: subscriptions replaces the list,
+	// unset_subscriptions empties it, then remove_subscriptions and add_subscriptions adjust whatever is left.
 	Subscriptions       []*Preferences_Subscription `protobuf:"bytes,10,rep,name=subscriptions,proto3" json:"subscriptions,omitempty"`
-	AddSubscriptions    []*Preferences_Subscription `protobuf:"bytes,11,rep,name=add_subscriptions,json=addSubscriptions,proto3" json:"add_subscriptions,omitempty"`
+	UnsetSubscriptions  *bool                       `protobuf:"varint,13,opt,name=unset_subscriptions,json=unsetSubscriptions,proto3,oneof" json:"unset_subscriptions,omitempty"` // clears the subscriptions, which an empty list cannot express
 	RemoveSubscriptions []*Preferences_Subscription `protobuf:"bytes,12,rep,name=remove_subscriptions,json=removeSubscriptions,proto3" json:"remove_subscriptions,omitempty"`
-	Unsubscribe         *bool                       `protobuf:"varint,13,opt,name=unsubscribe,proto3,oneof" json:"unsubscribe,omitempty"` // clears the subscriptions, which an empty list cannot express
+	AddSubscriptions    []*Preferences_Subscription `protobuf:"bytes,11,rep,name=add_subscriptions,json=addSubscriptions,proto3" json:"add_subscriptions,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -167,11 +167,11 @@ func (x *Preferences_Patch) GetSubscriptions() []*Preferences_Subscription {
 	return nil
 }
 
-func (x *Preferences_Patch) GetAddSubscriptions() []*Preferences_Subscription {
-	if x != nil {
-		return x.AddSubscriptions
+func (x *Preferences_Patch) GetUnsetSubscriptions() bool {
+	if x != nil && x.UnsetSubscriptions != nil {
+		return *x.UnsetSubscriptions
 	}
-	return nil
+	return false
 }
 
 func (x *Preferences_Patch) GetRemoveSubscriptions() []*Preferences_Subscription {
@@ -181,11 +181,11 @@ func (x *Preferences_Patch) GetRemoveSubscriptions() []*Preferences_Subscription
 	return nil
 }
 
-func (x *Preferences_Patch) GetUnsubscribe() bool {
-	if x != nil && x.Unsubscribe != nil {
-		return *x.Unsubscribe
+func (x *Preferences_Patch) GetAddSubscriptions() []*Preferences_Subscription {
+	if x != nil {
+		return x.AddSubscriptions
 	}
-	return false
+	return nil
 }
 
 type Preferences_Subscription struct {
@@ -244,17 +244,17 @@ var File_eolymp_notify_preferences_proto protoreflect.FileDescriptor
 
 const file_eolymp_notify_preferences_proto_rawDesc = "" +
 	"\n" +
-	"\x1feolymp/notify/preferences.proto\x12\reolymp.notify\"\xc3\x04\n" +
+	"\x1feolymp/notify/preferences.proto\x12\reolymp.notify\"\xda\x04\n" +
 	"\vPreferences\x12M\n" +
 	"\rsubscriptions\x18\n" +
-	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x1a\xbf\x02\n" +
+	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x1a\xd6\x02\n" +
 	"\x05Patch\x12M\n" +
 	"\rsubscriptions\x18\n" +
-	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x12T\n" +
-	"\x11add_subscriptions\x18\v \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\x10addSubscriptions\x12Z\n" +
-	"\x14remove_subscriptions\x18\f \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\x13removeSubscriptions\x12%\n" +
-	"\vunsubscribe\x18\r \x01(\bH\x00R\vunsubscribe\x88\x01\x01B\x0e\n" +
-	"\f_unsubscribe\x1a_\n" +
+	" \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\rsubscriptions\x124\n" +
+	"\x13unset_subscriptions\x18\r \x01(\bH\x00R\x12unsetSubscriptions\x88\x01\x01\x12Z\n" +
+	"\x14remove_subscriptions\x18\f \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\x13removeSubscriptions\x12T\n" +
+	"\x11add_subscriptions\x18\v \x03(\v2'.eolymp.notify.Preferences.SubscriptionR\x10addSubscriptionsB\x16\n" +
+	"\x14_unset_subscriptions\x1a_\n" +
 	"\fSubscription\x12\x14\n" +
 	"\x05topic\x18\x01 \x01(\tR\x05topic\x129\n" +
 	"\x06digest\x18\x02 \x01(\x0e2!.eolymp.notify.Preferences.DigestR\x06digest\"B\n" +
@@ -288,8 +288,8 @@ var file_eolymp_notify_preferences_proto_goTypes = []any{
 var file_eolymp_notify_preferences_proto_depIdxs = []int32{
 	3, // 0: eolymp.notify.Preferences.subscriptions:type_name -> eolymp.notify.Preferences.Subscription
 	3, // 1: eolymp.notify.Preferences.Patch.subscriptions:type_name -> eolymp.notify.Preferences.Subscription
-	3, // 2: eolymp.notify.Preferences.Patch.add_subscriptions:type_name -> eolymp.notify.Preferences.Subscription
-	3, // 3: eolymp.notify.Preferences.Patch.remove_subscriptions:type_name -> eolymp.notify.Preferences.Subscription
+	3, // 2: eolymp.notify.Preferences.Patch.remove_subscriptions:type_name -> eolymp.notify.Preferences.Subscription
+	3, // 3: eolymp.notify.Preferences.Patch.add_subscriptions:type_name -> eolymp.notify.Preferences.Subscription
 	0, // 4: eolymp.notify.Preferences.Subscription.digest:type_name -> eolymp.notify.Preferences.Digest
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type

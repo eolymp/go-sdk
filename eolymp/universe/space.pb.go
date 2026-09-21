@@ -465,7 +465,7 @@ type Space_Patch struct {
 	Image         *string                `protobuf:"bytes,11,opt,name=image,proto3,oneof" json:"image,omitempty"`
 	Visibility    *Space_Visibility      `protobuf:"varint,14,opt,name=visibility,proto3,enum=eolymp.universe.Space_Visibility,oneof" json:"visibility,omitempty"`
 	Locales       []string               `protobuf:"bytes,19,rep,name=locales,proto3" json:"locales,omitempty"`
-	Unlocalise    *bool                  `protobuf:"varint,20,opt,name=unlocalise,proto3,oneof" json:"unlocalise,omitempty"` // clears the locales, which an empty list cannot express
+	UnsetLocales  *bool                  `protobuf:"varint,20,opt,name=unset_locales,json=unsetLocales,proto3,oneof" json:"unset_locales,omitempty"` // clears the locales, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -535,9 +535,9 @@ func (x *Space_Patch) GetLocales() []string {
 	return nil
 }
 
-func (x *Space_Patch) GetUnlocalise() bool {
-	if x != nil && x.Unlocalise != nil {
-		return *x.Unlocalise
+func (x *Space_Patch) GetUnsetLocales() bool {
+	if x != nil && x.UnsetLocales != nil {
+		return *x.UnsetLocales
 	}
 	return false
 }
@@ -654,7 +654,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x0e\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x0e\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
@@ -684,7 +684,7 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x05Extra\",\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
-	"\fSUBSCRIPTION\x10\x01\x1a\x92\x02\n" +
+	"\fSUBSCRIPTION\x10\x01\x1a\x9a\x02\n" +
 	"\x05Patch\x12\x15\n" +
 	"\x03key\x18\x02 \x01(\tH\x00R\x03key\x88\x01\x01\x12\x17\n" +
 	"\x04name\x18\n" +
@@ -693,15 +693,13 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
 	"visibility\x18\x0e \x01(\x0e2!.eolymp.universe.Space.VisibilityH\x03R\n" +
 	"visibility\x88\x01\x01\x12\x18\n" +
-	"\alocales\x18\x13 \x03(\tR\alocales\x12#\n" +
-	"\n" +
-	"unlocalise\x18\x14 \x01(\bH\x04R\n" +
-	"unlocalise\x88\x01\x01B\x06\n" +
+	"\alocales\x18\x13 \x03(\tR\alocales\x12(\n" +
+	"\runset_locales\x18\x14 \x01(\bH\x04R\funsetLocales\x88\x01\x01B\x06\n" +
 	"\x04_keyB\a\n" +
 	"\x05_nameB\b\n" +
 	"\x06_imageB\r\n" +
-	"\v_visibilityB\r\n" +
-	"\v_unlocalise\x1a\xd4\x03\n" +
+	"\v_visibilityB\x10\n" +
+	"\x0e_unset_locales\x1a\xd4\x03\n" +
 	"\fSubscription\x12\x12\n" +
 	"\x04plan\x18\x01 \x01(\tR\x04plan\x12\x14\n" +
 	"\x05seats\x18\x02 \x01(\rR\x05seats\x12\x14\n" +

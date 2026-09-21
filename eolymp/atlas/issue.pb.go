@@ -331,7 +331,7 @@ type Issue_Patch struct {
 	Title         *string                `protobuf:"bytes,6,opt,name=title,proto3,oneof" json:"title,omitempty"`
 	Assignee      *string                `protobuf:"bytes,7,opt,name=assignee,proto3,oneof" json:"assignee,omitempty"`
 	Tags          []string               `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
-	Untag         *bool                  `protobuf:"varint,14,opt,name=untag,proto3,oneof" json:"untag,omitempty"` // clears the tags, which an empty list cannot express
+	UnsetTags     *bool                  `protobuf:"varint,14,opt,name=unset_tags,json=unsetTags,proto3,oneof" json:"unset_tags,omitempty"` // clears the tags, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -401,9 +401,9 @@ func (x *Issue_Patch) GetTags() []string {
 	return nil
 }
 
-func (x *Issue_Patch) GetUntag() bool {
-	if x != nil && x.Untag != nil {
-		return *x.Untag
+func (x *Issue_Patch) GetUnsetTags() bool {
+	if x != nil && x.UnsetTags != nil {
+		return *x.UnsetTags
 	}
 	return false
 }
@@ -412,7 +412,7 @@ var File_eolymp_atlas_issue_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdc\x06\n" +
+	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xea\x06\n" +
 	"\x05Issue\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -435,18 +435,19 @@ const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x01\x12\x16\n" +
-	"\x12DESCRIPTION_RENDER\x10\x02\x1a\x8e\x02\n" +
+	"\x12DESCRIPTION_RENDER\x10\x02\x1a\x9c\x02\n" +
 	"\x05Patch\x127\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1a.eolymp.atlas.Issue.StatusH\x00R\x06status\x88\x01\x01\x125\n" +
 	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x19\n" +
 	"\x05title\x18\x06 \x01(\tH\x01R\x05title\x88\x01\x01\x12\x1f\n" +
 	"\bassignee\x18\a \x01(\tH\x02R\bassignee\x88\x01\x01\x12\x12\n" +
-	"\x04tags\x18\t \x03(\tR\x04tags\x12\x19\n" +
-	"\x05untag\x18\x0e \x01(\bH\x03R\x05untag\x88\x01\x01B\t\n" +
+	"\x04tags\x18\t \x03(\tR\x04tags\x12\"\n" +
+	"\n" +
+	"unset_tags\x18\x0e \x01(\bH\x03R\tunsetTags\x88\x01\x01B\t\n" +
 	"\a_statusB\b\n" +
 	"\x06_titleB\v\n" +
-	"\t_assigneeB\b\n" +
-	"\x06_untag\"2\n" +
+	"\t_assigneeB\r\n" +
+	"\v_unset_tags\"2\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\b\n" +
 	"\x04OPEN\x10\x01\x12\n" +
