@@ -122,26 +122,30 @@ func (x Fragment_Extra_Field) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Fragment_Extra_Field.Descriptor instead.
 func (Fragment_Extra_Field) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 0, 0}
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 type Fragment struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ResourceLink  string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
-	SpaceLink     string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
-	ConsoleLink   string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
-	Path          string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                       // derived: the parent's path plus this fragment's slug; eolymp.judge still authors it
-	ParentId      string                 `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
-	Slug          string                 `protobuf:"bytes,18,opt,name=slug,proto3" json:"slug,omitempty"`
-	Position      int32                  `protobuf:"varint,19,opt,name=position,proto3" json:"position,omitempty"`                                             // order among the fragments sharing a parent
-	Locale        string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // locale of the translation being read, empty when reading the fragment itself
-	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`                                                // locales this fragment has translations for
-	Draft         bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                   // content is only visible to admin
-	Automatic     bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`                                           // content generated automatically
-	Visibility    Fragment_Visibility    `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility" json:"visibility,omitempty"` // treated as PUBLIC unless set otherwise
-	Title         string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
-	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
+	ConsoleLink  string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
+	Path         string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                       // derived: the parent's path plus this fragment's slug; eolymp.judge still authors it
+	ParentId     string                 `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Slug         string                 `protobuf:"bytes,18,opt,name=slug,proto3" json:"slug,omitempty"`
+	Position     int32                  `protobuf:"varint,19,opt,name=position,proto3" json:"position,omitempty"`                                             // order among the fragments sharing a parent
+	Locale       string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // locale of the translation being read, empty when reading the fragment itself
+	Locales      []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`                                                // locales this fragment has translations for
+	Draft        bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                   // content is only visible to admin
+	Automatic    bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`                                           // content generated automatically
+	Visibility   Fragment_Visibility    `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility" json:"visibility,omitempty"` // treated as PUBLIC unless set otherwise
+	Title        string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
+	// Types that are valid to be assigned to Kind:
+	//
+	//	*Fragment_Content
+	//	*Fragment_Link_
+	Kind          isFragment_Kind        `protobuf_oneof:"kind"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	Labels        []string               `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
@@ -277,9 +281,27 @@ func (x *Fragment) GetTitle() string {
 	return ""
 }
 
+func (x *Fragment) GetKind() isFragment_Kind {
+	if x != nil {
+		return x.Kind
+	}
+	return nil
+}
+
 func (x *Fragment) GetContent() *ecm.Content {
 	if x != nil {
-		return x.Content
+		if x, ok := x.Kind.(*Fragment_Content); ok {
+			return x.Content
+		}
+	}
+	return nil
+}
+
+func (x *Fragment) GetLink() *Fragment_Link {
+	if x != nil {
+		if x, ok := x.Kind.(*Fragment_Link_); ok {
+			return x.Link
+		}
 	}
 	return nil
 }
@@ -305,6 +327,68 @@ func (x *Fragment) GetLabels() []string {
 	return nil
 }
 
+type isFragment_Kind interface {
+	isFragment_Kind()
+}
+
+type Fragment_Content struct {
+	Content *ecm.Content `protobuf:"bytes,51,opt,name=content,proto3,oneof"`
+}
+
+type Fragment_Link_ struct {
+	Link *Fragment_Link `protobuf:"bytes,52,opt,name=link,proto3,oneof"`
+}
+
+func (*Fragment_Content) isFragment_Kind() {}
+
+func (*Fragment_Link_) isFragment_Kind() {}
+
+// Link makes the fragment an entry pointing elsewhere rather than a page of its own: nothing is rendered
+// at its path and the reader is sent to the url instead.
+type Fragment_Link struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Fragment_Link) Reset() {
+	*x = Fragment_Link{}
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Fragment_Link) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Fragment_Link) ProtoMessage() {}
+
+func (x *Fragment_Link) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Fragment_Link.ProtoReflect.Descriptor instead.
+func (*Fragment_Link) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Fragment_Link) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 type Fragment_Extra struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -313,7 +397,7 @@ type Fragment_Extra struct {
 
 func (x *Fragment_Extra) Reset() {
 	*x = Fragment_Extra{}
-	mi := &file_eolymp_content_content_fragment_proto_msgTypes[1]
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -325,7 +409,7 @@ func (x *Fragment_Extra) String() string {
 func (*Fragment_Extra) ProtoMessage() {}
 
 func (x *Fragment_Extra) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_fragment_proto_msgTypes[1]
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,29 +422,35 @@ func (x *Fragment_Extra) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Fragment_Extra.ProtoReflect.Descriptor instead.
 func (*Fragment_Extra) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 1}
 }
 
 type Fragment_Patch struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Path          *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"` // set parent_id and slug instead, the path is derived from them
-	ParentId      *string                `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
-	Slug          *string                `protobuf:"bytes,18,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
-	Position      *int32                 `protobuf:"varint,19,opt,name=position,proto3,oneof" json:"position,omitempty"`
-	Draft         *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
-	Automatic     *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
-	Title         *string                `protobuf:"bytes,12,opt,name=title,proto3,oneof" json:"title,omitempty"`
-	Visibility    *Fragment_Visibility   `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility,oneof" json:"visibility,omitempty"`
-	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
-	Labels        []string               `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
-	UnsetLabels   *bool                  `protobuf:"varint,101,opt,name=unset_labels,json=unsetLabels,proto3,oneof" json:"unset_labels,omitempty"` // clears the labels, which an empty list cannot express
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	Path       *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"` // set parent_id and slug instead, the path is derived from them
+	ParentId   *string                `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
+	Slug       *string                `protobuf:"bytes,18,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
+	Position   *int32                 `protobuf:"varint,19,opt,name=position,proto3,oneof" json:"position,omitempty"`
+	Draft      *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
+	Automatic  *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
+	Title      *string                `protobuf:"bytes,12,opt,name=title,proto3,oneof" json:"title,omitempty"`
+	Visibility *Fragment_Visibility   `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility,oneof" json:"visibility,omitempty"`
+	// what the fragment is: a page with content, or a link somewhere else. Writing one replaces the other.
+	//
+	// Types that are valid to be assigned to Kind:
+	//
+	//	*Fragment_Patch_Content
+	//	*Fragment_Patch_Link
+	Kind          isFragment_Patch_Kind `protobuf_oneof:"kind"`
+	Labels        []string              `protobuf:"bytes,100,rep,name=labels,proto3" json:"labels,omitempty"`
+	UnsetLabels   *bool                 `protobuf:"varint,101,opt,name=unset_labels,json=unsetLabels,proto3,oneof" json:"unset_labels,omitempty"` // clears the labels, which an empty list cannot express
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Fragment_Patch) Reset() {
 	*x = Fragment_Patch{}
-	mi := &file_eolymp_content_content_fragment_proto_msgTypes[2]
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -372,7 +462,7 @@ func (x *Fragment_Patch) String() string {
 func (*Fragment_Patch) ProtoMessage() {}
 
 func (x *Fragment_Patch) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_content_fragment_proto_msgTypes[2]
+	mi := &file_eolymp_content_content_fragment_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -385,7 +475,7 @@ func (x *Fragment_Patch) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Fragment_Patch.ProtoReflect.Descriptor instead.
 func (*Fragment_Patch) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_content_content_fragment_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Fragment_Patch) GetPath() string {
@@ -444,9 +534,27 @@ func (x *Fragment_Patch) GetVisibility() Fragment_Visibility {
 	return Fragment_VISIBILITY_UNKNOWN
 }
 
+func (x *Fragment_Patch) GetKind() isFragment_Patch_Kind {
+	if x != nil {
+		return x.Kind
+	}
+	return nil
+}
+
 func (x *Fragment_Patch) GetContent() *ecm.Content {
 	if x != nil {
-		return x.Content
+		if x, ok := x.Kind.(*Fragment_Patch_Content); ok {
+			return x.Content
+		}
+	}
+	return nil
+}
+
+func (x *Fragment_Patch) GetLink() *Fragment_Link {
+	if x != nil {
+		if x, ok := x.Kind.(*Fragment_Patch_Link); ok {
+			return x.Link
+		}
 	}
 	return nil
 }
@@ -465,11 +573,27 @@ func (x *Fragment_Patch) GetUnsetLabels() bool {
 	return false
 }
 
+type isFragment_Patch_Kind interface {
+	isFragment_Patch_Kind()
+}
+
+type Fragment_Patch_Content struct {
+	Content *ecm.Content `protobuf:"bytes,51,opt,name=content,proto3,oneof"`
+}
+
+type Fragment_Patch_Link struct {
+	Link *Fragment_Link `protobuf:"bytes,52,opt,name=link,proto3,oneof"`
+}
+
+func (*Fragment_Patch_Content) isFragment_Patch_Kind() {}
+
+func (*Fragment_Patch_Link) isFragment_Patch_Kind() {}
+
 var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd3\r\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb7\x0f\n" +
 	"\bFragment\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12,\n" +
 	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
@@ -488,33 +612,38 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
 	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityR\n" +
 	"visibility\x12\x14\n" +
-	"\x05title\x18\f \x01(\tR\x05title\x12-\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12A\n" +
+	"\x05title\x18\f \x01(\tR\x05title\x12/\n" +
+	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentH\x00R\acontent\x123\n" +
+	"\x04link\x184 \x01(\v2\x1d.eolymp.content.Fragment.LinkH\x00R\x04link\x12A\n" +
 	"\n" +
 	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
 	"updated_at\x18= \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tupdatedAt\x12\x16\n" +
-	"\x06labels\x18d \x03(\tR\x06labels\x1aJ\n" +
+	"\x06labels\x18d \x03(\tR\x06labels\x1ad\n" +
+	"\x04Link\x12\\\n" +
+	"\x03url\x18\x01 \x01(\tBJ\xa2\xf0\xf0\xe4\x01Dwhere the reader is sent, an absolute url or a path on the same siteR\x03url\x1aJ\n" +
 	"\x05Extra\"A\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1a\x83\x04\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\xc2\x04\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04path\x18\n" +
-	" \x01(\tH\x00R\x04path\x88\x01\x01\x12 \n" +
-	"\tparent_id\x18\x11 \x01(\tH\x01R\bparentId\x88\x01\x01\x12\x17\n" +
-	"\x04slug\x18\x12 \x01(\tH\x02R\x04slug\x88\x01\x01\x12\x1f\n" +
-	"\bposition\x18\x13 \x01(\x05H\x03R\bposition\x88\x01\x01\x12\x19\n" +
-	"\x05draft\x18\r \x01(\bH\x04R\x05draft\x88\x01\x01\x12!\n" +
-	"\tautomatic\x18\x0f \x01(\bH\x05R\tautomatic\x88\x01\x01\x12\x19\n" +
-	"\x05title\x18\f \x01(\tH\x06R\x05title\x88\x01\x01\x12H\n" +
+	" \x01(\tH\x01R\x04path\x88\x01\x01\x12 \n" +
+	"\tparent_id\x18\x11 \x01(\tH\x02R\bparentId\x88\x01\x01\x12\x17\n" +
+	"\x04slug\x18\x12 \x01(\tH\x03R\x04slug\x88\x01\x01\x12\x1f\n" +
+	"\bposition\x18\x13 \x01(\x05H\x04R\bposition\x88\x01\x01\x12\x19\n" +
+	"\x05draft\x18\r \x01(\bH\x05R\x05draft\x88\x01\x01\x12!\n" +
+	"\tautomatic\x18\x0f \x01(\bH\x06R\tautomatic\x88\x01\x01\x12\x19\n" +
+	"\x05title\x18\f \x01(\tH\aR\x05title\x88\x01\x01\x12H\n" +
 	"\n" +
-	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityH\aR\n" +
-	"visibility\x88\x01\x01\x12-\n" +
-	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x16\n" +
+	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityH\bR\n" +
+	"visibility\x88\x01\x01\x12/\n" +
+	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentH\x00R\acontent\x123\n" +
+	"\x04link\x184 \x01(\v2\x1d.eolymp.content.Fragment.LinkH\x00R\x04link\x12\x16\n" +
 	"\x06labels\x18d \x03(\tR\x06labels\x12&\n" +
-	"\funset_labels\x18e \x01(\bH\bR\vunsetLabels\x88\x01\x01B\a\n" +
+	"\funset_labels\x18e \x01(\bH\tR\vunsetLabels\x88\x01\x01B\x06\n" +
+	"\x04kindB\a\n" +
 	"\x05_pathB\f\n" +
 	"\n" +
 	"_parent_idB\a\n" +
@@ -531,7 +660,8 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x12VISIBILITY_UNKNOWN\x10\x00\x12;\n" +
 	"\x06PUBLIC\x10\x01\x1a/\x9a\xf0\xf0\xe4\x01)readable by anyone who can read the space\x12i\n" +
 	"\aPRIVATE\x10\x02\x1a\\\x9a\xf0\xf0\xe4\x01Vreadable only by an admin or a trusted service, never by an anonymous or member caller\x12\\\n" +
-	"\bUNLISTED\x10\x03\x1aN\x9a\xf0\xf0\xe4\x01Hreadable by anyone who has the path, but left out of listings and searchB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\bUNLISTED\x10\x03\x1aN\x9a\xf0\xf0\xe4\x01Hreadable by anyone who has the path, but left out of listings and searchB\x06\n" +
+	"\x04kindB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_fragment_proto_rawDescOnce sync.Once
@@ -546,28 +676,31 @@ func file_eolymp_content_content_fragment_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_content_content_fragment_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_content_content_fragment_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_content_content_fragment_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_content_content_fragment_proto_goTypes = []any{
 	(Fragment_Visibility)(0),      // 0: eolymp.content.Fragment.Visibility
 	(Fragment_Extra_Field)(0),     // 1: eolymp.content.Fragment.Extra.Field
 	(*Fragment)(nil),              // 2: eolymp.content.Fragment
-	(*Fragment_Extra)(nil),        // 3: eolymp.content.Fragment.Extra
-	(*Fragment_Patch)(nil),        // 4: eolymp.content.Fragment.Patch
-	(*ecm.Content)(nil),           // 5: eolymp.ecm.Content
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(*Fragment_Link)(nil),         // 3: eolymp.content.Fragment.Link
+	(*Fragment_Extra)(nil),        // 4: eolymp.content.Fragment.Extra
+	(*Fragment_Patch)(nil),        // 5: eolymp.content.Fragment.Patch
+	(*ecm.Content)(nil),           // 6: eolymp.ecm.Content
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_eolymp_content_content_fragment_proto_depIdxs = []int32{
 	0, // 0: eolymp.content.Fragment.visibility:type_name -> eolymp.content.Fragment.Visibility
-	5, // 1: eolymp.content.Fragment.content:type_name -> eolymp.ecm.Content
-	6, // 2: eolymp.content.Fragment.created_at:type_name -> google.protobuf.Timestamp
-	6, // 3: eolymp.content.Fragment.updated_at:type_name -> google.protobuf.Timestamp
-	0, // 4: eolymp.content.Fragment.Patch.visibility:type_name -> eolymp.content.Fragment.Visibility
-	5, // 5: eolymp.content.Fragment.Patch.content:type_name -> eolymp.ecm.Content
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	6, // 1: eolymp.content.Fragment.content:type_name -> eolymp.ecm.Content
+	3, // 2: eolymp.content.Fragment.link:type_name -> eolymp.content.Fragment.Link
+	7, // 3: eolymp.content.Fragment.created_at:type_name -> google.protobuf.Timestamp
+	7, // 4: eolymp.content.Fragment.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 5: eolymp.content.Fragment.Patch.visibility:type_name -> eolymp.content.Fragment.Visibility
+	6, // 6: eolymp.content.Fragment.Patch.content:type_name -> eolymp.ecm.Content
+	3, // 7: eolymp.content.Fragment.Patch.link:type_name -> eolymp.content.Fragment.Link
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_content_fragment_proto_init() }
@@ -575,14 +708,21 @@ func file_eolymp_content_content_fragment_proto_init() {
 	if File_eolymp_content_content_fragment_proto != nil {
 		return
 	}
-	file_eolymp_content_content_fragment_proto_msgTypes[2].OneofWrappers = []any{}
+	file_eolymp_content_content_fragment_proto_msgTypes[0].OneofWrappers = []any{
+		(*Fragment_Content)(nil),
+		(*Fragment_Link_)(nil),
+	}
+	file_eolymp_content_content_fragment_proto_msgTypes[3].OneofWrappers = []any{
+		(*Fragment_Patch_Content)(nil),
+		(*Fragment_Patch_Link)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_content_fragment_proto_rawDesc), len(file_eolymp_content_content_fragment_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -67,12 +67,15 @@ type ContentServiceClient interface {
 	// meaning to a label and never acts on one. A reader who cannot see the whole space is shown public
 	// pages only: an unlisted page is left out here, although it can still be read by its path. A client
 	// building a menu asks for public pages through the visibility filter rather than relying on that, so
-	// that the menu it builds is the same one whoever is reading it.
+	// that the menu it builds is the same one whoever is reading it. A search reads pages: a fragment which
+	// is a link has nothing to search and never matches one, though it is listed like any other.
 	ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error)
 	// CreateFragment adds a page to the space or contest being addressed and returns its id. The parent and
 	// the slug are what make the page reachable: they place it in the tree and the path follows from them,
 	// and the parent has to exist. A page marked as a draft is visible to admins only, which is how a page
-	// can be written before members are meant to see it.
+	// can be written before members are meant to see it. A fragment carrying a link instead of content is an
+	// entry pointing elsewhere: it takes a place in the tree and a title, nothing is rendered at its path,
+	// and a reader who opens it is sent to the url.
 	CreateFragment(ctx context.Context, in *CreateFragmentInput, opts ...grpc.CallOption) (*CreateFragmentOutput, error)
 	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
 	// written, so moving a page — a new parent, a new slug — does not mean resending its content. A move
@@ -229,12 +232,15 @@ type ContentServiceServer interface {
 	// meaning to a label and never acts on one. A reader who cannot see the whole space is shown public
 	// pages only: an unlisted page is left out here, although it can still be read by its path. A client
 	// building a menu asks for public pages through the visibility filter rather than relying on that, so
-	// that the menu it builds is the same one whoever is reading it.
+	// that the menu it builds is the same one whoever is reading it. A search reads pages: a fragment which
+	// is a link has nothing to search and never matches one, though it is listed like any other.
 	ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error)
 	// CreateFragment adds a page to the space or contest being addressed and returns its id. The parent and
 	// the slug are what make the page reachable: they place it in the tree and the path follows from them,
 	// and the parent has to exist. A page marked as a draft is visible to admins only, which is how a page
-	// can be written before members are meant to see it.
+	// can be written before members are meant to see it. A fragment carrying a link instead of content is an
+	// entry pointing elsewhere: it takes a place in the tree and a title, nothing is rendered at its path,
+	// and a reader who opens it is sent to the url.
 	CreateFragment(context.Context, *CreateFragmentInput) (*CreateFragmentOutput, error)
 	// UpdateFragment writes new values into an existing page. Only the fields the request carries are
 	// written, so moving a page — a new parent, a new slug — does not mean resending its content. A move
