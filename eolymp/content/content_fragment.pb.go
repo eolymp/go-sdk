@@ -30,6 +30,7 @@ const (
 	Fragment_VISIBILITY_UNKNOWN Fragment_Visibility = 0
 	Fragment_PUBLIC             Fragment_Visibility = 1
 	Fragment_PRIVATE            Fragment_Visibility = 2
+	Fragment_UNLISTED           Fragment_Visibility = 3
 )
 
 // Enum value maps for Fragment_Visibility.
@@ -38,11 +39,13 @@ var (
 		0: "VISIBILITY_UNKNOWN",
 		1: "PUBLIC",
 		2: "PRIVATE",
+		3: "UNLISTED",
 	}
 	Fragment_Visibility_value = map[string]int32{
 		"VISIBILITY_UNKNOWN": 0,
 		"PUBLIC":             1,
 		"PRIVATE":            2,
+		"UNLISTED":           3,
 	}
 )
 
@@ -136,7 +139,7 @@ type Fragment struct {
 	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`                                                // locales this fragment has translations for
 	Draft         bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                   // content is only visible to admin
 	Automatic     bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`                                           // content generated automatically
-	Visibility    Fragment_Visibility    `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility" json:"visibility,omitempty"` // treated as PUBLIC unless explicitly PRIVATE
+	Visibility    Fragment_Visibility    `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility" json:"visibility,omitempty"` // treated as PUBLIC unless set otherwise
 	Title         string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
 	Content       *ecm.Content           `protobuf:"bytes,51,opt,name=content,proto3" json:"content,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -466,7 +469,7 @@ var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf5\f\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd3\r\n" +
 	"\bFragment\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12,\n" +
 	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
@@ -522,12 +525,13 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"_automaticB\b\n" +
 	"\x06_titleB\r\n" +
 	"\v_visibilityB\x0f\n" +
-	"\r_unset_labelsJ\x04\b\v\x10\f\"\xcc\x01\n" +
+	"\r_unset_labelsJ\x04\b\v\x10\f\"\xaa\x02\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
 	"\x12VISIBILITY_UNKNOWN\x10\x00\x12;\n" +
 	"\x06PUBLIC\x10\x01\x1a/\x9a\xf0\xf0\xe4\x01)readable by anyone who can read the space\x12i\n" +
-	"\aPRIVATE\x10\x02\x1a\\\x9a\xf0\xf0\xe4\x01Vreadable only by an admin or a trusted service, never by an anonymous or member callerB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\aPRIVATE\x10\x02\x1a\\\x9a\xf0\xf0\xe4\x01Vreadable only by an admin or a trusted service, never by an anonymous or member caller\x12\\\n" +
+	"\bUNLISTED\x10\x03\x1aN\x9a\xf0\xf0\xe4\x01Hreadable by anyone who has the path, but left out of listings and searchB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_fragment_proto_rawDescOnce sync.Once

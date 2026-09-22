@@ -64,7 +64,10 @@ type ContentServiceClient interface {
 	// the pages at the root for an empty parent — which is how a menu or a page browser walks it. Labels are
 	// free-form strings a client attaches to organise pages and listing can be narrowed by them; prefixed
 	// conventions seen in Eolymp's own content are a client convention only, as the platform attaches no
-	// meaning to a label and never acts on one.
+	// meaning to a label and never acts on one. A reader who cannot see the whole space is shown public
+	// pages only: an unlisted page is left out here, although it can still be read by its path. A client
+	// building a menu asks for public pages through the visibility filter rather than relying on that, so
+	// that the menu it builds is the same one whoever is reading it.
 	ListFragments(ctx context.Context, in *ListFragmentsInput, opts ...grpc.CallOption) (*ListFragmentsOutput, error)
 	// CreateFragment adds a page to the space or contest being addressed and returns its id. The parent and
 	// the slug are what make the page reachable: they place it in the tree and the path follows from them,
@@ -223,7 +226,10 @@ type ContentServiceServer interface {
 	// the pages at the root for an empty parent — which is how a menu or a page browser walks it. Labels are
 	// free-form strings a client attaches to organise pages and listing can be narrowed by them; prefixed
 	// conventions seen in Eolymp's own content are a client convention only, as the platform attaches no
-	// meaning to a label and never acts on one.
+	// meaning to a label and never acts on one. A reader who cannot see the whole space is shown public
+	// pages only: an unlisted page is left out here, although it can still be read by its path. A client
+	// building a menu asks for public pages through the visibility filter rather than relying on that, so
+	// that the menu it builds is the same one whoever is reading it.
 	ListFragments(context.Context, *ListFragmentsInput) (*ListFragmentsOutput, error)
 	// CreateFragment adds a page to the space or contest being addressed and returns its id. The parent and
 	// the slug are what make the page reachable: they place it in the tree and the path follows from them,
