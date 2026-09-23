@@ -41,6 +41,7 @@ type Claims struct {
 	Pronoun          string                 `protobuf:"bytes,80,opt,name=pronoun,proto3" json:"pronoun,omitempty"`                                           // user's pronoun: "he", "she", or "they" (default)
 	PreferredRuntime string                 `protobuf:"bytes,90,opt,name=preferred_runtime,json=preferredRuntime,proto3" json:"preferred_runtime,omitempty"` // user's preferred runtime (programming language, compiler) at Eolymp
 	Restrictions     string                 `protobuf:"bytes,100,opt,name=restrictions,proto3" json:"restrictions,omitempty"`                                // user's restrictions
+	Escalated        bool                   `protobuf:"varint,110,opt,name=escalated,proto3" json:"escalated,omitempty"`                                     // true if the token was escalated to god mode
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -201,11 +202,18 @@ func (x *Claims) GetRestrictions() string {
 	return ""
 }
 
+func (x *Claims) GetEscalated() bool {
+	if x != nil {
+		return x.Escalated
+	}
+	return false
+}
+
 var File_eolymp_auth_claims_proto protoreflect.FileDescriptor
 
 const file_eolymp_auth_claims_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/auth/claims.proto\x12\veolymp.auth\"\x87\x04\n" +
+	"\x18eolymp/auth/claims.proto\x12\veolymp.auth\"\xa5\x04\n" +
 	"\x06Claims\x12\x0f\n" +
 	"\x02id\x18\xe8\a \x01(\tR\x02id\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
@@ -226,7 +234,8 @@ const file_eolymp_auth_claims_proto_rawDesc = "" +
 	"\acountry\x18F \x01(\tR\acountry\x12\x18\n" +
 	"\apronoun\x18P \x01(\tR\apronoun\x12+\n" +
 	"\x11preferred_runtime\x18Z \x01(\tR\x10preferredRuntime\x12\"\n" +
-	"\frestrictions\x18d \x01(\tR\frestrictionsB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
+	"\frestrictions\x18d \x01(\tR\frestrictions\x12\x1c\n" +
+	"\tescalated\x18n \x01(\bR\tescalatedB+Z)github.com/eolymp/go-sdk/eolymp/auth;authb\x06proto3"
 
 var (
 	file_eolymp_auth_claims_proto_rawDescOnce sync.Once
