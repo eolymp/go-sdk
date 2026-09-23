@@ -25,6 +25,7 @@ const (
 	ProblemService_DescribeProblem_FullMethodName = "/eolymp.atlas.ProblemService/DescribeProblem"
 	ProblemService_ListProblems_FullMethodName    = "/eolymp.atlas.ProblemService/ListProblems"
 	ProblemService_SyncProblem_FullMethodName     = "/eolymp.atlas.ProblemService/SyncProblem"
+	ProblemService_ImportProblem_FullMethodName   = "/eolymp.atlas.ProblemService/ImportProblem"
 	ProblemService_VoteProblem_FullMethodName     = "/eolymp.atlas.ProblemService/VoteProblem"
 	ProblemService_ListVersions_FullMethodName    = "/eolymp.atlas.ProblemService/ListVersions"
 	ProblemService_ListRuntimes_FullMethodName    = "/eolymp.atlas.ProblemService/ListRuntimes"
@@ -70,6 +71,11 @@ type ProblemServiceClient interface {
 	// created with an origin. The pulled copy replaces the local one: modifications made to the problem in this
 	// space are overwritten and cannot be recovered afterwards.
 	SyncProblem(ctx context.Context, in *SyncProblemInput, opts ...grpc.CallOption) (*SyncProblemOutput, error)
+	// ImportProblem replaces the problem's content with a problem archive uploaded beforehand through
+	// AssetService. The archive format is recognized from its content; Polygon packages are supported. Like
+	// SyncProblem, the import runs asynchronously and overwrites modifications made to the problem in this space,
+	// but it leaves the problem's origin as it is.
+	ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error)
 	// VoteProblem records how the calling user rates the problem — the difficulty and quality signal shown next
 	// to the problem in the archive — and returns the resulting number of votes. The aggregate is also readable
 	// on the problem itself, where it is read-only.
@@ -156,6 +162,16 @@ func (c *problemServiceClient) SyncProblem(ctx context.Context, in *SyncProblemI
 	return out, nil
 }
 
+func (c *problemServiceClient) ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ImportProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ImportProblem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) VoteProblem(ctx context.Context, in *VoteProblemInput, opts ...grpc.CallOption) (*VoteProblemOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(VoteProblemOutput)
@@ -235,6 +251,11 @@ type ProblemServiceServer interface {
 	// created with an origin. The pulled copy replaces the local one: modifications made to the problem in this
 	// space are overwritten and cannot be recovered afterwards.
 	SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error)
+	// ImportProblem replaces the problem's content with a problem archive uploaded beforehand through
+	// AssetService. The archive format is recognized from its content; Polygon packages are supported. Like
+	// SyncProblem, the import runs asynchronously and overwrites modifications made to the problem in this space,
+	// but it leaves the problem's origin as it is.
+	ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error)
 	// VoteProblem records how the calling user rates the problem — the difficulty and quality signal shown next
 	// to the problem in the archive — and returns the resulting number of votes. The aggregate is also readable
 	// on the problem itself, where it is read-only.
@@ -277,6 +298,9 @@ func (UnimplementedProblemServiceServer) ListProblems(context.Context, *ListProb
 }
 func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProblemInput) (*SyncProblemOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method SyncProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ImportProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) VoteProblem(context.Context, *VoteProblemInput) (*VoteProblemOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method VoteProblem not implemented")
@@ -418,6 +442,24 @@ func _ProblemService_SyncProblem_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ImportProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImportProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ImportProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ImportProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ImportProblem(ctx, req.(*ImportProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_VoteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VoteProblemInput)
 	if err := dec(in); err != nil {
@@ -520,6 +562,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SyncProblem",
 			Handler:    _ProblemService_SyncProblem_Handler,
+		},
+		{
+			MethodName: "ImportProblem",
+			Handler:    _ProblemService_ImportProblem_Handler,
 		},
 		{
 			MethodName: "VoteProblem",

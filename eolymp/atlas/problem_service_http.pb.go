@@ -219,6 +219,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/sync", _ProblemService_SyncProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.SyncProblem")
+	router.Handle(prefix+"/problems/{problem_id}/import", _ProblemService_ImportProblem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.ProblemService.ImportProblem")
 	router.Handle(prefix+"/problems/{problem_id}/vote", _ProblemService_VoteProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.VoteProblem")
@@ -367,6 +370,30 @@ func _ProblemService_SyncProblem_Rule0(cli ProblemServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.SyncProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_ImportProblem_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ImportProblemInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return

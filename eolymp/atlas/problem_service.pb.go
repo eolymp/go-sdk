@@ -911,6 +911,94 @@ func (*SyncProblemOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{16}
 }
 
+type ImportProblemInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	ArchiveUrl    string                 `protobuf:"bytes,2,opt,name=archive_url,json=archiveUrl,proto3" json:"archive_url,omitempty"` // link to a problem archive uploaded through AssetService
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImportProblemInput) Reset() {
+	*x = ImportProblemInput{}
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImportProblemInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImportProblemInput) ProtoMessage() {}
+
+func (x *ImportProblemInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImportProblemInput.ProtoReflect.Descriptor instead.
+func (*ImportProblemInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ImportProblemInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *ImportProblemInput) GetArchiveUrl() string {
+	if x != nil {
+		return x.ArchiveUrl
+	}
+	return ""
+}
+
+type ImportProblemOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImportProblemOutput) Reset() {
+	*x = ImportProblemOutput{}
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImportProblemOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImportProblemOutput) ProtoMessage() {}
+
+func (x *ImportProblemOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImportProblemOutput.ProtoReflect.Descriptor instead.
+func (*ImportProblemOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{18}
+}
+
 type ListVersionsInput struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -926,7 +1014,7 @@ type ListVersionsInput struct {
 
 func (x *ListVersionsInput) Reset() {
 	*x = ListVersionsInput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[17]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -938,7 +1026,7 @@ func (x *ListVersionsInput) String() string {
 func (*ListVersionsInput) ProtoMessage() {}
 
 func (x *ListVersionsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[17]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -951,7 +1039,7 @@ func (x *ListVersionsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListVersionsInput.ProtoReflect.Descriptor instead.
 func (*ListVersionsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{17}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ListVersionsInput) GetProblemId() string {
@@ -1000,7 +1088,7 @@ type ListVersionsOutput struct {
 
 func (x *ListVersionsOutput) Reset() {
 	*x = ListVersionsOutput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[18]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1012,7 +1100,7 @@ func (x *ListVersionsOutput) String() string {
 func (*ListVersionsOutput) ProtoMessage() {}
 
 func (x *ListVersionsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[18]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1025,7 +1113,7 @@ func (x *ListVersionsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListVersionsOutput.ProtoReflect.Descriptor instead.
 func (*ListVersionsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *ListVersionsOutput) GetTotal() int32 {
@@ -1059,7 +1147,7 @@ type VoteProblemInput struct {
 
 func (x *VoteProblemInput) Reset() {
 	*x = VoteProblemInput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[19]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1071,7 +1159,7 @@ func (x *VoteProblemInput) String() string {
 func (*VoteProblemInput) ProtoMessage() {}
 
 func (x *VoteProblemInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[19]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1084,7 +1172,7 @@ func (x *VoteProblemInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VoteProblemInput.ProtoReflect.Descriptor instead.
 func (*VoteProblemInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *VoteProblemInput) GetProblemId() string {
@@ -1110,7 +1198,7 @@ type VoteProblemOutput struct {
 
 func (x *VoteProblemOutput) Reset() {
 	*x = VoteProblemOutput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[20]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1122,7 +1210,7 @@ func (x *VoteProblemOutput) String() string {
 func (*VoteProblemOutput) ProtoMessage() {}
 
 func (x *VoteProblemOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[20]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1135,7 +1223,7 @@ func (x *VoteProblemOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VoteProblemOutput.ProtoReflect.Descriptor instead.
 func (*VoteProblemOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{20}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *VoteProblemOutput) GetVoteCount() int32 {
@@ -1154,7 +1242,7 @@ type ListRuntimesInput struct {
 
 func (x *ListRuntimesInput) Reset() {
 	*x = ListRuntimesInput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[21]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1166,7 +1254,7 @@ func (x *ListRuntimesInput) String() string {
 func (*ListRuntimesInput) ProtoMessage() {}
 
 func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[21]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1179,7 +1267,7 @@ func (x *ListRuntimesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesInput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{21}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ListRuntimesInput) GetProblemId() string {
@@ -1199,7 +1287,7 @@ type ListRuntimesOutput struct {
 
 func (x *ListRuntimesOutput) Reset() {
 	*x = ListRuntimesOutput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[22]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1211,7 +1299,7 @@ func (x *ListRuntimesOutput) String() string {
 func (*ListRuntimesOutput) ProtoMessage() {}
 
 func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[22]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1224,7 +1312,7 @@ func (x *ListRuntimesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRuntimesOutput.ProtoReflect.Descriptor instead.
 func (*ListRuntimesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{22}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ListRuntimesOutput) GetTotal() int32 {
@@ -1251,7 +1339,7 @@ type ExportProblemInput struct {
 
 func (x *ExportProblemInput) Reset() {
 	*x = ExportProblemInput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[23]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1263,7 +1351,7 @@ func (x *ExportProblemInput) String() string {
 func (*ExportProblemInput) ProtoMessage() {}
 
 func (x *ExportProblemInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[23]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1276,7 +1364,7 @@ func (x *ExportProblemInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportProblemInput.ProtoReflect.Descriptor instead.
 func (*ExportProblemInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{23}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ExportProblemInput) GetProblemId() string {
@@ -1302,7 +1390,7 @@ type ExportProblemOutput struct {
 
 func (x *ExportProblemOutput) Reset() {
 	*x = ExportProblemOutput{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[24]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1314,7 +1402,7 @@ func (x *ExportProblemOutput) String() string {
 func (*ExportProblemOutput) ProtoMessage() {}
 
 func (x *ExportProblemOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[24]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1327,7 +1415,7 @@ func (x *ExportProblemOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportProblemOutput.ProtoReflect.Descriptor instead.
 func (*ExportProblemOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{24}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *ExportProblemOutput) GetSnapshotUrl() string {
@@ -1354,7 +1442,7 @@ type ListProblemsInput_Filter struct {
 
 func (x *ListProblemsInput_Filter) Reset() {
 	*x = ListProblemsInput_Filter{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[25]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1366,7 +1454,7 @@ func (x *ListProblemsInput_Filter) String() string {
 func (*ListProblemsInput_Filter) ProtoMessage() {}
 
 func (x *ListProblemsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[25]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1458,7 +1546,7 @@ type ListVersionsInput_Filter struct {
 
 func (x *ListVersionsInput_Filter) Reset() {
 	*x = ListVersionsInput_Filter{}
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[26]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1470,7 +1558,7 @@ func (x *ListVersionsInput_Filter) String() string {
 func (*ListVersionsInput_Filter) ProtoMessage() {}
 
 func (x *ListVersionsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[26]
+	mi := &file_eolymp_atlas_problem_service_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1483,7 +1571,7 @@ func (x *ListVersionsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListVersionsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListVersionsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{17, 0}
+	return file_eolymp_atlas_problem_service_proto_rawDescGZIP(), []int{19, 0}
 }
 
 func (x *ListVersionsInput_Filter) GetNumber() []*wellknown.ExpressionInt {
@@ -1597,7 +1685,13 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x10SyncProblemInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\"\x13\n" +
-	"\x11SyncProblemOutput\"\x83\x04\n" +
+	"\x11SyncProblemOutput\"T\n" +
+	"\x12ImportProblemInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x1f\n" +
+	"\varchive_url\x18\x02 \x01(\tR\n" +
+	"archiveUrl\"\x15\n" +
+	"\x13ImportProblemOutput\"\x83\x04\n" +
 	"\x11ListVersionsInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
@@ -1637,7 +1731,7 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"8\n" +
 	"\x13ExportProblemOutput\x12!\n" +
-	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xbf\r\n" +
+	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xef\x0e\n" +
 	"\x0eProblemService\x12\x99\x01\n" +
 	"\rCreateProblem\x12 .eolymp.atlas.CreateProblemInput\x1a!.eolymp.atlas.CreateProblemOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1689,7 +1783,16 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/sync\x12\xa5\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/problems/{problem_id}/sync\x12\xad\x01\n" +
+	"\rImportProblem\x12 .eolymp.atlas.ImportProblemInput\x1a!.eolymp.atlas.ImportProblemOutput\"W\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\n" +
+	"\xd7#>\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/problems/{problem_id}/import\x12\xa5\x01\n" +
 	"\vVoteProblem\x12\x1e.eolymp.atlas.VoteProblemInput\x1a\x1f.eolymp.atlas.VoteProblemOutput\"U\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -1737,7 +1840,7 @@ func file_eolymp_atlas_problem_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_problem_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_atlas_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
+var file_eolymp_atlas_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_eolymp_atlas_problem_service_proto_goTypes = []any{
 	(ListProblemsInput_Sortable)(0),       // 0: eolymp.atlas.ListProblemsInput.Sortable
 	(*ProblemChangedEvent)(nil),           // 1: eolymp.atlas.ProblemChangedEvent
@@ -1757,84 +1860,88 @@ var file_eolymp_atlas_problem_service_proto_goTypes = []any{
 	(*UpdateProblemOutput)(nil),           // 15: eolymp.atlas.UpdateProblemOutput
 	(*SyncProblemInput)(nil),              // 16: eolymp.atlas.SyncProblemInput
 	(*SyncProblemOutput)(nil),             // 17: eolymp.atlas.SyncProblemOutput
-	(*ListVersionsInput)(nil),             // 18: eolymp.atlas.ListVersionsInput
-	(*ListVersionsOutput)(nil),            // 19: eolymp.atlas.ListVersionsOutput
-	(*VoteProblemInput)(nil),              // 20: eolymp.atlas.VoteProblemInput
-	(*VoteProblemOutput)(nil),             // 21: eolymp.atlas.VoteProblemOutput
-	(*ListRuntimesInput)(nil),             // 22: eolymp.atlas.ListRuntimesInput
-	(*ListRuntimesOutput)(nil),            // 23: eolymp.atlas.ListRuntimesOutput
-	(*ExportProblemInput)(nil),            // 24: eolymp.atlas.ExportProblemInput
-	(*ExportProblemOutput)(nil),           // 25: eolymp.atlas.ExportProblemOutput
-	(*ListProblemsInput_Filter)(nil),      // 26: eolymp.atlas.ListProblemsInput.Filter
-	(*ListVersionsInput_Filter)(nil),      // 27: eolymp.atlas.ListVersionsInput.Filter
-	(*Problem)(nil),                       // 28: eolymp.atlas.Problem
-	(*Version)(nil),                       // 29: eolymp.atlas.Version
-	(*Statement)(nil),                     // 30: eolymp.atlas.Statement
-	(Problem_Extra_Field)(0),              // 31: eolymp.atlas.Problem.Extra.Field
-	(wellknown.Direction)(0),              // 32: eolymp.wellknown.Direction
-	(*Problem_Patch)(nil),                 // 33: eolymp.atlas.Problem.Patch
-	(*runtime.Runtime)(nil),               // 34: eolymp.runtime.Runtime
-	(*wellknown.ExpressionID)(nil),        // 35: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionBool)(nil),      // 36: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionInt)(nil),       // 37: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionEnum)(nil),      // 38: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionFloat)(nil),     // 39: eolymp.wellknown.ExpressionFloat
-	(*wellknown.ExpressionTimestamp)(nil), // 40: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionString)(nil),    // 41: eolymp.wellknown.ExpressionString
+	(*ImportProblemInput)(nil),            // 18: eolymp.atlas.ImportProblemInput
+	(*ImportProblemOutput)(nil),           // 19: eolymp.atlas.ImportProblemOutput
+	(*ListVersionsInput)(nil),             // 20: eolymp.atlas.ListVersionsInput
+	(*ListVersionsOutput)(nil),            // 21: eolymp.atlas.ListVersionsOutput
+	(*VoteProblemInput)(nil),              // 22: eolymp.atlas.VoteProblemInput
+	(*VoteProblemOutput)(nil),             // 23: eolymp.atlas.VoteProblemOutput
+	(*ListRuntimesInput)(nil),             // 24: eolymp.atlas.ListRuntimesInput
+	(*ListRuntimesOutput)(nil),            // 25: eolymp.atlas.ListRuntimesOutput
+	(*ExportProblemInput)(nil),            // 26: eolymp.atlas.ExportProblemInput
+	(*ExportProblemOutput)(nil),           // 27: eolymp.atlas.ExportProblemOutput
+	(*ListProblemsInput_Filter)(nil),      // 28: eolymp.atlas.ListProblemsInput.Filter
+	(*ListVersionsInput_Filter)(nil),      // 29: eolymp.atlas.ListVersionsInput.Filter
+	(*Problem)(nil),                       // 30: eolymp.atlas.Problem
+	(*Version)(nil),                       // 31: eolymp.atlas.Version
+	(*Statement)(nil),                     // 32: eolymp.atlas.Statement
+	(Problem_Extra_Field)(0),              // 33: eolymp.atlas.Problem.Extra.Field
+	(wellknown.Direction)(0),              // 34: eolymp.wellknown.Direction
+	(*Problem_Patch)(nil),                 // 35: eolymp.atlas.Problem.Patch
+	(*runtime.Runtime)(nil),               // 36: eolymp.runtime.Runtime
+	(*wellknown.ExpressionID)(nil),        // 37: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionBool)(nil),      // 38: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionInt)(nil),       // 39: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionEnum)(nil),      // 40: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionFloat)(nil),     // 41: eolymp.wellknown.ExpressionFloat
+	(*wellknown.ExpressionTimestamp)(nil), // 42: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionString)(nil),    // 43: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_atlas_problem_service_proto_depIdxs = []int32{
-	28, // 0: eolymp.atlas.ProblemChangedEvent.before:type_name -> eolymp.atlas.Problem
-	28, // 1: eolymp.atlas.ProblemChangedEvent.after:type_name -> eolymp.atlas.Problem
-	29, // 2: eolymp.atlas.ProblemChangedEvent.version:type_name -> eolymp.atlas.Version
-	28, // 3: eolymp.atlas.CreateProblemInput.problem:type_name -> eolymp.atlas.Problem
-	30, // 4: eolymp.atlas.CreateProblemInput.statement:type_name -> eolymp.atlas.Statement
-	31, // 5: eolymp.atlas.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	28, // 6: eolymp.atlas.DescribeProblemOutput.problem:type_name -> eolymp.atlas.Problem
-	26, // 7: eolymp.atlas.ListProblemsInput.filters:type_name -> eolymp.atlas.ListProblemsInput.Filter
+	30, // 0: eolymp.atlas.ProblemChangedEvent.before:type_name -> eolymp.atlas.Problem
+	30, // 1: eolymp.atlas.ProblemChangedEvent.after:type_name -> eolymp.atlas.Problem
+	31, // 2: eolymp.atlas.ProblemChangedEvent.version:type_name -> eolymp.atlas.Version
+	30, // 3: eolymp.atlas.CreateProblemInput.problem:type_name -> eolymp.atlas.Problem
+	32, // 4: eolymp.atlas.CreateProblemInput.statement:type_name -> eolymp.atlas.Statement
+	33, // 5: eolymp.atlas.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	30, // 6: eolymp.atlas.DescribeProblemOutput.problem:type_name -> eolymp.atlas.Problem
+	28, // 7: eolymp.atlas.ListProblemsInput.filters:type_name -> eolymp.atlas.ListProblemsInput.Filter
 	0,  // 8: eolymp.atlas.ListProblemsInput.sort:type_name -> eolymp.atlas.ListProblemsInput.Sortable
-	32, // 9: eolymp.atlas.ListProblemsInput.order:type_name -> eolymp.wellknown.Direction
-	31, // 10: eolymp.atlas.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	28, // 11: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
-	33, // 12: eolymp.atlas.UpdateProblemInput.problem:type_name -> eolymp.atlas.Problem.Patch
-	27, // 13: eolymp.atlas.ListVersionsInput.filters:type_name -> eolymp.atlas.ListVersionsInput.Filter
-	29, // 14: eolymp.atlas.ListVersionsOutput.items:type_name -> eolymp.atlas.Version
-	34, // 15: eolymp.atlas.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
-	35, // 16: eolymp.atlas.ListProblemsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	35, // 17: eolymp.atlas.ListProblemsInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
-	36, // 18: eolymp.atlas.ListProblemsInput.Filter.is_visible:type_name -> eolymp.wellknown.ExpressionBool
-	36, // 19: eolymp.atlas.ListProblemsInput.Filter.is_private:type_name -> eolymp.wellknown.ExpressionBool
-	37, // 20: eolymp.atlas.ListProblemsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
-	37, // 21: eolymp.atlas.ListProblemsInput.Filter.difficulty:type_name -> eolymp.wellknown.ExpressionInt
-	38, // 22: eolymp.atlas.ListProblemsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	39, // 23: eolymp.atlas.ListProblemsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
-	36, // 24: eolymp.atlas.ListProblemsInput.Filter.is_bookmarked:type_name -> eolymp.wellknown.ExpressionBool
-	37, // 25: eolymp.atlas.ListVersionsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
-	35, // 26: eolymp.atlas.ListVersionsInput.Filter.created_by:type_name -> eolymp.wellknown.ExpressionID
-	40, // 27: eolymp.atlas.ListVersionsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	38, // 28: eolymp.atlas.ListVersionsInput.Filter.change_op:type_name -> eolymp.wellknown.ExpressionEnum
-	41, // 29: eolymp.atlas.ListVersionsInput.Filter.change_path:type_name -> eolymp.wellknown.ExpressionString
+	34, // 9: eolymp.atlas.ListProblemsInput.order:type_name -> eolymp.wellknown.Direction
+	33, // 10: eolymp.atlas.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	30, // 11: eolymp.atlas.ListProblemsOutput.items:type_name -> eolymp.atlas.Problem
+	35, // 12: eolymp.atlas.UpdateProblemInput.problem:type_name -> eolymp.atlas.Problem.Patch
+	29, // 13: eolymp.atlas.ListVersionsInput.filters:type_name -> eolymp.atlas.ListVersionsInput.Filter
+	31, // 14: eolymp.atlas.ListVersionsOutput.items:type_name -> eolymp.atlas.Version
+	36, // 15: eolymp.atlas.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	37, // 16: eolymp.atlas.ListProblemsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	37, // 17: eolymp.atlas.ListProblemsInput.Filter.topic_id:type_name -> eolymp.wellknown.ExpressionID
+	38, // 18: eolymp.atlas.ListProblemsInput.Filter.is_visible:type_name -> eolymp.wellknown.ExpressionBool
+	38, // 19: eolymp.atlas.ListProblemsInput.Filter.is_private:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 20: eolymp.atlas.ListProblemsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	39, // 21: eolymp.atlas.ListProblemsInput.Filter.difficulty:type_name -> eolymp.wellknown.ExpressionInt
+	40, // 22: eolymp.atlas.ListProblemsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	41, // 23: eolymp.atlas.ListProblemsInput.Filter.score:type_name -> eolymp.wellknown.ExpressionFloat
+	38, // 24: eolymp.atlas.ListProblemsInput.Filter.is_bookmarked:type_name -> eolymp.wellknown.ExpressionBool
+	39, // 25: eolymp.atlas.ListVersionsInput.Filter.number:type_name -> eolymp.wellknown.ExpressionInt
+	37, // 26: eolymp.atlas.ListVersionsInput.Filter.created_by:type_name -> eolymp.wellknown.ExpressionID
+	42, // 27: eolymp.atlas.ListVersionsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	40, // 28: eolymp.atlas.ListVersionsInput.Filter.change_op:type_name -> eolymp.wellknown.ExpressionEnum
+	43, // 29: eolymp.atlas.ListVersionsInput.Filter.change_path:type_name -> eolymp.wellknown.ExpressionString
 	2,  // 30: eolymp.atlas.ProblemService.CreateProblem:input_type -> eolymp.atlas.CreateProblemInput
 	14, // 31: eolymp.atlas.ProblemService.UpdateProblem:input_type -> eolymp.atlas.UpdateProblemInput
 	4,  // 32: eolymp.atlas.ProblemService.DeleteProblem:input_type -> eolymp.atlas.DeleteProblemInput
 	6,  // 33: eolymp.atlas.ProblemService.DescribeProblem:input_type -> eolymp.atlas.DescribeProblemInput
 	8,  // 34: eolymp.atlas.ProblemService.ListProblems:input_type -> eolymp.atlas.ListProblemsInput
 	16, // 35: eolymp.atlas.ProblemService.SyncProblem:input_type -> eolymp.atlas.SyncProblemInput
-	20, // 36: eolymp.atlas.ProblemService.VoteProblem:input_type -> eolymp.atlas.VoteProblemInput
-	18, // 37: eolymp.atlas.ProblemService.ListVersions:input_type -> eolymp.atlas.ListVersionsInput
-	22, // 38: eolymp.atlas.ProblemService.ListRuntimes:input_type -> eolymp.atlas.ListRuntimesInput
-	24, // 39: eolymp.atlas.ProblemService.ExportProblem:input_type -> eolymp.atlas.ExportProblemInput
-	3,  // 40: eolymp.atlas.ProblemService.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
-	15, // 41: eolymp.atlas.ProblemService.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
-	5,  // 42: eolymp.atlas.ProblemService.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
-	7,  // 43: eolymp.atlas.ProblemService.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
-	9,  // 44: eolymp.atlas.ProblemService.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
-	17, // 45: eolymp.atlas.ProblemService.SyncProblem:output_type -> eolymp.atlas.SyncProblemOutput
-	21, // 46: eolymp.atlas.ProblemService.VoteProblem:output_type -> eolymp.atlas.VoteProblemOutput
-	19, // 47: eolymp.atlas.ProblemService.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
-	23, // 48: eolymp.atlas.ProblemService.ListRuntimes:output_type -> eolymp.atlas.ListRuntimesOutput
-	25, // 49: eolymp.atlas.ProblemService.ExportProblem:output_type -> eolymp.atlas.ExportProblemOutput
-	40, // [40:50] is the sub-list for method output_type
-	30, // [30:40] is the sub-list for method input_type
+	18, // 36: eolymp.atlas.ProblemService.ImportProblem:input_type -> eolymp.atlas.ImportProblemInput
+	22, // 37: eolymp.atlas.ProblemService.VoteProblem:input_type -> eolymp.atlas.VoteProblemInput
+	20, // 38: eolymp.atlas.ProblemService.ListVersions:input_type -> eolymp.atlas.ListVersionsInput
+	24, // 39: eolymp.atlas.ProblemService.ListRuntimes:input_type -> eolymp.atlas.ListRuntimesInput
+	26, // 40: eolymp.atlas.ProblemService.ExportProblem:input_type -> eolymp.atlas.ExportProblemInput
+	3,  // 41: eolymp.atlas.ProblemService.CreateProblem:output_type -> eolymp.atlas.CreateProblemOutput
+	15, // 42: eolymp.atlas.ProblemService.UpdateProblem:output_type -> eolymp.atlas.UpdateProblemOutput
+	5,  // 43: eolymp.atlas.ProblemService.DeleteProblem:output_type -> eolymp.atlas.DeleteProblemOutput
+	7,  // 44: eolymp.atlas.ProblemService.DescribeProblem:output_type -> eolymp.atlas.DescribeProblemOutput
+	9,  // 45: eolymp.atlas.ProblemService.ListProblems:output_type -> eolymp.atlas.ListProblemsOutput
+	17, // 46: eolymp.atlas.ProblemService.SyncProblem:output_type -> eolymp.atlas.SyncProblemOutput
+	19, // 47: eolymp.atlas.ProblemService.ImportProblem:output_type -> eolymp.atlas.ImportProblemOutput
+	23, // 48: eolymp.atlas.ProblemService.VoteProblem:output_type -> eolymp.atlas.VoteProblemOutput
+	21, // 49: eolymp.atlas.ProblemService.ListVersions:output_type -> eolymp.atlas.ListVersionsOutput
+	25, // 50: eolymp.atlas.ProblemService.ListRuntimes:output_type -> eolymp.atlas.ListRuntimesOutput
+	27, // 51: eolymp.atlas.ProblemService.ExportProblem:output_type -> eolymp.atlas.ExportProblemOutput
+	41, // [41:52] is the sub-list for method output_type
+	30, // [30:41] is the sub-list for method input_type
 	30, // [30:30] is the sub-list for extension type_name
 	30, // [30:30] is the sub-list for extension extendee
 	0,  // [0:30] is the sub-list for field type_name
@@ -1854,7 +1961,7 @@ func file_eolymp_atlas_problem_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_problem_service_proto_rawDesc), len(file_eolymp_atlas_problem_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   27,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
