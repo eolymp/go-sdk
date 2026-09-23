@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	PlanService_DescribePlan_FullMethodName = "/eolymp.universe.PlanService/DescribePlan"
 	PlanService_ListPlans_FullMethodName    = "/eolymp.universe.PlanService/ListPlans"
+	PlanService_AssignPlan_FullMethodName   = "/eolymp.universe.PlanService/AssignPlan"
+	PlanService_UnassignPlan_FullMethodName = "/eolymp.universe.PlanService/UnassignPlan"
 )
 
 // PlanServiceClient is the client API for PlanService service.
@@ -31,6 +33,10 @@ const (
 type PlanServiceClient interface {
 	DescribePlan(ctx context.Context, in *DescribePlanInput, opts ...grpc.CallOption) (*DescribePlanOutput, error)
 	ListPlans(ctx context.Context, in *ListPlansInput, opts ...grpc.CallOption) (*ListPlansOutput, error)
+	// Offer a plan to the current space, requires god mode.
+	AssignPlan(ctx context.Context, in *AssignPlanInput, opts ...grpc.CallOption) (*AssignPlanOutput, error)
+	// Withdraw a plan offered to the current space, requires god mode.
+	UnassignPlan(ctx context.Context, in *UnassignPlanInput, opts ...grpc.CallOption) (*UnassignPlanOutput, error)
 }
 
 type planServiceClient struct {
@@ -61,6 +67,26 @@ func (c *planServiceClient) ListPlans(ctx context.Context, in *ListPlansInput, o
 	return out, nil
 }
 
+func (c *planServiceClient) AssignPlan(ctx context.Context, in *AssignPlanInput, opts ...grpc.CallOption) (*AssignPlanOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AssignPlanOutput)
+	err := c.cc.Invoke(ctx, PlanService_AssignPlan_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *planServiceClient) UnassignPlan(ctx context.Context, in *UnassignPlanInput, opts ...grpc.CallOption) (*UnassignPlanOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UnassignPlanOutput)
+	err := c.cc.Invoke(ctx, PlanService_UnassignPlan_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlanServiceServer is the server API for PlanService service.
 // All implementations should embed UnimplementedPlanServiceServer
 // for forward compatibility.
@@ -69,6 +95,10 @@ func (c *planServiceClient) ListPlans(ctx context.Context, in *ListPlansInput, o
 type PlanServiceServer interface {
 	DescribePlan(context.Context, *DescribePlanInput) (*DescribePlanOutput, error)
 	ListPlans(context.Context, *ListPlansInput) (*ListPlansOutput, error)
+	// Offer a plan to the current space, requires god mode.
+	AssignPlan(context.Context, *AssignPlanInput) (*AssignPlanOutput, error)
+	// Withdraw a plan offered to the current space, requires god mode.
+	UnassignPlan(context.Context, *UnassignPlanInput) (*UnassignPlanOutput, error)
 }
 
 // UnimplementedPlanServiceServer should be embedded to have
@@ -83,6 +113,12 @@ func (UnimplementedPlanServiceServer) DescribePlan(context.Context, *DescribePla
 }
 func (UnimplementedPlanServiceServer) ListPlans(context.Context, *ListPlansInput) (*ListPlansOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListPlans not implemented")
+}
+func (UnimplementedPlanServiceServer) AssignPlan(context.Context, *AssignPlanInput) (*AssignPlanOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method AssignPlan not implemented")
+}
+func (UnimplementedPlanServiceServer) UnassignPlan(context.Context, *UnassignPlanInput) (*UnassignPlanOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UnassignPlan not implemented")
 }
 func (UnimplementedPlanServiceServer) testEmbeddedByValue() {}
 
@@ -140,6 +176,42 @@ func _PlanService_ListPlans_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PlanService_AssignPlan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignPlanInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlanServiceServer).AssignPlan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlanService_AssignPlan_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlanServiceServer).AssignPlan(ctx, req.(*AssignPlanInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PlanService_UnassignPlan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnassignPlanInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PlanServiceServer).UnassignPlan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PlanService_UnassignPlan_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PlanServiceServer).UnassignPlan(ctx, req.(*UnassignPlanInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PlanService_ServiceDesc is the grpc.ServiceDesc for PlanService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +226,14 @@ var PlanService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPlans",
 			Handler:    _PlanService_ListPlans_Handler,
+		},
+		{
+			MethodName: "AssignPlan",
+			Handler:    _PlanService_AssignPlan_Handler,
+		},
+		{
+			MethodName: "UnassignPlan",
+			Handler:    _PlanService_UnassignPlan_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -126,3 +126,35 @@ func (s *PlanServiceService) ListPlans(ctx context.Context, in *ListPlansInput) 
 
 	return out, nil
 }
+
+func (s *PlanServiceService) AssignPlan(ctx context.Context, in *AssignPlanInput) (*AssignPlanOutput, error) {
+	out := &AssignPlanOutput{}
+	path := "/plans/" + url.PathEscape(in.GetPlanId()) + "/assignment"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PlanId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *PlanServiceService) UnassignPlan(ctx context.Context, in *UnassignPlanInput) (*UnassignPlanOutput, error) {
+	out := &UnassignPlanOutput{}
+	path := "/plans/" + url.PathEscape(in.GetPlanId()) + "/assignment"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.PlanId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

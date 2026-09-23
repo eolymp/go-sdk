@@ -71,6 +71,58 @@ func (Plan_Extra) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_universe_plan_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type Plan_Visibility int32
+
+const (
+	Plan_UNKNOWN_VISIBILITY Plan_Visibility = 0
+	Plan_PUBLIC             Plan_Visibility = 1 // offered to every space
+	Plan_PRIVATE            Plan_Visibility = 2 // offered on request, requires approval
+	Plan_INTERNAL           Plan_Visibility = 3 // offered only to spaces it is assigned to
+)
+
+// Enum value maps for Plan_Visibility.
+var (
+	Plan_Visibility_name = map[int32]string{
+		0: "UNKNOWN_VISIBILITY",
+		1: "PUBLIC",
+		2: "PRIVATE",
+		3: "INTERNAL",
+	}
+	Plan_Visibility_value = map[string]int32{
+		"UNKNOWN_VISIBILITY": 0,
+		"PUBLIC":             1,
+		"PRIVATE":            2,
+		"INTERNAL":           3,
+	}
+)
+
+func (x Plan_Visibility) Enum() *Plan_Visibility {
+	p := new(Plan_Visibility)
+	*p = x
+	return p
+}
+
+func (x Plan_Visibility) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Plan_Visibility) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_universe_plan_proto_enumTypes[1].Descriptor()
+}
+
+func (Plan_Visibility) Type() protoreflect.EnumType {
+	return &file_eolymp_universe_plan_proto_enumTypes[1]
+}
+
+func (x Plan_Visibility) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Plan_Visibility.Descriptor instead.
+func (Plan_Visibility) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_universe_plan_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Plan_Recurrence int32
 
 const (
@@ -110,11 +162,11 @@ func (x Plan_Recurrence) String() string {
 }
 
 func (Plan_Recurrence) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_universe_plan_proto_enumTypes[1].Descriptor()
+	return file_eolymp_universe_plan_proto_enumTypes[2].Descriptor()
 }
 
 func (Plan_Recurrence) Type() protoreflect.EnumType {
-	return &file_eolymp_universe_plan_proto_enumTypes[1]
+	return &file_eolymp_universe_plan_proto_enumTypes[2]
 }
 
 func (x Plan_Recurrence) Number() protoreflect.EnumNumber {
@@ -123,7 +175,7 @@ func (x Plan_Recurrence) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Plan_Recurrence.Descriptor instead.
 func (Plan_Recurrence) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_universe_plan_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_universe_plan_proto_rawDescGZIP(), []int{0, 2}
 }
 
 type Plan struct {
@@ -134,6 +186,8 @@ type Plan struct {
 	Quota            *Quota                 `protobuf:"bytes,4,opt,name=quota,proto3" json:"quota,omitempty"`
 	Labels           []string               `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty"`
 	RequiresApproval bool                   `protobuf:"varint,7,opt,name=requires_approval,json=requiresApproval,proto3" json:"requires_approval,omitempty"` // special plan which requires approval
+	Visibility       Plan_Visibility        `protobuf:"varint,8,opt,name=visibility,proto3,enum=eolymp.universe.Plan_Visibility" json:"visibility,omitempty"`
+	Assigned         bool                   `protobuf:"varint,9,opt,name=assigned,proto3" json:"assigned,omitempty"` // plan is explicitly offered to the current space
 	MinSeats         uint32                 `protobuf:"varint,10,opt,name=min_seats,json=minSeats,proto3" json:"min_seats,omitempty"`
 	MaxSeats         uint32                 `protobuf:"varint,11,opt,name=max_seats,json=maxSeats,proto3" json:"max_seats,omitempty"`
 	Variants         []*Plan_Variant        `protobuf:"bytes,100,rep,name=variants,proto3" json:"variants,omitempty"`
@@ -209,6 +263,20 @@ func (x *Plan) GetLabels() []string {
 func (x *Plan) GetRequiresApproval() bool {
 	if x != nil {
 		return x.RequiresApproval
+	}
+	return false
+}
+
+func (x *Plan) GetVisibility() Plan_Visibility {
+	if x != nil {
+		return x.Visibility
+	}
+	return Plan_UNKNOWN_VISIBILITY
+}
+
+func (x *Plan) GetAssigned() bool {
+	if x != nil {
+		return x.Assigned
 	}
 	return false
 }
@@ -306,14 +374,18 @@ var File_eolymp_universe_plan_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_plan_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/universe/plan.proto\x12\x0feolymp.universe\x1a\x18eolymp/ecm/content.proto\x1a\x1beolymp/universe/quota.proto\"\x87\x05\n" +
+	"\x1aeolymp/universe/plan.proto\x12\x0feolymp.universe\x1a\x18eolymp/ecm/content.proto\x1a\x1beolymp/universe/quota.proto\"\xb2\x06\n" +
 	"\x04Plan\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
 	"\vdescription\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12,\n" +
 	"\x05quota\x18\x04 \x01(\v2\x16.eolymp.universe.QuotaR\x05quota\x12\x16\n" +
 	"\x06labels\x18\x05 \x03(\tR\x06labels\x12+\n" +
-	"\x11requires_approval\x18\a \x01(\bR\x10requiresApproval\x12\x1b\n" +
+	"\x11requires_approval\x18\a \x01(\bR\x10requiresApproval\x12@\n" +
+	"\n" +
+	"visibility\x18\b \x01(\x0e2 .eolymp.universe.Plan.VisibilityR\n" +
+	"visibility\x12\x1a\n" +
+	"\bassigned\x18\t \x01(\bR\bassigned\x12\x1b\n" +
 	"\tmin_seats\x18\n" +
 	" \x01(\rR\bminSeats\x12\x1b\n" +
 	"\tmax_seats\x18\v \x01(\rR\bmaxSeats\x129\n" +
@@ -329,7 +401,14 @@ const file_eolymp_universe_plan_proto_rawDesc = "" +
 	"\x05Extra\x12\f\n" +
 	"\bNO_EXTRA\x10\x00\x12\x16\n" +
 	"\x12DESCRIPTION_RENDER\x10\x01\x12\x15\n" +
-	"\x11DESCRIPTION_VALUE\x10\x02\"[\n" +
+	"\x11DESCRIPTION_VALUE\x10\x02\"K\n" +
+	"\n" +
+	"Visibility\x12\x16\n" +
+	"\x12UNKNOWN_VISIBILITY\x10\x00\x12\n" +
+	"\n" +
+	"\x06PUBLIC\x10\x01\x12\v\n" +
+	"\aPRIVATE\x10\x02\x12\f\n" +
+	"\bINTERNAL\x10\x03\"[\n" +
 	"\n" +
 	"Recurrence\x12\x16\n" +
 	"\x12UNKNOWN_RECURRENCE\x10\x00\x12\v\n" +
@@ -352,26 +431,28 @@ func file_eolymp_universe_plan_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_plan_proto_rawDescData
 }
 
-var file_eolymp_universe_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_universe_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_universe_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_universe_plan_proto_goTypes = []any{
 	(Plan_Extra)(0),      // 0: eolymp.universe.Plan.Extra
-	(Plan_Recurrence)(0), // 1: eolymp.universe.Plan.Recurrence
-	(*Plan)(nil),         // 2: eolymp.universe.Plan
-	(*Plan_Variant)(nil), // 3: eolymp.universe.Plan.Variant
-	(*ecm.Content)(nil),  // 4: eolymp.ecm.Content
-	(*Quota)(nil),        // 5: eolymp.universe.Quota
+	(Plan_Visibility)(0), // 1: eolymp.universe.Plan.Visibility
+	(Plan_Recurrence)(0), // 2: eolymp.universe.Plan.Recurrence
+	(*Plan)(nil),         // 3: eolymp.universe.Plan
+	(*Plan_Variant)(nil), // 4: eolymp.universe.Plan.Variant
+	(*ecm.Content)(nil),  // 5: eolymp.ecm.Content
+	(*Quota)(nil),        // 6: eolymp.universe.Quota
 }
 var file_eolymp_universe_plan_proto_depIdxs = []int32{
-	4, // 0: eolymp.universe.Plan.description:type_name -> eolymp.ecm.Content
-	5, // 1: eolymp.universe.Plan.quota:type_name -> eolymp.universe.Quota
-	3, // 2: eolymp.universe.Plan.variants:type_name -> eolymp.universe.Plan.Variant
-	1, // 3: eolymp.universe.Plan.Variant.recurrence:type_name -> eolymp.universe.Plan.Recurrence
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 0: eolymp.universe.Plan.description:type_name -> eolymp.ecm.Content
+	6, // 1: eolymp.universe.Plan.quota:type_name -> eolymp.universe.Quota
+	1, // 2: eolymp.universe.Plan.visibility:type_name -> eolymp.universe.Plan.Visibility
+	4, // 3: eolymp.universe.Plan.variants:type_name -> eolymp.universe.Plan.Variant
+	2, // 4: eolymp.universe.Plan.Variant.recurrence:type_name -> eolymp.universe.Plan.Recurrence
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_universe_plan_proto_init() }
@@ -385,7 +466,7 @@ func file_eolymp_universe_plan_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_universe_plan_proto_rawDesc), len(file_eolymp_universe_plan_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -207,6 +207,12 @@ func RegisterPlanServiceHttpHandlers(router *mux.Router, prefix string, cli Plan
 	router.Handle(prefix+"/plans", _PlanService_ListPlans_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.PlanService.ListPlans")
+	router.Handle(prefix+"/plans/{plan_id}/assignment", _PlanService_AssignPlan_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.universe.PlanService.AssignPlan")
+	router.Handle(prefix+"/plans/{plan_id}/assignment", _PlanService_UnassignPlan_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.universe.PlanService.UnassignPlan")
 }
 
 // RegisterPlanServiceHttpProxy adds proxy handlers for for PlanServiceClient
@@ -250,6 +256,54 @@ func _PlanService_ListPlans_Rule0(cli PlanServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListPlans(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PlanService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PlanService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PlanService_AssignPlan_Rule0(cli PlanServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AssignPlanInput{}
+
+		if err := _PlanService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_PlanService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PlanId = vars["plan_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AssignPlan(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_PlanService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_PlanService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _PlanService_UnassignPlan_Rule0(cli PlanServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UnassignPlanInput{}
+
+		if err := _PlanService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
+			_PlanService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.PlanId = vars["plan_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UnassignPlan(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PlanService_HTTPWriteErrorResponse(w, err)
 			return

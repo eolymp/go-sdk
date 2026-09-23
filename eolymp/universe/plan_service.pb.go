@@ -262,11 +262,171 @@ func (x *ListPlansOutput) GetItems() []*Plan {
 	return nil
 }
 
+type AssignPlanInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssignPlanInput) Reset() {
+	*x = AssignPlanInput{}
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssignPlanInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssignPlanInput) ProtoMessage() {}
+
+func (x *AssignPlanInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssignPlanInput.ProtoReflect.Descriptor instead.
+func (*AssignPlanInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_plan_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *AssignPlanInput) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+type AssignPlanOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssignPlanOutput) Reset() {
+	*x = AssignPlanOutput{}
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssignPlanOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssignPlanOutput) ProtoMessage() {}
+
+func (x *AssignPlanOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssignPlanOutput.ProtoReflect.Descriptor instead.
+func (*AssignPlanOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_plan_service_proto_rawDescGZIP(), []int{5}
+}
+
+type UnassignPlanInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UnassignPlanInput) Reset() {
+	*x = UnassignPlanInput{}
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UnassignPlanInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnassignPlanInput) ProtoMessage() {}
+
+func (x *UnassignPlanInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnassignPlanInput.ProtoReflect.Descriptor instead.
+func (*UnassignPlanInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_plan_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UnassignPlanInput) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+type UnassignPlanOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UnassignPlanOutput) Reset() {
+	*x = UnassignPlanOutput{}
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UnassignPlanOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnassignPlanOutput) ProtoMessage() {}
+
+func (x *UnassignPlanOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_plan_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnassignPlanOutput.ProtoReflect.Descriptor instead.
+func (*UnassignPlanOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_plan_service_proto_rawDescGZIP(), []int{7}
+}
+
 var File_eolymp_universe_plan_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/universe/plan_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1aeolymp/universe/plan.proto\"\x94\x01\n" +
+	"\"eolymp/universe/plan_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1aeolymp/universe/plan.proto\"\x94\x01\n" +
 	"\x11DescribePlanInput\x12\x17\n" +
 	"\aplan_id\x18\x01 \x01(\tR\x06planId\x12\x16\n" +
 	"\x06locale\x18e \x01(\tR\x06locale\x12\x1a\n" +
@@ -283,7 +443,13 @@ const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.universe.Plan.ExtraR\x05extra\"T\n" +
 	"\x0fListPlansOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\xac\x02\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items\"*\n" +
+	"\x0fAssignPlanInput\x12\x17\n" +
+	"\aplan_id\x18\x01 \x01(\tR\x06planId\"\x12\n" +
+	"\x10AssignPlanOutput\",\n" +
+	"\x11UnassignPlanInput\x12\x17\n" +
+	"\aplan_id\x18\x01 \x01(\tR\x06planId\"\x14\n" +
+	"\x12UnassignPlanOutput2\x8a\x05\n" +
 	"\vPlanService\x12\x88\x01\n" +
 	"\fDescribePlan\x12\".eolymp.universe.DescribePlanInput\x1a#.eolymp.universe.DescribePlanOutput\"/\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -296,7 +462,24 @@ const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/plans\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\b\x12\x06/plans\x12\xa9\x01\n" +
+	"\n" +
+	"AssignPlan\x12 .eolymp.universe.AssignPlanInput\x1a!.eolymp.universe.AssignPlanOutput\"V\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1d\x1a\x1b/plans/{plan_id}/assignment\x12\xaf\x01\n" +
+	"\fUnassignPlan\x12\".eolymp.universe.UnassignPlanInput\x1a#.eolymp.universe.UnassignPlanOutput\"V\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1d*\x1b/plans/{plan_id}/assignment\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_plan_service_proto_rawDescOnce sync.Once
@@ -310,26 +493,34 @@ func file_eolymp_universe_plan_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_plan_service_proto_rawDescData
 }
 
-var file_eolymp_universe_plan_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_universe_plan_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_universe_plan_service_proto_goTypes = []any{
 	(*DescribePlanInput)(nil),  // 0: eolymp.universe.DescribePlanInput
 	(*DescribePlanOutput)(nil), // 1: eolymp.universe.DescribePlanOutput
 	(*ListPlansInput)(nil),     // 2: eolymp.universe.ListPlansInput
 	(*ListPlansOutput)(nil),    // 3: eolymp.universe.ListPlansOutput
-	(Plan_Extra)(0),            // 4: eolymp.universe.Plan.Extra
-	(*Plan)(nil),               // 5: eolymp.universe.Plan
+	(*AssignPlanInput)(nil),    // 4: eolymp.universe.AssignPlanInput
+	(*AssignPlanOutput)(nil),   // 5: eolymp.universe.AssignPlanOutput
+	(*UnassignPlanInput)(nil),  // 6: eolymp.universe.UnassignPlanInput
+	(*UnassignPlanOutput)(nil), // 7: eolymp.universe.UnassignPlanOutput
+	(Plan_Extra)(0),            // 8: eolymp.universe.Plan.Extra
+	(*Plan)(nil),               // 9: eolymp.universe.Plan
 }
 var file_eolymp_universe_plan_service_proto_depIdxs = []int32{
-	4, // 0: eolymp.universe.DescribePlanInput.extra:type_name -> eolymp.universe.Plan.Extra
-	5, // 1: eolymp.universe.DescribePlanOutput.plan:type_name -> eolymp.universe.Plan
-	4, // 2: eolymp.universe.ListPlansInput.extra:type_name -> eolymp.universe.Plan.Extra
-	5, // 3: eolymp.universe.ListPlansOutput.items:type_name -> eolymp.universe.Plan
+	8, // 0: eolymp.universe.DescribePlanInput.extra:type_name -> eolymp.universe.Plan.Extra
+	9, // 1: eolymp.universe.DescribePlanOutput.plan:type_name -> eolymp.universe.Plan
+	8, // 2: eolymp.universe.ListPlansInput.extra:type_name -> eolymp.universe.Plan.Extra
+	9, // 3: eolymp.universe.ListPlansOutput.items:type_name -> eolymp.universe.Plan
 	0, // 4: eolymp.universe.PlanService.DescribePlan:input_type -> eolymp.universe.DescribePlanInput
 	2, // 5: eolymp.universe.PlanService.ListPlans:input_type -> eolymp.universe.ListPlansInput
-	1, // 6: eolymp.universe.PlanService.DescribePlan:output_type -> eolymp.universe.DescribePlanOutput
-	3, // 7: eolymp.universe.PlanService.ListPlans:output_type -> eolymp.universe.ListPlansOutput
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
+	4, // 6: eolymp.universe.PlanService.AssignPlan:input_type -> eolymp.universe.AssignPlanInput
+	6, // 7: eolymp.universe.PlanService.UnassignPlan:input_type -> eolymp.universe.UnassignPlanInput
+	1, // 8: eolymp.universe.PlanService.DescribePlan:output_type -> eolymp.universe.DescribePlanOutput
+	3, // 9: eolymp.universe.PlanService.ListPlans:output_type -> eolymp.universe.ListPlansOutput
+	5, // 10: eolymp.universe.PlanService.AssignPlan:output_type -> eolymp.universe.AssignPlanOutput
+	7, // 11: eolymp.universe.PlanService.UnassignPlan:output_type -> eolymp.universe.UnassignPlanOutput
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
 	4, // [4:4] is the sub-list for extension extendee
 	0, // [0:4] is the sub-list for field type_name
@@ -347,7 +538,7 @@ func file_eolymp_universe_plan_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_universe_plan_service_proto_rawDesc), len(file_eolymp_universe_plan_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
