@@ -23,6 +23,7 @@ const (
 
 type Snapshot struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Schema        string                 `protobuf:"bytes,15,opt,name=schema,json=$schema,proto3" json:"schema,omitempty"`
 	Problem       *Problem               `protobuf:"bytes,1,opt,name=problem,proto3" json:"problem,omitempty"`
 	Testing       *TestingConfig         `protobuf:"bytes,10,opt,name=testing,proto3" json:"testing,omitempty"`
 	Checker       *Checker               `protobuf:"bytes,2,opt,name=checker,proto3" json:"checker,omitempty"`
@@ -69,6 +70,13 @@ func (x *Snapshot) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Snapshot.ProtoReflect.Descriptor instead.
 func (*Snapshot) Descriptor() ([]byte, []int) {
 	return file_eolymp_atlas_snapshot_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Snapshot) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
 }
 
 func (x *Snapshot) GetProblem() *Problem {
@@ -173,8 +181,9 @@ var File_eolymp_atlas_snapshot_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_snapshot_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/atlas/snapshot.proto\x12\feolymp.atlas\x1a\x1deolymp/atlas/attachment.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1beolymp/atlas/question.proto\x1a\x19eolymp/atlas/script.proto\x1a\x1beolymp/atlas/solution.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\xf1\x05\n" +
-	"\bSnapshot\x12/\n" +
+	"\x1beolymp/atlas/snapshot.proto\x12\feolymp.atlas\x1a\x1deolymp/atlas/attachment.proto\x1a eolymp/atlas/code_template.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1beolymp/atlas/question.proto\x1a\x19eolymp/atlas/script.proto\x1a\x1beolymp/atlas/solution.proto\x1a\x1ceolymp/atlas/statement.proto\x1a\"eolymp/atlas/testing_checker.proto\x1a!eolymp/atlas/testing_config.proto\x1a%eolymp/atlas/testing_interactor.proto\x1a\x1feolymp/atlas/testing_test.proto\x1a\"eolymp/atlas/testing_testset.proto\x1a$eolymp/atlas/testing_validator.proto\"\x8a\x06\n" +
+	"\bSnapshot\x12\x17\n" +
+	"\x06schema\x18\x0f \x01(\tR\a$schema\x12/\n" +
 	"\aproblem\x18\x01 \x01(\v2\x15.eolymp.atlas.ProblemR\aproblem\x125\n" +
 	"\atesting\x18\n" +
 	" \x01(\v2\x1b.eolymp.atlas.TestingConfigR\atesting\x12/\n" +
