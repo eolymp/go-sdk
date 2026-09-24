@@ -265,6 +265,7 @@ func (x *ListPlansOutput) GetItems() []*Plan {
 type AssignPlanInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	SpaceId       string                 `protobuf:"bytes,2,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -302,6 +303,13 @@ func (*AssignPlanInput) Descriptor() ([]byte, []int) {
 func (x *AssignPlanInput) GetPlanId() string {
 	if x != nil {
 		return x.PlanId
+	}
+	return ""
+}
+
+func (x *AssignPlanInput) GetSpaceId() string {
+	if x != nil {
+		return x.SpaceId
 	}
 	return ""
 }
@@ -345,6 +353,7 @@ func (*AssignPlanOutput) Descriptor() ([]byte, []int) {
 type UnassignPlanInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	SpaceId       string                 `protobuf:"bytes,2,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -382,6 +391,13 @@ func (*UnassignPlanInput) Descriptor() ([]byte, []int) {
 func (x *UnassignPlanInput) GetPlanId() string {
 	if x != nil {
 		return x.PlanId
+	}
+	return ""
+}
+
+func (x *UnassignPlanInput) GetSpaceId() string {
+	if x != nil {
+		return x.SpaceId
 	}
 	return ""
 }
@@ -443,12 +459,14 @@ const file_eolymp_universe_plan_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.universe.Plan.ExtraR\x05extra\"T\n" +
 	"\x0fListPlansOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items\"*\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items\"E\n" +
 	"\x0fAssignPlanInput\x12\x17\n" +
-	"\aplan_id\x18\x01 \x01(\tR\x06planId\"\x12\n" +
-	"\x10AssignPlanOutput\",\n" +
+	"\aplan_id\x18\x01 \x01(\tR\x06planId\x12\x19\n" +
+	"\bspace_id\x18\x02 \x01(\tR\aspaceId\"\x12\n" +
+	"\x10AssignPlanOutput\"G\n" +
 	"\x11UnassignPlanInput\x12\x17\n" +
-	"\aplan_id\x18\x01 \x01(\tR\x06planId\"\x14\n" +
+	"\aplan_id\x18\x01 \x01(\tR\x06planId\x12\x19\n" +
+	"\bspace_id\x18\x02 \x01(\tR\aspaceId\"\x14\n" +
 	"\x12UnassignPlanOutput2\x8a\x05\n" +
 	"\vPlanService\x12\x88\x01\n" +
 	"\fDescribePlan\x12\".eolymp.universe.DescribePlanInput\x1a#.eolymp.universe.DescribePlanOutput\"/\xea\xe2\n" +

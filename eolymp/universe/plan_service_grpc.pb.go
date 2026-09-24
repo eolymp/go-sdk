@@ -33,9 +33,9 @@ const (
 type PlanServiceClient interface {
 	DescribePlan(ctx context.Context, in *DescribePlanInput, opts ...grpc.CallOption) (*DescribePlanOutput, error)
 	ListPlans(ctx context.Context, in *ListPlansInput, opts ...grpc.CallOption) (*ListPlansOutput, error)
-	// Offer a plan to the current space, requires god mode.
+	// Offer a plan to a space, requires god mode.
 	AssignPlan(ctx context.Context, in *AssignPlanInput, opts ...grpc.CallOption) (*AssignPlanOutput, error)
-	// Withdraw a plan offered to the current space, requires god mode.
+	// Withdraw a plan offered to a space, requires god mode.
 	UnassignPlan(ctx context.Context, in *UnassignPlanInput, opts ...grpc.CallOption) (*UnassignPlanOutput, error)
 }
 
@@ -95,9 +95,9 @@ func (c *planServiceClient) UnassignPlan(ctx context.Context, in *UnassignPlanIn
 type PlanServiceServer interface {
 	DescribePlan(context.Context, *DescribePlanInput) (*DescribePlanOutput, error)
 	ListPlans(context.Context, *ListPlansInput) (*ListPlansOutput, error)
-	// Offer a plan to the current space, requires god mode.
+	// Offer a plan to a space, requires god mode.
 	AssignPlan(context.Context, *AssignPlanInput) (*AssignPlanOutput, error)
-	// Withdraw a plan offered to the current space, requires god mode.
+	// Withdraw a plan offered to a space, requires god mode.
 	UnassignPlan(context.Context, *UnassignPlanInput) (*UnassignPlanOutput, error)
 }
 

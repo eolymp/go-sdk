@@ -187,7 +187,6 @@ type Plan struct {
 	Labels           []string               `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty"`
 	RequiresApproval bool                   `protobuf:"varint,7,opt,name=requires_approval,json=requiresApproval,proto3" json:"requires_approval,omitempty"` // special plan which requires approval
 	Visibility       Plan_Visibility        `protobuf:"varint,8,opt,name=visibility,proto3,enum=eolymp.universe.Plan_Visibility" json:"visibility,omitempty"`
-	Assigned         bool                   `protobuf:"varint,9,opt,name=assigned,proto3" json:"assigned,omitempty"` // plan is explicitly offered to the current space
 	MinSeats         uint32                 `protobuf:"varint,10,opt,name=min_seats,json=minSeats,proto3" json:"min_seats,omitempty"`
 	MaxSeats         uint32                 `protobuf:"varint,11,opt,name=max_seats,json=maxSeats,proto3" json:"max_seats,omitempty"`
 	Variants         []*Plan_Variant        `protobuf:"bytes,100,rep,name=variants,proto3" json:"variants,omitempty"`
@@ -272,13 +271,6 @@ func (x *Plan) GetVisibility() Plan_Visibility {
 		return x.Visibility
 	}
 	return Plan_UNKNOWN_VISIBILITY
-}
-
-func (x *Plan) GetAssigned() bool {
-	if x != nil {
-		return x.Assigned
-	}
-	return false
 }
 
 func (x *Plan) GetMinSeats() uint32 {
@@ -374,7 +366,7 @@ var File_eolymp_universe_plan_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_plan_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/universe/plan.proto\x12\x0feolymp.universe\x1a\x18eolymp/ecm/content.proto\x1a\x1beolymp/universe/quota.proto\"\xb2\x06\n" +
+	"\x1aeolymp/universe/plan.proto\x12\x0feolymp.universe\x1a\x18eolymp/ecm/content.proto\x1a\x1beolymp/universe/quota.proto\"\x96\x06\n" +
 	"\x04Plan\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x125\n" +
@@ -384,8 +376,7 @@ const file_eolymp_universe_plan_proto_rawDesc = "" +
 	"\x11requires_approval\x18\a \x01(\bR\x10requiresApproval\x12@\n" +
 	"\n" +
 	"visibility\x18\b \x01(\x0e2 .eolymp.universe.Plan.VisibilityR\n" +
-	"visibility\x12\x1a\n" +
-	"\bassigned\x18\t \x01(\bR\bassigned\x12\x1b\n" +
+	"visibility\x12\x1b\n" +
 	"\tmin_seats\x18\n" +
 	" \x01(\rR\bminSeats\x12\x1b\n" +
 	"\tmax_seats\x18\v \x01(\rR\bmaxSeats\x129\n" +
