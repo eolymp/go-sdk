@@ -38,7 +38,7 @@ type RuleServiceClient interface {
 	UpdateRule(ctx context.Context, in *UpdateRuleInput, opts ...grpc.CallOption) (*UpdateRuleOutput, error)
 	DeleteRule(ctx context.Context, in *DeleteRuleInput, opts ...grpc.CallOption) (*DeleteRuleOutput, error)
 	TriggerRule(ctx context.Context, in *TriggerRuleInput, opts ...grpc.CallOption) (*TriggerRuleOutput, error)
-	// ListActions returns active action rules (CONTEST_ACTION/MEMBER_ACTION) applicable to the given
+	// ListActions returns active action rules (CONTEST_ACTION/MEMBER_ACTION/PROBLEM_ACTION) applicable to the given
 	// references, so a client can show them as user-invoked actions for the referenced entity.
 	ListActions(ctx context.Context, in *ListActionsInput, opts ...grpc.CallOption) (*ListActionsOutput, error)
 }
@@ -131,7 +131,7 @@ type RuleServiceServer interface {
 	UpdateRule(context.Context, *UpdateRuleInput) (*UpdateRuleOutput, error)
 	DeleteRule(context.Context, *DeleteRuleInput) (*DeleteRuleOutput, error)
 	TriggerRule(context.Context, *TriggerRuleInput) (*TriggerRuleOutput, error)
-	// ListActions returns active action rules (CONTEST_ACTION/MEMBER_ACTION) applicable to the given
+	// ListActions returns active action rules (CONTEST_ACTION/MEMBER_ACTION/PROBLEM_ACTION) applicable to the given
 	// references, so a client can show them as user-invoked actions for the referenced entity.
 	ListActions(context.Context, *ListActionsInput) (*ListActionsOutput, error)
 }
