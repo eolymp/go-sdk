@@ -185,3 +185,51 @@ func (s *SpaceServiceService) ListSpaces(ctx context.Context, in *ListSpacesInpu
 
 	return out, nil
 }
+
+func (s *SpaceServiceService) DescribeQuota(ctx context.Context, in *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
+	out := &DescribeQuotaOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/quota"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SpaceServiceService) UpdateQuota(ctx context.Context, in *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
+	out := &UpdateQuotaOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/quota"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *SpaceServiceService) UpdateBilling(ctx context.Context, in *UpdateBillingInput) (*UpdateBillingOutput, error) {
+	out := &UpdateBillingOutput{}
+	path := "/spaces/" + url.PathEscape(in.GetSpaceId()) + "/billing"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SpaceId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

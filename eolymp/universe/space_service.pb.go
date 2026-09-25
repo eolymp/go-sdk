@@ -11,6 +11,7 @@ import (
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -647,6 +648,118 @@ func (*UpdateQuotaOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{13}
 }
 
+type UpdateBillingInput struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	SpaceId            string                 `protobuf:"bytes,1,opt,name=space_id,json=spaceId,proto3" json:"space_id,omitempty"`
+	PlanId             string                 `protobuf:"bytes,2,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"` // empty: the space's own quota is its whole quota
+	Seats              uint32                 `protobuf:"varint,3,opt,name=seats,proto3" json:"seats,omitempty"`                // 0 deactivates the space
+	BillingPeriodStart *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=billing_period_start,json=billingPeriodStart,proto3" json:"billing_period_start,omitempty"`
+	BillingPeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=billing_period_end,json=billingPeriodEnd,proto3" json:"billing_period_end,omitempty"` // unset: the period does not end
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *UpdateBillingInput) Reset() {
+	*x = UpdateBillingInput{}
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBillingInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBillingInput) ProtoMessage() {}
+
+func (x *UpdateBillingInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBillingInput.ProtoReflect.Descriptor instead.
+func (*UpdateBillingInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UpdateBillingInput) GetSpaceId() string {
+	if x != nil {
+		return x.SpaceId
+	}
+	return ""
+}
+
+func (x *UpdateBillingInput) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+func (x *UpdateBillingInput) GetSeats() uint32 {
+	if x != nil {
+		return x.Seats
+	}
+	return 0
+}
+
+func (x *UpdateBillingInput) GetBillingPeriodStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.BillingPeriodStart
+	}
+	return nil
+}
+
+func (x *UpdateBillingInput) GetBillingPeriodEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.BillingPeriodEnd
+	}
+	return nil
+}
+
+type UpdateBillingOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateBillingOutput) Reset() {
+	*x = UpdateBillingOutput{}
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBillingOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBillingOutput) ProtoMessage() {}
+
+func (x *UpdateBillingOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBillingOutput.ProtoReflect.Descriptor instead.
+func (*UpdateBillingOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{15}
+}
+
 type ListSpacesInput struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Offset        int32                   `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -660,7 +773,7 @@ type ListSpacesInput struct {
 
 func (x *ListSpacesInput) Reset() {
 	*x = ListSpacesInput{}
-	mi := &file_eolymp_universe_space_service_proto_msgTypes[14]
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -672,7 +785,7 @@ func (x *ListSpacesInput) String() string {
 func (*ListSpacesInput) ProtoMessage() {}
 
 func (x *ListSpacesInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_universe_space_service_proto_msgTypes[14]
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -685,7 +798,7 @@ func (x *ListSpacesInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSpacesInput.ProtoReflect.Descriptor instead.
 func (*ListSpacesInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ListSpacesInput) GetOffset() int32 {
@@ -733,7 +846,7 @@ type ListSpacesOutput struct {
 
 func (x *ListSpacesOutput) Reset() {
 	*x = ListSpacesOutput{}
-	mi := &file_eolymp_universe_space_service_proto_msgTypes[15]
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -745,7 +858,7 @@ func (x *ListSpacesOutput) String() string {
 func (*ListSpacesOutput) ProtoMessage() {}
 
 func (x *ListSpacesOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_universe_space_service_proto_msgTypes[15]
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -758,7 +871,7 @@ func (x *ListSpacesOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSpacesOutput.ProtoReflect.Descriptor instead.
 func (*ListSpacesOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ListSpacesOutput) GetTotal() int32 {
@@ -789,7 +902,7 @@ type ListSpacesInput_Filter struct {
 
 func (x *ListSpacesInput_Filter) Reset() {
 	*x = ListSpacesInput_Filter{}
-	mi := &file_eolymp_universe_space_service_proto_msgTypes[16]
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -801,7 +914,7 @@ func (x *ListSpacesInput_Filter) String() string {
 func (*ListSpacesInput_Filter) ProtoMessage() {}
 
 func (x *ListSpacesInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_universe_space_service_proto_msgTypes[16]
+	mi := &file_eolymp_universe_space_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -814,7 +927,7 @@ func (x *ListSpacesInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSpacesInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListSpacesInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{14, 0}
+	return file_eolymp_universe_space_service_proto_rawDescGZIP(), []int{16, 0}
 }
 
 // Deprecated: Marked as deprecated in eolymp/universe/space_service.proto.
@@ -857,7 +970,7 @@ var File_eolymp_universe_space_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/universe/space_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1beolymp/universe/space.proto\x1a!eolymp/wellknown/expression.proto\"@\n" +
+	"#eolymp/universe/space_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1beolymp/universe/space.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"@\n" +
 	"\x10CreateSpaceInput\x12,\n" +
 	"\x05space\x18\x01 \x01(\v2\x16.eolymp.universe.SpaceR\x05space\".\n" +
 	"\x11CreateSpaceOutput\x12\x19\n" +
@@ -886,7 +999,14 @@ const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\x10UpdateQuotaInput\x12\x19\n" +
 	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12,\n" +
 	"\x05quota\x18\x02 \x01(\v2\x16.eolymp.universe.QuotaR\x05quota\"\x13\n" +
-	"\x11UpdateQuotaOutput\"\xc6\x03\n" +
+	"\x11UpdateQuotaOutput\"\xf6\x01\n" +
+	"\x12UpdateBillingInput\x12\x19\n" +
+	"\bspace_id\x18\x01 \x01(\tR\aspaceId\x12\x17\n" +
+	"\aplan_id\x18\x02 \x01(\tR\x06planId\x12\x14\n" +
+	"\x05seats\x18\x03 \x01(\rR\x05seats\x12L\n" +
+	"\x14billing_period_start\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x12billingPeriodStart\x12H\n" +
+	"\x12billing_period_end\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x10billingPeriodEnd\"\x15\n" +
+	"\x13UpdateBillingOutput\"\xc6\x03\n" +
 	"\x0fListSpacesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
@@ -902,7 +1022,7 @@ const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\x03own\x18\x04 \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x03own\"V\n" +
 	"\x10ListSpacesOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
-	"\x05items\x18\x02 \x03(\v2\x16.eolymp.universe.SpaceR\x05items2\xaa\a\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.universe.SpaceR\x05items2\xbb\v\n" +
 	"\fSpaceService\x12\x8b\x01\n" +
 	"\vLookupSpace\x12!.eolymp.universe.LookupSpaceInput\x1a\".eolymp.universe.LookupSpaceOutput\"5\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -949,7 +1069,31 @@ const file_eolymp_universe_space_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13universe:space:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/spacesB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\t\x12\a/spaces\x12\xae\x01\n" +
+	"\rDescribeQuota\x12#.eolymp.universe.DescribeQuotaInput\x1a$.eolymp.universe.DescribeQuotaOutput\"R\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13universe:space:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1a\x12\x18/spaces/{space_id}/quota\x12\xa9\x01\n" +
+	"\vUpdateQuota\x12!.eolymp.universe.UpdateQuotaInput\x1a\".eolymp.universe.UpdateQuotaOutput\"S\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a\x1a\x18/spaces/{space_id}/quota\x12\xb1\x01\n" +
+	"\rUpdateBilling\x12#.eolymp.universe.UpdateBillingInput\x1a$.eolymp.universe.UpdateBillingOutput\"U\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x18\x8a\xe3\n" +
+	"\x14universe:space:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\x1a\x1a/spaces/{space_id}/billingB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_space_service_proto_rawDescOnce sync.Once
@@ -963,7 +1107,7 @@ func file_eolymp_universe_space_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_space_service_proto_rawDescData
 }
 
-var file_eolymp_universe_space_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_eolymp_universe_space_service_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_eolymp_universe_space_service_proto_goTypes = []any{
 	(*CreateSpaceInput)(nil),           // 0: eolymp.universe.CreateSpaceInput
 	(*CreateSpaceOutput)(nil),          // 1: eolymp.universe.CreateSpaceOutput
@@ -979,50 +1123,61 @@ var file_eolymp_universe_space_service_proto_goTypes = []any{
 	(*DescribeQuotaOutput)(nil),        // 11: eolymp.universe.DescribeQuotaOutput
 	(*UpdateQuotaInput)(nil),           // 12: eolymp.universe.UpdateQuotaInput
 	(*UpdateQuotaOutput)(nil),          // 13: eolymp.universe.UpdateQuotaOutput
-	(*ListSpacesInput)(nil),            // 14: eolymp.universe.ListSpacesInput
-	(*ListSpacesOutput)(nil),           // 15: eolymp.universe.ListSpacesOutput
-	(*ListSpacesInput_Filter)(nil),     // 16: eolymp.universe.ListSpacesInput.Filter
-	(*Space)(nil),                      // 17: eolymp.universe.Space
-	(*Space_Patch)(nil),                // 18: eolymp.universe.Space.Patch
-	(Space_Extra_Field)(0),             // 19: eolymp.universe.Space.Extra.Field
-	(*Quota)(nil),                      // 20: eolymp.universe.Quota
-	(*wellknown.ExpressionID)(nil),     // 21: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 22: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),   // 23: eolymp.wellknown.ExpressionBool
+	(*UpdateBillingInput)(nil),         // 14: eolymp.universe.UpdateBillingInput
+	(*UpdateBillingOutput)(nil),        // 15: eolymp.universe.UpdateBillingOutput
+	(*ListSpacesInput)(nil),            // 16: eolymp.universe.ListSpacesInput
+	(*ListSpacesOutput)(nil),           // 17: eolymp.universe.ListSpacesOutput
+	(*ListSpacesInput_Filter)(nil),     // 18: eolymp.universe.ListSpacesInput.Filter
+	(*Space)(nil),                      // 19: eolymp.universe.Space
+	(*Space_Patch)(nil),                // 20: eolymp.universe.Space.Patch
+	(Space_Extra_Field)(0),             // 21: eolymp.universe.Space.Extra.Field
+	(*Quota)(nil),                      // 22: eolymp.universe.Quota
+	(*timestamppb.Timestamp)(nil),      // 23: google.protobuf.Timestamp
+	(*wellknown.ExpressionID)(nil),     // 24: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 25: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionBool)(nil),   // 26: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_universe_space_service_proto_depIdxs = []int32{
-	17, // 0: eolymp.universe.CreateSpaceInput.space:type_name -> eolymp.universe.Space
-	18, // 1: eolymp.universe.UpdateSpaceInput.space:type_name -> eolymp.universe.Space.Patch
-	19, // 2: eolymp.universe.LookupSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
-	17, // 3: eolymp.universe.LookupSpaceOutput.space:type_name -> eolymp.universe.Space
-	19, // 4: eolymp.universe.DescribeSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
-	17, // 5: eolymp.universe.DescribeSpaceOutput.space:type_name -> eolymp.universe.Space
-	20, // 6: eolymp.universe.DescribeQuotaOutput.quota:type_name -> eolymp.universe.Quota
-	20, // 7: eolymp.universe.UpdateQuotaInput.quota:type_name -> eolymp.universe.Quota
-	16, // 8: eolymp.universe.ListSpacesInput.filters:type_name -> eolymp.universe.ListSpacesInput.Filter
-	19, // 9: eolymp.universe.ListSpacesInput.extra:type_name -> eolymp.universe.Space.Extra.Field
-	17, // 10: eolymp.universe.ListSpacesOutput.items:type_name -> eolymp.universe.Space
-	21, // 11: eolymp.universe.ListSpacesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	21, // 12: eolymp.universe.ListSpacesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionID
-	22, // 13: eolymp.universe.ListSpacesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
-	23, // 14: eolymp.universe.ListSpacesInput.Filter.own:type_name -> eolymp.wellknown.ExpressionBool
-	6,  // 15: eolymp.universe.SpaceService.LookupSpace:input_type -> eolymp.universe.LookupSpaceInput
-	0,  // 16: eolymp.universe.SpaceService.CreateSpace:input_type -> eolymp.universe.CreateSpaceInput
-	2,  // 17: eolymp.universe.SpaceService.UpdateSpace:input_type -> eolymp.universe.UpdateSpaceInput
-	4,  // 18: eolymp.universe.SpaceService.DeleteSpace:input_type -> eolymp.universe.DeleteSpaceInput
-	8,  // 19: eolymp.universe.SpaceService.DescribeSpace:input_type -> eolymp.universe.DescribeSpaceInput
-	14, // 20: eolymp.universe.SpaceService.ListSpaces:input_type -> eolymp.universe.ListSpacesInput
-	7,  // 21: eolymp.universe.SpaceService.LookupSpace:output_type -> eolymp.universe.LookupSpaceOutput
-	1,  // 22: eolymp.universe.SpaceService.CreateSpace:output_type -> eolymp.universe.CreateSpaceOutput
-	3,  // 23: eolymp.universe.SpaceService.UpdateSpace:output_type -> eolymp.universe.UpdateSpaceOutput
-	5,  // 24: eolymp.universe.SpaceService.DeleteSpace:output_type -> eolymp.universe.DeleteSpaceOutput
-	9,  // 25: eolymp.universe.SpaceService.DescribeSpace:output_type -> eolymp.universe.DescribeSpaceOutput
-	15, // 26: eolymp.universe.SpaceService.ListSpaces:output_type -> eolymp.universe.ListSpacesOutput
-	21, // [21:27] is the sub-list for method output_type
-	15, // [15:21] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	19, // 0: eolymp.universe.CreateSpaceInput.space:type_name -> eolymp.universe.Space
+	20, // 1: eolymp.universe.UpdateSpaceInput.space:type_name -> eolymp.universe.Space.Patch
+	21, // 2: eolymp.universe.LookupSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
+	19, // 3: eolymp.universe.LookupSpaceOutput.space:type_name -> eolymp.universe.Space
+	21, // 4: eolymp.universe.DescribeSpaceInput.extra:type_name -> eolymp.universe.Space.Extra.Field
+	19, // 5: eolymp.universe.DescribeSpaceOutput.space:type_name -> eolymp.universe.Space
+	22, // 6: eolymp.universe.DescribeQuotaOutput.quota:type_name -> eolymp.universe.Quota
+	22, // 7: eolymp.universe.UpdateQuotaInput.quota:type_name -> eolymp.universe.Quota
+	23, // 8: eolymp.universe.UpdateBillingInput.billing_period_start:type_name -> google.protobuf.Timestamp
+	23, // 9: eolymp.universe.UpdateBillingInput.billing_period_end:type_name -> google.protobuf.Timestamp
+	18, // 10: eolymp.universe.ListSpacesInput.filters:type_name -> eolymp.universe.ListSpacesInput.Filter
+	21, // 11: eolymp.universe.ListSpacesInput.extra:type_name -> eolymp.universe.Space.Extra.Field
+	19, // 12: eolymp.universe.ListSpacesOutput.items:type_name -> eolymp.universe.Space
+	24, // 13: eolymp.universe.ListSpacesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	24, // 14: eolymp.universe.ListSpacesInput.Filter.key:type_name -> eolymp.wellknown.ExpressionID
+	25, // 15: eolymp.universe.ListSpacesInput.Filter.name:type_name -> eolymp.wellknown.ExpressionString
+	26, // 16: eolymp.universe.ListSpacesInput.Filter.own:type_name -> eolymp.wellknown.ExpressionBool
+	6,  // 17: eolymp.universe.SpaceService.LookupSpace:input_type -> eolymp.universe.LookupSpaceInput
+	0,  // 18: eolymp.universe.SpaceService.CreateSpace:input_type -> eolymp.universe.CreateSpaceInput
+	2,  // 19: eolymp.universe.SpaceService.UpdateSpace:input_type -> eolymp.universe.UpdateSpaceInput
+	4,  // 20: eolymp.universe.SpaceService.DeleteSpace:input_type -> eolymp.universe.DeleteSpaceInput
+	8,  // 21: eolymp.universe.SpaceService.DescribeSpace:input_type -> eolymp.universe.DescribeSpaceInput
+	16, // 22: eolymp.universe.SpaceService.ListSpaces:input_type -> eolymp.universe.ListSpacesInput
+	10, // 23: eolymp.universe.SpaceService.DescribeQuota:input_type -> eolymp.universe.DescribeQuotaInput
+	12, // 24: eolymp.universe.SpaceService.UpdateQuota:input_type -> eolymp.universe.UpdateQuotaInput
+	14, // 25: eolymp.universe.SpaceService.UpdateBilling:input_type -> eolymp.universe.UpdateBillingInput
+	7,  // 26: eolymp.universe.SpaceService.LookupSpace:output_type -> eolymp.universe.LookupSpaceOutput
+	1,  // 27: eolymp.universe.SpaceService.CreateSpace:output_type -> eolymp.universe.CreateSpaceOutput
+	3,  // 28: eolymp.universe.SpaceService.UpdateSpace:output_type -> eolymp.universe.UpdateSpaceOutput
+	5,  // 29: eolymp.universe.SpaceService.DeleteSpace:output_type -> eolymp.universe.DeleteSpaceOutput
+	9,  // 30: eolymp.universe.SpaceService.DescribeSpace:output_type -> eolymp.universe.DescribeSpaceOutput
+	17, // 31: eolymp.universe.SpaceService.ListSpaces:output_type -> eolymp.universe.ListSpacesOutput
+	11, // 32: eolymp.universe.SpaceService.DescribeQuota:output_type -> eolymp.universe.DescribeQuotaOutput
+	13, // 33: eolymp.universe.SpaceService.UpdateQuota:output_type -> eolymp.universe.UpdateQuotaOutput
+	15, // 34: eolymp.universe.SpaceService.UpdateBilling:output_type -> eolymp.universe.UpdateBillingOutput
+	26, // [26:35] is the sub-list for method output_type
+	17, // [17:26] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_universe_space_service_proto_init() }
@@ -1038,7 +1193,7 @@ func file_eolymp_universe_space_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_universe_space_service_proto_rawDesc), len(file_eolymp_universe_space_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

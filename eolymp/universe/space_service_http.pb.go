@@ -219,6 +219,15 @@ func RegisterSpaceServiceHttpHandlers(router *mux.Router, prefix string, cli Spa
 	router.Handle(prefix+"/spaces", _SpaceService_ListSpaces_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.universe.SpaceService.ListSpaces")
+	router.Handle(prefix+"/spaces/{space_id}/quota", _SpaceService_DescribeQuota_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.universe.SpaceService.DescribeQuota")
+	router.Handle(prefix+"/spaces/{space_id}/quota", _SpaceService_UpdateQuota_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.universe.SpaceService.UpdateQuota")
+	router.Handle(prefix+"/spaces/{space_id}/billing", _SpaceService_UpdateBilling_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.universe.SpaceService.UpdateBilling")
 }
 
 // RegisterSpaceServiceHttpProxy adds proxy handlers for for SpaceServiceClient
@@ -355,6 +364,78 @@ func _SpaceService_ListSpaces_Rule0(cli SpaceServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.ListSpaces(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SpaceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SpaceService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SpaceService_DescribeQuota_Rule0(cli SpaceServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeQuotaInput{}
+
+		if err := _SpaceService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_SpaceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeQuota(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SpaceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SpaceService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SpaceService_UpdateQuota_Rule0(cli SpaceServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateQuotaInput{}
+
+		if err := _SpaceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_SpaceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateQuota(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SpaceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SpaceService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SpaceService_UpdateBilling_Rule0(cli SpaceServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateBillingInput{}
+
+		if err := _SpaceService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_SpaceService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SpaceId = vars["space_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateBilling(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SpaceService_HTTPWriteErrorResponse(w, err)
 			return

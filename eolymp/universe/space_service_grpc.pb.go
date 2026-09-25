@@ -25,6 +25,9 @@ const (
 	SpaceService_DeleteSpace_FullMethodName   = "/eolymp.universe.SpaceService/DeleteSpace"
 	SpaceService_DescribeSpace_FullMethodName = "/eolymp.universe.SpaceService/DescribeSpace"
 	SpaceService_ListSpaces_FullMethodName    = "/eolymp.universe.SpaceService/ListSpaces"
+	SpaceService_DescribeQuota_FullMethodName = "/eolymp.universe.SpaceService/DescribeQuota"
+	SpaceService_UpdateQuota_FullMethodName   = "/eolymp.universe.SpaceService/UpdateQuota"
+	SpaceService_UpdateBilling_FullMethodName = "/eolymp.universe.SpaceService/UpdateBilling"
 )
 
 // SpaceServiceClient is the client API for SpaceService service.
@@ -43,6 +46,12 @@ type SpaceServiceClient interface {
 	DescribeSpace(ctx context.Context, in *DescribeSpaceInput, opts ...grpc.CallOption) (*DescribeSpaceOutput, error)
 	// List spaces of a contest
 	ListSpaces(ctx context.Context, in *ListSpacesInput, opts ...grpc.CallOption) (*ListSpacesOutput, error)
+	// The space's own quota, merged over the plan's quota or used alone when the space has no plan. Requires god mode.
+	DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error)
+	// Replace the space's own quota. Requires god mode.
+	UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error)
+	// Set the space's plan, seats and billing period without Stripe. Requires god mode.
+	UpdateBilling(ctx context.Context, in *UpdateBillingInput, opts ...grpc.CallOption) (*UpdateBillingOutput, error)
 }
 
 type spaceServiceClient struct {
@@ -113,6 +122,36 @@ func (c *spaceServiceClient) ListSpaces(ctx context.Context, in *ListSpacesInput
 	return out, nil
 }
 
+func (c *spaceServiceClient) DescribeQuota(ctx context.Context, in *DescribeQuotaInput, opts ...grpc.CallOption) (*DescribeQuotaOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeQuotaOutput)
+	err := c.cc.Invoke(ctx, SpaceService_DescribeQuota_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *spaceServiceClient) UpdateQuota(ctx context.Context, in *UpdateQuotaInput, opts ...grpc.CallOption) (*UpdateQuotaOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateQuotaOutput)
+	err := c.cc.Invoke(ctx, SpaceService_UpdateQuota_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *spaceServiceClient) UpdateBilling(ctx context.Context, in *UpdateBillingInput, opts ...grpc.CallOption) (*UpdateBillingOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateBillingOutput)
+	err := c.cc.Invoke(ctx, SpaceService_UpdateBilling_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SpaceServiceServer is the server API for SpaceService service.
 // All implementations should embed UnimplementedSpaceServiceServer
 // for forward compatibility.
@@ -129,6 +168,12 @@ type SpaceServiceServer interface {
 	DescribeSpace(context.Context, *DescribeSpaceInput) (*DescribeSpaceOutput, error)
 	// List spaces of a contest
 	ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error)
+	// The space's own quota, merged over the plan's quota or used alone when the space has no plan. Requires god mode.
+	DescribeQuota(context.Context, *DescribeQuotaInput) (*DescribeQuotaOutput, error)
+	// Replace the space's own quota. Requires god mode.
+	UpdateQuota(context.Context, *UpdateQuotaInput) (*UpdateQuotaOutput, error)
+	// Set the space's plan, seats and billing period without Stripe. Requires god mode.
+	UpdateBilling(context.Context, *UpdateBillingInput) (*UpdateBillingOutput, error)
 }
 
 // UnimplementedSpaceServiceServer should be embedded to have
@@ -155,6 +200,15 @@ func (UnimplementedSpaceServiceServer) DescribeSpace(context.Context, *DescribeS
 }
 func (UnimplementedSpaceServiceServer) ListSpaces(context.Context, *ListSpacesInput) (*ListSpacesOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListSpaces not implemented")
+}
+func (UnimplementedSpaceServiceServer) DescribeQuota(context.Context, *DescribeQuotaInput) (*DescribeQuotaOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeQuota not implemented")
+}
+func (UnimplementedSpaceServiceServer) UpdateQuota(context.Context, *UpdateQuotaInput) (*UpdateQuotaOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateQuota not implemented")
+}
+func (UnimplementedSpaceServiceServer) UpdateBilling(context.Context, *UpdateBillingInput) (*UpdateBillingOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateBilling not implemented")
 }
 func (UnimplementedSpaceServiceServer) testEmbeddedByValue() {}
 
@@ -284,6 +338,60 @@ func _SpaceService_ListSpaces_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpaceService_DescribeQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeQuotaInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpaceServiceServer).DescribeQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpaceService_DescribeQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpaceServiceServer).DescribeQuota(ctx, req.(*DescribeQuotaInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpaceService_UpdateQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateQuotaInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpaceServiceServer).UpdateQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpaceService_UpdateQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpaceServiceServer).UpdateQuota(ctx, req.(*UpdateQuotaInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpaceService_UpdateBilling_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBillingInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpaceServiceServer).UpdateBilling(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpaceService_UpdateBilling_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpaceServiceServer).UpdateBilling(ctx, req.(*UpdateBillingInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SpaceService_ServiceDesc is the grpc.ServiceDesc for SpaceService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -314,6 +422,18 @@ var SpaceService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSpaces",
 			Handler:    _SpaceService_ListSpaces_Handler,
+		},
+		{
+			MethodName: "DescribeQuota",
+			Handler:    _SpaceService_DescribeQuota_Handler,
+		},
+		{
+			MethodName: "UpdateQuota",
+			Handler:    _SpaceService_UpdateQuota_Handler,
+		},
+		{
+			MethodName: "UpdateBilling",
+			Handler:    _SpaceService_UpdateBilling_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
