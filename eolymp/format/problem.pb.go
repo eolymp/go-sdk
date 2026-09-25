@@ -1661,11 +1661,9 @@ type Problem_Testset_Test struct {
 	//
 	//	*Problem_Testset_Test_ExampleAnswerUrl
 	//	*Problem_Testset_Test_ExampleAnswerContent
-	ExampleAnswer      isProblem_Testset_Test_ExampleAnswer `protobuf_oneof:"example_answer"`
-	GeneratedInputUrl  string                               `protobuf:"bytes,50,opt,name=generated_input_url,json=generatedInputUrl,proto3" json:"generated_input_url,omitempty"`
-	GeneratedAnswerUrl string                               `protobuf:"bytes,51,opt,name=generated_answer_url,json=generatedAnswerUrl,proto3" json:"generated_answer_url,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	ExampleAnswer isProblem_Testset_Test_ExampleAnswer `protobuf_oneof:"example_answer"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Problem_Testset_Test) Reset() {
@@ -1840,20 +1838,6 @@ func (x *Problem_Testset_Test) GetExampleAnswerContent() string {
 		if x, ok := x.ExampleAnswer.(*Problem_Testset_Test_ExampleAnswerContent); ok {
 			return x.ExampleAnswerContent
 		}
-	}
-	return ""
-}
-
-func (x *Problem_Testset_Test) GetGeneratedInputUrl() string {
-	if x != nil {
-		return x.GeneratedInputUrl
-	}
-	return ""
-}
-
-func (x *Problem_Testset_Test) GetGeneratedAnswerUrl() string {
-	if x != nil {
-		return x.GeneratedAnswerUrl
 	}
 	return ""
 }
@@ -2050,7 +2034,7 @@ var File_eolymp_format_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_format_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/format/problem.proto\x12\reolymp.format\x1a\x18eolymp/ecm/content.proto\"\xff'\n" +
+	"\x1beolymp/format/problem.proto\x12\reolymp.format\x1a\x18eolymp/ecm/content.proto\"\x9d'\n" +
 	"\aProblem\x12\x17\n" +
 	"\x06schema\x18\x01 \x01(\tR\a$schema\x12/\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1b.eolymp.format.Problem.TypeR\x04type\x12\x16\n" +
@@ -2161,7 +2145,7 @@ const file_eolymp_format_problem_proto_rawDesc = "" +
 	"\x13TIMEOUT_OR_ACCEPTED\x10\x06\x12\x18\n" +
 	"\x14OVERFLOW_OR_ACCEPTED\x10\a\x12\f\n" +
 	"\bDONT_RUN\x10\b\x12\v\n" +
-	"\aFAILURE\x10\t\x1a\x9d\f\n" +
+	"\aFAILURE\x10\t\x1a\xbb\v\n" +
 	"\aTestset\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x1d\n" +
 	"\n" +
@@ -2176,7 +2160,7 @@ const file_eolymp_format_problem_proto_rawDesc = "" +
 	"dependency\x18\t \x01(\x0e2).eolymp.format.Problem.Testset.DependencyR\n" +
 	"dependency\x129\n" +
 	"\x05tests\x18\n" +
-	" \x03(\v2#.eolymp.format.Problem.Testset.TestR\x05tests\x1a\xd5\x06\n" +
+	" \x03(\v2#.eolymp.format.Problem.Testset.TestR\x05tests\x1a\xf3\x05\n" +
 	"\x04Test\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\x05R\x05index\x12\x18\n" +
 	"\aexample\x18\x02 \x01(\bR\aexample\x12\x1a\n" +
@@ -2193,9 +2177,7 @@ const file_eolymp_format_problem_proto_rawDesc = "" +
 	"\x11example_input_url\x18\x1e \x01(\tH\x02R\x0fexampleInputUrl\x124\n" +
 	"\x15example_input_content\x18\x1f \x01(\tH\x02R\x13exampleInputContent\x12.\n" +
 	"\x12example_answer_url\x18( \x01(\tH\x03R\x10exampleAnswerUrl\x126\n" +
-	"\x16example_answer_content\x18) \x01(\tH\x03R\x14exampleAnswerContent\x12.\n" +
-	"\x13generated_input_url\x182 \x01(\tR\x11generatedInputUrl\x120\n" +
-	"\x14generated_answer_url\x183 \x01(\tR\x12generatedAnswerUrl\x1aA\n" +
+	"\x16example_answer_content\x18) \x01(\tH\x03R\x14exampleAnswerContent\x1aA\n" +
 	"\tGenerator\x12\x16\n" +
 	"\x06script\x18\x01 \x01(\tR\x06script\x12\x1c\n" +
 	"\targuments\x18\x02 \x03(\tR\targumentsB\a\n" +
