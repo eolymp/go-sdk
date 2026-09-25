@@ -2351,8 +2351,7 @@ func (x *ListTranslationPairsOutput) GetItems() []*TranslationPair {
 
 type CreateGlossaryEntryInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	Entry         *GlossaryEntry         `protobuf:"bytes,2,opt,name=entry,proto3" json:"entry,omitempty"`
+	Entry         *GlossaryEntry         `protobuf:"bytes,1,opt,name=entry,proto3" json:"entry,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2385,13 +2384,6 @@ func (x *CreateGlossaryEntryInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateGlossaryEntryInput.ProtoReflect.Descriptor instead.
 func (*CreateGlossaryEntryInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{44}
-}
-
-func (x *CreateGlossaryEntryInput) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
 }
 
 func (x *CreateGlossaryEntryInput) GetEntry() *GlossaryEntry {
@@ -2447,9 +2439,8 @@ func (x *CreateGlossaryEntryOutput) GetEntryId() string {
 
 type UpdateGlossaryEntryInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
-	Entry         *GlossaryEntry_Patch   `protobuf:"bytes,3,opt,name=entry,proto3" json:"entry,omitempty"`
+	EntryId       string                 `protobuf:"bytes,1,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	Entry         *GlossaryEntry_Patch   `protobuf:"bytes,2,opt,name=entry,proto3" json:"entry,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2482,13 +2473,6 @@ func (x *UpdateGlossaryEntryInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateGlossaryEntryInput.ProtoReflect.Descriptor instead.
 func (*UpdateGlossaryEntryInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{46}
-}
-
-func (x *UpdateGlossaryEntryInput) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
 }
 
 func (x *UpdateGlossaryEntryInput) GetEntryId() string {
@@ -2543,8 +2527,7 @@ func (*UpdateGlossaryEntryOutput) Descriptor() ([]byte, []int) {
 
 type DeleteGlossaryEntryInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	EntryId       string                 `protobuf:"bytes,1,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2577,13 +2560,6 @@ func (x *DeleteGlossaryEntryInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteGlossaryEntryInput.ProtoReflect.Descriptor instead.
 func (*DeleteGlossaryEntryInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{48}
-}
-
-func (x *DeleteGlossaryEntryInput) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
 }
 
 func (x *DeleteGlossaryEntryInput) GetEntryId() string {
@@ -2631,8 +2607,7 @@ func (*DeleteGlossaryEntryOutput) Descriptor() ([]byte, []int) {
 
 type DescribeGlossaryEntryInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	EntryId       string                 `protobuf:"bytes,1,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2665,13 +2640,6 @@ func (x *DescribeGlossaryEntryInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeGlossaryEntryInput.ProtoReflect.Descriptor instead.
 func (*DescribeGlossaryEntryInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{50}
-}
-
-func (x *DescribeGlossaryEntryInput) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
 }
 
 func (x *DescribeGlossaryEntryInput) GetEntryId() string {
@@ -2727,7 +2695,6 @@ func (x *DescribeGlossaryEntryOutput) GetEntry() *GlossaryEntry {
 
 type ListGlossaryEntriesInput struct {
 	state         protoimpl.MessageState           `protogen:"open.v1"`
-	ProjectId     string                           `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	Offset        int32                            `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
 	Size          int32                            `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	Search        string                           `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
@@ -2764,13 +2731,6 @@ func (x *ListGlossaryEntriesInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListGlossaryEntriesInput.ProtoReflect.Descriptor instead.
 func (*ListGlossaryEntriesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{52}
-}
-
-func (x *ListGlossaryEntriesInput) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
 }
 
 func (x *ListGlossaryEntriesInput) GetOffset() int32 {
@@ -3598,33 +3558,23 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x1aListTranslationPairsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12\x19\n" +
 	"\bhas_more\x18\x02 \x01(\bR\ahasMore\x122\n" +
-	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items\"k\n" +
-	"\x18CreateGlossaryEntryInput\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x120\n" +
-	"\x05entry\x18\x02 \x01(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05entry\"6\n" +
+	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items\"L\n" +
+	"\x18CreateGlossaryEntryInput\x120\n" +
+	"\x05entry\x18\x01 \x01(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05entry\"6\n" +
 	"\x19CreateGlossaryEntryOutput\x12\x19\n" +
-	"\bentry_id\x18\x01 \x01(\tR\aentryId\"\x8c\x01\n" +
-	"\x18UpdateGlossaryEntryInput\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
-	"\bentry_id\x18\x02 \x01(\tR\aentryId\x126\n" +
-	"\x05entry\x18\x03 \x01(\v2 .eolymp.l10n.GlossaryEntry.PatchR\x05entry\"\x1b\n" +
-	"\x19UpdateGlossaryEntryOutput\"T\n" +
-	"\x18DeleteGlossaryEntryInput\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
-	"\bentry_id\x18\x02 \x01(\tR\aentryId\"\x1b\n" +
-	"\x19DeleteGlossaryEntryOutput\"V\n" +
-	"\x1aDescribeGlossaryEntryInput\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
-	"\bentry_id\x18\x02 \x01(\tR\aentryId\"O\n" +
+	"\bentry_id\x18\x01 \x01(\tR\aentryId\"m\n" +
+	"\x18UpdateGlossaryEntryInput\x12\x19\n" +
+	"\bentry_id\x18\x01 \x01(\tR\aentryId\x126\n" +
+	"\x05entry\x18\x02 \x01(\v2 .eolymp.l10n.GlossaryEntry.PatchR\x05entry\"\x1b\n" +
+	"\x19UpdateGlossaryEntryOutput\"5\n" +
+	"\x18DeleteGlossaryEntryInput\x12\x19\n" +
+	"\bentry_id\x18\x01 \x01(\tR\aentryId\"\x1b\n" +
+	"\x19DeleteGlossaryEntryOutput\"7\n" +
+	"\x1aDescribeGlossaryEntryInput\x12\x19\n" +
+	"\bentry_id\x18\x01 \x01(\tR\aentryId\"O\n" +
 	"\x1bDescribeGlossaryEntryOutput\x120\n" +
-	"\x05entry\x18\x01 \x01(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05entry\"\xf2\x02\n" +
-	"\x18ListGlossaryEntriesInput\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x16\n" +
+	"\x05entry\x18\x01 \x01(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05entry\"\xd3\x02\n" +
+	"\x18ListGlossaryEntriesInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
@@ -3641,7 +3591,7 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12)\n" +
 	"\x06before\x18\x02 \x01(\v2\x11.eolymp.l10n.TermR\x06before\x12'\n" +
-	"\x05after\x18\x03 \x01(\v2\x11.eolymp.l10n.TermR\x05after2\xda'\n" +
+	"\x05after\x18\x03 \x01(\v2\x11.eolymp.l10n.TermR\x05after2\xec&\n" +
 	"\x13LocalizationService\x12\x9d\x01\n" +
 	"\n" +
 	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"R\xea\xe2\n" +
@@ -3813,47 +3763,47 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x19\x8a\xe3\n" +
 	"\x15l10n:translation:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02+\x12)/projects/{project_id}/translate/{locale}\x12\xbb\x01\n" +
-	"\x13CreateGlossaryEntry\x12%.eolymp.l10n.CreateGlossaryEntryInput\x1a&.eolymp.l10n.CreateGlossaryEntryOutput\"U\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02+\x12)/projects/{project_id}/translate/{locale}\x12\xa5\x01\n" +
+	"\x13CreateGlossaryEntry\x12%.eolymp.l10n.CreateGlossaryEntryInput\x1a&.eolymp.l10n.CreateGlossaryEntryOutput\"?\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/projects/{project_id}/glossary\x12\xc6\x01\n" +
-	"\x13UpdateGlossaryEntry\x12%.eolymp.l10n.UpdateGlossaryEntryInput\x1a&.eolymp.l10n.UpdateGlossaryEntryOutput\"`\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\v\"\t/glossary\x12\xb0\x01\n" +
+	"\x13UpdateGlossaryEntry\x12%.eolymp.l10n.UpdateGlossaryEntryInput\x1a&.eolymp.l10n.UpdateGlossaryEntryOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02,\x1a*/projects/{project_id}/glossary/{entry_id}\x12\xc6\x01\n" +
-	"\x13DeleteGlossaryEntry\x12%.eolymp.l10n.DeleteGlossaryEntryInput\x1a&.eolymp.l10n.DeleteGlossaryEntryOutput\"`\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x16\x1a\x14/glossary/{entry_id}\x12\xb0\x01\n" +
+	"\x13DeleteGlossaryEntry\x12%.eolymp.l10n.DeleteGlossaryEntryInput\x1a&.eolymp.l10n.DeleteGlossaryEntryOutput\"J\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"\x14\x82\xe3\n" +
 	"\x13\x8a\xe3\n" +
 	"\x0fl10n:term:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x03\x82\xd3\xe4\x93\x02,**/projects/{project_id}/glossary/{entry_id}\x12\xcb\x01\n" +
-	"\x15DescribeGlossaryEntry\x12'.eolymp.l10n.DescribeGlossaryEntryInput\x1a(.eolymp.l10n.DescribeGlossaryEntryOutput\"_\xea\xe2\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x16*\x14/glossary/{entry_id}\x12\xb5\x01\n" +
+	"\x15DescribeGlossaryEntry\x12'.eolymp.l10n.DescribeGlossaryEntryInput\x1a(.eolymp.l10n.DescribeGlossaryEntryOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
 	"\x0el10n:term:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02,\x12*/projects/{project_id}/glossary/{entry_id}\x12\xba\x01\n" +
-	"\x13ListGlossaryEntries\x12%.eolymp.l10n.ListGlossaryEntriesInput\x1a&.eolymp.l10n.ListGlossaryEntriesOutput\"T\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/glossary/{entry_id}\x12\xa4\x01\n" +
+	"\x13ListGlossaryEntries\x12%.eolymp.l10n.ListGlossaryEntriesInput\x1a&.eolymp.l10n.ListGlossaryEntriesOutput\">\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x12\x8a\xe3\n" +
 	"\x0el10n:term:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/projects/{project_id}/glossaryB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\v\x12\t/glossaryB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
 
 var (
 	file_eolymp_l10n_localization_service_proto_rawDescOnce sync.Once

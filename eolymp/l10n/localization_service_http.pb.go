@@ -264,19 +264,19 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/projects/{project_id}/translate/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslationPairs")
-	router.Handle(prefix+"/projects/{project_id}/glossary", _LocalizationService_CreateGlossaryEntry_Rule0(cli)).
+	router.Handle(prefix+"/glossary", _LocalizationService_CreateGlossaryEntry_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.l10n.LocalizationService.CreateGlossaryEntry")
-	router.Handle(prefix+"/projects/{project_id}/glossary/{entry_id}", _LocalizationService_UpdateGlossaryEntry_Rule0(cli)).
+	router.Handle(prefix+"/glossary/{entry_id}", _LocalizationService_UpdateGlossaryEntry_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.l10n.LocalizationService.UpdateGlossaryEntry")
-	router.Handle(prefix+"/projects/{project_id}/glossary/{entry_id}", _LocalizationService_DeleteGlossaryEntry_Rule0(cli)).
+	router.Handle(prefix+"/glossary/{entry_id}", _LocalizationService_DeleteGlossaryEntry_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.l10n.LocalizationService.DeleteGlossaryEntry")
-	router.Handle(prefix+"/projects/{project_id}/glossary/{entry_id}", _LocalizationService_DescribeGlossaryEntry_Rule0(cli)).
+	router.Handle(prefix+"/glossary/{entry_id}", _LocalizationService_DescribeGlossaryEntry_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.DescribeGlossaryEntry")
-	router.Handle(prefix+"/projects/{project_id}/glossary", _LocalizationService_ListGlossaryEntries_Rule0(cli)).
+	router.Handle(prefix+"/glossary", _LocalizationService_ListGlossaryEntries_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListGlossaryEntries")
 }
@@ -821,9 +821,6 @@ func _LocalizationService_CreateGlossaryEntry_Rule0(cli LocalizationServiceClien
 			return
 		}
 
-		vars := mux.Vars(r)
-		in.ProjectId = vars["project_id"]
-
 		var header, trailer metadata.MD
 
 		out, err := cli.CreateGlossaryEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
@@ -846,7 +843,6 @@ func _LocalizationService_UpdateGlossaryEntry_Rule0(cli LocalizationServiceClien
 		}
 
 		vars := mux.Vars(r)
-		in.ProjectId = vars["project_id"]
 		in.EntryId = vars["entry_id"]
 
 		var header, trailer metadata.MD
@@ -871,7 +867,6 @@ func _LocalizationService_DeleteGlossaryEntry_Rule0(cli LocalizationServiceClien
 		}
 
 		vars := mux.Vars(r)
-		in.ProjectId = vars["project_id"]
 		in.EntryId = vars["entry_id"]
 
 		var header, trailer metadata.MD
@@ -896,7 +891,6 @@ func _LocalizationService_DescribeGlossaryEntry_Rule0(cli LocalizationServiceCli
 		}
 
 		vars := mux.Vars(r)
-		in.ProjectId = vars["project_id"]
 		in.EntryId = vars["entry_id"]
 
 		var header, trailer metadata.MD
@@ -919,9 +913,6 @@ func _LocalizationService_ListGlossaryEntries_Rule0(cli LocalizationServiceClien
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
 		}
-
-		vars := mux.Vars(r)
-		in.ProjectId = vars["project_id"]
 
 		var header, trailer metadata.MD
 

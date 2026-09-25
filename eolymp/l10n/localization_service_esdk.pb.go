@@ -460,12 +460,7 @@ func (s *LocalizationServiceService) ListTranslationPairs(ctx context.Context, i
 
 func (s *LocalizationServiceService) CreateGlossaryEntry(ctx context.Context, in *CreateGlossaryEntryInput) (*CreateGlossaryEntryOutput, error) {
 	out := &CreateGlossaryEntryOutput{}
-	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/glossary"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProjectId = ""
-	}
+	path := "/glossary"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err
@@ -476,11 +471,10 @@ func (s *LocalizationServiceService) CreateGlossaryEntry(ctx context.Context, in
 
 func (s *LocalizationServiceService) UpdateGlossaryEntry(ctx context.Context, in *UpdateGlossaryEntryInput) (*UpdateGlossaryEntryOutput, error) {
 	out := &UpdateGlossaryEntryOutput{}
-	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/glossary/" + url.PathEscape(in.GetEntryId())
+	path := "/glossary/" + url.PathEscape(in.GetEntryId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ProjectId = ""
 		in.EntryId = ""
 	}
 
@@ -493,11 +487,10 @@ func (s *LocalizationServiceService) UpdateGlossaryEntry(ctx context.Context, in
 
 func (s *LocalizationServiceService) DeleteGlossaryEntry(ctx context.Context, in *DeleteGlossaryEntryInput) (*DeleteGlossaryEntryOutput, error) {
 	out := &DeleteGlossaryEntryOutput{}
-	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/glossary/" + url.PathEscape(in.GetEntryId())
+	path := "/glossary/" + url.PathEscape(in.GetEntryId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ProjectId = ""
 		in.EntryId = ""
 	}
 
@@ -510,11 +503,10 @@ func (s *LocalizationServiceService) DeleteGlossaryEntry(ctx context.Context, in
 
 func (s *LocalizationServiceService) DescribeGlossaryEntry(ctx context.Context, in *DescribeGlossaryEntryInput) (*DescribeGlossaryEntryOutput, error) {
 	out := &DescribeGlossaryEntryOutput{}
-	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/glossary/" + url.PathEscape(in.GetEntryId())
+	path := "/glossary/" + url.PathEscape(in.GetEntryId())
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
-		in.ProjectId = ""
 		in.EntryId = ""
 	}
 
@@ -527,12 +519,7 @@ func (s *LocalizationServiceService) DescribeGlossaryEntry(ctx context.Context, 
 
 func (s *LocalizationServiceService) ListGlossaryEntries(ctx context.Context, in *ListGlossaryEntriesInput) (*ListGlossaryEntriesOutput, error) {
 	out := &ListGlossaryEntriesOutput{}
-	path := "/projects/" + url.PathEscape(in.GetProjectId()) + "/glossary"
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ProjectId = ""
-	}
+	path := "/glossary"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err
