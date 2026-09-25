@@ -76,17 +76,18 @@ func (Translation_Status) EnumDescriptor() ([]byte, []int) {
 }
 
 type Translation struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
-	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
-	Status        Translation_Status     `protobuf:"varint,4,opt,name=status,proto3,enum=eolymp.l10n.Translation_Status" json:"status,omitempty"`
-	NeedsReview   bool                   `protobuf:"varint,5,opt,name=needs_review,json=needsReview,proto3" json:"needs_review,omitempty"`
-	CreatedBy     string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	ApprovedAt    *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=approved_at,json=approvedAt,proto3" json:"approved_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Locale            string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	Message           string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	Status            Translation_Status     `protobuf:"varint,4,opt,name=status,proto3,enum=eolymp.l10n.Translation_Status" json:"status,omitempty"`
+	NeedsReview       bool                   `protobuf:"varint,5,opt,name=needs_review,json=needsReview,proto3" json:"needs_review,omitempty"`
+	MachineTranslated bool                   `protobuf:"varint,6,opt,name=machine_translated,json=machineTranslated,proto3" json:"machine_translated,omitempty"`
+	CreatedBy         string                 `protobuf:"bytes,10,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ApprovedAt        *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=approved_at,json=approvedAt,proto3" json:"approved_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Translation) Reset() {
@@ -154,6 +155,13 @@ func (x *Translation) GetNeedsReview() bool {
 	return false
 }
 
+func (x *Translation) GetMachineTranslated() bool {
+	if x != nil {
+		return x.MachineTranslated
+	}
+	return false
+}
+
 func (x *Translation) GetCreatedBy() string {
 	if x != nil {
 		return x.CreatedBy
@@ -179,13 +187,14 @@ var File_eolymp_l10n_translation_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_translation_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/l10n/translation.proto\x12\veolymp.l10n\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa3\x03\n" +
+	"\x1deolymp/l10n/translation.proto\x12\veolymp.l10n\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xda\x03\n" +
 	"\vTranslation\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12?\n" +
 	"\x06status\x18\x04 \x01(\x0e2\x1f.eolymp.l10n.Translation.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x12!\n" +
-	"\fneeds_review\x18\x05 \x01(\bR\vneedsReview\x12%\n" +
+	"\fneeds_review\x18\x05 \x01(\bR\vneedsReview\x125\n" +
+	"\x12machine_translated\x18\x06 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x11machineTranslated\x12%\n" +
 	"\n" +
 	"created_by\x18\n" +
 	" \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedBy\x12A\n" +

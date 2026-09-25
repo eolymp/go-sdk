@@ -19,27 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LocalizationService_CreateTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/CreateTerm"
-	LocalizationService_ListTerms_FullMethodName            = "/eolymp.l10n.LocalizationService/ListTerms"
-	LocalizationService_UpdateTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/UpdateTerm"
-	LocalizationService_RestoreTerm_FullMethodName          = "/eolymp.l10n.LocalizationService/RestoreTerm"
-	LocalizationService_DeprecateTerm_FullMethodName        = "/eolymp.l10n.LocalizationService/DeprecateTerm"
-	LocalizationService_DeleteTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/DeleteTerm"
-	LocalizationService_DescribeTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/DescribeTerm"
-	LocalizationService_ImportTerms_FullMethodName          = "/eolymp.l10n.LocalizationService/ImportTerms"
-	LocalizationService_AddLocale_FullMethodName            = "/eolymp.l10n.LocalizationService/AddLocale"
-	LocalizationService_RemoveLocale_FullMethodName         = "/eolymp.l10n.LocalizationService/RemoveLocale"
-	LocalizationService_ListLocales_FullMethodName          = "/eolymp.l10n.LocalizationService/ListLocales"
-	LocalizationService_TranslateTerm_FullMethodName        = "/eolymp.l10n.LocalizationService/TranslateTerm"
-	LocalizationService_ListTranslations_FullMethodName     = "/eolymp.l10n.LocalizationService/ListTranslations"
-	LocalizationService_DeleteTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/DeleteTranslation"
-	LocalizationService_SuggestTranslation_FullMethodName   = "/eolymp.l10n.LocalizationService/SuggestTranslation"
-	LocalizationService_UpdateTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/UpdateTranslation"
-	LocalizationService_ApproveTranslation_FullMethodName   = "/eolymp.l10n.LocalizationService/ApproveTranslation"
-	LocalizationService_RejectTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/RejectTranslation"
-	LocalizationService_ImportTranslations_FullMethodName   = "/eolymp.l10n.LocalizationService/ImportTranslations"
-	LocalizationService_ExportTranslations_FullMethodName   = "/eolymp.l10n.LocalizationService/ExportTranslations"
-	LocalizationService_ListTranslationPairs_FullMethodName = "/eolymp.l10n.LocalizationService/ListTranslationPairs"
+	LocalizationService_CreateTerm_FullMethodName            = "/eolymp.l10n.LocalizationService/CreateTerm"
+	LocalizationService_ListTerms_FullMethodName             = "/eolymp.l10n.LocalizationService/ListTerms"
+	LocalizationService_UpdateTerm_FullMethodName            = "/eolymp.l10n.LocalizationService/UpdateTerm"
+	LocalizationService_RestoreTerm_FullMethodName           = "/eolymp.l10n.LocalizationService/RestoreTerm"
+	LocalizationService_DeprecateTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/DeprecateTerm"
+	LocalizationService_DeleteTerm_FullMethodName            = "/eolymp.l10n.LocalizationService/DeleteTerm"
+	LocalizationService_DescribeTerm_FullMethodName          = "/eolymp.l10n.LocalizationService/DescribeTerm"
+	LocalizationService_ImportTerms_FullMethodName           = "/eolymp.l10n.LocalizationService/ImportTerms"
+	LocalizationService_AddLocale_FullMethodName             = "/eolymp.l10n.LocalizationService/AddLocale"
+	LocalizationService_RemoveLocale_FullMethodName          = "/eolymp.l10n.LocalizationService/RemoveLocale"
+	LocalizationService_ListLocales_FullMethodName           = "/eolymp.l10n.LocalizationService/ListLocales"
+	LocalizationService_TranslateTerm_FullMethodName         = "/eolymp.l10n.LocalizationService/TranslateTerm"
+	LocalizationService_ListTranslations_FullMethodName      = "/eolymp.l10n.LocalizationService/ListTranslations"
+	LocalizationService_DeleteTranslation_FullMethodName     = "/eolymp.l10n.LocalizationService/DeleteTranslation"
+	LocalizationService_SuggestTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/SuggestTranslation"
+	LocalizationService_UpdateTranslation_FullMethodName     = "/eolymp.l10n.LocalizationService/UpdateTranslation"
+	LocalizationService_ApproveTranslation_FullMethodName    = "/eolymp.l10n.LocalizationService/ApproveTranslation"
+	LocalizationService_RejectTranslation_FullMethodName     = "/eolymp.l10n.LocalizationService/RejectTranslation"
+	LocalizationService_ImportTranslations_FullMethodName    = "/eolymp.l10n.LocalizationService/ImportTranslations"
+	LocalizationService_ExportTranslations_FullMethodName    = "/eolymp.l10n.LocalizationService/ExportTranslations"
+	LocalizationService_ListTranslationPairs_FullMethodName  = "/eolymp.l10n.LocalizationService/ListTranslationPairs"
+	LocalizationService_CreateGlossaryEntry_FullMethodName   = "/eolymp.l10n.LocalizationService/CreateGlossaryEntry"
+	LocalizationService_UpdateGlossaryEntry_FullMethodName   = "/eolymp.l10n.LocalizationService/UpdateGlossaryEntry"
+	LocalizationService_DeleteGlossaryEntry_FullMethodName   = "/eolymp.l10n.LocalizationService/DeleteGlossaryEntry"
+	LocalizationService_DescribeGlossaryEntry_FullMethodName = "/eolymp.l10n.LocalizationService/DescribeGlossaryEntry"
+	LocalizationService_ListGlossaryEntries_FullMethodName   = "/eolymp.l10n.LocalizationService/ListGlossaryEntries"
 )
 
 // LocalizationServiceClient is the client API for LocalizationService service.
@@ -69,6 +74,11 @@ type LocalizationServiceClient interface {
 	ImportTranslations(ctx context.Context, in *ImportTranslationsInput, opts ...grpc.CallOption) (*ImportTranslationsOutput, error)
 	ExportTranslations(ctx context.Context, in *ExportTranslationsInput, opts ...grpc.CallOption) (*ExportTranslationsOutput, error)
 	ListTranslationPairs(ctx context.Context, in *ListTranslationPairsInput, opts ...grpc.CallOption) (*ListTranslationPairsOutput, error)
+	CreateGlossaryEntry(ctx context.Context, in *CreateGlossaryEntryInput, opts ...grpc.CallOption) (*CreateGlossaryEntryOutput, error)
+	UpdateGlossaryEntry(ctx context.Context, in *UpdateGlossaryEntryInput, opts ...grpc.CallOption) (*UpdateGlossaryEntryOutput, error)
+	DeleteGlossaryEntry(ctx context.Context, in *DeleteGlossaryEntryInput, opts ...grpc.CallOption) (*DeleteGlossaryEntryOutput, error)
+	DescribeGlossaryEntry(ctx context.Context, in *DescribeGlossaryEntryInput, opts ...grpc.CallOption) (*DescribeGlossaryEntryOutput, error)
+	ListGlossaryEntries(ctx context.Context, in *ListGlossaryEntriesInput, opts ...grpc.CallOption) (*ListGlossaryEntriesOutput, error)
 }
 
 type localizationServiceClient struct {
@@ -289,6 +299,56 @@ func (c *localizationServiceClient) ListTranslationPairs(ctx context.Context, in
 	return out, nil
 }
 
+func (c *localizationServiceClient) CreateGlossaryEntry(ctx context.Context, in *CreateGlossaryEntryInput, opts ...grpc.CallOption) (*CreateGlossaryEntryOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateGlossaryEntryOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_CreateGlossaryEntry_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) UpdateGlossaryEntry(ctx context.Context, in *UpdateGlossaryEntryInput, opts ...grpc.CallOption) (*UpdateGlossaryEntryOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateGlossaryEntryOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_UpdateGlossaryEntry_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) DeleteGlossaryEntry(ctx context.Context, in *DeleteGlossaryEntryInput, opts ...grpc.CallOption) (*DeleteGlossaryEntryOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteGlossaryEntryOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_DeleteGlossaryEntry_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) DescribeGlossaryEntry(ctx context.Context, in *DescribeGlossaryEntryInput, opts ...grpc.CallOption) (*DescribeGlossaryEntryOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeGlossaryEntryOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_DescribeGlossaryEntry_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *localizationServiceClient) ListGlossaryEntries(ctx context.Context, in *ListGlossaryEntriesInput, opts ...grpc.CallOption) (*ListGlossaryEntriesOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListGlossaryEntriesOutput)
+	err := c.cc.Invoke(ctx, LocalizationService_ListGlossaryEntries_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LocalizationServiceServer is the server API for LocalizationService service.
 // All implementations should embed UnimplementedLocalizationServiceServer
 // for forward compatibility.
@@ -316,6 +376,11 @@ type LocalizationServiceServer interface {
 	ImportTranslations(context.Context, *ImportTranslationsInput) (*ImportTranslationsOutput, error)
 	ExportTranslations(context.Context, *ExportTranslationsInput) (*ExportTranslationsOutput, error)
 	ListTranslationPairs(context.Context, *ListTranslationPairsInput) (*ListTranslationPairsOutput, error)
+	CreateGlossaryEntry(context.Context, *CreateGlossaryEntryInput) (*CreateGlossaryEntryOutput, error)
+	UpdateGlossaryEntry(context.Context, *UpdateGlossaryEntryInput) (*UpdateGlossaryEntryOutput, error)
+	DeleteGlossaryEntry(context.Context, *DeleteGlossaryEntryInput) (*DeleteGlossaryEntryOutput, error)
+	DescribeGlossaryEntry(context.Context, *DescribeGlossaryEntryInput) (*DescribeGlossaryEntryOutput, error)
+	ListGlossaryEntries(context.Context, *ListGlossaryEntriesInput) (*ListGlossaryEntriesOutput, error)
 }
 
 // UnimplementedLocalizationServiceServer should be embedded to have
@@ -387,6 +452,21 @@ func (UnimplementedLocalizationServiceServer) ExportTranslations(context.Context
 }
 func (UnimplementedLocalizationServiceServer) ListTranslationPairs(context.Context, *ListTranslationPairsInput) (*ListTranslationPairsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListTranslationPairs not implemented")
+}
+func (UnimplementedLocalizationServiceServer) CreateGlossaryEntry(context.Context, *CreateGlossaryEntryInput) (*CreateGlossaryEntryOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateGlossaryEntry not implemented")
+}
+func (UnimplementedLocalizationServiceServer) UpdateGlossaryEntry(context.Context, *UpdateGlossaryEntryInput) (*UpdateGlossaryEntryOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateGlossaryEntry not implemented")
+}
+func (UnimplementedLocalizationServiceServer) DeleteGlossaryEntry(context.Context, *DeleteGlossaryEntryInput) (*DeleteGlossaryEntryOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteGlossaryEntry not implemented")
+}
+func (UnimplementedLocalizationServiceServer) DescribeGlossaryEntry(context.Context, *DescribeGlossaryEntryInput) (*DescribeGlossaryEntryOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeGlossaryEntry not implemented")
+}
+func (UnimplementedLocalizationServiceServer) ListGlossaryEntries(context.Context, *ListGlossaryEntriesInput) (*ListGlossaryEntriesOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListGlossaryEntries not implemented")
 }
 func (UnimplementedLocalizationServiceServer) testEmbeddedByValue() {}
 
@@ -786,6 +866,96 @@ func _LocalizationService_ListTranslationPairs_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LocalizationService_CreateGlossaryEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateGlossaryEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).CreateGlossaryEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_CreateGlossaryEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).CreateGlossaryEntry(ctx, req.(*CreateGlossaryEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_UpdateGlossaryEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGlossaryEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).UpdateGlossaryEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_UpdateGlossaryEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).UpdateGlossaryEntry(ctx, req.(*UpdateGlossaryEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_DeleteGlossaryEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteGlossaryEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).DeleteGlossaryEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_DeleteGlossaryEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).DeleteGlossaryEntry(ctx, req.(*DeleteGlossaryEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_DescribeGlossaryEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeGlossaryEntryInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).DescribeGlossaryEntry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_DescribeGlossaryEntry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).DescribeGlossaryEntry(ctx, req.(*DescribeGlossaryEntryInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocalizationService_ListGlossaryEntries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGlossaryEntriesInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocalizationServiceServer).ListGlossaryEntries(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocalizationService_ListGlossaryEntries_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocalizationServiceServer).ListGlossaryEntries(ctx, req.(*ListGlossaryEntriesInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LocalizationService_ServiceDesc is the grpc.ServiceDesc for LocalizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -876,6 +1046,26 @@ var LocalizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTranslationPairs",
 			Handler:    _LocalizationService_ListTranslationPairs_Handler,
+		},
+		{
+			MethodName: "CreateGlossaryEntry",
+			Handler:    _LocalizationService_CreateGlossaryEntry_Handler,
+		},
+		{
+			MethodName: "UpdateGlossaryEntry",
+			Handler:    _LocalizationService_UpdateGlossaryEntry_Handler,
+		},
+		{
+			MethodName: "DeleteGlossaryEntry",
+			Handler:    _LocalizationService_DeleteGlossaryEntry_Handler,
+		},
+		{
+			MethodName: "DescribeGlossaryEntry",
+			Handler:    _LocalizationService_DescribeGlossaryEntry_Handler,
+		},
+		{
+			MethodName: "ListGlossaryEntries",
+			Handler:    _LocalizationService_ListGlossaryEntries_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

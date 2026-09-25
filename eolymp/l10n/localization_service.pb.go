@@ -2349,6 +2349,570 @@ func (x *ListTranslationPairsOutput) GetItems() []*TranslationPair {
 	return nil
 }
 
+type CreateGlossaryEntryInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Entry         *GlossaryEntry         `protobuf:"bytes,2,opt,name=entry,proto3" json:"entry,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateGlossaryEntryInput) Reset() {
+	*x = CreateGlossaryEntryInput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateGlossaryEntryInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateGlossaryEntryInput) ProtoMessage() {}
+
+func (x *CreateGlossaryEntryInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateGlossaryEntryInput.ProtoReflect.Descriptor instead.
+func (*CreateGlossaryEntryInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *CreateGlossaryEntryInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *CreateGlossaryEntryInput) GetEntry() *GlossaryEntry {
+	if x != nil {
+		return x.Entry
+	}
+	return nil
+}
+
+type CreateGlossaryEntryOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EntryId       string                 `protobuf:"bytes,1,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateGlossaryEntryOutput) Reset() {
+	*x = CreateGlossaryEntryOutput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateGlossaryEntryOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateGlossaryEntryOutput) ProtoMessage() {}
+
+func (x *CreateGlossaryEntryOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateGlossaryEntryOutput.ProtoReflect.Descriptor instead.
+func (*CreateGlossaryEntryOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *CreateGlossaryEntryOutput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+type UpdateGlossaryEntryInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	Entry         *GlossaryEntry_Patch   `protobuf:"bytes,3,opt,name=entry,proto3" json:"entry,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateGlossaryEntryInput) Reset() {
+	*x = UpdateGlossaryEntryInput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGlossaryEntryInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGlossaryEntryInput) ProtoMessage() {}
+
+func (x *UpdateGlossaryEntryInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGlossaryEntryInput.ProtoReflect.Descriptor instead.
+func (*UpdateGlossaryEntryInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *UpdateGlossaryEntryInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *UpdateGlossaryEntryInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+func (x *UpdateGlossaryEntryInput) GetEntry() *GlossaryEntry_Patch {
+	if x != nil {
+		return x.Entry
+	}
+	return nil
+}
+
+type UpdateGlossaryEntryOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateGlossaryEntryOutput) Reset() {
+	*x = UpdateGlossaryEntryOutput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGlossaryEntryOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGlossaryEntryOutput) ProtoMessage() {}
+
+func (x *UpdateGlossaryEntryOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGlossaryEntryOutput.ProtoReflect.Descriptor instead.
+func (*UpdateGlossaryEntryOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{47}
+}
+
+type DeleteGlossaryEntryInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteGlossaryEntryInput) Reset() {
+	*x = DeleteGlossaryEntryInput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteGlossaryEntryInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteGlossaryEntryInput) ProtoMessage() {}
+
+func (x *DeleteGlossaryEntryInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteGlossaryEntryInput.ProtoReflect.Descriptor instead.
+func (*DeleteGlossaryEntryInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *DeleteGlossaryEntryInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *DeleteGlossaryEntryInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+type DeleteGlossaryEntryOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteGlossaryEntryOutput) Reset() {
+	*x = DeleteGlossaryEntryOutput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteGlossaryEntryOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteGlossaryEntryOutput) ProtoMessage() {}
+
+func (x *DeleteGlossaryEntryOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteGlossaryEntryOutput.ProtoReflect.Descriptor instead.
+func (*DeleteGlossaryEntryOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{49}
+}
+
+type DescribeGlossaryEntryInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeGlossaryEntryInput) Reset() {
+	*x = DescribeGlossaryEntryInput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeGlossaryEntryInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeGlossaryEntryInput) ProtoMessage() {}
+
+func (x *DescribeGlossaryEntryInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeGlossaryEntryInput.ProtoReflect.Descriptor instead.
+func (*DescribeGlossaryEntryInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *DescribeGlossaryEntryInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *DescribeGlossaryEntryInput) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+type DescribeGlossaryEntryOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Entry         *GlossaryEntry         `protobuf:"bytes,1,opt,name=entry,proto3" json:"entry,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeGlossaryEntryOutput) Reset() {
+	*x = DescribeGlossaryEntryOutput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[51]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeGlossaryEntryOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeGlossaryEntryOutput) ProtoMessage() {}
+
+func (x *DescribeGlossaryEntryOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[51]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeGlossaryEntryOutput.ProtoReflect.Descriptor instead.
+func (*DescribeGlossaryEntryOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *DescribeGlossaryEntryOutput) GetEntry() *GlossaryEntry {
+	if x != nil {
+		return x.Entry
+	}
+	return nil
+}
+
+type ListGlossaryEntriesInput struct {
+	state         protoimpl.MessageState           `protogen:"open.v1"`
+	ProjectId     string                           `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Offset        int32                            `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                            `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Search        string                           `protobuf:"bytes,20,opt,name=search,proto3" json:"search,omitempty"`
+	Filters       *ListGlossaryEntriesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGlossaryEntriesInput) Reset() {
+	*x = ListGlossaryEntriesInput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGlossaryEntriesInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGlossaryEntriesInput) ProtoMessage() {}
+
+func (x *ListGlossaryEntriesInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGlossaryEntriesInput.ProtoReflect.Descriptor instead.
+func (*ListGlossaryEntriesInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *ListGlossaryEntriesInput) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *ListGlossaryEntriesInput) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *ListGlossaryEntriesInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListGlossaryEntriesInput) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
+}
+
+func (x *ListGlossaryEntriesInput) GetFilters() *ListGlossaryEntriesInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
+type ListGlossaryEntriesOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*GlossaryEntry       `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGlossaryEntriesOutput) Reset() {
+	*x = ListGlossaryEntriesOutput{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGlossaryEntriesOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGlossaryEntriesOutput) ProtoMessage() {}
+
+func (x *ListGlossaryEntriesOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGlossaryEntriesOutput.ProtoReflect.Descriptor instead.
+func (*ListGlossaryEntriesOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *ListGlossaryEntriesOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListGlossaryEntriesOutput) GetItems() []*GlossaryEntry {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type TermChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Before        *Term                  `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Term                  `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TermChangedEvent) Reset() {
+	*x = TermChangedEvent{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TermChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TermChangedEvent) ProtoMessage() {}
+
+func (x *TermChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TermChangedEvent.ProtoReflect.Descriptor instead.
+func (*TermChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{54}
+}
+
+func (x *TermChangedEvent) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *TermChangedEvent) GetBefore() *Term {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *TermChangedEvent) GetAfter() *Term {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
 type ListTermsInput_ExpressionTranslation struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
 	Locale        string                    `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
@@ -2359,7 +2923,7 @@ type ListTermsInput_ExpressionTranslation struct {
 
 func (x *ListTermsInput_ExpressionTranslation) Reset() {
 	*x = ListTermsInput_ExpressionTranslation{}
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[44]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2371,7 +2935,7 @@ func (x *ListTermsInput_ExpressionTranslation) String() string {
 func (*ListTermsInput_ExpressionTranslation) ProtoMessage() {}
 
 func (x *ListTermsInput_ExpressionTranslation) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[44]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2416,7 +2980,7 @@ type ListTermsInput_Filter struct {
 
 func (x *ListTermsInput_Filter) Reset() {
 	*x = ListTermsInput_Filter{}
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[45]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2428,7 +2992,7 @@ func (x *ListTermsInput_Filter) String() string {
 func (*ListTermsInput_Filter) ProtoMessage() {}
 
 func (x *ListTermsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[45]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2497,7 +3061,7 @@ type ListLocalesInput_Filter struct {
 
 func (x *ListLocalesInput_Filter) Reset() {
 	*x = ListLocalesInput_Filter{}
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[46]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2509,7 +3073,7 @@ func (x *ListLocalesInput_Filter) String() string {
 func (*ListLocalesInput_Filter) ProtoMessage() {}
 
 func (x *ListLocalesInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[46]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2552,7 +3116,7 @@ type ListLocalesOutput_Locale struct {
 
 func (x *ListLocalesOutput_Locale) Reset() {
 	*x = ListLocalesOutput_Locale{}
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[47]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2564,7 +3128,7 @@ func (x *ListLocalesOutput_Locale) String() string {
 func (*ListLocalesOutput_Locale) ProtoMessage() {}
 
 func (x *ListLocalesOutput_Locale) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[47]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2627,7 +3191,7 @@ type ListTranslationsInput_Filter struct {
 
 func (x *ListTranslationsInput_Filter) Reset() {
 	*x = ListTranslationsInput_Filter{}
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[48]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2639,7 +3203,7 @@ func (x *ListTranslationsInput_Filter) String() string {
 func (*ListTranslationsInput_Filter) ProtoMessage() {}
 
 func (x *ListTranslationsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[48]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2698,7 +3262,7 @@ type ListTranslationPairsInput_Filter struct {
 
 func (x *ListTranslationPairsInput_Filter) Reset() {
 	*x = ListTranslationPairsInput_Filter{}
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[51]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2710,7 +3274,7 @@ func (x *ListTranslationPairsInput_Filter) String() string {
 func (*ListTranslationPairsInput_Filter) ProtoMessage() {}
 
 func (x *ListTranslationPairsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[51]
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2769,11 +3333,71 @@ func (x *ListTranslationPairsInput_Filter) GetTranslationMessage() []*wellknown.
 	return nil
 }
 
+type ListGlossaryEntriesInput_Filter struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
+	Term          []*wellknown.ExpressionString `protobuf:"bytes,2,rep,name=term,proto3" json:"term,omitempty"`
+	Locale        []*wellknown.ExpressionEnum   `protobuf:"bytes,3,rep,name=locale,proto3" json:"locale,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGlossaryEntriesInput_Filter) Reset() {
+	*x = ListGlossaryEntriesInput_Filter{}
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[63]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGlossaryEntriesInput_Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGlossaryEntriesInput_Filter) ProtoMessage() {}
+
+func (x *ListGlossaryEntriesInput_Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_l10n_localization_service_proto_msgTypes[63]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGlossaryEntriesInput_Filter.ProtoReflect.Descriptor instead.
+func (*ListGlossaryEntriesInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_l10n_localization_service_proto_rawDescGZIP(), []int{52, 0}
+}
+
+func (x *ListGlossaryEntriesInput_Filter) GetId() []*wellknown.ExpressionID {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *ListGlossaryEntriesInput_Filter) GetTerm() []*wellknown.ExpressionString {
+	if x != nil {
+		return x.Term
+	}
+	return nil
+}
+
+func (x *ListGlossaryEntriesInput_Filter) GetLocale() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Locale
+	}
+	return nil
+}
+
 var File_eolymp_l10n_localization_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"W\n" +
+	"&eolymp/l10n/localization_service.proto\x12\veolymp.l10n\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a eolymp/l10n/glossary_entry.proto\x1a\x16eolymp/l10n/term.proto\x1a\x1deolymp/l10n/translation.proto\x1a\"eolymp/l10n/translation_pair.proto\x1a!eolymp/wellknown/expression.proto\"W\n" +
 	"\x0fCreateTermInput\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x02 \x01(\tR\tprojectId\x12%\n" +
@@ -2974,7 +3598,50 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x1aListTranslationPairsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12\x19\n" +
 	"\bhas_more\x18\x02 \x01(\bR\ahasMore\x122\n" +
-	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items2\xff\x1f\n" +
+	"\x05items\x18\x03 \x03(\v2\x1c.eolymp.l10n.TranslationPairR\x05items\"k\n" +
+	"\x18CreateGlossaryEntryInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x120\n" +
+	"\x05entry\x18\x02 \x01(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05entry\"6\n" +
+	"\x19CreateGlossaryEntryOutput\x12\x19\n" +
+	"\bentry_id\x18\x01 \x01(\tR\aentryId\"\x8c\x01\n" +
+	"\x18UpdateGlossaryEntryInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
+	"\bentry_id\x18\x02 \x01(\tR\aentryId\x126\n" +
+	"\x05entry\x18\x03 \x01(\v2 .eolymp.l10n.GlossaryEntry.PatchR\x05entry\"\x1b\n" +
+	"\x19UpdateGlossaryEntryOutput\"T\n" +
+	"\x18DeleteGlossaryEntryInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
+	"\bentry_id\x18\x02 \x01(\tR\aentryId\"\x1b\n" +
+	"\x19DeleteGlossaryEntryOutput\"V\n" +
+	"\x1aDescribeGlossaryEntryInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
+	"\bentry_id\x18\x02 \x01(\tR\aentryId\"O\n" +
+	"\x1bDescribeGlossaryEntryOutput\x120\n" +
+	"\x05entry\x18\x01 \x01(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05entry\"\xf2\x02\n" +
+	"\x18ListGlossaryEntriesInput\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x16\n" +
+	"\x06offset\x18\n" +
+	" \x01(\x05R\x06offset\x12\x12\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06search\x18\x14 \x01(\tR\x06search\x12F\n" +
+	"\afilters\x18( \x01(\v2,.eolymp.l10n.ListGlossaryEntriesInput.FilterR\afilters\x1a\xaa\x01\n" +
+	"\x06Filter\x12.\n" +
+	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x126\n" +
+	"\x04term\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04term\x128\n" +
+	"\x06locale\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06locale\"c\n" +
+	"\x19ListGlossaryEntriesOutput\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x120\n" +
+	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.l10n.GlossaryEntryR\x05items\"\x85\x01\n" +
+	"\x10TermChangedEvent\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12)\n" +
+	"\x06before\x18\x02 \x01(\v2\x11.eolymp.l10n.TermR\x06before\x12'\n" +
+	"\x05after\x18\x03 \x01(\v2\x11.eolymp.l10n.TermR\x05after2\xda'\n" +
 	"\x13LocalizationService\x12\x9d\x01\n" +
 	"\n" +
 	"CreateTerm\x12\x1c.eolymp.l10n.CreateTermInput\x1a\x1d.eolymp.l10n.CreateTermOutput\"R\xea\xe2\n" +
@@ -3146,7 +3813,47 @@ const file_eolymp_l10n_localization_service_proto_rawDesc = "" +
 	"\x19\x8a\xe3\n" +
 	"\x15l10n:translation:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02+\x12)/projects/{project_id}/translate/{locale}B+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02+\x12)/projects/{project_id}/translate/{locale}\x12\xbb\x01\n" +
+	"\x13CreateGlossaryEntry\x12%.eolymp.l10n.CreateGlossaryEntryInput\x1a&.eolymp.l10n.CreateGlossaryEntryOutput\"U\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x13\x8a\xe3\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/projects/{project_id}/glossary\x12\xc6\x01\n" +
+	"\x13UpdateGlossaryEntry\x12%.eolymp.l10n.UpdateGlossaryEntryInput\x1a&.eolymp.l10n.UpdateGlossaryEntryOutput\"`\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x13\x8a\xe3\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02,\x1a*/projects/{project_id}/glossary/{entry_id}\x12\xc6\x01\n" +
+	"\x13DeleteGlossaryEntry\x12%.eolymp.l10n.DeleteGlossaryEntryInput\x1a&.eolymp.l10n.DeleteGlossaryEntryOutput\"`\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\x82\xe3\n" +
+	"\x13\x8a\xe3\n" +
+	"\x0fl10n:term:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02,**/projects/{project_id}/glossary/{entry_id}\x12\xcb\x01\n" +
+	"\x15DescribeGlossaryEntry\x12'.eolymp.l10n.DescribeGlossaryEntryInput\x1a(.eolymp.l10n.DescribeGlossaryEntryOutput\"_\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x12\x8a\xe3\n" +
+	"\x0el10n:term:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02,\x12*/projects/{project_id}/glossary/{entry_id}\x12\xba\x01\n" +
+	"\x13ListGlossaryEntries\x12%.eolymp.l10n.ListGlossaryEntriesInput\x1a&.eolymp.l10n.ListGlossaryEntriesOutput\"T\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x12\x8a\xe3\n" +
+	"\x0el10n:term:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/projects/{project_id}/glossaryB+Z)github.com/eolymp/go-sdk/eolymp/l10n;l10nb\x06proto3"
 
 var (
 	file_eolymp_l10n_localization_service_proto_rawDescOnce sync.Once
@@ -3160,7 +3867,7 @@ func file_eolymp_l10n_localization_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_l10n_localization_service_proto_rawDescData
 }
 
-var file_eolymp_l10n_localization_service_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
+var file_eolymp_l10n_localization_service_proto_msgTypes = make([]protoimpl.MessageInfo, 64)
 var file_eolymp_l10n_localization_service_proto_goTypes = []any{
 	(*CreateTermInput)(nil),                      // 0: eolymp.l10n.CreateTermInput
 	(*CreateTermOutput)(nil),                     // 1: eolymp.l10n.CreateTermOutput
@@ -3206,104 +3913,138 @@ var file_eolymp_l10n_localization_service_proto_goTypes = []any{
 	(*ExportTranslationsOutput)(nil),             // 41: eolymp.l10n.ExportTranslationsOutput
 	(*ListTranslationPairsInput)(nil),            // 42: eolymp.l10n.ListTranslationPairsInput
 	(*ListTranslationPairsOutput)(nil),           // 43: eolymp.l10n.ListTranslationPairsOutput
-	(*ListTermsInput_ExpressionTranslation)(nil), // 44: eolymp.l10n.ListTermsInput.ExpressionTranslation
-	(*ListTermsInput_Filter)(nil),                // 45: eolymp.l10n.ListTermsInput.Filter
-	(*ListLocalesInput_Filter)(nil),              // 46: eolymp.l10n.ListLocalesInput.Filter
-	(*ListLocalesOutput_Locale)(nil),             // 47: eolymp.l10n.ListLocalesOutput.Locale
-	(*ListTranslationsInput_Filter)(nil),         // 48: eolymp.l10n.ListTranslationsInput.Filter
-	nil,                                          // 49: eolymp.l10n.ImportTranslationsInput.TranslationsEntry
-	nil,                                          // 50: eolymp.l10n.ExportTranslationsOutput.TranslationsEntry
-	(*ListTranslationPairsInput_Filter)(nil),     // 51: eolymp.l10n.ListTranslationPairsInput.Filter
-	(*Term)(nil),                                 // 52: eolymp.l10n.Term
-	(*Translation)(nil),                          // 53: eolymp.l10n.Translation
-	(*TranslationPair)(nil),                      // 54: eolymp.l10n.TranslationPair
-	(*wellknown.ExpressionEnum)(nil),             // 55: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionID)(nil),               // 56: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),           // 57: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionBool)(nil),             // 58: eolymp.wellknown.ExpressionBool
+	(*CreateGlossaryEntryInput)(nil),             // 44: eolymp.l10n.CreateGlossaryEntryInput
+	(*CreateGlossaryEntryOutput)(nil),            // 45: eolymp.l10n.CreateGlossaryEntryOutput
+	(*UpdateGlossaryEntryInput)(nil),             // 46: eolymp.l10n.UpdateGlossaryEntryInput
+	(*UpdateGlossaryEntryOutput)(nil),            // 47: eolymp.l10n.UpdateGlossaryEntryOutput
+	(*DeleteGlossaryEntryInput)(nil),             // 48: eolymp.l10n.DeleteGlossaryEntryInput
+	(*DeleteGlossaryEntryOutput)(nil),            // 49: eolymp.l10n.DeleteGlossaryEntryOutput
+	(*DescribeGlossaryEntryInput)(nil),           // 50: eolymp.l10n.DescribeGlossaryEntryInput
+	(*DescribeGlossaryEntryOutput)(nil),          // 51: eolymp.l10n.DescribeGlossaryEntryOutput
+	(*ListGlossaryEntriesInput)(nil),             // 52: eolymp.l10n.ListGlossaryEntriesInput
+	(*ListGlossaryEntriesOutput)(nil),            // 53: eolymp.l10n.ListGlossaryEntriesOutput
+	(*TermChangedEvent)(nil),                     // 54: eolymp.l10n.TermChangedEvent
+	(*ListTermsInput_ExpressionTranslation)(nil), // 55: eolymp.l10n.ListTermsInput.ExpressionTranslation
+	(*ListTermsInput_Filter)(nil),                // 56: eolymp.l10n.ListTermsInput.Filter
+	(*ListLocalesInput_Filter)(nil),              // 57: eolymp.l10n.ListLocalesInput.Filter
+	(*ListLocalesOutput_Locale)(nil),             // 58: eolymp.l10n.ListLocalesOutput.Locale
+	(*ListTranslationsInput_Filter)(nil),         // 59: eolymp.l10n.ListTranslationsInput.Filter
+	nil,                                          // 60: eolymp.l10n.ImportTranslationsInput.TranslationsEntry
+	nil,                                          // 61: eolymp.l10n.ExportTranslationsOutput.TranslationsEntry
+	(*ListTranslationPairsInput_Filter)(nil),     // 62: eolymp.l10n.ListTranslationPairsInput.Filter
+	(*ListGlossaryEntriesInput_Filter)(nil),      // 63: eolymp.l10n.ListGlossaryEntriesInput.Filter
+	(*Term)(nil),                                 // 64: eolymp.l10n.Term
+	(*Translation)(nil),                          // 65: eolymp.l10n.Translation
+	(*TranslationPair)(nil),                      // 66: eolymp.l10n.TranslationPair
+	(*GlossaryEntry)(nil),                        // 67: eolymp.l10n.GlossaryEntry
+	(*GlossaryEntry_Patch)(nil),                  // 68: eolymp.l10n.GlossaryEntry.Patch
+	(*wellknown.ExpressionEnum)(nil),             // 69: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionID)(nil),               // 70: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil),           // 71: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionBool)(nil),             // 72: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_l10n_localization_service_proto_depIdxs = []int32{
-	52, // 0: eolymp.l10n.CreateTermInput.term:type_name -> eolymp.l10n.Term
-	52, // 1: eolymp.l10n.ImportTermsInput.terms:type_name -> eolymp.l10n.Term
-	45, // 2: eolymp.l10n.ListTermsInput.filters:type_name -> eolymp.l10n.ListTermsInput.Filter
-	52, // 3: eolymp.l10n.ListTermsOutput.items:type_name -> eolymp.l10n.Term
-	52, // 4: eolymp.l10n.UpdateTermInput.term:type_name -> eolymp.l10n.Term
-	52, // 5: eolymp.l10n.DescribeTermOutput.term:type_name -> eolymp.l10n.Term
-	46, // 6: eolymp.l10n.ListLocalesInput.filters:type_name -> eolymp.l10n.ListLocalesInput.Filter
-	47, // 7: eolymp.l10n.ListLocalesOutput.items:type_name -> eolymp.l10n.ListLocalesOutput.Locale
-	53, // 8: eolymp.l10n.TranslateTermInput.translation:type_name -> eolymp.l10n.Translation
-	48, // 9: eolymp.l10n.ListTranslationsInput.filters:type_name -> eolymp.l10n.ListTranslationsInput.Filter
-	53, // 10: eolymp.l10n.ListTranslationsOutput.items:type_name -> eolymp.l10n.Translation
-	53, // 11: eolymp.l10n.UpdateTranslationInput.translation:type_name -> eolymp.l10n.Translation
-	52, // 12: eolymp.l10n.DescribeTranslationOutput.term:type_name -> eolymp.l10n.Term
-	49, // 13: eolymp.l10n.ImportTranslationsInput.translations:type_name -> eolymp.l10n.ImportTranslationsInput.TranslationsEntry
-	50, // 14: eolymp.l10n.ExportTranslationsOutput.translations:type_name -> eolymp.l10n.ExportTranslationsOutput.TranslationsEntry
-	51, // 15: eolymp.l10n.ListTranslationPairsInput.filters:type_name -> eolymp.l10n.ListTranslationPairsInput.Filter
-	54, // 16: eolymp.l10n.ListTranslationPairsOutput.items:type_name -> eolymp.l10n.TranslationPair
-	55, // 17: eolymp.l10n.ListTermsInput.ExpressionTranslation.status:type_name -> eolymp.wellknown.ExpressionEnum
-	56, // 18: eolymp.l10n.ListTermsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	57, // 19: eolymp.l10n.ListTermsInput.Filter.key:type_name -> eolymp.wellknown.ExpressionString
-	57, // 20: eolymp.l10n.ListTermsInput.Filter.message:type_name -> eolymp.wellknown.ExpressionString
-	55, // 21: eolymp.l10n.ListTermsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	44, // 22: eolymp.l10n.ListTermsInput.Filter.translation:type_name -> eolymp.l10n.ListTermsInput.ExpressionTranslation
-	56, // 23: eolymp.l10n.ListLocalesInput.Filter.code:type_name -> eolymp.wellknown.ExpressionID
-	58, // 24: eolymp.l10n.ListLocalesInput.Filter.ready:type_name -> eolymp.wellknown.ExpressionBool
-	56, // 25: eolymp.l10n.ListTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	57, // 26: eolymp.l10n.ListTranslationsInput.Filter.message:type_name -> eolymp.wellknown.ExpressionString
-	55, // 27: eolymp.l10n.ListTranslationsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	55, // 28: eolymp.l10n.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
-	57, // 29: eolymp.l10n.ListTranslationPairsInput.Filter.term_key:type_name -> eolymp.wellknown.ExpressionString
-	55, // 30: eolymp.l10n.ListTranslationPairsInput.Filter.term_status:type_name -> eolymp.wellknown.ExpressionEnum
-	57, // 31: eolymp.l10n.ListTranslationPairsInput.Filter.source_message:type_name -> eolymp.wellknown.ExpressionString
-	55, // 32: eolymp.l10n.ListTranslationPairsInput.Filter.translation_status:type_name -> eolymp.wellknown.ExpressionEnum
-	57, // 33: eolymp.l10n.ListTranslationPairsInput.Filter.translation_message:type_name -> eolymp.wellknown.ExpressionString
-	0,  // 34: eolymp.l10n.LocalizationService.CreateTerm:input_type -> eolymp.l10n.CreateTermInput
-	4,  // 35: eolymp.l10n.LocalizationService.ListTerms:input_type -> eolymp.l10n.ListTermsInput
-	6,  // 36: eolymp.l10n.LocalizationService.UpdateTerm:input_type -> eolymp.l10n.UpdateTermInput
-	8,  // 37: eolymp.l10n.LocalizationService.RestoreTerm:input_type -> eolymp.l10n.RestoreTermInput
-	10, // 38: eolymp.l10n.LocalizationService.DeprecateTerm:input_type -> eolymp.l10n.DeprecateTermInput
-	12, // 39: eolymp.l10n.LocalizationService.DeleteTerm:input_type -> eolymp.l10n.DeleteTermInput
-	14, // 40: eolymp.l10n.LocalizationService.DescribeTerm:input_type -> eolymp.l10n.DescribeTermInput
-	2,  // 41: eolymp.l10n.LocalizationService.ImportTerms:input_type -> eolymp.l10n.ImportTermsInput
-	16, // 42: eolymp.l10n.LocalizationService.AddLocale:input_type -> eolymp.l10n.AddLocaleInput
-	18, // 43: eolymp.l10n.LocalizationService.RemoveLocale:input_type -> eolymp.l10n.RemoveLocaleInput
-	20, // 44: eolymp.l10n.LocalizationService.ListLocales:input_type -> eolymp.l10n.ListLocalesInput
-	22, // 45: eolymp.l10n.LocalizationService.TranslateTerm:input_type -> eolymp.l10n.TranslateTermInput
-	24, // 46: eolymp.l10n.LocalizationService.ListTranslations:input_type -> eolymp.l10n.ListTranslationsInput
-	34, // 47: eolymp.l10n.LocalizationService.DeleteTranslation:input_type -> eolymp.l10n.DeleteTranslationInput
-	26, // 48: eolymp.l10n.LocalizationService.SuggestTranslation:input_type -> eolymp.l10n.SuggestTranslationInput
-	28, // 49: eolymp.l10n.LocalizationService.UpdateTranslation:input_type -> eolymp.l10n.UpdateTranslationInput
-	30, // 50: eolymp.l10n.LocalizationService.ApproveTranslation:input_type -> eolymp.l10n.ApproveTranslationInput
-	32, // 51: eolymp.l10n.LocalizationService.RejectTranslation:input_type -> eolymp.l10n.RejectTranslationInput
-	38, // 52: eolymp.l10n.LocalizationService.ImportTranslations:input_type -> eolymp.l10n.ImportTranslationsInput
-	40, // 53: eolymp.l10n.LocalizationService.ExportTranslations:input_type -> eolymp.l10n.ExportTranslationsInput
-	42, // 54: eolymp.l10n.LocalizationService.ListTranslationPairs:input_type -> eolymp.l10n.ListTranslationPairsInput
-	1,  // 55: eolymp.l10n.LocalizationService.CreateTerm:output_type -> eolymp.l10n.CreateTermOutput
-	5,  // 56: eolymp.l10n.LocalizationService.ListTerms:output_type -> eolymp.l10n.ListTermsOutput
-	7,  // 57: eolymp.l10n.LocalizationService.UpdateTerm:output_type -> eolymp.l10n.UpdateTermOutput
-	9,  // 58: eolymp.l10n.LocalizationService.RestoreTerm:output_type -> eolymp.l10n.RestoreTermOutput
-	11, // 59: eolymp.l10n.LocalizationService.DeprecateTerm:output_type -> eolymp.l10n.DeprecateTermOutput
-	13, // 60: eolymp.l10n.LocalizationService.DeleteTerm:output_type -> eolymp.l10n.DeleteTermOutput
-	15, // 61: eolymp.l10n.LocalizationService.DescribeTerm:output_type -> eolymp.l10n.DescribeTermOutput
-	3,  // 62: eolymp.l10n.LocalizationService.ImportTerms:output_type -> eolymp.l10n.ImportTermsOutput
-	17, // 63: eolymp.l10n.LocalizationService.AddLocale:output_type -> eolymp.l10n.AddLocaleOutput
-	19, // 64: eolymp.l10n.LocalizationService.RemoveLocale:output_type -> eolymp.l10n.RemoveLocaleOutput
-	21, // 65: eolymp.l10n.LocalizationService.ListLocales:output_type -> eolymp.l10n.ListLocalesOutput
-	23, // 66: eolymp.l10n.LocalizationService.TranslateTerm:output_type -> eolymp.l10n.TranslateTermOutput
-	25, // 67: eolymp.l10n.LocalizationService.ListTranslations:output_type -> eolymp.l10n.ListTranslationsOutput
-	35, // 68: eolymp.l10n.LocalizationService.DeleteTranslation:output_type -> eolymp.l10n.DeleteTranslationOutput
-	27, // 69: eolymp.l10n.LocalizationService.SuggestTranslation:output_type -> eolymp.l10n.SuggestTranslationOutput
-	29, // 70: eolymp.l10n.LocalizationService.UpdateTranslation:output_type -> eolymp.l10n.UpdateTranslationOutput
-	31, // 71: eolymp.l10n.LocalizationService.ApproveTranslation:output_type -> eolymp.l10n.ApproveTranslationOutput
-	33, // 72: eolymp.l10n.LocalizationService.RejectTranslation:output_type -> eolymp.l10n.RejectTranslationOutput
-	39, // 73: eolymp.l10n.LocalizationService.ImportTranslations:output_type -> eolymp.l10n.ImportTranslationsOutput
-	41, // 74: eolymp.l10n.LocalizationService.ExportTranslations:output_type -> eolymp.l10n.ExportTranslationsOutput
-	43, // 75: eolymp.l10n.LocalizationService.ListTranslationPairs:output_type -> eolymp.l10n.ListTranslationPairsOutput
-	55, // [55:76] is the sub-list for method output_type
-	34, // [34:55] is the sub-list for method input_type
-	34, // [34:34] is the sub-list for extension type_name
-	34, // [34:34] is the sub-list for extension extendee
-	0,  // [0:34] is the sub-list for field type_name
+	64, // 0: eolymp.l10n.CreateTermInput.term:type_name -> eolymp.l10n.Term
+	64, // 1: eolymp.l10n.ImportTermsInput.terms:type_name -> eolymp.l10n.Term
+	56, // 2: eolymp.l10n.ListTermsInput.filters:type_name -> eolymp.l10n.ListTermsInput.Filter
+	64, // 3: eolymp.l10n.ListTermsOutput.items:type_name -> eolymp.l10n.Term
+	64, // 4: eolymp.l10n.UpdateTermInput.term:type_name -> eolymp.l10n.Term
+	64, // 5: eolymp.l10n.DescribeTermOutput.term:type_name -> eolymp.l10n.Term
+	57, // 6: eolymp.l10n.ListLocalesInput.filters:type_name -> eolymp.l10n.ListLocalesInput.Filter
+	58, // 7: eolymp.l10n.ListLocalesOutput.items:type_name -> eolymp.l10n.ListLocalesOutput.Locale
+	65, // 8: eolymp.l10n.TranslateTermInput.translation:type_name -> eolymp.l10n.Translation
+	59, // 9: eolymp.l10n.ListTranslationsInput.filters:type_name -> eolymp.l10n.ListTranslationsInput.Filter
+	65, // 10: eolymp.l10n.ListTranslationsOutput.items:type_name -> eolymp.l10n.Translation
+	65, // 11: eolymp.l10n.UpdateTranslationInput.translation:type_name -> eolymp.l10n.Translation
+	64, // 12: eolymp.l10n.DescribeTranslationOutput.term:type_name -> eolymp.l10n.Term
+	60, // 13: eolymp.l10n.ImportTranslationsInput.translations:type_name -> eolymp.l10n.ImportTranslationsInput.TranslationsEntry
+	61, // 14: eolymp.l10n.ExportTranslationsOutput.translations:type_name -> eolymp.l10n.ExportTranslationsOutput.TranslationsEntry
+	62, // 15: eolymp.l10n.ListTranslationPairsInput.filters:type_name -> eolymp.l10n.ListTranslationPairsInput.Filter
+	66, // 16: eolymp.l10n.ListTranslationPairsOutput.items:type_name -> eolymp.l10n.TranslationPair
+	67, // 17: eolymp.l10n.CreateGlossaryEntryInput.entry:type_name -> eolymp.l10n.GlossaryEntry
+	68, // 18: eolymp.l10n.UpdateGlossaryEntryInput.entry:type_name -> eolymp.l10n.GlossaryEntry.Patch
+	67, // 19: eolymp.l10n.DescribeGlossaryEntryOutput.entry:type_name -> eolymp.l10n.GlossaryEntry
+	63, // 20: eolymp.l10n.ListGlossaryEntriesInput.filters:type_name -> eolymp.l10n.ListGlossaryEntriesInput.Filter
+	67, // 21: eolymp.l10n.ListGlossaryEntriesOutput.items:type_name -> eolymp.l10n.GlossaryEntry
+	64, // 22: eolymp.l10n.TermChangedEvent.before:type_name -> eolymp.l10n.Term
+	64, // 23: eolymp.l10n.TermChangedEvent.after:type_name -> eolymp.l10n.Term
+	69, // 24: eolymp.l10n.ListTermsInput.ExpressionTranslation.status:type_name -> eolymp.wellknown.ExpressionEnum
+	70, // 25: eolymp.l10n.ListTermsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	71, // 26: eolymp.l10n.ListTermsInput.Filter.key:type_name -> eolymp.wellknown.ExpressionString
+	71, // 27: eolymp.l10n.ListTermsInput.Filter.message:type_name -> eolymp.wellknown.ExpressionString
+	69, // 28: eolymp.l10n.ListTermsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	55, // 29: eolymp.l10n.ListTermsInput.Filter.translation:type_name -> eolymp.l10n.ListTermsInput.ExpressionTranslation
+	70, // 30: eolymp.l10n.ListLocalesInput.Filter.code:type_name -> eolymp.wellknown.ExpressionID
+	72, // 31: eolymp.l10n.ListLocalesInput.Filter.ready:type_name -> eolymp.wellknown.ExpressionBool
+	70, // 32: eolymp.l10n.ListTranslationsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	71, // 33: eolymp.l10n.ListTranslationsInput.Filter.message:type_name -> eolymp.wellknown.ExpressionString
+	69, // 34: eolymp.l10n.ListTranslationsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	69, // 35: eolymp.l10n.ListTranslationsInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
+	71, // 36: eolymp.l10n.ListTranslationPairsInput.Filter.term_key:type_name -> eolymp.wellknown.ExpressionString
+	69, // 37: eolymp.l10n.ListTranslationPairsInput.Filter.term_status:type_name -> eolymp.wellknown.ExpressionEnum
+	71, // 38: eolymp.l10n.ListTranslationPairsInput.Filter.source_message:type_name -> eolymp.wellknown.ExpressionString
+	69, // 39: eolymp.l10n.ListTranslationPairsInput.Filter.translation_status:type_name -> eolymp.wellknown.ExpressionEnum
+	71, // 40: eolymp.l10n.ListTranslationPairsInput.Filter.translation_message:type_name -> eolymp.wellknown.ExpressionString
+	70, // 41: eolymp.l10n.ListGlossaryEntriesInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	71, // 42: eolymp.l10n.ListGlossaryEntriesInput.Filter.term:type_name -> eolymp.wellknown.ExpressionString
+	69, // 43: eolymp.l10n.ListGlossaryEntriesInput.Filter.locale:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 44: eolymp.l10n.LocalizationService.CreateTerm:input_type -> eolymp.l10n.CreateTermInput
+	4,  // 45: eolymp.l10n.LocalizationService.ListTerms:input_type -> eolymp.l10n.ListTermsInput
+	6,  // 46: eolymp.l10n.LocalizationService.UpdateTerm:input_type -> eolymp.l10n.UpdateTermInput
+	8,  // 47: eolymp.l10n.LocalizationService.RestoreTerm:input_type -> eolymp.l10n.RestoreTermInput
+	10, // 48: eolymp.l10n.LocalizationService.DeprecateTerm:input_type -> eolymp.l10n.DeprecateTermInput
+	12, // 49: eolymp.l10n.LocalizationService.DeleteTerm:input_type -> eolymp.l10n.DeleteTermInput
+	14, // 50: eolymp.l10n.LocalizationService.DescribeTerm:input_type -> eolymp.l10n.DescribeTermInput
+	2,  // 51: eolymp.l10n.LocalizationService.ImportTerms:input_type -> eolymp.l10n.ImportTermsInput
+	16, // 52: eolymp.l10n.LocalizationService.AddLocale:input_type -> eolymp.l10n.AddLocaleInput
+	18, // 53: eolymp.l10n.LocalizationService.RemoveLocale:input_type -> eolymp.l10n.RemoveLocaleInput
+	20, // 54: eolymp.l10n.LocalizationService.ListLocales:input_type -> eolymp.l10n.ListLocalesInput
+	22, // 55: eolymp.l10n.LocalizationService.TranslateTerm:input_type -> eolymp.l10n.TranslateTermInput
+	24, // 56: eolymp.l10n.LocalizationService.ListTranslations:input_type -> eolymp.l10n.ListTranslationsInput
+	34, // 57: eolymp.l10n.LocalizationService.DeleteTranslation:input_type -> eolymp.l10n.DeleteTranslationInput
+	26, // 58: eolymp.l10n.LocalizationService.SuggestTranslation:input_type -> eolymp.l10n.SuggestTranslationInput
+	28, // 59: eolymp.l10n.LocalizationService.UpdateTranslation:input_type -> eolymp.l10n.UpdateTranslationInput
+	30, // 60: eolymp.l10n.LocalizationService.ApproveTranslation:input_type -> eolymp.l10n.ApproveTranslationInput
+	32, // 61: eolymp.l10n.LocalizationService.RejectTranslation:input_type -> eolymp.l10n.RejectTranslationInput
+	38, // 62: eolymp.l10n.LocalizationService.ImportTranslations:input_type -> eolymp.l10n.ImportTranslationsInput
+	40, // 63: eolymp.l10n.LocalizationService.ExportTranslations:input_type -> eolymp.l10n.ExportTranslationsInput
+	42, // 64: eolymp.l10n.LocalizationService.ListTranslationPairs:input_type -> eolymp.l10n.ListTranslationPairsInput
+	44, // 65: eolymp.l10n.LocalizationService.CreateGlossaryEntry:input_type -> eolymp.l10n.CreateGlossaryEntryInput
+	46, // 66: eolymp.l10n.LocalizationService.UpdateGlossaryEntry:input_type -> eolymp.l10n.UpdateGlossaryEntryInput
+	48, // 67: eolymp.l10n.LocalizationService.DeleteGlossaryEntry:input_type -> eolymp.l10n.DeleteGlossaryEntryInput
+	50, // 68: eolymp.l10n.LocalizationService.DescribeGlossaryEntry:input_type -> eolymp.l10n.DescribeGlossaryEntryInput
+	52, // 69: eolymp.l10n.LocalizationService.ListGlossaryEntries:input_type -> eolymp.l10n.ListGlossaryEntriesInput
+	1,  // 70: eolymp.l10n.LocalizationService.CreateTerm:output_type -> eolymp.l10n.CreateTermOutput
+	5,  // 71: eolymp.l10n.LocalizationService.ListTerms:output_type -> eolymp.l10n.ListTermsOutput
+	7,  // 72: eolymp.l10n.LocalizationService.UpdateTerm:output_type -> eolymp.l10n.UpdateTermOutput
+	9,  // 73: eolymp.l10n.LocalizationService.RestoreTerm:output_type -> eolymp.l10n.RestoreTermOutput
+	11, // 74: eolymp.l10n.LocalizationService.DeprecateTerm:output_type -> eolymp.l10n.DeprecateTermOutput
+	13, // 75: eolymp.l10n.LocalizationService.DeleteTerm:output_type -> eolymp.l10n.DeleteTermOutput
+	15, // 76: eolymp.l10n.LocalizationService.DescribeTerm:output_type -> eolymp.l10n.DescribeTermOutput
+	3,  // 77: eolymp.l10n.LocalizationService.ImportTerms:output_type -> eolymp.l10n.ImportTermsOutput
+	17, // 78: eolymp.l10n.LocalizationService.AddLocale:output_type -> eolymp.l10n.AddLocaleOutput
+	19, // 79: eolymp.l10n.LocalizationService.RemoveLocale:output_type -> eolymp.l10n.RemoveLocaleOutput
+	21, // 80: eolymp.l10n.LocalizationService.ListLocales:output_type -> eolymp.l10n.ListLocalesOutput
+	23, // 81: eolymp.l10n.LocalizationService.TranslateTerm:output_type -> eolymp.l10n.TranslateTermOutput
+	25, // 82: eolymp.l10n.LocalizationService.ListTranslations:output_type -> eolymp.l10n.ListTranslationsOutput
+	35, // 83: eolymp.l10n.LocalizationService.DeleteTranslation:output_type -> eolymp.l10n.DeleteTranslationOutput
+	27, // 84: eolymp.l10n.LocalizationService.SuggestTranslation:output_type -> eolymp.l10n.SuggestTranslationOutput
+	29, // 85: eolymp.l10n.LocalizationService.UpdateTranslation:output_type -> eolymp.l10n.UpdateTranslationOutput
+	31, // 86: eolymp.l10n.LocalizationService.ApproveTranslation:output_type -> eolymp.l10n.ApproveTranslationOutput
+	33, // 87: eolymp.l10n.LocalizationService.RejectTranslation:output_type -> eolymp.l10n.RejectTranslationOutput
+	39, // 88: eolymp.l10n.LocalizationService.ImportTranslations:output_type -> eolymp.l10n.ImportTranslationsOutput
+	41, // 89: eolymp.l10n.LocalizationService.ExportTranslations:output_type -> eolymp.l10n.ExportTranslationsOutput
+	43, // 90: eolymp.l10n.LocalizationService.ListTranslationPairs:output_type -> eolymp.l10n.ListTranslationPairsOutput
+	45, // 91: eolymp.l10n.LocalizationService.CreateGlossaryEntry:output_type -> eolymp.l10n.CreateGlossaryEntryOutput
+	47, // 92: eolymp.l10n.LocalizationService.UpdateGlossaryEntry:output_type -> eolymp.l10n.UpdateGlossaryEntryOutput
+	49, // 93: eolymp.l10n.LocalizationService.DeleteGlossaryEntry:output_type -> eolymp.l10n.DeleteGlossaryEntryOutput
+	51, // 94: eolymp.l10n.LocalizationService.DescribeGlossaryEntry:output_type -> eolymp.l10n.DescribeGlossaryEntryOutput
+	53, // 95: eolymp.l10n.LocalizationService.ListGlossaryEntries:output_type -> eolymp.l10n.ListGlossaryEntriesOutput
+	70, // [70:96] is the sub-list for method output_type
+	44, // [44:70] is the sub-list for method input_type
+	44, // [44:44] is the sub-list for extension type_name
+	44, // [44:44] is the sub-list for extension extendee
+	0,  // [0:44] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_l10n_localization_service_proto_init() }
@@ -3311,6 +4052,7 @@ func file_eolymp_l10n_localization_service_proto_init() {
 	if File_eolymp_l10n_localization_service_proto != nil {
 		return
 	}
+	file_eolymp_l10n_glossary_entry_proto_init()
 	file_eolymp_l10n_term_proto_init()
 	file_eolymp_l10n_translation_proto_init()
 	file_eolymp_l10n_translation_pair_proto_init()
@@ -3325,7 +4067,7 @@ func file_eolymp_l10n_localization_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_l10n_localization_service_proto_rawDesc), len(file_eolymp_l10n_localization_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   52,
+			NumMessages:   64,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

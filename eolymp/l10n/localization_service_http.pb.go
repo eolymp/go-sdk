@@ -264,6 +264,21 @@ func RegisterLocalizationServiceHttpHandlers(router *mux.Router, prefix string, 
 	router.Handle(prefix+"/projects/{project_id}/translate/{locale}", _LocalizationService_ListTranslationPairs_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.l10n.LocalizationService.ListTranslationPairs")
+	router.Handle(prefix+"/projects/{project_id}/glossary", _LocalizationService_CreateGlossaryEntry_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.l10n.LocalizationService.CreateGlossaryEntry")
+	router.Handle(prefix+"/projects/{project_id}/glossary/{entry_id}", _LocalizationService_UpdateGlossaryEntry_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.l10n.LocalizationService.UpdateGlossaryEntry")
+	router.Handle(prefix+"/projects/{project_id}/glossary/{entry_id}", _LocalizationService_DeleteGlossaryEntry_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.l10n.LocalizationService.DeleteGlossaryEntry")
+	router.Handle(prefix+"/projects/{project_id}/glossary/{entry_id}", _LocalizationService_DescribeGlossaryEntry_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.l10n.LocalizationService.DescribeGlossaryEntry")
+	router.Handle(prefix+"/projects/{project_id}/glossary", _LocalizationService_ListGlossaryEntries_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.l10n.LocalizationService.ListGlossaryEntries")
 }
 
 // RegisterLocalizationServiceHttpProxy adds proxy handlers for for LocalizationServiceClient
@@ -788,6 +803,129 @@ func _LocalizationService_ListTranslationPairs_Rule0(cli LocalizationServiceClie
 		var header, trailer metadata.MD
 
 		out, err := cli.ListTranslationPairs(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _LocalizationService_CreateGlossaryEntry_Rule0(cli LocalizationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &CreateGlossaryEntryInput{}
+
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.CreateGlossaryEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _LocalizationService_UpdateGlossaryEntry_Rule0(cli LocalizationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateGlossaryEntryInput{}
+
+		if err := _LocalizationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+		in.EntryId = vars["entry_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateGlossaryEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _LocalizationService_DeleteGlossaryEntry_Rule0(cli LocalizationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DeleteGlossaryEntryInput{}
+
+		if err := _LocalizationService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+		in.EntryId = vars["entry_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DeleteGlossaryEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _LocalizationService_DescribeGlossaryEntry_Rule0(cli LocalizationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeGlossaryEntryInput{}
+
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+		in.EntryId = vars["entry_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeGlossaryEntry(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_LocalizationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _LocalizationService_ListGlossaryEntries_Rule0(cli LocalizationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListGlossaryEntriesInput{}
+
+		if err := _LocalizationService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_LocalizationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProjectId = vars["project_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListGlossaryEntries(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_LocalizationService_HTTPWriteErrorResponse(w, err)
 			return
