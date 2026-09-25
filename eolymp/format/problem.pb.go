@@ -92,62 +92,59 @@ func (Problem_Type) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Problem_Checker_Type int32
+type Problem_Checker_Program_Mode int32
 
 const (
-	Problem_Checker_UNKNOWN_TYPE   Problem_Checker_Type = 0
-	Problem_Checker_TOKENS         Problem_Checker_Type = 1
-	Problem_Checker_LINES          Problem_Checker_Type = 2
-	Problem_Checker_PROGRAM        Problem_Checker_Type = 3
-	Problem_Checker_LEGACY_PROGRAM Problem_Checker_Type = 4
-	Problem_Checker_QUERY_RESULTS  Problem_Checker_Type = 5
+	Problem_Checker_Program_UNKNOWN_MODE Problem_Checker_Program_Mode = 0
+	Problem_Checker_Program_EOLYMP       Problem_Checker_Program_Mode = 1
+	Problem_Checker_Program_TESTLIB      Problem_Checker_Program_Mode = 2
+	Problem_Checker_Program_CMS          Problem_Checker_Program_Mode = 3
+	Problem_Checker_Program_KATTIS       Problem_Checker_Program_Mode = 4
 )
 
-// Enum value maps for Problem_Checker_Type.
+// Enum value maps for Problem_Checker_Program_Mode.
 var (
-	Problem_Checker_Type_name = map[int32]string{
-		0: "UNKNOWN_TYPE",
-		1: "TOKENS",
-		2: "LINES",
-		3: "PROGRAM",
-		4: "LEGACY_PROGRAM",
-		5: "QUERY_RESULTS",
+	Problem_Checker_Program_Mode_name = map[int32]string{
+		0: "UNKNOWN_MODE",
+		1: "EOLYMP",
+		2: "TESTLIB",
+		3: "CMS",
+		4: "KATTIS",
 	}
-	Problem_Checker_Type_value = map[string]int32{
-		"UNKNOWN_TYPE":   0,
-		"TOKENS":         1,
-		"LINES":          2,
-		"PROGRAM":        3,
-		"LEGACY_PROGRAM": 4,
-		"QUERY_RESULTS":  5,
+	Problem_Checker_Program_Mode_value = map[string]int32{
+		"UNKNOWN_MODE": 0,
+		"EOLYMP":       1,
+		"TESTLIB":      2,
+		"CMS":          3,
+		"KATTIS":       4,
 	}
 )
 
-func (x Problem_Checker_Type) Enum() *Problem_Checker_Type {
-	p := new(Problem_Checker_Type)
+func (x Problem_Checker_Program_Mode) Enum() *Problem_Checker_Program_Mode {
+	p := new(Problem_Checker_Program_Mode)
 	*p = x
 	return p
 }
 
-func (x Problem_Checker_Type) String() string {
+func (x Problem_Checker_Program_Mode) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Problem_Checker_Type) Descriptor() protoreflect.EnumDescriptor {
+func (Problem_Checker_Program_Mode) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_format_problem_proto_enumTypes[1].Descriptor()
 }
 
-func (Problem_Checker_Type) Type() protoreflect.EnumType {
+func (Problem_Checker_Program_Mode) Type() protoreflect.EnumType {
 	return &file_eolymp_format_problem_proto_enumTypes[1]
 }
 
-func (x Problem_Checker_Type) Number() protoreflect.EnumNumber {
+func (x Problem_Checker_Program_Mode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Problem_Checker_Type.Descriptor instead.
-func (Problem_Checker_Type) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6, 0}
+// Deprecated: Use Problem_Checker_Program_Mode.Descriptor instead.
+func (Problem_Checker_Program_Mode) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6, 2, 0}
 }
 
 type Problem_Solution_Outcome int32
@@ -1079,16 +1076,16 @@ func (x *Problem_Template) GetFiles() []*Problem_File {
 }
 
 type Problem_Checker struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Type           Problem_Checker_Type   `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.format.Problem_Checker_Type" json:"type,omitempty"`
-	Precision      int32                  `protobuf:"varint,2,opt,name=precision,proto3" json:"precision,omitempty"`
-	CaseSensitive  bool                   `protobuf:"varint,3,opt,name=case_sensitive,json=caseSensitive,proto3" json:"case_sensitive,omitempty"`
-	OrderSensitive bool                   `protobuf:"varint,4,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
-	Runtime        string                 `protobuf:"bytes,5,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	Source         string                 `protobuf:"bytes,6,opt,name=source,proto3" json:"source,omitempty"`
-	Files          []*Problem_File        `protobuf:"bytes,7,rep,name=files,proto3" json:"files,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Kind:
+	//
+	//	*Problem_Checker_Tokens_
+	//	*Problem_Checker_Lines_
+	//	*Problem_Checker_Program_
+	//	*Problem_Checker_QueryResults_
+	Kind          isProblem_Checker_Kind `protobuf_oneof:"kind"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Problem_Checker) Reset() {
@@ -1121,54 +1118,76 @@ func (*Problem_Checker) Descriptor() ([]byte, []int) {
 	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6}
 }
 
-func (x *Problem_Checker) GetType() Problem_Checker_Type {
+func (x *Problem_Checker) GetKind() isProblem_Checker_Kind {
 	if x != nil {
-		return x.Type
-	}
-	return Problem_Checker_UNKNOWN_TYPE
-}
-
-func (x *Problem_Checker) GetPrecision() int32 {
-	if x != nil {
-		return x.Precision
-	}
-	return 0
-}
-
-func (x *Problem_Checker) GetCaseSensitive() bool {
-	if x != nil {
-		return x.CaseSensitive
-	}
-	return false
-}
-
-func (x *Problem_Checker) GetOrderSensitive() bool {
-	if x != nil {
-		return x.OrderSensitive
-	}
-	return false
-}
-
-func (x *Problem_Checker) GetRuntime() string {
-	if x != nil {
-		return x.Runtime
-	}
-	return ""
-}
-
-func (x *Problem_Checker) GetSource() string {
-	if x != nil {
-		return x.Source
-	}
-	return ""
-}
-
-func (x *Problem_Checker) GetFiles() []*Problem_File {
-	if x != nil {
-		return x.Files
+		return x.Kind
 	}
 	return nil
 }
+
+func (x *Problem_Checker) GetTokens() *Problem_Checker_Tokens {
+	if x != nil {
+		if x, ok := x.Kind.(*Problem_Checker_Tokens_); ok {
+			return x.Tokens
+		}
+	}
+	return nil
+}
+
+func (x *Problem_Checker) GetLines() *Problem_Checker_Lines {
+	if x != nil {
+		if x, ok := x.Kind.(*Problem_Checker_Lines_); ok {
+			return x.Lines
+		}
+	}
+	return nil
+}
+
+func (x *Problem_Checker) GetProgram() *Problem_Checker_Program {
+	if x != nil {
+		if x, ok := x.Kind.(*Problem_Checker_Program_); ok {
+			return x.Program
+		}
+	}
+	return nil
+}
+
+func (x *Problem_Checker) GetQueryResults() *Problem_Checker_QueryResults {
+	if x != nil {
+		if x, ok := x.Kind.(*Problem_Checker_QueryResults_); ok {
+			return x.QueryResults
+		}
+	}
+	return nil
+}
+
+type isProblem_Checker_Kind interface {
+	isProblem_Checker_Kind()
+}
+
+type Problem_Checker_Tokens_ struct {
+	Tokens *Problem_Checker_Tokens `protobuf:"bytes,1,opt,name=tokens,proto3,oneof"`
+}
+
+type Problem_Checker_Lines_ struct {
+	Lines *Problem_Checker_Lines `protobuf:"bytes,2,opt,name=lines,proto3,oneof"`
+}
+
+type Problem_Checker_Program_ struct {
+	Program *Problem_Checker_Program `protobuf:"bytes,3,opt,name=program,proto3,oneof"`
+}
+
+type Problem_Checker_QueryResults_ struct {
+	QueryResults *Problem_Checker_QueryResults `protobuf:"bytes,4,opt,name=query_results,json=queryResults,proto3,oneof"`
+}
+
+func (*Problem_Checker_Tokens_) isProblem_Checker_Kind() {}
+
+func (*Problem_Checker_Lines_) isProblem_Checker_Kind() {}
+
+func (*Problem_Checker_Program_) isProblem_Checker_Kind() {}
+
+func (*Problem_Checker_QueryResults_) isProblem_Checker_Kind() {}
 
 type Problem_Interactor struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1634,6 +1653,206 @@ func (x *Problem_Question) GetAnswers() []string {
 	return nil
 }
 
+type Problem_Checker_Tokens struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Precision     int32                  `protobuf:"varint,1,opt,name=precision,proto3" json:"precision,omitempty"`
+	CaseSensitive bool                   `protobuf:"varint,2,opt,name=case_sensitive,json=caseSensitive,proto3" json:"case_sensitive,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Checker_Tokens) Reset() {
+	*x = Problem_Checker_Tokens{}
+	mi := &file_eolymp_format_problem_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Checker_Tokens) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Checker_Tokens) ProtoMessage() {}
+
+func (x *Problem_Checker_Tokens) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_format_problem_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Checker_Tokens.ProtoReflect.Descriptor instead.
+func (*Problem_Checker_Tokens) Descriptor() ([]byte, []int) {
+	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6, 0}
+}
+
+func (x *Problem_Checker_Tokens) GetPrecision() int32 {
+	if x != nil {
+		return x.Precision
+	}
+	return 0
+}
+
+func (x *Problem_Checker_Tokens) GetCaseSensitive() bool {
+	if x != nil {
+		return x.CaseSensitive
+	}
+	return false
+}
+
+type Problem_Checker_Lines struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Checker_Lines) Reset() {
+	*x = Problem_Checker_Lines{}
+	mi := &file_eolymp_format_problem_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Checker_Lines) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Checker_Lines) ProtoMessage() {}
+
+func (x *Problem_Checker_Lines) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_format_problem_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Checker_Lines.ProtoReflect.Descriptor instead.
+func (*Problem_Checker_Lines) Descriptor() ([]byte, []int) {
+	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6, 1}
+}
+
+type Problem_Checker_Program struct {
+	state         protoimpl.MessageState       `protogen:"open.v1"`
+	Mode          Problem_Checker_Program_Mode `protobuf:"varint,1,opt,name=mode,proto3,enum=eolymp.format.Problem_Checker_Program_Mode" json:"mode,omitempty"`
+	Runtime       string                       `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	Source        string                       `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
+	Files         []*Problem_File              `protobuf:"bytes,4,rep,name=files,proto3" json:"files,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Checker_Program) Reset() {
+	*x = Problem_Checker_Program{}
+	mi := &file_eolymp_format_problem_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Checker_Program) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Checker_Program) ProtoMessage() {}
+
+func (x *Problem_Checker_Program) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_format_problem_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Checker_Program.ProtoReflect.Descriptor instead.
+func (*Problem_Checker_Program) Descriptor() ([]byte, []int) {
+	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6, 2}
+}
+
+func (x *Problem_Checker_Program) GetMode() Problem_Checker_Program_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Problem_Checker_Program_UNKNOWN_MODE
+}
+
+func (x *Problem_Checker_Program) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
+	}
+	return ""
+}
+
+func (x *Problem_Checker_Program) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *Problem_Checker_Program) GetFiles() []*Problem_File {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
+type Problem_Checker_QueryResults struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	OrderSensitive bool                   `protobuf:"varint,1,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *Problem_Checker_QueryResults) Reset() {
+	*x = Problem_Checker_QueryResults{}
+	mi := &file_eolymp_format_problem_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Checker_QueryResults) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Checker_QueryResults) ProtoMessage() {}
+
+func (x *Problem_Checker_QueryResults) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_format_problem_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Checker_QueryResults.ProtoReflect.Descriptor instead.
+func (*Problem_Checker_QueryResults) Descriptor() ([]byte, []int) {
+	return file_eolymp_format_problem_proto_rawDescGZIP(), []int{0, 6, 3}
+}
+
+func (x *Problem_Checker_QueryResults) GetOrderSensitive() bool {
+	if x != nil {
+		return x.OrderSensitive
+	}
+	return false
+}
+
 type Problem_Testset_Test struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	Index    int32                  `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
@@ -1670,7 +1889,7 @@ type Problem_Testset_Test struct {
 
 func (x *Problem_Testset_Test) Reset() {
 	*x = Problem_Testset_Test{}
-	mi := &file_eolymp_format_problem_proto_msgTypes[14]
+	mi := &file_eolymp_format_problem_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1682,7 +1901,7 @@ func (x *Problem_Testset_Test) String() string {
 func (*Problem_Testset_Test) ProtoMessage() {}
 
 func (x *Problem_Testset_Test) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_format_problem_proto_msgTypes[14]
+	mi := &file_eolymp_format_problem_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1944,7 +2163,7 @@ type Problem_Testset_Test_Generator struct {
 
 func (x *Problem_Testset_Test_Generator) Reset() {
 	*x = Problem_Testset_Test_Generator{}
-	mi := &file_eolymp_format_problem_proto_msgTypes[15]
+	mi := &file_eolymp_format_problem_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1956,7 +2175,7 @@ func (x *Problem_Testset_Test_Generator) String() string {
 func (*Problem_Testset_Test_Generator) ProtoMessage() {}
 
 func (x *Problem_Testset_Test_Generator) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_format_problem_proto_msgTypes[15]
+	mi := &file_eolymp_format_problem_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1997,7 +2216,7 @@ type Problem_Question_Option struct {
 
 func (x *Problem_Question_Option) Reset() {
 	*x = Problem_Question_Option{}
-	mi := &file_eolymp_format_problem_proto_msgTypes[16]
+	mi := &file_eolymp_format_problem_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2009,7 +2228,7 @@ func (x *Problem_Question_Option) String() string {
 func (*Problem_Question_Option) ProtoMessage() {}
 
 func (x *Problem_Question_Option) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_format_problem_proto_msgTypes[16]
+	mi := &file_eolymp_format_problem_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2050,7 +2269,7 @@ var File_eolymp_format_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_format_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/format/problem.proto\x12\reolymp.format\x1a\x18eolymp/ecm/content.proto\"\xff'\n" +
+	"\x1beolymp/format/problem.proto\x12\reolymp.format\x1a\x18eolymp/ecm/content.proto\"\xb8*\n" +
 	"\aProblem\x12\x17\n" +
 	"\x06schema\x18\x01 \x01(\tR\a$schema\x12/\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1b.eolymp.format.Problem.TypeR\x04type\x12\x16\n" +
@@ -2115,23 +2334,32 @@ const file_eolymp_format_problem_proto_rawDesc = "" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x16\n" +
 	"\x06header\x18\x03 \x01(\tR\x06header\x12\x16\n" +
 	"\x06footer\x18\x04 \x01(\tR\x06footer\x121\n" +
-	"\x05files\x18\x05 \x03(\v2\x1b.eolymp.format.Problem.FileR\x05files\x1a\xfa\x02\n" +
-	"\aChecker\x127\n" +
-	"\x04type\x18\x01 \x01(\x0e2#.eolymp.format.Problem.Checker.TypeR\x04type\x12\x1c\n" +
-	"\tprecision\x18\x02 \x01(\x05R\tprecision\x12%\n" +
-	"\x0ecase_sensitive\x18\x03 \x01(\bR\rcaseSensitive\x12'\n" +
-	"\x0forder_sensitive\x18\x04 \x01(\bR\x0eorderSensitive\x12\x18\n" +
-	"\aruntime\x18\x05 \x01(\tR\aruntime\x12\x16\n" +
-	"\x06source\x18\x06 \x01(\tR\x06source\x121\n" +
-	"\x05files\x18\a \x03(\v2\x1b.eolymp.format.Problem.FileR\x05files\"c\n" +
-	"\x04Type\x12\x10\n" +
-	"\fUNKNOWN_TYPE\x10\x00\x12\n" +
+	"\x05files\x18\x05 \x03(\v2\x1b.eolymp.format.Problem.FileR\x05files\x1a\xb3\x05\n" +
+	"\aChecker\x12?\n" +
+	"\x06tokens\x18\x01 \x01(\v2%.eolymp.format.Problem.Checker.TokensH\x00R\x06tokens\x12<\n" +
+	"\x05lines\x18\x02 \x01(\v2$.eolymp.format.Problem.Checker.LinesH\x00R\x05lines\x12B\n" +
+	"\aprogram\x18\x03 \x01(\v2&.eolymp.format.Problem.Checker.ProgramH\x00R\aprogram\x12R\n" +
+	"\rquery_results\x18\x04 \x01(\v2+.eolymp.format.Problem.Checker.QueryResultsH\x00R\fqueryResults\x1aM\n" +
+	"\x06Tokens\x12\x1c\n" +
+	"\tprecision\x18\x01 \x01(\x05R\tprecision\x12%\n" +
+	"\x0ecase_sensitive\x18\x02 \x01(\bR\rcaseSensitive\x1a\a\n" +
+	"\x05Lines\x1a\xf7\x01\n" +
+	"\aProgram\x12?\n" +
+	"\x04mode\x18\x01 \x01(\x0e2+.eolymp.format.Problem.Checker.Program.ModeR\x04mode\x12\x18\n" +
+	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
+	"\x06source\x18\x03 \x01(\tR\x06source\x121\n" +
+	"\x05files\x18\x04 \x03(\v2\x1b.eolymp.format.Problem.FileR\x05files\"F\n" +
+	"\x04Mode\x12\x10\n" +
+	"\fUNKNOWN_MODE\x10\x00\x12\n" +
 	"\n" +
-	"\x06TOKENS\x10\x01\x12\t\n" +
-	"\x05LINES\x10\x02\x12\v\n" +
-	"\aPROGRAM\x10\x03\x12\x12\n" +
-	"\x0eLEGACY_PROGRAM\x10\x04\x12\x11\n" +
-	"\rQUERY_RESULTS\x10\x05\x1aq\n" +
+	"\x06EOLYMP\x10\x01\x12\v\n" +
+	"\aTESTLIB\x10\x02\x12\a\n" +
+	"\x03CMS\x10\x03\x12\n" +
+	"\n" +
+	"\x06KATTIS\x10\x04\x1a7\n" +
+	"\fQueryResults\x12'\n" +
+	"\x0forder_sensitive\x18\x01 \x01(\bR\x0eorderSensitiveB\x06\n" +
+	"\x04kind\x1aq\n" +
 	"\n" +
 	"Interactor\x12\x18\n" +
 	"\aruntime\x18\x01 \x01(\tR\aruntime\x12\x16\n" +
@@ -2264,10 +2492,10 @@ func file_eolymp_format_problem_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_format_problem_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_eolymp_format_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_eolymp_format_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_eolymp_format_problem_proto_goTypes = []any{
 	(Problem_Type)(0),                      // 0: eolymp.format.Problem.Type
-	(Problem_Checker_Type)(0),              // 1: eolymp.format.Problem.Checker.Type
+	(Problem_Checker_Program_Mode)(0),      // 1: eolymp.format.Problem.Checker.Program.Mode
 	(Problem_Solution_Outcome)(0),          // 2: eolymp.format.Problem.Solution.Outcome
 	(Problem_Testset_Scoring)(0),           // 3: eolymp.format.Problem.Testset.Scoring
 	(Problem_Testset_Feedback)(0),          // 4: eolymp.format.Problem.Testset.Feedback
@@ -2287,10 +2515,14 @@ var file_eolymp_format_problem_proto_goTypes = []any{
 	(*Problem_Solution)(nil),               // 18: eolymp.format.Problem.Solution
 	(*Problem_Testset)(nil),                // 19: eolymp.format.Problem.Testset
 	(*Problem_Question)(nil),               // 20: eolymp.format.Problem.Question
-	(*Problem_Testset_Test)(nil),           // 21: eolymp.format.Problem.Testset.Test
-	(*Problem_Testset_Test_Generator)(nil), // 22: eolymp.format.Problem.Testset.Test.Generator
-	(*Problem_Question_Option)(nil),        // 23: eolymp.format.Problem.Question.Option
-	(*ecm.Content)(nil),                    // 24: eolymp.ecm.Content
+	(*Problem_Checker_Tokens)(nil),         // 21: eolymp.format.Problem.Checker.Tokens
+	(*Problem_Checker_Lines)(nil),          // 22: eolymp.format.Problem.Checker.Lines
+	(*Problem_Checker_Program)(nil),        // 23: eolymp.format.Problem.Checker.Program
+	(*Problem_Checker_QueryResults)(nil),   // 24: eolymp.format.Problem.Checker.QueryResults
+	(*Problem_Testset_Test)(nil),           // 25: eolymp.format.Problem.Testset.Test
+	(*Problem_Testset_Test_Generator)(nil), // 26: eolymp.format.Problem.Testset.Test.Generator
+	(*Problem_Question_Option)(nil),        // 27: eolymp.format.Problem.Question.Option
+	(*ecm.Content)(nil),                    // 28: eolymp.ecm.Content
 }
 var file_eolymp_format_problem_proto_depIdxs = []int32{
 	0,  // 0: eolymp.format.Problem.type:type_name -> eolymp.format.Problem.Type
@@ -2306,30 +2538,34 @@ var file_eolymp_format_problem_proto_depIdxs = []int32{
 	18, // 10: eolymp.format.Problem.solutions:type_name -> eolymp.format.Problem.Solution
 	19, // 11: eolymp.format.Problem.testsets:type_name -> eolymp.format.Problem.Testset
 	20, // 12: eolymp.format.Problem.questions:type_name -> eolymp.format.Problem.Question
-	24, // 13: eolymp.format.Problem.Statement.content:type_name -> eolymp.ecm.Content
-	24, // 14: eolymp.format.Problem.Editorial.content:type_name -> eolymp.ecm.Content
+	28, // 13: eolymp.format.Problem.Statement.content:type_name -> eolymp.ecm.Content
+	28, // 14: eolymp.format.Problem.Editorial.content:type_name -> eolymp.ecm.Content
 	9,  // 15: eolymp.format.Problem.Template.files:type_name -> eolymp.format.Problem.File
-	1,  // 16: eolymp.format.Problem.Checker.type:type_name -> eolymp.format.Problem.Checker.Type
-	9,  // 17: eolymp.format.Problem.Checker.files:type_name -> eolymp.format.Problem.File
-	9,  // 18: eolymp.format.Problem.Interactor.files:type_name -> eolymp.format.Problem.File
-	9,  // 19: eolymp.format.Problem.Validator.files:type_name -> eolymp.format.Problem.File
-	9,  // 20: eolymp.format.Problem.Script.files:type_name -> eolymp.format.Problem.File
-	2,  // 21: eolymp.format.Problem.Solution.outcome:type_name -> eolymp.format.Problem.Solution.Outcome
-	3,  // 22: eolymp.format.Problem.Testset.scoring:type_name -> eolymp.format.Problem.Testset.Scoring
-	4,  // 23: eolymp.format.Problem.Testset.feedback:type_name -> eolymp.format.Problem.Testset.Feedback
-	5,  // 24: eolymp.format.Problem.Testset.dependency:type_name -> eolymp.format.Problem.Testset.Dependency
-	21, // 25: eolymp.format.Problem.Testset.tests:type_name -> eolymp.format.Problem.Testset.Test
-	6,  // 26: eolymp.format.Problem.Question.type:type_name -> eolymp.format.Problem.Question.Type
-	24, // 27: eolymp.format.Problem.Question.content:type_name -> eolymp.ecm.Content
-	23, // 28: eolymp.format.Problem.Question.options:type_name -> eolymp.format.Problem.Question.Option
-	22, // 29: eolymp.format.Problem.Testset.Test.input_generator:type_name -> eolymp.format.Problem.Testset.Test.Generator
-	22, // 30: eolymp.format.Problem.Testset.Test.answer_generator:type_name -> eolymp.format.Problem.Testset.Test.Generator
-	24, // 31: eolymp.format.Problem.Question.Option.content:type_name -> eolymp.ecm.Content
-	32, // [32:32] is the sub-list for method output_type
-	32, // [32:32] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	21, // 16: eolymp.format.Problem.Checker.tokens:type_name -> eolymp.format.Problem.Checker.Tokens
+	22, // 17: eolymp.format.Problem.Checker.lines:type_name -> eolymp.format.Problem.Checker.Lines
+	23, // 18: eolymp.format.Problem.Checker.program:type_name -> eolymp.format.Problem.Checker.Program
+	24, // 19: eolymp.format.Problem.Checker.query_results:type_name -> eolymp.format.Problem.Checker.QueryResults
+	9,  // 20: eolymp.format.Problem.Interactor.files:type_name -> eolymp.format.Problem.File
+	9,  // 21: eolymp.format.Problem.Validator.files:type_name -> eolymp.format.Problem.File
+	9,  // 22: eolymp.format.Problem.Script.files:type_name -> eolymp.format.Problem.File
+	2,  // 23: eolymp.format.Problem.Solution.outcome:type_name -> eolymp.format.Problem.Solution.Outcome
+	3,  // 24: eolymp.format.Problem.Testset.scoring:type_name -> eolymp.format.Problem.Testset.Scoring
+	4,  // 25: eolymp.format.Problem.Testset.feedback:type_name -> eolymp.format.Problem.Testset.Feedback
+	5,  // 26: eolymp.format.Problem.Testset.dependency:type_name -> eolymp.format.Problem.Testset.Dependency
+	25, // 27: eolymp.format.Problem.Testset.tests:type_name -> eolymp.format.Problem.Testset.Test
+	6,  // 28: eolymp.format.Problem.Question.type:type_name -> eolymp.format.Problem.Question.Type
+	28, // 29: eolymp.format.Problem.Question.content:type_name -> eolymp.ecm.Content
+	27, // 30: eolymp.format.Problem.Question.options:type_name -> eolymp.format.Problem.Question.Option
+	1,  // 31: eolymp.format.Problem.Checker.Program.mode:type_name -> eolymp.format.Problem.Checker.Program.Mode
+	9,  // 32: eolymp.format.Problem.Checker.Program.files:type_name -> eolymp.format.Problem.File
+	26, // 33: eolymp.format.Problem.Testset.Test.input_generator:type_name -> eolymp.format.Problem.Testset.Test.Generator
+	26, // 34: eolymp.format.Problem.Testset.Test.answer_generator:type_name -> eolymp.format.Problem.Testset.Test.Generator
+	28, // 35: eolymp.format.Problem.Question.Option.content:type_name -> eolymp.ecm.Content
+	36, // [36:36] is the sub-list for method output_type
+	36, // [36:36] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_format_problem_proto_init() }
@@ -2341,7 +2577,13 @@ func file_eolymp_format_problem_proto_init() {
 		(*Problem_Attachment_Url)(nil),
 		(*Problem_Attachment_Content)(nil),
 	}
-	file_eolymp_format_problem_proto_msgTypes[14].OneofWrappers = []any{
+	file_eolymp_format_problem_proto_msgTypes[7].OneofWrappers = []any{
+		(*Problem_Checker_Tokens_)(nil),
+		(*Problem_Checker_Lines_)(nil),
+		(*Problem_Checker_Program_)(nil),
+		(*Problem_Checker_QueryResults_)(nil),
+	}
+	file_eolymp_format_problem_proto_msgTypes[18].OneofWrappers = []any{
 		(*Problem_Testset_Test_InputUrl)(nil),
 		(*Problem_Testset_Test_InputContent)(nil),
 		(*Problem_Testset_Test_InputGenerator)(nil),
@@ -2359,7 +2601,7 @@ func file_eolymp_format_problem_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_format_problem_proto_rawDesc), len(file_eolymp_format_problem_proto_rawDesc)),
 			NumEnums:      7,
-			NumMessages:   17,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

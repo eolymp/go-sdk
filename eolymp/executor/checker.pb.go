@@ -96,6 +96,70 @@ func (Checker_Type) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0, 0}
 }
 
+// Mode defines how the program is called and how its result is read.
+type Checker_Program_Mode int32
+
+const (
+	// Not set, treated as EOLYMP.
+	Checker_Program_UNKNOWN_MODE Checker_Program_Mode = 0
+	// eolymp.h contract: <input-file> <output-file> <answer-file> and the environment described at PROGRAM,
+	// result read the testlib way.
+	Checker_Program_EOLYMP Checker_Program_Mode = 1
+	// testlib.h contract: <input-file> <output-file> <answer-file>, exit code 0 accepted, 1 or 2 wrong,
+	// 7 partial with "points" in the log.
+	Checker_Program_TESTLIB Checker_Program_Mode = 2
+	// CMS contract: <input-file> <answer-file> <output-file>, outcome from 0 to 1 on stdout, message on stderr.
+	Checker_Program_CMS Checker_Program_Mode = 3
+	// Kattis output validator contract: <input-file> <answer-file> <feedback-dir>, output on stdin,
+	// exit code 42 accepted, 43 wrong.
+	Checker_Program_KATTIS Checker_Program_Mode = 4
+)
+
+// Enum value maps for Checker_Program_Mode.
+var (
+	Checker_Program_Mode_name = map[int32]string{
+		0: "UNKNOWN_MODE",
+		1: "EOLYMP",
+		2: "TESTLIB",
+		3: "CMS",
+		4: "KATTIS",
+	}
+	Checker_Program_Mode_value = map[string]int32{
+		"UNKNOWN_MODE": 0,
+		"EOLYMP":       1,
+		"TESTLIB":      2,
+		"CMS":          3,
+		"KATTIS":       4,
+	}
+)
+
+func (x Checker_Program_Mode) Enum() *Checker_Program_Mode {
+	p := new(Checker_Program_Mode)
+	*p = x
+	return p
+}
+
+func (x Checker_Program_Mode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Checker_Program_Mode) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_executor_checker_proto_enumTypes[1].Descriptor()
+}
+
+func (Checker_Program_Mode) Type() protoreflect.EnumType {
+	return &file_eolymp_executor_checker_proto_enumTypes[1]
+}
+
+func (x Checker_Program_Mode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Checker_Program_Mode.Descriptor instead.
+func (Checker_Program_Mode) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0, 2, 0}
+}
+
 // Checker provides configuration on how to verify answers
 type Checker struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -113,7 +177,14 @@ type Checker struct {
 	// If set to false the rows of output and answer will be sorted before comparison.
 	OrderSensitive bool `protobuf:"varint,6,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
 	// Additional files placed into workdir during compilation and execution
-	Files         []*File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
+	Files []*File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
+	// Types that are valid to be assigned to Kind:
+	//
+	//	*Checker_Tokens_
+	//	*Checker_Lines_
+	//	*Checker_Program_
+	//	*Checker_QueryResults_
+	Kind          isChecker_Kind `protobuf_oneof:"kind"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -197,11 +268,282 @@ func (x *Checker) GetFiles() []*File {
 	return nil
 }
 
+func (x *Checker) GetKind() isChecker_Kind {
+	if x != nil {
+		return x.Kind
+	}
+	return nil
+}
+
+func (x *Checker) GetTokens() *Checker_Tokens {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_Tokens_); ok {
+			return x.Tokens
+		}
+	}
+	return nil
+}
+
+func (x *Checker) GetLines() *Checker_Lines {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_Lines_); ok {
+			return x.Lines
+		}
+	}
+	return nil
+}
+
+func (x *Checker) GetProgram() *Checker_Program {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_Program_); ok {
+			return x.Program
+		}
+	}
+	return nil
+}
+
+func (x *Checker) GetQueryResults() *Checker_QueryResults {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_QueryResults_); ok {
+			return x.QueryResults
+		}
+	}
+	return nil
+}
+
+type isChecker_Kind interface {
+	isChecker_Kind()
+}
+
+type Checker_Tokens_ struct {
+	Tokens *Checker_Tokens `protobuf:"bytes,20,opt,name=tokens,proto3,oneof"`
+}
+
+type Checker_Lines_ struct {
+	Lines *Checker_Lines `protobuf:"bytes,21,opt,name=lines,proto3,oneof"`
+}
+
+type Checker_Program_ struct {
+	Program *Checker_Program `protobuf:"bytes,22,opt,name=program,proto3,oneof"`
+}
+
+type Checker_QueryResults_ struct {
+	QueryResults *Checker_QueryResults `protobuf:"bytes,23,opt,name=query_results,json=queryResults,proto3,oneof"`
+}
+
+func (*Checker_Tokens_) isChecker_Kind() {}
+
+func (*Checker_Lines_) isChecker_Kind() {}
+
+func (*Checker_Program_) isChecker_Kind() {}
+
+func (*Checker_QueryResults_) isChecker_Kind() {}
+
+type Checker_Tokens struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Precision     int32                  `protobuf:"varint,1,opt,name=precision,proto3" json:"precision,omitempty"`
+	CaseSensitive bool                   `protobuf:"varint,2,opt,name=case_sensitive,json=caseSensitive,proto3" json:"case_sensitive,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Checker_Tokens) Reset() {
+	*x = Checker_Tokens{}
+	mi := &file_eolymp_executor_checker_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_Tokens) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_Tokens) ProtoMessage() {}
+
+func (x *Checker_Tokens) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_executor_checker_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_Tokens.ProtoReflect.Descriptor instead.
+func (*Checker_Tokens) Descriptor() ([]byte, []int) {
+	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Checker_Tokens) GetPrecision() int32 {
+	if x != nil {
+		return x.Precision
+	}
+	return 0
+}
+
+func (x *Checker_Tokens) GetCaseSensitive() bool {
+	if x != nil {
+		return x.CaseSensitive
+	}
+	return false
+}
+
+type Checker_Lines struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Checker_Lines) Reset() {
+	*x = Checker_Lines{}
+	mi := &file_eolymp_executor_checker_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_Lines) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_Lines) ProtoMessage() {}
+
+func (x *Checker_Lines) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_executor_checker_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_Lines.ProtoReflect.Descriptor instead.
+func (*Checker_Lines) Descriptor() ([]byte, []int) {
+	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0, 1}
+}
+
+type Checker_Program struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mode          Checker_Program_Mode   `protobuf:"varint,1,opt,name=mode,proto3,enum=eolymp.executor.Checker_Program_Mode" json:"mode,omitempty"`
+	Runtime       string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	SourceUrl     string                 `protobuf:"bytes,3,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
+	Files         []*File                `protobuf:"bytes,4,rep,name=files,proto3" json:"files,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Checker_Program) Reset() {
+	*x = Checker_Program{}
+	mi := &file_eolymp_executor_checker_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_Program) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_Program) ProtoMessage() {}
+
+func (x *Checker_Program) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_executor_checker_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_Program.ProtoReflect.Descriptor instead.
+func (*Checker_Program) Descriptor() ([]byte, []int) {
+	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Checker_Program) GetMode() Checker_Program_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Checker_Program_UNKNOWN_MODE
+}
+
+func (x *Checker_Program) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
+	}
+	return ""
+}
+
+func (x *Checker_Program) GetSourceUrl() string {
+	if x != nil {
+		return x.SourceUrl
+	}
+	return ""
+}
+
+func (x *Checker_Program) GetFiles() []*File {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
+type Checker_QueryResults struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	OrderSensitive bool                   `protobuf:"varint,1,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *Checker_QueryResults) Reset() {
+	*x = Checker_QueryResults{}
+	mi := &file_eolymp_executor_checker_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_QueryResults) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_QueryResults) ProtoMessage() {}
+
+func (x *Checker_QueryResults) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_executor_checker_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_QueryResults.ProtoReflect.Descriptor instead.
+func (*Checker_QueryResults) Descriptor() ([]byte, []int) {
+	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Checker_QueryResults) GetOrderSensitive() bool {
+	if x != nil {
+		return x.OrderSensitive
+	}
+	return false
+}
+
 var File_eolymp_executor_checker_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_checker_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/executor/checker.proto\x12\x0feolymp.executor\x1a\x1aeolymp/executor/file.proto\"\xef\x02\n" +
+	"\x1deolymp/executor/checker.proto\x12\x0feolymp.executor\x1a\x1aeolymp/executor/file.proto\"\xfc\a\n" +
 	"\aChecker\x121\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1d.eolymp.executor.Checker.TypeR\x04type\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x1d\n" +
@@ -211,14 +553,39 @@ const file_eolymp_executor_checker_proto_rawDesc = "" +
 	"\x0ecase_sensitive\x18\x05 \x01(\bR\rcaseSensitive\x12'\n" +
 	"\x0forder_sensitive\x18\x06 \x01(\bR\x0eorderSensitive\x12+\n" +
 	"\x05files\x18\n" +
-	" \x03(\v2\x15.eolymp.executor.FileR\x05files\"]\n" +
+	" \x03(\v2\x15.eolymp.executor.FileR\x05files\x129\n" +
+	"\x06tokens\x18\x14 \x01(\v2\x1f.eolymp.executor.Checker.TokensH\x00R\x06tokens\x126\n" +
+	"\x05lines\x18\x15 \x01(\v2\x1e.eolymp.executor.Checker.LinesH\x00R\x05lines\x12<\n" +
+	"\aprogram\x18\x16 \x01(\v2 .eolymp.executor.Checker.ProgramH\x00R\aprogram\x12L\n" +
+	"\rquery_results\x18\x17 \x01(\v2%.eolymp.executor.Checker.QueryResultsH\x00R\fqueryResults\x1aM\n" +
+	"\x06Tokens\x12\x1c\n" +
+	"\tprecision\x18\x01 \x01(\x05R\tprecision\x12%\n" +
+	"\x0ecase_sensitive\x18\x02 \x01(\bR\rcaseSensitive\x1a\a\n" +
+	"\x05Lines\x1a\xf2\x01\n" +
+	"\aProgram\x129\n" +
+	"\x04mode\x18\x01 \x01(\x0e2%.eolymp.executor.Checker.Program.ModeR\x04mode\x12\x18\n" +
+	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x1d\n" +
+	"\n" +
+	"source_url\x18\x03 \x01(\tR\tsourceUrl\x12+\n" +
+	"\x05files\x18\x04 \x03(\v2\x15.eolymp.executor.FileR\x05files\"F\n" +
+	"\x04Mode\x12\x10\n" +
+	"\fUNKNOWN_MODE\x10\x00\x12\n" +
+	"\n" +
+	"\x06EOLYMP\x10\x01\x12\v\n" +
+	"\aTESTLIB\x10\x02\x12\a\n" +
+	"\x03CMS\x10\x03\x12\n" +
+	"\n" +
+	"\x06KATTIS\x10\x04\x1a7\n" +
+	"\fQueryResults\x12'\n" +
+	"\x0forder_sensitive\x18\x01 \x01(\bR\x0eorderSensitive\"]\n" +
 	"\x04Type\x12\b\n" +
 	"\x04NONE\x10\x00\x12\n" +
 	"\n" +
 	"\x06TOKENS\x10\x01\x12\t\n" +
 	"\x05LINES\x10\x02\x12\v\n" +
 	"\aPROGRAM\x10\x03\x12\x11\n" +
-	"\rQUERY_RESULTS\x10\x05\"\x04\b\x04\x10\x04*\x0eLEGACY_PROGRAMB3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
+	"\rQUERY_RESULTS\x10\x05\"\x04\b\x04\x10\x04*\x0eLEGACY_PROGRAMB\x06\n" +
+	"\x04kindB3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
 
 var (
 	file_eolymp_executor_checker_proto_rawDescOnce sync.Once
@@ -232,21 +599,32 @@ func file_eolymp_executor_checker_proto_rawDescGZIP() []byte {
 	return file_eolymp_executor_checker_proto_rawDescData
 }
 
-var file_eolymp_executor_checker_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_executor_checker_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_executor_checker_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_executor_checker_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_executor_checker_proto_goTypes = []any{
-	(Checker_Type)(0), // 0: eolymp.executor.Checker.Type
-	(*Checker)(nil),   // 1: eolymp.executor.Checker
-	(*File)(nil),      // 2: eolymp.executor.File
+	(Checker_Type)(0),            // 0: eolymp.executor.Checker.Type
+	(Checker_Program_Mode)(0),    // 1: eolymp.executor.Checker.Program.Mode
+	(*Checker)(nil),              // 2: eolymp.executor.Checker
+	(*Checker_Tokens)(nil),       // 3: eolymp.executor.Checker.Tokens
+	(*Checker_Lines)(nil),        // 4: eolymp.executor.Checker.Lines
+	(*Checker_Program)(nil),      // 5: eolymp.executor.Checker.Program
+	(*Checker_QueryResults)(nil), // 6: eolymp.executor.Checker.QueryResults
+	(*File)(nil),                 // 7: eolymp.executor.File
 }
 var file_eolymp_executor_checker_proto_depIdxs = []int32{
 	0, // 0: eolymp.executor.Checker.type:type_name -> eolymp.executor.Checker.Type
-	2, // 1: eolymp.executor.Checker.files:type_name -> eolymp.executor.File
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	7, // 1: eolymp.executor.Checker.files:type_name -> eolymp.executor.File
+	3, // 2: eolymp.executor.Checker.tokens:type_name -> eolymp.executor.Checker.Tokens
+	4, // 3: eolymp.executor.Checker.lines:type_name -> eolymp.executor.Checker.Lines
+	5, // 4: eolymp.executor.Checker.program:type_name -> eolymp.executor.Checker.Program
+	6, // 5: eolymp.executor.Checker.query_results:type_name -> eolymp.executor.Checker.QueryResults
+	1, // 6: eolymp.executor.Checker.Program.mode:type_name -> eolymp.executor.Checker.Program.Mode
+	7, // 7: eolymp.executor.Checker.Program.files:type_name -> eolymp.executor.File
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_checker_proto_init() }
@@ -255,13 +633,19 @@ func file_eolymp_executor_checker_proto_init() {
 		return
 	}
 	file_eolymp_executor_file_proto_init()
+	file_eolymp_executor_checker_proto_msgTypes[0].OneofWrappers = []any{
+		(*Checker_Tokens_)(nil),
+		(*Checker_Lines_)(nil),
+		(*Checker_Program_)(nil),
+		(*Checker_QueryResults_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_executor_checker_proto_rawDesc), len(file_eolymp_executor_checker_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   1,
+			NumEnums:      2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

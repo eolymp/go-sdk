@@ -36,8 +36,15 @@ type Checker struct {
 	// Order sensitivity option for QUERY_RESULTS checker.
 	// If set to false the rows of output and answer will be sorted before comparison.
 	OrderSensitive bool `protobuf:"varint,6,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Types that are valid to be assigned to Kind:
+	//
+	//	*Checker_Tokens_
+	//	*Checker_Lines_
+	//	*Checker_Program_
+	//	*Checker_QueryResults_
+	Kind          isChecker_Kind `protobuf_oneof:"kind"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Checker) Reset() {
@@ -133,11 +140,282 @@ func (x *Checker) GetOrderSensitive() bool {
 	return false
 }
 
+func (x *Checker) GetKind() isChecker_Kind {
+	if x != nil {
+		return x.Kind
+	}
+	return nil
+}
+
+func (x *Checker) GetTokens() *Checker_Tokens {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_Tokens_); ok {
+			return x.Tokens
+		}
+	}
+	return nil
+}
+
+func (x *Checker) GetLines() *Checker_Lines {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_Lines_); ok {
+			return x.Lines
+		}
+	}
+	return nil
+}
+
+func (x *Checker) GetProgram() *Checker_Program {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_Program_); ok {
+			return x.Program
+		}
+	}
+	return nil
+}
+
+func (x *Checker) GetQueryResults() *Checker_QueryResults {
+	if x != nil {
+		if x, ok := x.Kind.(*Checker_QueryResults_); ok {
+			return x.QueryResults
+		}
+	}
+	return nil
+}
+
+type isChecker_Kind interface {
+	isChecker_Kind()
+}
+
+type Checker_Tokens_ struct {
+	Tokens *Checker_Tokens `protobuf:"bytes,20,opt,name=tokens,proto3,oneof"`
+}
+
+type Checker_Lines_ struct {
+	Lines *Checker_Lines `protobuf:"bytes,21,opt,name=lines,proto3,oneof"`
+}
+
+type Checker_Program_ struct {
+	Program *Checker_Program `protobuf:"bytes,22,opt,name=program,proto3,oneof"`
+}
+
+type Checker_QueryResults_ struct {
+	QueryResults *Checker_QueryResults `protobuf:"bytes,23,opt,name=query_results,json=queryResults,proto3,oneof"`
+}
+
+func (*Checker_Tokens_) isChecker_Kind() {}
+
+func (*Checker_Lines_) isChecker_Kind() {}
+
+func (*Checker_Program_) isChecker_Kind() {}
+
+func (*Checker_QueryResults_) isChecker_Kind() {}
+
+type Checker_Tokens struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Precision     int32                  `protobuf:"varint,1,opt,name=precision,proto3" json:"precision,omitempty"`
+	CaseSensitive bool                   `protobuf:"varint,2,opt,name=case_sensitive,json=caseSensitive,proto3" json:"case_sensitive,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Checker_Tokens) Reset() {
+	*x = Checker_Tokens{}
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_Tokens) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_Tokens) ProtoMessage() {}
+
+func (x *Checker_Tokens) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_Tokens.ProtoReflect.Descriptor instead.
+func (*Checker_Tokens) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_checker_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Checker_Tokens) GetPrecision() int32 {
+	if x != nil {
+		return x.Precision
+	}
+	return 0
+}
+
+func (x *Checker_Tokens) GetCaseSensitive() bool {
+	if x != nil {
+		return x.CaseSensitive
+	}
+	return false
+}
+
+type Checker_Lines struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Checker_Lines) Reset() {
+	*x = Checker_Lines{}
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_Lines) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_Lines) ProtoMessage() {}
+
+func (x *Checker_Lines) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_Lines.ProtoReflect.Descriptor instead.
+func (*Checker_Lines) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_checker_proto_rawDescGZIP(), []int{0, 1}
+}
+
+type Checker_Program struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Mode          executor.Checker_Program_Mode `protobuf:"varint,1,opt,name=mode,proto3,enum=eolymp.executor.Checker_Program_Mode" json:"mode,omitempty"`
+	Runtime       string                        `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
+	Source        string                        `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
+	Files         []*executor.File              `protobuf:"bytes,4,rep,name=files,proto3" json:"files,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Checker_Program) Reset() {
+	*x = Checker_Program{}
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_Program) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_Program) ProtoMessage() {}
+
+func (x *Checker_Program) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_Program.ProtoReflect.Descriptor instead.
+func (*Checker_Program) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_checker_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Checker_Program) GetMode() executor.Checker_Program_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return executor.Checker_Program_Mode(0)
+}
+
+func (x *Checker_Program) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
+	}
+	return ""
+}
+
+func (x *Checker_Program) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *Checker_Program) GetFiles() []*executor.File {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
+type Checker_QueryResults struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	OrderSensitive bool                   `protobuf:"varint,1,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *Checker_QueryResults) Reset() {
+	*x = Checker_QueryResults{}
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Checker_QueryResults) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Checker_QueryResults) ProtoMessage() {}
+
+func (x *Checker_QueryResults) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_testing_checker_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Checker_QueryResults.ProtoReflect.Descriptor instead.
+func (*Checker_QueryResults) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_testing_checker_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Checker_QueryResults) GetOrderSensitive() bool {
+	if x != nil {
+		return x.OrderSensitive
+	}
+	return false
+}
+
 var File_eolymp_atlas_testing_checker_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_testing_checker_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/atlas/testing_checker.proto\x12\feolymp.atlas\x1a\x1deolymp/executor/checker.proto\x1a\x1aeolymp/executor/file.proto\"\xc0\x02\n" +
+	"\"eolymp/atlas/testing_checker.proto\x12\feolymp.atlas\x1a\x1deolymp/executor/checker.proto\x1a\x1aeolymp/executor/file.proto\"\xf2\x06\n" +
 	"\aChecker\x12\x1d\n" +
 	"\n" +
 	"version_id\x18\v \x01(\tR\tversionId\x12\x16\n" +
@@ -149,7 +427,23 @@ const file_eolymp_atlas_testing_checker_proto_rawDesc = "" +
 	" \x03(\v2\x15.eolymp.executor.FileR\x05files\x12\x1c\n" +
 	"\tprecision\x18\x04 \x01(\x05R\tprecision\x12%\n" +
 	"\x0ecase_sensitive\x18\x05 \x01(\bR\rcaseSensitive\x12'\n" +
-	"\x0forder_sensitive\x18\x06 \x01(\bR\x0eorderSensitiveB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x0forder_sensitive\x18\x06 \x01(\bR\x0eorderSensitive\x126\n" +
+	"\x06tokens\x18\x14 \x01(\v2\x1c.eolymp.atlas.Checker.TokensH\x00R\x06tokens\x123\n" +
+	"\x05lines\x18\x15 \x01(\v2\x1b.eolymp.atlas.Checker.LinesH\x00R\x05lines\x129\n" +
+	"\aprogram\x18\x16 \x01(\v2\x1d.eolymp.atlas.Checker.ProgramH\x00R\aprogram\x12I\n" +
+	"\rquery_results\x18\x17 \x01(\v2\".eolymp.atlas.Checker.QueryResultsH\x00R\fqueryResults\x1aM\n" +
+	"\x06Tokens\x12\x1c\n" +
+	"\tprecision\x18\x01 \x01(\x05R\tprecision\x12%\n" +
+	"\x0ecase_sensitive\x18\x02 \x01(\bR\rcaseSensitive\x1a\a\n" +
+	"\x05Lines\x1a\xa3\x01\n" +
+	"\aProgram\x129\n" +
+	"\x04mode\x18\x01 \x01(\x0e2%.eolymp.executor.Checker.Program.ModeR\x04mode\x12\x18\n" +
+	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x16\n" +
+	"\x06source\x18\x03 \x01(\tR\x06source\x12+\n" +
+	"\x05files\x18\x04 \x03(\v2\x15.eolymp.executor.FileR\x05files\x1a7\n" +
+	"\fQueryResults\x12'\n" +
+	"\x0forder_sensitive\x18\x01 \x01(\bR\x0eorderSensitiveB\x06\n" +
+	"\x04kindB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_testing_checker_proto_rawDescOnce sync.Once
@@ -163,20 +457,31 @@ func file_eolymp_atlas_testing_checker_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_testing_checker_proto_rawDescData
 }
 
-var file_eolymp_atlas_testing_checker_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_atlas_testing_checker_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_atlas_testing_checker_proto_goTypes = []any{
-	(*Checker)(nil),            // 0: eolymp.atlas.Checker
-	(executor.Checker_Type)(0), // 1: eolymp.executor.Checker.Type
-	(*executor.File)(nil),      // 2: eolymp.executor.File
+	(*Checker)(nil),                    // 0: eolymp.atlas.Checker
+	(*Checker_Tokens)(nil),             // 1: eolymp.atlas.Checker.Tokens
+	(*Checker_Lines)(nil),              // 2: eolymp.atlas.Checker.Lines
+	(*Checker_Program)(nil),            // 3: eolymp.atlas.Checker.Program
+	(*Checker_QueryResults)(nil),       // 4: eolymp.atlas.Checker.QueryResults
+	(executor.Checker_Type)(0),         // 5: eolymp.executor.Checker.Type
+	(*executor.File)(nil),              // 6: eolymp.executor.File
+	(executor.Checker_Program_Mode)(0), // 7: eolymp.executor.Checker.Program.Mode
 }
 var file_eolymp_atlas_testing_checker_proto_depIdxs = []int32{
-	1, // 0: eolymp.atlas.Checker.type:type_name -> eolymp.executor.Checker.Type
-	2, // 1: eolymp.atlas.Checker.files:type_name -> eolymp.executor.File
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	5, // 0: eolymp.atlas.Checker.type:type_name -> eolymp.executor.Checker.Type
+	6, // 1: eolymp.atlas.Checker.files:type_name -> eolymp.executor.File
+	1, // 2: eolymp.atlas.Checker.tokens:type_name -> eolymp.atlas.Checker.Tokens
+	2, // 3: eolymp.atlas.Checker.lines:type_name -> eolymp.atlas.Checker.Lines
+	3, // 4: eolymp.atlas.Checker.program:type_name -> eolymp.atlas.Checker.Program
+	4, // 5: eolymp.atlas.Checker.query_results:type_name -> eolymp.atlas.Checker.QueryResults
+	7, // 6: eolymp.atlas.Checker.Program.mode:type_name -> eolymp.executor.Checker.Program.Mode
+	6, // 7: eolymp.atlas.Checker.Program.files:type_name -> eolymp.executor.File
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_testing_checker_proto_init() }
@@ -184,13 +489,19 @@ func file_eolymp_atlas_testing_checker_proto_init() {
 	if File_eolymp_atlas_testing_checker_proto != nil {
 		return
 	}
+	file_eolymp_atlas_testing_checker_proto_msgTypes[0].OneofWrappers = []any{
+		(*Checker_Tokens_)(nil),
+		(*Checker_Lines_)(nil),
+		(*Checker_Program_)(nil),
+		(*Checker_QueryResults_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_testing_checker_proto_rawDesc), len(file_eolymp_atlas_testing_checker_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
