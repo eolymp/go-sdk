@@ -43,6 +43,7 @@ const (
 	Rule_CONTEST_ACTION               Rule_Trigger = 12 // User-invoked actions (run manually via TriggerRule, not by an event).
 	Rule_MEMBER_ACTION                Rule_Trigger = 13
 	Rule_SCHEDULED                    Rule_Trigger = 16 // Runs on the rule's schedule rather than in response to anything.
+	Rule_STATEMENT_CHANGED            Rule_Trigger = 17 // a problem statement has been created or updated
 )
 
 // Enum value maps for Rule_Trigger.
@@ -65,6 +66,7 @@ var (
 		12: "CONTEST_ACTION",
 		13: "MEMBER_ACTION",
 		16: "SCHEDULED",
+		17: "STATEMENT_CHANGED",
 	}
 	Rule_Trigger_value = map[string]int32{
 		"UNKNOWN_TRIGGER":              0,
@@ -84,6 +86,7 @@ var (
 		"CONTEST_ACTION":               12,
 		"MEMBER_ACTION":                13,
 		"SCHEDULED":                    16,
+		"STATEMENT_CHANGED":            17,
 	}
 )
 
@@ -412,7 +415,7 @@ var File_eolymp_automation_rule_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd6\f\n" +
+	"\x1ceolymp/automation/rule.proto\x12\x11eolymp.automation\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1eeolymp/automation/action.proto\x1a!eolymp/automation/condition.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xed\f\n" +
 	"\x04Rule\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
@@ -452,7 +455,7 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\n" +
 	"\b_dry_runB\b\n" +
 	"\x06_labelB\v\n" +
-	"\t_schedule\"\x8a\x03\n" +
+	"\t_schedule\"\xa1\x03\n" +
 	"\aTrigger\x12\x13\n" +
 	"\x0fUNKNOWN_TRIGGER\x10\x00\x12\x18\n" +
 	"\x14SUBMISSION_COMPLETED\x10\x01\x12\x11\n" +
@@ -471,7 +474,8 @@ const file_eolymp_automation_rule_proto_rawDesc = "" +
 	"\x12SUGGESTION_CHANGED\x10\x0f\x12\x12\n" +
 	"\x0eCONTEST_ACTION\x10\f\x12\x11\n" +
 	"\rMEMBER_ACTION\x10\r\x12\r\n" +
-	"\tSCHEDULED\x10\x10\"7\n" +
+	"\tSCHEDULED\x10\x10\x12\x15\n" +
+	"\x11STATEMENT_CHANGED\x10\x11\"7\n" +
 	"\bSchedule\x12\x14\n" +
 	"\x10UNKNOWN_SCHEDULE\x10\x00\x12\n" +
 	"\n" +
