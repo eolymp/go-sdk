@@ -47,16 +47,6 @@ const (
 	// - OUTPUT_FILE=<output-file>
 	// - ANSWER_FILE=<answer-file>
 	Checker_PROGRAM Checker_Type = 3
-	// Program verifies output and answer using program `source` written in `lang`
-	// Program is compatible with E-Olymp checkers (uses different argument order comparing to testlib).
-	// Program runs with following arguments: <input-file> <answer-file> <output-file>.
-	//
-	// Additionally, program receives following environment variables:
-	// - EOLYMP=1
-	// - INPUT_FILE=<input-file>
-	// - OUTPUT_FILE=<output-file>
-	// - ANSWER_FILE=<answer-file>
-	Checker_LEGACY_PROGRAM Checker_Type = 4
 	// Query results verifies JSON encoded results of a query.
 	Checker_QUERY_RESULTS Checker_Type = 5
 )
@@ -68,16 +58,14 @@ var (
 		1: "TOKENS",
 		2: "LINES",
 		3: "PROGRAM",
-		4: "LEGACY_PROGRAM",
 		5: "QUERY_RESULTS",
 	}
 	Checker_Type_value = map[string]int32{
-		"NONE":           0,
-		"TOKENS":         1,
-		"LINES":          2,
-		"PROGRAM":        3,
-		"LEGACY_PROGRAM": 4,
-		"QUERY_RESULTS":  5,
+		"NONE":          0,
+		"TOKENS":        1,
+		"LINES":         2,
+		"PROGRAM":       3,
+		"QUERY_RESULTS": 5,
 	}
 )
 
@@ -213,7 +201,7 @@ var File_eolymp_executor_checker_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_checker_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/executor/checker.proto\x12\x0feolymp.executor\x1a\x1aeolymp/executor/file.proto\"\xed\x02\n" +
+	"\x1deolymp/executor/checker.proto\x12\x0feolymp.executor\x1a\x1aeolymp/executor/file.proto\"\xef\x02\n" +
 	"\aChecker\x121\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x1d.eolymp.executor.Checker.TypeR\x04type\x12\x18\n" +
 	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x1d\n" +
@@ -223,15 +211,14 @@ const file_eolymp_executor_checker_proto_rawDesc = "" +
 	"\x0ecase_sensitive\x18\x05 \x01(\bR\rcaseSensitive\x12'\n" +
 	"\x0forder_sensitive\x18\x06 \x01(\bR\x0eorderSensitive\x12+\n" +
 	"\x05files\x18\n" +
-	" \x03(\v2\x15.eolymp.executor.FileR\x05files\"[\n" +
+	" \x03(\v2\x15.eolymp.executor.FileR\x05files\"]\n" +
 	"\x04Type\x12\b\n" +
 	"\x04NONE\x10\x00\x12\n" +
 	"\n" +
 	"\x06TOKENS\x10\x01\x12\t\n" +
 	"\x05LINES\x10\x02\x12\v\n" +
-	"\aPROGRAM\x10\x03\x12\x12\n" +
-	"\x0eLEGACY_PROGRAM\x10\x04\x12\x11\n" +
-	"\rQUERY_RESULTS\x10\x05B3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
+	"\aPROGRAM\x10\x03\x12\x11\n" +
+	"\rQUERY_RESULTS\x10\x05\"\x04\b\x04\x10\x04*\x0eLEGACY_PROGRAMB3Z1github.com/eolymp/go-sdk/eolymp/executor;executorb\x06proto3"
 
 var (
 	file_eolymp_executor_checker_proto_rawDescOnce sync.Once
