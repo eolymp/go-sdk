@@ -163,21 +163,6 @@ func (Checker_Program_Mode) EnumDescriptor() ([]byte, []int) {
 // Checker provides configuration on how to verify answers
 type Checker struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Checker type (see types enumeration for details)
-	Type Checker_Type `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.executor.Checker_Type" json:"type,omitempty"`
-	// Programming language for PROGRAM checker
-	Runtime string `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"`
-	// Source code for PROGRAM checker
-	SourceUrl string `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
-	// Precision for TOKEN checker
-	Precision int32 `protobuf:"varint,4,opt,name=precision,proto3" json:"precision,omitempty"`
-	// Case sensitivity option for TOKEN checker
-	CaseSensitive bool `protobuf:"varint,5,opt,name=case_sensitive,json=caseSensitive,proto3" json:"case_sensitive,omitempty"`
-	// Order sensitivity option for QUERY_RESULTS checker.
-	// If set to false the rows of output and answer will be sorted before comparison.
-	OrderSensitive bool `protobuf:"varint,6,opt,name=order_sensitive,json=orderSensitive,proto3" json:"order_sensitive,omitempty"`
-	// Additional files placed into workdir during compilation and execution
-	Files []*File `protobuf:"bytes,10,rep,name=files,proto3" json:"files,omitempty"`
 	// Types that are valid to be assigned to Kind:
 	//
 	//	*Checker_Tokens_
@@ -217,55 +202,6 @@ func (x *Checker) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Checker.ProtoReflect.Descriptor instead.
 func (*Checker) Descriptor() ([]byte, []int) {
 	return file_eolymp_executor_checker_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Checker) GetType() Checker_Type {
-	if x != nil {
-		return x.Type
-	}
-	return Checker_NONE
-}
-
-func (x *Checker) GetRuntime() string {
-	if x != nil {
-		return x.Runtime
-	}
-	return ""
-}
-
-func (x *Checker) GetSourceUrl() string {
-	if x != nil {
-		return x.SourceUrl
-	}
-	return ""
-}
-
-func (x *Checker) GetPrecision() int32 {
-	if x != nil {
-		return x.Precision
-	}
-	return 0
-}
-
-func (x *Checker) GetCaseSensitive() bool {
-	if x != nil {
-		return x.CaseSensitive
-	}
-	return false
-}
-
-func (x *Checker) GetOrderSensitive() bool {
-	if x != nil {
-		return x.OrderSensitive
-	}
-	return false
-}
-
-func (x *Checker) GetFiles() []*File {
-	if x != nil {
-		return x.Files
-	}
-	return nil
 }
 
 func (x *Checker) GetKind() isChecker_Kind {
@@ -543,17 +479,8 @@ var File_eolymp_executor_checker_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_checker_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/executor/checker.proto\x12\x0feolymp.executor\x1a\x1aeolymp/executor/file.proto\"\xfc\a\n" +
-	"\aChecker\x121\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x1d.eolymp.executor.Checker.TypeR\x04type\x12\x18\n" +
-	"\aruntime\x18\x02 \x01(\tR\aruntime\x12\x1d\n" +
-	"\n" +
-	"source_url\x18\b \x01(\tR\tsourceUrl\x12\x1c\n" +
-	"\tprecision\x18\x04 \x01(\x05R\tprecision\x12%\n" +
-	"\x0ecase_sensitive\x18\x05 \x01(\bR\rcaseSensitive\x12'\n" +
-	"\x0forder_sensitive\x18\x06 \x01(\bR\x0eorderSensitive\x12+\n" +
-	"\x05files\x18\n" +
-	" \x03(\v2\x15.eolymp.executor.FileR\x05files\x129\n" +
+	"\x1deolymp/executor/checker.proto\x12\x0feolymp.executor\x1a\x1aeolymp/executor/file.proto\"\xf5\x05\n" +
+	"\aChecker\x129\n" +
 	"\x06tokens\x18\x14 \x01(\v2\x1f.eolymp.executor.Checker.TokensH\x00R\x06tokens\x126\n" +
 	"\x05lines\x18\x15 \x01(\v2\x1e.eolymp.executor.Checker.LinesH\x00R\x05lines\x12<\n" +
 	"\aprogram\x18\x16 \x01(\v2 .eolymp.executor.Checker.ProgramH\x00R\aprogram\x12L\n" +
@@ -612,19 +539,17 @@ var file_eolymp_executor_checker_proto_goTypes = []any{
 	(*File)(nil),                 // 7: eolymp.executor.File
 }
 var file_eolymp_executor_checker_proto_depIdxs = []int32{
-	0, // 0: eolymp.executor.Checker.type:type_name -> eolymp.executor.Checker.Type
-	7, // 1: eolymp.executor.Checker.files:type_name -> eolymp.executor.File
-	3, // 2: eolymp.executor.Checker.tokens:type_name -> eolymp.executor.Checker.Tokens
-	4, // 3: eolymp.executor.Checker.lines:type_name -> eolymp.executor.Checker.Lines
-	5, // 4: eolymp.executor.Checker.program:type_name -> eolymp.executor.Checker.Program
-	6, // 5: eolymp.executor.Checker.query_results:type_name -> eolymp.executor.Checker.QueryResults
-	1, // 6: eolymp.executor.Checker.Program.mode:type_name -> eolymp.executor.Checker.Program.Mode
-	7, // 7: eolymp.executor.Checker.Program.files:type_name -> eolymp.executor.File
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	3, // 0: eolymp.executor.Checker.tokens:type_name -> eolymp.executor.Checker.Tokens
+	4, // 1: eolymp.executor.Checker.lines:type_name -> eolymp.executor.Checker.Lines
+	5, // 2: eolymp.executor.Checker.program:type_name -> eolymp.executor.Checker.Program
+	6, // 3: eolymp.executor.Checker.query_results:type_name -> eolymp.executor.Checker.QueryResults
+	1, // 4: eolymp.executor.Checker.Program.mode:type_name -> eolymp.executor.Checker.Program.Mode
+	7, // 5: eolymp.executor.Checker.Program.files:type_name -> eolymp.executor.File
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_checker_proto_init() }
