@@ -7,6 +7,7 @@
 package acl
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -74,6 +75,7 @@ const (
 	Action_INTEGRATION_WRITE  Action = 191 // connect and disconnect external platforms, e.g. Discord
 	Action_NOTIFICATION_READ  Action = 200 // view notification channels and messages
 	Action_NOTIFICATION_WRITE Action = 201 // manage notification channels, write and publish messages
+	Action_PROCTORING_READ    Action = 210 // watch proctoring recordings
 )
 
 // Enum value maps for Action.
@@ -129,6 +131,7 @@ var (
 		191: "INTEGRATION_WRITE",
 		200: "NOTIFICATION_READ",
 		201: "NOTIFICATION_WRITE",
+		210: "PROCTORING_READ",
 	}
 	Action_value = map[string]int32{
 		"UNKNOWN_ACTION":     0,
@@ -181,6 +184,7 @@ var (
 		"INTEGRATION_WRITE":  191,
 		"NOTIFICATION_READ":  200,
 		"NOTIFICATION_WRITE": 201,
+		"PROCTORING_READ":    210,
 	}
 )
 
@@ -216,7 +220,7 @@ var File_eolymp_acl_action_proto protoreflect.FileDescriptor
 const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\n" +
 	"\x17eolymp/acl/action.proto\x12\n" +
-	"eolymp.acl*\xc3\a\n" +
+	"eolymp.acl\x1a\x1ceolymp/annotations/mcp.proto*\xe1\a\n" +
 	"\x06Action\x12\x12\n" +
 	"\x0eUNKNOWN_ACTION\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -273,7 +277,8 @@ const file_eolymp_acl_action_proto_rawDesc = "" +
 	"\x10INTEGRATION_READ\x10\xbe\x01\x12\x16\n" +
 	"\x11INTEGRATION_WRITE\x10\xbf\x01\x12\x16\n" +
 	"\x11NOTIFICATION_READ\x10\xc8\x01\x12\x17\n" +
-	"\x12NOTIFICATION_WRITE\x10\xc9\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
+	"\x12NOTIFICATION_WRITE\x10\xc9\x01\x12\x1c\n" +
+	"\x0fPROCTORING_READ\x10\xd2\x01\x1a\x06\xb8\xf0\xf0\xe4\x01\x01B)Z'github.com/eolymp/go-sdk/eolymp/acl;aclb\x06proto3"
 
 var (
 	file_eolymp_acl_action_proto_rawDescOnce sync.Once

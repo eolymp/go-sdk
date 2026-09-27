@@ -7,6 +7,7 @@
 package judge
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -75,10 +76,11 @@ func (Recording_Stream) EnumDescriptor() ([]byte, []int) {
 type Recording struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Stream        Recording_Stream       `protobuf:"varint,1,opt,name=stream,proto3,enum=eolymp.judge.Recording_Stream" json:"stream,omitempty"`
-	StartedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
+	StartedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`       // assigned by the server: the piece ends when it is created
 	Duration      uint32                 `protobuf:"varint,3,opt,name=duration,proto3" json:"duration,omitempty"`                         // in milliseconds
 	Size          uint32                 `protobuf:"varint,4,opt,name=size,proto3" json:"size,omitempty"`                                 // in bytes
 	ContentType   string                 `protobuf:"bytes,5,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"` // video/webm or video/mp4
+	Url           string                 `protobuf:"bytes,6,opt,name=url,proto3" json:"url,omitempty"`                                    // short-lived link to watch the piece
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -148,18 +150,26 @@ func (x *Recording) GetContentType() string {
 	return ""
 }
 
+func (x *Recording) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_eolymp_judge_recording_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_recording_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/judge/recording.proto\x12\feolymp.judge\x1a\x1fgoogle/protobuf/timestamp.proto\"\x87\x02\n" +
+	"\x1ceolymp/judge/recording.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x02\n" +
 	"\tRecording\x126\n" +
-	"\x06stream\x18\x01 \x01(\x0e2\x1e.eolymp.judge.Recording.StreamR\x06stream\x129\n" +
+	"\x06stream\x18\x01 \x01(\x0e2\x1e.eolymp.judge.Recording.StreamR\x06stream\x12A\n" +
 	"\n" +
-	"started_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12\x1a\n" +
+	"started_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tstartedAt\x12\x1a\n" +
 	"\bduration\x18\x03 \x01(\rR\bduration\x12\x12\n" +
 	"\x04size\x18\x04 \x01(\rR\x04size\x12!\n" +
-	"\fcontent_type\x18\x05 \x01(\tR\vcontentType\"4\n" +
+	"\fcontent_type\x18\x05 \x01(\tR\vcontentType\x12\x18\n" +
+	"\x03url\x18\x06 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\"4\n" +
 	"\x06Stream\x12\x12\n" +
 	"\x0eUNKNOWN_STREAM\x10\x00\x12\n" +
 	"\n" +

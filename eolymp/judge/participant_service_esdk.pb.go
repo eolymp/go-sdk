@@ -329,3 +329,20 @@ func (s *ParticipantServiceService) CreateRecording(ctx context.Context, in *Cre
 
 	return out, nil
 }
+
+func (s *ParticipantServiceService) ListRecordings(ctx context.Context, in *ListRecordingsInput) (*ListRecordingsOutput, error) {
+	out := &ListRecordingsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/participants/" + url.PathEscape(in.GetParticipantId()) + "/recordings"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ParticipantId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
