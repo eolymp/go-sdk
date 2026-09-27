@@ -7,7 +7,6 @@
 package judge
 
 import (
-	_ "github.com/eolymp/go-sdk/eolymp/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -192,9 +191,9 @@ var File_eolymp_judge_contest_series_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_series_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/judge/contest_series.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\"\xf5\x01\n" +
-	"\rContestSeries\x12\x16\n" +
-	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x12\n" +
+	"!eolymp/judge/contest_series.proto\x12\feolymp.judge\"\xed\x01\n" +
+	"\rContestSeries\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
 	"\x06hidden\x18\x03 \x01(\bR\x06hidden\x12?\n" +
 	"\bvariants\x18d \x03(\v2#.eolymp.judge.ContestSeries.VariantR\bvariants\x1a5\n" +
