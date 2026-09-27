@@ -87,6 +87,58 @@ func (Participant_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type Participant_ProctoringStatus int32
+
+const (
+	Participant_UNKNOWN_PROCTORING_STATUS Participant_ProctoringStatus = 0 // contest is not proctored
+	Participant_OFF                       Participant_ProctoringStatus = 1 // nothing has been recorded
+	Participant_ON                        Participant_ProctoringStatus = 2 // recorded without interruptions
+	Participant_GAPS                      Participant_ProctoringStatus = 3 // recorded with interruptions
+)
+
+// Enum value maps for Participant_ProctoringStatus.
+var (
+	Participant_ProctoringStatus_name = map[int32]string{
+		0: "UNKNOWN_PROCTORING_STATUS",
+		1: "OFF",
+		2: "ON",
+		3: "GAPS",
+	}
+	Participant_ProctoringStatus_value = map[string]int32{
+		"UNKNOWN_PROCTORING_STATUS": 0,
+		"OFF":                       1,
+		"ON":                        2,
+		"GAPS":                      3,
+	}
+)
+
+func (x Participant_ProctoringStatus) Enum() *Participant_ProctoringStatus {
+	p := new(Participant_ProctoringStatus)
+	*p = x
+	return p
+}
+
+func (x Participant_ProctoringStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Participant_ProctoringStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_participant_proto_enumTypes[1].Descriptor()
+}
+
+func (Participant_ProctoringStatus) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_participant_proto_enumTypes[1]
+}
+
+func (x Participant_ProctoringStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Participant_ProctoringStatus.Descriptor instead.
+func (Participant_ProctoringStatus) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
+}
+
 type Participant_Role int32
 
 const (
@@ -126,11 +178,11 @@ func (x Participant_Role) String() string {
 }
 
 func (Participant_Role) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_participant_proto_enumTypes[1].Descriptor()
+	return file_eolymp_judge_participant_proto_enumTypes[2].Descriptor()
 }
 
 func (Participant_Role) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_participant_proto_enumTypes[1]
+	return &file_eolymp_judge_participant_proto_enumTypes[2]
 }
 
 func (x Participant_Role) Number() protoreflect.EnumNumber {
@@ -139,7 +191,7 @@ func (x Participant_Role) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Participant_Role.Descriptor instead.
 func (Participant_Role) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 2}
 }
 
 type Participant struct {
@@ -166,8 +218,9 @@ type Participant struct {
 	// Passcode is read-only and should be set using ResetPasscode method.
 	//
 	// Deprecated: Marked as deprecated in eolymp/judge/participant.proto.
-	Passcode      string `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
-	CertificateId string `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // Participation certificate ID.
+	Passcode         string                       `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
+	CertificateId    string                       `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"`                                                          // Participation certificate ID.
+	ProctoringStatus Participant_ProctoringStatus `protobuf:"varint,33,opt,name=proctoring_status,json=proctoringStatus,proto3,enum=eolymp.judge.Participant_ProctoringStatus" json:"proctoring_status,omitempty"` // whether the participation was recorded, only in a proctored contest
 	// Submit counter is used to count how many times user submitted the problem.
 	Submits       []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -322,6 +375,13 @@ func (x *Participant) GetCertificateId() string {
 		return x.CertificateId
 	}
 	return ""
+}
+
+func (x *Participant) GetProctoringStatus() Participant_ProctoringStatus {
+	if x != nil {
+		return x.ProctoringStatus
+	}
+	return Participant_UNKNOWN_PROCTORING_STATUS
 }
 
 func (x *Participant) GetSubmits() []*Participant_Submit {
@@ -479,7 +539,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfb\f\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x0e\n" +
 	"\vParticipant\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12)\n" +
@@ -502,7 +562,8 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12/\n" +
 	"\x0fviolation_count\x18\x1c \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eviolationCount\x12$\n" +
 	"\bpasscode\x18\x1e \x01(\tB\b\xa8\xf0\xf0\xe4\x01\x01\x18\x01R\bpasscode\x12-\n" +
-	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12B\n" +
+	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12e\n" +
+	"\x11proctoring_status\x18! \x01(\x0e2*.eolymp.judge.Participant.ProctoringStatusB\f\xa8\xf0\xf0\xe4\x01\x01\xb0\xf0\xf0\xe4\x01\x01R\x10proctoringStatus\x12B\n" +
 	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitB\x06\xa8\xf0\xf0\xe4\x01\x01R\asubmits\x1a\xff\x02\n" +
 	"\x05Patch\x12&\n" +
 	"\fdisplay_name\x18\x01 \x01(\tH\x00R\vdisplayName\x88\x01\x01\x12\"\n" +
@@ -534,7 +595,12 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\bCOMPLETE\x10\x03\x1a\x16\x9a\xf0\xf0\xe4\x01\x10finished contest\x12E\n" +
 	"\aUPSOLVE\x10\a\x1a8\x9a\xf0\xf0\xe4\x012finished contest and can continue solving problems\x12(\n" +
 	"\aBLOCKED\x10\b\x1a\x1b\x9a\xf0\xf0\xe4\x01\x15blocked by organisers\x126\n" +
-	"\x06PAUSED\x10\t\x1a*\x9a\xf0\xf0\xe4\x01$has paused participation voluntarily\"K\n" +
+	"\x06PAUSED\x10\t\x1a*\x9a\xf0\xf0\xe4\x01$has paused participation voluntarily\"L\n" +
+	"\x10ProctoringStatus\x12\x1d\n" +
+	"\x19UNKNOWN_PROCTORING_STATUS\x10\x00\x12\a\n" +
+	"\x03OFF\x10\x01\x12\x06\n" +
+	"\x02ON\x10\x02\x12\b\n" +
+	"\x04GAPS\x10\x03\"K\n" +
 	"\x04Role\x12\x0f\n" +
 	"\vPARTICIPANT\x10\x00\x12\t\n" +
 	"\x05STAFF\x10\x01\x12\n" +
@@ -556,31 +622,33 @@ func file_eolymp_judge_participant_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_participant_proto_rawDescData
 }
 
-var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_judge_participant_proto_goTypes = []any{
-	(Participant_Status)(0),       // 0: eolymp.judge.Participant.Status
-	(Participant_Role)(0),         // 1: eolymp.judge.Participant.Role
-	(*Participant)(nil),           // 2: eolymp.judge.Participant
-	(*Participant_Patch)(nil),     // 3: eolymp.judge.Participant.Patch
-	(*Participant_Submit)(nil),    // 4: eolymp.judge.Participant.Submit
-	(Medal)(0),                    // 5: eolymp.judge.Medal
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(Participant_Status)(0),           // 0: eolymp.judge.Participant.Status
+	(Participant_ProctoringStatus)(0), // 1: eolymp.judge.Participant.ProctoringStatus
+	(Participant_Role)(0),             // 2: eolymp.judge.Participant.Role
+	(*Participant)(nil),               // 3: eolymp.judge.Participant
+	(*Participant_Patch)(nil),         // 4: eolymp.judge.Participant.Patch
+	(*Participant_Submit)(nil),        // 5: eolymp.judge.Participant.Submit
+	(Medal)(0),                        // 6: eolymp.judge.Medal
+	(*timestamppb.Timestamp)(nil),     // 7: google.protobuf.Timestamp
 }
 var file_eolymp_judge_participant_proto_depIdxs = []int32{
-	1, // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
-	5, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
+	2, // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
+	6, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
 	0, // 2: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
-	6, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
-	6, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
-	4, // 5: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
-	5, // 6: eolymp.judge.Participant.Patch.medal:type_name -> eolymp.judge.Medal
-	1, // 7: eolymp.judge.Participant.Patch.role:type_name -> eolymp.judge.Participant.Role
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	7, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
+	7, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
+	1, // 5: eolymp.judge.Participant.proctoring_status:type_name -> eolymp.judge.Participant.ProctoringStatus
+	5, // 6: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
+	6, // 7: eolymp.judge.Participant.Patch.medal:type_name -> eolymp.judge.Medal
+	2, // 8: eolymp.judge.Participant.Patch.role:type_name -> eolymp.judge.Participant.Role
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_participant_proto_init() }
@@ -595,7 +663,7 @@ func file_eolymp_judge_participant_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_participant_proto_rawDesc), len(file_eolymp_judge_participant_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,

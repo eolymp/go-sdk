@@ -75,6 +75,7 @@ type Quota struct {
 	TeamContests           bool   `protobuf:"varint,19,opt,name=team_contests,json=teamContests,proto3" json:"team_contests,omitempty"`                                 // analyse submission code to see similarities and generate a report
 	GhostParticipants      bool   `protobuf:"varint,20,opt,name=ghost_participants,json=ghostParticipants,proto3" json:"ghost_participants,omitempty"`                  // analyse submission code to see similarities and generate a report
 	UnofficialParticipants bool   `protobuf:"varint,21,opt,name=unofficial_participants,json=unofficialParticipants,proto3" json:"unofficial_participants,omitempty"`   // analyse submission code to see similarities and generate a report
+	Proctoring             bool   `protobuf:"varint,34,opt,name=proctoring,proto3" json:"proctoring,omitempty"`                                                         // record participants' screen and camera in proctored contests
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -403,11 +404,18 @@ func (x *Quota) GetUnofficialParticipants() bool {
 	return false
 }
 
+func (x *Quota) GetProctoring() bool {
+	if x != nil {
+		return x.Proctoring
+	}
+	return false
+}
+
 var File_eolymp_universe_quota_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xe9\x10\n" +
+	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\x89\x11\n" +
 	"\x05Quota\x122\n" +
 	"\x15permissions_per_space\x18\x06 \x01(\rR\x13permissionsPerSpace\x12$\n" +
 	"\x0esingle_sing_on\x18\x16 \x01(\bR\fsingleSingOn\x126\n" +
@@ -451,7 +459,10 @@ const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\x14max_contest_duration\x18\x11 \x01(\rR\x12maxContestDuration\x12#\n" +
 	"\rteam_contests\x18\x13 \x01(\bR\fteamContests\x12-\n" +
 	"\x12ghost_participants\x18\x14 \x01(\bR\x11ghostParticipants\x127\n" +
-	"\x17unofficial_participants\x18\x15 \x01(\bR\x16unofficialParticipantsJ\x04\b\x18\x10\x19J\x04\b\x19\x10\x1aB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x17unofficial_participants\x18\x15 \x01(\bR\x16unofficialParticipants\x12\x1e\n" +
+	"\n" +
+	"proctoring\x18\" \x01(\bR\n" +
+	"proctoringJ\x04\b\x18\x10\x19J\x04\b\x19\x10\x1aB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_quota_proto_rawDescOnce sync.Once

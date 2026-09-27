@@ -135,6 +135,7 @@ const (
 	Space_RATING             Space_Feature = 5
 	Space_TEMPLATE_GENERATOR Space_Feature = 6
 	Space_ACHIEVEMENTS       Space_Feature = 7
+	Space_PROCTORING         Space_Feature = 8
 )
 
 // Enum value maps for Space_Feature.
@@ -148,6 +149,7 @@ var (
 		5: "RATING",
 		6: "TEMPLATE_GENERATOR",
 		7: "ACHIEVEMENTS",
+		8: "PROCTORING",
 	}
 	Space_Feature_value = map[string]int32{
 		"UNKNOWN_FEATURE":    0,
@@ -158,6 +160,7 @@ var (
 		"RATING":             5,
 		"TEMPLATE_GENERATOR": 6,
 		"ACHIEVEMENTS":       7,
+		"PROCTORING":         8,
 	}
 )
 
@@ -662,7 +665,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x0f\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9a\x0f\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
@@ -732,7 +735,7 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\x12UNKNOWN_VISIBILITY\x10\x00\x12\n" +
 	"\n" +
 	"\x06PUBLIC\x10\x01\x12\v\n" +
-	"\aPRIVATE\x10\x02\"\x9e\x01\n" +
+	"\aPRIVATE\x10\x02\"\xb6\x01\n" +
 	"\aFeature\x12\x13\n" +
 	"\x0fUNKNOWN_FEATURE\x10\x00\x12\f\n" +
 	"\bPRINTERS\x10\x01\x12\x0f\n" +
@@ -742,7 +745,9 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
 	"\x06RATING\x10\x05\x12\x16\n" +
 	"\x12TEMPLATE_GENERATOR\x10\x06\x12\x10\n" +
-	"\fACHIEVEMENTS\x10\aB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\fACHIEVEMENTS\x10\a\x12\x16\n" +
+	"\n" +
+	"PROCTORING\x10\b\x1a\x06\xb8\xf0\xf0\xe4\x01\x01B3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_space_proto_rawDescOnce sync.Once

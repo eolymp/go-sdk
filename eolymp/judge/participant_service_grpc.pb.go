@@ -33,6 +33,7 @@ const (
 	ParticipantService_StartContest_FullMethodName          = "/eolymp.judge.ParticipantService/StartContest"
 	ParticipantService_PauseContest_FullMethodName          = "/eolymp.judge.ParticipantService/PauseContest"
 	ParticipantService_FinishContest_FullMethodName         = "/eolymp.judge.ParticipantService/FinishContest"
+	ParticipantService_CreateRecording_FullMethodName       = "/eolymp.judge.ParticipantService/CreateRecording"
 )
 
 // ParticipantServiceClient is the client API for ParticipantService service.
@@ -114,6 +115,11 @@ type ParticipantServiceClient interface {
 	// of waiting for the clock to run out, and unlike a pause it is not meant to be resumed. Where the
 	// contest permits upsolving, the participant may go on solving problems after finishing.
 	FinishContest(ctx context.Context, in *FinishContestInput, opts ...grpc.CallOption) (*FinishContestOutput, error)
+	// internal
+	//
+	// CreateRecording adds one piece of the calling participant's proctoring recording and returns a presigned
+	// URL to upload it to. It is only available in a proctored contest while the participation is active.
+	CreateRecording(ctx context.Context, in *CreateRecordingInput, opts ...grpc.CallOption) (*CreateRecordingOutput, error)
 }
 
 type participantServiceClient struct {
@@ -273,6 +279,16 @@ func (c *participantServiceClient) FinishContest(ctx context.Context, in *Finish
 	return out, nil
 }
 
+func (c *participantServiceClient) CreateRecording(ctx context.Context, in *CreateRecordingInput, opts ...grpc.CallOption) (*CreateRecordingOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateRecordingOutput)
+	err := c.cc.Invoke(ctx, ParticipantService_CreateRecording_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ParticipantServiceServer is the server API for ParticipantService service.
 // All implementations should embed UnimplementedParticipantServiceServer
 // for forward compatibility.
@@ -352,6 +368,11 @@ type ParticipantServiceServer interface {
 	// of waiting for the clock to run out, and unlike a pause it is not meant to be resumed. Where the
 	// contest permits upsolving, the participant may go on solving problems after finishing.
 	FinishContest(context.Context, *FinishContestInput) (*FinishContestOutput, error)
+	// internal
+	//
+	// CreateRecording adds one piece of the calling participant's proctoring recording and returns a presigned
+	// URL to upload it to. It is only available in a proctored contest while the participation is active.
+	CreateRecording(context.Context, *CreateRecordingInput) (*CreateRecordingOutput, error)
 }
 
 // UnimplementedParticipantServiceServer should be embedded to have
@@ -402,6 +423,9 @@ func (UnimplementedParticipantServiceServer) PauseContest(context.Context, *Paus
 }
 func (UnimplementedParticipantServiceServer) FinishContest(context.Context, *FinishContestInput) (*FinishContestOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method FinishContest not implemented")
+}
+func (UnimplementedParticipantServiceServer) CreateRecording(context.Context, *CreateRecordingInput) (*CreateRecordingOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateRecording not implemented")
 }
 func (UnimplementedParticipantServiceServer) testEmbeddedByValue() {}
 
@@ -668,6 +692,24 @@ func _ParticipantService_FinishContest_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ParticipantService_CreateRecording_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRecordingInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ParticipantServiceServer).CreateRecording(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ParticipantService_CreateRecording_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ParticipantServiceServer).CreateRecording(ctx, req.(*CreateRecordingInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ParticipantService_ServiceDesc is the grpc.ServiceDesc for ParticipantService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -726,6 +768,10 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FinishContest",
 			Handler:    _ParticipantService_FinishContest_Handler,
+		},
+		{
+			MethodName: "CreateRecording",
+			Handler:    _ParticipantService_CreateRecording_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
