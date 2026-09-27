@@ -164,7 +164,7 @@ type Problem struct {
 	Author       string       `protobuf:"bytes,101,opt,name=author,proto3" json:"author,omitempty"`                               // Problem author name.
 	Source       string       `protobuf:"bytes,102,opt,name=source,proto3" json:"source,omitempty"`                               // Problem source, name of the contest or olympiad where this problem was initially published.
 	Languages    []string     `protobuf:"bytes,103,rep,name=languages,proto3" json:"languages,omitempty"`                         // list of languages the statement is available in
-	// Problem topics (IDs of values in the "cs-topics" taxonomy enum)
+	// Problem topics (IDs of the space's topics, see TopicService)
 	Topics      []string             `protobuf:"bytes,20,rep,name=topics,proto3" json:"topics,omitempty"`
 	Score       float32              `protobuf:"fixed32,31,opt,name=score,proto3" json:"score,omitempty"`           // Total score
 	Constraints *Problem_Constraints `protobuf:"bytes,30,opt,name=constraints,proto3" json:"constraints,omitempty"` // Constraints
