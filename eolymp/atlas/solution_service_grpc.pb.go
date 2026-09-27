@@ -39,6 +39,10 @@ const (
 // intended: CheckSolutions runs the solutions and compares the verdicts they actually get against the
 // expected ones. Solutions marked secret hide their source, runtime and check status from callers who may
 // not see problem secrets. Solutions belong to a problem version, so an older revision can be read back.
+//
+// A solution can also carry per-testset assertions (Solution.assertions): a testset named there is graded
+// against its own expected outcome instead of the solution's, and every other testset keeps using the
+// solution's. Assertions only change how a finished submission is graded, never how it is run.
 type SolutionServiceClient interface {
 	// CreateSolution stores a new reference program for the problem and returns its ID. Nothing is executed
 	// at creation time, call CheckSolutions to run it.
@@ -64,7 +68,8 @@ type SolutionServiceClient interface {
 	// finishes, records whether the verdict it got matched the expected one. It answers immediately with an
 	// empty body: checking is asynchronous, so poll ListSolutions until nothing is pending any more.
 	// Solutions of the do-not-run type are always skipped, and for output-only problems the call is a no-op
-	// because they cannot be executed.
+	// because they cannot be executed. A solution with per-testset assertions is graded per testset instead of
+	// on the submission as a whole; the run itself is identical either way.
 	CheckSolutions(ctx context.Context, in *CheckSolutionsInput, opts ...grpc.CallOption) (*CheckSolutionsOutput, error)
 }
 
@@ -148,6 +153,10 @@ func (c *solutionServiceClient) CheckSolutions(ctx context.Context, in *CheckSol
 // intended: CheckSolutions runs the solutions and compares the verdicts they actually get against the
 // expected ones. Solutions marked secret hide their source, runtime and check status from callers who may
 // not see problem secrets. Solutions belong to a problem version, so an older revision can be read back.
+//
+// A solution can also carry per-testset assertions (Solution.assertions): a testset named there is graded
+// against its own expected outcome instead of the solution's, and every other testset keeps using the
+// solution's. Assertions only change how a finished submission is graded, never how it is run.
 type SolutionServiceServer interface {
 	// CreateSolution stores a new reference program for the problem and returns its ID. Nothing is executed
 	// at creation time, call CheckSolutions to run it.
@@ -173,7 +182,8 @@ type SolutionServiceServer interface {
 	// finishes, records whether the verdict it got matched the expected one. It answers immediately with an
 	// empty body: checking is asynchronous, so poll ListSolutions until nothing is pending any more.
 	// Solutions of the do-not-run type are always skipped, and for output-only problems the call is a no-op
-	// because they cannot be executed.
+	// because they cannot be executed. A solution with per-testset assertions is graded per testset instead of
+	// on the submission as a whole; the run itself is identical either way.
 	CheckSolutions(context.Context, *CheckSolutionsInput) (*CheckSolutionsOutput, error)
 }
 

@@ -21,6 +21,13 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Type is the expected outcome, read against either a whole submission or a single testset depending on
+// where it is used (see Solution.type and Solution.assertions). Against a submission it is the
+// submission's own status/verdict, unchanged from before per-testset overrides existed. Against a single
+// testset it is that testset's group verdict: CORRECT matches ACCEPTED; WRONG_ANSWER, TIMEOUT and OVERFLOW
+// match that failure (TIMEOUT also accepts the deprecated CPU_EXHAUSTED verdict); the *_OR_ACCEPTED
+// variants match that failure or ACCEPTED; INCORRECT matches anything other than ACCEPTED. DONT_RUN and
+// FAILURE only describe the solution as a whole.
 type Solution_Type int32
 
 const (
@@ -147,15 +154,19 @@ func (Solution_Status) EnumDescriptor() ([]byte, []int) {
 }
 
 type Solution struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`            // unique identifier
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`        // solution name
-	Secret        bool                   `protobuf:"varint,4,opt,name=secret,proto3" json:"secret,omitempty"`   // runtime and source are secret
-	Runtime       string                 `protobuf:"bytes,10,opt,name=runtime,proto3" json:"runtime,omitempty"` // programming language
-	Source        string                 `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`   // source code
-	Type          Solution_Type          `protobuf:"varint,20,opt,name=type,proto3,enum=eolymp.atlas.Solution_Type" json:"type,omitempty"`
-	Status        Solution_Status        `protobuf:"varint,30,opt,name=status,proto3,enum=eolymp.atlas.Solution_Status" json:"status,omitempty"`
-	SubmissionId  string                 `protobuf:"bytes,31,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Id      string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                       // unique identifier
+	Name    string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`                                   // solution name
+	Secret  bool                   `protobuf:"varint,4,opt,name=secret,proto3" json:"secret,omitempty"`                              // runtime and source are secret
+	Runtime string                 `protobuf:"bytes,10,opt,name=runtime,proto3" json:"runtime,omitempty"`                            // programming language
+	Source  string                 `protobuf:"bytes,11,opt,name=source,proto3" json:"source,omitempty"`                              // source code
+	Type    Solution_Type          `protobuf:"varint,20,opt,name=type,proto3,enum=eolymp.atlas.Solution_Type" json:"type,omitempty"` // expected outcome; the fallback for any testset not named in assertions, and the only thing checked when assertions is empty
+	// per-testset overrides. Changes only how CheckSolutions grades the result: the solution still runs as one
+	// submission either way. Empty means the solution is graded on the submission as a whole, exactly as
+	// before this field existed. Invalid on a solution whose own type is DONT_RUN or FAILURE.
+	Assertions    []*Solution_Assertion `protobuf:"bytes,21,rep,name=assertions,proto3" json:"assertions,omitempty"`
+	Status        Solution_Status       `protobuf:"varint,30,opt,name=status,proto3,enum=eolymp.atlas.Solution_Status" json:"status,omitempty"`
+	SubmissionId  string                `protobuf:"bytes,31,opt,name=submission_id,json=submissionId,proto3" json:"submission_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -232,6 +243,13 @@ func (x *Solution) GetType() Solution_Type {
 	return Solution_UNSET
 }
 
+func (x *Solution) GetAssertions() []*Solution_Assertion {
+	if x != nil {
+		return x.Assertions
+	}
+	return nil
+}
+
 func (x *Solution) GetStatus() Solution_Status {
 	if x != nil {
 		return x.Status
@@ -246,20 +264,76 @@ func (x *Solution) GetSubmissionId() string {
 	return ""
 }
 
-type Solution_Patch struct {
+// Assertion overrides the expected outcome for one testset. A testset not named by any Assertion
+// keeps being judged against Solution.type.
+type Solution_Assertion struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Secret        *bool                  `protobuf:"varint,4,opt,name=secret,proto3,oneof" json:"secret,omitempty"`
-	Runtime       *string                `protobuf:"bytes,10,opt,name=runtime,proto3,oneof" json:"runtime,omitempty"`
-	Source        *string                `protobuf:"bytes,11,opt,name=source,proto3,oneof" json:"source,omitempty"`
-	Type          *Solution_Type         `protobuf:"varint,20,opt,name=type,proto3,enum=eolymp.atlas.Solution_Type,oneof" json:"type,omitempty"`
+	TestsetId     string                 `protobuf:"bytes,1,opt,name=testset_id,json=testsetId,proto3" json:"testset_id,omitempty"`       // the testset's own id, as returned by ListTestsets; follows the testset across a reorder, removed when the testset is deleted
+	Type          Solution_Type          `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.atlas.Solution_Type" json:"type,omitempty"` // expected outcome for that testset alone; DONT_RUN and FAILURE are invalid here
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
+func (x *Solution_Assertion) Reset() {
+	*x = Solution_Assertion{}
+	mi := &file_eolymp_atlas_solution_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Solution_Assertion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Solution_Assertion) ProtoMessage() {}
+
+func (x *Solution_Assertion) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_solution_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Solution_Assertion.ProtoReflect.Descriptor instead.
+func (*Solution_Assertion) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_solution_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Solution_Assertion) GetTestsetId() string {
+	if x != nil {
+		return x.TestsetId
+	}
+	return ""
+}
+
+func (x *Solution_Assertion) GetType() Solution_Type {
+	if x != nil {
+		return x.Type
+	}
+	return Solution_UNSET
+}
+
+type Solution_Patch struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Name            *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Secret          *bool                  `protobuf:"varint,4,opt,name=secret,proto3,oneof" json:"secret,omitempty"`
+	Runtime         *string                `protobuf:"bytes,10,opt,name=runtime,proto3,oneof" json:"runtime,omitempty"`
+	Source          *string                `protobuf:"bytes,11,opt,name=source,proto3,oneof" json:"source,omitempty"`
+	Type            *Solution_Type         `protobuf:"varint,20,opt,name=type,proto3,enum=eolymp.atlas.Solution_Type,oneof" json:"type,omitempty"`
+	Assertions      []*Solution_Assertion  `protobuf:"bytes,21,rep,name=assertions,proto3" json:"assertions,omitempty"`
+	ClearAssertions *bool                  `protobuf:"varint,22,opt,name=clear_assertions,json=clearAssertions,proto3,oneof" json:"clear_assertions,omitempty"` // clears the overrides, which an empty list cannot express
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
 func (x *Solution_Patch) Reset() {
 	*x = Solution_Patch{}
-	mi := &file_eolymp_atlas_solution_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_solution_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -271,7 +345,7 @@ func (x *Solution_Patch) String() string {
 func (*Solution_Patch) ProtoMessage() {}
 
 func (x *Solution_Patch) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_solution_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_solution_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -284,7 +358,7 @@ func (x *Solution_Patch) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Solution_Patch.ProtoReflect.Descriptor instead.
 func (*Solution_Patch) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_solution_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_atlas_solution_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Solution_Patch) GetName() string {
@@ -322,11 +396,25 @@ func (x *Solution_Patch) GetType() Solution_Type {
 	return Solution_UNSET
 }
 
+func (x *Solution_Patch) GetAssertions() []*Solution_Assertion {
+	if x != nil {
+		return x.Assertions
+	}
+	return nil
+}
+
+func (x *Solution_Patch) GetClearAssertions() bool {
+	if x != nil && x.ClearAssertions != nil {
+		return *x.ClearAssertions
+	}
+	return false
+}
+
 var File_eolymp_atlas_solution_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_solution_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/atlas/solution.proto\x12\feolymp.atlas\"\xe0\x05\n" +
+	"\x1beolymp/atlas/solution.proto\x12\feolymp.atlas\"\x86\b\n" +
 	"\bSolution\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
@@ -334,22 +422,34 @@ const file_eolymp_atlas_solution_proto_rawDesc = "" +
 	"\aruntime\x18\n" +
 	" \x01(\tR\aruntime\x12\x16\n" +
 	"\x06source\x18\v \x01(\tR\x06source\x12/\n" +
-	"\x04type\x18\x14 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeR\x04type\x125\n" +
+	"\x04type\x18\x14 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeR\x04type\x12@\n" +
+	"\n" +
+	"assertions\x18\x15 \x03(\v2 .eolymp.atlas.Solution.AssertionR\n" +
+	"assertions\x125\n" +
 	"\x06status\x18\x1e \x01(\x0e2\x1d.eolymp.atlas.Solution.StatusR\x06status\x12#\n" +
-	"\rsubmission_id\x18\x1f \x01(\tR\fsubmissionId\x1a\xe3\x01\n" +
+	"\rsubmission_id\x18\x1f \x01(\tR\fsubmissionId\x1a[\n" +
+	"\tAssertion\x12\x1d\n" +
+	"\n" +
+	"testset_id\x18\x01 \x01(\tR\ttestsetId\x12/\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeR\x04type\x1a\xea\x02\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1b\n" +
 	"\x06secret\x18\x04 \x01(\bH\x01R\x06secret\x88\x01\x01\x12\x1d\n" +
 	"\aruntime\x18\n" +
 	" \x01(\tH\x02R\aruntime\x88\x01\x01\x12\x1b\n" +
 	"\x06source\x18\v \x01(\tH\x03R\x06source\x88\x01\x01\x124\n" +
-	"\x04type\x18\x14 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeH\x04R\x04type\x88\x01\x01B\a\n" +
+	"\x04type\x18\x14 \x01(\x0e2\x1b.eolymp.atlas.Solution.TypeH\x04R\x04type\x88\x01\x01\x12@\n" +
+	"\n" +
+	"assertions\x18\x15 \x03(\v2 .eolymp.atlas.Solution.AssertionR\n" +
+	"assertions\x12.\n" +
+	"\x10clear_assertions\x18\x16 \x01(\bH\x05R\x0fclearAssertions\x88\x01\x01B\a\n" +
 	"\x05_nameB\t\n" +
 	"\a_secretB\n" +
 	"\n" +
 	"\b_runtimeB\t\n" +
 	"\a_sourceB\a\n" +
-	"\x05_type\"\xa8\x01\n" +
+	"\x05_typeB\x13\n" +
+	"\x11_clear_assertions\"\xa8\x01\n" +
 	"\x04Type\x12\t\n" +
 	"\x05UNSET\x10\x00\x12\v\n" +
 	"\aCORRECT\x10\x01\x12\r\n" +
@@ -381,22 +481,26 @@ func file_eolymp_atlas_solution_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_solution_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_solution_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_atlas_solution_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_atlas_solution_proto_goTypes = []any{
-	(Solution_Type)(0),     // 0: eolymp.atlas.Solution.Type
-	(Solution_Status)(0),   // 1: eolymp.atlas.Solution.Status
-	(*Solution)(nil),       // 2: eolymp.atlas.Solution
-	(*Solution_Patch)(nil), // 3: eolymp.atlas.Solution.Patch
+	(Solution_Type)(0),         // 0: eolymp.atlas.Solution.Type
+	(Solution_Status)(0),       // 1: eolymp.atlas.Solution.Status
+	(*Solution)(nil),           // 2: eolymp.atlas.Solution
+	(*Solution_Assertion)(nil), // 3: eolymp.atlas.Solution.Assertion
+	(*Solution_Patch)(nil),     // 4: eolymp.atlas.Solution.Patch
 }
 var file_eolymp_atlas_solution_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Solution.type:type_name -> eolymp.atlas.Solution.Type
-	1, // 1: eolymp.atlas.Solution.status:type_name -> eolymp.atlas.Solution.Status
-	0, // 2: eolymp.atlas.Solution.Patch.type:type_name -> eolymp.atlas.Solution.Type
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 1: eolymp.atlas.Solution.assertions:type_name -> eolymp.atlas.Solution.Assertion
+	1, // 2: eolymp.atlas.Solution.status:type_name -> eolymp.atlas.Solution.Status
+	0, // 3: eolymp.atlas.Solution.Assertion.type:type_name -> eolymp.atlas.Solution.Type
+	0, // 4: eolymp.atlas.Solution.Patch.type:type_name -> eolymp.atlas.Solution.Type
+	3, // 5: eolymp.atlas.Solution.Patch.assertions:type_name -> eolymp.atlas.Solution.Assertion
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_solution_proto_init() }
@@ -404,14 +508,14 @@ func file_eolymp_atlas_solution_proto_init() {
 	if File_eolymp_atlas_solution_proto != nil {
 		return
 	}
-	file_eolymp_atlas_solution_proto_msgTypes[1].OneofWrappers = []any{}
+	file_eolymp_atlas_solution_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_solution_proto_rawDesc), len(file_eolymp_atlas_solution_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
