@@ -77,14 +77,21 @@ type Warning struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Program that produced the warning: checker, validator, interactor, or the generator script's name.
 	Source string `protobuf:"bytes,1,opt,name=source,proto3" json:"source,omitempty"`
-	// Source file the warning refers to; empty means the program's main source.
+	// Source file the warning refers to; empty means the program's main source, and a path outside it means
+	// the warning was reported by a library the program includes.
 	File string `protobuf:"bytes,2,opt,name=file,proto3" json:"file,omitempty"`
-	// Line number the warning refers to.
+	// Line number the warning refers to; 0 means the warning is about the run as a whole rather than a line.
 	Line uint32 `protobuf:"varint,3,opt,name=line,proto3" json:"line,omitempty"`
 	// Column number the warning refers to; 0 means unknown.
-	Column        uint32           `protobuf:"varint,4,opt,name=column,proto3" json:"column,omitempty"`
-	Message       string           `protobuf:"bytes,5,opt,name=message,proto3" json:"message,omitempty"`
-	Severity      Warning_Severity `protobuf:"varint,6,opt,name=severity,proto3,enum=eolymp.executor.Warning_Severity" json:"severity,omitempty"`
+	Column   uint32           `protobuf:"varint,4,opt,name=column,proto3" json:"column,omitempty"`
+	Message  string           `protobuf:"bytes,5,opt,name=message,proto3" json:"message,omitempty"`
+	Severity Warning_Severity `protobuf:"varint,6,opt,name=severity,proto3,enum=eolymp.executor.Warning_Severity" json:"severity,omitempty"`
+	// Stable diagnostic identifier from the program's own catalogue, e.g. "EO101"; empty for a program that
+	// has none. Unlike the message, this does not change from run to run, so it is the field to key identity
+	// on rather than hashing the message.
+	Code string `protobuf:"bytes,7,opt,name=code,proto3" json:"code,omitempty"`
+	// Number of times this warning was observed in the process that reported it.
+	Count         uint32 `protobuf:"varint,8,opt,name=count,proto3" json:"count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -161,18 +168,34 @@ func (x *Warning) GetSeverity() Warning_Severity {
 	return Warning_UNKNOWN_SEVERITY
 }
 
+func (x *Warning) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *Warning) GetCount() uint32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
 var File_eolymp_executor_warning_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_warning_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/executor/warning.proto\x12\x0feolymp.executor\"\xf3\x01\n" +
+	"\x1deolymp/executor/warning.proto\x12\x0feolymp.executor\"\x9d\x02\n" +
 	"\aWarning\x12\x16\n" +
 	"\x06source\x18\x01 \x01(\tR\x06source\x12\x12\n" +
 	"\x04file\x18\x02 \x01(\tR\x04file\x12\x12\n" +
 	"\x04line\x18\x03 \x01(\rR\x04line\x12\x16\n" +
 	"\x06column\x18\x04 \x01(\rR\x06column\x12\x18\n" +
 	"\amessage\x18\x05 \x01(\tR\amessage\x12=\n" +
-	"\bseverity\x18\x06 \x01(\x0e2!.eolymp.executor.Warning.SeverityR\bseverity\"7\n" +
+	"\bseverity\x18\x06 \x01(\x0e2!.eolymp.executor.Warning.SeverityR\bseverity\x12\x12\n" +
+	"\x04code\x18\a \x01(\tR\x04code\x12\x14\n" +
+	"\x05count\x18\b \x01(\rR\x05count\"7\n" +
 	"\bSeverity\x12\x14\n" +
 	"\x10UNKNOWN_SEVERITY\x10\x00\x12\b\n" +
 	"\x04INFO\x10\x01\x12\v\n" +
