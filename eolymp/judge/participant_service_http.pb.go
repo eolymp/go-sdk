@@ -338,12 +338,6 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/contests/{contest_id}/finish", _ParticipantService_FinishContest_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.FinishContest")
-	router.Handle(prefix+"/contests/{contest_id}/recordings", _ParticipantService_CreateRecording_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ParticipantService.CreateRecording")
-	router.Handle(prefix+"/contests/{contest_id}/participants/{participant_id}/recordings", _ParticipantService_ListRecordings_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.judge.ParticipantService.ListRecordings")
 }
 
 // RegisterParticipantServiceHttpProxy adds proxy handlers for for ParticipantServiceClient
@@ -683,55 +677,6 @@ func _ParticipantService_FinishContest_Rule0(cli ParticipantServiceClient) http.
 		var header, trailer metadata.MD
 
 		out, err := cli.FinishContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_CreateRecording_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &CreateRecordingInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ContestId = vars["contest_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.CreateRecording(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_ListRecordings_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListRecordingsInput{}
-
-		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ContestId = vars["contest_id"]
-		in.ParticipantId = vars["participant_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ListRecordings(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return

@@ -87,58 +87,6 @@ func (Participant_Status) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type Participant_ProctoringStatus int32
-
-const (
-	Participant_UNKNOWN_PROCTORING_STATUS Participant_ProctoringStatus = 0 // contest is not proctored
-	Participant_OFF                       Participant_ProctoringStatus = 1 // nothing has been recorded
-	Participant_ON                        Participant_ProctoringStatus = 2 // recorded without interruptions
-	Participant_GAPS                      Participant_ProctoringStatus = 3 // recorded with interruptions
-)
-
-// Enum value maps for Participant_ProctoringStatus.
-var (
-	Participant_ProctoringStatus_name = map[int32]string{
-		0: "UNKNOWN_PROCTORING_STATUS",
-		1: "OFF",
-		2: "ON",
-		3: "GAPS",
-	}
-	Participant_ProctoringStatus_value = map[string]int32{
-		"UNKNOWN_PROCTORING_STATUS": 0,
-		"OFF":                       1,
-		"ON":                        2,
-		"GAPS":                      3,
-	}
-)
-
-func (x Participant_ProctoringStatus) Enum() *Participant_ProctoringStatus {
-	p := new(Participant_ProctoringStatus)
-	*p = x
-	return p
-}
-
-func (x Participant_ProctoringStatus) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Participant_ProctoringStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_participant_proto_enumTypes[1].Descriptor()
-}
-
-func (Participant_ProctoringStatus) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_participant_proto_enumTypes[1]
-}
-
-func (x Participant_ProctoringStatus) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Participant_ProctoringStatus.Descriptor instead.
-func (Participant_ProctoringStatus) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
-}
-
 type Participant_Role int32
 
 const (
@@ -178,11 +126,11 @@ func (x Participant_Role) String() string {
 }
 
 func (Participant_Role) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_participant_proto_enumTypes[2].Descriptor()
+	return file_eolymp_judge_participant_proto_enumTypes[1].Descriptor()
 }
 
 func (Participant_Role) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_participant_proto_enumTypes[2]
+	return &file_eolymp_judge_participant_proto_enumTypes[1]
 }
 
 func (x Participant_Role) Number() protoreflect.EnumNumber {
@@ -191,7 +139,111 @@ func (x Participant_Role) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Participant_Role.Descriptor instead.
 func (Participant_Role) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
+}
+
+type Participant_Proctoring_Status int32
+
+const (
+	Participant_Proctoring_UNKNOWN_STATUS Participant_Proctoring_Status = 0 // contest is not proctored
+	Participant_Proctoring_UNAVAILABLE    Participant_Proctoring_Status = 1 // nothing has been recorded
+	Participant_Proctoring_COMPLETE       Participant_Proctoring_Status = 2 // recorded without interruptions
+	Participant_Proctoring_INCOMPLETE     Participant_Proctoring_Status = 3 // recorded with interruptions
+	Participant_Proctoring_EXPIRED        Participant_Proctoring_Status = 4 // recorded, but the recording has been deleted after its retention period
+)
+
+// Enum value maps for Participant_Proctoring_Status.
+var (
+	Participant_Proctoring_Status_name = map[int32]string{
+		0: "UNKNOWN_STATUS",
+		1: "UNAVAILABLE",
+		2: "COMPLETE",
+		3: "INCOMPLETE",
+		4: "EXPIRED",
+	}
+	Participant_Proctoring_Status_value = map[string]int32{
+		"UNKNOWN_STATUS": 0,
+		"UNAVAILABLE":    1,
+		"COMPLETE":       2,
+		"INCOMPLETE":     3,
+		"EXPIRED":        4,
+	}
+)
+
+func (x Participant_Proctoring_Status) Enum() *Participant_Proctoring_Status {
+	p := new(Participant_Proctoring_Status)
+	*p = x
+	return p
+}
+
+func (x Participant_Proctoring_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Participant_Proctoring_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_participant_proto_enumTypes[2].Descriptor()
+}
+
+func (Participant_Proctoring_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_participant_proto_enumTypes[2]
+}
+
+func (x Participant_Proctoring_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Participant_Proctoring_Status.Descriptor instead.
+func (Participant_Proctoring_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1, 0}
+}
+
+type Participant_Proctoring_Source int32
+
+const (
+	Participant_Proctoring_UNKNOWN_SOURCE Participant_Proctoring_Source = 0
+	Participant_Proctoring_SCREEN         Participant_Proctoring_Source = 1
+	Participant_Proctoring_CAMERA         Participant_Proctoring_Source = 2
+)
+
+// Enum value maps for Participant_Proctoring_Source.
+var (
+	Participant_Proctoring_Source_name = map[int32]string{
+		0: "UNKNOWN_SOURCE",
+		1: "SCREEN",
+		2: "CAMERA",
+	}
+	Participant_Proctoring_Source_value = map[string]int32{
+		"UNKNOWN_SOURCE": 0,
+		"SCREEN":         1,
+		"CAMERA":         2,
+	}
+)
+
+func (x Participant_Proctoring_Source) Enum() *Participant_Proctoring_Source {
+	p := new(Participant_Proctoring_Source)
+	*p = x
+	return p
+}
+
+func (x Participant_Proctoring_Source) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Participant_Proctoring_Source) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_participant_proto_enumTypes[3].Descriptor()
+}
+
+func (Participant_Proctoring_Source) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_participant_proto_enumTypes[3]
+}
+
+func (x Participant_Proctoring_Source) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Participant_Proctoring_Source.Descriptor instead.
+func (Participant_Proctoring_Source) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1, 1}
 }
 
 type Participant struct {
@@ -218,9 +270,9 @@ type Participant struct {
 	// Passcode is read-only and should be set using ResetPasscode method.
 	//
 	// Deprecated: Marked as deprecated in eolymp/judge/participant.proto.
-	Passcode         string                       `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
-	CertificateId    string                       `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"`                                                          // Participation certificate ID.
-	ProctoringStatus Participant_ProctoringStatus `protobuf:"varint,33,opt,name=proctoring_status,json=proctoringStatus,proto3,enum=eolymp.judge.Participant_ProctoringStatus" json:"proctoring_status,omitempty"` // whether the participation was recorded, only in a proctored contest
+	Passcode      string                  `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
+	CertificateId string                  `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // Participation certificate ID.
+	Proctoring    *Participant_Proctoring `protobuf:"bytes,34,opt,name=proctoring,proto3" json:"proctoring,omitempty"`                            // proctoring recording of the participation, only in a proctored contest
 	// Submit counter is used to count how many times user submitted the problem.
 	Submits       []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -377,11 +429,11 @@ func (x *Participant) GetCertificateId() string {
 	return ""
 }
 
-func (x *Participant) GetProctoringStatus() Participant_ProctoringStatus {
+func (x *Participant) GetProctoring() *Participant_Proctoring {
 	if x != nil {
-		return x.ProctoringStatus
+		return x.Proctoring
 	}
-	return Participant_UNKNOWN_PROCTORING_STATUS
+	return nil
 }
 
 func (x *Participant) GetSubmits() []*Participant_Submit {
@@ -483,6 +535,58 @@ func (x *Participant_Patch) GetRole() Participant_Role {
 	return Participant_PARTICIPANT
 }
 
+type Participant_Proctoring struct {
+	state         protoimpl.MessageState           `protogen:"open.v1"`
+	Status        Participant_Proctoring_Status    `protobuf:"varint,1,opt,name=status,proto3,enum=eolymp.judge.Participant_Proctoring_Status" json:"status,omitempty"`
+	Streams       []*Participant_Proctoring_Stream `protobuf:"bytes,2,rep,name=streams,proto3" json:"streams,omitempty"` // recorded streams, only listed to viewers with PROCTORING_READ
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Participant_Proctoring) Reset() {
+	*x = Participant_Proctoring{}
+	mi := &file_eolymp_judge_participant_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Participant_Proctoring) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Participant_Proctoring) ProtoMessage() {}
+
+func (x *Participant_Proctoring) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_participant_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Participant_Proctoring.ProtoReflect.Descriptor instead.
+func (*Participant_Proctoring) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
+}
+
+func (x *Participant_Proctoring) GetStatus() Participant_Proctoring_Status {
+	if x != nil {
+		return x.Status
+	}
+	return Participant_Proctoring_UNKNOWN_STATUS
+}
+
+func (x *Participant_Proctoring) GetStreams() []*Participant_Proctoring_Stream {
+	if x != nil {
+		return x.Streams
+	}
+	return nil
+}
+
 type Participant_Submit struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -493,7 +597,7 @@ type Participant_Submit struct {
 
 func (x *Participant_Submit) Reset() {
 	*x = Participant_Submit{}
-	mi := &file_eolymp_judge_participant_proto_msgTypes[2]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -505,7 +609,7 @@ func (x *Participant_Submit) String() string {
 func (*Participant_Submit) ProtoMessage() {}
 
 func (x *Participant_Submit) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_participant_proto_msgTypes[2]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -518,7 +622,7 @@ func (x *Participant_Submit) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Participant_Submit.ProtoReflect.Descriptor instead.
 func (*Participant_Submit) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *Participant_Submit) GetProblemId() string {
@@ -535,11 +639,63 @@ func (x *Participant_Submit) GetCounter() uint32 {
 	return 0
 }
 
+type Participant_Proctoring_Stream struct {
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Source        Participant_Proctoring_Source `protobuf:"varint,1,opt,name=source,proto3,enum=eolymp.judge.Participant_Proctoring_Source" json:"source,omitempty"`
+	PlaylistUrl   string                        `protobuf:"bytes,2,opt,name=playlist_url,json=playlistUrl,proto3" json:"playlist_url,omitempty"` // HLS playlist, requires PROCTORING_READ to load
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Participant_Proctoring_Stream) Reset() {
+	*x = Participant_Proctoring_Stream{}
+	mi := &file_eolymp_judge_participant_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Participant_Proctoring_Stream) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Participant_Proctoring_Stream) ProtoMessage() {}
+
+func (x *Participant_Proctoring_Stream) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_participant_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Participant_Proctoring_Stream.ProtoReflect.Descriptor instead.
+func (*Participant_Proctoring_Stream) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 1, 0}
+}
+
+func (x *Participant_Proctoring_Stream) GetSource() Participant_Proctoring_Source {
+	if x != nil {
+		return x.Source
+	}
+	return Participant_Proctoring_UNKNOWN_SOURCE
+}
+
+func (x *Participant_Proctoring_Stream) GetPlaylistUrl() string {
+	if x != nil {
+		return x.PlaylistUrl
+	}
+	return ""
+}
+
 var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb0\x0e\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xec\x10\n" +
 	"\vParticipant\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12)\n" +
@@ -562,8 +718,10 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12/\n" +
 	"\x0fviolation_count\x18\x1c \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eviolationCount\x12$\n" +
 	"\bpasscode\x18\x1e \x01(\tB\b\xa8\xf0\xf0\xe4\x01\x01\x18\x01R\bpasscode\x12-\n" +
-	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12e\n" +
-	"\x11proctoring_status\x18! \x01(\x0e2*.eolymp.judge.Participant.ProctoringStatusB\f\xa8\xf0\xf0\xe4\x01\x01\xb0\xf0\xf0\xe4\x01\x01R\x10proctoringStatus\x12B\n" +
+	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12R\n" +
+	"\n" +
+	"proctoring\x18\" \x01(\v2$.eolymp.judge.Participant.ProctoringB\f\xa8\xf0\xf0\xe4\x01\x01\xb0\xf0\xf0\xe4\x01\x01R\n" +
+	"proctoring\x12B\n" +
 	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitB\x06\xa8\xf0\xf0\xe4\x01\x01R\asubmits\x1a\xff\x02\n" +
 	"\x05Patch\x12&\n" +
 	"\fdisplay_name\x18\x01 \x01(\tH\x00R\vdisplayName\x88\x01\x01\x12\"\n" +
@@ -582,7 +740,27 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06_medalB\v\n" +
 	"\t_inactiveB\v\n" +
 	"\t_passcodeB\a\n" +
-	"\x05_role\x1aA\n" +
+	"\x05_role\x1a\x9a\x03\n" +
+	"\n" +
+	"Proctoring\x12C\n" +
+	"\x06status\x18\x01 \x01(\x0e2+.eolymp.judge.Participant.Proctoring.StatusR\x06status\x12E\n" +
+	"\astreams\x18\x02 \x03(\v2+.eolymp.judge.Participant.Proctoring.StreamR\astreams\x1ap\n" +
+	"\x06Stream\x12C\n" +
+	"\x06source\x18\x01 \x01(\x0e2+.eolymp.judge.Participant.Proctoring.SourceR\x06source\x12!\n" +
+	"\fplaylist_url\x18\x02 \x01(\tR\vplaylistUrl\"X\n" +
+	"\x06Status\x12\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\x0f\n" +
+	"\vUNAVAILABLE\x10\x01\x12\f\n" +
+	"\bCOMPLETE\x10\x02\x12\x0e\n" +
+	"\n" +
+	"INCOMPLETE\x10\x03\x12\v\n" +
+	"\aEXPIRED\x10\x04\"4\n" +
+	"\x06Source\x12\x12\n" +
+	"\x0eUNKNOWN_SOURCE\x10\x00\x12\n" +
+	"\n" +
+	"\x06SCREEN\x10\x01\x12\n" +
+	"\n" +
+	"\x06CAMERA\x10\x02\x1aA\n" +
 	"\x06Submit\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
@@ -595,12 +773,7 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\bCOMPLETE\x10\x03\x1a\x16\x9a\xf0\xf0\xe4\x01\x10finished contest\x12E\n" +
 	"\aUPSOLVE\x10\a\x1a8\x9a\xf0\xf0\xe4\x012finished contest and can continue solving problems\x12(\n" +
 	"\aBLOCKED\x10\b\x1a\x1b\x9a\xf0\xf0\xe4\x01\x15blocked by organisers\x126\n" +
-	"\x06PAUSED\x10\t\x1a*\x9a\xf0\xf0\xe4\x01$has paused participation voluntarily\"L\n" +
-	"\x10ProctoringStatus\x12\x1d\n" +
-	"\x19UNKNOWN_PROCTORING_STATUS\x10\x00\x12\a\n" +
-	"\x03OFF\x10\x01\x12\x06\n" +
-	"\x02ON\x10\x02\x12\b\n" +
-	"\x04GAPS\x10\x03\"K\n" +
+	"\x06PAUSED\x10\t\x1a*\x9a\xf0\xf0\xe4\x01$has paused participation voluntarily\"K\n" +
 	"\x04Role\x12\x0f\n" +
 	"\vPARTICIPANT\x10\x00\x12\t\n" +
 	"\x05STAFF\x10\x01\x12\n" +
@@ -622,33 +795,39 @@ func file_eolymp_judge_participant_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_participant_proto_rawDescData
 }
 
-var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_judge_participant_proto_goTypes = []any{
-	(Participant_Status)(0),           // 0: eolymp.judge.Participant.Status
-	(Participant_ProctoringStatus)(0), // 1: eolymp.judge.Participant.ProctoringStatus
-	(Participant_Role)(0),             // 2: eolymp.judge.Participant.Role
-	(*Participant)(nil),               // 3: eolymp.judge.Participant
-	(*Participant_Patch)(nil),         // 4: eolymp.judge.Participant.Patch
-	(*Participant_Submit)(nil),        // 5: eolymp.judge.Participant.Submit
-	(Medal)(0),                        // 6: eolymp.judge.Medal
-	(*timestamppb.Timestamp)(nil),     // 7: google.protobuf.Timestamp
+	(Participant_Status)(0),               // 0: eolymp.judge.Participant.Status
+	(Participant_Role)(0),                 // 1: eolymp.judge.Participant.Role
+	(Participant_Proctoring_Status)(0),    // 2: eolymp.judge.Participant.Proctoring.Status
+	(Participant_Proctoring_Source)(0),    // 3: eolymp.judge.Participant.Proctoring.Source
+	(*Participant)(nil),                   // 4: eolymp.judge.Participant
+	(*Participant_Patch)(nil),             // 5: eolymp.judge.Participant.Patch
+	(*Participant_Proctoring)(nil),        // 6: eolymp.judge.Participant.Proctoring
+	(*Participant_Submit)(nil),            // 7: eolymp.judge.Participant.Submit
+	(*Participant_Proctoring_Stream)(nil), // 8: eolymp.judge.Participant.Proctoring.Stream
+	(Medal)(0),                            // 9: eolymp.judge.Medal
+	(*timestamppb.Timestamp)(nil),         // 10: google.protobuf.Timestamp
 }
 var file_eolymp_judge_participant_proto_depIdxs = []int32{
-	2, // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
-	6, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
-	0, // 2: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
-	7, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
-	7, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
-	1, // 5: eolymp.judge.Participant.proctoring_status:type_name -> eolymp.judge.Participant.ProctoringStatus
-	5, // 6: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
-	6, // 7: eolymp.judge.Participant.Patch.medal:type_name -> eolymp.judge.Medal
-	2, // 8: eolymp.judge.Participant.Patch.role:type_name -> eolymp.judge.Participant.Role
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	1,  // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
+	9,  // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
+	0,  // 2: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
+	10, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
+	10, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
+	6,  // 5: eolymp.judge.Participant.proctoring:type_name -> eolymp.judge.Participant.Proctoring
+	7,  // 6: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
+	9,  // 7: eolymp.judge.Participant.Patch.medal:type_name -> eolymp.judge.Medal
+	1,  // 8: eolymp.judge.Participant.Patch.role:type_name -> eolymp.judge.Participant.Role
+	2,  // 9: eolymp.judge.Participant.Proctoring.status:type_name -> eolymp.judge.Participant.Proctoring.Status
+	8,  // 10: eolymp.judge.Participant.Proctoring.streams:type_name -> eolymp.judge.Participant.Proctoring.Stream
+	3,  // 11: eolymp.judge.Participant.Proctoring.Stream.source:type_name -> eolymp.judge.Participant.Proctoring.Source
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_participant_proto_init() }
@@ -663,8 +842,8 @@ func file_eolymp_judge_participant_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_participant_proto_rawDesc), len(file_eolymp_judge_participant_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   3,
+			NumEnums:      4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
