@@ -34,7 +34,7 @@ const (
 	Submission_TESTING      Submission_Status = 2  // testing in progress
 	Submission_TIMEOUT      Submission_Status = 3  //  testing took too long (too many timeouts in tests)
 	Submission_COMPLETE     Submission_Status = 4  // testing complete (score is populated)
-	Submission_ERROR        Submission_Status = 5  // testing produced an error (eg. compilation error or runtime error)
+	Submission_ERROR        Submission_Status = 5  // testing failed before any run could complete, eg. a compilation error (no groups/runs, no verdict); a runtime error during a run is reported as COMPLETE with Verdict RUNTIME_ERROR
 	Submission_FAILURE      Submission_Status = 6  // testing failed due to system error (or problem configuration error)
 	Submission_SKIPPED      Submission_Status = 7  // testing is skipped because previous test failed
 	Submission_BLOCKED      Submission_Status = 8  // testing is blocked because the dependency failed
