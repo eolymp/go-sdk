@@ -299,6 +299,9 @@ func RegisterValidationServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/problems/{problem_id}/validations", _ValidationService_RunValidation_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ValidationService.RunValidation")
+	router.Handle(prefix+"/problems/{problem_id}/validate", _ValidationService_ValidateProblem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.ValidationService.ValidateProblem")
 	router.Handle(prefix+"/problems/{problem_id}/validations/{validation_id}", _ValidationService_DescribeValidation_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ValidationService.DescribeValidation")
@@ -327,6 +330,30 @@ func _ValidationService_RunValidation_Rule0(cli ValidationServiceClient) http.Ha
 		var header, trailer metadata.MD
 
 		out, err := cli.RunValidation(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ValidationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ValidationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ValidationService_ValidateProblem_Rule0(cli ValidationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ValidateProblemInput{}
+
+		if err := _ValidationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ValidationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ValidateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ValidationService_HTTPWriteErrorResponse(w, err)
 			return

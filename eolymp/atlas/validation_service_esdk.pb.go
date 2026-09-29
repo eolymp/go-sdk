@@ -116,6 +116,22 @@ func (s *ValidationServiceService) RunValidation(ctx context.Context, in *RunVal
 	return out, nil
 }
 
+func (s *ValidationServiceService) ValidateProblem(ctx context.Context, in *ValidateProblemInput) (*ValidateProblemOutput, error) {
+	out := &ValidateProblemOutput{}
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/validate"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ValidationServiceService) DescribeValidation(ctx context.Context, in *DescribeValidationInput) (*DescribeValidationOutput, error) {
 	out := &DescribeValidationOutput{}
 	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/validations/" + url.PathEscape(in.GetValidationId())

@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	ValidationService_RunValidation_FullMethodName      = "/eolymp.atlas.ValidationService/RunValidation"
+	ValidationService_ValidateProblem_FullMethodName    = "/eolymp.atlas.ValidationService/ValidateProblem"
 	ValidationService_DescribeValidation_FullMethodName = "/eolymp.atlas.ValidationService/DescribeValidation"
 	ValidationService_WatchValidation_FullMethodName    = "/eolymp.atlas.ValidationService/WatchValidation"
 )
@@ -42,6 +43,11 @@ type ValidationServiceClient interface {
 	// problem — this is how a candidate is tried out before TestingService.UpdateValidator stores it. Starting a
 	// validation supersedes any earlier one still in flight, which ends up cancelled.
 	RunValidation(ctx context.Context, in *RunValidationInput, opts ...grpc.CallOption) (*RunValidationOutput, error)
+	// ValidateProblem checks the problem as it is saved: its validator is run on every test, its checker is given each
+	// test's answer as the output, and the problem's configuration is inspected. Findings are reported as warnings with
+	// eolymp.h codes. Tests are taken as they are, nothing is generated. Starting a validation supersedes any earlier one
+	// still in flight.
+	ValidateProblem(ctx context.Context, in *ValidateProblemInput, opts ...grpc.CallOption) (*ValidateProblemOutput, error)
 	// DescribeValidation returns the current state of a validation, broken down test by test, each run pointing
 	// at the input it was fed and at the validator's own output with stderr merged in. Keep polling until the
 	// status settles. A per-test verdict distinguishes an input the validator rejected from one which could not
@@ -64,6 +70,16 @@ func (c *validationServiceClient) RunValidation(ctx context.Context, in *RunVali
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RunValidationOutput)
 	err := c.cc.Invoke(ctx, ValidationService_RunValidation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *validationServiceClient) ValidateProblem(ctx context.Context, in *ValidateProblemInput, opts ...grpc.CallOption) (*ValidateProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateProblemOutput)
+	err := c.cc.Invoke(ctx, ValidationService_ValidateProblem_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -117,6 +133,11 @@ type ValidationServiceServer interface {
 	// problem — this is how a candidate is tried out before TestingService.UpdateValidator stores it. Starting a
 	// validation supersedes any earlier one still in flight, which ends up cancelled.
 	RunValidation(context.Context, *RunValidationInput) (*RunValidationOutput, error)
+	// ValidateProblem checks the problem as it is saved: its validator is run on every test, its checker is given each
+	// test's answer as the output, and the problem's configuration is inspected. Findings are reported as warnings with
+	// eolymp.h codes. Tests are taken as they are, nothing is generated. Starting a validation supersedes any earlier one
+	// still in flight.
+	ValidateProblem(context.Context, *ValidateProblemInput) (*ValidateProblemOutput, error)
 	// DescribeValidation returns the current state of a validation, broken down test by test, each run pointing
 	// at the input it was fed and at the validator's own output with stderr merged in. Keep polling until the
 	// status settles. A per-test verdict distinguishes an input the validator rejected from one which could not
@@ -136,6 +157,9 @@ type UnimplementedValidationServiceServer struct{}
 
 func (UnimplementedValidationServiceServer) RunValidation(context.Context, *RunValidationInput) (*RunValidationOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RunValidation not implemented")
+}
+func (UnimplementedValidationServiceServer) ValidateProblem(context.Context, *ValidateProblemInput) (*ValidateProblemOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ValidateProblem not implemented")
 }
 func (UnimplementedValidationServiceServer) DescribeValidation(context.Context, *DescribeValidationInput) (*DescribeValidationOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeValidation not implemented")
@@ -181,6 +205,24 @@ func _ValidationService_RunValidation_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ValidationService_ValidateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ValidationServiceServer).ValidateProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ValidationService_ValidateProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ValidationServiceServer).ValidateProblem(ctx, req.(*ValidateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ValidationService_DescribeValidation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeValidationInput)
 	if err := dec(in); err != nil {
@@ -220,6 +262,10 @@ var ValidationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RunValidation",
 			Handler:    _ValidationService_RunValidation_Handler,
+		},
+		{
+			MethodName: "ValidateProblem",
+			Handler:    _ValidationService_ValidateProblem_Handler,
 		},
 		{
 			MethodName: "DescribeValidation",

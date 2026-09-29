@@ -253,15 +253,16 @@ func (x *Validation) GetWarnings() []*executor.Warning {
 }
 
 type Validation_Run struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // test identifier
-	Index         uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
-	Status        Validation_Status      `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Validation_Status" json:"status,omitempty"`
-	Verdict       Validation_Verdict     `protobuf:"varint,21,opt,name=verdict,proto3,enum=eolymp.atlas.Validation_Verdict" json:"verdict,omitempty"`
-	InputUrl      string                 `protobuf:"bytes,8,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`    // validator stdin
-	OutputUrl     string                 `protobuf:"bytes,6,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"` // validator stdout, with stderr merged in
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // test identifier
+	Index          uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
+	Status         Validation_Status      `protobuf:"varint,20,opt,name=status,proto3,enum=eolymp.atlas.Validation_Status" json:"status,omitempty"`
+	Verdict        Validation_Verdict     `protobuf:"varint,21,opt,name=verdict,proto3,enum=eolymp.atlas.Validation_Verdict" json:"verdict,omitempty"`
+	InputUrl       string                 `protobuf:"bytes,8,opt,name=input_url,json=inputUrl,proto3" json:"input_url,omitempty"`                     // validator stdin
+	OutputUrl      string                 `protobuf:"bytes,6,opt,name=output_url,json=outputUrl,proto3" json:"output_url,omitempty"`                  // validator stdout, with stderr merged in
+	AnswerAccepted bool                   `protobuf:"varint,30,opt,name=answer_accepted,json=answerAccepted,proto3" json:"answer_accepted,omitempty"` // checker accepts the test's answer as the output, set by ValidateProblem
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Validation_Run) Reset() {
@@ -336,6 +337,13 @@ func (x *Validation_Run) GetOutputUrl() string {
 	return ""
 }
 
+func (x *Validation_Run) GetAnswerAccepted() bool {
+	if x != nil {
+		return x.AnswerAccepted
+	}
+	return false
+}
+
 type Validation_Group struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Index         uint32                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"` // group index
@@ -400,7 +408,7 @@ var File_eolymp_atlas_validation_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/atlas/validation.proto\x12\feolymp.atlas\x1a\x1deolymp/executor/warning.proto\"\x94\a\n" +
+	"\x1deolymp/atlas/validation.proto\x12\feolymp.atlas\x1a\x1deolymp/executor/warning.proto\"\xbd\a\n" +
 	"\n" +
 	"Validation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
@@ -412,7 +420,7 @@ const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\x05error\x18\x15 \x01(\tR\x05error\x12\x1b\n" +
 	"\terror_url\x18\x17 \x01(\tR\berrorUrl\x126\n" +
 	"\x06groups\x182 \x03(\v2\x1e.eolymp.atlas.Validation.GroupR\x06groups\x124\n" +
-	"\bwarnings\x18< \x03(\v2\x18.eolymp.executor.WarningR\bwarnings\x1a\xdc\x01\n" +
+	"\bwarnings\x18< \x03(\v2\x18.eolymp.executor.WarningR\bwarnings\x1a\x85\x02\n" +
 	"\x03Run\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\n" +
@@ -421,7 +429,8 @@ const file_eolymp_atlas_validation_proto_rawDesc = "" +
 	"\averdict\x18\x15 \x01(\x0e2 .eolymp.atlas.Validation.VerdictR\averdict\x12\x1b\n" +
 	"\tinput_url\x18\b \x01(\tR\binputUrl\x12\x1d\n" +
 	"\n" +
-	"output_url\x18\x06 \x01(\tR\toutputUrl\x1an\n" +
+	"output_url\x18\x06 \x01(\tR\toutputUrl\x12'\n" +
+	"\x0fanswer_accepted\x18\x1e \x01(\bR\x0eanswerAccepted\x1an\n" +
 	"\x05Group\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x1d\n" +
 	"\n" +

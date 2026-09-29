@@ -127,6 +127,94 @@ func (x *RunValidationOutput) GetValidation() *Validation {
 	return nil
 }
 
+type ValidateProblemInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateProblemInput) Reset() {
+	*x = ValidateProblemInput{}
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateProblemInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateProblemInput) ProtoMessage() {}
+
+func (x *ValidateProblemInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateProblemInput.ProtoReflect.Descriptor instead.
+func (*ValidateProblemInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ValidateProblemInput) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+type ValidateProblemOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ValidationId  string                 `protobuf:"bytes,1,opt,name=validation_id,json=validationId,proto3" json:"validation_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateProblemOutput) Reset() {
+	*x = ValidateProblemOutput{}
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateProblemOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateProblemOutput) ProtoMessage() {}
+
+func (x *ValidateProblemOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateProblemOutput.ProtoReflect.Descriptor instead.
+func (*ValidateProblemOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ValidateProblemOutput) GetValidationId() string {
+	if x != nil {
+		return x.ValidationId
+	}
+	return ""
+}
+
 type DescribeValidationInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -137,7 +225,7 @@ type DescribeValidationInput struct {
 
 func (x *DescribeValidationInput) Reset() {
 	*x = DescribeValidationInput{}
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +237,7 @@ func (x *DescribeValidationInput) String() string {
 func (*DescribeValidationInput) ProtoMessage() {}
 
 func (x *DescribeValidationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,7 +250,7 @@ func (x *DescribeValidationInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeValidationInput.ProtoReflect.Descriptor instead.
 func (*DescribeValidationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeValidationInput) GetProblemId() string {
@@ -188,7 +276,7 @@ type DescribeValidationOutput struct {
 
 func (x *DescribeValidationOutput) Reset() {
 	*x = DescribeValidationOutput{}
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -200,7 +288,7 @@ func (x *DescribeValidationOutput) String() string {
 func (*DescribeValidationOutput) ProtoMessage() {}
 
 func (x *DescribeValidationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -213,7 +301,7 @@ func (x *DescribeValidationOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeValidationOutput.ProtoReflect.Descriptor instead.
 func (*DescribeValidationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DescribeValidationOutput) GetValidation() *Validation {
@@ -233,7 +321,7 @@ type WatchValidationInput struct {
 
 func (x *WatchValidationInput) Reset() {
 	*x = WatchValidationInput{}
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -245,7 +333,7 @@ func (x *WatchValidationInput) String() string {
 func (*WatchValidationInput) ProtoMessage() {}
 
 func (x *WatchValidationInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -258,7 +346,7 @@ func (x *WatchValidationInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchValidationInput.ProtoReflect.Descriptor instead.
 func (*WatchValidationInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *WatchValidationInput) GetProblemId() string {
@@ -285,7 +373,7 @@ type WatchValidationOutput struct {
 
 func (x *WatchValidationOutput) Reset() {
 	*x = WatchValidationOutput{}
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -297,7 +385,7 @@ func (x *WatchValidationOutput) String() string {
 func (*WatchValidationOutput) ProtoMessage() {}
 
 func (x *WatchValidationOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_validation_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -310,7 +398,7 @@ func (x *WatchValidationOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WatchValidationOutput.ProtoReflect.Descriptor instead.
 func (*WatchValidationOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_atlas_validation_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *WatchValidationOutput) GetValidation() *Validation {
@@ -340,7 +428,12 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\x128\n" +
 	"\n" +
 	"validation\x18\x02 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
-	"validation\"]\n" +
+	"validation\"5\n" +
+	"\x14ValidateProblemInput\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\"<\n" +
+	"\x15ValidateProblemOutput\x12#\n" +
+	"\rvalidation_id\x18\x01 \x01(\tR\fvalidationId\"]\n" +
 	"\x17DescribeValidationInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12#\n" +
@@ -357,7 +450,7 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\n" +
 	"validation\x18\x01 \x01(\v2\x18.eolymp.atlas.ValidationR\n" +
 	"validation\x126\n" +
-	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\x8a\x05\n" +
+	"\x05event\x18\x02 \x01(\x0e2 .eolymp.wellknown.WatchEventTypeR\x05event2\xc2\x06\n" +
 	"\x11ValidationService\x12\xb2\x01\n" +
 	"\rRunValidation\x12 .eolymp.atlas.RunValidationInput\x1a!.eolymp.atlas.RunValidationOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -366,7 +459,15 @@ const file_eolymp_atlas_validation_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/validations\x12\xd0\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02$\"\"/problems/{problem_id}/validations\x12\xb5\x01\n" +
+	"\x0fValidateProblem\x12\".eolymp.atlas.ValidateProblemInput\x1a#.eolymp.atlas.ValidateProblemOutput\"Y\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x00?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x17\x8a\xe3\n" +
+	"\x13atlas:problem:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\"\x1f/problems/{problem_id}/validate\x12\xd0\x01\n" +
 	"\x12DescribeValidation\x12%.eolymp.atlas.DescribeValidationInput\x1a&.eolymp.atlas.DescribeValidationOutput\"k\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00 A\xf8\xe2\n" +
@@ -396,35 +497,39 @@ func file_eolymp_atlas_validation_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_validation_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_validation_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_eolymp_atlas_validation_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_atlas_validation_service_proto_goTypes = []any{
 	(*RunValidationInput)(nil),       // 0: eolymp.atlas.RunValidationInput
 	(*RunValidationOutput)(nil),      // 1: eolymp.atlas.RunValidationOutput
-	(*DescribeValidationInput)(nil),  // 2: eolymp.atlas.DescribeValidationInput
-	(*DescribeValidationOutput)(nil), // 3: eolymp.atlas.DescribeValidationOutput
-	(*WatchValidationInput)(nil),     // 4: eolymp.atlas.WatchValidationInput
-	(*WatchValidationOutput)(nil),    // 5: eolymp.atlas.WatchValidationOutput
-	(*Validator)(nil),                // 6: eolymp.atlas.Validator
-	(*Validation)(nil),               // 7: eolymp.atlas.Validation
-	(wellknown.WatchEventType)(0),    // 8: eolymp.wellknown.WatchEventType
+	(*ValidateProblemInput)(nil),     // 2: eolymp.atlas.ValidateProblemInput
+	(*ValidateProblemOutput)(nil),    // 3: eolymp.atlas.ValidateProblemOutput
+	(*DescribeValidationInput)(nil),  // 4: eolymp.atlas.DescribeValidationInput
+	(*DescribeValidationOutput)(nil), // 5: eolymp.atlas.DescribeValidationOutput
+	(*WatchValidationInput)(nil),     // 6: eolymp.atlas.WatchValidationInput
+	(*WatchValidationOutput)(nil),    // 7: eolymp.atlas.WatchValidationOutput
+	(*Validator)(nil),                // 8: eolymp.atlas.Validator
+	(*Validation)(nil),               // 9: eolymp.atlas.Validation
+	(wellknown.WatchEventType)(0),    // 10: eolymp.wellknown.WatchEventType
 }
 var file_eolymp_atlas_validation_service_proto_depIdxs = []int32{
-	6, // 0: eolymp.atlas.RunValidationInput.validator:type_name -> eolymp.atlas.Validator
-	7, // 1: eolymp.atlas.RunValidationOutput.validation:type_name -> eolymp.atlas.Validation
-	7, // 2: eolymp.atlas.DescribeValidationOutput.validation:type_name -> eolymp.atlas.Validation
-	7, // 3: eolymp.atlas.WatchValidationOutput.validation:type_name -> eolymp.atlas.Validation
-	8, // 4: eolymp.atlas.WatchValidationOutput.event:type_name -> eolymp.wellknown.WatchEventType
-	0, // 5: eolymp.atlas.ValidationService.RunValidation:input_type -> eolymp.atlas.RunValidationInput
-	2, // 6: eolymp.atlas.ValidationService.DescribeValidation:input_type -> eolymp.atlas.DescribeValidationInput
-	4, // 7: eolymp.atlas.ValidationService.WatchValidation:input_type -> eolymp.atlas.WatchValidationInput
-	1, // 8: eolymp.atlas.ValidationService.RunValidation:output_type -> eolymp.atlas.RunValidationOutput
-	3, // 9: eolymp.atlas.ValidationService.DescribeValidation:output_type -> eolymp.atlas.DescribeValidationOutput
-	5, // 10: eolymp.atlas.ValidationService.WatchValidation:output_type -> eolymp.atlas.WatchValidationOutput
-	8, // [8:11] is the sub-list for method output_type
-	5, // [5:8] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	8,  // 0: eolymp.atlas.RunValidationInput.validator:type_name -> eolymp.atlas.Validator
+	9,  // 1: eolymp.atlas.RunValidationOutput.validation:type_name -> eolymp.atlas.Validation
+	9,  // 2: eolymp.atlas.DescribeValidationOutput.validation:type_name -> eolymp.atlas.Validation
+	9,  // 3: eolymp.atlas.WatchValidationOutput.validation:type_name -> eolymp.atlas.Validation
+	10, // 4: eolymp.atlas.WatchValidationOutput.event:type_name -> eolymp.wellknown.WatchEventType
+	0,  // 5: eolymp.atlas.ValidationService.RunValidation:input_type -> eolymp.atlas.RunValidationInput
+	2,  // 6: eolymp.atlas.ValidationService.ValidateProblem:input_type -> eolymp.atlas.ValidateProblemInput
+	4,  // 7: eolymp.atlas.ValidationService.DescribeValidation:input_type -> eolymp.atlas.DescribeValidationInput
+	6,  // 8: eolymp.atlas.ValidationService.WatchValidation:input_type -> eolymp.atlas.WatchValidationInput
+	1,  // 9: eolymp.atlas.ValidationService.RunValidation:output_type -> eolymp.atlas.RunValidationOutput
+	3,  // 10: eolymp.atlas.ValidationService.ValidateProblem:output_type -> eolymp.atlas.ValidateProblemOutput
+	5,  // 11: eolymp.atlas.ValidationService.DescribeValidation:output_type -> eolymp.atlas.DescribeValidationOutput
+	7,  // 12: eolymp.atlas.ValidationService.WatchValidation:output_type -> eolymp.atlas.WatchValidationOutput
+	9,  // [9:13] is the sub-list for method output_type
+	5,  // [5:9] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_validation_service_proto_init() }
@@ -440,7 +545,7 @@ func file_eolymp_atlas_validation_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_validation_service_proto_rawDesc), len(file_eolymp_atlas_validation_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
