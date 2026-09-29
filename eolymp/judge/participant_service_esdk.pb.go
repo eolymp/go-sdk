@@ -313,3 +313,19 @@ func (s *ParticipantServiceService) FinishContest(ctx context.Context, in *Finis
 
 	return out, nil
 }
+
+func (s *ParticipantServiceService) RequestProctoring(ctx context.Context, in *RequestProctoringInput) (*RequestProctoringOutput, error) {
+	out := &RequestProctoringOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/proctoring"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
