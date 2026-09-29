@@ -106,7 +106,6 @@ func (*Action_Scripted) isAction_Action() {}
 type Action_AgenticAction struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Instructions  string                 `protobuf:"bytes,1,opt,name=instructions,proto3" json:"instructions,omitempty"`
-	Tools         []string               `protobuf:"bytes,2,rep,name=tools,proto3" json:"tools,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -146,13 +145,6 @@ func (x *Action_AgenticAction) GetInstructions() string {
 		return x.Instructions
 	}
 	return ""
-}
-
-func (x *Action_AgenticAction) GetTools() []string {
-	if x != nil {
-		return x.Tools
-	}
-	return nil
 }
 
 type Action_ScriptedAction struct {
@@ -203,14 +195,13 @@ var File_eolymp_automation_action_proto protoreflect.FileDescriptor
 
 const file_eolymp_automation_action_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/automation/action.proto\x12\x11eolymp.automation\"\x94\x02\n" +
+	"\x1eeolymp/automation/action.proto\x12\x11eolymp.automation\"\xfe\x01\n" +
 	"\x06Action\x12C\n" +
 	"\aagentic\x18\n" +
 	" \x01(\v2'.eolymp.automation.Action.AgenticActionH\x00R\aagentic\x12F\n" +
-	"\bscripted\x18\v \x01(\v2(.eolymp.automation.Action.ScriptedActionH\x00R\bscripted\x1aI\n" +
+	"\bscripted\x18\v \x01(\v2(.eolymp.automation.Action.ScriptedActionH\x00R\bscripted\x1a3\n" +
 	"\rAgenticAction\x12\"\n" +
-	"\finstructions\x18\x01 \x01(\tR\finstructions\x12\x14\n" +
-	"\x05tools\x18\x02 \x03(\tR\x05tools\x1a(\n" +
+	"\finstructions\x18\x01 \x01(\tR\finstructions\x1a(\n" +
 	"\x0eScriptedAction\x12\x16\n" +
 	"\x06script\x18\x01 \x01(\tR\x06scriptB\b\n" +
 	"\x06actionB7Z5github.com/eolymp/go-sdk/eolymp/automation;automationb\x06proto3"
