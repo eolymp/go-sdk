@@ -29,6 +29,7 @@ type CreateTaskInput struct {
 	//	*CreateTaskInput_Evaluation
 	//	*CreateTaskInput_Generation
 	//	*CreateTaskInput_Stress
+	//	*CreateTaskInput_Validation
 	Task          isCreateTaskInput_Task `protobuf_oneof:"task"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -98,6 +99,15 @@ func (x *CreateTaskInput) GetStress() *StressTask {
 	return nil
 }
 
+func (x *CreateTaskInput) GetValidation() *ValidationTask {
+	if x != nil {
+		if x, ok := x.Task.(*CreateTaskInput_Validation); ok {
+			return x.Validation
+		}
+	}
+	return nil
+}
+
 type isCreateTaskInput_Task interface {
 	isCreateTaskInput_Task()
 }
@@ -114,11 +124,17 @@ type CreateTaskInput_Stress struct {
 	Stress *StressTask `protobuf:"bytes,3,opt,name=stress,proto3,oneof"`
 }
 
+type CreateTaskInput_Validation struct {
+	Validation *ValidationTask `protobuf:"bytes,4,opt,name=validation,proto3,oneof"`
+}
+
 func (*CreateTaskInput_Evaluation) isCreateTaskInput_Task() {}
 
 func (*CreateTaskInput_Generation) isCreateTaskInput_Task() {}
 
 func (*CreateTaskInput_Stress) isCreateTaskInput_Task() {}
+
+func (*CreateTaskInput_Validation) isCreateTaskInput_Task() {}
 
 type CreateTaskOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -168,7 +184,7 @@ var File_eolymp_executor_task_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_executor_task_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/executor/task_service.proto\x12\x0feolymp.executor\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/executor/evaluation_task.proto\x1a%eolymp/executor/generation_task.proto\x1a!eolymp/executor/stress_task.proto\"\xd6\x01\n" +
+	"\"eolymp/executor/task_service.proto\x12\x0feolymp.executor\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/executor/evaluation_task.proto\x1a%eolymp/executor/generation_task.proto\x1a!eolymp/executor/stress_task.proto\x1a%eolymp/executor/validation_task.proto\"\x99\x02\n" +
 	"\x0fCreateTaskInput\x12A\n" +
 	"\n" +
 	"evaluation\x18\x01 \x01(\v2\x1f.eolymp.executor.EvaluationTaskH\x00R\n" +
@@ -176,7 +192,10 @@ const file_eolymp_executor_task_service_proto_rawDesc = "" +
 	"\n" +
 	"generation\x18\x02 \x01(\v2\x1f.eolymp.executor.GenerationTaskH\x00R\n" +
 	"generation\x125\n" +
-	"\x06stress\x18\x03 \x01(\v2\x1b.eolymp.executor.StressTaskH\x00R\x06stressB\x06\n" +
+	"\x06stress\x18\x03 \x01(\v2\x1b.eolymp.executor.StressTaskH\x00R\x06stress\x12A\n" +
+	"\n" +
+	"validation\x18\x04 \x01(\v2\x1f.eolymp.executor.ValidationTaskH\x00R\n" +
+	"validationB\x06\n" +
 	"\x04task\"+\n" +
 	"\x10CreateTaskOutput\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId2z\n" +
@@ -208,18 +227,20 @@ var file_eolymp_executor_task_service_proto_goTypes = []any{
 	(*EvaluationTask)(nil),   // 2: eolymp.executor.EvaluationTask
 	(*GenerationTask)(nil),   // 3: eolymp.executor.GenerationTask
 	(*StressTask)(nil),       // 4: eolymp.executor.StressTask
+	(*ValidationTask)(nil),   // 5: eolymp.executor.ValidationTask
 }
 var file_eolymp_executor_task_service_proto_depIdxs = []int32{
 	2, // 0: eolymp.executor.CreateTaskInput.evaluation:type_name -> eolymp.executor.EvaluationTask
 	3, // 1: eolymp.executor.CreateTaskInput.generation:type_name -> eolymp.executor.GenerationTask
 	4, // 2: eolymp.executor.CreateTaskInput.stress:type_name -> eolymp.executor.StressTask
-	0, // 3: eolymp.executor.TaskService.CreateTask:input_type -> eolymp.executor.CreateTaskInput
-	1, // 4: eolymp.executor.TaskService.CreateTask:output_type -> eolymp.executor.CreateTaskOutput
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	5, // 3: eolymp.executor.CreateTaskInput.validation:type_name -> eolymp.executor.ValidationTask
+	0, // 4: eolymp.executor.TaskService.CreateTask:input_type -> eolymp.executor.CreateTaskInput
+	1, // 5: eolymp.executor.TaskService.CreateTask:output_type -> eolymp.executor.CreateTaskOutput
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_executor_task_service_proto_init() }
@@ -230,10 +251,12 @@ func file_eolymp_executor_task_service_proto_init() {
 	file_eolymp_executor_evaluation_task_proto_init()
 	file_eolymp_executor_generation_task_proto_init()
 	file_eolymp_executor_stress_task_proto_init()
+	file_eolymp_executor_validation_task_proto_init()
 	file_eolymp_executor_task_service_proto_msgTypes[0].OneofWrappers = []any{
 		(*CreateTaskInput_Evaluation)(nil),
 		(*CreateTaskInput_Generation)(nil),
 		(*CreateTaskInput_Stress)(nil),
+		(*CreateTaskInput_Validation)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
