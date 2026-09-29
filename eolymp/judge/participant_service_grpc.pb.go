@@ -116,7 +116,8 @@ type ParticipantServiceClient interface {
 	// contest permits upsolving, the participant may go on solving problems after finishing.
 	FinishContest(ctx context.Context, in *FinishContestInput, opts ...grpc.CallOption) (*FinishContestOutput, error)
 	// RequestProctoring returns the URL the calling participant's browser streams its proctoring recording
-	// to, allocating the recording on the first call and returning the same one afterwards. Only official
+	// to, allocating the recording on the first call. Every call gives a new URL for the same recording, valid
+	// until shortly after the participant's end; once the stream closes, the browser calls again. Only official
 	// participants of a proctored contest get one, from shortly before their start until they finish.
 	RequestProctoring(ctx context.Context, in *RequestProctoringInput, opts ...grpc.CallOption) (*RequestProctoringOutput, error)
 }
@@ -368,7 +369,8 @@ type ParticipantServiceServer interface {
 	// contest permits upsolving, the participant may go on solving problems after finishing.
 	FinishContest(context.Context, *FinishContestInput) (*FinishContestOutput, error)
 	// RequestProctoring returns the URL the calling participant's browser streams its proctoring recording
-	// to, allocating the recording on the first call and returning the same one afterwards. Only official
+	// to, allocating the recording on the first call. Every call gives a new URL for the same recording, valid
+	// until shortly after the participant's end; once the stream closes, the browser calls again. Only official
 	// participants of a proctored contest get one, from shortly before their start until they finish.
 	RequestProctoring(context.Context, *RequestProctoringInput) (*RequestProctoringOutput, error)
 }

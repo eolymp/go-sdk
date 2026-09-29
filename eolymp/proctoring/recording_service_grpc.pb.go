@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	RecordingService_CreateRecording_FullMethodName   = "/eolymp.proctoring.RecordingService/CreateRecording"
-	RecordingService_UpdateRecording_FullMethodName   = "/eolymp.proctoring.RecordingService/UpdateRecording"
+	RecordingService_ResumeRecording_FullMethodName   = "/eolymp.proctoring.RecordingService/ResumeRecording"
 	RecordingService_DeleteRecording_FullMethodName   = "/eolymp.proctoring.RecordingService/DeleteRecording"
 	RecordingService_DescribeRecording_FullMethodName = "/eolymp.proctoring.RecordingService/DescribeRecording"
 	RecordingService_ListRecordings_FullMethodName    = "/eolymp.proctoring.RecordingService/ListRecordings"
@@ -33,8 +33,9 @@ const (
 // RecordingService manages proctoring recordings in a space.
 type RecordingServiceClient interface {
 	CreateRecording(ctx context.Context, in *CreateRecordingInput, opts ...grpc.CallOption) (*CreateRecordingOutput, error)
-	// UpdateRecording changes the recording window, e.g. extends it or closes it early by setting ends_at.
-	UpdateRecording(ctx context.Context, in *UpdateRecordingInput, opts ...grpc.CallOption) (*UpdateRecordingOutput, error)
+	// ResumeRecording issues a new stream URL for the recording. When its token expires the stream closes, and
+	// the browser resumes with a new URL.
+	ResumeRecording(ctx context.Context, in *ResumeRecordingInput, opts ...grpc.CallOption) (*ResumeRecordingOutput, error)
 	// DeleteRecording removes the recording and its clips.
 	DeleteRecording(ctx context.Context, in *DeleteRecordingInput, opts ...grpc.CallOption) (*DeleteRecordingOutput, error)
 	DescribeRecording(ctx context.Context, in *DescribeRecordingInput, opts ...grpc.CallOption) (*DescribeRecordingOutput, error)
@@ -59,10 +60,10 @@ func (c *recordingServiceClient) CreateRecording(ctx context.Context, in *Create
 	return out, nil
 }
 
-func (c *recordingServiceClient) UpdateRecording(ctx context.Context, in *UpdateRecordingInput, opts ...grpc.CallOption) (*UpdateRecordingOutput, error) {
+func (c *recordingServiceClient) ResumeRecording(ctx context.Context, in *ResumeRecordingInput, opts ...grpc.CallOption) (*ResumeRecordingOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateRecordingOutput)
-	err := c.cc.Invoke(ctx, RecordingService_UpdateRecording_FullMethodName, in, out, cOpts...)
+	out := new(ResumeRecordingOutput)
+	err := c.cc.Invoke(ctx, RecordingService_ResumeRecording_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -106,8 +107,9 @@ func (c *recordingServiceClient) ListRecordings(ctx context.Context, in *ListRec
 // RecordingService manages proctoring recordings in a space.
 type RecordingServiceServer interface {
 	CreateRecording(context.Context, *CreateRecordingInput) (*CreateRecordingOutput, error)
-	// UpdateRecording changes the recording window, e.g. extends it or closes it early by setting ends_at.
-	UpdateRecording(context.Context, *UpdateRecordingInput) (*UpdateRecordingOutput, error)
+	// ResumeRecording issues a new stream URL for the recording. When its token expires the stream closes, and
+	// the browser resumes with a new URL.
+	ResumeRecording(context.Context, *ResumeRecordingInput) (*ResumeRecordingOutput, error)
 	// DeleteRecording removes the recording and its clips.
 	DeleteRecording(context.Context, *DeleteRecordingInput) (*DeleteRecordingOutput, error)
 	DescribeRecording(context.Context, *DescribeRecordingInput) (*DescribeRecordingOutput, error)
@@ -124,8 +126,8 @@ type UnimplementedRecordingServiceServer struct{}
 func (UnimplementedRecordingServiceServer) CreateRecording(context.Context, *CreateRecordingInput) (*CreateRecordingOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateRecording not implemented")
 }
-func (UnimplementedRecordingServiceServer) UpdateRecording(context.Context, *UpdateRecordingInput) (*UpdateRecordingOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateRecording not implemented")
+func (UnimplementedRecordingServiceServer) ResumeRecording(context.Context, *ResumeRecordingInput) (*ResumeRecordingOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ResumeRecording not implemented")
 }
 func (UnimplementedRecordingServiceServer) DeleteRecording(context.Context, *DeleteRecordingInput) (*DeleteRecordingOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteRecording not implemented")
@@ -174,20 +176,20 @@ func _RecordingService_CreateRecording_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RecordingService_UpdateRecording_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRecordingInput)
+func _RecordingService_ResumeRecording_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResumeRecordingInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RecordingServiceServer).UpdateRecording(ctx, in)
+		return srv.(RecordingServiceServer).ResumeRecording(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RecordingService_UpdateRecording_FullMethodName,
+		FullMethod: RecordingService_ResumeRecording_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecordingServiceServer).UpdateRecording(ctx, req.(*UpdateRecordingInput))
+		return srv.(RecordingServiceServer).ResumeRecording(ctx, req.(*ResumeRecordingInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -258,8 +260,8 @@ var RecordingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RecordingService_CreateRecording_Handler,
 		},
 		{
-			MethodName: "UpdateRecording",
-			Handler:    _RecordingService_UpdateRecording_Handler,
+			MethodName: "ResumeRecording",
+			Handler:    _RecordingService_ResumeRecording_Handler,
 		},
 		{
 			MethodName: "DeleteRecording",
