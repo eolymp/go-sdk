@@ -182,17 +182,183 @@ func (*ConfigureIdentityConfigOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_community_configuration_service_proto_rawDescGZIP(), []int{3}
 }
 
+type DescribeNotebookConfigInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeNotebookConfigInput) Reset() {
+	*x = DescribeNotebookConfigInput{}
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeNotebookConfigInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeNotebookConfigInput) ProtoMessage() {}
+
+func (x *DescribeNotebookConfigInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeNotebookConfigInput.ProtoReflect.Descriptor instead.
+func (*DescribeNotebookConfigInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_configuration_service_proto_rawDescGZIP(), []int{4}
+}
+
+type DescribeNotebookConfigOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *NotebookConfig        `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeNotebookConfigOutput) Reset() {
+	*x = DescribeNotebookConfigOutput{}
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeNotebookConfigOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeNotebookConfigOutput) ProtoMessage() {}
+
+func (x *DescribeNotebookConfigOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeNotebookConfigOutput.ProtoReflect.Descriptor instead.
+func (*DescribeNotebookConfigOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_configuration_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DescribeNotebookConfigOutput) GetConfig() *NotebookConfig {
+	if x != nil {
+		return x.Config
+	}
+	return nil
+}
+
+type ConfigureNotebookConfigInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *NotebookConfig        `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfigureNotebookConfigInput) Reset() {
+	*x = ConfigureNotebookConfigInput{}
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfigureNotebookConfigInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfigureNotebookConfigInput) ProtoMessage() {}
+
+func (x *ConfigureNotebookConfigInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfigureNotebookConfigInput.ProtoReflect.Descriptor instead.
+func (*ConfigureNotebookConfigInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_configuration_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ConfigureNotebookConfigInput) GetConfig() *NotebookConfig {
+	if x != nil {
+		return x.Config
+	}
+	return nil
+}
+
+type ConfigureNotebookConfigOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfigureNotebookConfigOutput) Reset() {
+	*x = ConfigureNotebookConfigOutput{}
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfigureNotebookConfigOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfigureNotebookConfigOutput) ProtoMessage() {}
+
+func (x *ConfigureNotebookConfigOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_community_configuration_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfigureNotebookConfigOutput.ProtoReflect.Descriptor instead.
+func (*ConfigureNotebookConfigOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_community_configuration_service_proto_rawDescGZIP(), []int{7}
+}
+
 var File_eolymp_community_configuration_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_configuration_service_proto_rawDesc = "" +
 	"\n" +
-	",eolymp/community/configuration_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a-eolymp/community/configuration_identity.proto\"\x1d\n" +
+	",eolymp/community/configuration_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a-eolymp/community/configuration_identity.proto\x1a&eolymp/community/notebook_config.proto\"\x1d\n" +
 	"\x1bDescribeIdentityConfigInput\"X\n" +
 	"\x1cDescribeIdentityConfigOutput\x128\n" +
 	"\x06config\x18\x01 \x01(\v2 .eolymp.community.IdentityConfigR\x06config\"X\n" +
 	"\x1cConfigureIdentityConfigInput\x128\n" +
 	"\x06config\x18\x01 \x01(\v2 .eolymp.community.IdentityConfigR\x06config\"\x1f\n" +
-	"\x1dConfigureIdentityConfigOutput2\xac\x03\n" +
+	"\x1dConfigureIdentityConfigOutput\"\x1d\n" +
+	"\x1bDescribeNotebookConfigInput\"X\n" +
+	"\x1cDescribeNotebookConfigOutput\x128\n" +
+	"\x06config\x18\x01 \x01(\v2 .eolymp.community.NotebookConfigR\x06config\"X\n" +
+	"\x1cConfigureNotebookConfigInput\x128\n" +
+	"\x06config\x18\x01 \x01(\v2 .eolymp.community.NotebookConfigR\x06config\"\x1f\n" +
+	"\x1dConfigureNotebookConfigOutput2\xa5\x06\n" +
 	"\x14ConfigurationService\x12\xa9\x01\n" +
 	"\x16DescribeIdentityConfig\x12-.eolymp.community.DescribeIdentityConfigInput\x1a..eolymp.community.DescribeIdentityConfigOutput\"0\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -207,7 +373,21 @@ const file_eolymp_community_configuration_service_proto_rawDesc = "" +
 	"\x1a\x8a\xe3\n" +
 	"\x16community:member:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x13\x1a\x11/configs/identity\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02\x13\x1a\x11/configs/identity\x12\xa9\x01\n" +
+	"\x16DescribeNotebookConfig\x12-.eolymp.community.DescribeNotebookConfigInput\x1a..eolymp.community.DescribeNotebookConfigOutput\"0\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00 A\xf8\xe2\n" +
+	"d\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x13\x12\x11/configs/notebook\x12\xca\x01\n" +
+	"\x17ConfigureNotebookConfig\x12..eolymp.community.ConfigureNotebookConfigInput\x1a/.eolymp.community.ConfigureNotebookConfigOutput\"N\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\x80?\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x1a\x8a\xe3\n" +
+	"\x16community:member:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x13\x1a\x11/configs/notebook\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB5Z3github.com/eolymp/go-sdk/eolymp/community;communityb\x06proto3"
 
 var (
 	file_eolymp_community_configuration_service_proto_rawDescOnce sync.Once
@@ -221,26 +401,37 @@ func file_eolymp_community_configuration_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_community_configuration_service_proto_rawDescData
 }
 
-var file_eolymp_community_configuration_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_community_configuration_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_eolymp_community_configuration_service_proto_goTypes = []any{
 	(*DescribeIdentityConfigInput)(nil),   // 0: eolymp.community.DescribeIdentityConfigInput
 	(*DescribeIdentityConfigOutput)(nil),  // 1: eolymp.community.DescribeIdentityConfigOutput
 	(*ConfigureIdentityConfigInput)(nil),  // 2: eolymp.community.ConfigureIdentityConfigInput
 	(*ConfigureIdentityConfigOutput)(nil), // 3: eolymp.community.ConfigureIdentityConfigOutput
-	(*IdentityConfig)(nil),                // 4: eolymp.community.IdentityConfig
+	(*DescribeNotebookConfigInput)(nil),   // 4: eolymp.community.DescribeNotebookConfigInput
+	(*DescribeNotebookConfigOutput)(nil),  // 5: eolymp.community.DescribeNotebookConfigOutput
+	(*ConfigureNotebookConfigInput)(nil),  // 6: eolymp.community.ConfigureNotebookConfigInput
+	(*ConfigureNotebookConfigOutput)(nil), // 7: eolymp.community.ConfigureNotebookConfigOutput
+	(*IdentityConfig)(nil),                // 8: eolymp.community.IdentityConfig
+	(*NotebookConfig)(nil),                // 9: eolymp.community.NotebookConfig
 }
 var file_eolymp_community_configuration_service_proto_depIdxs = []int32{
-	4, // 0: eolymp.community.DescribeIdentityConfigOutput.config:type_name -> eolymp.community.IdentityConfig
-	4, // 1: eolymp.community.ConfigureIdentityConfigInput.config:type_name -> eolymp.community.IdentityConfig
-	0, // 2: eolymp.community.ConfigurationService.DescribeIdentityConfig:input_type -> eolymp.community.DescribeIdentityConfigInput
-	2, // 3: eolymp.community.ConfigurationService.ConfigureIdentityConfig:input_type -> eolymp.community.ConfigureIdentityConfigInput
-	1, // 4: eolymp.community.ConfigurationService.DescribeIdentityConfig:output_type -> eolymp.community.DescribeIdentityConfigOutput
-	3, // 5: eolymp.community.ConfigurationService.ConfigureIdentityConfig:output_type -> eolymp.community.ConfigureIdentityConfigOutput
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	8, // 0: eolymp.community.DescribeIdentityConfigOutput.config:type_name -> eolymp.community.IdentityConfig
+	8, // 1: eolymp.community.ConfigureIdentityConfigInput.config:type_name -> eolymp.community.IdentityConfig
+	9, // 2: eolymp.community.DescribeNotebookConfigOutput.config:type_name -> eolymp.community.NotebookConfig
+	9, // 3: eolymp.community.ConfigureNotebookConfigInput.config:type_name -> eolymp.community.NotebookConfig
+	0, // 4: eolymp.community.ConfigurationService.DescribeIdentityConfig:input_type -> eolymp.community.DescribeIdentityConfigInput
+	2, // 5: eolymp.community.ConfigurationService.ConfigureIdentityConfig:input_type -> eolymp.community.ConfigureIdentityConfigInput
+	4, // 6: eolymp.community.ConfigurationService.DescribeNotebookConfig:input_type -> eolymp.community.DescribeNotebookConfigInput
+	6, // 7: eolymp.community.ConfigurationService.ConfigureNotebookConfig:input_type -> eolymp.community.ConfigureNotebookConfigInput
+	1, // 8: eolymp.community.ConfigurationService.DescribeIdentityConfig:output_type -> eolymp.community.DescribeIdentityConfigOutput
+	3, // 9: eolymp.community.ConfigurationService.ConfigureIdentityConfig:output_type -> eolymp.community.ConfigureIdentityConfigOutput
+	5, // 10: eolymp.community.ConfigurationService.DescribeNotebookConfig:output_type -> eolymp.community.DescribeNotebookConfigOutput
+	7, // 11: eolymp.community.ConfigurationService.ConfigureNotebookConfig:output_type -> eolymp.community.ConfigureNotebookConfigOutput
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_community_configuration_service_proto_init() }
@@ -249,13 +440,14 @@ func file_eolymp_community_configuration_service_proto_init() {
 		return
 	}
 	file_eolymp_community_configuration_identity_proto_init()
+	file_eolymp_community_notebook_config_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_community_configuration_service_proto_rawDesc), len(file_eolymp_community_configuration_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

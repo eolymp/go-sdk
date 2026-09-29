@@ -21,15 +21,18 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	ConfigurationService_DescribeIdentityConfig_FullMethodName  = "/eolymp.community.ConfigurationService/DescribeIdentityConfig"
 	ConfigurationService_ConfigureIdentityConfig_FullMethodName = "/eolymp.community.ConfigurationService/ConfigureIdentityConfig"
+	ConfigurationService_DescribeNotebookConfig_FullMethodName  = "/eolymp.community.ConfigurationService/DescribeNotebookConfig"
+	ConfigurationService_ConfigureNotebookConfig_FullMethodName = "/eolymp.community.ConfigurationService/ConfigureNotebookConfig"
 )
 
 // ConfigurationServiceClient is the client API for ConfigurationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// ConfigurationService reads and writes the identity and membership configuration of a space.
+// ConfigurationService reads and writes the identity and membership configuration of a space, and whether its
+// members can keep notebooks.
 //
-// Several namespaces define a ConfigurationService; this one covers identity and membership only — the
+// Several namespaces define a ConfigurationService; this one covers identity and membership — the
 // space's identity provider, whether people may sign themselves up and join (with that off, only members an
 // administrator added can sign in), and the rule which turns a member into a display name. The provider
 // decides who owns the account: with the Eolymp provider members sign in with the Eolymp accounts they
@@ -49,6 +52,11 @@ type ConfigurationServiceClient interface {
 	// never returns and which therefore has to be sent again on every write. The provider is a oneof: naming
 	// one provider discards the settings of the others, and naming none falls back to the Eolymp provider.
 	ConfigureIdentityConfig(ctx context.Context, in *ConfigureIdentityConfigInput, opts ...grpc.CallOption) (*ConfigureIdentityConfigOutput, error)
+	// DescribeNotebookConfig returns whether members of the space can keep notebooks, see NotebookService. Like
+	// DescribeIdentityConfig, it requires no scope.
+	DescribeNotebookConfig(ctx context.Context, in *DescribeNotebookConfigInput, opts ...grpc.CallOption) (*DescribeNotebookConfigOutput, error)
+	// ConfigureNotebookConfig replaces the notebook configuration of the space.
+	ConfigureNotebookConfig(ctx context.Context, in *ConfigureNotebookConfigInput, opts ...grpc.CallOption) (*ConfigureNotebookConfigOutput, error)
 }
 
 type configurationServiceClient struct {
@@ -79,13 +87,34 @@ func (c *configurationServiceClient) ConfigureIdentityConfig(ctx context.Context
 	return out, nil
 }
 
+func (c *configurationServiceClient) DescribeNotebookConfig(ctx context.Context, in *DescribeNotebookConfigInput, opts ...grpc.CallOption) (*DescribeNotebookConfigOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeNotebookConfigOutput)
+	err := c.cc.Invoke(ctx, ConfigurationService_DescribeNotebookConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *configurationServiceClient) ConfigureNotebookConfig(ctx context.Context, in *ConfigureNotebookConfigInput, opts ...grpc.CallOption) (*ConfigureNotebookConfigOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfigureNotebookConfigOutput)
+	err := c.cc.Invoke(ctx, ConfigurationService_ConfigureNotebookConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ConfigurationServiceServer is the server API for ConfigurationService service.
 // All implementations should embed UnimplementedConfigurationServiceServer
 // for forward compatibility.
 //
-// ConfigurationService reads and writes the identity and membership configuration of a space.
+// ConfigurationService reads and writes the identity and membership configuration of a space, and whether its
+// members can keep notebooks.
 //
-// Several namespaces define a ConfigurationService; this one covers identity and membership only — the
+// Several namespaces define a ConfigurationService; this one covers identity and membership — the
 // space's identity provider, whether people may sign themselves up and join (with that off, only members an
 // administrator added can sign in), and the rule which turns a member into a display name. The provider
 // decides who owns the account: with the Eolymp provider members sign in with the Eolymp accounts they
@@ -105,6 +134,11 @@ type ConfigurationServiceServer interface {
 	// never returns and which therefore has to be sent again on every write. The provider is a oneof: naming
 	// one provider discards the settings of the others, and naming none falls back to the Eolymp provider.
 	ConfigureIdentityConfig(context.Context, *ConfigureIdentityConfigInput) (*ConfigureIdentityConfigOutput, error)
+	// DescribeNotebookConfig returns whether members of the space can keep notebooks, see NotebookService. Like
+	// DescribeIdentityConfig, it requires no scope.
+	DescribeNotebookConfig(context.Context, *DescribeNotebookConfigInput) (*DescribeNotebookConfigOutput, error)
+	// ConfigureNotebookConfig replaces the notebook configuration of the space.
+	ConfigureNotebookConfig(context.Context, *ConfigureNotebookConfigInput) (*ConfigureNotebookConfigOutput, error)
 }
 
 // UnimplementedConfigurationServiceServer should be embedded to have
@@ -119,6 +153,12 @@ func (UnimplementedConfigurationServiceServer) DescribeIdentityConfig(context.Co
 }
 func (UnimplementedConfigurationServiceServer) ConfigureIdentityConfig(context.Context, *ConfigureIdentityConfigInput) (*ConfigureIdentityConfigOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ConfigureIdentityConfig not implemented")
+}
+func (UnimplementedConfigurationServiceServer) DescribeNotebookConfig(context.Context, *DescribeNotebookConfigInput) (*DescribeNotebookConfigOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeNotebookConfig not implemented")
+}
+func (UnimplementedConfigurationServiceServer) ConfigureNotebookConfig(context.Context, *ConfigureNotebookConfigInput) (*ConfigureNotebookConfigOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ConfigureNotebookConfig not implemented")
 }
 func (UnimplementedConfigurationServiceServer) testEmbeddedByValue() {}
 
@@ -176,6 +216,42 @@ func _ConfigurationService_ConfigureIdentityConfig_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConfigurationService_DescribeNotebookConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeNotebookConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConfigurationServiceServer).DescribeNotebookConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ConfigurationService_DescribeNotebookConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConfigurationServiceServer).DescribeNotebookConfig(ctx, req.(*DescribeNotebookConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ConfigurationService_ConfigureNotebookConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigureNotebookConfigInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConfigurationServiceServer).ConfigureNotebookConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ConfigurationService_ConfigureNotebookConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConfigurationServiceServer).ConfigureNotebookConfig(ctx, req.(*ConfigureNotebookConfigInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ConfigurationService_ServiceDesc is the grpc.ServiceDesc for ConfigurationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +266,14 @@ var ConfigurationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ConfigureIdentityConfig",
 			Handler:    _ConfigurationService_ConfigureIdentityConfig_Handler,
+		},
+		{
+			MethodName: "DescribeNotebookConfig",
+			Handler:    _ConfigurationService_DescribeNotebookConfig_Handler,
+		},
+		{
+			MethodName: "ConfigureNotebookConfig",
+			Handler:    _ConfigurationService_ConfigureNotebookConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

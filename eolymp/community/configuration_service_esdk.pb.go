@@ -121,3 +121,25 @@ func (s *ConfigurationServiceService) ConfigureIdentityConfig(ctx context.Contex
 
 	return out, nil
 }
+
+func (s *ConfigurationServiceService) DescribeNotebookConfig(ctx context.Context, in *DescribeNotebookConfigInput) (*DescribeNotebookConfigOutput, error) {
+	out := &DescribeNotebookConfigOutput{}
+	path := "/configs/notebook"
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *ConfigurationServiceService) ConfigureNotebookConfig(ctx context.Context, in *ConfigureNotebookConfigInput) (*ConfigureNotebookConfigOutput, error) {
+	out := &ConfigureNotebookConfigOutput{}
+	path := "/configs/notebook"
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

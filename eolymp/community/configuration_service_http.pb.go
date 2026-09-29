@@ -207,6 +207,12 @@ func RegisterConfigurationServiceHttpHandlers(router *mux.Router, prefix string,
 	router.Handle(prefix+"/configs/identity", _ConfigurationService_ConfigureIdentityConfig_Rule0(cli)).
 		Methods("PUT").
 		Name("eolymp.community.ConfigurationService.ConfigureIdentityConfig")
+	router.Handle(prefix+"/configs/notebook", _ConfigurationService_DescribeNotebookConfig_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.community.ConfigurationService.DescribeNotebookConfig")
+	router.Handle(prefix+"/configs/notebook", _ConfigurationService_ConfigureNotebookConfig_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.community.ConfigurationService.ConfigureNotebookConfig")
 }
 
 // RegisterConfigurationServiceHttpProxy adds proxy handlers for for ConfigurationServiceClient
@@ -247,6 +253,48 @@ func _ConfigurationService_ConfigureIdentityConfig_Rule0(cli ConfigurationServic
 		var header, trailer metadata.MD
 
 		out, err := cli.ConfigureIdentityConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ConfigurationService_DescribeNotebookConfig_Rule0(cli ConfigurationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeNotebookConfigInput{}
+
+		if err := _ConfigurationService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeNotebookConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ConfigurationService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ConfigurationService_ConfigureNotebookConfig_Rule0(cli ConfigurationServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ConfigureNotebookConfigInput{}
+
+		if err := _ConfigurationService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ConfigurationService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ConfigureNotebookConfig(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ConfigurationService_HTTPWriteErrorResponse(w, err)
 			return
