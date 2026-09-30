@@ -25,7 +25,7 @@ const (
 
 type UploadNotebookInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"` // empty for a member uploading their own notebook, required for an administrator
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"` // application/pdf, image/png or image/jpeg
 	Data          []byte                 `protobuf:"bytes,100,opt,name=data,proto3" json:"data,omitempty"`

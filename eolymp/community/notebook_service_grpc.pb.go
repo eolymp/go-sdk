@@ -35,11 +35,13 @@ const (
 // A notebook is a PDF or an image uploaded for one member. What a member uploads waits for an administrator to
 // approve or reject it, and the member cannot open it until it is approved. A member has at most one approved
 // and at most one pending notebook: a new upload replaces the pending one, and approving a notebook rejects the
-// one approved before it. What an administrator uploads is approved straight away. The service works only while
-// the space's NotebookConfig is enabled, except for administrators.
+// one approved before it. What an administrator uploads is approved straight away. While the space's
+// NotebookConfig is disabled, uploads are refused, lists come back empty and a notebook reads as not found, but
+// members can still delete their notebooks.
 type NotebookServiceClient interface {
-	// UploadNotebook takes the file as the request body and adds it to the member's notebooks. A member's own
-	// upload is pending and replaces their pending notebook, if there is one; an administrator's is approved.
+	// UploadNotebook adds a file to a member's notebooks. A member uploads for themselves and leaves member_id
+	// empty; their upload is pending and replaces their pending notebook, if there is one. An administrator names
+	// the member, and their upload is approved.
 	UploadNotebook(ctx context.Context, in *UploadNotebookInput, opts ...grpc.CallOption) (*UploadNotebookOutput, error)
 	// ReviewNotebook approves or rejects a notebook. Approving one rejects the member's approved notebook, so a
 	// member never has two.
@@ -119,11 +121,13 @@ func (c *notebookServiceClient) ListNotebooks(ctx context.Context, in *ListNoteb
 // A notebook is a PDF or an image uploaded for one member. What a member uploads waits for an administrator to
 // approve or reject it, and the member cannot open it until it is approved. A member has at most one approved
 // and at most one pending notebook: a new upload replaces the pending one, and approving a notebook rejects the
-// one approved before it. What an administrator uploads is approved straight away. The service works only while
-// the space's NotebookConfig is enabled, except for administrators.
+// one approved before it. What an administrator uploads is approved straight away. While the space's
+// NotebookConfig is disabled, uploads are refused, lists come back empty and a notebook reads as not found, but
+// members can still delete their notebooks.
 type NotebookServiceServer interface {
-	// UploadNotebook takes the file as the request body and adds it to the member's notebooks. A member's own
-	// upload is pending and replaces their pending notebook, if there is one; an administrator's is approved.
+	// UploadNotebook adds a file to a member's notebooks. A member uploads for themselves and leaves member_id
+	// empty; their upload is pending and replaces their pending notebook, if there is one. An administrator names
+	// the member, and their upload is approved.
 	UploadNotebook(context.Context, *UploadNotebookInput) (*UploadNotebookOutput, error)
 	// ReviewNotebook approves or rejects a notebook. Approving one rejects the member's approved notebook, so a
 	// member never has two.
