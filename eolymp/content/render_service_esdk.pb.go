@@ -110,3 +110,14 @@ func (s *RenderServiceService) RenderContent(ctx context.Context, in *RenderCont
 
 	return out, nil
 }
+
+func (s *RenderServiceService) RenderFigure(ctx context.Context, in *RenderFigureInput) (*RenderFigureOutput, error) {
+	out := &RenderFigureOutput{}
+	path := "/figures:render"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

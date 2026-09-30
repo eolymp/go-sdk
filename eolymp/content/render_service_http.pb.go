@@ -208,6 +208,9 @@ func RegisterRenderServiceHttpHandlers(router *mux.Router, prefix string, cli Re
 	router.Handle(prefix+"/renderer", _RenderService_RenderContent_Rule1(cli)).
 		Methods("POST").
 		Name("eolymp.content.RenderService.RenderContent")
+	router.Handle(prefix+"/figures:render", _RenderService_RenderFigure_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.content.RenderService.RenderFigure")
 }
 
 // RegisterRenderServiceHttpProxy adds proxy handlers for for RenderServiceClient
@@ -248,6 +251,27 @@ func _RenderService_RenderContent_Rule1(cli RenderServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.RenderContent(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_RenderService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_RenderService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _RenderService_RenderFigure_Rule0(cli RenderServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RenderFigureInput{}
+
+		if err := _RenderService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_RenderService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RenderFigure(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_RenderService_HTTPWriteErrorResponse(w, err)
 			return

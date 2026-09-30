@@ -23,6 +23,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RenderFigureOutput_Diagnostic_Severity int32
+
+const (
+	RenderFigureOutput_Diagnostic_UNKNOWN_SEVERITY RenderFigureOutput_Diagnostic_Severity = 0
+	RenderFigureOutput_Diagnostic_ERROR            RenderFigureOutput_Diagnostic_Severity = 1
+	RenderFigureOutput_Diagnostic_WARNING          RenderFigureOutput_Diagnostic_Severity = 2
+)
+
+// Enum value maps for RenderFigureOutput_Diagnostic_Severity.
+var (
+	RenderFigureOutput_Diagnostic_Severity_name = map[int32]string{
+		0: "UNKNOWN_SEVERITY",
+		1: "ERROR",
+		2: "WARNING",
+	}
+	RenderFigureOutput_Diagnostic_Severity_value = map[string]int32{
+		"UNKNOWN_SEVERITY": 0,
+		"ERROR":            1,
+		"WARNING":          2,
+	}
+)
+
+func (x RenderFigureOutput_Diagnostic_Severity) Enum() *RenderFigureOutput_Diagnostic_Severity {
+	p := new(RenderFigureOutput_Diagnostic_Severity)
+	*p = x
+	return p
+}
+
+func (x RenderFigureOutput_Diagnostic_Severity) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RenderFigureOutput_Diagnostic_Severity) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_content_render_service_proto_enumTypes[0].Descriptor()
+}
+
+func (RenderFigureOutput_Diagnostic_Severity) Type() protoreflect.EnumType {
+	return &file_eolymp_content_render_service_proto_enumTypes[0]
+}
+
+func (x RenderFigureOutput_Diagnostic_Severity) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RenderFigureOutput_Diagnostic_Severity.Descriptor instead.
+func (RenderFigureOutput_Diagnostic_Severity) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_content_render_service_proto_rawDescGZIP(), []int{3, 0, 0}
+}
+
 type RenderContentInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Content       *ecm.Content           `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
@@ -111,22 +160,241 @@ func (x *RenderContentOutput) GetRender() *ecm.Node {
 	return nil
 }
 
+type RenderFigureInput struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Source:
+	//
+	//	*RenderFigureInput_Typst
+	Source        isRenderFigureInput_Source `protobuf_oneof:"source"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RenderFigureInput) Reset() {
+	*x = RenderFigureInput{}
+	mi := &file_eolymp_content_render_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenderFigureInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenderFigureInput) ProtoMessage() {}
+
+func (x *RenderFigureInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_render_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenderFigureInput.ProtoReflect.Descriptor instead.
+func (*RenderFigureInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_render_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RenderFigureInput) GetSource() isRenderFigureInput_Source {
+	if x != nil {
+		return x.Source
+	}
+	return nil
+}
+
+func (x *RenderFigureInput) GetTypst() string {
+	if x != nil {
+		if x, ok := x.Source.(*RenderFigureInput_Typst); ok {
+			return x.Typst
+		}
+	}
+	return ""
+}
+
+type isRenderFigureInput_Source interface {
+	isRenderFigureInput_Source()
+}
+
+type RenderFigureInput_Typst struct {
+	// Typst source of the figure. The page is sized to fit the drawing, and the figure must fit on one page.
+	Typst string `protobuf:"bytes,1,opt,name=typst,proto3,oneof"`
+}
+
+func (*RenderFigureInput_Typst) isRenderFigureInput_Source() {}
+
+type RenderFigureOutput struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// SVG image of the figure, empty when the figure does not compile.
+	Svg           string                           `protobuf:"bytes,1,opt,name=svg,proto3" json:"svg,omitempty"`
+	Diagnostics   []*RenderFigureOutput_Diagnostic `protobuf:"bytes,2,rep,name=diagnostics,proto3" json:"diagnostics,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RenderFigureOutput) Reset() {
+	*x = RenderFigureOutput{}
+	mi := &file_eolymp_content_render_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenderFigureOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenderFigureOutput) ProtoMessage() {}
+
+func (x *RenderFigureOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_render_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenderFigureOutput.ProtoReflect.Descriptor instead.
+func (*RenderFigureOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_render_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *RenderFigureOutput) GetSvg() string {
+	if x != nil {
+		return x.Svg
+	}
+	return ""
+}
+
+func (x *RenderFigureOutput) GetDiagnostics() []*RenderFigureOutput_Diagnostic {
+	if x != nil {
+		return x.Diagnostics
+	}
+	return nil
+}
+
+type RenderFigureOutput_Diagnostic struct {
+	state         protoimpl.MessageState                 `protogen:"open.v1"`
+	Severity      RenderFigureOutput_Diagnostic_Severity `protobuf:"varint,1,opt,name=severity,proto3,enum=eolymp.content.RenderFigureOutput_Diagnostic_Severity" json:"severity,omitempty"`
+	Line          uint32                                 `protobuf:"varint,2,opt,name=line,proto3" json:"line,omitempty"`
+	Column        uint32                                 `protobuf:"varint,3,opt,name=column,proto3" json:"column,omitempty"`
+	Message       string                                 `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
+	Hints         []string                               `protobuf:"bytes,5,rep,name=hints,proto3" json:"hints,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RenderFigureOutput_Diagnostic) Reset() {
+	*x = RenderFigureOutput_Diagnostic{}
+	mi := &file_eolymp_content_render_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenderFigureOutput_Diagnostic) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenderFigureOutput_Diagnostic) ProtoMessage() {}
+
+func (x *RenderFigureOutput_Diagnostic) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_render_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenderFigureOutput_Diagnostic.ProtoReflect.Descriptor instead.
+func (*RenderFigureOutput_Diagnostic) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_render_service_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *RenderFigureOutput_Diagnostic) GetSeverity() RenderFigureOutput_Diagnostic_Severity {
+	if x != nil {
+		return x.Severity
+	}
+	return RenderFigureOutput_Diagnostic_UNKNOWN_SEVERITY
+}
+
+func (x *RenderFigureOutput_Diagnostic) GetLine() uint32 {
+	if x != nil {
+		return x.Line
+	}
+	return 0
+}
+
+func (x *RenderFigureOutput_Diagnostic) GetColumn() uint32 {
+	if x != nil {
+		return x.Column
+	}
+	return 0
+}
+
+func (x *RenderFigureOutput_Diagnostic) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *RenderFigureOutput_Diagnostic) GetHints() []string {
+	if x != nil {
+		return x.Hints
+	}
+	return nil
+}
+
 var File_eolymp_content_render_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_render_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/content/render_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"C\n" +
+	"#eolymp/content/render_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"C\n" +
 	"\x12RenderContentInput\x12-\n" +
 	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\"?\n" +
 	"\x13RenderContentOutput\x12(\n" +
-	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render2\xc4\x01\n" +
+	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render\"\xd0\x01\n" +
+	"\x11RenderFigureInput\x12\xb0\x01\n" +
+	"\x05typst\x18\x01 \x01(\tB\x97\x01\xa2\xf0\xf0\xe4\x01\x90\x01Typst source of the figure; the page is sized to fit the drawing, and the figure must fit on one page. Packages cetz and fletcher are available.H\x00R\x05typstB\b\n" +
+	"\x06source\"\xf0\x02\n" +
+	"\x12RenderFigureOutput\x12\x10\n" +
+	"\x03svg\x18\x01 \x01(\tR\x03svg\x12O\n" +
+	"\vdiagnostics\x18\x02 \x03(\v2-.eolymp.content.RenderFigureOutput.DiagnosticR\vdiagnostics\x1a\xf6\x01\n" +
+	"\n" +
+	"Diagnostic\x12R\n" +
+	"\bseverity\x18\x01 \x01(\x0e26.eolymp.content.RenderFigureOutput.Diagnostic.SeverityR\bseverity\x12\x12\n" +
+	"\x04line\x18\x02 \x01(\rR\x04line\x12\x16\n" +
+	"\x06column\x18\x03 \x01(\rR\x06column\x12\x18\n" +
+	"\amessage\x18\x04 \x01(\tR\amessage\x12\x14\n" +
+	"\x05hints\x18\x05 \x03(\tR\x05hints\"8\n" +
+	"\bSeverity\x12\x14\n" +
+	"\x10UNKNOWN_SEVERITY\x10\x00\x12\t\n" +
+	"\x05ERROR\x10\x01\x12\v\n" +
+	"\aWARNING\x10\x022\xcf\x03\n" +
 	"\rRenderService\x12\x95\x01\n" +
 	"\rRenderContent\x12\".eolymp.content.RenderContentInput\x1a#.eolymp.content.RenderContentOutput\";\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xc8A\xf8\xe2\n" +
 	"d\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1eZ\v\"\t/renderer\"\x0f/content:render\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02\x1eZ\v\"\t/renderer\"\x0f/content:render\x12\x88\x02\n" +
+	"\fRenderFigure\x12!.eolymp.content.RenderFigureInput\x1a\".eolymp.content.RenderFigureOutput\"\xb0\x01\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"\x14\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\xa2\xf0\xf0\xe4\x01|Compile a figure written in Typst into an SVG image. Returns the SVG, or diagnostics saying why the figure does not compile.\x82\xd3\xe4\x93\x02\x11\"\x0f/figures:render\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_render_service_proto_rawDescOnce sync.Once
@@ -140,23 +408,32 @@ func file_eolymp_content_render_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_render_service_proto_rawDescData
 }
 
-var file_eolymp_content_render_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_content_render_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_content_render_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_eolymp_content_render_service_proto_goTypes = []any{
-	(*RenderContentInput)(nil),  // 0: eolymp.content.RenderContentInput
-	(*RenderContentOutput)(nil), // 1: eolymp.content.RenderContentOutput
-	(*ecm.Content)(nil),         // 2: eolymp.ecm.Content
-	(*ecm.Node)(nil),            // 3: eolymp.ecm.Node
+	(RenderFigureOutput_Diagnostic_Severity)(0), // 0: eolymp.content.RenderFigureOutput.Diagnostic.Severity
+	(*RenderContentInput)(nil),                  // 1: eolymp.content.RenderContentInput
+	(*RenderContentOutput)(nil),                 // 2: eolymp.content.RenderContentOutput
+	(*RenderFigureInput)(nil),                   // 3: eolymp.content.RenderFigureInput
+	(*RenderFigureOutput)(nil),                  // 4: eolymp.content.RenderFigureOutput
+	(*RenderFigureOutput_Diagnostic)(nil),       // 5: eolymp.content.RenderFigureOutput.Diagnostic
+	(*ecm.Content)(nil),                         // 6: eolymp.ecm.Content
+	(*ecm.Node)(nil),                            // 7: eolymp.ecm.Node
 }
 var file_eolymp_content_render_service_proto_depIdxs = []int32{
-	2, // 0: eolymp.content.RenderContentInput.content:type_name -> eolymp.ecm.Content
-	3, // 1: eolymp.content.RenderContentOutput.render:type_name -> eolymp.ecm.Node
-	0, // 2: eolymp.content.RenderService.RenderContent:input_type -> eolymp.content.RenderContentInput
-	1, // 3: eolymp.content.RenderService.RenderContent:output_type -> eolymp.content.RenderContentOutput
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6, // 0: eolymp.content.RenderContentInput.content:type_name -> eolymp.ecm.Content
+	7, // 1: eolymp.content.RenderContentOutput.render:type_name -> eolymp.ecm.Node
+	5, // 2: eolymp.content.RenderFigureOutput.diagnostics:type_name -> eolymp.content.RenderFigureOutput.Diagnostic
+	0, // 3: eolymp.content.RenderFigureOutput.Diagnostic.severity:type_name -> eolymp.content.RenderFigureOutput.Diagnostic.Severity
+	1, // 4: eolymp.content.RenderService.RenderContent:input_type -> eolymp.content.RenderContentInput
+	3, // 5: eolymp.content.RenderService.RenderFigure:input_type -> eolymp.content.RenderFigureInput
+	2, // 6: eolymp.content.RenderService.RenderContent:output_type -> eolymp.content.RenderContentOutput
+	4, // 7: eolymp.content.RenderService.RenderFigure:output_type -> eolymp.content.RenderFigureOutput
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_render_service_proto_init() }
@@ -164,18 +441,22 @@ func file_eolymp_content_render_service_proto_init() {
 	if File_eolymp_content_render_service_proto != nil {
 		return
 	}
+	file_eolymp_content_render_service_proto_msgTypes[2].OneofWrappers = []any{
+		(*RenderFigureInput_Typst)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_render_service_proto_rawDesc), len(file_eolymp_content_render_service_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_eolymp_content_render_service_proto_goTypes,
 		DependencyIndexes: file_eolymp_content_render_service_proto_depIdxs,
+		EnumInfos:         file_eolymp_content_render_service_proto_enumTypes,
 		MessageInfos:      file_eolymp_content_render_service_proto_msgTypes,
 	}.Build()
 	File_eolymp_content_render_service_proto = out.File

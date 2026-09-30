@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	RenderService_RenderContent_FullMethodName = "/eolymp.content.RenderService/RenderContent"
+	RenderService_RenderFigure_FullMethodName  = "/eolymp.content.RenderService/RenderFigure"
 )
 
 // RenderServiceClient is the client API for RenderService service.
@@ -36,6 +37,11 @@ type RenderServiceClient interface {
 	// RenderContent parses the content carried in the request and returns the tree it produces. Nothing is
 	// read from or written to stored data, so it is safe to call as often as an editor's keystrokes allow.
 	RenderContent(ctx context.Context, in *RenderContentInput, opts ...grpc.CallOption) (*RenderContentOutput, error)
+	// RenderFigure compiles a figure written in a drawing language and returns it as an SVG image. The editor
+	// calls it to preview a figure while an author types, and statements call it when saved, to keep the image
+	// next to the source it was drawn from. A figure that does not compile is not an error: the call succeeds
+	// with no image and says what is wrong in diagnostics.
+	RenderFigure(ctx context.Context, in *RenderFigureInput, opts ...grpc.CallOption) (*RenderFigureOutput, error)
 }
 
 type renderServiceClient struct {
@@ -56,6 +62,16 @@ func (c *renderServiceClient) RenderContent(ctx context.Context, in *RenderConte
 	return out, nil
 }
 
+func (c *renderServiceClient) RenderFigure(ctx context.Context, in *RenderFigureInput, opts ...grpc.CallOption) (*RenderFigureOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RenderFigureOutput)
+	err := c.cc.Invoke(ctx, RenderService_RenderFigure_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RenderServiceServer is the server API for RenderService service.
 // All implementations should embed UnimplementedRenderServiceServer
 // for forward compatibility.
@@ -70,6 +86,11 @@ type RenderServiceServer interface {
 	// RenderContent parses the content carried in the request and returns the tree it produces. Nothing is
 	// read from or written to stored data, so it is safe to call as often as an editor's keystrokes allow.
 	RenderContent(context.Context, *RenderContentInput) (*RenderContentOutput, error)
+	// RenderFigure compiles a figure written in a drawing language and returns it as an SVG image. The editor
+	// calls it to preview a figure while an author types, and statements call it when saved, to keep the image
+	// next to the source it was drawn from. A figure that does not compile is not an error: the call succeeds
+	// with no image and says what is wrong in diagnostics.
+	RenderFigure(context.Context, *RenderFigureInput) (*RenderFigureOutput, error)
 }
 
 // UnimplementedRenderServiceServer should be embedded to have
@@ -81,6 +102,9 @@ type UnimplementedRenderServiceServer struct{}
 
 func (UnimplementedRenderServiceServer) RenderContent(context.Context, *RenderContentInput) (*RenderContentOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RenderContent not implemented")
+}
+func (UnimplementedRenderServiceServer) RenderFigure(context.Context, *RenderFigureInput) (*RenderFigureOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method RenderFigure not implemented")
 }
 func (UnimplementedRenderServiceServer) testEmbeddedByValue() {}
 
@@ -120,6 +144,24 @@ func _RenderService_RenderContent_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RenderService_RenderFigure_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RenderFigureInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RenderServiceServer).RenderFigure(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RenderService_RenderFigure_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RenderServiceServer).RenderFigure(ctx, req.(*RenderFigureInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RenderService_ServiceDesc is the grpc.ServiceDesc for RenderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +172,10 @@ var RenderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RenderContent",
 			Handler:    _RenderService_RenderContent_Handler,
+		},
+		{
+			MethodName: "RenderFigure",
+			Handler:    _RenderService_RenderFigure_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
