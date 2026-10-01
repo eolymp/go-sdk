@@ -27,8 +27,8 @@ type UploadNotebookInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"` // empty for a member uploading their own notebook, required for an administrator
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"` // application/pdf, image/png or image/jpeg
-	Data          []byte                 `protobuf:"bytes,100,opt,name=data,proto3" json:"data,omitempty"`
+	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`                               // application/pdf, image/png or image/jpeg
+	ContentUrl    string                 `protobuf:"bytes,4,opt,name=content_url,json=contentUrl,proto3" json:"content_url,omitempty"` // link to the file uploaded through AssetService
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -84,11 +84,11 @@ func (x *UploadNotebookInput) GetType() string {
 	return ""
 }
 
-func (x *UploadNotebookInput) GetData() []byte {
+func (x *UploadNotebookInput) GetContentUrl() string {
 	if x != nil {
-		return x.Data
+		return x.ContentUrl
 	}
-	return nil
+	return ""
 }
 
 type UploadNotebookOutput struct {
@@ -567,12 +567,13 @@ var File_eolymp_community_notebook_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_notebook_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/community/notebook_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/community/notebook.proto\x1a!eolymp/wellknown/expression.proto\"n\n" +
+	"'eolymp/community/notebook_service.proto\x12\x10eolymp.community\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1feolymp/community/notebook.proto\x1a!eolymp/wellknown/expression.proto\"{\n" +
 	"\x13UploadNotebookInput\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
-	"\x04type\x18\x03 \x01(\tR\x04type\x12\x12\n" +
-	"\x04data\x18d \x01(\fR\x04data\"7\n" +
+	"\x04type\x18\x03 \x01(\tR\x04type\x12\x1f\n" +
+	"\vcontent_url\x18\x04 \x01(\tR\n" +
+	"contentUrl\"7\n" +
 	"\x14UploadNotebookOutput\x12\x1f\n" +
 	"\vnotebook_id\x18\x01 \x01(\tR\n" +
 	"notebookId\"q\n" +
@@ -601,17 +602,16 @@ const file_eolymp_community_notebook_service_proto_rawDesc = "" +
 	"\x06status\x18\x03 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\"]\n" +
 	"\x13ListNotebooksOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x120\n" +
-	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.community.NotebookR\x05items2\xbe\a\n" +
-	"\x0fNotebookService\x12\xaf\x01\n" +
-	"\x0eUploadNotebook\x12%.eolymp.community.UploadNotebookInput\x1a&.eolymp.community.UploadNotebookOutput\"N\xea\xe2\n" +
+	"\x05items\x18\x02 \x03(\v2\x1a.eolymp.community.NotebookR\x05items2\xb7\a\n" +
+	"\x0fNotebookService\x12\xa8\x01\n" +
+	"\x0eUploadNotebook\x12%.eolymp.community.UploadNotebookInput\x1a&.eolymp.community.UploadNotebookOutput\"G\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\x82\xe3\n" +
 	"\x1a\x8a\xe3\n" +
 	"\x16community:member:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x13\x98\xe3\n" +
-	"\x80\x80\x80\x05\"\n" +
+	"\x02\x82\xd3\xe4\x93\x02\f\"\n" +
 	"/notebooks\x12\xbd\x01\n" +
 	"\x0eReviewNotebook\x12%.eolymp.community.ReviewNotebookInput\x1a&.eolymp.community.ReviewNotebookOutput\"\\\xea\xe2\n" +
 	"\v\xf5\xe2\n" +

@@ -227,7 +227,7 @@ func _NotebookService_UploadNotebook_Rule0(cli NotebookServiceClient) http.Handl
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		in := &UploadNotebookInput{}
 
-		if err := _NotebookService_HTTPReadRequestBody(r, in, 10485760); err != nil {
+		if err := _NotebookService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_NotebookService_HTTPWriteErrorResponse(w, err)
 			return
 		}

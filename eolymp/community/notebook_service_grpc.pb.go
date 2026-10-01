@@ -42,6 +42,8 @@ type NotebookServiceClient interface {
 	// UploadNotebook adds a file to a member's notebooks. A member uploads for themselves and leaves member_id
 	// empty; their upload is pending and replaces their pending notebook, if there is one. An administrator names
 	// the member, and their upload is approved.
+	//
+	// The file is uploaded through AssetService beforehand and passed as content_url.
 	UploadNotebook(ctx context.Context, in *UploadNotebookInput, opts ...grpc.CallOption) (*UploadNotebookOutput, error)
 	// ReviewNotebook approves or rejects a notebook. Approving one rejects the member's approved notebook, so a
 	// member never has two.
@@ -128,6 +130,8 @@ type NotebookServiceServer interface {
 	// UploadNotebook adds a file to a member's notebooks. A member uploads for themselves and leaves member_id
 	// empty; their upload is pending and replaces their pending notebook, if there is one. An administrator names
 	// the member, and their upload is approved.
+	//
+	// The file is uploaded through AssetService beforehand and passed as content_url.
 	UploadNotebook(context.Context, *UploadNotebookInput) (*UploadNotebookOutput, error)
 	// ReviewNotebook approves or rejects a notebook. Approving one rejects the member's approved notebook, so a
 	// member never has two.
