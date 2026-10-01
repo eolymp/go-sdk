@@ -108,7 +108,7 @@ type Member struct {
 	ActivePeriodEnd   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=active_period_end,json=activePeriodEnd,proto3" json:"active_period_end,omitempty"`       // optional, time when member will become inactive
 	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                           // Time when user account was created.
 	SeatedAt          *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=seated_at,json=seatedAt,proto3" json:"seated_at,omitempty"`                              // Time when user was seated in the space.
-	ActiveAt          *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`                              // Last time when user was active
+	ActiveAt          *timestamppb.Timestamp `protobuf:"bytes,62,opt,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`                              // Last time when member signed in or refreshed their token
 	// Account information depending on the member type.
 	//
 	// Types that are valid to be assigned to Account:

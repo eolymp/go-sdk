@@ -1487,6 +1487,7 @@ type ImportRecipientInput_Filter struct {
 	Country       []*wellknown.ExpressionID                          `protobuf:"bytes,109,rep,name=country,proto3" json:"country,omitempty"`
 	Score         []*wellknown.ExpressionInt                         `protobuf:"bytes,106,rep,name=score,proto3" json:"score,omitempty"`
 	CreatedAt     []*wellknown.ExpressionTimestamp                   `protobuf:"bytes,110,rep,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ActiveAt      []*wellknown.ExpressionTimestamp                   `protobuf:"bytes,111,rep,name=active_at,json=activeAt,proto3" json:"active_at,omitempty"`
 	Attribute     []*ImportRecipientInput_Filter_ExpressionAttribute `protobuf:"bytes,107,rep,name=attribute,proto3" json:"attribute,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1609,6 +1610,13 @@ func (x *ImportRecipientInput_Filter) GetScore() []*wellknown.ExpressionInt {
 func (x *ImportRecipientInput_Filter) GetCreatedAt() []*wellknown.ExpressionTimestamp {
 	if x != nil {
 		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *ImportRecipientInput_Filter) GetActiveAt() []*wellknown.ExpressionTimestamp {
+	if x != nil {
+		return x.ActiveAt
 	}
 	return nil
 }
@@ -1823,8 +1831,7 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\":\n" +
 	"\x15CreateRecipientOutput\x12!\n" +
-	"\frecipient_id\x18\x01 \x01(\tR\vrecipientId\"\xbd\n" +
-	"\n" +
+	"\frecipient_id\x18\x01 \x01(\tR\vrecipientId\"\x81\v\n" +
 	"\x14ImportRecipientInput\x12#\n" +
 	"\rnewsletter_id\x18\x01 \x01(\tR\fnewsletterId\x12B\n" +
 	"\afilters\x18( \x01(\v2(.eolymp.mail.ImportRecipientInput.FilterR\afilters\x12Q\n" +
@@ -1833,7 +1840,7 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"parameters\x1a=\n" +
 	"\x0fParametersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xa9\b\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xed\b\n" +
 	"\x06Filter\x12.\n" +
 	"\x02id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12A\n" +
 	"\fexternal_ref\x18\n" +
@@ -1853,7 +1860,8 @@ const file_eolymp_mail_newsletter_service_proto_rawDesc = "" +
 	"\acountry\x18m \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\acountry\x125\n" +
 	"\x05score\x18j \x03(\v2\x1f.eolymp.wellknown.ExpressionIntR\x05score\x12D\n" +
 	"\n" +
-	"created_at\x18n \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x12Z\n" +
+	"created_at\x18n \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x12B\n" +
+	"\tactive_at\x18o \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\bactiveAt\x12Z\n" +
 	"\tattribute\x18k \x03(\v2<.eolymp.mail.ImportRecipientInput.Filter.ExpressionAttributeR\tattribute\x1a\xaf\x01\n" +
 	"\x13ExpressionAttribute\x12#\n" +
 	"\rattribute_key\x18\x01 \x01(\tR\fattributeKey\x127\n" +
@@ -2078,43 +2086,44 @@ var file_eolymp_mail_newsletter_service_proto_depIdxs = []int32{
 	39, // 28: eolymp.mail.ImportRecipientInput.Filter.country:type_name -> eolymp.wellknown.ExpressionID
 	43, // 29: eolymp.mail.ImportRecipientInput.Filter.score:type_name -> eolymp.wellknown.ExpressionInt
 	42, // 30: eolymp.mail.ImportRecipientInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	32, // 31: eolymp.mail.ImportRecipientInput.Filter.attribute:type_name -> eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute
-	43, // 32: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
-	44, // 33: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
-	39, // 34: eolymp.mail.ListRecipientsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	40, // 35: eolymp.mail.ListRecipientsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	39, // 36: eolymp.mail.ListRecipientsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	1,  // 37: eolymp.mail.NewsletterService.CreateNewsletter:input_type -> eolymp.mail.CreateNewsletterInput
-	3,  // 38: eolymp.mail.NewsletterService.UpdateNewsletter:input_type -> eolymp.mail.UpdateNewsletterInput
-	5,  // 39: eolymp.mail.NewsletterService.DeleteNewsletter:input_type -> eolymp.mail.DeleteNewsletterInput
-	7,  // 40: eolymp.mail.NewsletterService.DescribeNewsletter:input_type -> eolymp.mail.DescribeNewsletterInput
-	9,  // 41: eolymp.mail.NewsletterService.ListNewsletters:input_type -> eolymp.mail.ListNewslettersInput
-	11, // 42: eolymp.mail.NewsletterService.TestNewsletter:input_type -> eolymp.mail.TestNewsletterInput
-	13, // 43: eolymp.mail.NewsletterService.SendNewsletter:input_type -> eolymp.mail.SendNewsletterInput
-	15, // 44: eolymp.mail.NewsletterService.TranslateNewsletter:input_type -> eolymp.mail.TranslateNewsletterInput
-	17, // 45: eolymp.mail.NewsletterService.CreateRecipient:input_type -> eolymp.mail.CreateRecipientInput
-	19, // 46: eolymp.mail.NewsletterService.ImportRecipient:input_type -> eolymp.mail.ImportRecipientInput
-	21, // 47: eolymp.mail.NewsletterService.DeleteRecipient:input_type -> eolymp.mail.DeleteRecipientInput
-	23, // 48: eolymp.mail.NewsletterService.ListRecipients:input_type -> eolymp.mail.ListRecipientsInput
-	25, // 49: eolymp.mail.NewsletterService.DescribeRecipient:input_type -> eolymp.mail.DescribeRecipientInput
-	2,  // 50: eolymp.mail.NewsletterService.CreateNewsletter:output_type -> eolymp.mail.CreateNewsletterOutput
-	4,  // 51: eolymp.mail.NewsletterService.UpdateNewsletter:output_type -> eolymp.mail.UpdateNewsletterOutput
-	6,  // 52: eolymp.mail.NewsletterService.DeleteNewsletter:output_type -> eolymp.mail.DeleteNewsletterOutput
-	8,  // 53: eolymp.mail.NewsletterService.DescribeNewsletter:output_type -> eolymp.mail.DescribeNewsletterOutput
-	10, // 54: eolymp.mail.NewsletterService.ListNewsletters:output_type -> eolymp.mail.ListNewslettersOutput
-	12, // 55: eolymp.mail.NewsletterService.TestNewsletter:output_type -> eolymp.mail.TestNewsletterOutput
-	14, // 56: eolymp.mail.NewsletterService.SendNewsletter:output_type -> eolymp.mail.SendNewsletterOutput
-	16, // 57: eolymp.mail.NewsletterService.TranslateNewsletter:output_type -> eolymp.mail.TranslateNewsletterOutput
-	18, // 58: eolymp.mail.NewsletterService.CreateRecipient:output_type -> eolymp.mail.CreateRecipientOutput
-	20, // 59: eolymp.mail.NewsletterService.ImportRecipient:output_type -> eolymp.mail.ImportRecipientOutput
-	22, // 60: eolymp.mail.NewsletterService.DeleteRecipient:output_type -> eolymp.mail.DeleteRecipientOutput
-	24, // 61: eolymp.mail.NewsletterService.ListRecipients:output_type -> eolymp.mail.ListRecipientsOutput
-	26, // 62: eolymp.mail.NewsletterService.DescribeRecipient:output_type -> eolymp.mail.DescribeRecipientOutput
-	50, // [50:63] is the sub-list for method output_type
-	37, // [37:50] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	42, // 31: eolymp.mail.ImportRecipientInput.Filter.active_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	32, // 32: eolymp.mail.ImportRecipientInput.Filter.attribute:type_name -> eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute
+	43, // 33: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
+	44, // 34: eolymp.mail.ImportRecipientInput.Filter.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
+	39, // 35: eolymp.mail.ListRecipientsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	40, // 36: eolymp.mail.ListRecipientsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	39, // 37: eolymp.mail.ListRecipientsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	1,  // 38: eolymp.mail.NewsletterService.CreateNewsletter:input_type -> eolymp.mail.CreateNewsletterInput
+	3,  // 39: eolymp.mail.NewsletterService.UpdateNewsletter:input_type -> eolymp.mail.UpdateNewsletterInput
+	5,  // 40: eolymp.mail.NewsletterService.DeleteNewsletter:input_type -> eolymp.mail.DeleteNewsletterInput
+	7,  // 41: eolymp.mail.NewsletterService.DescribeNewsletter:input_type -> eolymp.mail.DescribeNewsletterInput
+	9,  // 42: eolymp.mail.NewsletterService.ListNewsletters:input_type -> eolymp.mail.ListNewslettersInput
+	11, // 43: eolymp.mail.NewsletterService.TestNewsletter:input_type -> eolymp.mail.TestNewsletterInput
+	13, // 44: eolymp.mail.NewsletterService.SendNewsletter:input_type -> eolymp.mail.SendNewsletterInput
+	15, // 45: eolymp.mail.NewsletterService.TranslateNewsletter:input_type -> eolymp.mail.TranslateNewsletterInput
+	17, // 46: eolymp.mail.NewsletterService.CreateRecipient:input_type -> eolymp.mail.CreateRecipientInput
+	19, // 47: eolymp.mail.NewsletterService.ImportRecipient:input_type -> eolymp.mail.ImportRecipientInput
+	21, // 48: eolymp.mail.NewsletterService.DeleteRecipient:input_type -> eolymp.mail.DeleteRecipientInput
+	23, // 49: eolymp.mail.NewsletterService.ListRecipients:input_type -> eolymp.mail.ListRecipientsInput
+	25, // 50: eolymp.mail.NewsletterService.DescribeRecipient:input_type -> eolymp.mail.DescribeRecipientInput
+	2,  // 51: eolymp.mail.NewsletterService.CreateNewsletter:output_type -> eolymp.mail.CreateNewsletterOutput
+	4,  // 52: eolymp.mail.NewsletterService.UpdateNewsletter:output_type -> eolymp.mail.UpdateNewsletterOutput
+	6,  // 53: eolymp.mail.NewsletterService.DeleteNewsletter:output_type -> eolymp.mail.DeleteNewsletterOutput
+	8,  // 54: eolymp.mail.NewsletterService.DescribeNewsletter:output_type -> eolymp.mail.DescribeNewsletterOutput
+	10, // 55: eolymp.mail.NewsletterService.ListNewsletters:output_type -> eolymp.mail.ListNewslettersOutput
+	12, // 56: eolymp.mail.NewsletterService.TestNewsletter:output_type -> eolymp.mail.TestNewsletterOutput
+	14, // 57: eolymp.mail.NewsletterService.SendNewsletter:output_type -> eolymp.mail.SendNewsletterOutput
+	16, // 58: eolymp.mail.NewsletterService.TranslateNewsletter:output_type -> eolymp.mail.TranslateNewsletterOutput
+	18, // 59: eolymp.mail.NewsletterService.CreateRecipient:output_type -> eolymp.mail.CreateRecipientOutput
+	20, // 60: eolymp.mail.NewsletterService.ImportRecipient:output_type -> eolymp.mail.ImportRecipientOutput
+	22, // 61: eolymp.mail.NewsletterService.DeleteRecipient:output_type -> eolymp.mail.DeleteRecipientOutput
+	24, // 62: eolymp.mail.NewsletterService.ListRecipients:output_type -> eolymp.mail.ListRecipientsOutput
+	26, // 63: eolymp.mail.NewsletterService.DescribeRecipient:output_type -> eolymp.mail.DescribeRecipientOutput
+	51, // [51:64] is the sub-list for method output_type
+	38, // [38:51] is the sub-list for method input_type
+	38, // [38:38] is the sub-list for extension type_name
+	38, // [38:38] is the sub-list for extension extendee
+	0,  // [0:38] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_mail_newsletter_service_proto_init() }
