@@ -475,6 +475,7 @@ type Product_Variant struct {
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProductId         string                 `protobuf:"bytes,4,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Position          int32                  `protobuf:"varint,5,opt,name=position,proto3" json:"position,omitempty"` // order among the variants of a product
 	Values            map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
 	OutOfStock        bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"`                    // read-only, true if the variant is not available for order
@@ -533,6 +534,13 @@ func (x *Product_Variant) GetName() string {
 		return x.Name
 	}
 	return ""
+}
+
+func (x *Product_Variant) GetPosition() int32 {
+	if x != nil {
+		return x.Position
+	}
+	return 0
 }
 
 func (x *Product_Variant) GetValues() map[string]string {
@@ -657,6 +665,7 @@ func (x *Product_Translation) GetAttributes() []*Product_Attribute {
 type Product_Variant_Patch struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Name              *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Position          *int32                 `protobuf:"varint,5,opt,name=position,proto3,oneof" json:"position,omitempty"`
 	Values            map[string]string      `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Images            []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
 	UnsetImages       *bool                  `protobuf:"varint,11,opt,name=unset_images,json=unsetImages,proto3,oneof" json:"unset_images,omitempty"` // clears the images, which an empty list cannot express
@@ -702,6 +711,13 @@ func (x *Product_Variant_Patch) GetName() string {
 	return ""
 }
 
+func (x *Product_Variant_Patch) GetPosition() int32 {
+	if x != nil && x.Position != nil {
+		return *x.Position
+	}
+	return 0
+}
+
 func (x *Product_Variant_Patch) GetValues() map[string]string {
 	if x != nil {
 		return x.Values
@@ -734,7 +750,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xfe\x11\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xc8\x12\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -792,30 +808,33 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"_backorder\x1a3\n" +
 	"\tAttribute\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xa8\x05\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x1a\xf2\x05\n" +
 	"\aVariant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x04 \x01(\tR\tproductId\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12D\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1a\n" +
+	"\bposition\x18\x05 \x01(\x05R\bposition\x12D\n" +
 	"\x06values\x18\x02 \x03(\v2,.eolymp.commerce.Product.Variant.ValuesEntryR\x06values\x12\x16\n" +
 	"\x06images\x18\n" +
 	" \x03(\tR\x06images\x12 \n" +
 	"\fout_of_stock\x18\x1e \x01(\bR\n" +
 	"outOfStock\x12!\n" +
 	"\fmax_quantity\x18\" \x01(\x05R\vmaxQuantity\x12-\n" +
-	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a\xcc\x02\n" +
+	"\x12available_quantity\x18! \x01(\x05R\x11availableQuantity\x1a\xfa\x02\n" +
 	"\x05Patch\x12\x17\n" +
-	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12J\n" +
+	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1f\n" +
+	"\bposition\x18\x05 \x01(\x05H\x01R\bposition\x88\x01\x01\x12J\n" +
 	"\x06values\x18\x02 \x03(\v22.eolymp.commerce.Product.Variant.Patch.ValuesEntryR\x06values\x12\x16\n" +
 	"\x06images\x18\n" +
 	" \x03(\tR\x06images\x12&\n" +
-	"\funset_images\x18\v \x01(\bH\x01R\vunsetImages\x88\x01\x01\x122\n" +
-	"\x12available_quantity\x18! \x01(\x05H\x02R\x11availableQuantity\x88\x01\x01\x1a9\n" +
+	"\funset_images\x18\v \x01(\bH\x02R\vunsetImages\x88\x01\x01\x122\n" +
+	"\x12available_quantity\x18! \x01(\x05H\x03R\x11availableQuantity\x88\x01\x01\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\a\n" +
-	"\x05_nameB\x0f\n" +
+	"\x05_nameB\v\n" +
+	"\t_positionB\x0f\n" +
 	"\r_unset_imagesB\x15\n" +
 	"\x13_available_quantity\x1a9\n" +
 	"\vValuesEntry\x12\x10\n" +
