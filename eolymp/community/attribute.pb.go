@@ -248,7 +248,6 @@ type Attribute struct {
 	Min           int32    `protobuf:"varint,101,opt,name=min,proto3" json:"min,omitempty"`                // min value validation (see field types for details)
 	Max           int32    `protobuf:"varint,102,opt,name=max,proto3" json:"max,omitempty"`                // max value validation (see field types for details)
 	Choices       []string `protobuf:"bytes,103,rep,name=choices,proto3" json:"choices,omitempty"`         // possible choices validation (see field types for details)
-	Country       string   `protobuf:"bytes,104,opt,name=country,proto3" json:"country,omitempty"`         // restrict region selector to a specific country
 	Constraints   []string `protobuf:"bytes,105,rep,name=constraints,proto3" json:"constraints,omitempty"` // additional constraints
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -382,13 +381,6 @@ func (x *Attribute) GetChoices() []string {
 	return nil
 }
 
-func (x *Attribute) GetCountry() string {
-	if x != nil {
-		return x.Country
-	}
-	return ""
-}
-
 func (x *Attribute) GetConstraints() []string {
 	if x != nil {
 		return x.Constraints
@@ -411,7 +403,6 @@ type Attribute_Patch struct {
 	Max              *int32                 `protobuf:"varint,102,opt,name=max,proto3,oneof" json:"max,omitempty"`
 	Choices          []string               `protobuf:"bytes,103,rep,name=choices,proto3" json:"choices,omitempty"`
 	UnsetChoices     *bool                  `protobuf:"varint,106,opt,name=unset_choices,json=unsetChoices,proto3,oneof" json:"unset_choices,omitempty"` // choices carries no presence of its own, so clearing it has to be asked for
-	Country          *string                `protobuf:"bytes,104,opt,name=country,proto3,oneof" json:"country,omitempty"`
 	Constraints      []string               `protobuf:"bytes,105,rep,name=constraints,proto3" json:"constraints,omitempty"`
 	UnsetConstraints *bool                  `protobuf:"varint,107,opt,name=unset_constraints,json=unsetConstraints,proto3,oneof" json:"unset_constraints,omitempty"` // constraints carries no presence of its own, so clearing it has to be asked for
 	unknownFields    protoimpl.UnknownFields
@@ -530,13 +521,6 @@ func (x *Attribute_Patch) GetUnsetChoices() bool {
 		return *x.UnsetChoices
 	}
 	return false
-}
-
-func (x *Attribute_Patch) GetCountry() string {
-	if x != nil && x.Country != nil {
-		return *x.Country
-	}
-	return ""
 }
 
 func (x *Attribute_Patch) GetConstraints() []string {
@@ -725,7 +709,7 @@ var File_eolymp_community_attribute_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/community/attribute.proto\x12\x10eolymp.community\"\xa8\r\n" +
+	" eolymp/community/attribute.proto\x12\x10eolymp.community\"\xe3\f\n" +
 	"\tAttribute\x12\x0e\n" +
 	"\x02id\x18\x04 \x01(\tR\x02id\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -742,9 +726,8 @@ const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\x06regexp\x18d \x01(\tR\x06regexp\x12\x10\n" +
 	"\x03min\x18e \x01(\x05R\x03min\x12\x10\n" +
 	"\x03max\x18f \x01(\x05R\x03max\x12\x18\n" +
-	"\achoices\x18g \x03(\tR\achoices\x12\x18\n" +
-	"\acountry\x18h \x01(\tR\acountry\x12 \n" +
-	"\vconstraints\x18i \x03(\tR\vconstraints\x1a\xc0\x05\n" +
+	"\achoices\x18g \x03(\tR\achoices\x12 \n" +
+	"\vconstraints\x18i \x03(\tR\vconstraints\x1a\x95\x05\n" +
 	"\x05Patch\x12\x19\n" +
 	"\x05label\x18\x02 \x01(\tH\x00R\x05label\x88\x01\x01\x12\x17\n" +
 	"\x04help\x18\x03 \x01(\tH\x01R\x04help\x88\x01\x01\x129\n" +
@@ -760,10 +743,9 @@ const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\x03max\x18f \x01(\x05H\tR\x03max\x88\x01\x01\x12\x18\n" +
 	"\achoices\x18g \x03(\tR\achoices\x12(\n" +
 	"\runset_choices\x18j \x01(\bH\n" +
-	"R\funsetChoices\x88\x01\x01\x12\x1d\n" +
-	"\acountry\x18h \x01(\tH\vR\acountry\x88\x01\x01\x12 \n" +
+	"R\funsetChoices\x88\x01\x01\x12 \n" +
 	"\vconstraints\x18i \x03(\tR\vconstraints\x120\n" +
-	"\x11unset_constraints\x18k \x01(\bH\fR\x10unsetConstraints\x88\x01\x01B\b\n" +
+	"\x11unset_constraints\x18k \x01(\bH\vR\x10unsetConstraints\x88\x01\x01B\b\n" +
 	"\x06_labelB\a\n" +
 	"\x05_helpB\a\n" +
 	"\x05_typeB\b\n" +
@@ -774,9 +756,7 @@ const file_eolymp_community_attribute_proto_rawDesc = "" +
 	"\a_regexpB\x06\n" +
 	"\x04_minB\x06\n" +
 	"\x04_maxB\x10\n" +
-	"\x0e_unset_choicesB\n" +
-	"\n" +
-	"\b_countryB\x14\n" +
+	"\x0e_unset_choicesB\x14\n" +
 	"\x12_unset_constraints\x1ai\n" +
 	"\vDescription\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\x12\x14\n" +
