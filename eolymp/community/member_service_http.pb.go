@@ -231,6 +231,12 @@ func RegisterMemberServiceHttpHandlers(router *mux.Router, prefix string, cli Me
 	router.Handle(prefix+"/usage/members", _MemberService_DescribeMemberUsage_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.community.MemberService.DescribeMemberUsage")
+	router.Handle(prefix+"/members:import", _MemberService_ImportMembers_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.MemberService.ImportMembers")
+	router.Handle(prefix+"/members:export", _MemberService_ExportMembers_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.community.MemberService.ExportMembers")
 }
 
 // RegisterMemberServiceHttpProxy adds proxy handlers for for MemberServiceClient
@@ -462,6 +468,48 @@ func _MemberService_DescribeMemberUsage_Rule0(cli MemberServiceClient) http.Hand
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeMemberUsage(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MemberService_ImportMembers_Rule0(cli MemberServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ImportMembersInput{}
+
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ImportMembers(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_MemberService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _MemberService_ExportMembers_Rule0(cli MemberServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportMembersInput{}
+
+		if err := _MemberService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_MemberService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportMembers(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_MemberService_HTTPWriteErrorResponse(w, err)
 			return

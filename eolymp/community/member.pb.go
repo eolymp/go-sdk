@@ -102,6 +102,7 @@ type Member struct {
 	Level             uint32                 `protobuf:"varint,79,opt,name=level,proto3" json:"level,omitempty"`                                                   // level from 0 (beginner) to 12 (legendary), calculated based on the user's rating
 	Inactive          bool                   `protobuf:"varint,11,opt,name=inactive,proto3" json:"inactive,omitempty"`                                             // member account is inactive
 	Incomplete        bool                   `protobuf:"varint,20,opt,name=incomplete,proto3" json:"incomplete,omitempty"`                                         // member profile (attributes) is missing some information
+	Invited           bool                   `protobuf:"varint,21,opt,name=invited,proto3" json:"invited,omitempty"`                                               // added by an administrator, has not signed in yet
 	Unofficial        bool                   `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                                         // member participates in all competitions unofficially
 	Secret            bool                   `protobuf:"varint,40,opt,name=secret,proto3" json:"secret,omitempty"`                                                 // member is secret and does not appear on anywhere (for example, an admin who performs testing)
 	ActivePeriodStart *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=active_period_start,json=activePeriodStart,proto3" json:"active_period_start,omitempty"` // optional, time when member will become active
@@ -253,6 +254,13 @@ func (x *Member) GetInactive() bool {
 func (x *Member) GetIncomplete() bool {
 	if x != nil {
 		return x.Incomplete
+	}
+	return false
+}
+
+func (x *Member) GetInvited() bool {
+	if x != nil {
+		return x.Invited
 	}
 	return false
 }
@@ -737,7 +745,7 @@ var File_eolymp_community_member_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcb\x12\n" +
+	"\x1deolymp/community/member.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a#eolymp/community/member_ghost.proto\x1a\"eolymp/community/member_team.proto\x1a\"eolymp/community/member_user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xed\x12\n" +
 	"\x06Member\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x03 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -755,7 +763,8 @@ const file_eolymp_community_member_proto_rawDesc = "" +
 	"\binactive\x18\v \x01(\bR\binactive\x12\x1e\n" +
 	"\n" +
 	"incomplete\x18\x14 \x01(\bR\n" +
-	"incomplete\x12\x1e\n" +
+	"incomplete\x12 \n" +
+	"\ainvited\x18\x15 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\ainvited\x12\x1e\n" +
 	"\n" +
 	"unofficial\x18\x1e \x01(\bR\n" +
 	"unofficial\x12\x16\n" +

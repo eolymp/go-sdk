@@ -246,3 +246,25 @@ func (s *MemberServiceService) DescribeMemberUsage(ctx context.Context, in *Desc
 
 	return out, nil
 }
+
+func (s *MemberServiceService) ImportMembers(ctx context.Context, in *ImportMembersInput) (*ImportMembersOutput, error) {
+	out := &ImportMembersOutput{}
+	path := "/members:import"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *MemberServiceService) ExportMembers(ctx context.Context, in *ExportMembersInput) (*ExportMembersOutput, error) {
+	out := &ExportMembersOutput{}
+	path := "/members:export"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

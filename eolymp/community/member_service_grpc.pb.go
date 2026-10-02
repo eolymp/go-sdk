@@ -30,6 +30,8 @@ const (
 	MemberService_CreateMemberLoginLink_FullMethodName  = "/eolymp.community.MemberService/CreateMemberLoginLink"
 	MemberService_DescribeMemberUsage_FullMethodName    = "/eolymp.community.MemberService/DescribeMemberUsage"
 	MemberService_StreamMemberReferences_FullMethodName = "/eolymp.community.MemberService/StreamMemberReferences"
+	MemberService_ImportMembers_FullMethodName          = "/eolymp.community.MemberService/ImportMembers"
+	MemberService_ExportMembers_FullMethodName          = "/eolymp.community.MemberService/ExportMembers"
 )
 
 // MemberServiceClient is the client API for MemberService service.
@@ -112,6 +114,10 @@ type MemberServiceClient interface {
 	// no HTTP binding, so it exists only in the SDKs, and it is reserved for calls made by Eolymp's own
 	// services.
 	StreamMemberReferences(ctx context.Context, in *StreamMemberReferencesInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[StreamMemberReferencesOutput], error)
+	// ImportMembers adds or updates users from a CSV file. Runs as a background task.
+	ImportMembers(ctx context.Context, in *ImportMembersInput, opts ...grpc.CallOption) (*ImportMembersOutput, error)
+	// ExportMembers saves users to a CSV file. Runs as a background task.
+	ExportMembers(ctx context.Context, in *ExportMembersInput, opts ...grpc.CallOption) (*ExportMembersOutput, error)
 }
 
 type memberServiceClient struct {
@@ -241,6 +247,26 @@ func (c *memberServiceClient) StreamMemberReferences(ctx context.Context, in *St
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type MemberService_StreamMemberReferencesClient = grpc.ServerStreamingClient[StreamMemberReferencesOutput]
 
+func (c *memberServiceClient) ImportMembers(ctx context.Context, in *ImportMembersInput, opts ...grpc.CallOption) (*ImportMembersOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ImportMembersOutput)
+	err := c.cc.Invoke(ctx, MemberService_ImportMembers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *memberServiceClient) ExportMembers(ctx context.Context, in *ExportMembersInput, opts ...grpc.CallOption) (*ExportMembersOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExportMembersOutput)
+	err := c.cc.Invoke(ctx, MemberService_ExportMembers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MemberServiceServer is the server API for MemberService service.
 // All implementations should embed UnimplementedMemberServiceServer
 // for forward compatibility.
@@ -321,6 +347,10 @@ type MemberServiceServer interface {
 	// no HTTP binding, so it exists only in the SDKs, and it is reserved for calls made by Eolymp's own
 	// services.
 	StreamMemberReferences(*StreamMemberReferencesInput, grpc.ServerStreamingServer[StreamMemberReferencesOutput]) error
+	// ImportMembers adds or updates users from a CSV file. Runs as a background task.
+	ImportMembers(context.Context, *ImportMembersInput) (*ImportMembersOutput, error)
+	// ExportMembers saves users to a CSV file. Runs as a background task.
+	ExportMembers(context.Context, *ExportMembersInput) (*ExportMembersOutput, error)
 }
 
 // UnimplementedMemberServiceServer should be embedded to have
@@ -362,6 +392,12 @@ func (UnimplementedMemberServiceServer) DescribeMemberUsage(context.Context, *De
 }
 func (UnimplementedMemberServiceServer) StreamMemberReferences(*StreamMemberReferencesInput, grpc.ServerStreamingServer[StreamMemberReferencesOutput]) error {
 	return status.Error(codes.Unimplemented, "method StreamMemberReferences not implemented")
+}
+func (UnimplementedMemberServiceServer) ImportMembers(context.Context, *ImportMembersInput) (*ImportMembersOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ImportMembers not implemented")
+}
+func (UnimplementedMemberServiceServer) ExportMembers(context.Context, *ExportMembersInput) (*ExportMembersOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ExportMembers not implemented")
 }
 func (UnimplementedMemberServiceServer) testEmbeddedByValue() {}
 
@@ -574,6 +610,42 @@ func _MemberService_StreamMemberReferences_Handler(srv interface{}, stream grpc.
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type MemberService_StreamMemberReferencesServer = grpc.ServerStreamingServer[StreamMemberReferencesOutput]
 
+func _MemberService_ImportMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImportMembersInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemberServiceServer).ImportMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemberService_ImportMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemberServiceServer).ImportMembers(ctx, req.(*ImportMembersInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MemberService_ExportMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportMembersInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemberServiceServer).ExportMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemberService_ExportMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemberServiceServer).ExportMembers(ctx, req.(*ExportMembersInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MemberService_ServiceDesc is the grpc.ServiceDesc for MemberService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -620,6 +692,14 @@ var MemberService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeMemberUsage",
 			Handler:    _MemberService_DescribeMemberUsage_Handler,
+		},
+		{
+			MethodName: "ImportMembers",
+			Handler:    _MemberService_ImportMembers_Handler,
+		},
+		{
+			MethodName: "ExportMembers",
+			Handler:    _MemberService_ExportMembers_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

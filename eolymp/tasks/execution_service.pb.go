@@ -100,6 +100,7 @@ type ExecuteTaskOutput struct {
 	//	*ExecuteTaskOutput_Progress_
 	//	*ExecuteTaskOutput_Checkpoint_
 	//	*ExecuteTaskOutput_Record_
+	//	*ExecuteTaskOutput_Output_
 	Message       isExecuteTaskOutput_Message `protobuf_oneof:"message"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -169,6 +170,15 @@ func (x *ExecuteTaskOutput) GetRecord() *ExecuteTaskOutput_Record {
 	return nil
 }
 
+func (x *ExecuteTaskOutput) GetOutput() *ExecuteTaskOutput_Output {
+	if x != nil {
+		if x, ok := x.Message.(*ExecuteTaskOutput_Output_); ok {
+			return x.Output
+		}
+	}
+	return nil
+}
+
 type isExecuteTaskOutput_Message interface {
 	isExecuteTaskOutput_Message()
 }
@@ -185,11 +195,17 @@ type ExecuteTaskOutput_Record_ struct {
 	Record *ExecuteTaskOutput_Record `protobuf:"bytes,3,opt,name=record,proto3,oneof"`
 }
 
+type ExecuteTaskOutput_Output_ struct {
+	Output *ExecuteTaskOutput_Output `protobuf:"bytes,4,opt,name=output,proto3,oneof"`
+}
+
 func (*ExecuteTaskOutput_Progress_) isExecuteTaskOutput_Message() {}
 
 func (*ExecuteTaskOutput_Checkpoint_) isExecuteTaskOutput_Message() {}
 
 func (*ExecuteTaskOutput_Record_) isExecuteTaskOutput_Message() {}
+
+func (*ExecuteTaskOutput_Output_) isExecuteTaskOutput_Message() {}
 
 type ExecuteTaskOutput_Progress struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -341,6 +357,50 @@ func (x *ExecuteTaskOutput_Record) GetLine() string {
 	return ""
 }
 
+type ExecuteTaskOutput_Output struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExecuteTaskOutput_Output) Reset() {
+	*x = ExecuteTaskOutput_Output{}
+	mi := &file_eolymp_tasks_execution_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExecuteTaskOutput_Output) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecuteTaskOutput_Output) ProtoMessage() {}
+
+func (x *ExecuteTaskOutput_Output) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_tasks_execution_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecuteTaskOutput_Output.ProtoReflect.Descriptor instead.
+func (*ExecuteTaskOutput_Output) Descriptor() ([]byte, []int) {
+	return file_eolymp_tasks_execution_service_proto_rawDescGZIP(), []int{1, 3}
+}
+
+func (x *ExecuteTaskOutput_Output) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_eolymp_tasks_execution_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_tasks_execution_service_proto_rawDesc = "" +
@@ -352,13 +412,14 @@ const file_eolymp_tasks_execution_service_proto_rawDesc = "" +
 	"\n" +
 	"checkpoint\x18\x03 \x01(\v2\x14.google.protobuf.AnyR\n" +
 	"checkpoint\x12\x18\n" +
-	"\aattempt\x18\x04 \x01(\rR\aattempt\"\xbd\x03\n" +
+	"\aattempt\x18\x04 \x01(\rR\aattempt\"\x9b\x04\n" +
 	"\x11ExecuteTaskOutput\x12F\n" +
 	"\bprogress\x18\x01 \x01(\v2(.eolymp.tasks.ExecuteTaskOutput.ProgressH\x00R\bprogress\x12L\n" +
 	"\n" +
 	"checkpoint\x18\x02 \x01(\v2*.eolymp.tasks.ExecuteTaskOutput.CheckpointH\x00R\n" +
 	"checkpoint\x12@\n" +
-	"\x06record\x18\x03 \x01(\v2&.eolymp.tasks.ExecuteTaskOutput.RecordH\x00R\x06record\x1ac\n" +
+	"\x06record\x18\x03 \x01(\v2&.eolymp.tasks.ExecuteTaskOutput.RecordH\x00R\x06record\x12@\n" +
+	"\x06output\x18\x04 \x01(\v2&.eolymp.tasks.ExecuteTaskOutput.OutputH\x00R\x06output\x1ac\n" +
 	"\bProgress\x12\x1a\n" +
 	"\bprogress\x18\x01 \x01(\rR\bprogress\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\x12%\n" +
@@ -369,7 +430,9 @@ const file_eolymp_tasks_execution_service_proto_rawDesc = "" +
 	"checkpoint\x18\x01 \x01(\v2\x14.google.protobuf.AnyR\n" +
 	"checkpoint\x1a\x1c\n" +
 	"\x06Record\x12\x12\n" +
-	"\x04line\x18\x01 \x01(\tR\x04lineB\t\n" +
+	"\x04line\x18\x01 \x01(\tR\x04line\x1a\x1a\n" +
+	"\x06Output\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03urlB\t\n" +
 	"\amessage2n\n" +
 	"\x10ExecutionService\x12Z\n" +
 	"\vExecuteTask\x12\x1e.eolymp.tasks.ExecuteTaskInput\x1a\x1f.eolymp.tasks.ExecuteTaskOutput\"\b\xa2\xe3\n" +
@@ -388,29 +451,31 @@ func file_eolymp_tasks_execution_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_tasks_execution_service_proto_rawDescData
 }
 
-var file_eolymp_tasks_execution_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_tasks_execution_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_tasks_execution_service_proto_goTypes = []any{
 	(*ExecuteTaskInput)(nil),             // 0: eolymp.tasks.ExecuteTaskInput
 	(*ExecuteTaskOutput)(nil),            // 1: eolymp.tasks.ExecuteTaskOutput
 	(*ExecuteTaskOutput_Progress)(nil),   // 2: eolymp.tasks.ExecuteTaskOutput.Progress
 	(*ExecuteTaskOutput_Checkpoint)(nil), // 3: eolymp.tasks.ExecuteTaskOutput.Checkpoint
 	(*ExecuteTaskOutput_Record)(nil),     // 4: eolymp.tasks.ExecuteTaskOutput.Record
-	(*anypb.Any)(nil),                    // 5: google.protobuf.Any
+	(*ExecuteTaskOutput_Output)(nil),     // 5: eolymp.tasks.ExecuteTaskOutput.Output
+	(*anypb.Any)(nil),                    // 6: google.protobuf.Any
 }
 var file_eolymp_tasks_execution_service_proto_depIdxs = []int32{
-	5, // 0: eolymp.tasks.ExecuteTaskInput.task:type_name -> google.protobuf.Any
-	5, // 1: eolymp.tasks.ExecuteTaskInput.checkpoint:type_name -> google.protobuf.Any
+	6, // 0: eolymp.tasks.ExecuteTaskInput.task:type_name -> google.protobuf.Any
+	6, // 1: eolymp.tasks.ExecuteTaskInput.checkpoint:type_name -> google.protobuf.Any
 	2, // 2: eolymp.tasks.ExecuteTaskOutput.progress:type_name -> eolymp.tasks.ExecuteTaskOutput.Progress
 	3, // 3: eolymp.tasks.ExecuteTaskOutput.checkpoint:type_name -> eolymp.tasks.ExecuteTaskOutput.Checkpoint
 	4, // 4: eolymp.tasks.ExecuteTaskOutput.record:type_name -> eolymp.tasks.ExecuteTaskOutput.Record
-	5, // 5: eolymp.tasks.ExecuteTaskOutput.Checkpoint.checkpoint:type_name -> google.protobuf.Any
-	0, // 6: eolymp.tasks.ExecutionService.ExecuteTask:input_type -> eolymp.tasks.ExecuteTaskInput
-	1, // 7: eolymp.tasks.ExecutionService.ExecuteTask:output_type -> eolymp.tasks.ExecuteTaskOutput
-	7, // [7:8] is the sub-list for method output_type
-	6, // [6:7] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 5: eolymp.tasks.ExecuteTaskOutput.output:type_name -> eolymp.tasks.ExecuteTaskOutput.Output
+	6, // 6: eolymp.tasks.ExecuteTaskOutput.Checkpoint.checkpoint:type_name -> google.protobuf.Any
+	0, // 7: eolymp.tasks.ExecutionService.ExecuteTask:input_type -> eolymp.tasks.ExecuteTaskInput
+	1, // 8: eolymp.tasks.ExecutionService.ExecuteTask:output_type -> eolymp.tasks.ExecuteTaskOutput
+	8, // [8:9] is the sub-list for method output_type
+	7, // [7:8] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_tasks_execution_service_proto_init() }
@@ -422,6 +487,7 @@ func file_eolymp_tasks_execution_service_proto_init() {
 		(*ExecuteTaskOutput_Progress_)(nil),
 		(*ExecuteTaskOutput_Checkpoint_)(nil),
 		(*ExecuteTaskOutput_Record_)(nil),
+		(*ExecuteTaskOutput_Output_)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -429,7 +495,7 @@ func file_eolymp_tasks_execution_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_tasks_execution_service_proto_rawDesc), len(file_eolymp_tasks_execution_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
