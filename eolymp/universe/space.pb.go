@@ -258,6 +258,7 @@ type Space struct {
 	Affiliation    string                 `protobuf:"bytes,15,opt,name=affiliation,proto3" json:"affiliation,omitempty"`                               // space affiliation label
 	DiscordGuildId string                 `protobuf:"bytes,18,opt,name=discord_guild_id,json=discordGuildId,proto3" json:"discord_guild_id,omitempty"` // discord guild ID
 	Locales        []string               `protobuf:"bytes,19,rep,name=locales,proto3" json:"locales,omitempty"`                                       // available locales
+	PrimaryColor   string                 `protobuf:"bytes,21,opt,name=primary_color,json=primaryColor,proto3" json:"primary_color,omitempty"`         // brand colour as #rrggbb, empty for the default theme
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -425,6 +426,13 @@ func (x *Space) GetLocales() []string {
 	return nil
 }
 
+func (x *Space) GetPrimaryColor() string {
+	if x != nil {
+		return x.PrimaryColor
+	}
+	return ""
+}
+
 type Space_Extra struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -470,6 +478,7 @@ type Space_Patch struct {
 	Affiliation   *string                `protobuf:"bytes,15,opt,name=affiliation,proto3,oneof" json:"affiliation,omitempty"` // requires god mode, empty clears it
 	Locales       []string               `protobuf:"bytes,19,rep,name=locales,proto3" json:"locales,omitempty"`
 	UnsetLocales  *bool                  `protobuf:"varint,20,opt,name=unset_locales,json=unsetLocales,proto3,oneof" json:"unset_locales,omitempty"` // clears the locales, which an empty list cannot express
+	PrimaryColor  *string                `protobuf:"bytes,21,opt,name=primary_color,json=primaryColor,proto3,oneof" json:"primary_color,omitempty"`  // #rrggbb, empty restores the default
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -551,6 +560,13 @@ func (x *Space_Patch) GetUnsetLocales() bool {
 		return *x.UnsetLocales
 	}
 	return false
+}
+
+func (x *Space_Patch) GetPrimaryColor() string {
+	if x != nil && x.PrimaryColor != nil {
+		return *x.PrimaryColor
+	}
+	return ""
 }
 
 type Space_Subscription struct {
@@ -665,7 +681,7 @@ var File_eolymp_universe_space_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9a\x0f\n" +
+	"\x1beolymp/universe/space.proto\x12\x0feolymp.universe\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1beolymp/universe/quota.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfb\x0f\n" +
 	"\x05Space\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x19\n" +
@@ -691,11 +707,12 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"\fsubscription\x18\xa0\x06 \x01(\v2#.eolymp.universe.Space.SubscriptionB\x06\xa8\xf0\xf0\xe4\x01\x01R\fsubscription\x12(\n" +
 	"\vaffiliation\x18\x0f \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vaffiliation\x120\n" +
 	"\x10discord_guild_id\x18\x12 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0ediscordGuildId\x12\x18\n" +
-	"\alocales\x18\x13 \x03(\tR\alocales\x1a5\n" +
+	"\alocales\x18\x13 \x03(\tR\alocales\x12#\n" +
+	"\rprimary_color\x18\x15 \x01(\tR\fprimaryColor\x1a5\n" +
 	"\x05Extra\",\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
-	"\fSUBSCRIPTION\x10\x01\x1a\xd1\x02\n" +
+	"\fSUBSCRIPTION\x10\x01\x1a\x8d\x03\n" +
 	"\x05Patch\x12\x15\n" +
 	"\x03key\x18\x02 \x01(\tH\x00R\x03key\x88\x01\x01\x12\x17\n" +
 	"\x04name\x18\n" +
@@ -706,13 +723,15 @@ const file_eolymp_universe_space_proto_rawDesc = "" +
 	"visibility\x88\x01\x01\x12%\n" +
 	"\vaffiliation\x18\x0f \x01(\tH\x04R\vaffiliation\x88\x01\x01\x12\x18\n" +
 	"\alocales\x18\x13 \x03(\tR\alocales\x12(\n" +
-	"\runset_locales\x18\x14 \x01(\bH\x05R\funsetLocales\x88\x01\x01B\x06\n" +
+	"\runset_locales\x18\x14 \x01(\bH\x05R\funsetLocales\x88\x01\x01\x12(\n" +
+	"\rprimary_color\x18\x15 \x01(\tH\x06R\fprimaryColor\x88\x01\x01B\x06\n" +
 	"\x04_keyB\a\n" +
 	"\x05_nameB\b\n" +
 	"\x06_imageB\r\n" +
 	"\v_visibilityB\x0e\n" +
 	"\f_affiliationB\x10\n" +
-	"\x0e_unset_locales\x1a\xd4\x03\n" +
+	"\x0e_unset_localesB\x10\n" +
+	"\x0e_primary_color\x1a\xd4\x03\n" +
 	"\fSubscription\x12\x12\n" +
 	"\x04plan\x18\x01 \x01(\tR\x04plan\x12\x14\n" +
 	"\x05seats\x18\x02 \x01(\rR\x05seats\x12\x14\n" +
