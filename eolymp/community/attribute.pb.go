@@ -59,6 +59,10 @@ const (
 	//
 	// Validation:
 	//   - required - field must be non-empty
+	//
+	// Constraints:
+	//   - future - date must be in the future
+	//   - past   - date must be in the past
 	Attribute_DATE Attribute_Type = 5
 	// Email.
 	//
@@ -74,27 +78,26 @@ const (
 	//
 	// Validation:
 	//   - required - field must be non-empty
+	//   - choices  - two-letter codes of the allowed countries
 	Attribute_COUNTRY Attribute_Type = 8
-	// Country and Region value.
+	// Region value.
 	//
 	// Validation:
-	//   - required  - field must be non-empty
-	//   - countries - region must belong to a specific country
-	Attribute_REGION Attribute_Type = 9
-	// Country and Region value.
-	//
-	// Validation:
-	//   - required  - field must be non-empty
+	//   - required - field must be non-empty
 	//
 	// Constraints:
-	//   - governance:public
-	//   - governance:private
-	//   - governance:charter
-	//   - level:preschool
-	//   - level:primary
-	//   - level:secondary
-	//   - level:tertiary
+	//   - country:[two-letter] - region must belong to this country, repeat to allow several
+	Attribute_REGION Attribute_Type = 9
+	// Educational institution value.
+	//
+	// Validation:
+	//   - required - field must be non-empty
+	//
+	// Constraints, each repeatable to allow several values:
 	//   - country:[two-letter]
+	//   - governance:public|private|charter
+	//   - level:preschool|primary|secondary|tertiary
+	//   - type:kindergarten|school|lyceum|gymnasium|college|institute|university|academy
 	Attribute_INSTITUTION Attribute_Type = 10
 	// An image as a URL to eolympusercontent.com.
 	//
