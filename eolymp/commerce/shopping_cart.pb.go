@@ -39,11 +39,10 @@ type ShoppingCart struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"`
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
-	CreditAmount          uint32                 `protobuf:"varint,60,opt,name=credit_amount,json=creditAmount,proto3" json:"credit_amount,omitempty"`
-	CreditDiscount        uint32                 `protobuf:"varint,61,opt,name=credit_discount,json=creditDiscount,proto3" json:"credit_discount,omitempty"`
-	PayableAmount         uint32                 `protobuf:"varint,62,opt,name=payable_amount,json=payableAmount,proto3" json:"payable_amount,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	// what one credit is worth in the cart currency, credits are applied to the order at checkout
+	CreditValue   uint32 `protobuf:"varint,63,opt,name=credit_value,json=creditValue,proto3" json:"credit_value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ShoppingCart) Reset() {
@@ -174,23 +173,9 @@ func (x *ShoppingCart) GetGrandTotal() uint32 {
 	return 0
 }
 
-func (x *ShoppingCart) GetCreditAmount() uint32 {
+func (x *ShoppingCart) GetCreditValue() uint32 {
 	if x != nil {
-		return x.CreditAmount
-	}
-	return 0
-}
-
-func (x *ShoppingCart) GetCreditDiscount() uint32 {
-	if x != nil {
-		return x.CreditDiscount
-	}
-	return 0
-}
-
-func (x *ShoppingCart) GetPayableAmount() uint32 {
-	if x != nil {
-		return x.PayableAmount
+		return x.CreditValue
 	}
 	return 0
 }
@@ -291,7 +276,7 @@ var File_eolymp_commerce_shopping_cart_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xa3\a\n" +
+	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xd1\x06\n" +
 	"\fShoppingCart\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\x05items\x18\n" +
@@ -309,10 +294,8 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\btax_rate\x18\x19 \x01(\rR\ataxRate\x12\x19\n" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
-	"grandTotal\x12#\n" +
-	"\rcredit_amount\x18< \x01(\rR\fcreditAmount\x12'\n" +
-	"\x0fcredit_discount\x18= \x01(\rR\x0ecreditDiscount\x12%\n" +
-	"\x0epayable_amount\x18> \x01(\rR\rpayableAmount\x1a\xdd\x01\n" +
+	"grandTotal\x12!\n" +
+	"\fcredit_value\x18? \x01(\rR\vcreditValue\x1a\xdd\x01\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
