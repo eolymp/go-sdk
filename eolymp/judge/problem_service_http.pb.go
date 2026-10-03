@@ -246,6 +246,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/contests/{contest_id}/problems:export", _ProblemService_ExportProblems_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ProblemService.ExportProblems")
+	router.Handle(prefix+"/contests/{contest_id}/editorials:export", _ProblemService_ExportEditorials_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.judge.ProblemService.ExportEditorials")
 }
 
 // RegisterProblemServiceHttpProxy adds proxy handlers for for ProblemServiceClient
@@ -617,6 +620,30 @@ func _ProblemService_ExportProblems_Rule0(cli ProblemServiceClient) http.Handler
 		var header, trailer metadata.MD
 
 		out, err := cli.ExportProblems(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_ExportEditorials_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ExportEditorialsInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ExportEditorials(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return

@@ -1628,6 +1628,110 @@ func (x *ExportProblemsOutput) GetDownloadUrl() string {
 	return ""
 }
 
+type ExportEditorialsInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Problems      []string               `protobuf:"bytes,2,rep,name=problems,proto3" json:"problems,omitempty"` // problem IDs to export; if empty, all problems are exported
+	Locale        string                 `protobuf:"bytes,3,opt,name=locale,proto3" json:"locale,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExportEditorialsInput) Reset() {
+	*x = ExportEditorialsInput{}
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExportEditorialsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExportEditorialsInput) ProtoMessage() {}
+
+func (x *ExportEditorialsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExportEditorialsInput.ProtoReflect.Descriptor instead.
+func (*ExportEditorialsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ExportEditorialsInput) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
+}
+
+func (x *ExportEditorialsInput) GetProblems() []string {
+	if x != nil {
+		return x.Problems
+	}
+	return nil
+}
+
+func (x *ExportEditorialsInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+type ExportEditorialsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DownloadUrl   string                 `protobuf:"bytes,1,opt,name=download_url,json=downloadUrl,proto3" json:"download_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExportEditorialsOutput) Reset() {
+	*x = ExportEditorialsOutput{}
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExportEditorialsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExportEditorialsOutput) ProtoMessage() {}
+
+func (x *ExportEditorialsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_problem_service_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExportEditorialsOutput.ProtoReflect.Descriptor instead.
+func (*ExportEditorialsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_problem_service_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *ExportEditorialsOutput) GetDownloadUrl() string {
+	if x != nil {
+		return x.DownloadUrl
+	}
+	return ""
+}
+
 var File_eolymp_judge_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_service_proto_rawDesc = "" +
@@ -1762,7 +1866,14 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\bproblems\x18\x01 \x03(\tR\bproblems\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"9\n" +
 	"\x14ExportProblemsOutput\x12!\n" +
-	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\xda\x17\n" +
+	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl\"j\n" +
+	"\x15ExportEditorialsInput\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1a\n" +
+	"\bproblems\x18\x02 \x03(\tR\bproblems\x12\x16\n" +
+	"\x06locale\x18\x03 \x01(\tR\x06locale\";\n" +
+	"\x16ExportEditorialsOutput\x12!\n" +
+	"\fdownload_url\x18\x01 \x01(\tR\vdownloadUrl2\x9d\x19\n" +
 	"\x0eProblemService\x12\xaf\x01\n" +
 	"\rImportProblem\x12 .eolymp.judge.ImportProblemInput\x1a!.eolymp.judge.ImportProblemOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1884,7 +1995,16 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02(\"&/contests/{contest_id}/problems:export\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02(\"&/contests/{contest_id}/problems:export\x12\xc0\x01\n" +
+	"\x10ExportEditorials\x12#.eolymp.judge.ExportEditorialsInput\x1a$.eolymp.judge.ExportEditorialsOutput\"a\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\n" +
+	"\xd7#>\xf8\xe2\n" +
+	"\x05\x82\xe3\n" +
+	"\x16\x8a\xe3\n" +
+	"\x12judge:contest:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02*\"(/contests/{contest_id}/editorials:export\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB-Z+github.com/eolymp/go-sdk/eolymp/judge;judgeb\x06proto3"
 
 var (
 	file_eolymp_judge_problem_service_proto_rawDescOnce sync.Once
@@ -1898,7 +2018,7 @@ func file_eolymp_judge_problem_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_problem_service_proto_rawDescData
 }
 
-var file_eolymp_judge_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_eolymp_judge_problem_service_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_eolymp_judge_problem_service_proto_goTypes = []any{
 	(*ImportProblemInput)(nil),         // 0: eolymp.judge.ImportProblemInput
 	(*ImportProblemOutput)(nil),        // 1: eolymp.judge.ImportProblemOutput
@@ -1930,35 +2050,37 @@ var file_eolymp_judge_problem_service_proto_goTypes = []any{
 	(*ListRuntimesOutput)(nil),         // 27: eolymp.judge.ListRuntimesOutput
 	(*ExportProblemsInput)(nil),        // 28: eolymp.judge.ExportProblemsInput
 	(*ExportProblemsOutput)(nil),       // 29: eolymp.judge.ExportProblemsOutput
-	(*Problem_Patch)(nil),              // 30: eolymp.judge.Problem.Patch
-	(atlas.Problem_Extra_Field)(0),     // 31: eolymp.atlas.Problem.Extra.Field
-	(*Problem)(nil),                    // 32: eolymp.judge.Problem
-	(*Template)(nil),                   // 33: eolymp.judge.Template
-	(*Problem_Statement)(nil),          // 34: eolymp.judge.Problem.Statement
-	(*atlas.Question)(nil),             // 35: eolymp.atlas.Question
-	(*atlas.Widget)(nil),               // 36: eolymp.atlas.Widget
-	(atlas.Editorial_Extra_Field)(0),   // 37: eolymp.atlas.Editorial.Extra.Field
-	(*atlas.Editorial)(nil),            // 38: eolymp.atlas.Editorial
-	(*Problem_Attachment)(nil),         // 39: eolymp.judge.Problem.Attachment
-	(*Problem_Test)(nil),               // 40: eolymp.judge.Problem.Test
-	(*runtime.Runtime)(nil),            // 41: eolymp.runtime.Runtime
+	(*ExportEditorialsInput)(nil),      // 30: eolymp.judge.ExportEditorialsInput
+	(*ExportEditorialsOutput)(nil),     // 31: eolymp.judge.ExportEditorialsOutput
+	(*Problem_Patch)(nil),              // 32: eolymp.judge.Problem.Patch
+	(atlas.Problem_Extra_Field)(0),     // 33: eolymp.atlas.Problem.Extra.Field
+	(*Problem)(nil),                    // 34: eolymp.judge.Problem
+	(*Template)(nil),                   // 35: eolymp.judge.Template
+	(*Problem_Statement)(nil),          // 36: eolymp.judge.Problem.Statement
+	(*atlas.Question)(nil),             // 37: eolymp.atlas.Question
+	(*atlas.Widget)(nil),               // 38: eolymp.atlas.Widget
+	(atlas.Editorial_Extra_Field)(0),   // 39: eolymp.atlas.Editorial.Extra.Field
+	(*atlas.Editorial)(nil),            // 40: eolymp.atlas.Editorial
+	(*Problem_Attachment)(nil),         // 41: eolymp.judge.Problem.Attachment
+	(*Problem_Test)(nil),               // 42: eolymp.judge.Problem.Test
+	(*runtime.Runtime)(nil),            // 43: eolymp.runtime.Runtime
 }
 var file_eolymp_judge_problem_service_proto_depIdxs = []int32{
-	30, // 0: eolymp.judge.UpdateProblemInput.problem:type_name -> eolymp.judge.Problem.Patch
-	31, // 1: eolymp.judge.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	32, // 2: eolymp.judge.ListProblemsOutput.items:type_name -> eolymp.judge.Problem
-	31, // 3: eolymp.judge.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
-	32, // 4: eolymp.judge.DescribeProblemOutput.problem:type_name -> eolymp.judge.Problem
-	33, // 5: eolymp.judge.DescribeCodeTemplateOutput.template:type_name -> eolymp.judge.Template
-	33, // 6: eolymp.judge.LookupCodeTemplateOutput.template:type_name -> eolymp.judge.Template
-	34, // 7: eolymp.judge.ListStatementsOutput.items:type_name -> eolymp.judge.Problem.Statement
-	35, // 8: eolymp.judge.ListQuestionsOutput.items:type_name -> eolymp.atlas.Question
-	36, // 9: eolymp.judge.DescribeWidgetOutput.widget:type_name -> eolymp.atlas.Widget
-	37, // 10: eolymp.judge.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
-	38, // 11: eolymp.judge.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	39, // 12: eolymp.judge.ListAttachmentsOutput.items:type_name -> eolymp.judge.Problem.Attachment
-	40, // 13: eolymp.judge.ListExamplesOutput.items:type_name -> eolymp.judge.Problem.Test
-	41, // 14: eolymp.judge.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
+	32, // 0: eolymp.judge.UpdateProblemInput.problem:type_name -> eolymp.judge.Problem.Patch
+	33, // 1: eolymp.judge.ListProblemsInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	34, // 2: eolymp.judge.ListProblemsOutput.items:type_name -> eolymp.judge.Problem
+	33, // 3: eolymp.judge.DescribeProblemInput.extra:type_name -> eolymp.atlas.Problem.Extra.Field
+	34, // 4: eolymp.judge.DescribeProblemOutput.problem:type_name -> eolymp.judge.Problem
+	35, // 5: eolymp.judge.DescribeCodeTemplateOutput.template:type_name -> eolymp.judge.Template
+	35, // 6: eolymp.judge.LookupCodeTemplateOutput.template:type_name -> eolymp.judge.Template
+	36, // 7: eolymp.judge.ListStatementsOutput.items:type_name -> eolymp.judge.Problem.Statement
+	37, // 8: eolymp.judge.ListQuestionsOutput.items:type_name -> eolymp.atlas.Question
+	38, // 9: eolymp.judge.DescribeWidgetOutput.widget:type_name -> eolymp.atlas.Widget
+	39, // 10: eolymp.judge.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
+	40, // 11: eolymp.judge.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
+	41, // 12: eolymp.judge.ListAttachmentsOutput.items:type_name -> eolymp.judge.Problem.Attachment
+	42, // 13: eolymp.judge.ListExamplesOutput.items:type_name -> eolymp.judge.Problem.Test
+	43, // 14: eolymp.judge.ListRuntimesOutput.items:type_name -> eolymp.runtime.Runtime
 	0,  // 15: eolymp.judge.ProblemService.ImportProblem:input_type -> eolymp.judge.ImportProblemInput
 	2,  // 16: eolymp.judge.ProblemService.UpdateProblem:input_type -> eolymp.judge.UpdateProblemInput
 	6,  // 17: eolymp.judge.ProblemService.ListProblems:input_type -> eolymp.judge.ListProblemsInput
@@ -1974,23 +2096,25 @@ var file_eolymp_judge_problem_service_proto_depIdxs = []int32{
 	24, // 27: eolymp.judge.ProblemService.ListExamples:input_type -> eolymp.judge.ListExamplesInput
 	26, // 28: eolymp.judge.ProblemService.ListRuntimes:input_type -> eolymp.judge.ListRuntimesInput
 	28, // 29: eolymp.judge.ProblemService.ExportProblems:input_type -> eolymp.judge.ExportProblemsInput
-	1,  // 30: eolymp.judge.ProblemService.ImportProblem:output_type -> eolymp.judge.ImportProblemOutput
-	3,  // 31: eolymp.judge.ProblemService.UpdateProblem:output_type -> eolymp.judge.UpdateProblemOutput
-	7,  // 32: eolymp.judge.ProblemService.ListProblems:output_type -> eolymp.judge.ListProblemsOutput
-	9,  // 33: eolymp.judge.ProblemService.DescribeProblem:output_type -> eolymp.judge.DescribeProblemOutput
-	5,  // 34: eolymp.judge.ProblemService.DeleteProblem:output_type -> eolymp.judge.DeleteProblemOutput
-	13, // 35: eolymp.judge.ProblemService.LookupCodeTemplate:output_type -> eolymp.judge.LookupCodeTemplateOutput
-	11, // 36: eolymp.judge.ProblemService.DescribeCodeTemplate:output_type -> eolymp.judge.DescribeCodeTemplateOutput
-	15, // 37: eolymp.judge.ProblemService.ListStatements:output_type -> eolymp.judge.ListStatementsOutput
-	17, // 38: eolymp.judge.ProblemService.ListQuestions:output_type -> eolymp.judge.ListQuestionsOutput
-	19, // 39: eolymp.judge.ProblemService.DescribeWidget:output_type -> eolymp.judge.DescribeWidgetOutput
-	21, // 40: eolymp.judge.ProblemService.DescribeEditorial:output_type -> eolymp.judge.DescribeEditorialOutput
-	23, // 41: eolymp.judge.ProblemService.ListAttachments:output_type -> eolymp.judge.ListAttachmentsOutput
-	25, // 42: eolymp.judge.ProblemService.ListExamples:output_type -> eolymp.judge.ListExamplesOutput
-	27, // 43: eolymp.judge.ProblemService.ListRuntimes:output_type -> eolymp.judge.ListRuntimesOutput
-	29, // 44: eolymp.judge.ProblemService.ExportProblems:output_type -> eolymp.judge.ExportProblemsOutput
-	30, // [30:45] is the sub-list for method output_type
-	15, // [15:30] is the sub-list for method input_type
+	30, // 30: eolymp.judge.ProblemService.ExportEditorials:input_type -> eolymp.judge.ExportEditorialsInput
+	1,  // 31: eolymp.judge.ProblemService.ImportProblem:output_type -> eolymp.judge.ImportProblemOutput
+	3,  // 32: eolymp.judge.ProblemService.UpdateProblem:output_type -> eolymp.judge.UpdateProblemOutput
+	7,  // 33: eolymp.judge.ProblemService.ListProblems:output_type -> eolymp.judge.ListProblemsOutput
+	9,  // 34: eolymp.judge.ProblemService.DescribeProblem:output_type -> eolymp.judge.DescribeProblemOutput
+	5,  // 35: eolymp.judge.ProblemService.DeleteProblem:output_type -> eolymp.judge.DeleteProblemOutput
+	13, // 36: eolymp.judge.ProblemService.LookupCodeTemplate:output_type -> eolymp.judge.LookupCodeTemplateOutput
+	11, // 37: eolymp.judge.ProblemService.DescribeCodeTemplate:output_type -> eolymp.judge.DescribeCodeTemplateOutput
+	15, // 38: eolymp.judge.ProblemService.ListStatements:output_type -> eolymp.judge.ListStatementsOutput
+	17, // 39: eolymp.judge.ProblemService.ListQuestions:output_type -> eolymp.judge.ListQuestionsOutput
+	19, // 40: eolymp.judge.ProblemService.DescribeWidget:output_type -> eolymp.judge.DescribeWidgetOutput
+	21, // 41: eolymp.judge.ProblemService.DescribeEditorial:output_type -> eolymp.judge.DescribeEditorialOutput
+	23, // 42: eolymp.judge.ProblemService.ListAttachments:output_type -> eolymp.judge.ListAttachmentsOutput
+	25, // 43: eolymp.judge.ProblemService.ListExamples:output_type -> eolymp.judge.ListExamplesOutput
+	27, // 44: eolymp.judge.ProblemService.ListRuntimes:output_type -> eolymp.judge.ListRuntimesOutput
+	29, // 45: eolymp.judge.ProblemService.ExportProblems:output_type -> eolymp.judge.ExportProblemsOutput
+	31, // 46: eolymp.judge.ProblemService.ExportEditorials:output_type -> eolymp.judge.ExportEditorialsOutput
+	31, // [31:47] is the sub-list for method output_type
+	15, // [15:31] is the sub-list for method input_type
 	15, // [15:15] is the sub-list for extension type_name
 	15, // [15:15] is the sub-list for extension extendee
 	0,  // [0:15] is the sub-list for field type_name
@@ -2009,7 +2133,7 @@ func file_eolymp_judge_problem_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_problem_service_proto_rawDesc), len(file_eolymp_judge_problem_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

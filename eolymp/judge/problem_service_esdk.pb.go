@@ -352,3 +352,19 @@ func (s *ProblemServiceService) ExportProblems(ctx context.Context, in *ExportPr
 
 	return out, nil
 }
+
+func (s *ProblemServiceService) ExportEditorials(ctx context.Context, in *ExportEditorialsInput) (*ExportEditorialsOutput, error) {
+	out := &ExportEditorialsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/editorials:export"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

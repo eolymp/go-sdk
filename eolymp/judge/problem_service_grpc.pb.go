@@ -34,6 +34,7 @@ const (
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
 	ProblemService_ListRuntimes_FullMethodName         = "/eolymp.judge.ProblemService/ListRuntimes"
 	ProblemService_ExportProblems_FullMethodName       = "/eolymp.judge.ProblemService/ExportProblems"
+	ProblemService_ExportEditorials_FullMethodName     = "/eolymp.judge.ProblemService/ExportEditorials"
 )
 
 // ProblemServiceClient is the client API for ProblemService service.
@@ -118,6 +119,14 @@ type ProblemServiceClient interface {
 	// are left out. Rendering is slow and tightly rate-limited, so keep the returned URL instead of
 	// exporting again.
 	ExportProblems(ctx context.Context, in *ExportProblemsInput, opts ...grpc.CallOption) (*ExportProblemsOutput, error)
+	// ExportEditorials renders the contest's problem editorials into a single printable PDF booklet and
+	// returns a link to download it rather than the document itself. Editorials are taken in contest order
+	// and in one locale, the space's primary one unless another is requested, and a problem with no
+	// editorial in that locale is left out of the booklet. Access follows the same rule as
+	// DescribeEditorial: an organiser may export at any time, while a participant may only once their
+	// participation is over and the contest is configured to display editorials. Rendering is slow and
+	// tightly rate-limited, so keep the returned URL instead of exporting again.
+	ExportEditorials(ctx context.Context, in *ExportEditorialsInput, opts ...grpc.CallOption) (*ExportEditorialsOutput, error)
 }
 
 type problemServiceClient struct {
@@ -278,6 +287,16 @@ func (c *problemServiceClient) ExportProblems(ctx context.Context, in *ExportPro
 	return out, nil
 }
 
+func (c *problemServiceClient) ExportEditorials(ctx context.Context, in *ExportEditorialsInput, opts ...grpc.CallOption) (*ExportEditorialsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExportEditorialsOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ExportEditorials_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProblemServiceServer is the server API for ProblemService service.
 // All implementations should embed UnimplementedProblemServiceServer
 // for forward compatibility.
@@ -360,6 +379,14 @@ type ProblemServiceServer interface {
 	// are left out. Rendering is slow and tightly rate-limited, so keep the returned URL instead of
 	// exporting again.
 	ExportProblems(context.Context, *ExportProblemsInput) (*ExportProblemsOutput, error)
+	// ExportEditorials renders the contest's problem editorials into a single printable PDF booklet and
+	// returns a link to download it rather than the document itself. Editorials are taken in contest order
+	// and in one locale, the space's primary one unless another is requested, and a problem with no
+	// editorial in that locale is left out of the booklet. Access follows the same rule as
+	// DescribeEditorial: an organiser may export at any time, while a participant may only once their
+	// participation is over and the contest is configured to display editorials. Rendering is slow and
+	// tightly rate-limited, so keep the returned URL instead of exporting again.
+	ExportEditorials(context.Context, *ExportEditorialsInput) (*ExportEditorialsOutput, error)
 }
 
 // UnimplementedProblemServiceServer should be embedded to have
@@ -413,6 +440,9 @@ func (UnimplementedProblemServiceServer) ListRuntimes(context.Context, *ListRunt
 }
 func (UnimplementedProblemServiceServer) ExportProblems(context.Context, *ExportProblemsInput) (*ExportProblemsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExportProblems not implemented")
+}
+func (UnimplementedProblemServiceServer) ExportEditorials(context.Context, *ExportEditorialsInput) (*ExportEditorialsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ExportEditorials not implemented")
 }
 func (UnimplementedProblemServiceServer) testEmbeddedByValue() {}
 
@@ -704,6 +734,24 @@ func _ProblemService_ExportProblems_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ExportEditorials_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportEditorialsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ExportEditorials(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ExportEditorials_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ExportEditorials(ctx, req.(*ExportEditorialsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProblemService_ServiceDesc is the grpc.ServiceDesc for ProblemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -770,6 +818,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExportProblems",
 			Handler:    _ProblemService_ExportProblems_Handler,
+		},
+		{
+			MethodName: "ExportEditorials",
+			Handler:    _ProblemService_ExportEditorials_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
