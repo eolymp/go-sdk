@@ -703,9 +703,12 @@ func (x *ListShippingMethodsOutput) GetItems() []*ShippingMethod {
 }
 
 type PlaceOrderInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// where the order ships and how, applied to the cart before it is placed; the cart keeps what it has when these are unset
+	ShippingAddress  *Address `protobuf:"bytes,1,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
+	ShippingMethodId *string  `protobuf:"bytes,2,opt,name=shipping_method_id,json=shippingMethodId,proto3,oneof" json:"shipping_method_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *PlaceOrderInput) Reset() {
@@ -736,6 +739,20 @@ func (x *PlaceOrderInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use PlaceOrderInput.ProtoReflect.Descriptor instead.
 func (*PlaceOrderInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *PlaceOrderInput) GetShippingAddress() *Address {
+	if x != nil {
+		return x.ShippingAddress
+	}
+	return nil
+}
+
+func (x *PlaceOrderInput) GetShippingMethodId() string {
+	if x != nil && x.ShippingMethodId != nil {
+		return *x.ShippingMethodId
+	}
+	return ""
 }
 
 type PlaceOrderOutput struct {
@@ -833,8 +850,11 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x1aUpdateShippingMethodOutput\"\x1a\n" +
 	"\x18ListShippingMethodsInput\"R\n" +
 	"\x19ListShippingMethodsOutput\x125\n" +
-	"\x05items\x18\x01 \x03(\v2\x1f.eolymp.commerce.ShippingMethodR\x05items\"\x11\n" +
-	"\x0fPlaceOrderInput\"s\n" +
+	"\x05items\x18\x01 \x03(\v2\x1f.eolymp.commerce.ShippingMethodR\x05items\"\xa0\x01\n" +
+	"\x0fPlaceOrderInput\x12C\n" +
+	"\x10shipping_address\x18\x01 \x01(\v2\x18.eolymp.commerce.AddressR\x0fshippingAddress\x121\n" +
+	"\x12shipping_method_id\x18\x02 \x01(\tH\x00R\x10shippingMethodId\x88\x01\x01B\x15\n" +
+	"\x13_shipping_method_id\"s\n" +
 	"\x10PlaceOrderOutput\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12!\n" +
 	"\forder_number\x18\x02 \x01(\tR\vorderNumber\x12!\n" +
@@ -945,29 +965,30 @@ var file_eolymp_commerce_shopping_service_proto_depIdxs = []int32{
 	19, // 1: eolymp.commerce.UpdateShippingAddressInput.address:type_name -> eolymp.commerce.Address
 	19, // 2: eolymp.commerce.UpdateBillingAddressInput.address:type_name -> eolymp.commerce.Address
 	20, // 3: eolymp.commerce.ListShippingMethodsOutput.items:type_name -> eolymp.commerce.ShippingMethod
-	0,  // 4: eolymp.commerce.ShoppingService.DescribeShoppingCart:input_type -> eolymp.commerce.DescribeShoppingCartInput
-	2,  // 5: eolymp.commerce.ShoppingService.CreateShoppingCartItem:input_type -> eolymp.commerce.CreateShoppingCartItemInput
-	4,  // 6: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:input_type -> eolymp.commerce.UpdateShoppingCartItemInput
-	6,  // 7: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:input_type -> eolymp.commerce.DeleteShoppingCartItemInput
-	8,  // 8: eolymp.commerce.ShoppingService.UpdateShippingAddress:input_type -> eolymp.commerce.UpdateShippingAddressInput
-	10, // 9: eolymp.commerce.ShoppingService.UpdateBillingAddress:input_type -> eolymp.commerce.UpdateBillingAddressInput
-	12, // 10: eolymp.commerce.ShoppingService.UpdateShippingMethod:input_type -> eolymp.commerce.UpdateShippingMethodInput
-	14, // 11: eolymp.commerce.ShoppingService.ListShippingMethods:input_type -> eolymp.commerce.ListShippingMethodsInput
-	16, // 12: eolymp.commerce.ShoppingService.PlaceOrder:input_type -> eolymp.commerce.PlaceOrderInput
-	1,  // 13: eolymp.commerce.ShoppingService.DescribeShoppingCart:output_type -> eolymp.commerce.DescribeShoppingCartOutput
-	3,  // 14: eolymp.commerce.ShoppingService.CreateShoppingCartItem:output_type -> eolymp.commerce.CreateShoppingCartItemOutput
-	5,  // 15: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:output_type -> eolymp.commerce.UpdateShoppingCartItemOutput
-	7,  // 16: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:output_type -> eolymp.commerce.DeleteShoppingCartItemOutput
-	9,  // 17: eolymp.commerce.ShoppingService.UpdateShippingAddress:output_type -> eolymp.commerce.UpdateShippingAddressOutput
-	11, // 18: eolymp.commerce.ShoppingService.UpdateBillingAddress:output_type -> eolymp.commerce.UpdateBillingAddressOutput
-	13, // 19: eolymp.commerce.ShoppingService.UpdateShippingMethod:output_type -> eolymp.commerce.UpdateShippingMethodOutput
-	15, // 20: eolymp.commerce.ShoppingService.ListShippingMethods:output_type -> eolymp.commerce.ListShippingMethodsOutput
-	17, // 21: eolymp.commerce.ShoppingService.PlaceOrder:output_type -> eolymp.commerce.PlaceOrderOutput
-	13, // [13:22] is the sub-list for method output_type
-	4,  // [4:13] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	19, // 4: eolymp.commerce.PlaceOrderInput.shipping_address:type_name -> eolymp.commerce.Address
+	0,  // 5: eolymp.commerce.ShoppingService.DescribeShoppingCart:input_type -> eolymp.commerce.DescribeShoppingCartInput
+	2,  // 6: eolymp.commerce.ShoppingService.CreateShoppingCartItem:input_type -> eolymp.commerce.CreateShoppingCartItemInput
+	4,  // 7: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:input_type -> eolymp.commerce.UpdateShoppingCartItemInput
+	6,  // 8: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:input_type -> eolymp.commerce.DeleteShoppingCartItemInput
+	8,  // 9: eolymp.commerce.ShoppingService.UpdateShippingAddress:input_type -> eolymp.commerce.UpdateShippingAddressInput
+	10, // 10: eolymp.commerce.ShoppingService.UpdateBillingAddress:input_type -> eolymp.commerce.UpdateBillingAddressInput
+	12, // 11: eolymp.commerce.ShoppingService.UpdateShippingMethod:input_type -> eolymp.commerce.UpdateShippingMethodInput
+	14, // 12: eolymp.commerce.ShoppingService.ListShippingMethods:input_type -> eolymp.commerce.ListShippingMethodsInput
+	16, // 13: eolymp.commerce.ShoppingService.PlaceOrder:input_type -> eolymp.commerce.PlaceOrderInput
+	1,  // 14: eolymp.commerce.ShoppingService.DescribeShoppingCart:output_type -> eolymp.commerce.DescribeShoppingCartOutput
+	3,  // 15: eolymp.commerce.ShoppingService.CreateShoppingCartItem:output_type -> eolymp.commerce.CreateShoppingCartItemOutput
+	5,  // 16: eolymp.commerce.ShoppingService.UpdateShoppingCartItem:output_type -> eolymp.commerce.UpdateShoppingCartItemOutput
+	7,  // 17: eolymp.commerce.ShoppingService.DeleteShoppingCartItem:output_type -> eolymp.commerce.DeleteShoppingCartItemOutput
+	9,  // 18: eolymp.commerce.ShoppingService.UpdateShippingAddress:output_type -> eolymp.commerce.UpdateShippingAddressOutput
+	11, // 19: eolymp.commerce.ShoppingService.UpdateBillingAddress:output_type -> eolymp.commerce.UpdateBillingAddressOutput
+	13, // 20: eolymp.commerce.ShoppingService.UpdateShippingMethod:output_type -> eolymp.commerce.UpdateShippingMethodOutput
+	15, // 21: eolymp.commerce.ShoppingService.ListShippingMethods:output_type -> eolymp.commerce.ListShippingMethodsOutput
+	17, // 22: eolymp.commerce.ShoppingService.PlaceOrder:output_type -> eolymp.commerce.PlaceOrderOutput
+	14, // [14:23] is the sub-list for method output_type
+	5,  // [5:14] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_commerce_shopping_service_proto_init() }
@@ -978,6 +999,7 @@ func file_eolymp_commerce_shopping_service_proto_init() {
 	file_eolymp_commerce_address_proto_init()
 	file_eolymp_commerce_shipping_method_proto_init()
 	file_eolymp_commerce_shopping_cart_proto_init()
+	file_eolymp_commerce_shopping_service_proto_msgTypes[16].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
