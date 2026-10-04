@@ -39,10 +39,14 @@ type ShoppingCart struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"`
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
-	// what one credit is worth in the cart currency, credits are applied to the order at checkout
-	CreditValue   uint32 `protobuf:"varint,63,opt,name=credit_value,json=creditValue,proto3" json:"credit_value,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// what one credit is worth in the cart currency
+	CreditValue uint32 `protobuf:"varint,63,opt,name=credit_value,json=creditValue,proto3" json:"credit_value,omitempty"`
+	// how the cart is paid for: credits the member has and will spend, what they take off, and what is left to pay
+	CreditAmount   uint32 `protobuf:"varint,60,opt,name=credit_amount,json=creditAmount,proto3" json:"credit_amount,omitempty"`
+	CreditDiscount uint32 `protobuf:"varint,61,opt,name=credit_discount,json=creditDiscount,proto3" json:"credit_discount,omitempty"`
+	PayableAmount  uint32 `protobuf:"varint,62,opt,name=payable_amount,json=payableAmount,proto3" json:"payable_amount,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ShoppingCart) Reset() {
@@ -180,6 +184,27 @@ func (x *ShoppingCart) GetCreditValue() uint32 {
 	return 0
 }
 
+func (x *ShoppingCart) GetCreditAmount() uint32 {
+	if x != nil {
+		return x.CreditAmount
+	}
+	return 0
+}
+
+func (x *ShoppingCart) GetCreditDiscount() uint32 {
+	if x != nil {
+		return x.CreditDiscount
+	}
+	return 0
+}
+
+func (x *ShoppingCart) GetPayableAmount() uint32 {
+	if x != nil {
+		return x.PayableAmount
+	}
+	return 0
+}
+
 type ShoppingCart_Item struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -276,7 +301,7 @@ var File_eolymp_commerce_shopping_cart_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xd1\x06\n" +
+	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xc6\a\n" +
 	"\fShoppingCart\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\x05items\x18\n" +
@@ -295,7 +320,10 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
 	"grandTotal\x12!\n" +
-	"\fcredit_value\x18? \x01(\rR\vcreditValue\x1a\xdd\x01\n" +
+	"\fcredit_value\x18? \x01(\rR\vcreditValue\x12#\n" +
+	"\rcredit_amount\x18< \x01(\rR\fcreditAmount\x12'\n" +
+	"\x0fcredit_discount\x18= \x01(\rR\x0ecreditDiscount\x12%\n" +
+	"\x0epayable_amount\x18> \x01(\rR\rpayableAmount\x1a\xdd\x01\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
