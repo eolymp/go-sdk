@@ -27,8 +27,6 @@ type RequestDataProcessingAgreementInput struct {
 	OrganizationName    string                 `protobuf:"bytes,1,opt,name=organization_name,json=organizationName,proto3" json:"organization_name,omitempty"`
 	OrganizationAddress string                 `protobuf:"bytes,2,opt,name=organization_address,json=organizationAddress,proto3" json:"organization_address,omitempty"`
 	OrganizationTaxId   string                 `protobuf:"bytes,3,opt,name=organization_tax_id,json=organizationTaxId,proto3" json:"organization_tax_id,omitempty"`
-	SignerName          string                 `protobuf:"bytes,4,opt,name=signer_name,json=signerName,proto3" json:"signer_name,omitempty"`
-	SignerEmail         string                 `protobuf:"bytes,5,opt,name=signer_email,json=signerEmail,proto3" json:"signer_email,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -84,20 +82,6 @@ func (x *RequestDataProcessingAgreementInput) GetOrganizationTaxId() string {
 	return ""
 }
 
-func (x *RequestDataProcessingAgreementInput) GetSignerName() string {
-	if x != nil {
-		return x.SignerName
-	}
-	return ""
-}
-
-func (x *RequestDataProcessingAgreementInput) GetSignerEmail() string {
-	if x != nil {
-		return x.SignerEmail
-	}
-	return ""
-}
-
 type RequestDataProcessingAgreementOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -138,14 +122,11 @@ var File_eolymp_universe_agreement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_agreement_service_proto_rawDesc = "" +
 	"\n" +
-	"'eolymp/universe/agreement_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\xf9\x01\n" +
+	"'eolymp/universe/agreement_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\"\xb5\x01\n" +
 	"#RequestDataProcessingAgreementInput\x12+\n" +
 	"\x11organization_name\x18\x01 \x01(\tR\x10organizationName\x121\n" +
 	"\x14organization_address\x18\x02 \x01(\tR\x13organizationAddress\x12.\n" +
-	"\x13organization_tax_id\x18\x03 \x01(\tR\x11organizationTaxId\x12\x1f\n" +
-	"\vsigner_name\x18\x04 \x01(\tR\n" +
-	"signerName\x12!\n" +
-	"\fsigner_email\x18\x05 \x01(\tR\vsignerEmail\"&\n" +
+	"\x13organization_tax_id\x18\x03 \x01(\tR\x11organizationTaxId\"&\n" +
 	"$RequestDataProcessingAgreementOutput2\x8b\x02\n" +
 	"\x10AgreementService\x12\xd9\x01\n" +
 	"\x1eRequestDataProcessingAgreement\x124.eolymp.universe.RequestDataProcessingAgreementInput\x1a5.eolymp.universe.RequestDataProcessingAgreementOutput\"J\xea\xe2\n" +
