@@ -39,8 +39,10 @@ type ShoppingCart struct {
 	TaxRate               uint32                 `protobuf:"varint,25,opt,name=tax_rate,json=taxRate,proto3" json:"tax_rate,omitempty"`
 	TaxNote               string                 `protobuf:"bytes,26,opt,name=tax_note,json=taxNote,proto3" json:"tax_note,omitempty"`
 	GrandTotal            uint32                 `protobuf:"varint,30,opt,name=grand_total,json=grandTotal,proto3" json:"grand_total,omitempty"`
-	// what one credit is worth in the cart currency
+	// what one credit is worth in the cart currency; 0 when the store does not take credits
 	CreditValue uint32 `protobuf:"varint,63,opt,name=credit_value,json=creditValue,proto3" json:"credit_value,omitempty"`
+	// the grand total in credits, rounded up to a whole credit; 0 when the store sets no credit value
+	CreditGrandTotal uint32 `protobuf:"varint,64,opt,name=credit_grand_total,json=creditGrandTotal,proto3" json:"credit_grand_total,omitempty"`
 	// how the cart is paid for: credits the member has and will spend, what they take off, and what is left to pay
 	CreditAmount   uint32 `protobuf:"varint,60,opt,name=credit_amount,json=creditAmount,proto3" json:"credit_amount,omitempty"`
 	CreditDiscount uint32 `protobuf:"varint,61,opt,name=credit_discount,json=creditDiscount,proto3" json:"credit_discount,omitempty"`
@@ -184,6 +186,13 @@ func (x *ShoppingCart) GetCreditValue() uint32 {
 	return 0
 }
 
+func (x *ShoppingCart) GetCreditGrandTotal() uint32 {
+	if x != nil {
+		return x.CreditGrandTotal
+	}
+	return 0
+}
+
 func (x *ShoppingCart) GetCreditAmount() uint32 {
 	if x != nil {
 		return x.CreditAmount
@@ -214,8 +223,10 @@ type ShoppingCart_Item struct {
 	UnitAmount     uint32                 `protobuf:"varint,21,opt,name=unit_amount,json=unitAmount,proto3" json:"unit_amount,omitempty"`
 	TotalAmount    uint32                 `protobuf:"varint,22,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
 	DiscountAmount uint32                 `protobuf:"varint,23,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// the line total in credits, rounded up to a whole credit; 0 when the store sets no credit value
+	CreditTotalAmount uint32 `protobuf:"varint,24,opt,name=credit_total_amount,json=creditTotalAmount,proto3" json:"credit_total_amount,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ShoppingCart_Item) Reset() {
@@ -297,11 +308,18 @@ func (x *ShoppingCart_Item) GetDiscountAmount() uint32 {
 	return 0
 }
 
+func (x *ShoppingCart_Item) GetCreditTotalAmount() uint32 {
+	if x != nil {
+		return x.CreditTotalAmount
+	}
+	return 0
+}
+
 var File_eolymp_commerce_shopping_cart_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xc6\a\n" +
+	"#eolymp/commerce/shopping_cart.proto\x12\x0feolymp.commerce\x1a\x1deolymp/commerce/address.proto\"\xa4\b\n" +
 	"\fShoppingCart\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\x05items\x18\n" +
@@ -320,10 +338,11 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\btax_note\x18\x1a \x01(\tR\ataxNote\x12\x1f\n" +
 	"\vgrand_total\x18\x1e \x01(\rR\n" +
 	"grandTotal\x12!\n" +
-	"\fcredit_value\x18? \x01(\rR\vcreditValue\x12#\n" +
+	"\fcredit_value\x18? \x01(\rR\vcreditValue\x12,\n" +
+	"\x12credit_grand_total\x18@ \x01(\rR\x10creditGrandTotal\x12#\n" +
 	"\rcredit_amount\x18< \x01(\rR\fcreditAmount\x12'\n" +
 	"\x0fcredit_discount\x18= \x01(\rR\x0ecreditDiscount\x12%\n" +
-	"\x0epayable_amount\x18> \x01(\rR\rpayableAmount\x1a\xdd\x01\n" +
+	"\x0epayable_amount\x18> \x01(\rR\rpayableAmount\x1a\x8d\x02\n" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -335,7 +354,8 @@ const file_eolymp_commerce_shopping_cart_proto_rawDesc = "" +
 	"\vunit_amount\x18\x15 \x01(\rR\n" +
 	"unitAmount\x12!\n" +
 	"\ftotal_amount\x18\x16 \x01(\rR\vtotalAmount\x12'\n" +
-	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmountB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
+	"\x0fdiscount_amount\x18\x17 \x01(\rR\x0ediscountAmount\x12.\n" +
+	"\x13credit_total_amount\x18\x18 \x01(\rR\x11creditTotalAmountB3Z1github.com/eolymp/go-sdk/eolymp/commerce;commerceb\x06proto3"
 
 var (
 	file_eolymp_commerce_shopping_cart_proto_rawDescOnce sync.Once

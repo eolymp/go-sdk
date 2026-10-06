@@ -85,26 +85,29 @@ func (Product_Extra_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Product struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Summary         *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
-	Description     *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
-	Images          []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
-	OutOfStock      bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"` // all variants are out of stock
-	Featured        bool                   `protobuf:"varint,31,opt,name=featured,proto3" json:"featured,omitempty"`
-	Inactive        bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
-	Backorder       bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
-	Currency        string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
-	Price           uint32                 `protobuf:"varint,21,opt,name=price,proto3" json:"price,omitempty"`                                   // current (sell) price
-	RegularPrice    uint32                 `protobuf:"varint,22,opt,name=regular_price,json=regularPrice,proto3" json:"regular_price,omitempty"` // optionally, regular product price (before discount)
-	Attributes      []*Product_Attribute   `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
-	Variants        []*Product_Variant     `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
-	StripeProductId string                 `protobuf:"bytes,60,opt,name=stripe_product_id,json=stripeProductId,proto3" json:"stripe_product_id,omitempty"`
-	StripePriceId   string                 `protobuf:"bytes,61,opt,name=stripe_price_id,json=stripePriceId,proto3" json:"stripe_price_id,omitempty"`
-	Cursor          string                 `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name         string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Summary      *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
+	Description  *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
+	Images       []string               `protobuf:"bytes,10,rep,name=images,proto3" json:"images,omitempty"`
+	OutOfStock   bool                   `protobuf:"varint,30,opt,name=out_of_stock,json=outOfStock,proto3" json:"out_of_stock,omitempty"` // all variants are out of stock
+	Featured     bool                   `protobuf:"varint,31,opt,name=featured,proto3" json:"featured,omitempty"`
+	Inactive     bool                   `protobuf:"varint,32,opt,name=inactive,proto3" json:"inactive,omitempty"`
+	Backorder    bool                   `protobuf:"varint,33,opt,name=backorder,proto3" json:"backorder,omitempty"`
+	Currency     string                 `protobuf:"bytes,20,opt,name=currency,proto3" json:"currency,omitempty"`
+	Price        uint32                 `protobuf:"varint,21,opt,name=price,proto3" json:"price,omitempty"`                                   // current (sell) price
+	RegularPrice uint32                 `protobuf:"varint,22,opt,name=regular_price,json=regularPrice,proto3" json:"regular_price,omitempty"` // optionally, regular product price (before discount)
+	// the same prices in credits, rounded up to a whole credit; 0 when the store sets no credit value
+	CreditPrice        uint32               `protobuf:"varint,23,opt,name=credit_price,json=creditPrice,proto3" json:"credit_price,omitempty"`
+	CreditRegularPrice uint32               `protobuf:"varint,24,opt,name=credit_regular_price,json=creditRegularPrice,proto3" json:"credit_regular_price,omitempty"`
+	Attributes         []*Product_Attribute `protobuf:"bytes,40,rep,name=attributes,proto3" json:"attributes,omitempty"`
+	Variants           []*Product_Variant   `protobuf:"bytes,50,rep,name=variants,proto3" json:"variants,omitempty"`
+	StripeProductId    string               `protobuf:"bytes,60,opt,name=stripe_product_id,json=stripeProductId,proto3" json:"stripe_product_id,omitempty"`
+	StripePriceId      string               `protobuf:"bytes,61,opt,name=stripe_price_id,json=stripePriceId,proto3" json:"stripe_price_id,omitempty"`
+	Cursor             string               `protobuf:"bytes,100,opt,name=cursor,proto3" json:"cursor,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *Product) Reset() {
@@ -217,6 +220,20 @@ func (x *Product) GetPrice() uint32 {
 func (x *Product) GetRegularPrice() uint32 {
 	if x != nil {
 		return x.RegularPrice
+	}
+	return 0
+}
+
+func (x *Product) GetCreditPrice() uint32 {
+	if x != nil {
+		return x.CreditPrice
+	}
+	return 0
+}
+
+func (x *Product) GetCreditRegularPrice() uint32 {
+	if x != nil {
+		return x.CreditRegularPrice
 	}
 	return 0
 }
@@ -750,7 +767,7 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xc8\x12\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xad\x13\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
@@ -765,7 +782,9 @@ const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\tbackorder\x18! \x01(\bR\tbackorder\x12\x1a\n" +
 	"\bcurrency\x18\x14 \x01(\tR\bcurrency\x12\x14\n" +
 	"\x05price\x18\x15 \x01(\rR\x05price\x12#\n" +
-	"\rregular_price\x18\x16 \x01(\rR\fregularPrice\x12B\n" +
+	"\rregular_price\x18\x16 \x01(\rR\fregularPrice\x12)\n" +
+	"\fcredit_price\x18\x17 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\vcreditPrice\x128\n" +
+	"\x14credit_regular_price\x18\x18 \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x12creditRegularPrice\x12B\n" +
 	"\n" +
 	"attributes\x18( \x03(\v2\".eolymp.commerce.Product.AttributeR\n" +
 	"attributes\x12<\n" +
