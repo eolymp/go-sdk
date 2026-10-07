@@ -86,6 +86,7 @@ type IdentityConfig struct {
 	DisplayNameAttribute string                         `protobuf:"bytes,101,opt,name=display_name_attribute,json=displayNameAttribute,proto3" json:"display_name_attribute,omitempty"`
 	AllowSignUp          bool                           `protobuf:"varint,102,opt,name=allow_sign_up,json=allowSignUp,proto3" json:"allow_sign_up,omitempty"`                            // users can join on their own
 	RequireEmailVerified bool                           `protobuf:"varint,103,opt,name=require_email_verified,json=requireEmailVerified,proto3" json:"require_email_verified,omitempty"` // users must verify email to use the site, setting this flag to false will override "email_verified" to true for all members
+	SingleSession        bool                           `protobuf:"varint,104,opt,name=single_session,json=singleSession,proto3" json:"single_session,omitempty"`                        // one active session per member, a session being one active access token, i.e. one browser/UI: issuing a new access token on sign-in invalidates the member's other access and refresh tokens in this space; access keys are refused while this is on
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -191,6 +192,13 @@ func (x *IdentityConfig) GetRequireEmailVerified() bool {
 	return false
 }
 
+func (x *IdentityConfig) GetSingleSession() bool {
+	if x != nil {
+		return x.SingleSession
+	}
+	return false
+}
+
 type isIdentityConfig_Provider interface {
 	isIdentityConfig_Provider()
 }
@@ -223,7 +231,7 @@ var File_eolymp_community_configuration_identity_proto protoreflect.FileDescript
 
 const file_eolymp_community_configuration_identity_proto_rawDesc = "" +
 	"\n" +
-	"-eolymp/community/configuration_identity.proto\x12\x10eolymp.community\x1a(eolymp/community/configuration_idp.proto\"\x8b\x05\n" +
+	"-eolymp/community/configuration_identity.proto\x12\x10eolymp.community\x1a(eolymp/community/configuration_idp.proto\"\xb2\x05\n" +
 	"\x0eIdentityConfig\x12@\n" +
 	"\x05local\x18\x01 \x01(\v2(.eolymp.community.IdentityProvider.LocalH\x00R\x05local\x12I\n" +
 	"\bbasecamp\x18\x02 \x01(\v2+.eolymp.community.IdentityProvider.BasecampH\x00R\bbasecamp\x12=\n" +
@@ -232,7 +240,8 @@ const file_eolymp_community_configuration_identity_proto_rawDesc = "" +
 	"\x11display_name_type\x18d \x01(\x0e20.eolymp.community.IdentityConfig.DisplayNameTypeR\x0fdisplayNameType\x124\n" +
 	"\x16display_name_attribute\x18e \x01(\tR\x14displayNameAttribute\x12\"\n" +
 	"\rallow_sign_up\x18f \x01(\bR\vallowSignUp\x124\n" +
-	"\x16require_email_verified\x18g \x01(\bR\x14requireEmailVerified\"R\n" +
+	"\x16require_email_verified\x18g \x01(\bR\x14requireEmailVerified\x12%\n" +
+	"\x0esingle_session\x18h \x01(\bR\rsingleSession\"R\n" +
 	"\x0fDisplayNameType\x12\x18\n" +
 	"\x14UNKNOWN_DISPLAY_NAME\x10\x00\x12\f\n" +
 	"\bNICKNAME\x10\x01\x12\b\n" +
