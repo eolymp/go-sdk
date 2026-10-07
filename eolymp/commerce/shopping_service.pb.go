@@ -623,7 +623,10 @@ func (*UpdateShippingMethodOutput) Descriptor() ([]byte, []int) {
 }
 
 type ListShippingMethodsInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// where the order would ship, for a cart whose address is not written down yet; the cart's own
+	// address answers when this is unset
+	Country       *string `protobuf:"bytes,1,opt,name=country,proto3,oneof" json:"country,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -656,6 +659,13 @@ func (x *ListShippingMethodsInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListShippingMethodsInput.ProtoReflect.Descriptor instead.
 func (*ListShippingMethodsInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListShippingMethodsInput) GetCountry() string {
+	if x != nil && x.Country != nil {
+		return *x.Country
+	}
+	return ""
 }
 
 type ListShippingMethodsOutput struct {
@@ -847,8 +857,11 @@ const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\x1aUpdateBillingAddressOutput\"I\n" +
 	"\x19UpdateShippingMethodInput\x12,\n" +
 	"\x12shipping_method_id\x18\x01 \x01(\tR\x10shippingMethodId\"\x1c\n" +
-	"\x1aUpdateShippingMethodOutput\"\x1a\n" +
-	"\x18ListShippingMethodsInput\"R\n" +
+	"\x1aUpdateShippingMethodOutput\"E\n" +
+	"\x18ListShippingMethodsInput\x12\x1d\n" +
+	"\acountry\x18\x01 \x01(\tH\x00R\acountry\x88\x01\x01B\n" +
+	"\n" +
+	"\b_country\"R\n" +
 	"\x19ListShippingMethodsOutput\x125\n" +
 	"\x05items\x18\x01 \x03(\v2\x1f.eolymp.commerce.ShippingMethodR\x05items\"\xa0\x01\n" +
 	"\x0fPlaceOrderInput\x12C\n" +
@@ -999,6 +1012,7 @@ func file_eolymp_commerce_shopping_service_proto_init() {
 	file_eolymp_commerce_address_proto_init()
 	file_eolymp_commerce_shipping_method_proto_init()
 	file_eolymp_commerce_shopping_cart_proto_init()
+	file_eolymp_commerce_shopping_service_proto_msgTypes[14].OneofWrappers = []any{}
 	file_eolymp_commerce_shopping_service_proto_msgTypes[16].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
