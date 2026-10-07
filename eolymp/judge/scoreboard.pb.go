@@ -522,6 +522,62 @@ func (x *Scoreboard_Row) GetValues() []*Scoreboard_Row_Value {
 	return nil
 }
 
+// Stats summarize a board over all of its participants, disqualified ones aside, however a page of rows is
+// filtered or sorted. Every figure is computed the same way in each format; which of them a footer shows, and
+// how, is left to the client — an ICPC board reads "solved of tried", an IOI board full and partial scores.
+type Scoreboard_Stats struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Participants on the board, disqualified ones aside: the denominator for every figure.
+	Participants  uint32                      `protobuf:"varint,1,opt,name=participants,proto3" json:"participants,omitempty"`
+	Problems      []*Scoreboard_Stats_Problem `protobuf:"bytes,2,rep,name=problems,proto3" json:"problems,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Scoreboard_Stats) Reset() {
+	*x = Scoreboard_Stats{}
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Scoreboard_Stats) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Scoreboard_Stats) ProtoMessage() {}
+
+func (x *Scoreboard_Stats) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Scoreboard_Stats.ProtoReflect.Descriptor instead.
+func (*Scoreboard_Stats) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_scoreboard_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Scoreboard_Stats) GetParticipants() uint32 {
+	if x != nil {
+		return x.Participants
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats) GetProblems() []*Scoreboard_Stats_Problem {
+	if x != nil {
+		return x.Problems
+	}
+	return nil
+}
+
 type Scoreboard_Attribute_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Index         *uint32                `protobuf:"varint,2,opt,name=index,proto3,oneof" json:"index,omitempty"`
@@ -532,7 +588,7 @@ type Scoreboard_Attribute_Patch struct {
 
 func (x *Scoreboard_Attribute_Patch) Reset() {
 	*x = Scoreboard_Attribute_Patch{}
-	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[4]
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -544,7 +600,7 @@ func (x *Scoreboard_Attribute_Patch) String() string {
 func (*Scoreboard_Attribute_Patch) ProtoMessage() {}
 
 func (x *Scoreboard_Attribute_Patch) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[4]
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -592,7 +648,7 @@ type Scoreboard_Row_Value struct {
 
 func (x *Scoreboard_Row_Value) Reset() {
 	*x = Scoreboard_Row_Value{}
-	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[5]
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -604,7 +660,7 @@ func (x *Scoreboard_Row_Value) String() string {
 func (*Scoreboard_Row_Value) ProtoMessage() {}
 
 func (x *Scoreboard_Row_Value) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[5]
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -709,7 +765,7 @@ type Scoreboard_Row_ProblemScore struct {
 
 func (x *Scoreboard_Row_ProblemScore) Reset() {
 	*x = Scoreboard_Row_ProblemScore{}
-	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[6]
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -721,7 +777,7 @@ func (x *Scoreboard_Row_ProblemScore) String() string {
 func (*Scoreboard_Row_ProblemScore) ProtoMessage() {}
 
 func (x *Scoreboard_Row_ProblemScore) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[6]
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -793,11 +849,137 @@ func (x *Scoreboard_Row_ProblemScore) GetFirstToSolve() bool {
 	return false
 }
 
+type Scoreboard_Stats_Problem struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Problem column the figures belong to, the same "p_<problem id>" a row's values are keyed by.
+	ColumnId string `protobuf:"bytes,1,opt,name=column_id,json=columnId,proto3" json:"column_id,omitempty"`
+	// Participants with at least one submission counted towards the problem.
+	Tried uint32 `protobuf:"varint,10,opt,name=tried,proto3" json:"tried,omitempty"`
+	// Participants with any part of the problem scored.
+	Scored uint32 `protobuf:"varint,11,opt,name=scored,proto3" json:"scored,omitempty"`
+	// Participants with the problem fully solved.
+	Solved uint32 `protobuf:"varint,12,opt,name=solved,proto3" json:"solved,omitempty"`
+	// Submissions made before solving, summed over participants; a participant's submissions number attempts
+	// plus one once solved.
+	Attempts uint32 `protobuf:"varint,20,opt,name=attempts,proto3" json:"attempts,omitempty"`
+	// Submissions made after the freeze that a frozen board does not reflect, and how many participants made them.
+	Pending             uint32 `protobuf:"varint,21,opt,name=pending,proto3" json:"pending,omitempty"`
+	PendingParticipants uint32 `protobuf:"varint,22,opt,name=pending_participants,json=pendingParticipants,proto3" json:"pending_participants,omitempty"`
+	// Score summed over participants, the numerator of an average.
+	Score float32 `protobuf:"fixed32,30,opt,name=score,proto3" json:"score,omitempty"`
+	// Time of the first full solve, in seconds from the start, and the participant who made it; zero and empty
+	// until somebody solves the problem.
+	FirstSolvedIn uint32 `protobuf:"varint,40,opt,name=first_solved_in,json=firstSolvedIn,proto3" json:"first_solved_in,omitempty"`
+	FirstSolverId string `protobuf:"bytes,41,opt,name=first_solver_id,json=firstSolverId,proto3" json:"first_solver_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Scoreboard_Stats_Problem) Reset() {
+	*x = Scoreboard_Stats_Problem{}
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Scoreboard_Stats_Problem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Scoreboard_Stats_Problem) ProtoMessage() {}
+
+func (x *Scoreboard_Stats_Problem) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_scoreboard_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Scoreboard_Stats_Problem.ProtoReflect.Descriptor instead.
+func (*Scoreboard_Stats_Problem) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_scoreboard_proto_rawDescGZIP(), []int{0, 3, 0}
+}
+
+func (x *Scoreboard_Stats_Problem) GetColumnId() string {
+	if x != nil {
+		return x.ColumnId
+	}
+	return ""
+}
+
+func (x *Scoreboard_Stats_Problem) GetTried() uint32 {
+	if x != nil {
+		return x.Tried
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetScored() uint32 {
+	if x != nil {
+		return x.Scored
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetSolved() uint32 {
+	if x != nil {
+		return x.Solved
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetAttempts() uint32 {
+	if x != nil {
+		return x.Attempts
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetPending() uint32 {
+	if x != nil {
+		return x.Pending
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetPendingParticipants() uint32 {
+	if x != nil {
+		return x.PendingParticipants
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetScore() float32 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetFirstSolvedIn() uint32 {
+	if x != nil {
+		return x.FirstSolvedIn
+	}
+	return 0
+}
+
+func (x *Scoreboard_Stats_Problem) GetFirstSolverId() string {
+	if x != nil {
+		return x.FirstSolverId
+	}
+	return ""
+}
+
 var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\"\xa8\r\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\"\xd8\x10\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -878,7 +1060,22 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\x04time\x18\x05 \x01(\rR\x04time\x12\x18\n" +
 	"\apending\x18\x06 \x01(\rR\apending\x12\x18\n" +
 	"\achanged\x18\a \x01(\bR\achanged\x12$\n" +
-	"\x0efirst_to_solve\x18\b \x01(\bR\ffirstToSolve\"H\n" +
+	"\x0efirst_to_solve\x18\b \x01(\bR\ffirstToSolve\x1a\xad\x03\n" +
+	"\x05Stats\x12\"\n" +
+	"\fparticipants\x18\x01 \x01(\rR\fparticipants\x12B\n" +
+	"\bproblems\x18\x02 \x03(\v2&.eolymp.judge.Scoreboard.Stats.ProblemR\bproblems\x1a\xbb\x02\n" +
+	"\aProblem\x12\x1b\n" +
+	"\tcolumn_id\x18\x01 \x01(\tR\bcolumnId\x12\x14\n" +
+	"\x05tried\x18\n" +
+	" \x01(\rR\x05tried\x12\x16\n" +
+	"\x06scored\x18\v \x01(\rR\x06scored\x12\x16\n" +
+	"\x06solved\x18\f \x01(\rR\x06solved\x12\x1a\n" +
+	"\battempts\x18\x14 \x01(\rR\battempts\x12\x18\n" +
+	"\apending\x18\x15 \x01(\rR\apending\x121\n" +
+	"\x14pending_participants\x18\x16 \x01(\rR\x13pendingParticipants\x12\x14\n" +
+	"\x05score\x18\x1e \x01(\x02R\x05score\x12&\n" +
+	"\x0ffirst_solved_in\x18( \x01(\rR\rfirstSolvedIn\x12&\n" +
+	"\x0ffirst_solver_id\x18) \x01(\tR\rfirstSolverId\"H\n" +
 	"\x04Mode\x12\x10\n" +
 	"\fUNKNOWN_MODE\x10\x00\x12\n" +
 	"\n" +
@@ -900,7 +1097,7 @@ func file_eolymp_judge_scoreboard_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_scoreboard_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_judge_scoreboard_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_eolymp_judge_scoreboard_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_eolymp_judge_scoreboard_proto_goTypes = []any{
 	(Scoreboard_Mode)(0),                // 0: eolymp.judge.Scoreboard.Mode
 	(Scoreboard_Column_Type)(0),         // 1: eolymp.judge.Scoreboard.Column.Type
@@ -908,26 +1105,29 @@ var file_eolymp_judge_scoreboard_proto_goTypes = []any{
 	(*Scoreboard_Column)(nil),           // 3: eolymp.judge.Scoreboard.Column
 	(*Scoreboard_Attribute)(nil),        // 4: eolymp.judge.Scoreboard.Attribute
 	(*Scoreboard_Row)(nil),              // 5: eolymp.judge.Scoreboard.Row
-	(*Scoreboard_Attribute_Patch)(nil),  // 6: eolymp.judge.Scoreboard.Attribute.Patch
-	(*Scoreboard_Row_Value)(nil),        // 7: eolymp.judge.Scoreboard.Row.Value
-	(*Scoreboard_Row_ProblemScore)(nil), // 8: eolymp.judge.Scoreboard.Row.ProblemScore
-	(community.Attribute_Type)(0),       // 9: eolymp.community.Attribute.Type
-	(Medal)(0),                          // 10: eolymp.judge.Medal
+	(*Scoreboard_Stats)(nil),            // 6: eolymp.judge.Scoreboard.Stats
+	(*Scoreboard_Attribute_Patch)(nil),  // 7: eolymp.judge.Scoreboard.Attribute.Patch
+	(*Scoreboard_Row_Value)(nil),        // 8: eolymp.judge.Scoreboard.Row.Value
+	(*Scoreboard_Row_ProblemScore)(nil), // 9: eolymp.judge.Scoreboard.Row.ProblemScore
+	(*Scoreboard_Stats_Problem)(nil),    // 10: eolymp.judge.Scoreboard.Stats.Problem
+	(community.Attribute_Type)(0),       // 11: eolymp.community.Attribute.Type
+	(Medal)(0),                          // 12: eolymp.judge.Medal
 }
 var file_eolymp_judge_scoreboard_proto_depIdxs = []int32{
 	0,  // 0: eolymp.judge.Scoreboard.modes:type_name -> eolymp.judge.Scoreboard.Mode
 	3,  // 1: eolymp.judge.Scoreboard.columns:type_name -> eolymp.judge.Scoreboard.Column
 	1,  // 2: eolymp.judge.Scoreboard.Column.type:type_name -> eolymp.judge.Scoreboard.Column.Type
-	9,  // 3: eolymp.judge.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
-	10, // 4: eolymp.judge.Scoreboard.Row.medal:type_name -> eolymp.judge.Medal
-	7,  // 5: eolymp.judge.Scoreboard.Row.values:type_name -> eolymp.judge.Scoreboard.Row.Value
-	1,  // 6: eolymp.judge.Scoreboard.Row.Value.type:type_name -> eolymp.judge.Scoreboard.Column.Type
-	8,  // 7: eolymp.judge.Scoreboard.Row.Value.problem_score:type_name -> eolymp.judge.Scoreboard.Row.ProblemScore
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	11, // 3: eolymp.judge.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
+	12, // 4: eolymp.judge.Scoreboard.Row.medal:type_name -> eolymp.judge.Medal
+	8,  // 5: eolymp.judge.Scoreboard.Row.values:type_name -> eolymp.judge.Scoreboard.Row.Value
+	10, // 6: eolymp.judge.Scoreboard.Stats.problems:type_name -> eolymp.judge.Scoreboard.Stats.Problem
+	1,  // 7: eolymp.judge.Scoreboard.Row.Value.type:type_name -> eolymp.judge.Scoreboard.Column.Type
+	9,  // 8: eolymp.judge.Scoreboard.Row.Value.problem_score:type_name -> eolymp.judge.Scoreboard.Row.ProblemScore
+	9,  // [9:9] is the sub-list for method output_type
+	9,  // [9:9] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_scoreboard_proto_init() }
@@ -936,8 +1136,8 @@ func file_eolymp_judge_scoreboard_proto_init() {
 		return
 	}
 	file_eolymp_judge_medal_proto_init()
-	file_eolymp_judge_scoreboard_proto_msgTypes[4].OneofWrappers = []any{}
-	file_eolymp_judge_scoreboard_proto_msgTypes[5].OneofWrappers = []any{
+	file_eolymp_judge_scoreboard_proto_msgTypes[5].OneofWrappers = []any{}
+	file_eolymp_judge_scoreboard_proto_msgTypes[6].OneofWrappers = []any{
 		(*Scoreboard_Row_Value_ProblemScore)(nil),
 		(*Scoreboard_Row_Value_String_)(nil),
 		(*Scoreboard_Row_Value_Number)(nil),
@@ -948,7 +1148,7 @@ func file_eolymp_judge_scoreboard_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_scoreboard_proto_rawDesc), len(file_eolymp_judge_scoreboard_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

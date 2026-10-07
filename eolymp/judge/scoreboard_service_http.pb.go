@@ -207,6 +207,9 @@ func RegisterScoreboardServiceHttpHandlers(router *mux.Router, prefix string, cl
 	router.Handle(prefix+"/contests/{contest_id}/scoreboard/rows", _ScoreboardService_ListScoreboardRows_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.ListScoreboardRows")
+	router.Handle(prefix+"/contests/{contest_id}/scoreboard/stats", _ScoreboardService_DescribeScoreboardStats_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ScoreboardService.DescribeScoreboardStats")
 	router.Handle(prefix+"/contests/{contest_id}/scoreboard/rows/{participant_id}", _ScoreboardService_DescribeScoreboardRow_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ScoreboardService.DescribeScoreboardRow")
@@ -271,6 +274,30 @@ func _ScoreboardService_ListScoreboardRows_Rule0(cli ScoreboardServiceClient) ht
 		var header, trailer metadata.MD
 
 		out, err := cli.ListScoreboardRows(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ScoreboardService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ScoreboardService_DescribeScoreboardStats_Rule0(cli ScoreboardServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &DescribeScoreboardStatsInput{}
+
+		if err := _ScoreboardService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ScoreboardService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.DescribeScoreboardStats(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ScoreboardService_HTTPWriteErrorResponse(w, err)
 			return
