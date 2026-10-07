@@ -1625,7 +1625,6 @@ func (x *RebuildScoreboardInput) GetScoreboardId() string {
 
 type RebuildScoreboardOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1658,13 +1657,6 @@ func (x *RebuildScoreboardOutput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use RebuildScoreboardOutput.ProtoReflect.Descriptor instead.
 func (*RebuildScoreboardOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{31}
-}
-
-func (x *RebuildScoreboardOutput) GetTaskId() string {
-	if x != nil {
-		return x.TaskId
-	}
-	return ""
 }
 
 type ScoreboardChangedEvent struct {
@@ -2024,9 +2016,8 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\x1bDescribeScoreboardRowOutput\x12(\n" +
 	"\x03row\x18\x01 \x01(\v2\x16.eolymp.scoreboard.RowR\x03row\"=\n" +
 	"\x16RebuildScoreboardInput\x12#\n" +
-	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"2\n" +
-	"\x17RebuildScoreboardOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\x84\x01\n" +
+	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"\x19\n" +
+	"\x17RebuildScoreboardOutput\"\x84\x01\n" +
 	"\x16ScoreboardChangedEvent\x125\n" +
 	"\x06before\x18\x01 \x01(\v2\x1d.eolymp.scoreboard.ScoreboardR\x06before\x123\n" +
 	"\x05after\x18\x02 \x01(\v2\x1d.eolymp.scoreboard.ScoreboardR\x05after2\x95\x1c\n" +
