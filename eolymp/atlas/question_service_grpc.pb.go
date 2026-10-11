@@ -33,16 +33,18 @@ const (
 // QuestionService manages the questions of a quiz problem.
 //
 // A quiz is a problem of type `QUIZ`, and its questions are what a participant answers instead of writing a
-// program. A question is either a `CHOICE` question, offering options of which one or several are correct, or
-// a `TEXT` question, answered by typing a short answer matched against a list of accepted ones. Questions
-// carry a score each, and the problem score is their sum. Order comes from the `index` of a question, and
-// from the `index` of an option inside it, which is also what the labels a participant sees are derived from
-// ("Question 3", option "B") — reordering is done by updating those indexes.
+// program. A question is either a `CHOICE` question, offering options of which one or several are correct, a
+// `TEXT` question, answered by typing a short answer matched against a list of accepted ones, or a `NUMBER`
+// question, answered by typing a number matched exactly against a list of accepted ones at `decimal_places`
+// digits after the decimal point. Questions carry a score each, and the problem score is their sum. Order
+// comes from the `index` of a question, and from the `index` of an option inside it, which is also what the
+// labels a participant sees are derived from ("Question 3", option "B") — reordering is done by updating
+// those indexes.
 //
 // Reading questions needs no more than read access to the problem, because participants read them directly to
 // solve the quiz. What gives away the answers is left out for callers who may not edit the problem: the
-// `correct` flag of every option, and the accepted answers of a `TEXT` question. Answers are not graded here,
-// they travel with the submission (see SubmissionService).
+// `correct` flag of every option, and the accepted answers of a `TEXT` or `NUMBER` question. Answers are not
+// graded here, they travel with the submission (see SubmissionService).
 //
 // Question and option ids are stable across edits of the problem, which is what lets a submission be
 // re-graded and lets a translation of a question be attached to it later. Every method acts on the problem
@@ -138,16 +140,18 @@ func (c *questionServiceClient) ListQuestions(ctx context.Context, in *ListQuest
 // QuestionService manages the questions of a quiz problem.
 //
 // A quiz is a problem of type `QUIZ`, and its questions are what a participant answers instead of writing a
-// program. A question is either a `CHOICE` question, offering options of which one or several are correct, or
-// a `TEXT` question, answered by typing a short answer matched against a list of accepted ones. Questions
-// carry a score each, and the problem score is their sum. Order comes from the `index` of a question, and
-// from the `index` of an option inside it, which is also what the labels a participant sees are derived from
-// ("Question 3", option "B") — reordering is done by updating those indexes.
+// program. A question is either a `CHOICE` question, offering options of which one or several are correct, a
+// `TEXT` question, answered by typing a short answer matched against a list of accepted ones, or a `NUMBER`
+// question, answered by typing a number matched exactly against a list of accepted ones at `decimal_places`
+// digits after the decimal point. Questions carry a score each, and the problem score is their sum. Order
+// comes from the `index` of a question, and from the `index` of an option inside it, which is also what the
+// labels a participant sees are derived from ("Question 3", option "B") — reordering is done by updating
+// those indexes.
 //
 // Reading questions needs no more than read access to the problem, because participants read them directly to
 // solve the quiz. What gives away the answers is left out for callers who may not edit the problem: the
-// `correct` flag of every option, and the accepted answers of a `TEXT` question. Answers are not graded here,
-// they travel with the submission (see SubmissionService).
+// `correct` flag of every option, and the accepted answers of a `TEXT` or `NUMBER` question. Answers are not
+// graded here, they travel with the submission (see SubmissionService).
 //
 // Question and option ids are stable across edits of the problem, which is what lets a submission be
 // re-graded and lets a translation of a question be attached to it later. Every method acts on the problem

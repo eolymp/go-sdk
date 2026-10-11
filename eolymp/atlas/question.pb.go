@@ -28,6 +28,7 @@ const (
 	Question_UNKNOWN_TYPE Question_Type = 0
 	Question_CHOICE       Question_Type = 1 // participant picks one or several of the given options
 	Question_TEXT         Question_Type = 2 // participant types a short answer
+	Question_NUMBER       Question_Type = 3 // participant types a number, matched exactly to decimal_places digits after the decimal point
 )
 
 // Enum value maps for Question_Type.
@@ -36,11 +37,13 @@ var (
 		0: "UNKNOWN_TYPE",
 		1: "CHOICE",
 		2: "TEXT",
+		3: "NUMBER",
 	}
 	Question_Type_value = map[string]int32{
 		"UNKNOWN_TYPE": 0,
 		"CHOICE":       1,
 		"TEXT":         2,
+		"NUMBER":       3,
 	}
 )
 
@@ -126,10 +129,11 @@ type Question struct {
 	Index         uint32                 `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"` // position of the question within the quiz, rendered as "Question 1", ...
 	Type          Question_Type          `protobuf:"varint,3,opt,name=type,proto3,enum=eolymp.atlas.Question_Type" json:"type,omitempty"`
 	Content       *ecm.Content           `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
-	Score         float32                `protobuf:"fixed32,5,opt,name=score,proto3" json:"score,omitempty"`      // points a correct answer is worth, the problem score is the sum over its questions
-	Multiple      bool                   `protobuf:"varint,6,opt,name=multiple,proto3" json:"multiple,omitempty"` // CHOICE: more than one option may be selected
-	Options       []*Question_Option     `protobuf:"bytes,10,rep,name=options,proto3" json:"options,omitempty"`   // CHOICE only
-	Answers       []string               `protobuf:"bytes,11,rep,name=answers,proto3" json:"answers,omitempty"`   // TEXT only: accepted answers, left out for callers who may not edit the problem
+	Score         float32                `protobuf:"fixed32,5,opt,name=score,proto3" json:"score,omitempty"`                                     // points a correct answer is worth, the problem score is the sum over its questions
+	Multiple      bool                   `protobuf:"varint,6,opt,name=multiple,proto3" json:"multiple,omitempty"`                                // CHOICE: more than one option may be selected
+	DecimalPlaces uint32                 `protobuf:"varint,7,opt,name=decimal_places,json=decimalPlaces,proto3" json:"decimal_places,omitempty"` // NUMBER only: digits required after the decimal point, 0-5
+	Options       []*Question_Option     `protobuf:"bytes,10,rep,name=options,proto3" json:"options,omitempty"`                                  // CHOICE only
+	Answers       []string               `protobuf:"bytes,11,rep,name=answers,proto3" json:"answers,omitempty"`                                  // TEXT and NUMBER: accepted answers, left out for callers who may not edit the problem
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -206,6 +210,13 @@ func (x *Question) GetMultiple() bool {
 	return false
 }
 
+func (x *Question) GetDecimalPlaces() uint32 {
+	if x != nil {
+		return x.DecimalPlaces
+	}
+	return 0
+}
+
 func (x *Question) GetOptions() []*Question_Option {
 	if x != nil {
 		return x.Options
@@ -263,6 +274,7 @@ type Question_Patch struct {
 	Content       *ecm.Content           `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
 	Score         *float32               `protobuf:"fixed32,5,opt,name=score,proto3,oneof" json:"score,omitempty"`
 	Multiple      *bool                  `protobuf:"varint,6,opt,name=multiple,proto3,oneof" json:"multiple,omitempty"`
+	DecimalPlaces *uint32                `protobuf:"varint,7,opt,name=decimal_places,json=decimalPlaces,proto3,oneof" json:"decimal_places,omitempty"`
 	Options       []*Question_Option     `protobuf:"bytes,10,rep,name=options,proto3" json:"options,omitempty"`
 	Answers       []string               `protobuf:"bytes,11,rep,name=answers,proto3" json:"answers,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -332,6 +344,13 @@ func (x *Question_Patch) GetMultiple() bool {
 		return *x.Multiple
 	}
 	return false
+}
+
+func (x *Question_Patch) GetDecimalPlaces() uint32 {
+	if x != nil && x.DecimalPlaces != nil {
+		return *x.DecimalPlaces
+	}
+	return 0
 }
 
 func (x *Question_Patch) GetOptions() []*Question_Option {
@@ -420,14 +439,15 @@ var File_eolymp_atlas_question_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_question_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/atlas/question.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xcd\x06\n" +
+	"\x1beolymp/atlas/question.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\"\xbf\a\n" +
 	"\bQuestion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12/\n" +
 	"\x04type\x18\x03 \x01(\x0e2\x1b.eolymp.atlas.Question.TypeR\x04type\x12-\n" +
 	"\acontent\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x14\n" +
 	"\x05score\x18\x05 \x01(\x02R\x05score\x12\x1a\n" +
-	"\bmultiple\x18\x06 \x01(\bR\bmultiple\x127\n" +
+	"\bmultiple\x18\x06 \x01(\bR\bmultiple\x12%\n" +
+	"\x0edecimal_places\x18\a \x01(\rR\rdecimalPlaces\x127\n" +
 	"\aoptions\x18\n" +
 	" \x03(\v2\x1d.eolymp.atlas.Question.OptionR\aoptions\x12\x18\n" +
 	"\aanswers\x18\v \x03(\tR\aanswers\x1aJ\n" +
@@ -435,30 +455,34 @@ const file_eolymp_atlas_question_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1a\xc0\x02\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\xff\x02\n" +
 	"\x05Patch\x12\x19\n" +
 	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x124\n" +
 	"\x04type\x18\x03 \x01(\x0e2\x1b.eolymp.atlas.Question.TypeH\x01R\x04type\x88\x01\x01\x12-\n" +
 	"\acontent\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x19\n" +
 	"\x05score\x18\x05 \x01(\x02H\x02R\x05score\x88\x01\x01\x12\x1f\n" +
-	"\bmultiple\x18\x06 \x01(\bH\x03R\bmultiple\x88\x01\x01\x127\n" +
+	"\bmultiple\x18\x06 \x01(\bH\x03R\bmultiple\x88\x01\x01\x12*\n" +
+	"\x0edecimal_places\x18\a \x01(\rH\x04R\rdecimalPlaces\x88\x01\x01\x127\n" +
 	"\aoptions\x18\n" +
 	" \x03(\v2\x1d.eolymp.atlas.Question.OptionR\aoptions\x12\x18\n" +
 	"\aanswers\x18\v \x03(\tR\aanswersB\b\n" +
 	"\x06_indexB\a\n" +
 	"\x05_typeB\b\n" +
 	"\x06_scoreB\v\n" +
-	"\t_multiple\x1aw\n" +
+	"\t_multipleB\x11\n" +
+	"\x0f_decimal_places\x1aw\n" +
 	"\x06Option\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\rR\x05index\x12-\n" +
 	"\acontent\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x18\n" +
-	"\acorrect\x18\x04 \x01(\bR\acorrect\".\n" +
+	"\acorrect\x18\x04 \x01(\bR\acorrect\":\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\n" +
 	"\n" +
 	"\x06CHOICE\x10\x01\x12\b\n" +
-	"\x04TEXT\x10\x02B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x04TEXT\x10\x02\x12\n" +
+	"\n" +
+	"\x06NUMBER\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_question_proto_rawDescOnce sync.Once
