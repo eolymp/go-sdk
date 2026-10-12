@@ -382,7 +382,6 @@ const (
 	Problem_Question_UNKNOWN_TYPE Problem_Question_Type = 0
 	Problem_Question_CHOICE       Problem_Question_Type = 1
 	Problem_Question_TEXT         Problem_Question_Type = 2
-	Problem_Question_NUMBER       Problem_Question_Type = 3
 )
 
 // Enum value maps for Problem_Question_Type.
@@ -391,13 +390,11 @@ var (
 		0: "UNKNOWN_TYPE",
 		1: "CHOICE",
 		2: "TEXT",
-		3: "NUMBER",
 	}
 	Problem_Question_Type_value = map[string]int32{
 		"UNKNOWN_TYPE": 0,
 		"CHOICE":       1,
 		"TEXT":         2,
-		"NUMBER":       3,
 	}
 )
 
@@ -1571,7 +1568,6 @@ type Problem_Question struct {
 	Content       *ecm.Content               `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	Score         float32                    `protobuf:"fixed32,4,opt,name=score,proto3" json:"score,omitempty"`
 	Multiple      bool                       `protobuf:"varint,5,opt,name=multiple,proto3" json:"multiple,omitempty"`
-	DecimalPlaces uint32                     `protobuf:"varint,8,opt,name=decimal_places,json=decimalPlaces,proto3" json:"decimal_places,omitempty"`
 	Options       []*Problem_Question_Option `protobuf:"bytes,6,rep,name=options,proto3" json:"options,omitempty"`
 	Answers       []string                   `protobuf:"bytes,7,rep,name=answers,proto3" json:"answers,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1641,13 +1637,6 @@ func (x *Problem_Question) GetMultiple() bool {
 		return x.Multiple
 	}
 	return false
-}
-
-func (x *Problem_Question) GetDecimalPlaces() uint32 {
-	if x != nil {
-		return x.DecimalPlaces
-	}
-	return 0
 }
 
 func (x *Problem_Question) GetOptions() []*Problem_Question_Option {
@@ -2280,7 +2269,7 @@ var File_eolymp_format_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_format_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/format/problem.proto\x12\reolymp.format\x1a\x18eolymp/ecm/content.proto\"\xeb*\n" +
+	"\x1beolymp/format/problem.proto\x12\reolymp.format\x1a\x18eolymp/ecm/content.proto\"\xb8*\n" +
 	"\aProblem\x12\x17\n" +
 	"\x06schema\x18\x01 \x01(\tR\a$schema\x12/\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1b.eolymp.format.Problem.TypeR\x04type\x12\x16\n" +
@@ -2458,27 +2447,24 @@ const file_eolymp_format_problem_proto_rawDesc = "" +
 	"Dependency\x12\x16\n" +
 	"\x12UNKNOWN_DEPENDENCY\x10\x00\x12\x12\n" +
 	"\x0eFULLY_ACCEPTED\x10\x01\x12\x0f\n" +
-	"\vFIRST_POINT\x10\x02\x1a\xe3\x03\n" +
+	"\vFIRST_POINT\x10\x02\x1a\xb0\x03\n" +
 	"\bQuestion\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x128\n" +
 	"\x04type\x18\x02 \x01(\x0e2$.eolymp.format.Problem.Question.TypeR\x04type\x12-\n" +
 	"\acontent\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x14\n" +
 	"\x05score\x18\x04 \x01(\x02R\x05score\x12\x1a\n" +
-	"\bmultiple\x18\x05 \x01(\bR\bmultiple\x12%\n" +
-	"\x0edecimal_places\x18\b \x01(\rR\rdecimalPlaces\x12@\n" +
+	"\bmultiple\x18\x05 \x01(\bR\bmultiple\x12@\n" +
 	"\aoptions\x18\x06 \x03(\v2&.eolymp.format.Problem.Question.OptionR\aoptions\x12\x18\n" +
 	"\aanswers\x18\a \x03(\tR\aanswers\x1ag\n" +
 	"\x06Option\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12-\n" +
 	"\acontent\x18\x02 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x12\x18\n" +
-	"\acorrect\x18\x03 \x01(\bR\acorrect\":\n" +
+	"\acorrect\x18\x03 \x01(\bR\acorrect\".\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\n" +
 	"\n" +
 	"\x06CHOICE\x10\x01\x12\b\n" +
-	"\x04TEXT\x10\x02\x12\n" +
-	"\n" +
-	"\x06NUMBER\x10\x03\"\x8a\x01\n" +
+	"\x04TEXT\x10\x02\"\x8a\x01\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\v\n" +
 	"\aPROGRAM\x10\x01\x12\f\n" +
