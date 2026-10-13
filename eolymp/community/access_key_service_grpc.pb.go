@@ -39,10 +39,14 @@ const (
 // member, and a call is always about the member it is authenticated as: the key is issued to, listed for
 // and revoked from whoever presents the credentials, never a member named in the request.
 // The secret is handed out once, in the response to CreateAccessKey, and no method returns it afterwards.
+// A space that limits members to one active session (IdentityConfig.single_session) refuses CreateAccessKey,
+// and every key it already issued stops authenticating while the setting is on and works again once it is
+// turned off; keys are never deleted by this.
 type AccessKeyServiceClient interface {
 	// CreateAccessKey issues a key for the member it is called under and returns its secret. This is the
 	// only response that ever carries the secret, so it has to be kept at this point — a lost secret cannot
 	// be looked up. The lifetime is given as a duration counted from now rather than as an expiry date.
+	// Refused when the space limits members to one active session (IdentityConfig.single_session).
 	CreateAccessKey(ctx context.Context, in *CreateAccessKeyInput, opts ...grpc.CallOption) (*CreateAccessKeyOutput, error)
 	// UpdateAccessKey re-labels a key and widens or narrows what it may do. There is no patch here, the key
 	// in the request is taken as a whole. It cannot rotate the secret, so a leaked key is replaced rather
@@ -120,10 +124,14 @@ func (c *accessKeyServiceClient) ListAccessKeys(ctx context.Context, in *ListAcc
 // member, and a call is always about the member it is authenticated as: the key is issued to, listed for
 // and revoked from whoever presents the credentials, never a member named in the request.
 // The secret is handed out once, in the response to CreateAccessKey, and no method returns it afterwards.
+// A space that limits members to one active session (IdentityConfig.single_session) refuses CreateAccessKey,
+// and every key it already issued stops authenticating while the setting is on and works again once it is
+// turned off; keys are never deleted by this.
 type AccessKeyServiceServer interface {
 	// CreateAccessKey issues a key for the member it is called under and returns its secret. This is the
 	// only response that ever carries the secret, so it has to be kept at this point — a lost secret cannot
 	// be looked up. The lifetime is given as a duration counted from now rather than as an expiry date.
+	// Refused when the space limits members to one active session (IdentityConfig.single_session).
 	CreateAccessKey(context.Context, *CreateAccessKeyInput) (*CreateAccessKeyOutput, error)
 	// UpdateAccessKey re-labels a key and widens or narrows what it may do. There is no patch here, the key
 	// in the request is taken as a whole. It cannot rotate the secret, so a leaked key is replaced rather

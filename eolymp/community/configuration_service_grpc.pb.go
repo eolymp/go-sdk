@@ -34,7 +34,8 @@ const (
 //
 // Several namespaces define a ConfigurationService; this one covers identity and membership — the
 // space's identity provider, whether people may sign themselves up and join (with that off, only members an
-// administrator added can sign in), and the rule which turns a member into a display name. The provider
+// administrator added can sign in), whether a member may hold only one active session in the space, and the
+// rule which turns a member into a display name. The provider
 // decides who owns the account: with the Eolymp provider members sign in with the Eolymp accounts they
 // already have and their profile is synced from there, so the space cannot edit their basic information,
 // while with its own provider the space keeps usernames, passwords and profiles itself and additionally
@@ -116,7 +117,8 @@ func (c *configurationServiceClient) ConfigureNotebookConfig(ctx context.Context
 //
 // Several namespaces define a ConfigurationService; this one covers identity and membership — the
 // space's identity provider, whether people may sign themselves up and join (with that off, only members an
-// administrator added can sign in), and the rule which turns a member into a display name. The provider
+// administrator added can sign in), whether a member may hold only one active session in the space, and the
+// rule which turns a member into a display name. The provider
 // decides who owns the account: with the Eolymp provider members sign in with the Eolymp accounts they
 // already have and their profile is synced from there, so the space cannot edit their basic information,
 // while with its own provider the space keeps usernames, passwords and profiles itself and additionally

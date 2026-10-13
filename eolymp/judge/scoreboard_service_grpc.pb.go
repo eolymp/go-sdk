@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ScoreboardService_DescribeScoreboard_FullMethodName     = "/eolymp.judge.ScoreboardService/DescribeScoreboard"
-	ScoreboardService_ListScoreboardRows_FullMethodName     = "/eolymp.judge.ScoreboardService/ListScoreboardRows"
-	ScoreboardService_DescribeScoreboardRow_FullMethodName  = "/eolymp.judge.ScoreboardService/DescribeScoreboardRow"
-	ScoreboardService_ExportScoreboard_FullMethodName       = "/eolymp.judge.ScoreboardService/ExportScoreboard"
-	ScoreboardService_AddContestAttribute_FullMethodName    = "/eolymp.judge.ScoreboardService/AddContestAttribute"
-	ScoreboardService_UpdateContestAttribute_FullMethodName = "/eolymp.judge.ScoreboardService/UpdateContestAttribute"
-	ScoreboardService_ListContestAttributes_FullMethodName  = "/eolymp.judge.ScoreboardService/ListContestAttributes"
-	ScoreboardService_RemoveContestAttribute_FullMethodName = "/eolymp.judge.ScoreboardService/RemoveContestAttribute"
+	ScoreboardService_DescribeScoreboard_FullMethodName      = "/eolymp.judge.ScoreboardService/DescribeScoreboard"
+	ScoreboardService_ListScoreboardRows_FullMethodName      = "/eolymp.judge.ScoreboardService/ListScoreboardRows"
+	ScoreboardService_DescribeScoreboardStats_FullMethodName = "/eolymp.judge.ScoreboardService/DescribeScoreboardStats"
+	ScoreboardService_DescribeScoreboardRow_FullMethodName   = "/eolymp.judge.ScoreboardService/DescribeScoreboardRow"
+	ScoreboardService_ExportScoreboard_FullMethodName        = "/eolymp.judge.ScoreboardService/ExportScoreboard"
+	ScoreboardService_AddContestAttribute_FullMethodName     = "/eolymp.judge.ScoreboardService/AddContestAttribute"
+	ScoreboardService_UpdateContestAttribute_FullMethodName  = "/eolymp.judge.ScoreboardService/UpdateContestAttribute"
+	ScoreboardService_ListContestAttributes_FullMethodName   = "/eolymp.judge.ScoreboardService/ListContestAttributes"
+	ScoreboardService_RemoveContestAttribute_FullMethodName  = "/eolymp.judge.ScoreboardService/RemoveContestAttribute"
 )
 
 // ScoreboardServiceClient is the client API for ScoreboardService service.
@@ -50,6 +51,9 @@ type ScoreboardServiceClient interface {
 	// response only makes sense alongside the layout from DescribeScoreboard. The requested mode decides which
 	// recorded scores the rows are built on, and a row's rank spans several positions when participants tie.
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
+	// DescribeScoreboardStats returns per-problem figures for the board in the requested mode, taken over all of its
+	// participants rather than a page, so a client can show them under the table whatever rows it lists.
+	DescribeScoreboardStats(ctx context.Context, in *DescribeScoreboardStatsInput, opts ...grpc.CallOption) (*DescribeScoreboardStatsOutput, error)
 	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
 	ExportScoreboard(ctx context.Context, in *ExportScoreboardInput, opts ...grpc.CallOption) (*ExportScoreboardOutput, error)
 	// Adding a key the board already shows rewrites its index and label.
@@ -83,6 +87,16 @@ func (c *scoreboardServiceClient) ListScoreboardRows(ctx context.Context, in *Li
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListScoreboardRowsOutput)
 	err := c.cc.Invoke(ctx, ScoreboardService_ListScoreboardRows_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *scoreboardServiceClient) DescribeScoreboardStats(ctx context.Context, in *DescribeScoreboardStatsInput, opts ...grpc.CallOption) (*DescribeScoreboardStatsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeScoreboardStatsOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_DescribeScoreboardStats_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -170,6 +184,9 @@ type ScoreboardServiceServer interface {
 	// response only makes sense alongside the layout from DescribeScoreboard. The requested mode decides which
 	// recorded scores the rows are built on, and a row's rank spans several positions when participants tie.
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
+	// DescribeScoreboardStats returns per-problem figures for the board in the requested mode, taken over all of its
+	// participants rather than a page, so a client can show them under the table whatever rows it lists.
+	DescribeScoreboardStats(context.Context, *DescribeScoreboardStatsInput) (*DescribeScoreboardStatsOutput, error)
 	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
 	ExportScoreboard(context.Context, *ExportScoreboardInput) (*ExportScoreboardOutput, error)
 	// Adding a key the board already shows rewrites its index and label.
@@ -193,6 +210,9 @@ func (UnimplementedScoreboardServiceServer) DescribeScoreboard(context.Context, 
 }
 func (UnimplementedScoreboardServiceServer) ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListScoreboardRows not implemented")
+}
+func (UnimplementedScoreboardServiceServer) DescribeScoreboardStats(context.Context, *DescribeScoreboardStatsInput) (*DescribeScoreboardStatsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeScoreboardStats not implemented")
 }
 func (UnimplementedScoreboardServiceServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
@@ -264,6 +284,24 @@ func _ScoreboardService_ListScoreboardRows_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScoreboardServiceServer).ListScoreboardRows(ctx, req.(*ListScoreboardRowsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ScoreboardService_DescribeScoreboardStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardStatsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).DescribeScoreboardStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_DescribeScoreboardStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).DescribeScoreboardStats(ctx, req.(*DescribeScoreboardStatsInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -390,6 +428,10 @@ var ScoreboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListScoreboardRows",
 			Handler:    _ScoreboardService_ListScoreboardRows_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboardStats",
+			Handler:    _ScoreboardService_DescribeScoreboardStats_Handler,
 		},
 		{
 			MethodName: "DescribeScoreboardRow",

@@ -132,6 +132,22 @@ func (s *ScoreboardServiceService) ListScoreboardRows(ctx context.Context, in *L
 	return out, nil
 }
 
+func (s *ScoreboardServiceService) DescribeScoreboardStats(ctx context.Context, in *DescribeScoreboardStatsInput) (*DescribeScoreboardStatsOutput, error) {
+	out := &DescribeScoreboardStatsOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/stats"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ScoreboardServiceService) DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	out := &DescribeScoreboardRowOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/scoreboard/rows/" + url.PathEscape(in.GetParticipantId())

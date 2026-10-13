@@ -23,9 +23,13 @@ const (
 )
 
 type DescribeShoppingCartInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// price the cart as if it shipped this way, without writing either down: a checkout holds the address
+	// a member is still writing, and asks what it would cost. What the cart holds answers when unset.
+	Country          *string `protobuf:"bytes,1,opt,name=country,proto3,oneof" json:"country,omitempty"`
+	ShippingMethodId *string `protobuf:"bytes,2,opt,name=shipping_method_id,json=shippingMethodId,proto3,oneof" json:"shipping_method_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DescribeShoppingCartInput) Reset() {
@@ -56,6 +60,20 @@ func (x *DescribeShoppingCartInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DescribeShoppingCartInput.ProtoReflect.Descriptor instead.
 func (*DescribeShoppingCartInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_commerce_shopping_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DescribeShoppingCartInput) GetCountry() string {
+	if x != nil && x.Country != nil {
+		return *x.Country
+	}
+	return ""
+}
+
+func (x *DescribeShoppingCartInput) GetShippingMethodId() string {
+	if x != nil && x.ShippingMethodId != nil {
+		return *x.ShippingMethodId
+	}
+	return ""
 }
 
 type DescribeShoppingCartOutput struct {
@@ -829,8 +847,13 @@ var File_eolymp_commerce_shopping_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_shopping_service_proto_rawDesc = "" +
 	"\n" +
-	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a%eolymp/commerce/shipping_method.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x1b\n" +
-	"\x19DescribeShoppingCartInput\"O\n" +
+	"&eolymp/commerce/shopping_service.proto\x12\x0feolymp.commerce\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/address.proto\x1a%eolymp/commerce/shipping_method.proto\x1a#eolymp/commerce/shopping_cart.proto\"\x90\x01\n" +
+	"\x19DescribeShoppingCartInput\x12\x1d\n" +
+	"\acountry\x18\x01 \x01(\tH\x00R\acountry\x88\x01\x01\x121\n" +
+	"\x12shipping_method_id\x18\x02 \x01(\tH\x01R\x10shippingMethodId\x88\x01\x01B\n" +
+	"\n" +
+	"\b_countryB\x15\n" +
+	"\x13_shipping_method_id\"O\n" +
 	"\x1aDescribeShoppingCartOutput\x121\n" +
 	"\x04cart\x18\x01 \x01(\v2\x1d.eolymp.commerce.ShoppingCartR\x04cart\"w\n" +
 	"\x1bCreateShoppingCartItemInput\x12\x1d\n" +
@@ -1012,6 +1035,7 @@ func file_eolymp_commerce_shopping_service_proto_init() {
 	file_eolymp_commerce_address_proto_init()
 	file_eolymp_commerce_shipping_method_proto_init()
 	file_eolymp_commerce_shopping_cart_proto_init()
+	file_eolymp_commerce_shopping_service_proto_msgTypes[0].OneofWrappers = []any{}
 	file_eolymp_commerce_shopping_service_proto_msgTypes[14].OneofWrappers = []any{}
 	file_eolymp_commerce_shopping_service_proto_msgTypes[16].OneofWrappers = []any{}
 	type x struct{}
