@@ -7,6 +7,7 @@
 package course
 
 import (
+	atlas "github.com/eolymp/go-sdk/eolymp/atlas"
 	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -439,6 +440,7 @@ func (x *Material_Document) GetContent() *ecm.Content {
 type Material_Task struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Type          atlas.Problem_Type     `protobuf:"varint,2,opt,name=type,proto3,enum=eolymp.atlas.Problem_Type" json:"type,omitempty"` // type of the problem, resolved by the server and ignored on create and update
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -478,6 +480,13 @@ func (x *Material_Task) GetProblemId() string {
 		return x.ProblemId
 	}
 	return ""
+}
+
+func (x *Material_Task) GetType() atlas.Problem_Type {
+	if x != nil {
+		return x.Type
+	}
+	return atlas.Problem_Type(0)
 }
 
 type Material_Grading struct {
@@ -612,7 +621,7 @@ var File_eolymp_course_material_proto protoreflect.FileDescriptor
 
 const file_eolymp_course_material_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/course/material.proto\x12\reolymp.course\x1a\x18eolymp/ecm/content.proto\"\xc8\n" +
+	"\x1ceolymp/course/material.proto\x12\reolymp.course\x1a\x1aeolymp/atlas/problem.proto\x1a\x18eolymp/ecm/content.proto\"\xf8\n" +
 	"\n" +
 	"\bMaterial\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -650,10 +659,11 @@ const file_eolymp_course_material_proto_rawDesc = "" +
 	"\n" +
 	"\b_grading\x1a9\n" +
 	"\bDocument\x12-\n" +
-	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x1a%\n" +
+	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\x1aU\n" +
 	"\x04Task\x12\x1d\n" +
 	"\n" +
-	"problem_id\x18\x01 \x01(\tR\tproblemId\x1a>\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12.\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x1a.eolymp.atlas.Problem.TypeR\x04type\x1a>\n" +
 	"\aGrading\x12\x1b\n" +
 	"\tmax_score\x18\x01 \x01(\rR\bmaxScore\x12\x16\n" +
 	"\x06weight\x18\x02 \x01(\x02R\x06weight\x1a\xaa\x01\n" +
@@ -699,6 +709,7 @@ var file_eolymp_course_material_proto_goTypes = []any{
 	(*Material_Grading)(nil),  // 5: eolymp.course.Material.Grading
 	(*Material_Progress)(nil), // 6: eolymp.course.Material.Progress
 	(*ecm.Content)(nil),       // 7: eolymp.ecm.Content
+	(atlas.Problem_Type)(0),   // 8: eolymp.atlas.Problem.Type
 }
 var file_eolymp_course_material_proto_depIdxs = []int32{
 	5, // 0: eolymp.course.Material.grading:type_name -> eolymp.course.Material.Grading
@@ -709,11 +720,12 @@ var file_eolymp_course_material_proto_depIdxs = []int32{
 	3, // 5: eolymp.course.Material.Patch.document:type_name -> eolymp.course.Material.Document
 	4, // 6: eolymp.course.Material.Patch.task:type_name -> eolymp.course.Material.Task
 	7, // 7: eolymp.course.Material.Document.content:type_name -> eolymp.ecm.Content
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	8, // 8: eolymp.course.Material.Task.type:type_name -> eolymp.atlas.Problem.Type
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_course_material_proto_init() }
