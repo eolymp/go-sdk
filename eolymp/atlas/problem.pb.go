@@ -172,6 +172,9 @@ type Problem struct {
 	AcceptanceRate      float32 `protobuf:"fixed32,40,opt,name=acceptance_rate,json=acceptanceRate,proto3" json:"acceptance_rate,omitempty"`
 	SubmissionsCount    uint32  `protobuf:"varint,42,opt,name=submissions_count,json=submissionsCount,proto3" json:"submissions_count,omitempty"`
 	SubmissionsAccepted uint32  `protobuf:"varint,43,opt,name=submissions_accepted,json=submissionsAccepted,proto3" json:"submissions_accepted,omitempty"`
+	// How members rated the problem. Absent while the space has ratings off (see Config.rating_enabled), so
+	// clients tell "ratings off" from "nobody rated yet" by its presence.
+	Rating *Problem_Rating `protobuf:"bytes,52,opt,name=rating,proto3" json:"rating,omitempty"`
 	// Difficulty from 0 (very easy) to 5 (very hard)
 	Difficulty    uint32             `protobuf:"varint,21,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
 	Examples      []*Problem_Example `protobuf:"bytes,60,rep,name=examples,proto3" json:"examples,omitempty"`
@@ -361,6 +364,13 @@ func (x *Problem) GetSubmissionsAccepted() uint32 {
 		return x.SubmissionsAccepted
 	}
 	return 0
+}
+
+func (x *Problem) GetRating() *Problem_Rating {
+	if x != nil {
+		return x.Rating
+	}
+	return nil
 }
 
 func (x *Problem) GetDifficulty() uint32 {
@@ -589,6 +599,78 @@ func (x *Problem_Constraints) GetMemoryLimitMax() uint64 {
 	return 0
 }
 
+// How members rated the problem, from 1 (bad) to 5 (good) stars.
+type Problem_Rating struct {
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Average float32                `protobuf:"fixed32,1,opt,name=average,proto3" json:"average,omitempty"` // mean number of stars, 0 when nobody rated the problem
+	Count   uint32                 `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`      // number of ratings
+	// Number of ratings by number of stars, eg. {5: 12, 4: 3, 3: 1}. A missing key means no ratings with that
+	// number of stars.
+	Distribution map[uint32]uint32 `protobuf:"bytes,3,rep,name=distribution,proto3" json:"distribution,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	// Number of stars the calling member rated the problem with, 0 when they have not rated it.
+	Value         uint32 `protobuf:"varint,4,opt,name=value,proto3" json:"value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Problem_Rating) Reset() {
+	*x = Problem_Rating{}
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Problem_Rating) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Problem_Rating) ProtoMessage() {}
+
+func (x *Problem_Rating) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Problem_Rating.ProtoReflect.Descriptor instead.
+func (*Problem_Rating) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 3}
+}
+
+func (x *Problem_Rating) GetAverage() float32 {
+	if x != nil {
+		return x.Average
+	}
+	return 0
+}
+
+func (x *Problem_Rating) GetCount() uint32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+func (x *Problem_Rating) GetDistribution() map[uint32]uint32 {
+	if x != nil {
+		return x.Distribution
+	}
+	return nil
+}
+
+func (x *Problem_Rating) GetValue() uint32 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
 type Problem_Example struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Index         uint32                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
@@ -600,7 +682,7 @@ type Problem_Example struct {
 
 func (x *Problem_Example) Reset() {
 	*x = Problem_Example{}
-	mi := &file_eolymp_atlas_problem_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -612,7 +694,7 @@ func (x *Problem_Example) String() string {
 func (*Problem_Example) ProtoMessage() {}
 
 func (x *Problem_Example) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_problem_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_problem_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -625,7 +707,7 @@ func (x *Problem_Example) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Problem_Example.ProtoReflect.Descriptor instead.
 func (*Problem_Example) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 3}
+	return file_eolymp_atlas_problem_proto_rawDescGZIP(), []int{0, 4}
 }
 
 func (x *Problem_Example) GetIndex() uint32 {
@@ -653,7 +735,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x95\x15\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xb9\x17\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -678,7 +760,8 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconstraints\x12/\n" +
 	"\x0facceptance_rate\x18( \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eacceptanceRate\x123\n" +
 	"\x11submissions_count\x18* \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x10submissionsCount\x129\n" +
-	"\x14submissions_accepted\x18+ \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x13submissionsAccepted\x12\x1e\n" +
+	"\x14submissions_accepted\x18+ \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x13submissionsAccepted\x12<\n" +
+	"\x06rating\x184 \x01(\v2\x1c.eolymp.atlas.Problem.RatingB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06rating\x12\x1e\n" +
 	"\n" +
 	"difficulty\x18\x15 \x01(\rR\n" +
 	"difficulty\x12A\n" +
@@ -712,7 +795,15 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\rcpu_limit_min\x18> \x01(\rR\vcpuLimitMin\x12\"\n" +
 	"\rcpu_limit_max\x18? \x01(\rR\vcpuLimitMax\x12(\n" +
 	"\x10memory_limit_min\x18@ \x01(\x04R\x0ememoryLimitMin\x12(\n" +
-	"\x10memory_limit_max\x18A \x01(\x04R\x0ememoryLimitMax\x1a[\n" +
+	"\x10memory_limit_max\x18A \x01(\x04R\x0ememoryLimitMax\x1a\xe3\x01\n" +
+	"\x06Rating\x12\x18\n" +
+	"\aaverage\x18\x01 \x01(\x02R\aaverage\x12\x14\n" +
+	"\x05count\x18\x02 \x01(\rR\x05count\x12R\n" +
+	"\fdistribution\x18\x03 \x03(\v2..eolymp.atlas.Problem.Rating.DistributionEntryR\fdistribution\x12\x14\n" +
+	"\x05value\x18\x04 \x01(\rR\x05value\x1a?\n" +
+	"\x11DistributionEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\rR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\rR\x05value:\x028\x01\x1a[\n" +
 	"\aExample\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12\x1b\n" +
 	"\tinput_url\x18\x02 \x01(\tR\binputUrl\x12\x1d\n" +
@@ -743,7 +834,7 @@ func file_eolymp_atlas_problem_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_atlas_problem_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_atlas_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_atlas_problem_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_eolymp_atlas_problem_proto_goTypes = []any{
 	(Problem_Type)(0),           // 0: eolymp.atlas.Problem.Type
 	(Problem_Extra_Field)(0),    // 1: eolymp.atlas.Problem.Extra.Field
@@ -751,20 +842,24 @@ var file_eolymp_atlas_problem_proto_goTypes = []any{
 	(*Problem_Extra)(nil),       // 3: eolymp.atlas.Problem.Extra
 	(*Problem_Patch)(nil),       // 4: eolymp.atlas.Problem.Patch
 	(*Problem_Constraints)(nil), // 5: eolymp.atlas.Problem.Constraints
-	(*Problem_Example)(nil),     // 6: eolymp.atlas.Problem.Example
-	(*ecm.Content)(nil),         // 7: eolymp.ecm.Content
+	(*Problem_Rating)(nil),      // 6: eolymp.atlas.Problem.Rating
+	(*Problem_Example)(nil),     // 7: eolymp.atlas.Problem.Example
+	nil,                         // 8: eolymp.atlas.Problem.Rating.DistributionEntry
+	(*ecm.Content)(nil),         // 9: eolymp.ecm.Content
 }
 var file_eolymp_atlas_problem_proto_depIdxs = []int32{
 	0, // 0: eolymp.atlas.Problem.type:type_name -> eolymp.atlas.Problem.Type
-	7, // 1: eolymp.atlas.Problem.content:type_name -> eolymp.ecm.Content
+	9, // 1: eolymp.atlas.Problem.content:type_name -> eolymp.ecm.Content
 	5, // 2: eolymp.atlas.Problem.constraints:type_name -> eolymp.atlas.Problem.Constraints
-	6, // 3: eolymp.atlas.Problem.examples:type_name -> eolymp.atlas.Problem.Example
-	0, // 4: eolymp.atlas.Problem.Patch.type:type_name -> eolymp.atlas.Problem.Type
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 3: eolymp.atlas.Problem.rating:type_name -> eolymp.atlas.Problem.Rating
+	7, // 4: eolymp.atlas.Problem.examples:type_name -> eolymp.atlas.Problem.Example
+	0, // 5: eolymp.atlas.Problem.Patch.type:type_name -> eolymp.atlas.Problem.Type
+	8, // 6: eolymp.atlas.Problem.Rating.distribution:type_name -> eolymp.atlas.Problem.Rating.DistributionEntry
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_problem_proto_init() }
@@ -779,7 +874,7 @@ func file_eolymp_atlas_problem_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_problem_proto_rawDesc), len(file_eolymp_atlas_problem_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

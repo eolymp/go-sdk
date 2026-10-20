@@ -26,6 +26,7 @@ const (
 	ProblemService_ListProblems_FullMethodName    = "/eolymp.atlas.ProblemService/ListProblems"
 	ProblemService_SyncProblem_FullMethodName     = "/eolymp.atlas.ProblemService/SyncProblem"
 	ProblemService_ImportProblem_FullMethodName   = "/eolymp.atlas.ProblemService/ImportProblem"
+	ProblemService_RateProblem_FullMethodName     = "/eolymp.atlas.ProblemService/RateProblem"
 	ProblemService_ListVersions_FullMethodName    = "/eolymp.atlas.ProblemService/ListVersions"
 	ProblemService_ListRuntimes_FullMethodName    = "/eolymp.atlas.ProblemService/ListRuntimes"
 	ProblemService_ExportProblem_FullMethodName   = "/eolymp.atlas.ProblemService/ExportProblem"
@@ -75,6 +76,12 @@ type ProblemServiceClient interface {
 	// SyncProblem, the import runs asynchronously and overwrites modifications made to the problem in this space,
 	// but it leaves the problem's origin as it is.
 	ImportProblem(ctx context.Context, in *ImportProblemInput, opts ...grpc.CallOption) (*ImportProblemOutput, error)
+	// RateProblem records how the calling member rates the problem, from 1 (bad) to 5 (good) stars, and returns
+	// the problem's updated rating, the same one DescribeProblem reports in Problem.rating. It sets an absolute state, not a toggle: the stars and comment sent replace
+	// the member's previous rating, and 0 stars withdraws it. The comment is optional with any number of stars;
+	// it is read only by the problem's editors, so the member cannot read it back, only replace it by rating
+	// again. Refused while the space has ratings off.
+	RateProblem(ctx context.Context, in *RateProblemInput, opts ...grpc.CallOption) (*RateProblemOutput, error)
 	// ListVersions returns the changelog of edits made to the problem. It can be paged either by offset or by
 	// feeding the returned cursor back into the next request. The change history is editor-facing, so this read
 	// requires the write scope, and its version numbers are what ExportProblem takes.
@@ -167,6 +174,16 @@ func (c *problemServiceClient) ImportProblem(ctx context.Context, in *ImportProb
 	return out, nil
 }
 
+func (c *problemServiceClient) RateProblem(ctx context.Context, in *RateProblemInput, opts ...grpc.CallOption) (*RateProblemOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RateProblemOutput)
+	err := c.cc.Invoke(ctx, ProblemService_RateProblem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) ListVersions(ctx context.Context, in *ListVersionsInput, opts ...grpc.CallOption) (*ListVersionsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListVersionsOutput)
@@ -241,6 +258,12 @@ type ProblemServiceServer interface {
 	// SyncProblem, the import runs asynchronously and overwrites modifications made to the problem in this space,
 	// but it leaves the problem's origin as it is.
 	ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error)
+	// RateProblem records how the calling member rates the problem, from 1 (bad) to 5 (good) stars, and returns
+	// the problem's updated rating, the same one DescribeProblem reports in Problem.rating. It sets an absolute state, not a toggle: the stars and comment sent replace
+	// the member's previous rating, and 0 stars withdraws it. The comment is optional with any number of stars;
+	// it is read only by the problem's editors, so the member cannot read it back, only replace it by rating
+	// again. Refused while the space has ratings off.
+	RateProblem(context.Context, *RateProblemInput) (*RateProblemOutput, error)
 	// ListVersions returns the changelog of edits made to the problem. It can be paged either by offset or by
 	// feeding the returned cursor back into the next request. The change history is editor-facing, so this read
 	// requires the write scope, and its version numbers are what ExportProblem takes.
@@ -282,6 +305,9 @@ func (UnimplementedProblemServiceServer) SyncProblem(context.Context, *SyncProbl
 }
 func (UnimplementedProblemServiceServer) ImportProblem(context.Context, *ImportProblemInput) (*ImportProblemOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ImportProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) RateProblem(context.Context, *RateProblemInput) (*RateProblemOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method RateProblem not implemented")
 }
 func (UnimplementedProblemServiceServer) ListVersions(context.Context, *ListVersionsInput) (*ListVersionsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListVersions not implemented")
@@ -438,6 +464,24 @@ func _ProblemService_ImportProblem_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_RateProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RateProblemInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).RateProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_RateProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).RateProblem(ctx, req.(*RateProblemInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_ListVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListVersionsInput)
 	if err := dec(in); err != nil {
@@ -526,6 +570,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ImportProblem",
 			Handler:    _ProblemService_ImportProblem_Handler,
+		},
+		{
+			MethodName: "RateProblem",
+			Handler:    _ProblemService_RateProblem_Handler,
 		},
 		{
 			MethodName: "ListVersions",

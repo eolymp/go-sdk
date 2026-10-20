@@ -28,8 +28,11 @@ type Config struct {
 	// Offer traced runs in the editor. A traced run is built and executed differently and
 	// costs orders of magnitude more CPU, so it is opt-in per space.
 	TracingEnabled bool `protobuf:"varint,3,opt,name=tracing_enabled,json=tracingEnabled,proto3" json:"tracing_enabled,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Let members rate the space's problems from 1 (bad) to 5 (good) stars. Off by default. Turning it off
+	// hides the ratings and refuses new ones, but keeps those already given.
+	RatingEnabled bool `protobuf:"varint,4,opt,name=rating_enabled,json=ratingEnabled,proto3" json:"rating_enabled,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Config) Reset() {
@@ -83,11 +86,19 @@ func (x *Config) GetTracingEnabled() bool {
 	return false
 }
 
+func (x *Config) GetRatingEnabled() bool {
+	if x != nil {
+		return x.RatingEnabled
+	}
+	return false
+}
+
 type Config_Patch struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
 	HourlyIpSubmissionLimit *uint32                `protobuf:"varint,1,opt,name=hourly_ip_submission_limit,json=hourlyIpSubmissionLimit,proto3,oneof" json:"hourly_ip_submission_limit,omitempty"`
 	DailyIpSubmissionLimit  *uint32                `protobuf:"varint,2,opt,name=daily_ip_submission_limit,json=dailyIpSubmissionLimit,proto3,oneof" json:"daily_ip_submission_limit,omitempty"`
 	TracingEnabled          *bool                  `protobuf:"varint,3,opt,name=tracing_enabled,json=tracingEnabled,proto3,oneof" json:"tracing_enabled,omitempty"`
+	RatingEnabled           *bool                  `protobuf:"varint,4,opt,name=rating_enabled,json=ratingEnabled,proto3,oneof" json:"rating_enabled,omitempty"`
 	unknownFields           protoimpl.UnknownFields
 	sizeCache               protoimpl.SizeCache
 }
@@ -143,22 +154,32 @@ func (x *Config_Patch) GetTracingEnabled() bool {
 	return false
 }
 
+func (x *Config_Patch) GetRatingEnabled() bool {
+	if x != nil && x.RatingEnabled != nil {
+		return *x.RatingEnabled
+	}
+	return false
+}
+
 var File_eolymp_atlas_configuration_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_configuration_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/configuration.proto\x12\feolymp.atlas\"\xb4\x03\n" +
+	" eolymp/atlas/configuration.proto\x12\feolymp.atlas\"\x9a\x04\n" +
 	"\x06Config\x12;\n" +
 	"\x1ahourly_ip_submission_limit\x18\x01 \x01(\rR\x17hourlyIpSubmissionLimit\x129\n" +
 	"\x19daily_ip_submission_limit\x18\x02 \x01(\rR\x16dailyIpSubmissionLimit\x12'\n" +
-	"\x0ftracing_enabled\x18\x03 \x01(\bR\x0etracingEnabled\x1a\x88\x02\n" +
+	"\x0ftracing_enabled\x18\x03 \x01(\bR\x0etracingEnabled\x12%\n" +
+	"\x0erating_enabled\x18\x04 \x01(\bR\rratingEnabled\x1a\xc7\x02\n" +
 	"\x05Patch\x12@\n" +
 	"\x1ahourly_ip_submission_limit\x18\x01 \x01(\rH\x00R\x17hourlyIpSubmissionLimit\x88\x01\x01\x12>\n" +
 	"\x19daily_ip_submission_limit\x18\x02 \x01(\rH\x01R\x16dailyIpSubmissionLimit\x88\x01\x01\x12,\n" +
-	"\x0ftracing_enabled\x18\x03 \x01(\bH\x02R\x0etracingEnabled\x88\x01\x01B\x1d\n" +
+	"\x0ftracing_enabled\x18\x03 \x01(\bH\x02R\x0etracingEnabled\x88\x01\x01\x12*\n" +
+	"\x0erating_enabled\x18\x04 \x01(\bH\x03R\rratingEnabled\x88\x01\x01B\x1d\n" +
 	"\x1b_hourly_ip_submission_limitB\x1c\n" +
 	"\x1a_daily_ip_submission_limitB\x12\n" +
-	"\x10_tracing_enabledB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x10_tracing_enabledB\x11\n" +
+	"\x0f_rating_enabledB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_configuration_proto_rawDescOnce sync.Once

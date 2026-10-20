@@ -222,6 +222,9 @@ func RegisterProblemServiceHttpHandlers(router *mux.Router, prefix string, cli P
 	router.Handle(prefix+"/problems/{problem_id}/import", _ProblemService_ImportProblem_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.atlas.ProblemService.ImportProblem")
+	router.Handle(prefix+"/problems/{problem_id}/rating", _ProblemService_RateProblem_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.atlas.ProblemService.RateProblem")
 	router.Handle(prefix+"/problems/{problem_id}/versions", _ProblemService_ListVersions_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.atlas.ProblemService.ListVersions")
@@ -391,6 +394,30 @@ func _ProblemService_ImportProblem_Rule0(cli ProblemServiceClient) http.Handler 
 		var header, trailer metadata.MD
 
 		out, err := cli.ImportProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ProblemService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ProblemService_RateProblem_Rule0(cli ProblemServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RateProblemInput{}
+
+		if err := _ProblemService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_ProblemService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ProblemId = vars["problem_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RateProblem(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ProblemService_HTTPWriteErrorResponse(w, err)
 			return
