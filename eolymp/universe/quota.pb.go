@@ -76,6 +76,7 @@ type Quota struct {
 	GhostParticipants      bool   `protobuf:"varint,20,opt,name=ghost_participants,json=ghostParticipants,proto3" json:"ghost_participants,omitempty"`                  // analyse submission code to see similarities and generate a report
 	UnofficialParticipants bool   `protobuf:"varint,21,opt,name=unofficial_participants,json=unofficialParticipants,proto3" json:"unofficial_participants,omitempty"`   // analyse submission code to see similarities and generate a report
 	Proctoring             bool   `protobuf:"varint,34,opt,name=proctoring,proto3" json:"proctoring,omitempty"`                                                         // record participants' screen and camera in proctored contests
+	ContestChecklist       bool   `protobuf:"varint,35,opt,name=contest_checklist,json=contestChecklist,proto3" json:"contest_checklist,omitempty"`                     // let contests ask participants to confirm a checklist before taking part
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -411,11 +412,18 @@ func (x *Quota) GetProctoring() bool {
 	return false
 }
 
+func (x *Quota) GetContestChecklist() bool {
+	if x != nil {
+		return x.ContestChecklist
+	}
+	return false
+}
+
 var File_eolymp_universe_quota_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\n" +
-	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\x89\x11\n" +
+	"\x1beolymp/universe/quota.proto\x12\x0feolymp.universe\"\xb6\x11\n" +
 	"\x05Quota\x122\n" +
 	"\x15permissions_per_space\x18\x06 \x01(\rR\x13permissionsPerSpace\x12$\n" +
 	"\x0esingle_sing_on\x18\x16 \x01(\bR\fsingleSingOn\x126\n" +
@@ -462,7 +470,8 @@ const file_eolymp_universe_quota_proto_rawDesc = "" +
 	"\x17unofficial_participants\x18\x15 \x01(\bR\x16unofficialParticipants\x12\x1e\n" +
 	"\n" +
 	"proctoring\x18\" \x01(\bR\n" +
-	"proctoringJ\x04\b\x18\x10\x19J\x04\b\x19\x10\x1aB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"proctoring\x12+\n" +
+	"\x11contest_checklist\x18# \x01(\bR\x10contestChecklistJ\x04\b\x18\x10\x19J\x04\b\x19\x10\x1aB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_quota_proto_rawDescOnce sync.Once
