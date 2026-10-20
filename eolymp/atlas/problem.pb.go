@@ -99,6 +99,7 @@ const (
 	Problem_Extra_UNKNOWN_EXTRA  Problem_Extra_Field = 0
 	Problem_Extra_CONTENT_VALUE  Problem_Extra_Field = 3
 	Problem_Extra_CONTENT_RENDER Problem_Extra_Field = 4
+	Problem_Extra_RATING_VALUE   Problem_Extra_Field = 5
 )
 
 // Enum value maps for Problem_Extra_Field.
@@ -107,11 +108,13 @@ var (
 		0: "UNKNOWN_EXTRA",
 		3: "CONTENT_VALUE",
 		4: "CONTENT_RENDER",
+		5: "RATING_VALUE",
 	}
 	Problem_Extra_Field_value = map[string]int32{
 		"UNKNOWN_EXTRA":  0,
 		"CONTENT_VALUE":  3,
 		"CONTENT_RENDER": 4,
+		"RATING_VALUE":   5,
 	}
 )
 
@@ -172,8 +175,7 @@ type Problem struct {
 	AcceptanceRate      float32 `protobuf:"fixed32,40,opt,name=acceptance_rate,json=acceptanceRate,proto3" json:"acceptance_rate,omitempty"`
 	SubmissionsCount    uint32  `protobuf:"varint,42,opt,name=submissions_count,json=submissionsCount,proto3" json:"submissions_count,omitempty"`
 	SubmissionsAccepted uint32  `protobuf:"varint,43,opt,name=submissions_accepted,json=submissionsAccepted,proto3" json:"submissions_accepted,omitempty"`
-	// How members rated the problem. Absent while the space has ratings off (see Config.rating_enabled), so
-	// clients tell "ratings off" from "nobody rated yet" by its presence.
+	// How members rated the problem.
 	Rating *Problem_Rating `protobuf:"bytes,52,opt,name=rating,proto3" json:"rating,omitempty"`
 	// Difficulty from 0 (very easy) to 5 (very hard)
 	Difficulty    uint32             `protobuf:"varint,21,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
@@ -607,7 +609,8 @@ type Problem_Rating struct {
 	// Number of ratings by number of stars, eg. {5: 12, 4: 3, 3: 1}. A missing key means no ratings with that
 	// number of stars.
 	Distribution map[uint32]uint32 `protobuf:"bytes,3,rep,name=distribution,proto3" json:"distribution,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
-	// Number of stars the calling member rated the problem with, 0 when they have not rated it.
+	// Number of stars the calling member rated the problem with, 0 when they have not rated it. Only filled in
+	// when requested with the RATING_VALUE extra.
 	Value         uint32 `protobuf:"varint,4,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -735,7 +738,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xb9\x17\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x8c\x18\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -765,12 +768,13 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
 	"difficulty\x18\x15 \x01(\rR\n" +
 	"difficulty\x12A\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1as\n" +
-	"\x05Extra\"j\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleB\x06\xa8\xf0\xf0\xe4\x01\x01R\bexamples\x1a\xc5\x01\n" +
+	"\x05Extra\"\xbb\x01\n" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x122\n" +
 	"\rCONTENT_VALUE\x10\x03\x1a\x1f\x9a\xf0\xf0\xe4\x01\x19include problem statement\x12\x1a\n" +
-	"\x0eCONTENT_RENDER\x10\x04\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x1a\xc5\x02\n" +
+	"\x0eCONTENT_RENDER\x10\x04\x1a\x06\xb8\xf0\xf0\xe4\x01\x01\x12O\n" +
+	"\fRATING_VALUE\x10\x05\x1a=\x9a\xf0\xf0\xe4\x017include the calling member's own rating in rating.value\x1a\xc5\x02\n" +
 	"\x05Patch\x12\x1b\n" +
 	"\x06number\x18\n" +
 	" \x01(\x05H\x00R\x06number\x88\x01\x01\x12\x1d\n" +

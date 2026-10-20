@@ -28,8 +28,8 @@ type Config struct {
 	// Offer traced runs in the editor. A traced run is built and executed differently and
 	// costs orders of magnitude more CPU, so it is opt-in per space.
 	TracingEnabled bool `protobuf:"varint,3,opt,name=tracing_enabled,json=tracingEnabled,proto3" json:"tracing_enabled,omitempty"`
-	// Let members rate the space's problems from 1 (bad) to 5 (good) stars. Off by default. Turning it off
-	// hides the ratings and refuses new ones, but keeps those already given.
+	// Let members rate the space's problems from 1 (bad) to 5 (good) stars. Off by default. While off, RateProblem
+	// refuses new ratings; ratings already given are kept and still returned with the problem.
 	RatingEnabled bool `protobuf:"varint,4,opt,name=rating_enabled,json=ratingEnabled,proto3" json:"rating_enabled,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
