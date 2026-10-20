@@ -172,9 +172,6 @@ type Problem struct {
 	AcceptanceRate      float32 `protobuf:"fixed32,40,opt,name=acceptance_rate,json=acceptanceRate,proto3" json:"acceptance_rate,omitempty"`
 	SubmissionsCount    uint32  `protobuf:"varint,42,opt,name=submissions_count,json=submissionsCount,proto3" json:"submissions_count,omitempty"`
 	SubmissionsAccepted uint32  `protobuf:"varint,43,opt,name=submissions_accepted,json=submissionsAccepted,proto3" json:"submissions_accepted,omitempty"`
-	// Number of votes for the problem
-	Vote      int32 `protobuf:"varint,50,opt,name=vote,proto3" json:"vote,omitempty"`
-	VoteCount int32 `protobuf:"varint,51,opt,name=vote_count,json=voteCount,proto3" json:"vote_count,omitempty"`
 	// Difficulty from 0 (very easy) to 5 (very hard)
 	Difficulty    uint32             `protobuf:"varint,21,opt,name=difficulty,proto3" json:"difficulty,omitempty"`
 	Examples      []*Problem_Example `protobuf:"bytes,60,rep,name=examples,proto3" json:"examples,omitempty"`
@@ -362,20 +359,6 @@ func (x *Problem) GetSubmissionsCount() uint32 {
 func (x *Problem) GetSubmissionsAccepted() uint32 {
 	if x != nil {
 		return x.SubmissionsAccepted
-	}
-	return 0
-}
-
-func (x *Problem) GetVote() int32 {
-	if x != nil {
-		return x.Vote
-	}
-	return 0
-}
-
-func (x *Problem) GetVoteCount() int32 {
-	if x != nil {
-		return x.VoteCount
 	}
 	return 0
 }
@@ -670,7 +653,7 @@ var File_eolymp_atlas_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xcc\x15\n" +
+	"\x1aeolymp/atlas/problem.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x95\x15\n" +
 	"\aProblem\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x19\n" +
 	"\x03url\x18\xaa\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -695,10 +678,7 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\vconstraints\x18\x1e \x01(\v2!.eolymp.atlas.Problem.ConstraintsB\x06\xa8\xf0\xf0\xe4\x01\x01R\vconstraints\x12/\n" +
 	"\x0facceptance_rate\x18( \x01(\x02B\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eacceptanceRate\x123\n" +
 	"\x11submissions_count\x18* \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x10submissionsCount\x129\n" +
-	"\x14submissions_accepted\x18+ \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x13submissionsAccepted\x12\x1a\n" +
-	"\x04vote\x182 \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x04vote\x12%\n" +
-	"\n" +
-	"vote_count\x183 \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\tvoteCount\x12\x1e\n" +
+	"\x14submissions_accepted\x18+ \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x13submissionsAccepted\x12\x1e\n" +
 	"\n" +
 	"difficulty\x18\x15 \x01(\rR\n" +
 	"difficulty\x12A\n" +
@@ -748,7 +728,7 @@ const file_eolymp_atlas_problem_proto_rawDesc = "" +
 	"\x04QUIZ\x10\x06\x1aE\x9a\xf0\xf0\xe4\x01?quiz problem, user should answer a set of questions to solve it\x12\x81\x01\n" +
 	"\vINTERACTIVE\x10\a\x1ap\x9a\xf0\xf0\xe4\x01jinteractive problem, user's program communicates with an interactor instead of reading a static input file\x12\x96\x01\n" +
 	"\rCOMMUNICATION\x10\b\x1a\x82\x01\x9a\xf0\xf0\xe4\x01|communication problem, an interactor runs several instances of the user's program at once and mediates everything they share\x12t\n" +
-	"\x06WIDGET\x10\t\x1ah\x9a\xf0\xf0\xe4\x01bwidget problem, user composes the answer inside an interactive widget embedded in the problem pageB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\x06WIDGET\x10\t\x1ah\x9a\xf0\xf0\xe4\x01bwidget problem, user composes the answer inside an interactive widget embedded in the problem pageJ\x04\b2\x103J\x04\b3\x104B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_problem_proto_rawDescOnce sync.Once
