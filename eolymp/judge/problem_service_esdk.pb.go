@@ -286,6 +286,23 @@ func (s *ProblemServiceService) DescribeEditorial(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (s *ProblemServiceService) RateProblem(ctx context.Context, in *RateProblemInput) (*RateProblemOutput, error) {
+	out := &RateProblemOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/ratings"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	out := &ListAttachmentsOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
