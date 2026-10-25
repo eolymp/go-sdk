@@ -1739,7 +1739,7 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
 	"\aversion\x18d \x01(\rR\aversion\"8\n" +
 	"\x13ExportProblemOutput\x12!\n" +
-	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xd6\x0e\n" +
+	"\fsnapshot_url\x18\x01 \x01(\tR\vsnapshotUrl2\xf8\x0e\n" +
 	"\x0eProblemService\x12\x99\x01\n" +
 	"\rCreateProblem\x12 .eolymp.atlas.CreateProblemInput\x1a!.eolymp.atlas.CreateProblemOutput\"C\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1800,14 +1800,14 @@ const file_eolymp_atlas_problem_service_proto_rawDesc = "" +
 	"\x17\x8a\xe3\n" +
 	"\x13atlas:problem:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/problems/{problem_id}/import\x12\x8c\x01\n" +
-	"\vRateProblem\x12\x1e.eolymp.atlas.RateProblemInput\x1a\x1f.eolymp.atlas.RateProblemOutput\"<\xea\xe2\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/problems/{problem_id}/import\x12\xae\x01\n" +
+	"\vRateProblem\x12\x1e.eolymp.atlas.RateProblemInput\x1a\x1f.eolymp.atlas.RateProblemOutput\"^\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x00@\xf8\xe2\n" +
 	"\n" +
 	"\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1f\"\x1d/problems/{problem_id}/rating\x12\xac\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02AZ\x1f\"\x1d/problems/{problem_id}/rating\"\x1e/problems/{problem_id}/ratings\x12\xac\x01\n" +
 	"\fListVersions\x12\x1f.eolymp.atlas.ListVersionsInput\x1a .eolymp.atlas.ListVersionsOutput\"Y\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +

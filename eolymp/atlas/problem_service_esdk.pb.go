@@ -204,7 +204,7 @@ func (s *ProblemServiceService) ImportProblem(ctx context.Context, in *ImportPro
 
 func (s *ProblemServiceService) RateProblem(ctx context.Context, in *RateProblemInput) (*RateProblemOutput, error) {
 	out := &RateProblemOutput{}
-	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/rating"
+	path := "/problems/" + url.PathEscape(in.GetProblemId()) + "/ratings"
 
 	// Cleanup URL parameters to avoid any ambiguity
 	if in != nil {
