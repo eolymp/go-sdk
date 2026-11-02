@@ -33,6 +33,7 @@ type ImportProblemInput struct {
 	Index              uint32   `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
 	SubmitLimit        uint32   `protobuf:"varint,11,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`
 	ScoreByBestTestset bool     `protobuf:"varint,12,opt,name=score_by_best_testset,json=scoreByBestTestset,proto3" json:"score_by_best_testset,omitempty"`
+	DeferredResults    bool     `protobuf:"varint,13,opt,name=deferred_results,json=deferredResults,proto3" json:"deferred_results,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -106,6 +107,13 @@ func (x *ImportProblemInput) GetSubmitLimit() uint32 {
 func (x *ImportProblemInput) GetScoreByBestTestset() bool {
 	if x != nil {
 		return x.ScoreByBestTestset
+	}
+	return false
+}
+
+func (x *ImportProblemInput) GetDeferredResults() bool {
+	if x != nil {
+		return x.DeferredResults
 	}
 	return false
 }
@@ -1840,7 +1848,7 @@ var File_eolymp_judge_problem_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1beolymp/atlas/question.proto\x1a\x19eolymp/atlas/widget.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\xdf\x01\n" +
+	"\"eolymp/judge/problem_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\x1a\x1aeolymp/atlas/problem.proto\x1a\x1beolymp/atlas/question.proto\x1a\x19eolymp/atlas/widget.proto\x1a\x1aeolymp/judge/problem.proto\x1a\x1beolymp/judge/template.proto\x1a\x1ceolymp/runtime/runtime.proto\"\x8a\x02\n" +
 	"\x12ImportProblemInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1f\n" +
@@ -1850,7 +1858,8 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"\x05index\x18\n" +
 	" \x01(\rR\x05index\x12!\n" +
 	"\fsubmit_limit\x18\v \x01(\rR\vsubmitLimit\x121\n" +
-	"\x15score_by_best_testset\x18\f \x01(\bR\x12scoreByBestTestset\"Y\n" +
+	"\x15score_by_best_testset\x18\f \x01(\bR\x12scoreByBestTestset\x12)\n" +
+	"\x10deferred_results\x18\r \x01(\bR\x0fdeferredResults\"Y\n" +
 	"\x13ImportProblemOutput\x12!\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tB\x02\x18\x01R\tproblemId\x12\x1f\n" +
