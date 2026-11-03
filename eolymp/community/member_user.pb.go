@@ -28,6 +28,7 @@ type User struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Issuer                string                 `protobuf:"bytes,1,opt,name=issuer,proto3" json:"issuer,omitempty"`
 	Subject               string                 `protobuf:"bytes,2,opt,name=subject,proto3" json:"subject,omitempty"`
+	Bot                   bool                   `protobuf:"varint,3,opt,name=bot,proto3" json:"bot,omitempty"` // an automated account
 	Nickname              string                 `protobuf:"bytes,10,opt,name=nickname,proto3" json:"nickname,omitempty"`
 	NicknameChangeTimeout uint32                 `protobuf:"varint,11,opt,name=nickname_change_timeout,json=nicknameChangeTimeout,proto3" json:"nickname_change_timeout,omitempty"`
 	Aliases               []*User_Alias          `protobuf:"bytes,13,rep,name=aliases,proto3" json:"aliases,omitempty"`
@@ -91,6 +92,13 @@ func (x *User) GetSubject() string {
 		return x.Subject
 	}
 	return ""
+}
+
+func (x *User) GetBot() bool {
+	if x != nil {
+		return x.Bot
+	}
+	return false
 }
 
 func (x *User) GetNickname() string {
@@ -513,10 +521,11 @@ var File_eolymp_community_member_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_community_member_user_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\r\n" +
+	"\"eolymp/community/member_user.proto\x12\x10eolymp.community\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/mail/email_type.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9f\r\n" +
 	"\x04User\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x18\n" +
-	"\asubject\x18\x02 \x01(\tR\asubject\x12\x1a\n" +
+	"\asubject\x18\x02 \x01(\tR\asubject\x12\x18\n" +
+	"\x03bot\x18\x03 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03bot\x12\x1a\n" +
 	"\bnickname\x18\n" +
 	" \x01(\tR\bnickname\x12>\n" +
 	"\x17nickname_change_timeout\x18\v \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x15nicknameChangeTimeout\x12>\n" +

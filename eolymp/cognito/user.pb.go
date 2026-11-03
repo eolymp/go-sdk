@@ -28,6 +28,7 @@ type User struct {
 	Username          string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                               // Username (handler)
 	Email             string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                                     // Email address
 	Active            bool                   `protobuf:"varint,4,opt,name=active,proto3" json:"active,omitempty"`                                                  // Account is active, user can login
+	Bot               bool                   `protobuf:"varint,5,opt,name=bot,proto3" json:"bot,omitempty"`                                                        // An automated account
 	Rating            uint32                 `protobuf:"varint,60,opt,name=rating,proto3" json:"rating,omitempty"`                                                 // Rating
 	Name              string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`                                                      // Full name
 	Picture           string                 `protobuf:"bytes,11,opt,name=picture,proto3" json:"picture,omitempty"`                                                // Profile picture
@@ -104,6 +105,13 @@ func (x *User) GetEmail() string {
 func (x *User) GetActive() bool {
 	if x != nil {
 		return x.Active
+	}
+	return false
+}
+
+func (x *User) GetBot() bool {
+	if x != nil {
+		return x.Bot
 	}
 	return false
 }
@@ -290,12 +298,13 @@ var File_eolymp_cognito_user_proto protoreflect.FileDescriptor
 
 const file_eolymp_cognito_user_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfe\x06\n" +
+	"\x19eolymp/cognito/user.proto\x12\x0eeolymp.cognito\x1a\x1fgoogle/protobuf/timestamp.proto\"\x90\a\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x16\n" +
-	"\x06active\x18\x04 \x01(\bR\x06active\x12\x16\n" +
+	"\x06active\x18\x04 \x01(\bR\x06active\x12\x10\n" +
+	"\x03bot\x18\x05 \x01(\bR\x03bot\x12\x16\n" +
 	"\x06rating\x18< \x01(\rR\x06rating\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12\x18\n" +
