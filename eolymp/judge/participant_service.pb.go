@@ -2165,7 +2165,7 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x12FinishContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x15\n" +
-	"\x13FinishContestOutput2\xc4\x18\n" +
+	"\x13FinishContestOutput2\xe5\x18\n" +
 	"\x12ParticipantService\x12\xbf\x01\n" +
 	"\x11AssignParticipant\x12$.eolymp.judge.AssignParticipantInput\x1a%.eolymp.judge.AssignParticipantOutput\"]\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2238,11 +2238,13 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12judge:contest:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02<\x12:/contests/{contest_id}/participants/{participant_id}/watch0\x01\x12\x8a\x01\n" +
-	"\vJoinContest\x12\x1e.eolymp.judge.JoinContestInput\x1a\x1f.eolymp.judge.JoinContestOutput\":\xea\xe2\n" +
+	"\x01\x82\xd3\xe4\x93\x02<\x12:/contests/{contest_id}/participants/{participant_id}/watch0\x01\x12\xab\x01\n" +
+	"\vJoinContest\x12\x1e.eolymp.judge.JoinContestInput\x1a\x1f.eolymp.judge.JoinContestOutput\"[\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
-	"\x03\xa2\xe3\n" +
+	"\x03\x82\xe3\n" +
+	"\x1d\x8a\xe3\n" +
+	"\x19judge:contest:participate\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
 	"\x02\x82\xd3\xe4\x93\x02\x1d\"\x1b/contests/{contest_id}/join\x12\xaf\x01\n" +
 	"\fLeaveContest\x12\x1f.eolymp.judge.LeaveContestInput\x1a .eolymp.judge.LeaveContestOutput\"\\\xea\xe2\n" +

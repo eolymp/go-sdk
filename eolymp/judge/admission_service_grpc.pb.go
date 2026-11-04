@@ -37,7 +37,7 @@ const (
 // which the organiser looks up to see who is behind it and then accepts; the console describes presenting
 // it as scanning a QR code. What is admitted is one session rather than the participant, and only for a
 // limited time, so the same person on a second device has to be admitted again. Joining the contest at
-// all is a separate step and belongs to RegistrationService.
+// all is a separate step, done through ParticipantService.JoinContest.
 type AdmissionServiceClient interface {
 	// RequestAdmission is called by the participant's own client to obtain the code it then shows to an
 	// organiser, and it also answers whether admission is needed at all: a contest which does not demand
@@ -127,7 +127,7 @@ func (c *admissionServiceClient) AcceptAdmission(ctx context.Context, in *Accept
 // which the organiser looks up to see who is behind it and then accepts; the console describes presenting
 // it as scanning a QR code. What is admitted is one session rather than the participant, and only for a
 // limited time, so the same person on a second device has to be admitted again. Joining the contest at
-// all is a separate step and belongs to RegistrationService.
+// all is a separate step, done through ParticipantService.JoinContest.
 type AdmissionServiceServer interface {
 	// RequestAdmission is called by the participant's own client to obtain the code it then shows to an
 	// organiser, and it also answers whether admission is needed at all: a contest which does not demand
