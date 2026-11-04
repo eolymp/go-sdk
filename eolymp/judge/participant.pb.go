@@ -273,6 +273,8 @@ type Participant struct {
 	// Deprecated: Marked as deprecated in eolymp/judge/participant.proto.
 	Passcode      string                  `protobuf:"bytes,30,opt,name=passcode,proto3" json:"passcode,omitempty"`
 	CertificateId string                  `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // Participation certificate ID.
+	Rating        int32                   `protobuf:"varint,35,opt,name=rating,proto3" json:"rating,omitempty"`                                   // rating the participant got for a rated contest, zero when not rated
+	RatingDiff    int32                   `protobuf:"varint,36,opt,name=rating_diff,json=ratingDiff,proto3" json:"rating_diff,omitempty"`         // change from the participant's previous rating, zero when not rated
 	Proctoring    *Participant_Proctoring `protobuf:"bytes,34,opt,name=proctoring,proto3" json:"proctoring,omitempty"`                            // proctoring recording of the participation, only in a proctored contest
 	// Submit counter is used to count how many times user submitted the problem.
 	Submits []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
@@ -437,6 +439,20 @@ func (x *Participant) GetCertificateId() string {
 		return x.CertificateId
 	}
 	return ""
+}
+
+func (x *Participant) GetRating() int32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *Participant) GetRatingDiff() int32 {
+	if x != nil {
+		return x.RatingDiff
+	}
+	return 0
 }
 
 func (x *Participant) GetProctoring() *Participant_Proctoring {
@@ -764,7 +780,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x99\x12\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x12\n" +
 	"\vParticipant\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12\x1f\n" +
@@ -788,7 +804,10 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"bonus_time\x18\x1b \x01(\rR\tbonusTime\x12/\n" +
 	"\x0fviolation_count\x18\x1c \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\x0eviolationCount\x12$\n" +
 	"\bpasscode\x18\x1e \x01(\tB\b\xa8\xf0\xf0\xe4\x01\x01\x18\x01R\bpasscode\x12-\n" +
-	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12R\n" +
+	"\x0ecertificate_id\x18  \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\rcertificateId\x12\x1e\n" +
+	"\x06rating\x18# \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\x06rating\x12'\n" +
+	"\vrating_diff\x18$ \x01(\x05B\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"ratingDiff\x12R\n" +
 	"\n" +
 	"proctoring\x18\" \x01(\v2$.eolymp.judge.Participant.ProctoringB\f\xa8\xf0\xf0\xe4\x01\x01\xb0\xf0\xf0\xe4\x01\x01R\n" +
 	"proctoring\x12B\n" +
