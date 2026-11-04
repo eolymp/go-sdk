@@ -382,14 +382,18 @@ type Scoreboard_Row struct {
 	Rank       uint32 `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
 	RankLength uint32 `protobuf:"varint,12,opt,name=rank_length,json=rankLength,proto3" json:"rank_length,omitempty"`
 	// Rank among every participant, including unofficial and disqualified ones. Always set.
-	RankAll       uint32                  `protobuf:"varint,13,opt,name=rank_all,json=rankAll,proto3" json:"rank_all,omitempty"`
-	RankAllLength uint32                  `protobuf:"varint,14,opt,name=rank_all_length,json=rankAllLength,proto3" json:"rank_all_length,omitempty"`
-	Score         float32                 `protobuf:"fixed32,20,opt,name=score,proto3" json:"score,omitempty"`
-	Penalty       float32                 `protobuf:"fixed32,21,opt,name=penalty,proto3" json:"penalty,omitempty"`
-	TieBreaker    uint32                  `protobuf:"varint,22,opt,name=tie_breaker,json=tieBreaker,proto3" json:"tie_breaker,omitempty"`
-	Unofficial    bool                    `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`
-	Disqualified  bool                    `protobuf:"varint,31,opt,name=disqualified,proto3" json:"disqualified,omitempty"`
-	Medal         Medal                   `protobuf:"varint,32,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
+	RankAll       uint32  `protobuf:"varint,13,opt,name=rank_all,json=rankAll,proto3" json:"rank_all,omitempty"`
+	RankAllLength uint32  `protobuf:"varint,14,opt,name=rank_all_length,json=rankAllLength,proto3" json:"rank_all_length,omitempty"`
+	Score         float32 `protobuf:"fixed32,20,opt,name=score,proto3" json:"score,omitempty"`
+	Penalty       float32 `protobuf:"fixed32,21,opt,name=penalty,proto3" json:"penalty,omitempty"`
+	TieBreaker    uint32  `protobuf:"varint,22,opt,name=tie_breaker,json=tieBreaker,proto3" json:"tie_breaker,omitempty"`
+	Unofficial    bool    `protobuf:"varint,30,opt,name=unofficial,proto3" json:"unofficial,omitempty"`
+	Disqualified  bool    `protobuf:"varint,31,opt,name=disqualified,proto3" json:"disqualified,omitempty"`
+	Medal         Medal   `protobuf:"varint,32,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
+	// Rating the participant got for the contest and its change from the previous rating, set on contest boards
+	// once a rated contest is finalized; zero for participants who were not rated.
+	Rating        int32                   `protobuf:"varint,40,opt,name=rating,proto3" json:"rating,omitempty"`
+	RatingDiff    int32                   `protobuf:"varint,41,opt,name=rating_diff,json=ratingDiff,proto3" json:"rating_diff,omitempty"`
 	Values        []*Scoreboard_Row_Value `protobuf:"bytes,50,rep,name=values,proto3" json:"values,omitempty"`
 	Roster        []*Participant_Member   `protobuf:"bytes,60,rep,name=roster,proto3" json:"roster,omitempty"` // members who competed for the team
 	unknownFields protoimpl.UnknownFields
@@ -522,6 +526,20 @@ func (x *Scoreboard_Row) GetMedal() Medal {
 		return x.Medal
 	}
 	return Medal_NO_MEDAL
+}
+
+func (x *Scoreboard_Row) GetRating() int32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *Scoreboard_Row) GetRatingDiff() int32 {
+	if x != nil {
+		return x.RatingDiff
+	}
+	return 0
 }
 
 func (x *Scoreboard_Row) GetValues() []*Scoreboard_Row_Value {
@@ -995,7 +1013,7 @@ var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1eeolymp/judge/participant.proto\"\xab\x11\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1eeolymp/judge/participant.proto\"\xe4\x11\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -1038,7 +1056,7 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12\x19\n" +
 	"\x05label\x18\x03 \x01(\tH\x01R\x05label\x88\x01\x01B\b\n" +
 	"\x06_indexB\b\n" +
-	"\x06_label\x1a\xea\a\n" +
+	"\x06_label\x1a\xa3\b\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x17\n" +
@@ -1058,7 +1076,10 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"unofficial\x18\x1e \x01(\bR\n" +
 	"unofficial\x12\"\n" +
 	"\fdisqualified\x18\x1f \x01(\bR\fdisqualified\x12)\n" +
-	"\x05medal\x18  \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x12:\n" +
+	"\x05medal\x18  \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x12\x16\n" +
+	"\x06rating\x18( \x01(\x05R\x06rating\x12\x1f\n" +
+	"\vrating_diff\x18) \x01(\x05R\n" +
+	"ratingDiff\x12:\n" +
 	"\x06values\x182 \x03(\v2\".eolymp.judge.Scoreboard.Row.ValueR\x06values\x128\n" +
 	"\x06roster\x18< \x03(\v2 .eolymp.judge.Participant.MemberR\x06roster\x1a\xed\x01\n" +
 	"\x05Value\x12\x1b\n" +
