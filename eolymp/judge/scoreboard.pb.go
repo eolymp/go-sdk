@@ -376,6 +376,7 @@ type Scoreboard_Row struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	Id       string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	MemberId string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	TeamId   string                 `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"` // team the row belongs to, member_id is empty then
 	Index    uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
 	// Rank among officially ranked participants only; zero when the row itself is unofficial or disqualified.
 	Rank       uint32 `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
@@ -390,6 +391,7 @@ type Scoreboard_Row struct {
 	Disqualified  bool                    `protobuf:"varint,31,opt,name=disqualified,proto3" json:"disqualified,omitempty"`
 	Medal         Medal                   `protobuf:"varint,32,opt,name=medal,proto3,enum=eolymp.judge.Medal" json:"medal,omitempty"`
 	Values        []*Scoreboard_Row_Value `protobuf:"bytes,50,rep,name=values,proto3" json:"values,omitempty"`
+	Roster        []*Participant_Member   `protobuf:"bytes,60,rep,name=roster,proto3" json:"roster,omitempty"` // members who competed for the team
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -434,6 +436,13 @@ func (x *Scoreboard_Row) GetId() string {
 func (x *Scoreboard_Row) GetMemberId() string {
 	if x != nil {
 		return x.MemberId
+	}
+	return ""
+}
+
+func (x *Scoreboard_Row) GetTeamId() string {
+	if x != nil {
+		return x.TeamId
 	}
 	return ""
 }
@@ -518,6 +527,13 @@ func (x *Scoreboard_Row) GetMedal() Medal {
 func (x *Scoreboard_Row) GetValues() []*Scoreboard_Row_Value {
 	if x != nil {
 		return x.Values
+	}
+	return nil
+}
+
+func (x *Scoreboard_Row) GetRoster() []*Participant_Member {
+	if x != nil {
+		return x.Roster
 	}
 	return nil
 }
@@ -979,7 +995,7 @@ var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\"\xd8\x10\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1eeolymp/judge/participant.proto\"\xab\x11\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -1022,10 +1038,11 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12\x19\n" +
 	"\x05label\x18\x03 \x01(\tH\x01R\x05label\x88\x01\x01B\b\n" +
 	"\x06_indexB\b\n" +
-	"\x06_label\x1a\x97\a\n" +
+	"\x06_label\x1a\xea\a\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x14\n" +
+	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x17\n" +
+	"\ateam_id\x18\x03 \x01(\tR\x06teamId\x12\x14\n" +
 	"\x05index\x18\n" +
 	" \x01(\rR\x05index\x12\x12\n" +
 	"\x04rank\x18\v \x01(\rR\x04rank\x12\x1f\n" +
@@ -1042,7 +1059,8 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"unofficial\x12\"\n" +
 	"\fdisqualified\x18\x1f \x01(\bR\fdisqualified\x12)\n" +
 	"\x05medal\x18  \x01(\x0e2\x13.eolymp.judge.MedalR\x05medal\x12:\n" +
-	"\x06values\x182 \x03(\v2\".eolymp.judge.Scoreboard.Row.ValueR\x06values\x1a\xed\x01\n" +
+	"\x06values\x182 \x03(\v2\".eolymp.judge.Scoreboard.Row.ValueR\x06values\x128\n" +
+	"\x06roster\x18< \x03(\v2 .eolymp.judge.Participant.MemberR\x06roster\x1a\xed\x01\n" +
 	"\x05Value\x12\x1b\n" +
 	"\tcolumn_id\x18\x01 \x01(\tR\bcolumnId\x128\n" +
 	"\x04type\x18\x02 \x01(\x0e2$.eolymp.judge.Scoreboard.Column.TypeR\x04type\x12P\n" +
@@ -1112,6 +1130,7 @@ var file_eolymp_judge_scoreboard_proto_goTypes = []any{
 	(*Scoreboard_Stats_Problem)(nil),    // 10: eolymp.judge.Scoreboard.Stats.Problem
 	(community.Attribute_Type)(0),       // 11: eolymp.community.Attribute.Type
 	(Medal)(0),                          // 12: eolymp.judge.Medal
+	(*Participant_Member)(nil),          // 13: eolymp.judge.Participant.Member
 }
 var file_eolymp_judge_scoreboard_proto_depIdxs = []int32{
 	0,  // 0: eolymp.judge.Scoreboard.modes:type_name -> eolymp.judge.Scoreboard.Mode
@@ -1120,14 +1139,15 @@ var file_eolymp_judge_scoreboard_proto_depIdxs = []int32{
 	11, // 3: eolymp.judge.Scoreboard.Attribute.type:type_name -> eolymp.community.Attribute.Type
 	12, // 4: eolymp.judge.Scoreboard.Row.medal:type_name -> eolymp.judge.Medal
 	8,  // 5: eolymp.judge.Scoreboard.Row.values:type_name -> eolymp.judge.Scoreboard.Row.Value
-	10, // 6: eolymp.judge.Scoreboard.Stats.problems:type_name -> eolymp.judge.Scoreboard.Stats.Problem
-	1,  // 7: eolymp.judge.Scoreboard.Row.Value.type:type_name -> eolymp.judge.Scoreboard.Column.Type
-	9,  // 8: eolymp.judge.Scoreboard.Row.Value.problem_score:type_name -> eolymp.judge.Scoreboard.Row.ProblemScore
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	13, // 6: eolymp.judge.Scoreboard.Row.roster:type_name -> eolymp.judge.Participant.Member
+	10, // 7: eolymp.judge.Scoreboard.Stats.problems:type_name -> eolymp.judge.Scoreboard.Stats.Problem
+	1,  // 8: eolymp.judge.Scoreboard.Row.Value.type:type_name -> eolymp.judge.Scoreboard.Column.Type
+	9,  // 9: eolymp.judge.Scoreboard.Row.Value.problem_score:type_name -> eolymp.judge.Scoreboard.Row.ProblemScore
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_scoreboard_proto_init() }
@@ -1136,6 +1156,7 @@ func file_eolymp_judge_scoreboard_proto_init() {
 		return
 	}
 	file_eolymp_judge_medal_proto_init()
+	file_eolymp_judge_participant_proto_init()
 	file_eolymp_judge_scoreboard_proto_msgTypes[5].OneofWrappers = []any{}
 	file_eolymp_judge_scoreboard_proto_msgTypes[6].OneofWrappers = []any{
 		(*Scoreboard_Row_Value_ProblemScore)(nil),

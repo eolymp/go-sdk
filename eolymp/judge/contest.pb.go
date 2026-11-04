@@ -238,6 +238,55 @@ func (Contest_NotificationStatus) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 3}
 }
 
+type Contest_ParticipantType int32
+
+const (
+	Contest_UNKNOWN_PARTICIPANT_TYPE Contest_ParticipantType = 0
+	Contest_INDIVIDUAL               Contest_ParticipantType = 1
+	Contest_TEAM                     Contest_ParticipantType = 2
+)
+
+// Enum value maps for Contest_ParticipantType.
+var (
+	Contest_ParticipantType_name = map[int32]string{
+		0: "UNKNOWN_PARTICIPANT_TYPE",
+		1: "INDIVIDUAL",
+		2: "TEAM",
+	}
+	Contest_ParticipantType_value = map[string]int32{
+		"UNKNOWN_PARTICIPANT_TYPE": 0,
+		"INDIVIDUAL":               1,
+		"TEAM":                     2,
+	}
+)
+
+func (x Contest_ParticipantType) Enum() *Contest_ParticipantType {
+	p := new(Contest_ParticipantType)
+	*p = x
+	return p
+}
+
+func (x Contest_ParticipantType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Contest_ParticipantType) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_judge_contest_proto_enumTypes[4].Descriptor()
+}
+
+func (Contest_ParticipantType) Type() protoreflect.EnumType {
+	return &file_eolymp_judge_contest_proto_enumTypes[4]
+}
+
+func (x Contest_ParticipantType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Contest_ParticipantType.Descriptor instead.
+func (Contest_ParticipantType) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4}
+}
+
 type Contest_Format int32
 
 const (
@@ -271,11 +320,11 @@ func (x Contest_Format) String() string {
 }
 
 func (Contest_Format) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[4].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[5].Descriptor()
 }
 
 func (Contest_Format) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[4]
+	return &file_eolymp_judge_contest_proto_enumTypes[5]
 }
 
 func (x Contest_Format) Number() protoreflect.EnumNumber {
@@ -284,7 +333,7 @@ func (x Contest_Format) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Contest_Format.Descriptor instead.
 func (Contest_Format) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 4}
+	return file_eolymp_judge_contest_proto_rawDescGZIP(), []int{0, 5}
 }
 
 type Contest_Extra_Field int32
@@ -335,11 +384,11 @@ func (x Contest_Extra_Field) String() string {
 }
 
 func (Contest_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[5].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[6].Descriptor()
 }
 
 func (Contest_Extra_Field) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[5]
+	return &file_eolymp_judge_contest_proto_enumTypes[6]
 }
 
 func (x Contest_Extra_Field) Number() protoreflect.EnumNumber {
@@ -390,11 +439,11 @@ func (x Contest_Classification_Scale) String() string {
 }
 
 func (Contest_Classification_Scale) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[6].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[7].Descriptor()
 }
 
 func (Contest_Classification_Scale) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[6]
+	return &file_eolymp_judge_contest_proto_enumTypes[7]
 }
 
 func (x Contest_Classification_Scale) Number() protoreflect.EnumNumber {
@@ -442,11 +491,11 @@ func (x Contest_ScoreboardConfig_Visibility) String() string {
 }
 
 func (Contest_ScoreboardConfig_Visibility) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[7].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[8].Descriptor()
 }
 
 func (Contest_ScoreboardConfig_Visibility) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[7]
+	return &file_eolymp_judge_contest_proto_enumTypes[8]
 }
 
 func (x Contest_ScoreboardConfig_Visibility) Number() protoreflect.EnumNumber {
@@ -494,11 +543,11 @@ func (x Contest_ProctoringConfig_Mode) String() string {
 }
 
 func (Contest_ProctoringConfig_Mode) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_judge_contest_proto_enumTypes[8].Descriptor()
+	return file_eolymp_judge_contest_proto_enumTypes[9].Descriptor()
 }
 
 func (Contest_ProctoringConfig_Mode) Type() protoreflect.EnumType {
-	return &file_eolymp_judge_contest_proto_enumTypes[8]
+	return &file_eolymp_judge_contest_proto_enumTypes[9]
 }
 
 func (x Contest_ProctoringConfig_Mode) Number() protoreflect.EnumNumber {
@@ -549,6 +598,11 @@ type Contest struct {
 	// URL-friendly slug for the contest. Must match [a-z][a-z0-9\-_]+. Unique within a space.
 	Slug             string `protobuf:"bytes,42,opt,name=slug,proto3" json:"slug,omitempty"`
 	HideJuryIdentity bool   `protobuf:"varint,43,opt,name=hide_jury_identity,json=hideJuryIdentity,proto3" json:"hide_jury_identity,omitempty"` // When true, jury member identity is hidden from participants in ticket replies
+	// Who enters the contest: individual members, or teams registered by their captain with a roster, see
+	// eolymp.team.TeamService. Team contests require the space to support teams.
+	ParticipantType Contest_ParticipantType `protobuf:"varint,44,opt,name=participant_type,json=participantType,proto3,enum=eolymp.judge.Contest_ParticipantType" json:"participant_type,omitempty"`
+	MinTeamSize     uint32                  `protobuf:"varint,45,opt,name=min_team_size,json=minTeamSize,proto3" json:"min_team_size,omitempty"` // fewest members on a team's roster, team contests only
+	MaxTeamSize     uint32                  `protobuf:"varint,46,opt,name=max_team_size,json=maxTeamSize,proto3" json:"max_team_size,omitempty"` // most members on a team's roster, team contests only
 	// Format defines competition style IOI or ICPC.
 	Format Contest_Format `protobuf:"varint,32,opt,name=format,proto3,enum=eolymp.judge.Contest_Format" json:"format,omitempty"`
 	// Contest key used to make human friendly URLs.
@@ -777,6 +831,27 @@ func (x *Contest) GetHideJuryIdentity() bool {
 	return false
 }
 
+func (x *Contest) GetParticipantType() Contest_ParticipantType {
+	if x != nil {
+		return x.ParticipantType
+	}
+	return Contest_UNKNOWN_PARTICIPANT_TYPE
+}
+
+func (x *Contest) GetMinTeamSize() uint32 {
+	if x != nil {
+		return x.MinTeamSize
+	}
+	return 0
+}
+
+func (x *Contest) GetMaxTeamSize() uint32 {
+	if x != nil {
+		return x.MaxTeamSize
+	}
+	return 0
+}
+
 func (x *Contest) GetFormat() Contest_Format {
 	if x != nil {
 		return x.Format
@@ -930,6 +1005,9 @@ type Contest_Patch struct {
 	DisplayEditorials          *bool                        `protobuf:"varint,41,opt,name=display_editorials,json=displayEditorials,proto3,oneof" json:"display_editorials,omitempty"`
 	Slug                       *string                      `protobuf:"bytes,42,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
 	HideJuryIdentity           *bool                        `protobuf:"varint,43,opt,name=hide_jury_identity,json=hideJuryIdentity,proto3,oneof" json:"hide_jury_identity,omitempty"`
+	ParticipantType            *Contest_ParticipantType     `protobuf:"varint,44,opt,name=participant_type,json=participantType,proto3,enum=eolymp.judge.Contest_ParticipantType,oneof" json:"participant_type,omitempty"`
+	MinTeamSize                *uint32                      `protobuf:"varint,45,opt,name=min_team_size,json=minTeamSize,proto3,oneof" json:"min_team_size,omitempty"`
+	MaxTeamSize                *uint32                      `protobuf:"varint,46,opt,name=max_team_size,json=maxTeamSize,proto3,oneof" json:"max_team_size,omitempty"`
 	FeaturedUntil              *timestamppb.Timestamp       `protobuf:"bytes,50,opt,name=featured_until,json=featuredUntil,proto3" json:"featured_until,omitempty"`
 	PrinterId                  *string                      `protobuf:"bytes,71,opt,name=printer_id,json=printerId,proto3,oneof" json:"printer_id,omitempty"`
 	ScoreboardConfig           *Contest_ScoreboardConfig    `protobuf:"bytes,105,opt,name=scoreboard_config,json=scoreboardConfig,proto3" json:"scoreboard_config,omitempty"`
@@ -1096,6 +1174,27 @@ func (x *Contest_Patch) GetHideJuryIdentity() bool {
 		return *x.HideJuryIdentity
 	}
 	return false
+}
+
+func (x *Contest_Patch) GetParticipantType() Contest_ParticipantType {
+	if x != nil && x.ParticipantType != nil {
+		return *x.ParticipantType
+	}
+	return Contest_UNKNOWN_PARTICIPANT_TYPE
+}
+
+func (x *Contest_Patch) GetMinTeamSize() uint32 {
+	if x != nil && x.MinTeamSize != nil {
+		return *x.MinTeamSize
+	}
+	return 0
+}
+
+func (x *Contest_Patch) GetMaxTeamSize() uint32 {
+	if x != nil && x.MaxTeamSize != nil {
+		return *x.MaxTeamSize
+	}
+	return 0
 }
 
 func (x *Contest_Patch) GetFeaturedUntil() *timestamppb.Timestamp {
@@ -1698,7 +1797,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xba6\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe6:\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -1728,7 +1827,10 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x0eallow_followup\x18' \x01(\bR\rallowFollowup\x12-\n" +
 	"\x12display_editorials\x18) \x01(\bR\x11displayEditorials\x12\x12\n" +
 	"\x04slug\x18* \x01(\tR\x04slug\x12,\n" +
-	"\x12hide_jury_identity\x18+ \x01(\bR\x10hideJuryIdentity\x124\n" +
+	"\x12hide_jury_identity\x18+ \x01(\bR\x10hideJuryIdentity\x12P\n" +
+	"\x10participant_type\x18, \x01(\x0e2%.eolymp.judge.Contest.ParticipantTypeR\x0fparticipantType\x12\"\n" +
+	"\rmin_team_size\x18- \x01(\rR\vminTeamSize\x12\"\n" +
+	"\rmax_team_size\x18. \x01(\rR\vmaxTeamSize\x124\n" +
 	"\x06format\x18  \x01(\x0e2\x1c.eolymp.judge.Contest.FormatR\x06format\x12\x10\n" +
 	"\x03key\x18( \x01(\tR\x03key\x12+\n" +
 	"\rproblem_count\x18< \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\fproblemCount\x128\n" +
@@ -1748,7 +1850,7 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x12[\n" +
 	"\x11proctoring_config\x18s \x01(\v2&.eolymp.judge.Contest.ProctoringConfigB\x06\xb0\xf0\xf0\xe4\x01\x01R\x10proctoringConfig\x129\n" +
-	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\x83\x0e\n" +
+	"\x05staff\x18x \x03(\v2\x1b.eolymp.judge.Contest.StaffB\x06\xa8\xf0\xf0\xe4\x01\x01R\x05staff\x1a\xe5\x0f\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12 \n" +
 	"\timage_url\x18\x04 \x01(\tH\x01R\bimageUrl\x88\x01\x01\x127\n" +
@@ -1772,12 +1874,15 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x03key\x18( \x01(\tH\fR\x03key\x88\x01\x01\x122\n" +
 	"\x12display_editorials\x18) \x01(\bH\rR\x11displayEditorials\x88\x01\x01\x12\x17\n" +
 	"\x04slug\x18* \x01(\tH\x0eR\x04slug\x88\x01\x01\x121\n" +
-	"\x12hide_jury_identity\x18+ \x01(\bH\x0fR\x10hideJuryIdentity\x88\x01\x01\x12A\n" +
+	"\x12hide_jury_identity\x18+ \x01(\bH\x0fR\x10hideJuryIdentity\x88\x01\x01\x12U\n" +
+	"\x10participant_type\x18, \x01(\x0e2%.eolymp.judge.Contest.ParticipantTypeH\x10R\x0fparticipantType\x88\x01\x01\x12'\n" +
+	"\rmin_team_size\x18- \x01(\rH\x11R\vminTeamSize\x88\x01\x01\x12'\n" +
+	"\rmax_team_size\x18. \x01(\rH\x12R\vmaxTeamSize\x88\x01\x01\x12A\n" +
 	"\x0efeatured_until\x182 \x01(\v2\x1a.google.protobuf.TimestampR\rfeaturedUntil\x12\"\n" +
 	"\n" +
-	"printer_id\x18G \x01(\tH\x10R\tprinterId\x88\x01\x01\x12S\n" +
+	"printer_id\x18G \x01(\tH\x13R\tprinterId\x88\x01\x01\x12S\n" +
 	"\x11scoreboard_config\x18i \x01(\v2&.eolymp.judge.Contest.ScoreboardConfigR\x10scoreboardConfig\x12Q\n" +
-	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationH\x11R\x0eclassification\x88\x01\x01\x12V\n" +
+	"\x0eclassification\x18n \x01(\v2$.eolymp.judge.Contest.ClassificationH\x14R\x0eclassification\x88\x01\x01\x12V\n" +
 	"\x12environment_config\x18o \x01(\v2'.eolymp.judge.Contest.EnvironmentConfigR\x11environmentConfig\x12\\\n" +
 	"\x14certification_config\x18p \x01(\v2).eolymp.judge.Contest.CertificationConfigR\x13certificationConfig\x12G\n" +
 	"\rrating_config\x18r \x01(\v2\".eolymp.judge.Contest.RatingConfigR\fratingConfig\x12[\n" +
@@ -1798,7 +1903,10 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x04_keyB\x15\n" +
 	"\x13_display_editorialsB\a\n" +
 	"\x05_slugB\x15\n" +
-	"\x13_hide_jury_identityB\r\n" +
+	"\x13_hide_jury_identityB\x13\n" +
+	"\x11_participant_typeB\x10\n" +
+	"\x0e_min_team_sizeB\x10\n" +
+	"\x0e_max_team_sizeB\r\n" +
 	"\v_printer_idB\x11\n" +
 	"\x0f_classification\x1a\xb8\x01\n" +
 	"\x05Extra\"\xae\x01\n" +
@@ -1892,7 +2000,12 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\x1bNOTIFICATION_STATUS_UNKNOWN\x10\x00\x126\n" +
 	"\aPENDING\x10\x01\x1a)\x9a\xf0\xf0\xe4\x01#notification are pending to be send\x12,\n" +
 	"\x04SENT\x10\x02\x1a\"\x9a\xf0\xf0\xe4\x01\x1cnotifications have been sent\x12,\n" +
-	"\bDISABLED\x10\x03\x1a\x1e\x9a\xf0\xf0\xe4\x01\x18notification is disabled\"/\n" +
+	"\bDISABLED\x10\x03\x1a\x1e\x9a\xf0\xf0\xe4\x01\x18notification is disabled\"\xad\x01\n" +
+	"\x0fParticipantType\x12\x1c\n" +
+	"\x18UNKNOWN_PARTICIPANT_TYPE\x10\x00\x126\n" +
+	"\n" +
+	"INDIVIDUAL\x10\x01\x1a&\x9a\xf0\xf0\xe4\x01 members participate on their own\x12D\n" +
+	"\x04TEAM\x10\x02\x1a:\x9a\xf0\xf0\xe4\x014teams participate, each with a roster of its members\"/\n" +
 	"\x06Format\x12\x12\n" +
 	"\x0eFORMAT_UNKNOWN\x10\x00\x12\a\n" +
 	"\x03IOI\x10\x01\x12\b\n" +
@@ -1910,70 +2023,73 @@ func file_eolymp_judge_contest_proto_rawDescGZIP() []byte {
 	return file_eolymp_judge_contest_proto_rawDescData
 }
 
-var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
+var file_eolymp_judge_contest_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
 var file_eolymp_judge_contest_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_judge_contest_proto_goTypes = []any{
 	(Contest_Status)(0),                        // 0: eolymp.judge.Contest.Status
 	(Contest_Visibility)(0),                    // 1: eolymp.judge.Contest.Visibility
 	(Contest_ParticipationMode)(0),             // 2: eolymp.judge.Contest.ParticipationMode
 	(Contest_NotificationStatus)(0),            // 3: eolymp.judge.Contest.NotificationStatus
-	(Contest_Format)(0),                        // 4: eolymp.judge.Contest.Format
-	(Contest_Extra_Field)(0),                   // 5: eolymp.judge.Contest.Extra.Field
-	(Contest_Classification_Scale)(0),          // 6: eolymp.judge.Contest.Classification.Scale
-	(Contest_ScoreboardConfig_Visibility)(0),   // 7: eolymp.judge.Contest.ScoreboardConfig.Visibility
-	(Contest_ProctoringConfig_Mode)(0),         // 8: eolymp.judge.Contest.ProctoringConfig.Mode
-	(*Contest)(nil),                            // 9: eolymp.judge.Contest
-	(*Contest_Patch)(nil),                      // 10: eolymp.judge.Contest.Patch
-	(*Contest_Extra)(nil),                      // 11: eolymp.judge.Contest.Extra
-	(*Contest_Classification)(nil),             // 12: eolymp.judge.Contest.Classification
-	(*Contest_ScoreboardConfig)(nil),           // 13: eolymp.judge.Contest.ScoreboardConfig
-	(*Contest_RatingConfig)(nil),               // 14: eolymp.judge.Contest.RatingConfig
-	(*Contest_CertificationConfig)(nil),        // 15: eolymp.judge.Contest.CertificationConfig
-	(*Contest_ProctoringConfig)(nil),           // 16: eolymp.judge.Contest.ProctoringConfig
-	(*Contest_EnvironmentConfig)(nil),          // 17: eolymp.judge.Contest.EnvironmentConfig
-	(*Contest_Staff)(nil),                      // 18: eolymp.judge.Contest.Staff
-	(*Contest_CertificationConfig_Signer)(nil), // 19: eolymp.judge.Contest.CertificationConfig.Signer
-	(*timestamppb.Timestamp)(nil),              // 20: google.protobuf.Timestamp
-	(*runtime.Runtime)(nil),                    // 21: eolymp.runtime.Runtime
+	(Contest_ParticipantType)(0),               // 4: eolymp.judge.Contest.ParticipantType
+	(Contest_Format)(0),                        // 5: eolymp.judge.Contest.Format
+	(Contest_Extra_Field)(0),                   // 6: eolymp.judge.Contest.Extra.Field
+	(Contest_Classification_Scale)(0),          // 7: eolymp.judge.Contest.Classification.Scale
+	(Contest_ScoreboardConfig_Visibility)(0),   // 8: eolymp.judge.Contest.ScoreboardConfig.Visibility
+	(Contest_ProctoringConfig_Mode)(0),         // 9: eolymp.judge.Contest.ProctoringConfig.Mode
+	(*Contest)(nil),                            // 10: eolymp.judge.Contest
+	(*Contest_Patch)(nil),                      // 11: eolymp.judge.Contest.Patch
+	(*Contest_Extra)(nil),                      // 12: eolymp.judge.Contest.Extra
+	(*Contest_Classification)(nil),             // 13: eolymp.judge.Contest.Classification
+	(*Contest_ScoreboardConfig)(nil),           // 14: eolymp.judge.Contest.ScoreboardConfig
+	(*Contest_RatingConfig)(nil),               // 15: eolymp.judge.Contest.RatingConfig
+	(*Contest_CertificationConfig)(nil),        // 16: eolymp.judge.Contest.CertificationConfig
+	(*Contest_ProctoringConfig)(nil),           // 17: eolymp.judge.Contest.ProctoringConfig
+	(*Contest_EnvironmentConfig)(nil),          // 18: eolymp.judge.Contest.EnvironmentConfig
+	(*Contest_Staff)(nil),                      // 19: eolymp.judge.Contest.Staff
+	(*Contest_CertificationConfig_Signer)(nil), // 20: eolymp.judge.Contest.CertificationConfig.Signer
+	(*timestamppb.Timestamp)(nil),              // 21: google.protobuf.Timestamp
+	(*runtime.Runtime)(nil),                    // 22: eolymp.runtime.Runtime
 }
 var file_eolymp_judge_contest_proto_depIdxs = []int32{
-	20, // 0: eolymp.judge.Contest.created_at:type_name -> google.protobuf.Timestamp
-	20, // 1: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
-	20, // 2: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
+	21, // 0: eolymp.judge.Contest.created_at:type_name -> google.protobuf.Timestamp
+	21, // 1: eolymp.judge.Contest.starts_at:type_name -> google.protobuf.Timestamp
+	21, // 2: eolymp.judge.Contest.ends_at:type_name -> google.protobuf.Timestamp
 	0,  // 3: eolymp.judge.Contest.status:type_name -> eolymp.judge.Contest.Status
 	1,  // 4: eolymp.judge.Contest.visibility:type_name -> eolymp.judge.Contest.Visibility
 	2,  // 5: eolymp.judge.Contest.participation_mode:type_name -> eolymp.judge.Contest.ParticipationMode
-	4,  // 6: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
-	20, // 7: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
-	3,  // 8: eolymp.judge.Contest.reminder_notification_status:type_name -> eolymp.judge.Contest.NotificationStatus
-	3,  // 9: eolymp.judge.Contest.result_notification_status:type_name -> eolymp.judge.Contest.NotificationStatus
-	12, // 10: eolymp.judge.Contest.classification:type_name -> eolymp.judge.Contest.Classification
-	13, // 11: eolymp.judge.Contest.scoreboard_config:type_name -> eolymp.judge.Contest.ScoreboardConfig
-	17, // 12: eolymp.judge.Contest.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
-	15, // 13: eolymp.judge.Contest.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
-	14, // 14: eolymp.judge.Contest.rating_config:type_name -> eolymp.judge.Contest.RatingConfig
-	16, // 15: eolymp.judge.Contest.proctoring_config:type_name -> eolymp.judge.Contest.ProctoringConfig
-	18, // 16: eolymp.judge.Contest.staff:type_name -> eolymp.judge.Contest.Staff
-	20, // 17: eolymp.judge.Contest.Patch.starts_at:type_name -> google.protobuf.Timestamp
-	20, // 18: eolymp.judge.Contest.Patch.ends_at:type_name -> google.protobuf.Timestamp
-	1,  // 19: eolymp.judge.Contest.Patch.visibility:type_name -> eolymp.judge.Contest.Visibility
-	20, // 20: eolymp.judge.Contest.Patch.featured_until:type_name -> google.protobuf.Timestamp
-	13, // 21: eolymp.judge.Contest.Patch.scoreboard_config:type_name -> eolymp.judge.Contest.ScoreboardConfig
-	12, // 22: eolymp.judge.Contest.Patch.classification:type_name -> eolymp.judge.Contest.Classification
-	17, // 23: eolymp.judge.Contest.Patch.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
-	15, // 24: eolymp.judge.Contest.Patch.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
-	14, // 25: eolymp.judge.Contest.Patch.rating_config:type_name -> eolymp.judge.Contest.RatingConfig
-	16, // 26: eolymp.judge.Contest.Patch.proctoring_config:type_name -> eolymp.judge.Contest.ProctoringConfig
-	6,  // 27: eolymp.judge.Contest.Classification.scale:type_name -> eolymp.judge.Contest.Classification.Scale
-	7,  // 28: eolymp.judge.Contest.ScoreboardConfig.visibility:type_name -> eolymp.judge.Contest.ScoreboardConfig.Visibility
-	19, // 29: eolymp.judge.Contest.CertificationConfig.signers:type_name -> eolymp.judge.Contest.CertificationConfig.Signer
-	8,  // 30: eolymp.judge.Contest.ProctoringConfig.mode:type_name -> eolymp.judge.Contest.ProctoringConfig.Mode
-	21, // 31: eolymp.judge.Contest.EnvironmentConfig.runtimes:type_name -> eolymp.runtime.Runtime
-	32, // [32:32] is the sub-list for method output_type
-	32, // [32:32] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	4,  // 6: eolymp.judge.Contest.participant_type:type_name -> eolymp.judge.Contest.ParticipantType
+	5,  // 7: eolymp.judge.Contest.format:type_name -> eolymp.judge.Contest.Format
+	21, // 8: eolymp.judge.Contest.featured_until:type_name -> google.protobuf.Timestamp
+	3,  // 9: eolymp.judge.Contest.reminder_notification_status:type_name -> eolymp.judge.Contest.NotificationStatus
+	3,  // 10: eolymp.judge.Contest.result_notification_status:type_name -> eolymp.judge.Contest.NotificationStatus
+	13, // 11: eolymp.judge.Contest.classification:type_name -> eolymp.judge.Contest.Classification
+	14, // 12: eolymp.judge.Contest.scoreboard_config:type_name -> eolymp.judge.Contest.ScoreboardConfig
+	18, // 13: eolymp.judge.Contest.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
+	16, // 14: eolymp.judge.Contest.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
+	15, // 15: eolymp.judge.Contest.rating_config:type_name -> eolymp.judge.Contest.RatingConfig
+	17, // 16: eolymp.judge.Contest.proctoring_config:type_name -> eolymp.judge.Contest.ProctoringConfig
+	19, // 17: eolymp.judge.Contest.staff:type_name -> eolymp.judge.Contest.Staff
+	21, // 18: eolymp.judge.Contest.Patch.starts_at:type_name -> google.protobuf.Timestamp
+	21, // 19: eolymp.judge.Contest.Patch.ends_at:type_name -> google.protobuf.Timestamp
+	1,  // 20: eolymp.judge.Contest.Patch.visibility:type_name -> eolymp.judge.Contest.Visibility
+	4,  // 21: eolymp.judge.Contest.Patch.participant_type:type_name -> eolymp.judge.Contest.ParticipantType
+	21, // 22: eolymp.judge.Contest.Patch.featured_until:type_name -> google.protobuf.Timestamp
+	14, // 23: eolymp.judge.Contest.Patch.scoreboard_config:type_name -> eolymp.judge.Contest.ScoreboardConfig
+	13, // 24: eolymp.judge.Contest.Patch.classification:type_name -> eolymp.judge.Contest.Classification
+	18, // 25: eolymp.judge.Contest.Patch.environment_config:type_name -> eolymp.judge.Contest.EnvironmentConfig
+	16, // 26: eolymp.judge.Contest.Patch.certification_config:type_name -> eolymp.judge.Contest.CertificationConfig
+	15, // 27: eolymp.judge.Contest.Patch.rating_config:type_name -> eolymp.judge.Contest.RatingConfig
+	17, // 28: eolymp.judge.Contest.Patch.proctoring_config:type_name -> eolymp.judge.Contest.ProctoringConfig
+	7,  // 29: eolymp.judge.Contest.Classification.scale:type_name -> eolymp.judge.Contest.Classification.Scale
+	8,  // 30: eolymp.judge.Contest.ScoreboardConfig.visibility:type_name -> eolymp.judge.Contest.ScoreboardConfig.Visibility
+	20, // 31: eolymp.judge.Contest.CertificationConfig.signers:type_name -> eolymp.judge.Contest.CertificationConfig.Signer
+	9,  // 32: eolymp.judge.Contest.ProctoringConfig.mode:type_name -> eolymp.judge.Contest.ProctoringConfig.Mode
+	22, // 33: eolymp.judge.Contest.EnvironmentConfig.runtimes:type_name -> eolymp.runtime.Runtime
+	34, // [34:34] is the sub-list for method output_type
+	34, // [34:34] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_contest_proto_init() }
@@ -1987,7 +2103,7 @@ func file_eolymp_judge_contest_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_contest_proto_rawDesc), len(file_eolymp_judge_contest_proto_rawDesc)),
-			NumEnums:      9,
+			NumEnums:      10,
 			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,

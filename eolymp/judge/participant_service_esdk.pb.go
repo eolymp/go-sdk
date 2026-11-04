@@ -250,6 +250,22 @@ func (s *ParticipantServiceService) JoinContest(ctx context.Context, in *JoinCon
 	return out, nil
 }
 
+func (s *ParticipantServiceService) LeaveContest(ctx context.Context, in *LeaveContestInput) (*LeaveContestOutput, error) {
+	out := &LeaveContestOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/leave"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ParticipantServiceService) DescribeViewer(ctx context.Context, in *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	out := &DescribeViewerOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/introspect"

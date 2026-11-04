@@ -86,6 +86,7 @@ type Submission struct {
 	ContestId     string                 `protobuf:"bytes,2,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`             // contest
 	ProblemId     string                 `protobuf:"bytes,3,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`             // problem
 	ParticipantId string                 `protobuf:"bytes,4,opt,name=participant_id,json=participantId,proto3" json:"participant_id,omitempty"` // submitter
+	MemberId      string                 `protobuf:"bytes,8,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`                // member who submitted, one of the roster when the participant is a team
 	SubmittedAt   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`       // time when submission was created
 	Deleted       bool                   `protobuf:"varint,6,opt,name=deleted,proto3" json:"deleted,omitempty"`                                 // mark deleted (excluded from scoring) submissions
 	Lang          string                 `protobuf:"bytes,10,opt,name=lang,proto3" json:"lang,omitempty"`                                       // programming language
@@ -204,6 +205,13 @@ func (x *Submission) GetProblemId() string {
 func (x *Submission) GetParticipantId() string {
 	if x != nil {
 		return x.ParticipantId
+	}
+	return ""
+}
+
+func (x *Submission) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
 	}
 	return ""
 }
@@ -665,7 +673,7 @@ var File_eolymp_judge_submission_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa1\x11\n" +
+	"\x1deolymp/judge/submission.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1deolymp/atlas/submission.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\"eolymp/atlas/testing_scoring.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc6\x11\n" +
 	"\n" +
 	"Submission\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
@@ -678,7 +686,8 @@ const file_eolymp_judge_submission_proto_rawDesc = "" +
 	"contest_id\x18\x02 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x03 \x01(\tR\tproblemId\x12%\n" +
-	"\x0eparticipant_id\x18\x04 \x01(\tR\rparticipantId\x12=\n" +
+	"\x0eparticipant_id\x18\x04 \x01(\tR\rparticipantId\x12#\n" +
+	"\tmember_id\x18\b \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\bmemberId\x12=\n" +
 	"\fsubmitted_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12\x18\n" +
 	"\adeleted\x18\x06 \x01(\bR\adeleted\x12\x12\n" +
 	"\x04lang\x18\n" +

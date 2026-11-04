@@ -249,7 +249,8 @@ func (Participant_Proctoring_Source) EnumDescriptor() ([]byte, []int) {
 type Participant struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
 	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                         // unique identifier of the participant (can not be set when creating participant)
-	MemberId     string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`             // community member
+	MemberId     string                 `protobuf:"bytes,4,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`             // community member, empty for a team
+	TeamId       string                 `protobuf:"bytes,7,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`                   // team the participant competes as, see eolymp.team.Team
 	DisplayName  string                 `protobuf:"bytes,5,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`    // display name
 	Role         Participant_Role       `protobuf:"varint,3,opt,name=role,proto3,enum=eolymp.judge.Participant_Role" json:"role,omitempty"` // role of the participant in the contest
 	Unofficial   bool                   `protobuf:"varint,6,opt,name=unofficial,proto3" json:"unofficial,omitempty"`                        // if true, participant won't be assigned rank in scoreboard
@@ -274,7 +275,9 @@ type Participant struct {
 	CertificateId string                  `protobuf:"bytes,32,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"` // Participation certificate ID.
 	Proctoring    *Participant_Proctoring `protobuf:"bytes,34,opt,name=proctoring,proto3" json:"proctoring,omitempty"`                            // proctoring recording of the participation, only in a proctored contest
 	// Submit counter is used to count how many times user submitted the problem.
-	Submits       []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
+	Submits []*Participant_Submit `protobuf:"bytes,40,rep,name=submits,proto3" json:"submits,omitempty"`
+	// Members of the team who compete, as registered by the captain. Fixed once the team starts the contest.
+	Roster        []*Participant_Member `protobuf:"bytes,41,rep,name=roster,proto3" json:"roster,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -319,6 +322,13 @@ func (x *Participant) GetId() string {
 func (x *Participant) GetMemberId() string {
 	if x != nil {
 		return x.MemberId
+	}
+	return ""
+}
+
+func (x *Participant) GetTeamId() string {
+	if x != nil {
+		return x.TeamId
 	}
 	return ""
 }
@@ -439,6 +449,13 @@ func (x *Participant) GetProctoring() *Participant_Proctoring {
 func (x *Participant) GetSubmits() []*Participant_Submit {
 	if x != nil {
 		return x.Submits
+	}
+	return nil
+}
+
+func (x *Participant) GetRoster() []*Participant_Member {
+	if x != nil {
+		return x.Roster
 	}
 	return nil
 }
@@ -587,6 +604,58 @@ func (x *Participant_Proctoring) GetStreams() []*Participant_Proctoring_Stream {
 	return nil
 }
 
+type Participant_Member struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MemberId      string                 `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // member's name at the time of registration
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Participant_Member) Reset() {
+	*x = Participant_Member{}
+	mi := &file_eolymp_judge_participant_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Participant_Member) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Participant_Member) ProtoMessage() {}
+
+func (x *Participant_Member) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_participant_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Participant_Member.ProtoReflect.Descriptor instead.
+func (*Participant_Member) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Participant_Member) GetMemberId() string {
+	if x != nil {
+		return x.MemberId
+	}
+	return ""
+}
+
+func (x *Participant_Member) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
 type Participant_Submit struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -597,7 +666,7 @@ type Participant_Submit struct {
 
 func (x *Participant_Submit) Reset() {
 	*x = Participant_Submit{}
-	mi := &file_eolymp_judge_participant_proto_msgTypes[3]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -609,7 +678,7 @@ func (x *Participant_Submit) String() string {
 func (*Participant_Submit) ProtoMessage() {}
 
 func (x *Participant_Submit) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_participant_proto_msgTypes[3]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -622,7 +691,7 @@ func (x *Participant_Submit) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Participant_Submit.ProtoReflect.Descriptor instead.
 func (*Participant_Submit) Descriptor() ([]byte, []int) {
-	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 2}
+	return file_eolymp_judge_participant_proto_rawDescGZIP(), []int{0, 3}
 }
 
 func (x *Participant_Submit) GetProblemId() string {
@@ -649,7 +718,7 @@ type Participant_Proctoring_Stream struct {
 
 func (x *Participant_Proctoring_Stream) Reset() {
 	*x = Participant_Proctoring_Stream{}
-	mi := &file_eolymp_judge_participant_proto_msgTypes[4]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -661,7 +730,7 @@ func (x *Participant_Proctoring_Stream) String() string {
 func (*Participant_Proctoring_Stream) ProtoMessage() {}
 
 func (x *Participant_Proctoring_Stream) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_participant_proto_msgTypes[4]
+	mi := &file_eolymp_judge_participant_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -695,10 +764,11 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xec\x10\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x99\x12\n" +
 	"\vParticipant\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
-	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12)\n" +
+	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12\x1f\n" +
+	"\ateam_id\x18\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06teamId\x12)\n" +
 	"\fdisplay_name\x18\x05 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\vdisplayName\x122\n" +
 	"\x04role\x18\x03 \x01(\x0e2\x1e.eolymp.judge.Participant.RoleR\x04role\x12\x1e\n" +
 	"\n" +
@@ -722,7 +792,8 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
 	"proctoring\x18\" \x01(\v2$.eolymp.judge.Participant.ProctoringB\f\xa8\xf0\xf0\xe4\x01\x01\xb0\xf0\xf0\xe4\x01\x01R\n" +
 	"proctoring\x12B\n" +
-	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitB\x06\xa8\xf0\xf0\xe4\x01\x01R\asubmits\x1a\xff\x02\n" +
+	"\asubmits\x18( \x03(\v2 .eolymp.judge.Participant.SubmitB\x06\xa8\xf0\xf0\xe4\x01\x01R\asubmits\x12@\n" +
+	"\x06roster\x18) \x03(\v2 .eolymp.judge.Participant.MemberB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06roster\x1a\xff\x02\n" +
 	"\x05Patch\x12&\n" +
 	"\fdisplay_name\x18\x01 \x01(\tH\x00R\vdisplayName\x88\x01\x01\x12\"\n" +
 	"\n" +
@@ -760,7 +831,10 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
 	"\x06SCREEN\x10\x01\x12\n" +
 	"\n" +
-	"\x06CAMERA\x10\x02\x1aA\n" +
+	"\x06CAMERA\x10\x02\x1aH\n" +
+	"\x06Member\x12\x1b\n" +
+	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x1aA\n" +
 	"\x06Submit\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x18\n" +
@@ -796,7 +870,7 @@ func file_eolymp_judge_participant_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_participant_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_eolymp_judge_participant_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_judge_participant_proto_goTypes = []any{
 	(Participant_Status)(0),               // 0: eolymp.judge.Participant.Status
 	(Participant_Role)(0),                 // 1: eolymp.judge.Participant.Role
@@ -805,29 +879,31 @@ var file_eolymp_judge_participant_proto_goTypes = []any{
 	(*Participant)(nil),                   // 4: eolymp.judge.Participant
 	(*Participant_Patch)(nil),             // 5: eolymp.judge.Participant.Patch
 	(*Participant_Proctoring)(nil),        // 6: eolymp.judge.Participant.Proctoring
-	(*Participant_Submit)(nil),            // 7: eolymp.judge.Participant.Submit
-	(*Participant_Proctoring_Stream)(nil), // 8: eolymp.judge.Participant.Proctoring.Stream
-	(Medal)(0),                            // 9: eolymp.judge.Medal
-	(*timestamppb.Timestamp)(nil),         // 10: google.protobuf.Timestamp
+	(*Participant_Member)(nil),            // 7: eolymp.judge.Participant.Member
+	(*Participant_Submit)(nil),            // 8: eolymp.judge.Participant.Submit
+	(*Participant_Proctoring_Stream)(nil), // 9: eolymp.judge.Participant.Proctoring.Stream
+	(Medal)(0),                            // 10: eolymp.judge.Medal
+	(*timestamppb.Timestamp)(nil),         // 11: google.protobuf.Timestamp
 }
 var file_eolymp_judge_participant_proto_depIdxs = []int32{
 	1,  // 0: eolymp.judge.Participant.role:type_name -> eolymp.judge.Participant.Role
-	9,  // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
+	10, // 1: eolymp.judge.Participant.medal:type_name -> eolymp.judge.Medal
 	0,  // 2: eolymp.judge.Participant.status:type_name -> eolymp.judge.Participant.Status
-	10, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
-	10, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
+	11, // 3: eolymp.judge.Participant.started_at:type_name -> google.protobuf.Timestamp
+	11, // 4: eolymp.judge.Participant.end_at:type_name -> google.protobuf.Timestamp
 	6,  // 5: eolymp.judge.Participant.proctoring:type_name -> eolymp.judge.Participant.Proctoring
-	7,  // 6: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
-	9,  // 7: eolymp.judge.Participant.Patch.medal:type_name -> eolymp.judge.Medal
-	1,  // 8: eolymp.judge.Participant.Patch.role:type_name -> eolymp.judge.Participant.Role
-	2,  // 9: eolymp.judge.Participant.Proctoring.status:type_name -> eolymp.judge.Participant.Proctoring.Status
-	8,  // 10: eolymp.judge.Participant.Proctoring.streams:type_name -> eolymp.judge.Participant.Proctoring.Stream
-	3,  // 11: eolymp.judge.Participant.Proctoring.Stream.source:type_name -> eolymp.judge.Participant.Proctoring.Source
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	8,  // 6: eolymp.judge.Participant.submits:type_name -> eolymp.judge.Participant.Submit
+	7,  // 7: eolymp.judge.Participant.roster:type_name -> eolymp.judge.Participant.Member
+	10, // 8: eolymp.judge.Participant.Patch.medal:type_name -> eolymp.judge.Medal
+	1,  // 9: eolymp.judge.Participant.Patch.role:type_name -> eolymp.judge.Participant.Role
+	2,  // 10: eolymp.judge.Participant.Proctoring.status:type_name -> eolymp.judge.Participant.Proctoring.Status
+	9,  // 11: eolymp.judge.Participant.Proctoring.streams:type_name -> eolymp.judge.Participant.Proctoring.Stream
+	3,  // 12: eolymp.judge.Participant.Proctoring.Stream.source:type_name -> eolymp.judge.Participant.Proctoring.Source
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_participant_proto_init() }
@@ -843,7 +919,7 @@ func file_eolymp_judge_participant_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_participant_proto_rawDesc), len(file_eolymp_judge_participant_proto_rawDesc)),
 			NumEnums:      4,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

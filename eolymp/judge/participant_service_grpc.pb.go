@@ -29,6 +29,7 @@ const (
 	ParticipantService_ListParticipants_FullMethodName      = "/eolymp.judge.ParticipantService/ListParticipants"
 	ParticipantService_WatchParticipant_FullMethodName      = "/eolymp.judge.ParticipantService/WatchParticipant"
 	ParticipantService_JoinContest_FullMethodName           = "/eolymp.judge.ParticipantService/JoinContest"
+	ParticipantService_LeaveContest_FullMethodName          = "/eolymp.judge.ParticipantService/LeaveContest"
 	ParticipantService_DescribeViewer_FullMethodName        = "/eolymp.judge.ParticipantService/DescribeViewer"
 	ParticipantService_StartContest_FullMethodName          = "/eolymp.judge.ParticipantService/StartContest"
 	ParticipantService_PauseContest_FullMethodName          = "/eolymp.judge.ParticipantService/PauseContest"
@@ -92,13 +93,19 @@ type ParticipantServiceClient interface {
 	// WatchParticipant streams the record whenever it changes, so a client follows a start, a pause, a
 	// completion or an organiser's intervention without polling.
 	WatchParticipant(ctx context.Context, in *WatchParticipantInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchParticipantOutput], error)
-	// deprecated
-	//
 	// JoinContest creates a participant record for the calling user without an organiser being involved,
 	// and only in a contest whose visibility lets people in on their own. The contest decides whether
-	// such self-joined participants compete officially. Use RegistrationService instead, which also
-	// collects whatever details the contest asks of its registrants.
+	// such self-joined participants compete officially.
+	//
+	// In a team contest the captain joins on behalf of the team, naming the members who compete. The roster
+	// must fit the contest's team size, and a member can be on only one roster in a contest. Until the team
+	// starts the contest, the captain can call it again to change the roster.
 	JoinContest(ctx context.Context, in *JoinContestInput, opts ...grpc.CallOption) (*JoinContestOutput, error)
+	// LeaveContest undoes JoinContest for the caller before they start. A participant who joined on their own
+	// is removed from the contest; a team member is taken off their team's roster, which is refused when the
+	// roster would fall below the contest's team size. It is refused once the participant has started the
+	// contest, and for participants assigned by an organiser.
+	LeaveContest(ctx context.Context, in *LeaveContestInput, opts ...grpc.CallOption) (*LeaveContestOutput, error)
 	// DescribeViewer returns the calling user's own record in the contest, which is how a contest client
 	// finds out whether the viewer may start, is competing, is paused or has already finished, without
 	// knowing any participant identifier. Organiser tooling reads other records via DescribeParticipant.
@@ -239,6 +246,16 @@ func (c *participantServiceClient) JoinContest(ctx context.Context, in *JoinCont
 	return out, nil
 }
 
+func (c *participantServiceClient) LeaveContest(ctx context.Context, in *LeaveContestInput, opts ...grpc.CallOption) (*LeaveContestOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LeaveContestOutput)
+	err := c.cc.Invoke(ctx, ParticipantService_LeaveContest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *participantServiceClient) DescribeViewer(ctx context.Context, in *DescribeViewerInput, opts ...grpc.CallOption) (*DescribeViewerOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeViewerOutput)
@@ -345,13 +362,19 @@ type ParticipantServiceServer interface {
 	// WatchParticipant streams the record whenever it changes, so a client follows a start, a pause, a
 	// completion or an organiser's intervention without polling.
 	WatchParticipant(*WatchParticipantInput, grpc.ServerStreamingServer[WatchParticipantOutput]) error
-	// deprecated
-	//
 	// JoinContest creates a participant record for the calling user without an organiser being involved,
 	// and only in a contest whose visibility lets people in on their own. The contest decides whether
-	// such self-joined participants compete officially. Use RegistrationService instead, which also
-	// collects whatever details the contest asks of its registrants.
+	// such self-joined participants compete officially.
+	//
+	// In a team contest the captain joins on behalf of the team, naming the members who compete. The roster
+	// must fit the contest's team size, and a member can be on only one roster in a contest. Until the team
+	// starts the contest, the captain can call it again to change the roster.
 	JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error)
+	// LeaveContest undoes JoinContest for the caller before they start. A participant who joined on their own
+	// is removed from the contest; a team member is taken off their team's roster, which is refused when the
+	// roster would fall below the contest's team size. It is refused once the participant has started the
+	// contest, and for participants assigned by an organiser.
+	LeaveContest(context.Context, *LeaveContestInput) (*LeaveContestOutput, error)
 	// DescribeViewer returns the calling user's own record in the contest, which is how a contest client
 	// finds out whether the viewer may start, is competing, is paused or has already finished, without
 	// knowing any participant identifier. Organiser tooling reads other records via DescribeParticipant.
@@ -411,6 +434,9 @@ func (UnimplementedParticipantServiceServer) WatchParticipant(*WatchParticipantI
 }
 func (UnimplementedParticipantServiceServer) JoinContest(context.Context, *JoinContestInput) (*JoinContestOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method JoinContest not implemented")
+}
+func (UnimplementedParticipantServiceServer) LeaveContest(context.Context, *LeaveContestInput) (*LeaveContestOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method LeaveContest not implemented")
 }
 func (UnimplementedParticipantServiceServer) DescribeViewer(context.Context, *DescribeViewerInput) (*DescribeViewerOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeViewer not implemented")
@@ -620,6 +646,24 @@ func _ParticipantService_JoinContest_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ParticipantService_LeaveContest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LeaveContestInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ParticipantServiceServer).LeaveContest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ParticipantService_LeaveContest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ParticipantServiceServer).LeaveContest(ctx, req.(*LeaveContestInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ParticipantService_DescribeViewer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeViewerInput)
 	if err := dec(in); err != nil {
@@ -752,6 +796,10 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "JoinContest",
 			Handler:    _ParticipantService_JoinContest_Handler,
+		},
+		{
+			MethodName: "LeaveContest",
+			Handler:    _ParticipantService_LeaveContest_Handler,
 		},
 		{
 			MethodName: "DescribeViewer",
