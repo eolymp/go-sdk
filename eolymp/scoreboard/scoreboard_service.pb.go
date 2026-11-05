@@ -1579,6 +1579,102 @@ func (x *DescribeScoreboardRowOutput) GetRow() *Row {
 	return nil
 }
 
+type DescribeScoreboardStatsInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
+	Mode          Scoreboard_Mode        `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.scoreboard.Scoreboard_Mode" json:"mode,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeScoreboardStatsInput) Reset() {
+	*x = DescribeScoreboardStatsInput{}
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeScoreboardStatsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeScoreboardStatsInput) ProtoMessage() {}
+
+func (x *DescribeScoreboardStatsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeScoreboardStatsInput.ProtoReflect.Descriptor instead.
+func (*DescribeScoreboardStatsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *DescribeScoreboardStatsInput) GetScoreboardId() string {
+	if x != nil {
+		return x.ScoreboardId
+	}
+	return ""
+}
+
+func (x *DescribeScoreboardStatsInput) GetMode() Scoreboard_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return Scoreboard_UNKNOWN_MODE
+}
+
+type DescribeScoreboardStatsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Stats         *Scoreboard_Stats      `protobuf:"bytes,1,opt,name=stats,proto3" json:"stats,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeScoreboardStatsOutput) Reset() {
+	*x = DescribeScoreboardStatsOutput{}
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeScoreboardStatsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeScoreboardStatsOutput) ProtoMessage() {}
+
+func (x *DescribeScoreboardStatsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeScoreboardStatsOutput.ProtoReflect.Descriptor instead.
+func (*DescribeScoreboardStatsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *DescribeScoreboardStatsOutput) GetStats() *Scoreboard_Stats {
+	if x != nil {
+		return x.Stats
+	}
+	return nil
+}
+
 type RebuildScoreboardInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ScoreboardId  string                 `protobuf:"bytes,1,opt,name=scoreboard_id,json=scoreboardId,proto3" json:"scoreboard_id,omitempty"`
@@ -1588,7 +1684,7 @@ type RebuildScoreboardInput struct {
 
 func (x *RebuildScoreboardInput) Reset() {
 	*x = RebuildScoreboardInput{}
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[30]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1600,7 +1696,7 @@ func (x *RebuildScoreboardInput) String() string {
 func (*RebuildScoreboardInput) ProtoMessage() {}
 
 func (x *RebuildScoreboardInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[30]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1613,7 +1709,7 @@ func (x *RebuildScoreboardInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RebuildScoreboardInput.ProtoReflect.Descriptor instead.
 func (*RebuildScoreboardInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{30}
+	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *RebuildScoreboardInput) GetScoreboardId() string {
@@ -1631,7 +1727,7 @@ type RebuildScoreboardOutput struct {
 
 func (x *RebuildScoreboardOutput) Reset() {
 	*x = RebuildScoreboardOutput{}
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[31]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1643,7 +1739,7 @@ func (x *RebuildScoreboardOutput) String() string {
 func (*RebuildScoreboardOutput) ProtoMessage() {}
 
 func (x *RebuildScoreboardOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[31]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1656,7 +1752,7 @@ func (x *RebuildScoreboardOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RebuildScoreboardOutput.ProtoReflect.Descriptor instead.
 func (*RebuildScoreboardOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{31}
+	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{33}
 }
 
 type ScoreboardChangedEvent struct {
@@ -1669,7 +1765,7 @@ type ScoreboardChangedEvent struct {
 
 func (x *ScoreboardChangedEvent) Reset() {
 	*x = ScoreboardChangedEvent{}
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[32]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1681,7 +1777,7 @@ func (x *ScoreboardChangedEvent) String() string {
 func (*ScoreboardChangedEvent) ProtoMessage() {}
 
 func (x *ScoreboardChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[32]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1694,7 +1790,7 @@ func (x *ScoreboardChangedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScoreboardChangedEvent.ProtoReflect.Descriptor instead.
 func (*ScoreboardChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{32}
+	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *ScoreboardChangedEvent) GetBefore() *Scoreboard {
@@ -1722,7 +1818,7 @@ type ListScoreboardsInput_Filter struct {
 
 func (x *ListScoreboardsInput_Filter) Reset() {
 	*x = ListScoreboardsInput_Filter{}
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[33]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1734,7 +1830,7 @@ func (x *ListScoreboardsInput_Filter) String() string {
 func (*ListScoreboardsInput_Filter) ProtoMessage() {}
 
 func (x *ListScoreboardsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[33]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1782,7 +1878,7 @@ type ListScoreboardRowsInput_ExpressionAttribute struct {
 
 func (x *ListScoreboardRowsInput_ExpressionAttribute) Reset() {
 	*x = ListScoreboardRowsInput_ExpressionAttribute{}
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[34]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1794,7 +1890,7 @@ func (x *ListScoreboardRowsInput_ExpressionAttribute) String() string {
 func (*ListScoreboardRowsInput_ExpressionAttribute) ProtoMessage() {}
 
 func (x *ListScoreboardRowsInput_ExpressionAttribute) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[34]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1842,7 +1938,7 @@ type ListScoreboardRowsInput_Filter struct {
 
 func (x *ListScoreboardRowsInput_Filter) Reset() {
 	*x = ListScoreboardRowsInput_Filter{}
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[35]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1854,7 +1950,7 @@ func (x *ListScoreboardRowsInput_Filter) String() string {
 func (*ListScoreboardRowsInput_Filter) ProtoMessage() {}
 
 func (x *ListScoreboardRowsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[35]
+	mi := &file_eolymp_scoreboard_scoreboard_service_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2014,13 +2110,18 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x126\n" +
 	"\x04mode\x18\x03 \x01(\x0e2\".eolymp.scoreboard.Scoreboard.ModeR\x04mode\"G\n" +
 	"\x1bDescribeScoreboardRowOutput\x12(\n" +
-	"\x03row\x18\x01 \x01(\v2\x16.eolymp.scoreboard.RowR\x03row\"=\n" +
+	"\x03row\x18\x01 \x01(\v2\x16.eolymp.scoreboard.RowR\x03row\"{\n" +
+	"\x1cDescribeScoreboardStatsInput\x12#\n" +
+	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\x126\n" +
+	"\x04mode\x18\x02 \x01(\x0e2\".eolymp.scoreboard.Scoreboard.ModeR\x04mode\"Z\n" +
+	"\x1dDescribeScoreboardStatsOutput\x129\n" +
+	"\x05stats\x18\x01 \x01(\v2#.eolymp.scoreboard.Scoreboard.StatsR\x05stats\"=\n" +
 	"\x16RebuildScoreboardInput\x12#\n" +
 	"\rscoreboard_id\x18\x01 \x01(\tR\fscoreboardId\"\x19\n" +
 	"\x17RebuildScoreboardOutput\"\x84\x01\n" +
 	"\x16ScoreboardChangedEvent\x125\n" +
 	"\x06before\x18\x01 \x01(\v2\x1d.eolymp.scoreboard.ScoreboardR\x06before\x123\n" +
-	"\x05after\x18\x02 \x01(\v2\x1d.eolymp.scoreboard.ScoreboardR\x05after2\x95\x1c\n" +
+	"\x05after\x18\x02 \x01(\v2\x1d.eolymp.scoreboard.ScoreboardR\x05after2\xf9\x1d\n" +
 	"\x11ScoreboardService\x12\xb7\x01\n" +
 	"\x10CreateScoreboard\x12(.eolymp.scoreboard.CreateScoreboardInput\x1a).eolymp.scoreboard.CreateScoreboardOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -2142,7 +2243,15 @@ const file_eolymp_scoreboard_scoreboard_service_proto_rawDesc = "" +
 	"\x1e\x8a\xe3\n" +
 	"\x1ascoreboard:scoreboard:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02/\x12-/scoreboards/{scoreboard_id}/rows/{member_id}\x12\xd2\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x02/\x12-/scoreboards/{scoreboard_id}/rows/{member_id}\x12\xe1\x01\n" +
+	"\x17DescribeScoreboardStats\x12/.eolymp.scoreboard.DescribeScoreboardStatsInput\x1a0.eolymp.scoreboard.DescribeScoreboardStatsOutput\"c\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00 A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x1e\x8a\xe3\n" +
+	"\x1ascoreboard:scoreboard:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02$\x12\"/scoreboards/{scoreboard_id}/stats\x12\xd2\x01\n" +
 	"\x11RebuildScoreboard\x12).eolymp.scoreboard.RebuildScoreboardInput\x1a*.eolymp.scoreboard.RebuildScoreboardOutput\"f\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
@@ -2164,7 +2273,7 @@ func file_eolymp_scoreboard_scoreboard_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_scoreboard_scoreboard_service_proto_rawDescData
 }
 
-var file_eolymp_scoreboard_scoreboard_service_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
+var file_eolymp_scoreboard_scoreboard_service_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_eolymp_scoreboard_scoreboard_service_proto_goTypes = []any{
 	(*CreateScoreboardInput)(nil),                       // 0: eolymp.scoreboard.CreateScoreboardInput
 	(*CreateScoreboardOutput)(nil),                      // 1: eolymp.scoreboard.CreateScoreboardOutput
@@ -2196,89 +2305,96 @@ var file_eolymp_scoreboard_scoreboard_service_proto_goTypes = []any{
 	(*ListScoreboardRowsOutput)(nil),                    // 27: eolymp.scoreboard.ListScoreboardRowsOutput
 	(*DescribeScoreboardRowInput)(nil),                  // 28: eolymp.scoreboard.DescribeScoreboardRowInput
 	(*DescribeScoreboardRowOutput)(nil),                 // 29: eolymp.scoreboard.DescribeScoreboardRowOutput
-	(*RebuildScoreboardInput)(nil),                      // 30: eolymp.scoreboard.RebuildScoreboardInput
-	(*RebuildScoreboardOutput)(nil),                     // 31: eolymp.scoreboard.RebuildScoreboardOutput
-	(*ScoreboardChangedEvent)(nil),                      // 32: eolymp.scoreboard.ScoreboardChangedEvent
-	(*ListScoreboardsInput_Filter)(nil),                 // 33: eolymp.scoreboard.ListScoreboardsInput.Filter
-	(*ListScoreboardRowsInput_ExpressionAttribute)(nil), // 34: eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute
-	(*ListScoreboardRowsInput_Filter)(nil),              // 35: eolymp.scoreboard.ListScoreboardRowsInput.Filter
-	(*Scoreboard)(nil),                                  // 36: eolymp.scoreboard.Scoreboard
-	(*Scoreboard_Patch)(nil),                            // 37: eolymp.scoreboard.Scoreboard.Patch
-	(*Scoreboard_Contest_Patch)(nil),                    // 38: eolymp.scoreboard.Scoreboard.Contest.Patch
-	(*Scoreboard_Contest)(nil),                          // 39: eolymp.scoreboard.Scoreboard.Contest
-	(*Scoreboard_Attribute_Patch)(nil),                  // 40: eolymp.scoreboard.Scoreboard.Attribute.Patch
-	(*Scoreboard_Attribute)(nil),                        // 41: eolymp.scoreboard.Scoreboard.Attribute
-	(Scoreboard_Mode)(0),                                // 42: eolymp.scoreboard.Scoreboard.Mode
-	(wellknown.Direction)(0),                            // 43: eolymp.wellknown.Direction
-	(*Row)(nil),                                         // 44: eolymp.scoreboard.Row
-	(*wellknown.ExpressionID)(nil),                      // 45: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil),                  // 46: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionInt)(nil),                     // 47: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionBool)(nil),                    // 48: eolymp.wellknown.ExpressionBool
+	(*DescribeScoreboardStatsInput)(nil),                // 30: eolymp.scoreboard.DescribeScoreboardStatsInput
+	(*DescribeScoreboardStatsOutput)(nil),               // 31: eolymp.scoreboard.DescribeScoreboardStatsOutput
+	(*RebuildScoreboardInput)(nil),                      // 32: eolymp.scoreboard.RebuildScoreboardInput
+	(*RebuildScoreboardOutput)(nil),                     // 33: eolymp.scoreboard.RebuildScoreboardOutput
+	(*ScoreboardChangedEvent)(nil),                      // 34: eolymp.scoreboard.ScoreboardChangedEvent
+	(*ListScoreboardsInput_Filter)(nil),                 // 35: eolymp.scoreboard.ListScoreboardsInput.Filter
+	(*ListScoreboardRowsInput_ExpressionAttribute)(nil), // 36: eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute
+	(*ListScoreboardRowsInput_Filter)(nil),              // 37: eolymp.scoreboard.ListScoreboardRowsInput.Filter
+	(*Scoreboard)(nil),                                  // 38: eolymp.scoreboard.Scoreboard
+	(*Scoreboard_Patch)(nil),                            // 39: eolymp.scoreboard.Scoreboard.Patch
+	(*Scoreboard_Contest_Patch)(nil),                    // 40: eolymp.scoreboard.Scoreboard.Contest.Patch
+	(*Scoreboard_Contest)(nil),                          // 41: eolymp.scoreboard.Scoreboard.Contest
+	(*Scoreboard_Attribute_Patch)(nil),                  // 42: eolymp.scoreboard.Scoreboard.Attribute.Patch
+	(*Scoreboard_Attribute)(nil),                        // 43: eolymp.scoreboard.Scoreboard.Attribute
+	(Scoreboard_Mode)(0),                                // 44: eolymp.scoreboard.Scoreboard.Mode
+	(wellknown.Direction)(0),                            // 45: eolymp.wellknown.Direction
+	(*Row)(nil),                                         // 46: eolymp.scoreboard.Row
+	(*Scoreboard_Stats)(nil),                            // 47: eolymp.scoreboard.Scoreboard.Stats
+	(*wellknown.ExpressionID)(nil),                      // 48: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil),                  // 49: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionInt)(nil),                     // 50: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionBool)(nil),                    // 51: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_scoreboard_scoreboard_service_proto_depIdxs = []int32{
-	36, // 0: eolymp.scoreboard.CreateScoreboardInput.scoreboard:type_name -> eolymp.scoreboard.Scoreboard
-	37, // 1: eolymp.scoreboard.UpdateScoreboardInput.scoreboard:type_name -> eolymp.scoreboard.Scoreboard.Patch
-	36, // 2: eolymp.scoreboard.DescribeScoreboardOutput.scoreboard:type_name -> eolymp.scoreboard.Scoreboard
-	33, // 3: eolymp.scoreboard.ListScoreboardsInput.filters:type_name -> eolymp.scoreboard.ListScoreboardsInput.Filter
-	36, // 4: eolymp.scoreboard.ListScoreboardsOutput.items:type_name -> eolymp.scoreboard.Scoreboard
-	38, // 5: eolymp.scoreboard.UpdateScoreboardContestInput.contest:type_name -> eolymp.scoreboard.Scoreboard.Contest.Patch
-	39, // 6: eolymp.scoreboard.ListScoreboardContestsOutput.items:type_name -> eolymp.scoreboard.Scoreboard.Contest
-	40, // 7: eolymp.scoreboard.UpdateScoreboardAttributeInput.attribute:type_name -> eolymp.scoreboard.Scoreboard.Attribute.Patch
-	41, // 8: eolymp.scoreboard.ListScoreboardAttributesOutput.items:type_name -> eolymp.scoreboard.Scoreboard.Attribute
-	42, // 9: eolymp.scoreboard.ListScoreboardRowsInput.mode:type_name -> eolymp.scoreboard.Scoreboard.Mode
-	35, // 10: eolymp.scoreboard.ListScoreboardRowsInput.filters:type_name -> eolymp.scoreboard.ListScoreboardRowsInput.Filter
-	43, // 11: eolymp.scoreboard.ListScoreboardRowsInput.order:type_name -> eolymp.wellknown.Direction
-	44, // 12: eolymp.scoreboard.ListScoreboardRowsOutput.items:type_name -> eolymp.scoreboard.Row
-	42, // 13: eolymp.scoreboard.DescribeScoreboardRowInput.mode:type_name -> eolymp.scoreboard.Scoreboard.Mode
-	44, // 14: eolymp.scoreboard.DescribeScoreboardRowOutput.row:type_name -> eolymp.scoreboard.Row
-	36, // 15: eolymp.scoreboard.ScoreboardChangedEvent.before:type_name -> eolymp.scoreboard.Scoreboard
-	36, // 16: eolymp.scoreboard.ScoreboardChangedEvent.after:type_name -> eolymp.scoreboard.Scoreboard
-	45, // 17: eolymp.scoreboard.ListScoreboardsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	46, // 18: eolymp.scoreboard.ListScoreboardsInput.Filter.slug:type_name -> eolymp.wellknown.ExpressionString
-	45, // 19: eolymp.scoreboard.ListScoreboardsInput.Filter.contest_id:type_name -> eolymp.wellknown.ExpressionID
-	47, // 20: eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
-	46, // 21: eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
-	48, // 22: eolymp.scoreboard.ListScoreboardRowsInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
-	48, // 23: eolymp.scoreboard.ListScoreboardRowsInput.Filter.disqualified:type_name -> eolymp.wellknown.ExpressionBool
-	34, // 24: eolymp.scoreboard.ListScoreboardRowsInput.Filter.attributes:type_name -> eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute
-	0,  // 25: eolymp.scoreboard.ScoreboardService.CreateScoreboard:input_type -> eolymp.scoreboard.CreateScoreboardInput
-	2,  // 26: eolymp.scoreboard.ScoreboardService.UpdateScoreboard:input_type -> eolymp.scoreboard.UpdateScoreboardInput
-	4,  // 27: eolymp.scoreboard.ScoreboardService.DeleteScoreboard:input_type -> eolymp.scoreboard.DeleteScoreboardInput
-	6,  // 28: eolymp.scoreboard.ScoreboardService.DescribeScoreboard:input_type -> eolymp.scoreboard.DescribeScoreboardInput
-	8,  // 29: eolymp.scoreboard.ScoreboardService.ListScoreboards:input_type -> eolymp.scoreboard.ListScoreboardsInput
-	10, // 30: eolymp.scoreboard.ScoreboardService.AddScoreboardContest:input_type -> eolymp.scoreboard.AddScoreboardContestInput
-	12, // 31: eolymp.scoreboard.ScoreboardService.UpdateScoreboardContest:input_type -> eolymp.scoreboard.UpdateScoreboardContestInput
-	14, // 32: eolymp.scoreboard.ScoreboardService.ListScoreboardContests:input_type -> eolymp.scoreboard.ListScoreboardContestsInput
-	16, // 33: eolymp.scoreboard.ScoreboardService.RemoveScoreboardContest:input_type -> eolymp.scoreboard.RemoveScoreboardContestInput
-	18, // 34: eolymp.scoreboard.ScoreboardService.AddScoreboardAttribute:input_type -> eolymp.scoreboard.AddScoreboardAttributeInput
-	20, // 35: eolymp.scoreboard.ScoreboardService.UpdateScoreboardAttribute:input_type -> eolymp.scoreboard.UpdateScoreboardAttributeInput
-	22, // 36: eolymp.scoreboard.ScoreboardService.ListScoreboardAttributes:input_type -> eolymp.scoreboard.ListScoreboardAttributesInput
-	24, // 37: eolymp.scoreboard.ScoreboardService.RemoveScoreboardAttribute:input_type -> eolymp.scoreboard.RemoveScoreboardAttributeInput
-	26, // 38: eolymp.scoreboard.ScoreboardService.ListScoreboardRows:input_type -> eolymp.scoreboard.ListScoreboardRowsInput
-	28, // 39: eolymp.scoreboard.ScoreboardService.DescribeScoreboardRow:input_type -> eolymp.scoreboard.DescribeScoreboardRowInput
-	30, // 40: eolymp.scoreboard.ScoreboardService.RebuildScoreboard:input_type -> eolymp.scoreboard.RebuildScoreboardInput
-	1,  // 41: eolymp.scoreboard.ScoreboardService.CreateScoreboard:output_type -> eolymp.scoreboard.CreateScoreboardOutput
-	3,  // 42: eolymp.scoreboard.ScoreboardService.UpdateScoreboard:output_type -> eolymp.scoreboard.UpdateScoreboardOutput
-	5,  // 43: eolymp.scoreboard.ScoreboardService.DeleteScoreboard:output_type -> eolymp.scoreboard.DeleteScoreboardOutput
-	7,  // 44: eolymp.scoreboard.ScoreboardService.DescribeScoreboard:output_type -> eolymp.scoreboard.DescribeScoreboardOutput
-	9,  // 45: eolymp.scoreboard.ScoreboardService.ListScoreboards:output_type -> eolymp.scoreboard.ListScoreboardsOutput
-	11, // 46: eolymp.scoreboard.ScoreboardService.AddScoreboardContest:output_type -> eolymp.scoreboard.AddScoreboardContestOutput
-	13, // 47: eolymp.scoreboard.ScoreboardService.UpdateScoreboardContest:output_type -> eolymp.scoreboard.UpdateScoreboardContestOutput
-	15, // 48: eolymp.scoreboard.ScoreboardService.ListScoreboardContests:output_type -> eolymp.scoreboard.ListScoreboardContestsOutput
-	17, // 49: eolymp.scoreboard.ScoreboardService.RemoveScoreboardContest:output_type -> eolymp.scoreboard.RemoveScoreboardContestOutput
-	19, // 50: eolymp.scoreboard.ScoreboardService.AddScoreboardAttribute:output_type -> eolymp.scoreboard.AddScoreboardAttributeOutput
-	21, // 51: eolymp.scoreboard.ScoreboardService.UpdateScoreboardAttribute:output_type -> eolymp.scoreboard.UpdateScoreboardAttributeOutput
-	23, // 52: eolymp.scoreboard.ScoreboardService.ListScoreboardAttributes:output_type -> eolymp.scoreboard.ListScoreboardAttributesOutput
-	25, // 53: eolymp.scoreboard.ScoreboardService.RemoveScoreboardAttribute:output_type -> eolymp.scoreboard.RemoveScoreboardAttributeOutput
-	27, // 54: eolymp.scoreboard.ScoreboardService.ListScoreboardRows:output_type -> eolymp.scoreboard.ListScoreboardRowsOutput
-	29, // 55: eolymp.scoreboard.ScoreboardService.DescribeScoreboardRow:output_type -> eolymp.scoreboard.DescribeScoreboardRowOutput
-	31, // 56: eolymp.scoreboard.ScoreboardService.RebuildScoreboard:output_type -> eolymp.scoreboard.RebuildScoreboardOutput
-	41, // [41:57] is the sub-list for method output_type
-	25, // [25:41] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	38, // 0: eolymp.scoreboard.CreateScoreboardInput.scoreboard:type_name -> eolymp.scoreboard.Scoreboard
+	39, // 1: eolymp.scoreboard.UpdateScoreboardInput.scoreboard:type_name -> eolymp.scoreboard.Scoreboard.Patch
+	38, // 2: eolymp.scoreboard.DescribeScoreboardOutput.scoreboard:type_name -> eolymp.scoreboard.Scoreboard
+	35, // 3: eolymp.scoreboard.ListScoreboardsInput.filters:type_name -> eolymp.scoreboard.ListScoreboardsInput.Filter
+	38, // 4: eolymp.scoreboard.ListScoreboardsOutput.items:type_name -> eolymp.scoreboard.Scoreboard
+	40, // 5: eolymp.scoreboard.UpdateScoreboardContestInput.contest:type_name -> eolymp.scoreboard.Scoreboard.Contest.Patch
+	41, // 6: eolymp.scoreboard.ListScoreboardContestsOutput.items:type_name -> eolymp.scoreboard.Scoreboard.Contest
+	42, // 7: eolymp.scoreboard.UpdateScoreboardAttributeInput.attribute:type_name -> eolymp.scoreboard.Scoreboard.Attribute.Patch
+	43, // 8: eolymp.scoreboard.ListScoreboardAttributesOutput.items:type_name -> eolymp.scoreboard.Scoreboard.Attribute
+	44, // 9: eolymp.scoreboard.ListScoreboardRowsInput.mode:type_name -> eolymp.scoreboard.Scoreboard.Mode
+	37, // 10: eolymp.scoreboard.ListScoreboardRowsInput.filters:type_name -> eolymp.scoreboard.ListScoreboardRowsInput.Filter
+	45, // 11: eolymp.scoreboard.ListScoreboardRowsInput.order:type_name -> eolymp.wellknown.Direction
+	46, // 12: eolymp.scoreboard.ListScoreboardRowsOutput.items:type_name -> eolymp.scoreboard.Row
+	44, // 13: eolymp.scoreboard.DescribeScoreboardRowInput.mode:type_name -> eolymp.scoreboard.Scoreboard.Mode
+	46, // 14: eolymp.scoreboard.DescribeScoreboardRowOutput.row:type_name -> eolymp.scoreboard.Row
+	44, // 15: eolymp.scoreboard.DescribeScoreboardStatsInput.mode:type_name -> eolymp.scoreboard.Scoreboard.Mode
+	47, // 16: eolymp.scoreboard.DescribeScoreboardStatsOutput.stats:type_name -> eolymp.scoreboard.Scoreboard.Stats
+	38, // 17: eolymp.scoreboard.ScoreboardChangedEvent.before:type_name -> eolymp.scoreboard.Scoreboard
+	38, // 18: eolymp.scoreboard.ScoreboardChangedEvent.after:type_name -> eolymp.scoreboard.Scoreboard
+	48, // 19: eolymp.scoreboard.ListScoreboardsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	49, // 20: eolymp.scoreboard.ListScoreboardsInput.Filter.slug:type_name -> eolymp.wellknown.ExpressionString
+	48, // 21: eolymp.scoreboard.ListScoreboardsInput.Filter.contest_id:type_name -> eolymp.wellknown.ExpressionID
+	50, // 22: eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute.number:type_name -> eolymp.wellknown.ExpressionInt
+	49, // 23: eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute.string:type_name -> eolymp.wellknown.ExpressionString
+	51, // 24: eolymp.scoreboard.ListScoreboardRowsInput.Filter.unofficial:type_name -> eolymp.wellknown.ExpressionBool
+	51, // 25: eolymp.scoreboard.ListScoreboardRowsInput.Filter.disqualified:type_name -> eolymp.wellknown.ExpressionBool
+	36, // 26: eolymp.scoreboard.ListScoreboardRowsInput.Filter.attributes:type_name -> eolymp.scoreboard.ListScoreboardRowsInput.ExpressionAttribute
+	0,  // 27: eolymp.scoreboard.ScoreboardService.CreateScoreboard:input_type -> eolymp.scoreboard.CreateScoreboardInput
+	2,  // 28: eolymp.scoreboard.ScoreboardService.UpdateScoreboard:input_type -> eolymp.scoreboard.UpdateScoreboardInput
+	4,  // 29: eolymp.scoreboard.ScoreboardService.DeleteScoreboard:input_type -> eolymp.scoreboard.DeleteScoreboardInput
+	6,  // 30: eolymp.scoreboard.ScoreboardService.DescribeScoreboard:input_type -> eolymp.scoreboard.DescribeScoreboardInput
+	8,  // 31: eolymp.scoreboard.ScoreboardService.ListScoreboards:input_type -> eolymp.scoreboard.ListScoreboardsInput
+	10, // 32: eolymp.scoreboard.ScoreboardService.AddScoreboardContest:input_type -> eolymp.scoreboard.AddScoreboardContestInput
+	12, // 33: eolymp.scoreboard.ScoreboardService.UpdateScoreboardContest:input_type -> eolymp.scoreboard.UpdateScoreboardContestInput
+	14, // 34: eolymp.scoreboard.ScoreboardService.ListScoreboardContests:input_type -> eolymp.scoreboard.ListScoreboardContestsInput
+	16, // 35: eolymp.scoreboard.ScoreboardService.RemoveScoreboardContest:input_type -> eolymp.scoreboard.RemoveScoreboardContestInput
+	18, // 36: eolymp.scoreboard.ScoreboardService.AddScoreboardAttribute:input_type -> eolymp.scoreboard.AddScoreboardAttributeInput
+	20, // 37: eolymp.scoreboard.ScoreboardService.UpdateScoreboardAttribute:input_type -> eolymp.scoreboard.UpdateScoreboardAttributeInput
+	22, // 38: eolymp.scoreboard.ScoreboardService.ListScoreboardAttributes:input_type -> eolymp.scoreboard.ListScoreboardAttributesInput
+	24, // 39: eolymp.scoreboard.ScoreboardService.RemoveScoreboardAttribute:input_type -> eolymp.scoreboard.RemoveScoreboardAttributeInput
+	26, // 40: eolymp.scoreboard.ScoreboardService.ListScoreboardRows:input_type -> eolymp.scoreboard.ListScoreboardRowsInput
+	28, // 41: eolymp.scoreboard.ScoreboardService.DescribeScoreboardRow:input_type -> eolymp.scoreboard.DescribeScoreboardRowInput
+	30, // 42: eolymp.scoreboard.ScoreboardService.DescribeScoreboardStats:input_type -> eolymp.scoreboard.DescribeScoreboardStatsInput
+	32, // 43: eolymp.scoreboard.ScoreboardService.RebuildScoreboard:input_type -> eolymp.scoreboard.RebuildScoreboardInput
+	1,  // 44: eolymp.scoreboard.ScoreboardService.CreateScoreboard:output_type -> eolymp.scoreboard.CreateScoreboardOutput
+	3,  // 45: eolymp.scoreboard.ScoreboardService.UpdateScoreboard:output_type -> eolymp.scoreboard.UpdateScoreboardOutput
+	5,  // 46: eolymp.scoreboard.ScoreboardService.DeleteScoreboard:output_type -> eolymp.scoreboard.DeleteScoreboardOutput
+	7,  // 47: eolymp.scoreboard.ScoreboardService.DescribeScoreboard:output_type -> eolymp.scoreboard.DescribeScoreboardOutput
+	9,  // 48: eolymp.scoreboard.ScoreboardService.ListScoreboards:output_type -> eolymp.scoreboard.ListScoreboardsOutput
+	11, // 49: eolymp.scoreboard.ScoreboardService.AddScoreboardContest:output_type -> eolymp.scoreboard.AddScoreboardContestOutput
+	13, // 50: eolymp.scoreboard.ScoreboardService.UpdateScoreboardContest:output_type -> eolymp.scoreboard.UpdateScoreboardContestOutput
+	15, // 51: eolymp.scoreboard.ScoreboardService.ListScoreboardContests:output_type -> eolymp.scoreboard.ListScoreboardContestsOutput
+	17, // 52: eolymp.scoreboard.ScoreboardService.RemoveScoreboardContest:output_type -> eolymp.scoreboard.RemoveScoreboardContestOutput
+	19, // 53: eolymp.scoreboard.ScoreboardService.AddScoreboardAttribute:output_type -> eolymp.scoreboard.AddScoreboardAttributeOutput
+	21, // 54: eolymp.scoreboard.ScoreboardService.UpdateScoreboardAttribute:output_type -> eolymp.scoreboard.UpdateScoreboardAttributeOutput
+	23, // 55: eolymp.scoreboard.ScoreboardService.ListScoreboardAttributes:output_type -> eolymp.scoreboard.ListScoreboardAttributesOutput
+	25, // 56: eolymp.scoreboard.ScoreboardService.RemoveScoreboardAttribute:output_type -> eolymp.scoreboard.RemoveScoreboardAttributeOutput
+	27, // 57: eolymp.scoreboard.ScoreboardService.ListScoreboardRows:output_type -> eolymp.scoreboard.ListScoreboardRowsOutput
+	29, // 58: eolymp.scoreboard.ScoreboardService.DescribeScoreboardRow:output_type -> eolymp.scoreboard.DescribeScoreboardRowOutput
+	31, // 59: eolymp.scoreboard.ScoreboardService.DescribeScoreboardStats:output_type -> eolymp.scoreboard.DescribeScoreboardStatsOutput
+	33, // 60: eolymp.scoreboard.ScoreboardService.RebuildScoreboard:output_type -> eolymp.scoreboard.RebuildScoreboardOutput
+	44, // [44:61] is the sub-list for method output_type
+	27, // [27:44] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_scoreboard_scoreboard_service_proto_init() }
@@ -2298,7 +2414,7 @@ func file_eolymp_scoreboard_scoreboard_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_scoreboard_scoreboard_service_proto_rawDesc), len(file_eolymp_scoreboard_scoreboard_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   36,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -34,6 +34,7 @@ const (
 	ScoreboardService_RemoveScoreboardAttribute_FullMethodName = "/eolymp.scoreboard.ScoreboardService/RemoveScoreboardAttribute"
 	ScoreboardService_ListScoreboardRows_FullMethodName        = "/eolymp.scoreboard.ScoreboardService/ListScoreboardRows"
 	ScoreboardService_DescribeScoreboardRow_FullMethodName     = "/eolymp.scoreboard.ScoreboardService/DescribeScoreboardRow"
+	ScoreboardService_DescribeScoreboardStats_FullMethodName   = "/eolymp.scoreboard.ScoreboardService/DescribeScoreboardStats"
 	ScoreboardService_RebuildScoreboard_FullMethodName         = "/eolymp.scoreboard.ScoreboardService/RebuildScoreboard"
 )
 
@@ -66,6 +67,9 @@ type ScoreboardServiceClient interface {
 	RemoveScoreboardAttribute(ctx context.Context, in *RemoveScoreboardAttributeInput, opts ...grpc.CallOption) (*RemoveScoreboardAttributeOutput, error)
 	ListScoreboardRows(ctx context.Context, in *ListScoreboardRowsInput, opts ...grpc.CallOption) (*ListScoreboardRowsOutput, error)
 	DescribeScoreboardRow(ctx context.Context, in *DescribeScoreboardRowInput, opts ...grpc.CallOption) (*DescribeScoreboardRowOutput, error)
+	// DescribeScoreboardStats returns per-contest and per-problem figures for the board in the requested mode, taken
+	// over all of its members rather than a page, so a client can show them under the table whatever rows it lists.
+	DescribeScoreboardStats(ctx context.Context, in *DescribeScoreboardStatsInput, opts ...grpc.CallOption) (*DescribeScoreboardStatsOutput, error)
 	// Repair for a standing that has drifted, not a refresh: rows are maintained as contests are judged. Runs
 	// in the background, a member at a time, and the scoreboard stays readable throughout.
 	RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput, opts ...grpc.CallOption) (*RebuildScoreboardOutput, error)
@@ -229,6 +233,16 @@ func (c *scoreboardServiceClient) DescribeScoreboardRow(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *scoreboardServiceClient) DescribeScoreboardStats(ctx context.Context, in *DescribeScoreboardStatsInput, opts ...grpc.CallOption) (*DescribeScoreboardStatsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeScoreboardStatsOutput)
+	err := c.cc.Invoke(ctx, ScoreboardService_DescribeScoreboardStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *scoreboardServiceClient) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput, opts ...grpc.CallOption) (*RebuildScoreboardOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RebuildScoreboardOutput)
@@ -268,6 +282,9 @@ type ScoreboardServiceServer interface {
 	RemoveScoreboardAttribute(context.Context, *RemoveScoreboardAttributeInput) (*RemoveScoreboardAttributeOutput, error)
 	ListScoreboardRows(context.Context, *ListScoreboardRowsInput) (*ListScoreboardRowsOutput, error)
 	DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error)
+	// DescribeScoreboardStats returns per-contest and per-problem figures for the board in the requested mode, taken
+	// over all of its members rather than a page, so a client can show them under the table whatever rows it lists.
+	DescribeScoreboardStats(context.Context, *DescribeScoreboardStatsInput) (*DescribeScoreboardStatsOutput, error)
 	// Repair for a standing that has drifted, not a refresh: rows are maintained as contests are judged. Runs
 	// in the background, a member at a time, and the scoreboard stays readable throughout.
 	RebuildScoreboard(context.Context, *RebuildScoreboardInput) (*RebuildScoreboardOutput, error)
@@ -324,6 +341,9 @@ func (UnimplementedScoreboardServiceServer) ListScoreboardRows(context.Context, 
 }
 func (UnimplementedScoreboardServiceServer) DescribeScoreboardRow(context.Context, *DescribeScoreboardRowInput) (*DescribeScoreboardRowOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeScoreboardRow not implemented")
+}
+func (UnimplementedScoreboardServiceServer) DescribeScoreboardStats(context.Context, *DescribeScoreboardStatsInput) (*DescribeScoreboardStatsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeScoreboardStats not implemented")
 }
 func (UnimplementedScoreboardServiceServer) RebuildScoreboard(context.Context, *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RebuildScoreboard not implemented")
@@ -618,6 +638,24 @@ func _ScoreboardService_DescribeScoreboardRow_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ScoreboardService_DescribeScoreboardStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeScoreboardStatsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ScoreboardServiceServer).DescribeScoreboardStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ScoreboardService_DescribeScoreboardStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ScoreboardServiceServer).DescribeScoreboardStats(ctx, req.(*DescribeScoreboardStatsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ScoreboardService_RebuildScoreboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RebuildScoreboardInput)
 	if err := dec(in); err != nil {
@@ -702,6 +740,10 @@ var ScoreboardService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeScoreboardRow",
 			Handler:    _ScoreboardService_DescribeScoreboardRow_Handler,
+		},
+		{
+			MethodName: "DescribeScoreboardStats",
+			Handler:    _ScoreboardService_DescribeScoreboardStats_Handler,
 		},
 		{
 			MethodName: "RebuildScoreboard",

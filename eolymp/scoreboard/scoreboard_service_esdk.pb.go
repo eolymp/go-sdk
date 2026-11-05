@@ -335,6 +335,22 @@ func (s *ScoreboardServiceService) DescribeScoreboardRow(ctx context.Context, in
 	return out, nil
 }
 
+func (s *ScoreboardServiceService) DescribeScoreboardStats(ctx context.Context, in *DescribeScoreboardStatsInput) (*DescribeScoreboardStatsOutput, error) {
+	out := &DescribeScoreboardStatsOutput{}
+	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/stats"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ScoreboardId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ScoreboardServiceService) RebuildScoreboard(ctx context.Context, in *RebuildScoreboardInput) (*RebuildScoreboardOutput, error) {
 	out := &RebuildScoreboardOutput{}
 	path := "/scoreboards/" + url.PathEscape(in.GetScoreboardId()) + "/rebuild"
