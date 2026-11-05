@@ -373,11 +373,12 @@ func (x *Scoreboard_Attribute) GetType() community.Attribute_Type {
 }
 
 type Scoreboard_Row struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	Id       string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	MemberId string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
-	TeamId   string                 `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"` // team the row belongs to, member_id is empty then
-	Index    uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	MemberId    string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	TeamId      string                 `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`                // team the row belongs to, member_id is empty then
+	DisplayName string                 `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // team name the row is listed under, set on team rows
+	Index       uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
 	// Rank among officially ranked participants only; zero when the row itself is unofficial or disqualified.
 	Rank       uint32 `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
 	RankLength uint32 `protobuf:"varint,12,opt,name=rank_length,json=rankLength,proto3" json:"rank_length,omitempty"`
@@ -447,6 +448,13 @@ func (x *Scoreboard_Row) GetMemberId() string {
 func (x *Scoreboard_Row) GetTeamId() string {
 	if x != nil {
 		return x.TeamId
+	}
+	return ""
+}
+
+func (x *Scoreboard_Row) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
 	}
 	return ""
 }
@@ -1013,7 +1021,7 @@ var File_eolymp_judge_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1eeolymp/judge/participant.proto\"\xe4\x11\n" +
+	"\x1deolymp/judge/scoreboard.proto\x12\feolymp.judge\x1a eolymp/community/attribute.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1eeolymp/judge/participant.proto\"\x87\x12\n" +
 	"\n" +
 	"Scoreboard\x123\n" +
 	"\x05modes\x18\n" +
@@ -1056,11 +1064,12 @@ const file_eolymp_judge_scoreboard_proto_rawDesc = "" +
 	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12\x19\n" +
 	"\x05label\x18\x03 \x01(\tH\x01R\x05label\x88\x01\x01B\b\n" +
 	"\x06_indexB\b\n" +
-	"\x06_label\x1a\xa3\b\n" +
+	"\x06_label\x1a\xc6\b\n" +
 	"\x03Row\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12\x17\n" +
-	"\ateam_id\x18\x03 \x01(\tR\x06teamId\x12\x14\n" +
+	"\ateam_id\x18\x03 \x01(\tR\x06teamId\x12!\n" +
+	"\fdisplay_name\x18\x04 \x01(\tR\vdisplayName\x12\x14\n" +
 	"\x05index\x18\n" +
 	" \x01(\rR\x05index\x12\x12\n" +
 	"\x04rank\x18\v \x01(\rR\x04rank\x12\x1f\n" +
