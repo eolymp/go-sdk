@@ -75,7 +75,6 @@ func (Configuration_Moderation) EnumDescriptor() ([]byte, []int) {
 
 type Configuration struct {
 	state                       protoimpl.MessageState   `protogen:"open.v1"`
-	MembersCanCreatePosts       bool                     `protobuf:"varint,1,opt,name=members_can_create_posts,json=membersCanCreatePosts,proto3" json:"members_can_create_posts,omitempty"`
 	MembersCanCommentOnPosts    bool                     `protobuf:"varint,2,opt,name=members_can_comment_on_posts,json=membersCanCommentOnPosts,proto3" json:"members_can_comment_on_posts,omitempty"`
 	MembersCanCommentOnProblems bool                     `protobuf:"varint,3,opt,name=members_can_comment_on_problems,json=membersCanCommentOnProblems,proto3" json:"members_can_comment_on_problems,omitempty"`
 	PostModeration              Configuration_Moderation `protobuf:"varint,4,opt,name=post_moderation,json=postModeration,proto3,enum=eolymp.discussion.Configuration_Moderation" json:"post_moderation,omitempty"`
@@ -114,13 +113,6 @@ func (*Configuration) Descriptor() ([]byte, []int) {
 	return file_eolymp_discussion_configuration_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Configuration) GetMembersCanCreatePosts() bool {
-	if x != nil {
-		return x.MembersCanCreatePosts
-	}
-	return false
-}
-
 func (x *Configuration) GetMembersCanCommentOnPosts() bool {
 	if x != nil {
 		return x.MembersCanCommentOnPosts
@@ -153,9 +145,8 @@ var File_eolymp_discussion_configuration_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_configuration_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/discussion/configuration.proto\x12\x11eolymp.discussion\"\xe2\x03\n" +
-	"\rConfiguration\x127\n" +
-	"\x18members_can_create_posts\x18\x01 \x01(\bR\x15membersCanCreatePosts\x12>\n" +
+	"%eolymp/discussion/configuration.proto\x12\x11eolymp.discussion\"\xaf\x03\n" +
+	"\rConfiguration\x12>\n" +
 	"\x1cmembers_can_comment_on_posts\x18\x02 \x01(\bR\x18membersCanCommentOnPosts\x12D\n" +
 	"\x1fmembers_can_comment_on_problems\x18\x03 \x01(\bR\x1bmembersCanCommentOnProblems\x12T\n" +
 	"\x0fpost_moderation\x18\x04 \x01(\x0e2+.eolymp.discussion.Configuration.ModerationR\x0epostModeration\x12Z\n" +
@@ -165,7 +156,7 @@ const file_eolymp_discussion_configuration_proto_rawDesc = "" +
 	"\x12UNKNOWN_MODERATION\x10\x00\x12\x11\n" +
 	"\rNO_MODERATION\x10\x01\x12\x12\n" +
 	"\x0ePRE_MODERATION\x10\x02\x12\x13\n" +
-	"\x0fPOST_MODERATION\x10\x03B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x0fPOST_MODERATION\x10\x03J\x04\b\x01\x10\x02B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_configuration_proto_rawDescOnce sync.Once
