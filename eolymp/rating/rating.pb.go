@@ -29,6 +29,7 @@ type Rating struct {
 	MemberId      string                 `protobuf:"bytes,3,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	ContestId     string                 `protobuf:"bytes,4,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
 	Value         uint32                 `protobuf:"varint,10,opt,name=value,proto3" json:"value,omitempty"`
+	ValueDiff     int32                  `protobuf:"varint,11,opt,name=value_diff,json=valueDiff,proto3" json:"value_diff,omitempty"` // change from the member's previous rating, zero on their first rated contest
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -98,11 +99,18 @@ func (x *Rating) GetValue() uint32 {
 	return 0
 }
 
+func (x *Rating) GetValueDiff() int32 {
+	if x != nil {
+		return x.ValueDiff
+	}
+	return 0
+}
+
 var File_eolymp_rating_rating_proto protoreflect.FileDescriptor
 
 const file_eolymp_rating_rating_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/rating/rating.proto\x12\reolymp.rating\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x01\n" +
+	"\x1aeolymp/rating/rating.proto\x12\reolymp.rating\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc3\x01\n" +
 	"\x06Rating\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x128\n" +
 	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x1b\n" +
@@ -110,7 +118,9 @@ const file_eolymp_rating_rating_proto_rawDesc = "" +
 	"\n" +
 	"contest_id\x18\x04 \x01(\tR\tcontestId\x12\x14\n" +
 	"\x05value\x18\n" +
-	" \x01(\rR\x05valueB/Z-github.com/eolymp/go-sdk/eolymp/rating;ratingb\x06proto3"
+	" \x01(\rR\x05value\x12\x1d\n" +
+	"\n" +
+	"value_diff\x18\v \x01(\x05R\tvalueDiffB/Z-github.com/eolymp/go-sdk/eolymp/rating;ratingb\x06proto3"
 
 var (
 	file_eolymp_rating_rating_proto_rawDescOnce sync.Once
