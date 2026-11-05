@@ -149,13 +149,12 @@ type Post struct {
 	Featured     bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                         // marked as featured (shown on home page)
 	Pinned       bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                            // pinned on top of the page
 	Moderation   Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.content.Post_Moderation" json:"moderation,omitempty"` // moderation status
-	// author of the post. A service caller may set either identity, or leave it unset for a system post; a user
-	// or member caller authors the post as themselves and cannot set another author.
+	// author of the post. A service caller may set it, or leave it unset for a system post; a user caller authors
+	// the post as themselves and cannot set another author.
 	//
 	// Types that are valid to be assigned to Author:
 	//
 	//	*Post_UserId
-	//	*Post_MemberId
 	Author        isPost_Author          `protobuf_oneof:"author"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	PublishedAt   *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
@@ -307,15 +306,6 @@ func (x *Post) GetUserId() string {
 	return ""
 }
 
-func (x *Post) GetMemberId() string {
-	if x != nil {
-		if x, ok := x.Author.(*Post_MemberId); ok {
-			return x.MemberId
-		}
-	}
-	return ""
-}
-
 func (x *Post) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -436,13 +426,7 @@ type Post_UserId struct {
 	UserId string `protobuf:"bytes,10,opt,name=user_id,json=userId,proto3,oneof"` // author by user
 }
 
-type Post_MemberId struct {
-	MemberId string `protobuf:"bytes,11,opt,name=member_id,json=memberId,proto3,oneof"` // author by member
-}
-
 func (*Post_UserId) isPost_Author() {}
-
-func (*Post_MemberId) isPost_Author() {}
 
 type Post_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -668,7 +652,7 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd9\x0e\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc0\x0e\n" +
 	"\x04Post\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -687,8 +671,7 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"moderation\x18\x05 \x01(\x0e2\x1f.eolymp.content.Post.ModerationB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
 	"moderation\x12\x19\n" +
 	"\auser_id\x18\n" +
-	" \x01(\tH\x00R\x06userId\x12\x1d\n" +
-	"\tmember_id\x18\v \x01(\tH\x00R\bmemberId\x12A\n" +
+	" \x01(\tH\x00R\x06userId\x12A\n" +
 	"\n" +
 	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12E\n" +
 	"\fpublished_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\vpublishedAt\x12A\n" +
@@ -746,7 +729,7 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\x0eCONTENT_RENDER\x10\x02\x12\v\n" +
 	"\aPREVIEW\x10\x03\x12\b\n" +
 	"\x04VOTE\x10\x04B\b\n" +
-	"\x06authorB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x06authorJ\x04\b\v\x10\fB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_post_proto_rawDescOnce sync.Once
@@ -799,7 +782,6 @@ func file_eolymp_content_post_proto_init() {
 	}
 	file_eolymp_content_post_proto_msgTypes[0].OneofWrappers = []any{
 		(*Post_UserId)(nil),
-		(*Post_MemberId)(nil),
 	}
 	file_eolymp_content_post_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}

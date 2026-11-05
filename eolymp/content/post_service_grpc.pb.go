@@ -60,8 +60,8 @@ type PostServiceClient interface {
 	// for the rendered excerpt here saves describing every post separately just to render the listing.
 	ListPosts(ctx context.Context, in *ListPostsInput, opts ...grpc.CallOption) (*ListPostsOutput, error)
 	// CreatePost stores a new post and returns its id. There is no title to set: the title and the image shown
-	// for the post are derived from its content. A user or member caller authors the post as themselves and
-	// cannot set another author; a service caller may set the author to any user or member, or leave it unset
+	// for the post are derived from its content. A user caller authors the post as themselves and cannot set
+	// another author; a service caller may set the author to any user, or leave it unset
 	// for a system post, and may mark the post as a translation of another through its source. Making the post
 	// visible is not part of this call, see PublishPost.
 	CreatePost(ctx context.Context, in *CreatePostInput, opts ...grpc.CallOption) (*CreatePostOutput, error)
@@ -234,8 +234,8 @@ type PostServiceServer interface {
 	// for the rendered excerpt here saves describing every post separately just to render the listing.
 	ListPosts(context.Context, *ListPostsInput) (*ListPostsOutput, error)
 	// CreatePost stores a new post and returns its id. There is no title to set: the title and the image shown
-	// for the post are derived from its content. A user or member caller authors the post as themselves and
-	// cannot set another author; a service caller may set the author to any user or member, or leave it unset
+	// for the post are derived from its content. A user caller authors the post as themselves and cannot set
+	// another author; a service caller may set the author to any user, or leave it unset
 	// for a system post, and may mark the post as a translation of another through its source. Making the post
 	// visible is not part of this call, see PublishPost.
 	CreatePost(context.Context, *CreatePostInput) (*CreatePostOutput, error)

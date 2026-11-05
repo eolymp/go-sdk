@@ -1295,7 +1295,6 @@ type ListPostsInput_Filter struct {
 	Id            []*wellknown.ExpressionID        `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	SourceId      []*wellknown.ExpressionID        `protobuf:"bytes,13,rep,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`
 	UserId        []*wellknown.ExpressionID        `protobuf:"bytes,3,rep,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	MemberId      []*wellknown.ExpressionID        `protobuf:"bytes,4,rep,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	TypeId        []*wellknown.ExpressionID        `protobuf:"bytes,8,rep,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`
 	CreatedAt     []*wellknown.ExpressionTimestamp `protobuf:"bytes,5,rep,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	PublishedAt   []*wellknown.ExpressionTimestamp `protobuf:"bytes,6,rep,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
@@ -1363,13 +1362,6 @@ func (x *ListPostsInput_Filter) GetSourceId() []*wellknown.ExpressionID {
 func (x *ListPostsInput_Filter) GetUserId() []*wellknown.ExpressionID {
 	if x != nil {
 		return x.UserId
-	}
-	return nil
-}
-
-func (x *ListPostsInput_Filter) GetMemberId() []*wellknown.ExpressionID {
-	if x != nil {
-		return x.MemberId
 	}
 	return nil
 }
@@ -1448,7 +1440,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x06locale\x18< \x01(\tR\x06locale\x121\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\">\n" +
 	"\x12DescribePostOutput\x12(\n" +
-	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"\xd0\t\n" +
+	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"\x99\t\n" +
 	"\x0eListPostsInput\x12\x14\n" +
 	"\x05after\x18\n" +
 	" \x01(\tR\x05after\x12\x12\n" +
@@ -1459,13 +1451,12 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12?\n" +
 	"\afilters\x18( \x01(\v2%.eolymp.content.ListPostsInput.FilterR\afilters\x12\x16\n" +
 	"\x06locale\x18< \x01(\tR\x06locale\x121\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\x1a\xfe\x05\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\x1a\xc7\x05\n" +
 	"\x06Filter\x12\x18\n" +
 	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
 	"\tsource_id\x18\r \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bsourceId\x127\n" +
-	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x12;\n" +
-	"\tmember_id\x18\x04 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\bmemberId\x127\n" +
+	"\auser_id\x18\x03 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06userId\x127\n" +
 	"\atype_id\x18\b \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x06typeId\x12D\n" +
 	"\n" +
 	"created_at\x18\x05 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x12H\n" +
@@ -1477,7 +1468,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"moderation\x18\v \x03(\v2 .eolymp.wellknown.ExpressionEnumR\n" +
 	"moderation\x126\n" +
 	"\x05label\x18\n" +
-	" \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\t\x10\n" +
+	" \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\x04\x10\x05J\x04\b\t\x10\n" +
 	"\"k\n" +
 	"\x04Sort\x12\x10\n" +
 	"\fUNKNOWN_SORT\x10\x00\x12\x10\n" +
@@ -1696,40 +1687,39 @@ var file_eolymp_content_post_service_proto_depIdxs = []int32{
 	30, // 18: eolymp.content.ListPostsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
 	30, // 19: eolymp.content.ListPostsInput.Filter.source_id:type_name -> eolymp.wellknown.ExpressionID
 	30, // 20: eolymp.content.ListPostsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 21: eolymp.content.ListPostsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 22: eolymp.content.ListPostsInput.Filter.type_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 23: eolymp.content.ListPostsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	31, // 24: eolymp.content.ListPostsInput.Filter.published_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	32, // 25: eolymp.content.ListPostsInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
-	32, // 26: eolymp.content.ListPostsInput.Filter.public:type_name -> eolymp.wellknown.ExpressionBool
-	32, // 27: eolymp.content.ListPostsInput.Filter.featured:type_name -> eolymp.wellknown.ExpressionBool
-	33, // 28: eolymp.content.ListPostsInput.Filter.moderation:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 29: eolymp.content.ListPostsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
-	4,  // 30: eolymp.content.PostService.DescribePost:input_type -> eolymp.content.DescribePostInput
-	6,  // 31: eolymp.content.PostService.ListPosts:input_type -> eolymp.content.ListPostsInput
-	8,  // 32: eolymp.content.PostService.CreatePost:input_type -> eolymp.content.CreatePostInput
-	10, // 33: eolymp.content.PostService.UpdatePost:input_type -> eolymp.content.UpdatePostInput
-	12, // 34: eolymp.content.PostService.PublishPost:input_type -> eolymp.content.PublishPostInput
-	14, // 35: eolymp.content.PostService.UnpublishPost:input_type -> eolymp.content.UnpublishPostInput
-	16, // 36: eolymp.content.PostService.ModeratePost:input_type -> eolymp.content.ModeratePostInput
-	18, // 37: eolymp.content.PostService.DeletePost:input_type -> eolymp.content.DeletePostInput
-	20, // 38: eolymp.content.PostService.VotePost:input_type -> eolymp.content.VotePostInput
-	22, // 39: eolymp.content.PostService.TranslatePost:input_type -> eolymp.content.TranslatePostInput
-	5,  // 40: eolymp.content.PostService.DescribePost:output_type -> eolymp.content.DescribePostOutput
-	7,  // 41: eolymp.content.PostService.ListPosts:output_type -> eolymp.content.ListPostsOutput
-	9,  // 42: eolymp.content.PostService.CreatePost:output_type -> eolymp.content.CreatePostOutput
-	11, // 43: eolymp.content.PostService.UpdatePost:output_type -> eolymp.content.UpdatePostOutput
-	13, // 44: eolymp.content.PostService.PublishPost:output_type -> eolymp.content.PublishPostOutput
-	15, // 45: eolymp.content.PostService.UnpublishPost:output_type -> eolymp.content.UnpublishPostOutput
-	17, // 46: eolymp.content.PostService.ModeratePost:output_type -> eolymp.content.ModeratePostOutput
-	19, // 47: eolymp.content.PostService.DeletePost:output_type -> eolymp.content.DeletePostOutput
-	21, // 48: eolymp.content.PostService.VotePost:output_type -> eolymp.content.VotePostOutput
-	23, // 49: eolymp.content.PostService.TranslatePost:output_type -> eolymp.content.TranslatePostOutput
-	40, // [40:50] is the sub-list for method output_type
-	30, // [30:40] is the sub-list for method input_type
-	30, // [30:30] is the sub-list for extension type_name
-	30, // [30:30] is the sub-list for extension extendee
-	0,  // [0:30] is the sub-list for field type_name
+	30, // 21: eolymp.content.ListPostsInput.Filter.type_id:type_name -> eolymp.wellknown.ExpressionID
+	31, // 22: eolymp.content.ListPostsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	31, // 23: eolymp.content.ListPostsInput.Filter.published_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	32, // 24: eolymp.content.ListPostsInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
+	32, // 25: eolymp.content.ListPostsInput.Filter.public:type_name -> eolymp.wellknown.ExpressionBool
+	32, // 26: eolymp.content.ListPostsInput.Filter.featured:type_name -> eolymp.wellknown.ExpressionBool
+	33, // 27: eolymp.content.ListPostsInput.Filter.moderation:type_name -> eolymp.wellknown.ExpressionEnum
+	33, // 28: eolymp.content.ListPostsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
+	4,  // 29: eolymp.content.PostService.DescribePost:input_type -> eolymp.content.DescribePostInput
+	6,  // 30: eolymp.content.PostService.ListPosts:input_type -> eolymp.content.ListPostsInput
+	8,  // 31: eolymp.content.PostService.CreatePost:input_type -> eolymp.content.CreatePostInput
+	10, // 32: eolymp.content.PostService.UpdatePost:input_type -> eolymp.content.UpdatePostInput
+	12, // 33: eolymp.content.PostService.PublishPost:input_type -> eolymp.content.PublishPostInput
+	14, // 34: eolymp.content.PostService.UnpublishPost:input_type -> eolymp.content.UnpublishPostInput
+	16, // 35: eolymp.content.PostService.ModeratePost:input_type -> eolymp.content.ModeratePostInput
+	18, // 36: eolymp.content.PostService.DeletePost:input_type -> eolymp.content.DeletePostInput
+	20, // 37: eolymp.content.PostService.VotePost:input_type -> eolymp.content.VotePostInput
+	22, // 38: eolymp.content.PostService.TranslatePost:input_type -> eolymp.content.TranslatePostInput
+	5,  // 39: eolymp.content.PostService.DescribePost:output_type -> eolymp.content.DescribePostOutput
+	7,  // 40: eolymp.content.PostService.ListPosts:output_type -> eolymp.content.ListPostsOutput
+	9,  // 41: eolymp.content.PostService.CreatePost:output_type -> eolymp.content.CreatePostOutput
+	11, // 42: eolymp.content.PostService.UpdatePost:output_type -> eolymp.content.UpdatePostOutput
+	13, // 43: eolymp.content.PostService.PublishPost:output_type -> eolymp.content.PublishPostOutput
+	15, // 44: eolymp.content.PostService.UnpublishPost:output_type -> eolymp.content.UnpublishPostOutput
+	17, // 45: eolymp.content.PostService.ModeratePost:output_type -> eolymp.content.ModeratePostOutput
+	19, // 46: eolymp.content.PostService.DeletePost:output_type -> eolymp.content.DeletePostOutput
+	21, // 47: eolymp.content.PostService.VotePost:output_type -> eolymp.content.VotePostOutput
+	23, // 48: eolymp.content.PostService.TranslatePost:output_type -> eolymp.content.TranslatePostOutput
+	39, // [39:49] is the sub-list for method output_type
+	29, // [29:39] is the sub-list for method input_type
+	29, // [29:29] is the sub-list for extension type_name
+	29, // [29:29] is the sub-list for extension extendee
+	0,  // [0:29] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_post_service_proto_init() }
