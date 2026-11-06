@@ -326,9 +326,6 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/contests/{contest_id}/join", _ParticipantService_JoinContest_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.JoinContest")
-	router.Handle(prefix+"/contests/{contest_id}/leave", _ParticipantService_LeaveContest_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.judge.ParticipantService.LeaveContest")
 	router.Handle(prefix+"/contests/{contest_id}/introspect", _ParticipantService_DescribeViewer_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.judge.ParticipantService.DescribeViewer")
@@ -587,30 +584,6 @@ func _ParticipantService_JoinContest_Rule0(cli ParticipantServiceClient) http.Ha
 		var header, trailer metadata.MD
 
 		out, err := cli.JoinContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _ParticipantService_LeaveContest_Rule0(cli ParticipantServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &LeaveContestInput{}
-
-		if err := _ParticipantService_HTTPReadRequestBody(r, in, 1048576); err != nil {
-			_ParticipantService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ContestId = vars["contest_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.LeaveContest(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_ParticipantService_HTTPWriteErrorResponse(w, err)
 			return

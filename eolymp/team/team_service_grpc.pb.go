@@ -27,6 +27,7 @@ const (
 	TeamService_ListTeams_FullMethodName        = "/eolymp.team.TeamService/ListTeams"
 	TeamService_AddTeamMember_FullMethodName    = "/eolymp.team.TeamService/AddTeamMember"
 	TeamService_RemoveTeamMember_FullMethodName = "/eolymp.team.TeamService/RemoveTeamMember"
+	TeamService_LeaveTeam_FullMethodName        = "/eolymp.team.TeamService/LeaveTeam"
 )
 
 // TeamServiceClient is the client API for TeamService service.
@@ -56,10 +57,13 @@ type TeamServiceClient interface {
 	// AddTeamMember puts a member into a team without an invitation. Only administrators can add members this
 	// way; everyone else invites through InvitationService.
 	AddTeamMember(ctx context.Context, in *AddTeamMemberInput, opts ...grpc.CallOption) (*AddTeamMemberOutput, error)
-	// RemoveTeamMember takes a member out of a team. The captain and administrators can remove anyone but the
-	// captain, and a member can remove themselves, which is how they leave. The captain hands the role over
-	// before leaving. Removing a member takes them off the team's rosters for contests that have not locked yet.
+	// RemoveTeamMember takes another member out of a team. The captain and administrators can remove anyone
+	// but the captain; members leave through LeaveTeam. Removing a member takes them off the team's rosters for
+	// contests that have not locked yet.
 	RemoveTeamMember(ctx context.Context, in *RemoveTeamMemberInput, opts ...grpc.CallOption) (*RemoveTeamMemberOutput, error)
+	// LeaveTeam takes the caller out of a team. The captain hands the role over before leaving. Leaving takes the
+	// caller off the team's rosters for contests that have not locked yet.
+	LeaveTeam(ctx context.Context, in *LeaveTeamInput, opts ...grpc.CallOption) (*LeaveTeamOutput, error)
 }
 
 type teamServiceClient struct {
@@ -150,6 +154,16 @@ func (c *teamServiceClient) RemoveTeamMember(ctx context.Context, in *RemoveTeam
 	return out, nil
 }
 
+func (c *teamServiceClient) LeaveTeam(ctx context.Context, in *LeaveTeamInput, opts ...grpc.CallOption) (*LeaveTeamOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LeaveTeamOutput)
+	err := c.cc.Invoke(ctx, TeamService_LeaveTeam_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TeamServiceServer is the server API for TeamService service.
 // All implementations should embed UnimplementedTeamServiceServer
 // for forward compatibility.
@@ -177,10 +191,13 @@ type TeamServiceServer interface {
 	// AddTeamMember puts a member into a team without an invitation. Only administrators can add members this
 	// way; everyone else invites through InvitationService.
 	AddTeamMember(context.Context, *AddTeamMemberInput) (*AddTeamMemberOutput, error)
-	// RemoveTeamMember takes a member out of a team. The captain and administrators can remove anyone but the
-	// captain, and a member can remove themselves, which is how they leave. The captain hands the role over
-	// before leaving. Removing a member takes them off the team's rosters for contests that have not locked yet.
+	// RemoveTeamMember takes another member out of a team. The captain and administrators can remove anyone
+	// but the captain; members leave through LeaveTeam. Removing a member takes them off the team's rosters for
+	// contests that have not locked yet.
 	RemoveTeamMember(context.Context, *RemoveTeamMemberInput) (*RemoveTeamMemberOutput, error)
+	// LeaveTeam takes the caller out of a team. The captain hands the role over before leaving. Leaving takes the
+	// caller off the team's rosters for contests that have not locked yet.
+	LeaveTeam(context.Context, *LeaveTeamInput) (*LeaveTeamOutput, error)
 }
 
 // UnimplementedTeamServiceServer should be embedded to have
@@ -213,6 +230,9 @@ func (UnimplementedTeamServiceServer) AddTeamMember(context.Context, *AddTeamMem
 }
 func (UnimplementedTeamServiceServer) RemoveTeamMember(context.Context, *RemoveTeamMemberInput) (*RemoveTeamMemberOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RemoveTeamMember not implemented")
+}
+func (UnimplementedTeamServiceServer) LeaveTeam(context.Context, *LeaveTeamInput) (*LeaveTeamOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method LeaveTeam not implemented")
 }
 func (UnimplementedTeamServiceServer) testEmbeddedByValue() {}
 
@@ -378,6 +398,24 @@ func _TeamService_RemoveTeamMember_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TeamService_LeaveTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LeaveTeamInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TeamServiceServer).LeaveTeam(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TeamService_LeaveTeam_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TeamServiceServer).LeaveTeam(ctx, req.(*LeaveTeamInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TeamService_ServiceDesc is the grpc.ServiceDesc for TeamService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -416,6 +454,10 @@ var TeamService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveTeamMember",
 			Handler:    _TeamService_RemoveTeamMember_Handler,
+		},
+		{
+			MethodName: "LeaveTeam",
+			Handler:    _TeamService_LeaveTeam_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

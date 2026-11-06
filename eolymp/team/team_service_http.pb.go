@@ -225,6 +225,9 @@ func RegisterTeamServiceHttpHandlers(router *mux.Router, prefix string, cli Team
 	router.Handle(prefix+"/teams/{team_id}/members/{member_id}", _TeamService_RemoveTeamMember_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.team.TeamService.RemoveTeamMember")
+	router.Handle(prefix+"/teams/{team_id}/leave", _TeamService_LeaveTeam_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.team.TeamService.LeaveTeam")
 }
 
 // RegisterTeamServiceHttpProxy adds proxy handlers for for TeamServiceClient
@@ -411,6 +414,30 @@ func _TeamService_RemoveTeamMember_Rule0(cli TeamServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.RemoveTeamMember(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_TeamService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_TeamService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _TeamService_LeaveTeam_Rule0(cli TeamServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &LeaveTeamInput{}
+
+		if err := _TeamService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_TeamService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.TeamId = vars["team_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.LeaveTeam(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_TeamService_HTTPWriteErrorResponse(w, err)
 			return

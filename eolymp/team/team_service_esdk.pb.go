@@ -219,3 +219,19 @@ func (s *TeamServiceService) RemoveTeamMember(ctx context.Context, in *RemoveTea
 
 	return out, nil
 }
+
+func (s *TeamServiceService) LeaveTeam(ctx context.Context, in *LeaveTeamInput) (*LeaveTeamOutput, error) {
+	out := &LeaveTeamOutput{}
+	path := "/teams/" + url.PathEscape(in.GetTeamId()) + "/leave"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.TeamId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

@@ -816,6 +816,86 @@ func (*RemoveTeamMemberOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_team_team_service_proto_rawDescGZIP(), []int{15}
 }
 
+type LeaveTeamInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TeamId        string                 `protobuf:"bytes,1,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LeaveTeamInput) Reset() {
+	*x = LeaveTeamInput{}
+	mi := &file_eolymp_team_team_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LeaveTeamInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LeaveTeamInput) ProtoMessage() {}
+
+func (x *LeaveTeamInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_team_team_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LeaveTeamInput.ProtoReflect.Descriptor instead.
+func (*LeaveTeamInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_team_team_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *LeaveTeamInput) GetTeamId() string {
+	if x != nil {
+		return x.TeamId
+	}
+	return ""
+}
+
+type LeaveTeamOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LeaveTeamOutput) Reset() {
+	*x = LeaveTeamOutput{}
+	mi := &file_eolymp_team_team_service_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LeaveTeamOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LeaveTeamOutput) ProtoMessage() {}
+
+func (x *LeaveTeamOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_team_team_service_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LeaveTeamOutput.ProtoReflect.Descriptor instead.
+func (*LeaveTeamOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_team_team_service_proto_rawDescGZIP(), []int{17}
+}
+
 type ListTeamsInput_Filter struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID   `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -828,7 +908,7 @@ type ListTeamsInput_Filter struct {
 
 func (x *ListTeamsInput_Filter) Reset() {
 	*x = ListTeamsInput_Filter{}
-	mi := &file_eolymp_team_team_service_proto_msgTypes[16]
+	mi := &file_eolymp_team_team_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -840,7 +920,7 @@ func (x *ListTeamsInput_Filter) String() string {
 func (*ListTeamsInput_Filter) ProtoMessage() {}
 
 func (x *ListTeamsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_team_team_service_proto_msgTypes[16]
+	mi := &file_eolymp_team_team_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -937,8 +1017,10 @@ const file_eolymp_team_team_service_proto_rawDesc = "" +
 	"\x15RemoveTeamMemberInput\x12\x17\n" +
 	"\ateam_id\x18\x01 \x01(\tR\x06teamId\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\"\x18\n" +
-	"\x16RemoveTeamMemberOutput2\x9d\n" +
-	"\n" +
+	"\x16RemoveTeamMemberOutput\")\n" +
+	"\x0eLeaveTeamInput\x12\x17\n" +
+	"\ateam_id\x18\x01 \x01(\tR\x06teamId\"\x11\n" +
+	"\x0fLeaveTeamOutput2\xb4\v\n" +
 	"\vTeamService\x12\x87\x01\n" +
 	"\n" +
 	"CreateTeam\x12\x1c.eolymp.team.CreateTeamInput\x1a\x1d.eolymp.team.CreateTeamOutput\"<\xea\xe2\n" +
@@ -1005,7 +1087,15 @@ const file_eolymp_team_team_service_proto_rawDesc = "" +
 	"\x13\x8a\xe3\n" +
 	"\x0fteam:team:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02&*$/teams/{team_id}/members/{member_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/team;teamb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02&*$/teams/{team_id}/members/{member_id}\x12\x94\x01\n" +
+	"\tLeaveTeam\x12\x1b.eolymp.team.LeaveTeamInput\x1a\x1c.eolymp.team.LeaveTeamOutput\"L\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x13\x8a\xe3\n" +
+	"\x0fteam:team:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x18\"\x16/teams/{team_id}/leave\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB+Z)github.com/eolymp/go-sdk/eolymp/team;teamb\x06proto3"
 
 var (
 	file_eolymp_team_team_service_proto_rawDescOnce sync.Once
@@ -1020,7 +1110,7 @@ func file_eolymp_team_team_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_team_team_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_team_team_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_eolymp_team_team_service_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_eolymp_team_team_service_proto_goTypes = []any{
 	(ListTeamsInput_Sortable)(0),     // 0: eolymp.team.ListTeamsInput.Sortable
 	(*CreateTeamInput)(nil),          // 1: eolymp.team.CreateTeamInput
@@ -1039,25 +1129,27 @@ var file_eolymp_team_team_service_proto_goTypes = []any{
 	(*AddTeamMemberOutput)(nil),      // 14: eolymp.team.AddTeamMemberOutput
 	(*RemoveTeamMemberInput)(nil),    // 15: eolymp.team.RemoveTeamMemberInput
 	(*RemoveTeamMemberOutput)(nil),   // 16: eolymp.team.RemoveTeamMemberOutput
-	(*ListTeamsInput_Filter)(nil),    // 17: eolymp.team.ListTeamsInput.Filter
-	(*Team)(nil),                     // 18: eolymp.team.Team
-	(*Team_Patch)(nil),               // 19: eolymp.team.Team.Patch
-	(wellknown.Direction)(0),         // 20: eolymp.wellknown.Direction
-	(*wellknown.ExpressionID)(nil),   // 21: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionBool)(nil), // 22: eolymp.wellknown.ExpressionBool
+	(*LeaveTeamInput)(nil),           // 17: eolymp.team.LeaveTeamInput
+	(*LeaveTeamOutput)(nil),          // 18: eolymp.team.LeaveTeamOutput
+	(*ListTeamsInput_Filter)(nil),    // 19: eolymp.team.ListTeamsInput.Filter
+	(*Team)(nil),                     // 20: eolymp.team.Team
+	(*Team_Patch)(nil),               // 21: eolymp.team.Team.Patch
+	(wellknown.Direction)(0),         // 22: eolymp.wellknown.Direction
+	(*wellknown.ExpressionID)(nil),   // 23: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionBool)(nil), // 24: eolymp.wellknown.ExpressionBool
 }
 var file_eolymp_team_team_service_proto_depIdxs = []int32{
-	18, // 0: eolymp.team.CreateTeamInput.team:type_name -> eolymp.team.Team
-	19, // 1: eolymp.team.UpdateTeamInput.team:type_name -> eolymp.team.Team.Patch
-	18, // 2: eolymp.team.DescribeTeamOutput.team:type_name -> eolymp.team.Team
-	17, // 3: eolymp.team.ListTeamsInput.filters:type_name -> eolymp.team.ListTeamsInput.Filter
+	20, // 0: eolymp.team.CreateTeamInput.team:type_name -> eolymp.team.Team
+	21, // 1: eolymp.team.UpdateTeamInput.team:type_name -> eolymp.team.Team.Patch
+	20, // 2: eolymp.team.DescribeTeamOutput.team:type_name -> eolymp.team.Team
+	19, // 3: eolymp.team.ListTeamsInput.filters:type_name -> eolymp.team.ListTeamsInput.Filter
 	0,  // 4: eolymp.team.ListTeamsInput.sort:type_name -> eolymp.team.ListTeamsInput.Sortable
-	20, // 5: eolymp.team.ListTeamsInput.order:type_name -> eolymp.wellknown.Direction
-	18, // 6: eolymp.team.ListTeamsOutput.items:type_name -> eolymp.team.Team
-	21, // 7: eolymp.team.ListTeamsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	21, // 8: eolymp.team.ListTeamsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	21, // 9: eolymp.team.ListTeamsInput.Filter.captain_id:type_name -> eolymp.wellknown.ExpressionID
-	22, // 10: eolymp.team.ListTeamsInput.Filter.disbanded:type_name -> eolymp.wellknown.ExpressionBool
+	22, // 5: eolymp.team.ListTeamsInput.order:type_name -> eolymp.wellknown.Direction
+	20, // 6: eolymp.team.ListTeamsOutput.items:type_name -> eolymp.team.Team
+	23, // 7: eolymp.team.ListTeamsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	23, // 8: eolymp.team.ListTeamsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	23, // 9: eolymp.team.ListTeamsInput.Filter.captain_id:type_name -> eolymp.wellknown.ExpressionID
+	24, // 10: eolymp.team.ListTeamsInput.Filter.disbanded:type_name -> eolymp.wellknown.ExpressionBool
 	1,  // 11: eolymp.team.TeamService.CreateTeam:input_type -> eolymp.team.CreateTeamInput
 	3,  // 12: eolymp.team.TeamService.UpdateTeam:input_type -> eolymp.team.UpdateTeamInput
 	5,  // 13: eolymp.team.TeamService.TransferCaptain:input_type -> eolymp.team.TransferCaptainInput
@@ -1066,16 +1158,18 @@ var file_eolymp_team_team_service_proto_depIdxs = []int32{
 	11, // 16: eolymp.team.TeamService.ListTeams:input_type -> eolymp.team.ListTeamsInput
 	13, // 17: eolymp.team.TeamService.AddTeamMember:input_type -> eolymp.team.AddTeamMemberInput
 	15, // 18: eolymp.team.TeamService.RemoveTeamMember:input_type -> eolymp.team.RemoveTeamMemberInput
-	2,  // 19: eolymp.team.TeamService.CreateTeam:output_type -> eolymp.team.CreateTeamOutput
-	4,  // 20: eolymp.team.TeamService.UpdateTeam:output_type -> eolymp.team.UpdateTeamOutput
-	6,  // 21: eolymp.team.TeamService.TransferCaptain:output_type -> eolymp.team.TransferCaptainOutput
-	8,  // 22: eolymp.team.TeamService.DisbandTeam:output_type -> eolymp.team.DisbandTeamOutput
-	10, // 23: eolymp.team.TeamService.DescribeTeam:output_type -> eolymp.team.DescribeTeamOutput
-	12, // 24: eolymp.team.TeamService.ListTeams:output_type -> eolymp.team.ListTeamsOutput
-	14, // 25: eolymp.team.TeamService.AddTeamMember:output_type -> eolymp.team.AddTeamMemberOutput
-	16, // 26: eolymp.team.TeamService.RemoveTeamMember:output_type -> eolymp.team.RemoveTeamMemberOutput
-	19, // [19:27] is the sub-list for method output_type
-	11, // [11:19] is the sub-list for method input_type
+	17, // 19: eolymp.team.TeamService.LeaveTeam:input_type -> eolymp.team.LeaveTeamInput
+	2,  // 20: eolymp.team.TeamService.CreateTeam:output_type -> eolymp.team.CreateTeamOutput
+	4,  // 21: eolymp.team.TeamService.UpdateTeam:output_type -> eolymp.team.UpdateTeamOutput
+	6,  // 22: eolymp.team.TeamService.TransferCaptain:output_type -> eolymp.team.TransferCaptainOutput
+	8,  // 23: eolymp.team.TeamService.DisbandTeam:output_type -> eolymp.team.DisbandTeamOutput
+	10, // 24: eolymp.team.TeamService.DescribeTeam:output_type -> eolymp.team.DescribeTeamOutput
+	12, // 25: eolymp.team.TeamService.ListTeams:output_type -> eolymp.team.ListTeamsOutput
+	14, // 26: eolymp.team.TeamService.AddTeamMember:output_type -> eolymp.team.AddTeamMemberOutput
+	16, // 27: eolymp.team.TeamService.RemoveTeamMember:output_type -> eolymp.team.RemoveTeamMemberOutput
+	18, // 28: eolymp.team.TeamService.LeaveTeam:output_type -> eolymp.team.LeaveTeamOutput
+	20, // [20:29] is the sub-list for method output_type
+	11, // [11:20] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name
@@ -1093,7 +1187,7 @@ func file_eolymp_team_team_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_team_team_service_proto_rawDesc), len(file_eolymp_team_team_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   17,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
