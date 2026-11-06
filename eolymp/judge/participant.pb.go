@@ -200,9 +200,10 @@ func (Participant_Proctoring_Status) EnumDescriptor() ([]byte, []int) {
 type Participant_Proctoring_Source int32
 
 const (
-	Participant_Proctoring_UNKNOWN_SOURCE Participant_Proctoring_Source = 0
-	Participant_Proctoring_SCREEN         Participant_Proctoring_Source = 1
-	Participant_Proctoring_CAMERA         Participant_Proctoring_Source = 2
+	Participant_Proctoring_UNKNOWN_SOURCE    Participant_Proctoring_Source = 0
+	Participant_Proctoring_SCREEN            Participant_Proctoring_Source = 1
+	Participant_Proctoring_CAMERA            Participant_Proctoring_Source = 2
+	Participant_Proctoring_ADDITIONAL_CAMERA Participant_Proctoring_Source = 3
 )
 
 // Enum value maps for Participant_Proctoring_Source.
@@ -211,11 +212,13 @@ var (
 		0: "UNKNOWN_SOURCE",
 		1: "SCREEN",
 		2: "CAMERA",
+		3: "ADDITIONAL_CAMERA",
 	}
 	Participant_Proctoring_Source_value = map[string]int32{
-		"UNKNOWN_SOURCE": 0,
-		"SCREEN":         1,
-		"CAMERA":         2,
+		"UNKNOWN_SOURCE":    0,
+		"SCREEN":            1,
+		"CAMERA":            2,
+		"ADDITIONAL_CAMERA": 3,
 	}
 )
 
@@ -780,7 +783,7 @@ var File_eolymp_judge_participant_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\n" +
-	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe2\x12\n" +
+	"\x1eeolymp/judge/participant.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/judge/medal.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x12\n" +
 	"\vParticipant\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x04 \x01(\tR\bmemberId\x12\x1f\n" +
@@ -830,7 +833,7 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\x06_medalB\v\n" +
 	"\t_inactiveB\v\n" +
 	"\t_passcodeB\a\n" +
-	"\x05_role\x1a\x9a\x03\n" +
+	"\x05_role\x1a\xb1\x03\n" +
 	"\n" +
 	"Proctoring\x12C\n" +
 	"\x06status\x18\x01 \x01(\x0e2+.eolymp.judge.Participant.Proctoring.StatusR\x06status\x12E\n" +
@@ -844,13 +847,14 @@ const file_eolymp_judge_participant_proto_rawDesc = "" +
 	"\bCOMPLETE\x10\x02\x12\x0e\n" +
 	"\n" +
 	"INCOMPLETE\x10\x03\x12\v\n" +
-	"\aEXPIRED\x10\x04\"4\n" +
+	"\aEXPIRED\x10\x04\"K\n" +
 	"\x06Source\x12\x12\n" +
 	"\x0eUNKNOWN_SOURCE\x10\x00\x12\n" +
 	"\n" +
 	"\x06SCREEN\x10\x01\x12\n" +
 	"\n" +
-	"\x06CAMERA\x10\x02\x1aH\n" +
+	"\x06CAMERA\x10\x02\x12\x15\n" +
+	"\x11ADDITIONAL_CAMERA\x10\x03\x1aH\n" +
 	"\x06Member\x12\x1b\n" +
 	"\tmember_id\x18\x01 \x01(\tR\bmemberId\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x1aA\n" +

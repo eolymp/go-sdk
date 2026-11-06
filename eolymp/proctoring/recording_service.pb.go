@@ -77,11 +77,12 @@ func (x *CreateRecordingInput) GetExpiresAt() *timestamppb.Timestamp {
 }
 
 type CreateRecordingOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RecordingId   string                 `protobuf:"bytes,1,opt,name=recording_id,json=recordingId,proto3" json:"recording_id,omitempty"`
-	StreamUrl     string                 `protobuf:"bytes,2,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"` // WebSocket URL with a token to stream clips to
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	RecordingId         string                 `protobuf:"bytes,1,opt,name=recording_id,json=recordingId,proto3" json:"recording_id,omitempty"`
+	StreamUrl           string                 `protobuf:"bytes,2,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"`                                 // WebSocket URL with a token to stream clips to
+	AdditionalCameraUrl string                 `protobuf:"bytes,3,opt,name=additional_camera_url,json=additionalCameraUrl,proto3" json:"additional_camera_url,omitempty"` // page a phone opens to stream the additional camera, usually shown as a QR code
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *CreateRecordingOutput) Reset() {
@@ -124,6 +125,13 @@ func (x *CreateRecordingOutput) GetRecordingId() string {
 func (x *CreateRecordingOutput) GetStreamUrl() string {
 	if x != nil {
 		return x.StreamUrl
+	}
+	return ""
+}
+
+func (x *CreateRecordingOutput) GetAdditionalCameraUrl() string {
+	if x != nil {
+		return x.AdditionalCameraUrl
 	}
 	return ""
 }
@@ -181,10 +189,11 @@ func (x *ResumeRecordingInput) GetExpiresAt() *timestamppb.Timestamp {
 }
 
 type ResumeRecordingOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	StreamUrl     string                 `protobuf:"bytes,1,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"` // WebSocket URL with a token to stream clips to
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	StreamUrl           string                 `protobuf:"bytes,1,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"`                                 // WebSocket URL with a token to stream clips to
+	AdditionalCameraUrl string                 `protobuf:"bytes,2,opt,name=additional_camera_url,json=additionalCameraUrl,proto3" json:"additional_camera_url,omitempty"` // page a phone opens to stream the additional camera, usually shown as a QR code
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ResumeRecordingOutput) Reset() {
@@ -220,6 +229,13 @@ func (*ResumeRecordingOutput) Descriptor() ([]byte, []int) {
 func (x *ResumeRecordingOutput) GetStreamUrl() string {
 	if x != nil {
 		return x.StreamUrl
+	}
+	return ""
+}
+
+func (x *ResumeRecordingOutput) GetAdditionalCameraUrl() string {
+	if x != nil {
+		return x.AdditionalCameraUrl
 	}
 	return ""
 }
@@ -627,18 +643,20 @@ const file_eolymp_proctoring_recording_service_proto_rawDesc = "" +
 	"\x14CreateRecordingInput\x12:\n" +
 	"\trecording\x18\x01 \x01(\v2\x1c.eolymp.proctoring.RecordingR\trecording\x129\n" +
 	"\n" +
-	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"Y\n" +
+	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\x8d\x01\n" +
 	"\x15CreateRecordingOutput\x12!\n" +
 	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\x12\x1d\n" +
 	"\n" +
-	"stream_url\x18\x02 \x01(\tR\tstreamUrl\"t\n" +
+	"stream_url\x18\x02 \x01(\tR\tstreamUrl\x122\n" +
+	"\x15additional_camera_url\x18\x03 \x01(\tR\x13additionalCameraUrl\"t\n" +
 	"\x14ResumeRecordingInput\x12!\n" +
 	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\x129\n" +
 	"\n" +
-	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"6\n" +
+	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"j\n" +
 	"\x15ResumeRecordingOutput\x12\x1d\n" +
 	"\n" +
-	"stream_url\x18\x01 \x01(\tR\tstreamUrl\"9\n" +
+	"stream_url\x18\x01 \x01(\tR\tstreamUrl\x122\n" +
+	"\x15additional_camera_url\x18\x02 \x01(\tR\x13additionalCameraUrl\"9\n" +
 	"\x14DeleteRecordingInput\x12!\n" +
 	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\"\x17\n" +
 	"\x15DeleteRecordingOutput\";\n" +

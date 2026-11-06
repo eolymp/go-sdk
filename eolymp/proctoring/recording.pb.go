@@ -80,9 +80,10 @@ func (Recording_Status) EnumDescriptor() ([]byte, []int) {
 type Recording_Stream_Source int32
 
 const (
-	Recording_Stream_UNKNOWN_SOURCE Recording_Stream_Source = 0
-	Recording_Stream_SCREEN         Recording_Stream_Source = 1
-	Recording_Stream_CAMERA         Recording_Stream_Source = 2
+	Recording_Stream_UNKNOWN_SOURCE    Recording_Stream_Source = 0
+	Recording_Stream_SCREEN            Recording_Stream_Source = 1
+	Recording_Stream_CAMERA            Recording_Stream_Source = 2
+	Recording_Stream_ADDITIONAL_CAMERA Recording_Stream_Source = 3
 )
 
 // Enum value maps for Recording_Stream_Source.
@@ -91,11 +92,13 @@ var (
 		0: "UNKNOWN_SOURCE",
 		1: "SCREEN",
 		2: "CAMERA",
+		3: "ADDITIONAL_CAMERA",
 	}
 	Recording_Stream_Source_value = map[string]int32{
-		"UNKNOWN_SOURCE": 0,
-		"SCREEN":         1,
-		"CAMERA":         2,
+		"UNKNOWN_SOURCE":    0,
+		"SCREEN":            1,
+		"CAMERA":            2,
+		"ADDITIONAL_CAMERA": 3,
 	}
 )
 
@@ -129,9 +132,9 @@ func (Recording_Stream_Source) EnumDescriptor() ([]byte, []int) {
 // Recording is a member's screen and camera recording.
 //
 // The service which asks for proctoring (e.g. a contest) creates the recording for a member and hands the
-// stream URL to the member's browser, which streams clips to it until the URL's token expires. The recording
-// spans from its earliest clip to the end of its latest one; the owner decides whether that covers what it
-// needed recorded.
+// stream URL to the member's browser, which streams clips to it until the URL's token expires. A phone
+// streams the additional camera from the additional camera URL. The recording spans from its earliest clip
+// to the end of its latest one; the owner decides whether that covers what it needed recorded.
 type Recording struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -288,7 +291,7 @@ var File_eolymp_proctoring_recording_proto protoreflect.FileDescriptor
 
 const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/proctoring/recording.proto\x12\x11eolymp.proctoring\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x05\n" +
+	"!eolymp/proctoring/recording.proto\x12\x11eolymp.proctoring\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x05\n" +
 	"\tRecording\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12;\n" +
@@ -299,16 +302,17 @@ const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\fgap_duration\x18\x06 \x01(\rR\vgapDuration\x12=\n" +
 	"\astreams\x18\a \x03(\v2#.eolymp.proctoring.Recording.StreamR\astreams\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x1a\xa5\x01\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x1a\xbc\x01\n" +
 	"\x06Stream\x12B\n" +
 	"\x06source\x18\x01 \x01(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x06source\x12!\n" +
-	"\fplaylist_url\x18\x02 \x01(\tR\vplaylistUrl\"4\n" +
+	"\fplaylist_url\x18\x02 \x01(\tR\vplaylistUrl\"K\n" +
 	"\x06Source\x12\x12\n" +
 	"\x0eUNKNOWN_SOURCE\x10\x00\x12\n" +
 	"\n" +
 	"\x06SCREEN\x10\x01\x12\n" +
 	"\n" +
-	"\x06CAMERA\x10\x02\"R\n" +
+	"\x06CAMERA\x10\x02\x12\x15\n" +
+	"\x11ADDITIONAL_CAMERA\x10\x03\"R\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
 	"\x05EMPTY\x10\x01\x12\f\n" +

@@ -510,10 +510,11 @@ func (Contest_ScoreboardConfig_Visibility) EnumDescriptor() ([]byte, []int) {
 type Contest_ProctoringConfig_Mode int32
 
 const (
-	Contest_ProctoringConfig_UNKNOWN_MODE      Contest_ProctoringConfig_Mode = 0
-	Contest_ProctoringConfig_NONE              Contest_ProctoringConfig_Mode = 1 // participants are not recorded
-	Contest_ProctoringConfig_SCREEN            Contest_ProctoringConfig_Mode = 2 // record participant's screen
-	Contest_ProctoringConfig_SCREEN_AND_CAMERA Contest_ProctoringConfig_Mode = 3 // record participant's screen, camera and microphone
+	Contest_ProctoringConfig_UNKNOWN_MODE           Contest_ProctoringConfig_Mode = 0
+	Contest_ProctoringConfig_NONE                   Contest_ProctoringConfig_Mode = 1 // participants are not recorded
+	Contest_ProctoringConfig_SCREEN                 Contest_ProctoringConfig_Mode = 2 // record participant's screen
+	Contest_ProctoringConfig_SCREEN_AND_CAMERA      Contest_ProctoringConfig_Mode = 3 // record participant's screen, camera and microphone
+	Contest_ProctoringConfig_SCREEN_AND_TWO_CAMERAS Contest_ProctoringConfig_Mode = 4 // record participant's screen, camera and microphone, and an additional camera
 )
 
 // Enum value maps for Contest_ProctoringConfig_Mode.
@@ -523,12 +524,14 @@ var (
 		1: "NONE",
 		2: "SCREEN",
 		3: "SCREEN_AND_CAMERA",
+		4: "SCREEN_AND_TWO_CAMERAS",
 	}
 	Contest_ProctoringConfig_Mode_value = map[string]int32{
-		"UNKNOWN_MODE":      0,
-		"NONE":              1,
-		"SCREEN":            2,
-		"SCREEN_AND_CAMERA": 3,
+		"UNKNOWN_MODE":           0,
+		"NONE":                   1,
+		"SCREEN":                 2,
+		"SCREEN_AND_CAMERA":      3,
+		"SCREEN_AND_TWO_CAMERAS": 4,
 	}
 )
 
@@ -1797,7 +1800,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe6:\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82;\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -1963,15 +1966,16 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\asigners\x18\x03 \x03(\v20.eolymp.judge.Contest.CertificationConfig.SignerR\asigners\x1a2\n" +
 	"\x06Signer\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x1a\x9a\x01\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x1a\xb6\x01\n" +
 	"\x10ProctoringConfig\x12?\n" +
-	"\x04mode\x18\x02 \x01(\x0e2+.eolymp.judge.Contest.ProctoringConfig.ModeR\x04mode\"E\n" +
+	"\x04mode\x18\x02 \x01(\x0e2+.eolymp.judge.Contest.ProctoringConfig.ModeR\x04mode\"a\n" +
 	"\x04Mode\x12\x10\n" +
 	"\fUNKNOWN_MODE\x10\x00\x12\b\n" +
 	"\x04NONE\x10\x01\x12\n" +
 	"\n" +
 	"\x06SCREEN\x10\x02\x12\x15\n" +
-	"\x11SCREEN_AND_CAMERA\x10\x03\x1aH\n" +
+	"\x11SCREEN_AND_CAMERA\x10\x03\x12\x1a\n" +
+	"\x16SCREEN_AND_TWO_CAMERAS\x10\x04\x1aH\n" +
 	"\x11EnvironmentConfig\x123\n" +
 	"\bruntimes\x18\x02 \x03(\v2\x17.eolymp.runtime.RuntimeR\bruntimes\x1a[\n" +
 	"\x05Staff\x12\x1b\n" +
