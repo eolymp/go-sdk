@@ -25,61 +25,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Post_Moderation int32
-
-const (
-	Post_UNKNOWN_MODERATION Post_Moderation = 0 // not used
-	Post_PENDING            Post_Moderation = 1 // not reviewed by moderator
-	Post_IN_REVIEW          Post_Moderation = 2 // in review by moderator
-	Post_APPROVED           Post_Moderation = 3 // approved by moderator
-	Post_REJECTED           Post_Moderation = 4 // rejected by moderator
-)
-
-// Enum value maps for Post_Moderation.
-var (
-	Post_Moderation_name = map[int32]string{
-		0: "UNKNOWN_MODERATION",
-		1: "PENDING",
-		2: "IN_REVIEW",
-		3: "APPROVED",
-		4: "REJECTED",
-	}
-	Post_Moderation_value = map[string]int32{
-		"UNKNOWN_MODERATION": 0,
-		"PENDING":            1,
-		"IN_REVIEW":          2,
-		"APPROVED":           3,
-		"REJECTED":           4,
-	}
-)
-
-func (x Post_Moderation) Enum() *Post_Moderation {
-	p := new(Post_Moderation)
-	*p = x
-	return p
-}
-
-func (x Post_Moderation) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Post_Moderation) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_post_proto_enumTypes[0].Descriptor()
-}
-
-func (Post_Moderation) Type() protoreflect.EnumType {
-	return &file_eolymp_content_post_proto_enumTypes[0]
-}
-
-func (x Post_Moderation) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Post_Moderation.Descriptor instead.
-func (Post_Moderation) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 0}
-}
-
 type Post_Extra int32
 
 const (
@@ -119,11 +64,11 @@ func (x Post_Extra) String() string {
 }
 
 func (Post_Extra) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_post_proto_enumTypes[1].Descriptor()
+	return file_eolymp_content_post_proto_enumTypes[0].Descriptor()
 }
 
 func (Post_Extra) Type() protoreflect.EnumType {
-	return &file_eolymp_content_post_proto_enumTypes[1]
+	return &file_eolymp_content_post_proto_enumTypes[0]
 }
 
 func (x Post_Extra) Number() protoreflect.EnumNumber {
@@ -132,23 +77,22 @@ func (x Post_Extra) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Post_Extra.Descriptor instead.
 func (Post_Extra) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_content_post_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Post struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
 	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url          string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`                                                    // deprecated: use resource_link
-	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"`           // canonical URL of this resource in the API
-	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`                    // page on the space's own site, empty when it has none
-	ConsoleLink  string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`              // page in the console
-	SourceId     string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                          // if set when creating the post, marks it as a translation of the post specified here
-	SourceUrl    string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`                       // populated if source_id is set
-	Draft        bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                               // marked as draft and only shown to author
-	Public       bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                             // visible and available to everyone (ie. published and passed moderation)
-	Featured     bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                                         // marked as featured (shown on home page)
-	Pinned       bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                            // pinned on top of the page
-	Moderation   Post_Moderation        `protobuf:"varint,5,opt,name=moderation,proto3,enum=eolymp.content.Post_Moderation" json:"moderation,omitempty"` // moderation status
+	Url          string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`                                          // deprecated: use resource_link
+	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
+	ConsoleLink  string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
+	SourceId     string                 `protobuf:"bytes,7,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`                // if set when creating the post, marks it as a translation of the post specified here
+	SourceUrl    string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`             // populated if source_id is set
+	Draft        bool                   `protobuf:"varint,3,opt,name=draft,proto3" json:"draft,omitempty"`                                     // marked as draft and only shown to author
+	Public       bool                   `protobuf:"varint,4,opt,name=public,proto3" json:"public,omitempty"`                                   // visible and available to everyone (ie. published)
+	Featured     bool                   `protobuf:"varint,9,opt,name=featured,proto3" json:"featured,omitempty"`                               // marked as featured (shown on home page)
+	Pinned       bool                   `protobuf:"varint,13,opt,name=pinned,proto3" json:"pinned,omitempty"`                                  // pinned on top of the page
 	// author of the post. A service caller may set it, or leave it unset for a system post; a user caller authors
 	// the post as themselves and cannot set another author.
 	//
@@ -281,13 +225,6 @@ func (x *Post) GetPinned() bool {
 		return x.Pinned
 	}
 	return false
-}
-
-func (x *Post) GetModeration() Post_Moderation {
-	if x != nil {
-		return x.Moderation
-	}
-	return Post_UNKNOWN_MODERATION
 }
 
 func (x *Post) GetAuthor() isPost_Author {
@@ -652,7 +589,7 @@ var File_eolymp_content_post_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_proto_rawDesc = "" +
 	"\n" +
-	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc0\x0e\n" +
+	"\x19eolymp/content/post.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\x1a\x1beolymp/wellknown/link.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9f\r\n" +
 	"\x04Post\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -666,10 +603,7 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\x05draft\x18\x03 \x01(\bR\x05draft\x12\x1e\n" +
 	"\x06public\x18\x04 \x01(\bB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06public\x12\x1a\n" +
 	"\bfeatured\x18\t \x01(\bR\bfeatured\x12\x16\n" +
-	"\x06pinned\x18\r \x01(\bR\x06pinned\x12G\n" +
-	"\n" +
-	"moderation\x18\x05 \x01(\x0e2\x1f.eolymp.content.Post.ModerationB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
-	"moderation\x12\x19\n" +
+	"\x06pinned\x18\r \x01(\bR\x06pinned\x12\x19\n" +
 	"\auser_id\x18\n" +
 	" \x01(\tH\x00R\x06userId\x12A\n" +
 	"\n" +
@@ -715,21 +649,14 @@ const file_eolymp_content_post_proto_rawDesc = "" +
 	"\aPreview\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x120\n" +
 	"\x05image\x18\x02 \x01(\v2\x1a.eolymp.content.Post.ImageR\x05image\x12*\n" +
-	"\acontent\x18\x03 \x01(\v2\x10.eolymp.ecm.NodeR\acontent\"\\\n" +
-	"\n" +
-	"Moderation\x12\x16\n" +
-	"\x12UNKNOWN_MODERATION\x10\x00\x12\v\n" +
-	"\aPENDING\x10\x01\x12\r\n" +
-	"\tIN_REVIEW\x10\x02\x12\f\n" +
-	"\bAPPROVED\x10\x03\x12\f\n" +
-	"\bREJECTED\x10\x04\"X\n" +
+	"\acontent\x18\x03 \x01(\v2\x10.eolymp.ecm.NodeR\acontent\"X\n" +
 	"\x05Extra\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x11\n" +
 	"\rCONTENT_VALUE\x10\x01\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x02\x12\v\n" +
 	"\aPREVIEW\x10\x03\x12\b\n" +
 	"\x04VOTE\x10\x04B\b\n" +
-	"\x06authorJ\x04\b\v\x10\fB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x06authorJ\x04\b\x05\x10\x06J\x04\b\v\x10\fB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_post_proto_rawDescOnce sync.Once
@@ -743,36 +670,34 @@ func file_eolymp_content_post_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_post_proto_rawDescData
 }
 
-var file_eolymp_content_post_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_eolymp_content_post_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_eolymp_content_post_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_eolymp_content_post_proto_goTypes = []any{
-	(Post_Moderation)(0),          // 0: eolymp.content.Post.Moderation
-	(Post_Extra)(0),               // 1: eolymp.content.Post.Extra
-	(*Post)(nil),                  // 2: eolymp.content.Post
-	(*Post_Patch)(nil),            // 3: eolymp.content.Post.Patch
-	(*Post_Image)(nil),            // 4: eolymp.content.Post.Image
-	(*Post_Preview)(nil),          // 5: eolymp.content.Post.Preview
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
-	(*ecm.Content)(nil),           // 7: eolymp.ecm.Content
-	(*wellknown.Link)(nil),        // 8: eolymp.wellknown.Link
-	(*ecm.Node)(nil),              // 9: eolymp.ecm.Node
+	(Post_Extra)(0),               // 0: eolymp.content.Post.Extra
+	(*Post)(nil),                  // 1: eolymp.content.Post
+	(*Post_Patch)(nil),            // 2: eolymp.content.Post.Patch
+	(*Post_Image)(nil),            // 3: eolymp.content.Post.Image
+	(*Post_Preview)(nil),          // 4: eolymp.content.Post.Preview
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*ecm.Content)(nil),           // 6: eolymp.ecm.Content
+	(*wellknown.Link)(nil),        // 7: eolymp.wellknown.Link
+	(*ecm.Node)(nil),              // 8: eolymp.ecm.Node
 }
 var file_eolymp_content_post_proto_depIdxs = []int32{
-	0,  // 0: eolymp.content.Post.moderation:type_name -> eolymp.content.Post.Moderation
-	6,  // 1: eolymp.content.Post.created_at:type_name -> google.protobuf.Timestamp
-	6,  // 2: eolymp.content.Post.published_at:type_name -> google.protobuf.Timestamp
-	6,  // 3: eolymp.content.Post.updated_at:type_name -> google.protobuf.Timestamp
-	7,  // 4: eolymp.content.Post.content:type_name -> eolymp.ecm.Content
-	5,  // 5: eolymp.content.Post.preview:type_name -> eolymp.content.Post.Preview
-	8,  // 6: eolymp.content.Post.links:type_name -> eolymp.wellknown.Link
-	7,  // 7: eolymp.content.Post.Patch.content:type_name -> eolymp.ecm.Content
-	4,  // 8: eolymp.content.Post.Preview.image:type_name -> eolymp.content.Post.Image
-	9,  // 9: eolymp.content.Post.Preview.content:type_name -> eolymp.ecm.Node
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	5, // 0: eolymp.content.Post.created_at:type_name -> google.protobuf.Timestamp
+	5, // 1: eolymp.content.Post.published_at:type_name -> google.protobuf.Timestamp
+	5, // 2: eolymp.content.Post.updated_at:type_name -> google.protobuf.Timestamp
+	6, // 3: eolymp.content.Post.content:type_name -> eolymp.ecm.Content
+	4, // 4: eolymp.content.Post.preview:type_name -> eolymp.content.Post.Preview
+	7, // 5: eolymp.content.Post.links:type_name -> eolymp.wellknown.Link
+	6, // 6: eolymp.content.Post.Patch.content:type_name -> eolymp.ecm.Content
+	3, // 7: eolymp.content.Post.Preview.image:type_name -> eolymp.content.Post.Image
+	8, // 8: eolymp.content.Post.Preview.content:type_name -> eolymp.ecm.Node
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_post_proto_init() }
@@ -789,7 +714,7 @@ func file_eolymp_content_post_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_post_proto_rawDesc), len(file_eolymp_content_post_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,

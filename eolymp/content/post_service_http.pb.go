@@ -219,9 +219,6 @@ func RegisterPostServiceHttpHandlers(router *mux.Router, prefix string, cli Post
 	router.Handle(prefix+"/posts/{post_id}/publish", _PostService_UnpublishPost_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.content.PostService.UnpublishPost")
-	router.Handle(prefix+"/posts/{post_id}/moderate", _PostService_ModeratePost_Rule0(cli)).
-		Methods("POST").
-		Name("eolymp.content.PostService.ModeratePost")
 	router.Handle(prefix+"/posts/{post_id}", _PostService_DeletePost_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.content.PostService.DeletePost")
@@ -367,30 +364,6 @@ func _PostService_UnpublishPost_Rule0(cli PostServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.UnpublishPost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_PostService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_PostService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _PostService_ModeratePost_Rule0(cli PostServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ModeratePostInput{}
-
-		if err := _PostService_HTTPReadRequestBody(r, in, 1048576); err != nil {
-			_PostService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.PostId = vars["post_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.ModeratePost(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_PostService_HTTPWriteErrorResponse(w, err)
 			return

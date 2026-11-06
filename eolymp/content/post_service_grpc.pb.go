@@ -25,7 +25,6 @@ const (
 	PostService_UpdatePost_FullMethodName    = "/eolymp.content.PostService/UpdatePost"
 	PostService_PublishPost_FullMethodName   = "/eolymp.content.PostService/PublishPost"
 	PostService_UnpublishPost_FullMethodName = "/eolymp.content.PostService/UnpublishPost"
-	PostService_ModeratePost_FullMethodName  = "/eolymp.content.PostService/ModeratePost"
 	PostService_DeletePost_FullMethodName    = "/eolymp.content.PostService/DeletePost"
 	PostService_VotePost_FullMethodName      = "/eolymp.content.PostService/VotePost"
 	PostService_TranslatePost_FullMethodName = "/eolymp.content.PostService/TranslatePost"
@@ -42,11 +41,9 @@ const (
 // LaTeX with a parsed tree alongside, which reads return only when asked for: as the raw value, as the tree,
 // or as a short rendered excerpt meant for listings. It is not a page — a page (ContentService) is addressed
 // by a path and takes its place in the site structure, while a post stands on its own in the listing — and it
-// is not a contest announcement, which is a separate feature (eolymp.judge.AnnouncementService). Whether
-// readers see a post depends on three independent things: whether the author still keeps it as a draft,
-// whether it has been published, and how moderation ruled on it; the post's public flag reports the
-// combination and cannot be written directly. Comments on a post belong to eolymp.discussion, which is also
-// where the space-wide policy deciding when posts are moderated is configured.
+// is not a contest announcement, which is a separate feature (eolymp.judge.AnnouncementService). Readers see
+// a post once it is published and not while it is a draft; the post's public flag reports this and cannot be
+// written directly. Comments on a post belong to eolymp.discussion.
 //
 // A post has no locale of its own. It holds the source content and labels plus a complete translation of
 // them per locale, and the locale on a request picks between them: reading falls back to the post when the
@@ -71,16 +68,11 @@ type PostServiceClient interface {
 	// content is written to that translation instead, which is created from the post if it does not exist yet.
 	UpdatePost(ctx context.Context, in *UpdatePostInput, opts ...grpc.CallOption) (*UpdatePostOutput, error)
 	// PublishPost is the transition which sends a post out, recording when that happened, rather than a flag on
-	// the post that UpdatePost could write. Whether readers then see it still depends on the draft flag and on
-	// moderation.
+	// the post that UpdatePost could write.
 	PublishPost(ctx context.Context, in *PublishPostInput, opts ...grpc.CallOption) (*PublishPostOutput, error)
 	// UnpublishPost is the reverse transition: it takes a post back out without destroying it, so it can be
 	// corrected and sent out again. A reason for the withdrawal can be attached to the call.
 	UnpublishPost(ctx context.Context, in *UnpublishPostInput, opts ...grpc.CallOption) (*UnpublishPostOutput, error)
-	// ModeratePost records a moderator's outcome for a post, together with a reason when the post is turned down.
-	// Whether a post has to pass moderation before it appears, only afterwards, or not at all, is a space-wide
-	// setting of eolymp.discussion.ConfigurationService rather than anything carried by the post.
-	ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error)
 	// DeletePost removes a post for good, or only its translation for one locale when a locale is given. Reach
 	// for UnpublishPost instead whenever the post only has to stop being shown, since that transition can be
 	// undone and this call cannot.
@@ -165,16 +157,6 @@ func (c *postServiceClient) UnpublishPost(ctx context.Context, in *UnpublishPost
 	return out, nil
 }
 
-func (c *postServiceClient) ModeratePost(ctx context.Context, in *ModeratePostInput, opts ...grpc.CallOption) (*ModeratePostOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ModeratePostOutput)
-	err := c.cc.Invoke(ctx, PostService_ModeratePost_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *postServiceClient) DeletePost(ctx context.Context, in *DeletePostInput, opts ...grpc.CallOption) (*DeletePostOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeletePostOutput)
@@ -216,11 +198,9 @@ func (c *postServiceClient) TranslatePost(ctx context.Context, in *TranslatePost
 // LaTeX with a parsed tree alongside, which reads return only when asked for: as the raw value, as the tree,
 // or as a short rendered excerpt meant for listings. It is not a page — a page (ContentService) is addressed
 // by a path and takes its place in the site structure, while a post stands on its own in the listing — and it
-// is not a contest announcement, which is a separate feature (eolymp.judge.AnnouncementService). Whether
-// readers see a post depends on three independent things: whether the author still keeps it as a draft,
-// whether it has been published, and how moderation ruled on it; the post's public flag reports the
-// combination and cannot be written directly. Comments on a post belong to eolymp.discussion, which is also
-// where the space-wide policy deciding when posts are moderated is configured.
+// is not a contest announcement, which is a separate feature (eolymp.judge.AnnouncementService). Readers see
+// a post once it is published and not while it is a draft; the post's public flag reports this and cannot be
+// written directly. Comments on a post belong to eolymp.discussion.
 //
 // A post has no locale of its own. It holds the source content and labels plus a complete translation of
 // them per locale, and the locale on a request picks between them: reading falls back to the post when the
@@ -245,16 +225,11 @@ type PostServiceServer interface {
 	// content is written to that translation instead, which is created from the post if it does not exist yet.
 	UpdatePost(context.Context, *UpdatePostInput) (*UpdatePostOutput, error)
 	// PublishPost is the transition which sends a post out, recording when that happened, rather than a flag on
-	// the post that UpdatePost could write. Whether readers then see it still depends on the draft flag and on
-	// moderation.
+	// the post that UpdatePost could write.
 	PublishPost(context.Context, *PublishPostInput) (*PublishPostOutput, error)
 	// UnpublishPost is the reverse transition: it takes a post back out without destroying it, so it can be
 	// corrected and sent out again. A reason for the withdrawal can be attached to the call.
 	UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error)
-	// ModeratePost records a moderator's outcome for a post, together with a reason when the post is turned down.
-	// Whether a post has to pass moderation before it appears, only afterwards, or not at all, is a space-wide
-	// setting of eolymp.discussion.ConfigurationService rather than anything carried by the post.
-	ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error)
 	// DeletePost removes a post for good, or only its translation for one locale when a locale is given. Reach
 	// for UnpublishPost instead whenever the post only has to stop being shown, since that transition can be
 	// undone and this call cannot.
@@ -295,9 +270,6 @@ func (UnimplementedPostServiceServer) PublishPost(context.Context, *PublishPostI
 }
 func (UnimplementedPostServiceServer) UnpublishPost(context.Context, *UnpublishPostInput) (*UnpublishPostOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method UnpublishPost not implemented")
-}
-func (UnimplementedPostServiceServer) ModeratePost(context.Context, *ModeratePostInput) (*ModeratePostOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ModeratePost not implemented")
 }
 func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostInput) (*DeletePostOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeletePost not implemented")
@@ -436,24 +408,6 @@ func _PostService_UnpublishPost_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PostService_ModeratePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ModeratePostInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).ModeratePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PostService_ModeratePost_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).ModeratePost(ctx, req.(*ModeratePostInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _PostService_DeletePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeletePostInput)
 	if err := dec(in); err != nil {
@@ -538,10 +492,6 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnpublishPost",
 			Handler:    _PostService_UnpublishPost_Handler,
-		},
-		{
-			MethodName: "ModeratePost",
-			Handler:    _PostService_ModeratePost_Handler,
 		},
 		{
 			MethodName: "DeletePost",

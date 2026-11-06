@@ -28,7 +28,6 @@ const (
 	UpdateDiscussionConfigInput_ALL                             UpdateDiscussionConfigInput_Patch = 0
 	UpdateDiscussionConfigInput_MEMBERS_CAN_COMMENT_ON_POSTS    UpdateDiscussionConfigInput_Patch = 2
 	UpdateDiscussionConfigInput_MEMBERS_CAN_COMMENT_ON_PROBLEMS UpdateDiscussionConfigInput_Patch = 3
-	UpdateDiscussionConfigInput_POST_MODERATION                 UpdateDiscussionConfigInput_Patch = 4
 	UpdateDiscussionConfigInput_COMMENT_MODERATION              UpdateDiscussionConfigInput_Patch = 5
 )
 
@@ -38,14 +37,12 @@ var (
 		0: "ALL",
 		2: "MEMBERS_CAN_COMMENT_ON_POSTS",
 		3: "MEMBERS_CAN_COMMENT_ON_PROBLEMS",
-		4: "POST_MODERATION",
 		5: "COMMENT_MODERATION",
 	}
 	UpdateDiscussionConfigInput_Patch_value = map[string]int32{
 		"ALL":                             0,
 		"MEMBERS_CAN_COMMENT_ON_POSTS":    2,
 		"MEMBERS_CAN_COMMENT_ON_PROBLEMS": 3,
-		"POST_MODERATION":                 4,
 		"COMMENT_MODERATION":              5,
 	}
 )
@@ -244,15 +241,14 @@ const file_eolymp_discussion_configuration_service_proto_rawDesc = "" +
 	"-eolymp/discussion/configuration_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a%eolymp/discussion/configuration.proto\"\x1f\n" +
 	"\x1dDescribeDiscussionConfigInput\"Z\n" +
 	"\x1eDescribeDiscussionConfigOutput\x128\n" +
-	"\x06config\x18\x01 \x01(\v2 .eolymp.discussion.ConfigurationR\x06config\"\xe4\x01\n" +
+	"\x06config\x18\x01 \x01(\v2 .eolymp.discussion.ConfigurationR\x06config\"\xd4\x01\n" +
 	"\x1bUpdateDiscussionConfigInput\x128\n" +
-	"\x06config\x18\x01 \x01(\v2 .eolymp.discussion.ConfigurationR\x06config\"\x8a\x01\n" +
+	"\x06config\x18\x01 \x01(\v2 .eolymp.discussion.ConfigurationR\x06config\"{\n" +
 	"\x05Patch\x12\a\n" +
 	"\x03ALL\x10\x00\x12 \n" +
 	"\x1cMEMBERS_CAN_COMMENT_ON_POSTS\x10\x02\x12#\n" +
-	"\x1fMEMBERS_CAN_COMMENT_ON_PROBLEMS\x10\x03\x12\x13\n" +
-	"\x0fPOST_MODERATION\x10\x04\x12\x16\n" +
-	"\x12COMMENT_MODERATION\x10\x05\"\x04\b\x01\x10\x01\"\x1e\n" +
+	"\x1fMEMBERS_CAN_COMMENT_ON_PROBLEMS\x10\x03\x12\x16\n" +
+	"\x12COMMENT_MODERATION\x10\x05\"\x04\b\x01\x10\x01\"\x04\b\x04\x10\x04\"\x1e\n" +
 	"\x1cUpdateDiscussionConfigOutput2\x9b\x03\n" +
 	"\x14ConfigurationService\x12\xb4\x01\n" +
 	"\x18DescribeDiscussionConfig\x120.eolymp.discussion.DescribeDiscussionConfigInput\x1a1.eolymp.discussion.DescribeDiscussionConfigOutput\"3\xea\xe2\n" +

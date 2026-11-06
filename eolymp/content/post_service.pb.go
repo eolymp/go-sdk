@@ -82,58 +82,6 @@ func (ListPostsInput_Sort) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{4, 0}
 }
 
-type ModeratePostInput_Outcome int32
-
-const (
-	ModeratePostInput_UNKNOWN_OUTCOME ModeratePostInput_Outcome = 0
-	ModeratePostInput_APPROVED        ModeratePostInput_Outcome = 1
-	ModeratePostInput_REJECTED        ModeratePostInput_Outcome = 2
-	ModeratePostInput_IN_REVIEW       ModeratePostInput_Outcome = 3
-)
-
-// Enum value maps for ModeratePostInput_Outcome.
-var (
-	ModeratePostInput_Outcome_name = map[int32]string{
-		0: "UNKNOWN_OUTCOME",
-		1: "APPROVED",
-		2: "REJECTED",
-		3: "IN_REVIEW",
-	}
-	ModeratePostInput_Outcome_value = map[string]int32{
-		"UNKNOWN_OUTCOME": 0,
-		"APPROVED":        1,
-		"REJECTED":        2,
-		"IN_REVIEW":       3,
-	}
-)
-
-func (x ModeratePostInput_Outcome) Enum() *ModeratePostInput_Outcome {
-	p := new(ModeratePostInput_Outcome)
-	*p = x
-	return p
-}
-
-func (x ModeratePostInput_Outcome) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (ModeratePostInput_Outcome) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_content_post_service_proto_enumTypes[1].Descriptor()
-}
-
-func (ModeratePostInput_Outcome) Type() protoreflect.EnumType {
-	return &file_eolymp_content_post_service_proto_enumTypes[1]
-}
-
-func (x ModeratePostInput_Outcome) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ModeratePostInput_Outcome.Descriptor instead.
-func (ModeratePostInput_Outcome) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{14, 0}
-}
-
 type PostChangedEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Before        *Post                  `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
@@ -880,102 +828,6 @@ func (*UnpublishPostOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{13}
 }
 
-type ModeratePostInput struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	PostId        string                    `protobuf:"bytes,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
-	Outcome       ModeratePostInput_Outcome `protobuf:"varint,2,opt,name=outcome,proto3,enum=eolymp.content.ModeratePostInput_Outcome" json:"outcome,omitempty"`
-	Reason        *ecm.Content              `protobuf:"bytes,11,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ModeratePostInput) Reset() {
-	*x = ModeratePostInput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModeratePostInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModeratePostInput) ProtoMessage() {}
-
-func (x *ModeratePostInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModeratePostInput.ProtoReflect.Descriptor instead.
-func (*ModeratePostInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *ModeratePostInput) GetPostId() string {
-	if x != nil {
-		return x.PostId
-	}
-	return ""
-}
-
-func (x *ModeratePostInput) GetOutcome() ModeratePostInput_Outcome {
-	if x != nil {
-		return x.Outcome
-	}
-	return ModeratePostInput_UNKNOWN_OUTCOME
-}
-
-func (x *ModeratePostInput) GetReason() *ecm.Content {
-	if x != nil {
-		return x.Reason
-	}
-	return nil
-}
-
-type ModeratePostOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ModeratePostOutput) Reset() {
-	*x = ModeratePostOutput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModeratePostOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModeratePostOutput) ProtoMessage() {}
-
-func (x *ModeratePostOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModeratePostOutput.ProtoReflect.Descriptor instead.
-func (*ModeratePostOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{15}
-}
-
 type DeletePostInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PostId        string                 `protobuf:"bytes,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
@@ -986,7 +838,7 @@ type DeletePostInput struct {
 
 func (x *DeletePostInput) Reset() {
 	*x = DeletePostInput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[16]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -998,7 +850,7 @@ func (x *DeletePostInput) String() string {
 func (*DeletePostInput) ProtoMessage() {}
 
 func (x *DeletePostInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[16]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1011,7 +863,7 @@ func (x *DeletePostInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePostInput.ProtoReflect.Descriptor instead.
 func (*DeletePostInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{16}
+	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *DeletePostInput) GetPostId() string {
@@ -1037,7 +889,7 @@ type DeletePostOutput struct {
 
 func (x *DeletePostOutput) Reset() {
 	*x = DeletePostOutput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[17]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1049,7 +901,7 @@ func (x *DeletePostOutput) String() string {
 func (*DeletePostOutput) ProtoMessage() {}
 
 func (x *DeletePostOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[17]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1062,7 +914,7 @@ func (x *DeletePostOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePostOutput.ProtoReflect.Descriptor instead.
 func (*DeletePostOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{17}
+	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *DeletePostOutput) GetReason() *ecm.Content {
@@ -1082,7 +934,7 @@ type VotePostInput struct {
 
 func (x *VotePostInput) Reset() {
 	*x = VotePostInput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[18]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1094,7 +946,7 @@ func (x *VotePostInput) String() string {
 func (*VotePostInput) ProtoMessage() {}
 
 func (x *VotePostInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[18]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1107,7 +959,7 @@ func (x *VotePostInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VotePostInput.ProtoReflect.Descriptor instead.
 func (*VotePostInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{18}
+	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *VotePostInput) GetPostId() string {
@@ -1133,7 +985,7 @@ type VotePostOutput struct {
 
 func (x *VotePostOutput) Reset() {
 	*x = VotePostOutput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[19]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1145,7 +997,7 @@ func (x *VotePostOutput) String() string {
 func (*VotePostOutput) ProtoMessage() {}
 
 func (x *VotePostOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[19]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1158,7 +1010,7 @@ func (x *VotePostOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VotePostOutput.ProtoReflect.Descriptor instead.
 func (*VotePostOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{19}
+	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *VotePostOutput) GetVoteCount() int32 {
@@ -1181,7 +1033,7 @@ type TranslatePostInput struct {
 
 func (x *TranslatePostInput) Reset() {
 	*x = TranslatePostInput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[20]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1193,7 +1045,7 @@ func (x *TranslatePostInput) String() string {
 func (*TranslatePostInput) ProtoMessage() {}
 
 func (x *TranslatePostInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[20]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1206,7 +1058,7 @@ func (x *TranslatePostInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslatePostInput.ProtoReflect.Descriptor instead.
 func (*TranslatePostInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{20}
+	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *TranslatePostInput) GetPostId() string {
@@ -1253,7 +1105,7 @@ type TranslatePostOutput struct {
 
 func (x *TranslatePostOutput) Reset() {
 	*x = TranslatePostOutput{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[21]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1265,7 +1117,7 @@ func (x *TranslatePostOutput) String() string {
 func (*TranslatePostOutput) ProtoMessage() {}
 
 func (x *TranslatePostOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[21]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1278,7 +1130,7 @@ func (x *TranslatePostOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslatePostOutput.ProtoReflect.Descriptor instead.
 func (*TranslatePostOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{21}
+	return file_eolymp_content_post_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *TranslatePostOutput) GetTaskId() string {
@@ -1301,7 +1153,6 @@ type ListPostsInput_Filter struct {
 	Draft         []*wellknown.ExpressionBool      `protobuf:"bytes,14,rep,name=draft,proto3" json:"draft,omitempty"`
 	Public        []*wellknown.ExpressionBool      `protobuf:"bytes,12,rep,name=public,proto3" json:"public,omitempty"`
 	Featured      []*wellknown.ExpressionBool      `protobuf:"bytes,15,rep,name=featured,proto3" json:"featured,omitempty"`
-	Moderation    []*wellknown.ExpressionEnum      `protobuf:"bytes,11,rep,name=moderation,proto3" json:"moderation,omitempty"`
 	Label         []*wellknown.ExpressionEnum      `protobuf:"bytes,10,rep,name=label,proto3" json:"label,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1309,7 +1160,7 @@ type ListPostsInput_Filter struct {
 
 func (x *ListPostsInput_Filter) Reset() {
 	*x = ListPostsInput_Filter{}
-	mi := &file_eolymp_content_post_service_proto_msgTypes[22]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1321,7 +1172,7 @@ func (x *ListPostsInput_Filter) String() string {
 func (*ListPostsInput_Filter) ProtoMessage() {}
 
 func (x *ListPostsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_post_service_proto_msgTypes[22]
+	mi := &file_eolymp_content_post_service_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1408,13 +1259,6 @@ func (x *ListPostsInput_Filter) GetFeatured() []*wellknown.ExpressionBool {
 	return nil
 }
 
-func (x *ListPostsInput_Filter) GetModeration() []*wellknown.ExpressionEnum {
-	if x != nil {
-		return x.Moderation
-	}
-	return nil
-}
-
 func (x *ListPostsInput_Filter) GetLabel() []*wellknown.ExpressionEnum {
 	if x != nil {
 		return x.Label
@@ -1440,7 +1284,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x06locale\x18< \x01(\tR\x06locale\x121\n" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\">\n" +
 	"\x12DescribePostOutput\x12(\n" +
-	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"\x99\t\n" +
+	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"\xdd\b\n" +
 	"\x0eListPostsInput\x12\x14\n" +
 	"\x05after\x18\n" +
 	" \x01(\tR\x05after\x12\x12\n" +
@@ -1451,7 +1295,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x06search\x18\x14 \x01(\tR\x06search\x12?\n" +
 	"\afilters\x18( \x01(\v2%.eolymp.content.ListPostsInput.FilterR\afilters\x12\x16\n" +
 	"\x06locale\x18< \x01(\tR\x06locale\x121\n" +
-	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\x1a\xc7\x05\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1a.eolymp.content.Post.ExtraR\x05extra\x1a\x8b\x05\n" +
 	"\x06Filter\x12\x18\n" +
 	"\x05query\x18\x01 \x01(\tB\x02\x18\x01R\x05query\x12.\n" +
 	"\x02id\x18\x02 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\x02id\x12;\n" +
@@ -1463,13 +1307,10 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\fpublished_at\x18\x06 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\vpublishedAt\x126\n" +
 	"\x05draft\x18\x0e \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x05draft\x128\n" +
 	"\x06public\x18\f \x03(\v2 .eolymp.wellknown.ExpressionBoolR\x06public\x12<\n" +
-	"\bfeatured\x18\x0f \x03(\v2 .eolymp.wellknown.ExpressionBoolR\bfeatured\x12@\n" +
-	"\n" +
-	"moderation\x18\v \x03(\v2 .eolymp.wellknown.ExpressionEnumR\n" +
-	"moderation\x126\n" +
+	"\bfeatured\x18\x0f \x03(\v2 .eolymp.wellknown.ExpressionBoolR\bfeatured\x126\n" +
 	"\x05label\x18\n" +
 	" \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05labelJ\x04\b\x04\x10\x05J\x04\b\t\x10\n" +
-	"\"k\n" +
+	"J\x04\b\v\x10\f\"k\n" +
 	"\x04Sort\x12\x10\n" +
 	"\fUNKNOWN_SORT\x10\x00\x12\x10\n" +
 	"\fPUBLISHED_AT\x10\x01\x12\x0e\n" +
@@ -1499,17 +1340,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x12UnpublishPostInput\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12+\n" +
 	"\x06reason\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\x06reason\"\x15\n" +
-	"\x13UnpublishPostOutput\"\xe9\x01\n" +
-	"\x11ModeratePostInput\x12\x17\n" +
-	"\apost_id\x18\x01 \x01(\tR\x06postId\x12C\n" +
-	"\aoutcome\x18\x02 \x01(\x0e2).eolymp.content.ModeratePostInput.OutcomeR\aoutcome\x12+\n" +
-	"\x06reason\x18\v \x01(\v2\x13.eolymp.ecm.ContentR\x06reason\"I\n" +
-	"\aOutcome\x12\x13\n" +
-	"\x0fUNKNOWN_OUTCOME\x10\x00\x12\f\n" +
-	"\bAPPROVED\x10\x01\x12\f\n" +
-	"\bREJECTED\x10\x02\x12\r\n" +
-	"\tIN_REVIEW\x10\x03\"\x14\n" +
-	"\x12ModeratePostOutput\"B\n" +
+	"\x13UnpublishPostOutput\"B\n" +
 	"\x0fDeletePostInput\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12\x16\n" +
 	"\x06locale\x18\x02 \x01(\tR\x06locale\"?\n" +
@@ -1528,7 +1359,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x10target_automatic\x18\x04 \x01(\bR\x0ftargetAutomatic\x12'\n" +
 	"\x0foverride_manual\x18\x05 \x01(\bR\x0eoverrideManual\".\n" +
 	"\x13TranslatePostOutput\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId2\x95\r\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xe6\v\n" +
 	"\vPostService\x12\xa3\x01\n" +
 	"\fDescribePost\x12!.eolymp.content.DescribePostInput\x1a\".eolymp.content.DescribePostOutput\"L\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -1579,15 +1410,7 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x19\x8a\xe3\n" +
 	"\x15discussion:post:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1a*\x18/posts/{post_id}/publish\x12\xac\x01\n" +
-	"\fModeratePost\x12!.eolymp.content.ModeratePostInput\x1a\".eolymp.content.ModeratePostOutput\"U\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0@\xf8\xe2\n" +
-	"2\x82\xe3\n" +
-	"\x19\x8a\xe3\n" +
-	"\x15discussion:post:write\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x1b\"\x19/posts/{post_id}/moderate\x12\x9d\x01\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1a*\x18/posts/{post_id}/publish\x12\x9d\x01\n" +
 	"\n" +
 	"DeletePost\x12\x1f.eolymp.content.DeletePostInput\x1a .eolymp.content.DeletePostOutput\"L\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1627,99 +1450,91 @@ func file_eolymp_content_post_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_post_service_proto_rawDescData
 }
 
-var file_eolymp_content_post_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_content_post_service_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_eolymp_content_post_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_content_post_service_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_eolymp_content_post_service_proto_goTypes = []any{
 	(ListPostsInput_Sort)(0),              // 0: eolymp.content.ListPostsInput.Sort
-	(ModeratePostInput_Outcome)(0),        // 1: eolymp.content.ModeratePostInput.Outcome
-	(*PostChangedEvent)(nil),              // 2: eolymp.content.PostChangedEvent
-	(*PostPublishedEvent)(nil),            // 3: eolymp.content.PostPublishedEvent
-	(*DescribePostInput)(nil),             // 4: eolymp.content.DescribePostInput
-	(*DescribePostOutput)(nil),            // 5: eolymp.content.DescribePostOutput
-	(*ListPostsInput)(nil),                // 6: eolymp.content.ListPostsInput
-	(*ListPostsOutput)(nil),               // 7: eolymp.content.ListPostsOutput
-	(*CreatePostInput)(nil),               // 8: eolymp.content.CreatePostInput
-	(*CreatePostOutput)(nil),              // 9: eolymp.content.CreatePostOutput
-	(*UpdatePostInput)(nil),               // 10: eolymp.content.UpdatePostInput
-	(*UpdatePostOutput)(nil),              // 11: eolymp.content.UpdatePostOutput
-	(*PublishPostInput)(nil),              // 12: eolymp.content.PublishPostInput
-	(*PublishPostOutput)(nil),             // 13: eolymp.content.PublishPostOutput
-	(*UnpublishPostInput)(nil),            // 14: eolymp.content.UnpublishPostInput
-	(*UnpublishPostOutput)(nil),           // 15: eolymp.content.UnpublishPostOutput
-	(*ModeratePostInput)(nil),             // 16: eolymp.content.ModeratePostInput
-	(*ModeratePostOutput)(nil),            // 17: eolymp.content.ModeratePostOutput
-	(*DeletePostInput)(nil),               // 18: eolymp.content.DeletePostInput
-	(*DeletePostOutput)(nil),              // 19: eolymp.content.DeletePostOutput
-	(*VotePostInput)(nil),                 // 20: eolymp.content.VotePostInput
-	(*VotePostOutput)(nil),                // 21: eolymp.content.VotePostOutput
-	(*TranslatePostInput)(nil),            // 22: eolymp.content.TranslatePostInput
-	(*TranslatePostOutput)(nil),           // 23: eolymp.content.TranslatePostOutput
-	(*ListPostsInput_Filter)(nil),         // 24: eolymp.content.ListPostsInput.Filter
-	(*Post)(nil),                          // 25: eolymp.content.Post
-	(*ecm.Content)(nil),                   // 26: eolymp.ecm.Content
-	(Post_Extra)(0),                       // 27: eolymp.content.Post.Extra
-	(wellknown.Direction)(0),              // 28: eolymp.wellknown.Direction
-	(*Post_Patch)(nil),                    // 29: eolymp.content.Post.Patch
-	(*wellknown.ExpressionID)(nil),        // 30: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionTimestamp)(nil), // 31: eolymp.wellknown.ExpressionTimestamp
-	(*wellknown.ExpressionBool)(nil),      // 32: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionEnum)(nil),      // 33: eolymp.wellknown.ExpressionEnum
+	(*PostChangedEvent)(nil),              // 1: eolymp.content.PostChangedEvent
+	(*PostPublishedEvent)(nil),            // 2: eolymp.content.PostPublishedEvent
+	(*DescribePostInput)(nil),             // 3: eolymp.content.DescribePostInput
+	(*DescribePostOutput)(nil),            // 4: eolymp.content.DescribePostOutput
+	(*ListPostsInput)(nil),                // 5: eolymp.content.ListPostsInput
+	(*ListPostsOutput)(nil),               // 6: eolymp.content.ListPostsOutput
+	(*CreatePostInput)(nil),               // 7: eolymp.content.CreatePostInput
+	(*CreatePostOutput)(nil),              // 8: eolymp.content.CreatePostOutput
+	(*UpdatePostInput)(nil),               // 9: eolymp.content.UpdatePostInput
+	(*UpdatePostOutput)(nil),              // 10: eolymp.content.UpdatePostOutput
+	(*PublishPostInput)(nil),              // 11: eolymp.content.PublishPostInput
+	(*PublishPostOutput)(nil),             // 12: eolymp.content.PublishPostOutput
+	(*UnpublishPostInput)(nil),            // 13: eolymp.content.UnpublishPostInput
+	(*UnpublishPostOutput)(nil),           // 14: eolymp.content.UnpublishPostOutput
+	(*DeletePostInput)(nil),               // 15: eolymp.content.DeletePostInput
+	(*DeletePostOutput)(nil),              // 16: eolymp.content.DeletePostOutput
+	(*VotePostInput)(nil),                 // 17: eolymp.content.VotePostInput
+	(*VotePostOutput)(nil),                // 18: eolymp.content.VotePostOutput
+	(*TranslatePostInput)(nil),            // 19: eolymp.content.TranslatePostInput
+	(*TranslatePostOutput)(nil),           // 20: eolymp.content.TranslatePostOutput
+	(*ListPostsInput_Filter)(nil),         // 21: eolymp.content.ListPostsInput.Filter
+	(*Post)(nil),                          // 22: eolymp.content.Post
+	(*ecm.Content)(nil),                   // 23: eolymp.ecm.Content
+	(Post_Extra)(0),                       // 24: eolymp.content.Post.Extra
+	(wellknown.Direction)(0),              // 25: eolymp.wellknown.Direction
+	(*Post_Patch)(nil),                    // 26: eolymp.content.Post.Patch
+	(*wellknown.ExpressionID)(nil),        // 27: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionTimestamp)(nil), // 28: eolymp.wellknown.ExpressionTimestamp
+	(*wellknown.ExpressionBool)(nil),      // 29: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionEnum)(nil),      // 30: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_content_post_service_proto_depIdxs = []int32{
-	25, // 0: eolymp.content.PostChangedEvent.before:type_name -> eolymp.content.Post
-	25, // 1: eolymp.content.PostChangedEvent.after:type_name -> eolymp.content.Post
-	26, // 2: eolymp.content.PostChangedEvent.reason:type_name -> eolymp.ecm.Content
-	25, // 3: eolymp.content.PostPublishedEvent.post:type_name -> eolymp.content.Post
-	26, // 4: eolymp.content.PostPublishedEvent.reason:type_name -> eolymp.ecm.Content
-	27, // 5: eolymp.content.DescribePostInput.extra:type_name -> eolymp.content.Post.Extra
-	25, // 6: eolymp.content.DescribePostOutput.post:type_name -> eolymp.content.Post
+	22, // 0: eolymp.content.PostChangedEvent.before:type_name -> eolymp.content.Post
+	22, // 1: eolymp.content.PostChangedEvent.after:type_name -> eolymp.content.Post
+	23, // 2: eolymp.content.PostChangedEvent.reason:type_name -> eolymp.ecm.Content
+	22, // 3: eolymp.content.PostPublishedEvent.post:type_name -> eolymp.content.Post
+	23, // 4: eolymp.content.PostPublishedEvent.reason:type_name -> eolymp.ecm.Content
+	24, // 5: eolymp.content.DescribePostInput.extra:type_name -> eolymp.content.Post.Extra
+	22, // 6: eolymp.content.DescribePostOutput.post:type_name -> eolymp.content.Post
 	0,  // 7: eolymp.content.ListPostsInput.sort:type_name -> eolymp.content.ListPostsInput.Sort
-	28, // 8: eolymp.content.ListPostsInput.order:type_name -> eolymp.wellknown.Direction
-	24, // 9: eolymp.content.ListPostsInput.filters:type_name -> eolymp.content.ListPostsInput.Filter
-	27, // 10: eolymp.content.ListPostsInput.extra:type_name -> eolymp.content.Post.Extra
-	25, // 11: eolymp.content.ListPostsOutput.items:type_name -> eolymp.content.Post
-	25, // 12: eolymp.content.CreatePostInput.post:type_name -> eolymp.content.Post
-	29, // 13: eolymp.content.UpdatePostInput.post:type_name -> eolymp.content.Post.Patch
-	26, // 14: eolymp.content.UnpublishPostInput.reason:type_name -> eolymp.ecm.Content
-	1,  // 15: eolymp.content.ModeratePostInput.outcome:type_name -> eolymp.content.ModeratePostInput.Outcome
-	26, // 16: eolymp.content.ModeratePostInput.reason:type_name -> eolymp.ecm.Content
-	26, // 17: eolymp.content.DeletePostOutput.reason:type_name -> eolymp.ecm.Content
-	30, // 18: eolymp.content.ListPostsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 19: eolymp.content.ListPostsInput.Filter.source_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 20: eolymp.content.ListPostsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
-	30, // 21: eolymp.content.ListPostsInput.Filter.type_id:type_name -> eolymp.wellknown.ExpressionID
-	31, // 22: eolymp.content.ListPostsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	31, // 23: eolymp.content.ListPostsInput.Filter.published_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	32, // 24: eolymp.content.ListPostsInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
-	32, // 25: eolymp.content.ListPostsInput.Filter.public:type_name -> eolymp.wellknown.ExpressionBool
-	32, // 26: eolymp.content.ListPostsInput.Filter.featured:type_name -> eolymp.wellknown.ExpressionBool
-	33, // 27: eolymp.content.ListPostsInput.Filter.moderation:type_name -> eolymp.wellknown.ExpressionEnum
-	33, // 28: eolymp.content.ListPostsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
-	4,  // 29: eolymp.content.PostService.DescribePost:input_type -> eolymp.content.DescribePostInput
-	6,  // 30: eolymp.content.PostService.ListPosts:input_type -> eolymp.content.ListPostsInput
-	8,  // 31: eolymp.content.PostService.CreatePost:input_type -> eolymp.content.CreatePostInput
-	10, // 32: eolymp.content.PostService.UpdatePost:input_type -> eolymp.content.UpdatePostInput
-	12, // 33: eolymp.content.PostService.PublishPost:input_type -> eolymp.content.PublishPostInput
-	14, // 34: eolymp.content.PostService.UnpublishPost:input_type -> eolymp.content.UnpublishPostInput
-	16, // 35: eolymp.content.PostService.ModeratePost:input_type -> eolymp.content.ModeratePostInput
-	18, // 36: eolymp.content.PostService.DeletePost:input_type -> eolymp.content.DeletePostInput
-	20, // 37: eolymp.content.PostService.VotePost:input_type -> eolymp.content.VotePostInput
-	22, // 38: eolymp.content.PostService.TranslatePost:input_type -> eolymp.content.TranslatePostInput
-	5,  // 39: eolymp.content.PostService.DescribePost:output_type -> eolymp.content.DescribePostOutput
-	7,  // 40: eolymp.content.PostService.ListPosts:output_type -> eolymp.content.ListPostsOutput
-	9,  // 41: eolymp.content.PostService.CreatePost:output_type -> eolymp.content.CreatePostOutput
-	11, // 42: eolymp.content.PostService.UpdatePost:output_type -> eolymp.content.UpdatePostOutput
-	13, // 43: eolymp.content.PostService.PublishPost:output_type -> eolymp.content.PublishPostOutput
-	15, // 44: eolymp.content.PostService.UnpublishPost:output_type -> eolymp.content.UnpublishPostOutput
-	17, // 45: eolymp.content.PostService.ModeratePost:output_type -> eolymp.content.ModeratePostOutput
-	19, // 46: eolymp.content.PostService.DeletePost:output_type -> eolymp.content.DeletePostOutput
-	21, // 47: eolymp.content.PostService.VotePost:output_type -> eolymp.content.VotePostOutput
-	23, // 48: eolymp.content.PostService.TranslatePost:output_type -> eolymp.content.TranslatePostOutput
-	39, // [39:49] is the sub-list for method output_type
-	29, // [29:39] is the sub-list for method input_type
-	29, // [29:29] is the sub-list for extension type_name
-	29, // [29:29] is the sub-list for extension extendee
-	0,  // [0:29] is the sub-list for field type_name
+	25, // 8: eolymp.content.ListPostsInput.order:type_name -> eolymp.wellknown.Direction
+	21, // 9: eolymp.content.ListPostsInput.filters:type_name -> eolymp.content.ListPostsInput.Filter
+	24, // 10: eolymp.content.ListPostsInput.extra:type_name -> eolymp.content.Post.Extra
+	22, // 11: eolymp.content.ListPostsOutput.items:type_name -> eolymp.content.Post
+	22, // 12: eolymp.content.CreatePostInput.post:type_name -> eolymp.content.Post
+	26, // 13: eolymp.content.UpdatePostInput.post:type_name -> eolymp.content.Post.Patch
+	23, // 14: eolymp.content.UnpublishPostInput.reason:type_name -> eolymp.ecm.Content
+	23, // 15: eolymp.content.DeletePostOutput.reason:type_name -> eolymp.ecm.Content
+	27, // 16: eolymp.content.ListPostsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 17: eolymp.content.ListPostsInput.Filter.source_id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 18: eolymp.content.ListPostsInput.Filter.user_id:type_name -> eolymp.wellknown.ExpressionID
+	27, // 19: eolymp.content.ListPostsInput.Filter.type_id:type_name -> eolymp.wellknown.ExpressionID
+	28, // 20: eolymp.content.ListPostsInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	28, // 21: eolymp.content.ListPostsInput.Filter.published_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	29, // 22: eolymp.content.ListPostsInput.Filter.draft:type_name -> eolymp.wellknown.ExpressionBool
+	29, // 23: eolymp.content.ListPostsInput.Filter.public:type_name -> eolymp.wellknown.ExpressionBool
+	29, // 24: eolymp.content.ListPostsInput.Filter.featured:type_name -> eolymp.wellknown.ExpressionBool
+	30, // 25: eolymp.content.ListPostsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
+	3,  // 26: eolymp.content.PostService.DescribePost:input_type -> eolymp.content.DescribePostInput
+	5,  // 27: eolymp.content.PostService.ListPosts:input_type -> eolymp.content.ListPostsInput
+	7,  // 28: eolymp.content.PostService.CreatePost:input_type -> eolymp.content.CreatePostInput
+	9,  // 29: eolymp.content.PostService.UpdatePost:input_type -> eolymp.content.UpdatePostInput
+	11, // 30: eolymp.content.PostService.PublishPost:input_type -> eolymp.content.PublishPostInput
+	13, // 31: eolymp.content.PostService.UnpublishPost:input_type -> eolymp.content.UnpublishPostInput
+	15, // 32: eolymp.content.PostService.DeletePost:input_type -> eolymp.content.DeletePostInput
+	17, // 33: eolymp.content.PostService.VotePost:input_type -> eolymp.content.VotePostInput
+	19, // 34: eolymp.content.PostService.TranslatePost:input_type -> eolymp.content.TranslatePostInput
+	4,  // 35: eolymp.content.PostService.DescribePost:output_type -> eolymp.content.DescribePostOutput
+	6,  // 36: eolymp.content.PostService.ListPosts:output_type -> eolymp.content.ListPostsOutput
+	8,  // 37: eolymp.content.PostService.CreatePost:output_type -> eolymp.content.CreatePostOutput
+	10, // 38: eolymp.content.PostService.UpdatePost:output_type -> eolymp.content.UpdatePostOutput
+	12, // 39: eolymp.content.PostService.PublishPost:output_type -> eolymp.content.PublishPostOutput
+	14, // 40: eolymp.content.PostService.UnpublishPost:output_type -> eolymp.content.UnpublishPostOutput
+	16, // 41: eolymp.content.PostService.DeletePost:output_type -> eolymp.content.DeletePostOutput
+	18, // 42: eolymp.content.PostService.VotePost:output_type -> eolymp.content.VotePostOutput
+	20, // 43: eolymp.content.PostService.TranslatePost:output_type -> eolymp.content.TranslatePostOutput
+	35, // [35:44] is the sub-list for method output_type
+	26, // [26:35] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_post_service_proto_init() }
@@ -1733,8 +1548,8 @@ func file_eolymp_content_post_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_post_service_proto_rawDesc), len(file_eolymp_content_post_service_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   23,
+			NumEnums:      1,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

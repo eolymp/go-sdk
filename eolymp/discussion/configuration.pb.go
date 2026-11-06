@@ -77,7 +77,6 @@ type Configuration struct {
 	state                       protoimpl.MessageState   `protogen:"open.v1"`
 	MembersCanCommentOnPosts    bool                     `protobuf:"varint,2,opt,name=members_can_comment_on_posts,json=membersCanCommentOnPosts,proto3" json:"members_can_comment_on_posts,omitempty"`
 	MembersCanCommentOnProblems bool                     `protobuf:"varint,3,opt,name=members_can_comment_on_problems,json=membersCanCommentOnProblems,proto3" json:"members_can_comment_on_problems,omitempty"`
-	PostModeration              Configuration_Moderation `protobuf:"varint,4,opt,name=post_moderation,json=postModeration,proto3,enum=eolymp.discussion.Configuration_Moderation" json:"post_moderation,omitempty"`
 	CommentModeration           Configuration_Moderation `protobuf:"varint,5,opt,name=comment_moderation,json=commentModeration,proto3,enum=eolymp.discussion.Configuration_Moderation" json:"comment_moderation,omitempty"`
 	unknownFields               protoimpl.UnknownFields
 	sizeCache                   protoimpl.SizeCache
@@ -127,13 +126,6 @@ func (x *Configuration) GetMembersCanCommentOnProblems() bool {
 	return false
 }
 
-func (x *Configuration) GetPostModeration() Configuration_Moderation {
-	if x != nil {
-		return x.PostModeration
-	}
-	return Configuration_UNKNOWN_MODERATION
-}
-
 func (x *Configuration) GetCommentModeration() Configuration_Moderation {
 	if x != nil {
 		return x.CommentModeration
@@ -145,18 +137,17 @@ var File_eolymp_discussion_configuration_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_configuration_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/discussion/configuration.proto\x12\x11eolymp.discussion\"\xaf\x03\n" +
+	"%eolymp/discussion/configuration.proto\x12\x11eolymp.discussion\"\xdf\x02\n" +
 	"\rConfiguration\x12>\n" +
 	"\x1cmembers_can_comment_on_posts\x18\x02 \x01(\bR\x18membersCanCommentOnPosts\x12D\n" +
-	"\x1fmembers_can_comment_on_problems\x18\x03 \x01(\bR\x1bmembersCanCommentOnProblems\x12T\n" +
-	"\x0fpost_moderation\x18\x04 \x01(\x0e2+.eolymp.discussion.Configuration.ModerationR\x0epostModeration\x12Z\n" +
+	"\x1fmembers_can_comment_on_problems\x18\x03 \x01(\bR\x1bmembersCanCommentOnProblems\x12Z\n" +
 	"\x12comment_moderation\x18\x05 \x01(\x0e2+.eolymp.discussion.Configuration.ModerationR\x11commentModeration\"`\n" +
 	"\n" +
 	"Moderation\x12\x16\n" +
 	"\x12UNKNOWN_MODERATION\x10\x00\x12\x11\n" +
 	"\rNO_MODERATION\x10\x01\x12\x12\n" +
 	"\x0ePRE_MODERATION\x10\x02\x12\x13\n" +
-	"\x0fPOST_MODERATION\x10\x03J\x04\b\x01\x10\x02B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
+	"\x0fPOST_MODERATION\x10\x03J\x04\b\x01\x10\x02J\x04\b\x04\x10\x05B7Z5github.com/eolymp/go-sdk/eolymp/discussion;discussionb\x06proto3"
 
 var (
 	file_eolymp_discussion_configuration_proto_rawDescOnce sync.Once
@@ -177,13 +168,12 @@ var file_eolymp_discussion_configuration_proto_goTypes = []any{
 	(*Configuration)(nil),         // 1: eolymp.discussion.Configuration
 }
 var file_eolymp_discussion_configuration_proto_depIdxs = []int32{
-	0, // 0: eolymp.discussion.Configuration.post_moderation:type_name -> eolymp.discussion.Configuration.Moderation
-	0, // 1: eolymp.discussion.Configuration.comment_moderation:type_name -> eolymp.discussion.Configuration.Moderation
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 0: eolymp.discussion.Configuration.comment_moderation:type_name -> eolymp.discussion.Configuration.Moderation
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_discussion_configuration_proto_init() }
