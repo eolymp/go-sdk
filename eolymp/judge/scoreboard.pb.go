@@ -377,7 +377,7 @@ type Scoreboard_Row struct {
 	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	MemberId    string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
 	TeamId      string                 `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`                // team the row belongs to, member_id is empty then
-	DisplayName string                 `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // team name the row is listed under, set on team rows
+	DisplayName string                 `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"` // participant's display name: the team name on a team row, the member name otherwise
 	Index       uint32                 `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
 	// Rank among officially ranked participants only; zero when the row itself is unofficial or disqualified.
 	Rank       uint32 `protobuf:"varint,11,opt,name=rank,proto3" json:"rank,omitempty"`
