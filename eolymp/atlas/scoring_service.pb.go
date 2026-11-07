@@ -360,12 +360,12 @@ const file_eolymp_atlas_scoring_service_proto_rawDesc = "" +
 	"\x05Range\x12\x14\n" +
 	"\x05grade\x18\x01 \x01(\rR\x05grade\x12\x1f\n" +
 	"\vupper_bound\x18\x02 \x01(\x02R\n" +
-	"upperBound2\xb6\x03\n" +
-	"\x0eScoringService\x12\xbb\x01\n" +
-	"\rDescribeScore\x12 .eolymp.atlas.DescribeScoreInput\x1a!.eolymp.atlas.DescribeScoreOutput\"e\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
+	"upperBound2\xb7\x03\n" +
+	"\x0eScoringService\x12\xbc\x01\n" +
+	"\rDescribeScore\x12 .eolymp.atlas.DescribeScoreInput\x1a!.eolymp.atlas.DescribeScoreOutput\"f\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\x82\xe3\n" +
 	"\x19\x8a\xe3\n" +
 	"\x15atlas:submission:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
