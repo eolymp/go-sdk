@@ -993,6 +993,68 @@ func (x *ListParentsOutput) GetItems() []*content.Fragment {
 	return nil
 }
 
+// FragmentChangedEvent is published when a page of a contest is created, updated or deleted. Before is empty
+// for a new page and after is empty for a deleted one.
+type FragmentChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ContestId     string                 `protobuf:"bytes,1,opt,name=contest_id,json=contestId,proto3" json:"contest_id,omitempty"`
+	Before        *content.Fragment      `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
+	After         *content.Fragment      `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FragmentChangedEvent) Reset() {
+	*x = FragmentChangedEvent{}
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FragmentChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FragmentChangedEvent) ProtoMessage() {}
+
+func (x *FragmentChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FragmentChangedEvent.ProtoReflect.Descriptor instead.
+func (*FragmentChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_judge_content_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *FragmentChangedEvent) GetContestId() string {
+	if x != nil {
+		return x.ContestId
+	}
+	return ""
+}
+
+func (x *FragmentChangedEvent) GetBefore() *content.Fragment {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *FragmentChangedEvent) GetAfter() *content.Fragment {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
 type ListFragmentsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Query         string                        `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
@@ -1005,7 +1067,7 @@ type ListFragmentsInput_Filter struct {
 
 func (x *ListFragmentsInput_Filter) Reset() {
 	*x = ListFragmentsInput_Filter{}
-	mi := &file_eolymp_judge_content_service_proto_msgTypes[16]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1017,7 +1079,7 @@ func (x *ListFragmentsInput_Filter) String() string {
 func (*ListFragmentsInput_Filter) ProtoMessage() {}
 
 func (x *ListFragmentsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_judge_content_service_proto_msgTypes[16]
+	mi := &file_eolymp_judge_content_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1148,7 +1210,12 @@ const file_eolymp_judge_content_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2$.eolymp.content.Fragment.Extra.FieldR\x05extra\"Y\n" +
 	"\x11ListParentsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items2\x85\r\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FragmentR\x05items\"\x97\x01\n" +
+	"\x14FragmentChangedEvent\x12\x1d\n" +
+	"\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\x120\n" +
+	"\x06before\x18\x02 \x01(\v2\x18.eolymp.content.FragmentR\x06before\x12.\n" +
+	"\x05after\x18\x03 \x01(\v2\x18.eolymp.content.FragmentR\x05after2\x85\r\n" +
 	"\x0eContentService\x12\xd5\x01\n" +
 	"\x10DescribeFragment\x12#.eolymp.judge.DescribeFragmentInput\x1a$.eolymp.judge.DescribeFragmentOutput\"v\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -1229,7 +1296,7 @@ func file_eolymp_judge_content_service_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_judge_content_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_judge_content_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_eolymp_judge_content_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_eolymp_judge_content_service_proto_goTypes = []any{
 	(ListFragmentsInput_Sort)(0),       // 0: eolymp.judge.ListFragmentsInput.Sort
 	(*DescribeFragmentInput)(nil),      // 1: eolymp.judge.DescribeFragmentInput
@@ -1248,53 +1315,56 @@ var file_eolymp_judge_content_service_proto_goTypes = []any{
 	(*DescribePathOutput)(nil),         // 14: eolymp.judge.DescribePathOutput
 	(*ListParentsInput)(nil),           // 15: eolymp.judge.ListParentsInput
 	(*ListParentsOutput)(nil),          // 16: eolymp.judge.ListParentsOutput
-	(*ListFragmentsInput_Filter)(nil),  // 17: eolymp.judge.ListFragmentsInput.Filter
-	(content.Fragment_Extra_Field)(0),  // 18: eolymp.content.Fragment.Extra.Field
-	(*content.Fragment)(nil),           // 19: eolymp.content.Fragment
-	(wellknown.Direction)(0),           // 20: eolymp.wellknown.Direction
-	(*content.Fragment_Patch)(nil),     // 21: eolymp.content.Fragment.Patch
-	(*wellknown.ExpressionID)(nil),     // 22: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 23: eolymp.wellknown.ExpressionString
-	(*wellknown.ExpressionEnum)(nil),   // 24: eolymp.wellknown.ExpressionEnum
+	(*FragmentChangedEvent)(nil),       // 17: eolymp.judge.FragmentChangedEvent
+	(*ListFragmentsInput_Filter)(nil),  // 18: eolymp.judge.ListFragmentsInput.Filter
+	(content.Fragment_Extra_Field)(0),  // 19: eolymp.content.Fragment.Extra.Field
+	(*content.Fragment)(nil),           // 20: eolymp.content.Fragment
+	(wellknown.Direction)(0),           // 21: eolymp.wellknown.Direction
+	(*content.Fragment_Patch)(nil),     // 22: eolymp.content.Fragment.Patch
+	(*wellknown.ExpressionID)(nil),     // 23: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 24: eolymp.wellknown.ExpressionString
+	(*wellknown.ExpressionEnum)(nil),   // 25: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_judge_content_service_proto_depIdxs = []int32{
-	18, // 0: eolymp.judge.DescribeFragmentInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 1: eolymp.judge.DescribeFragmentOutput.fragment:type_name -> eolymp.content.Fragment
-	17, // 2: eolymp.judge.ListFragmentsInput.filters:type_name -> eolymp.judge.ListFragmentsInput.Filter
+	19, // 0: eolymp.judge.DescribeFragmentInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	20, // 1: eolymp.judge.DescribeFragmentOutput.fragment:type_name -> eolymp.content.Fragment
+	18, // 2: eolymp.judge.ListFragmentsInput.filters:type_name -> eolymp.judge.ListFragmentsInput.Filter
 	0,  // 3: eolymp.judge.ListFragmentsInput.sort:type_name -> eolymp.judge.ListFragmentsInput.Sort
-	20, // 4: eolymp.judge.ListFragmentsInput.order:type_name -> eolymp.wellknown.Direction
-	18, // 5: eolymp.judge.ListFragmentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 6: eolymp.judge.ListFragmentsOutput.items:type_name -> eolymp.content.Fragment
-	19, // 7: eolymp.judge.CreateFragmentInput.fragment:type_name -> eolymp.content.Fragment
-	21, // 8: eolymp.judge.UpdateFragmentInput.fragment:type_name -> eolymp.content.Fragment.Patch
-	18, // 9: eolymp.judge.DescribePathInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 10: eolymp.judge.DescribePathOutput.fragment:type_name -> eolymp.content.Fragment
-	18, // 11: eolymp.judge.ListParentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
-	19, // 12: eolymp.judge.ListParentsOutput.items:type_name -> eolymp.content.Fragment
-	22, // 13: eolymp.judge.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	23, // 14: eolymp.judge.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
-	24, // 15: eolymp.judge.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
-	1,  // 16: eolymp.judge.ContentService.DescribeFragment:input_type -> eolymp.judge.DescribeFragmentInput
-	3,  // 17: eolymp.judge.ContentService.ListFragments:input_type -> eolymp.judge.ListFragmentsInput
-	5,  // 18: eolymp.judge.ContentService.CreateFragment:input_type -> eolymp.judge.CreateFragmentInput
-	7,  // 19: eolymp.judge.ContentService.UpdateFragment:input_type -> eolymp.judge.UpdateFragmentInput
-	9,  // 20: eolymp.judge.ContentService.DeleteFragment:input_type -> eolymp.judge.DeleteFragmentInput
-	11, // 21: eolymp.judge.ContentService.TranslateFragment:input_type -> eolymp.judge.TranslateFragmentInput
-	13, // 22: eolymp.judge.ContentService.DescribePath:input_type -> eolymp.judge.DescribePathInput
-	15, // 23: eolymp.judge.ContentService.ListParents:input_type -> eolymp.judge.ListParentsInput
-	2,  // 24: eolymp.judge.ContentService.DescribeFragment:output_type -> eolymp.judge.DescribeFragmentOutput
-	4,  // 25: eolymp.judge.ContentService.ListFragments:output_type -> eolymp.judge.ListFragmentsOutput
-	6,  // 26: eolymp.judge.ContentService.CreateFragment:output_type -> eolymp.judge.CreateFragmentOutput
-	8,  // 27: eolymp.judge.ContentService.UpdateFragment:output_type -> eolymp.judge.UpdateFragmentOutput
-	10, // 28: eolymp.judge.ContentService.DeleteFragment:output_type -> eolymp.judge.DeleteFragmentOutput
-	12, // 29: eolymp.judge.ContentService.TranslateFragment:output_type -> eolymp.judge.TranslateFragmentOutput
-	14, // 30: eolymp.judge.ContentService.DescribePath:output_type -> eolymp.judge.DescribePathOutput
-	16, // 31: eolymp.judge.ContentService.ListParents:output_type -> eolymp.judge.ListParentsOutput
-	24, // [24:32] is the sub-list for method output_type
-	16, // [16:24] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	21, // 4: eolymp.judge.ListFragmentsInput.order:type_name -> eolymp.wellknown.Direction
+	19, // 5: eolymp.judge.ListFragmentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	20, // 6: eolymp.judge.ListFragmentsOutput.items:type_name -> eolymp.content.Fragment
+	20, // 7: eolymp.judge.CreateFragmentInput.fragment:type_name -> eolymp.content.Fragment
+	22, // 8: eolymp.judge.UpdateFragmentInput.fragment:type_name -> eolymp.content.Fragment.Patch
+	19, // 9: eolymp.judge.DescribePathInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	20, // 10: eolymp.judge.DescribePathOutput.fragment:type_name -> eolymp.content.Fragment
+	19, // 11: eolymp.judge.ListParentsInput.extra:type_name -> eolymp.content.Fragment.Extra.Field
+	20, // 12: eolymp.judge.ListParentsOutput.items:type_name -> eolymp.content.Fragment
+	20, // 13: eolymp.judge.FragmentChangedEvent.before:type_name -> eolymp.content.Fragment
+	20, // 14: eolymp.judge.FragmentChangedEvent.after:type_name -> eolymp.content.Fragment
+	23, // 15: eolymp.judge.ListFragmentsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	24, // 16: eolymp.judge.ListFragmentsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
+	25, // 17: eolymp.judge.ListFragmentsInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
+	1,  // 18: eolymp.judge.ContentService.DescribeFragment:input_type -> eolymp.judge.DescribeFragmentInput
+	3,  // 19: eolymp.judge.ContentService.ListFragments:input_type -> eolymp.judge.ListFragmentsInput
+	5,  // 20: eolymp.judge.ContentService.CreateFragment:input_type -> eolymp.judge.CreateFragmentInput
+	7,  // 21: eolymp.judge.ContentService.UpdateFragment:input_type -> eolymp.judge.UpdateFragmentInput
+	9,  // 22: eolymp.judge.ContentService.DeleteFragment:input_type -> eolymp.judge.DeleteFragmentInput
+	11, // 23: eolymp.judge.ContentService.TranslateFragment:input_type -> eolymp.judge.TranslateFragmentInput
+	13, // 24: eolymp.judge.ContentService.DescribePath:input_type -> eolymp.judge.DescribePathInput
+	15, // 25: eolymp.judge.ContentService.ListParents:input_type -> eolymp.judge.ListParentsInput
+	2,  // 26: eolymp.judge.ContentService.DescribeFragment:output_type -> eolymp.judge.DescribeFragmentOutput
+	4,  // 27: eolymp.judge.ContentService.ListFragments:output_type -> eolymp.judge.ListFragmentsOutput
+	6,  // 28: eolymp.judge.ContentService.CreateFragment:output_type -> eolymp.judge.CreateFragmentOutput
+	8,  // 29: eolymp.judge.ContentService.UpdateFragment:output_type -> eolymp.judge.UpdateFragmentOutput
+	10, // 30: eolymp.judge.ContentService.DeleteFragment:output_type -> eolymp.judge.DeleteFragmentOutput
+	12, // 31: eolymp.judge.ContentService.TranslateFragment:output_type -> eolymp.judge.TranslateFragmentOutput
+	14, // 32: eolymp.judge.ContentService.DescribePath:output_type -> eolymp.judge.DescribePathOutput
+	16, // 33: eolymp.judge.ContentService.ListParents:output_type -> eolymp.judge.ListParentsOutput
+	26, // [26:34] is the sub-list for method output_type
+	18, // [18:26] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_content_service_proto_init() }
@@ -1308,7 +1378,7 @@ func file_eolymp_judge_content_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_judge_content_service_proto_rawDesc), len(file_eolymp_judge_content_service_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   17,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
