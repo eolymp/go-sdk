@@ -1257,7 +1257,7 @@ var File_eolymp_discussion_discussion_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	"\n" +
-	"*eolymp/discussion/discussion_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\x1feolymp/discussion/message.proto\x1a$eolymp/discussion/subscription.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x01\n" +
+	"*eolymp/discussion/discussion_service.proto\x12\x11eolymp.discussion\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1feolymp/discussion/message.proto\x1a$eolymp/discussion/subscription.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa9\x01\n" +
 	"\x13MessageChangedEvent\x12\x14\n" +
 	"\x05scope\x18\n" +
 	" \x01(\tR\x05scope\x122\n" +
@@ -1347,12 +1347,15 @@ const file_eolymp_discussion_discussion_service_proto_rawDesc = "" +
 	"\x17UpdateSubscriptionInput\x12\x1b\n" +
 	"\tthread_id\x18\x02 \x01(\tR\bthreadId\x12C\n" +
 	"\fsubscription\x18\x01 \x01(\v2\x1f.eolymp.discussion.SubscriptionR\fsubscription\"\x1a\n" +
-	"\x18UpdateSubscriptionOutput2\xf7\a\n" +
+	"\x18UpdateSubscriptionOutput2\x87\b\n" +
 	"\x11DiscussionService\x12n\n" +
 	"\x0fDescribeMessage\x12'.eolymp.discussion.DescribeMessageInput\x1a(.eolymp.discussion.DescribeMessageOutput\"\b\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x12e\n" +
-	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"\b\xa2\xe3\n" +
+	"\x01\x12u\n" +
+	"\fListMessages\x12$.eolymp.discussion.ListMessagesInput\x1a%.eolymp.discussion.ListMessagesOutput\"\x18\xea\xe2\n" +
+	"\f\xf5\xe2\n" +
+	"\x00\x00HB\xf8\xe2\n" +
+	"\xfa\x01\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
 	"\x01\x12b\n" +
 	"\vPostMessage\x12#.eolymp.discussion.PostMessageInput\x1a$.eolymp.discussion.PostMessageOutput\"\b\xa2\xe3\n" +
