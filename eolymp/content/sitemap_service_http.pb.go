@@ -201,12 +201,9 @@ func _SitemapService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterSitemapServiceHttpHandlers adds handlers for for SitemapServiceClient
 func RegisterSitemapServiceHttpHandlers(router *mux.Router, prefix string, cli SitemapServiceClient) {
-	router.Handle(prefix+"/sitemap/chunks", _SitemapService_ListSitemapChunks_Rule0(cli)).
+	router.Handle(prefix+"/sitemap/entries", _SitemapService_ListSitemapEntries_Rule0(cli)).
 		Methods("GET").
-		Name("eolymp.content.SitemapService.ListSitemapChunks")
-	router.Handle(prefix+"/sitemap/chunks/{chunk_id}", _SitemapService_DescribeSitemapChunk_Rule0(cli)).
-		Methods("GET").
-		Name("eolymp.content.SitemapService.DescribeSitemapChunk")
+		Name("eolymp.content.SitemapService.ListSitemapEntries")
 }
 
 // RegisterSitemapServiceHttpProxy adds proxy handlers for for SitemapServiceClient
@@ -214,9 +211,9 @@ func RegisterSitemapServiceHttpProxy(router *mux.Router, prefix string, conn grp
 	RegisterSitemapServiceHttpHandlers(router, prefix, NewSitemapServiceClient(conn))
 }
 
-func _SitemapService_ListSitemapChunks_Rule0(cli SitemapServiceClient) http.Handler {
+func _SitemapService_ListSitemapEntries_Rule0(cli SitemapServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &ListSitemapChunksInput{}
+		in := &ListSitemapEntriesInput{}
 
 		if err := _SitemapService_HTTPReadQueryString(r, in, 131072); err != nil {
 			_SitemapService_HTTPWriteErrorResponse(w, err)
@@ -225,31 +222,7 @@ func _SitemapService_ListSitemapChunks_Rule0(cli SitemapServiceClient) http.Hand
 
 		var header, trailer metadata.MD
 
-		out, err := cli.ListSitemapChunks(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
-		if err != nil {
-			_SitemapService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		_SitemapService_HTTPWriteResponse(w, out, header, trailer)
-	})
-}
-
-func _SitemapService_DescribeSitemapChunk_Rule0(cli SitemapServiceClient) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &DescribeSitemapChunkInput{}
-
-		if err := _SitemapService_HTTPReadQueryString(r, in, 131072); err != nil {
-			_SitemapService_HTTPWriteErrorResponse(w, err)
-			return
-		}
-
-		vars := mux.Vars(r)
-		in.ChunkId = vars["chunk_id"]
-
-		var header, trailer metadata.MD
-
-		out, err := cli.DescribeSitemapChunk(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.ListSitemapEntries(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SitemapService_HTTPWriteErrorResponse(w, err)
 			return

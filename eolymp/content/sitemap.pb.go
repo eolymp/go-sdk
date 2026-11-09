@@ -22,27 +22,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Sitemap_Entry_Type int32
+type SitemapEntry_Type int32
 
 const (
-	Sitemap_Entry_UNKNOWN_TYPE       Sitemap_Entry_Type = 0
-	Sitemap_Entry_PROBLEM            Sitemap_Entry_Type = 1
-	Sitemap_Entry_PROBLEM_EDITORIAL  Sitemap_Entry_Type = 2
-	Sitemap_Entry_CONTEST            Sitemap_Entry_Type = 3
-	Sitemap_Entry_CONTEST_PAGE       Sitemap_Entry_Type = 4
-	Sitemap_Entry_CONTEST_SCOREBOARD Sitemap_Entry_Type = 5
-	Sitemap_Entry_COURSE             Sitemap_Entry_Type = 6
-	Sitemap_Entry_COURSE_MODULE      Sitemap_Entry_Type = 7
-	Sitemap_Entry_COURSE_MATERIAL    Sitemap_Entry_Type = 8
-	Sitemap_Entry_POST               Sitemap_Entry_Type = 9
-	Sitemap_Entry_PAGE               Sitemap_Entry_Type = 10 // a page of the space's site, see Fragment
-	Sitemap_Entry_MEMBER             Sitemap_Entry_Type = 11 // a member's profile
-	Sitemap_Entry_PRODUCT            Sitemap_Entry_Type = 12 // a product in the space's store
+	SitemapEntry_UNKNOWN_TYPE       SitemapEntry_Type = 0
+	SitemapEntry_PROBLEM            SitemapEntry_Type = 1
+	SitemapEntry_PROBLEM_EDITORIAL  SitemapEntry_Type = 2
+	SitemapEntry_CONTEST            SitemapEntry_Type = 3
+	SitemapEntry_CONTEST_PAGE       SitemapEntry_Type = 4
+	SitemapEntry_CONTEST_SCOREBOARD SitemapEntry_Type = 5
+	SitemapEntry_COURSE             SitemapEntry_Type = 6
+	SitemapEntry_COURSE_MODULE      SitemapEntry_Type = 7
+	SitemapEntry_COURSE_MATERIAL    SitemapEntry_Type = 8
+	SitemapEntry_POST               SitemapEntry_Type = 9
+	SitemapEntry_PAGE               SitemapEntry_Type = 10 // a page of the space's site, see Fragment
+	SitemapEntry_MEMBER             SitemapEntry_Type = 11 // a member's profile
+	SitemapEntry_PRODUCT            SitemapEntry_Type = 12 // a product in the space's store
 )
 
-// Enum value maps for Sitemap_Entry_Type.
+// Enum value maps for SitemapEntry_Type.
 var (
-	Sitemap_Entry_Type_name = map[int32]string{
+	SitemapEntry_Type_name = map[int32]string{
 		0:  "UNKNOWN_TYPE",
 		1:  "PROBLEM",
 		2:  "PROBLEM_EDITORIAL",
@@ -57,7 +57,7 @@ var (
 		11: "MEMBER",
 		12: "PRODUCT",
 	}
-	Sitemap_Entry_Type_value = map[string]int32{
+	SitemapEntry_Type_value = map[string]int32{
 		"UNKNOWN_TYPE":       0,
 		"PROBLEM":            1,
 		"PROBLEM_EDITORIAL":  2,
@@ -74,162 +74,65 @@ var (
 	}
 )
 
-func (x Sitemap_Entry_Type) Enum() *Sitemap_Entry_Type {
-	p := new(Sitemap_Entry_Type)
+func (x SitemapEntry_Type) Enum() *SitemapEntry_Type {
+	p := new(SitemapEntry_Type)
 	*p = x
 	return p
 }
 
-func (x Sitemap_Entry_Type) String() string {
+func (x SitemapEntry_Type) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Sitemap_Entry_Type) Descriptor() protoreflect.EnumDescriptor {
+func (SitemapEntry_Type) Descriptor() protoreflect.EnumDescriptor {
 	return file_eolymp_content_sitemap_proto_enumTypes[0].Descriptor()
 }
 
-func (Sitemap_Entry_Type) Type() protoreflect.EnumType {
+func (SitemapEntry_Type) Type() protoreflect.EnumType {
 	return &file_eolymp_content_sitemap_proto_enumTypes[0]
 }
 
-func (x Sitemap_Entry_Type) Number() protoreflect.EnumNumber {
+func (x SitemapEntry_Type) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Sitemap_Entry_Type.Descriptor instead.
-func (Sitemap_Entry_Type) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_content_sitemap_proto_rawDescGZIP(), []int{0, 1, 0}
-}
-
-// Sitemap indexes the public objects of a space (problems, contests, posts, pages...), split into chunks small
-// enough to read in one call. A chunk holds one type of object and keeps its id for good: an object never moves to
-// another chunk. The site that renders the sitemap builds the pages of each object, e.g. a problem's statement
-// and discussion, from its type and attributes.
-type Sitemap struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Sitemap) Reset() {
-	*x = Sitemap{}
-	mi := &file_eolymp_content_sitemap_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Sitemap) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Sitemap) ProtoMessage() {}
-
-func (x *Sitemap) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_sitemap_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Sitemap.ProtoReflect.Descriptor instead.
-func (*Sitemap) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_sitemap_proto_rawDescGZIP(), []int{0}
-}
-
-type Sitemap_Chunk struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                // stable, e.g. `problems-0` for problems 0-999, `contests-2026` for contests created in 2026
-	Size          uint32                 `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`                           // number of entries in the chunk
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // latest change to any entry in the chunk
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Sitemap_Chunk) Reset() {
-	*x = Sitemap_Chunk{}
-	mi := &file_eolymp_content_sitemap_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Sitemap_Chunk) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Sitemap_Chunk) ProtoMessage() {}
-
-func (x *Sitemap_Chunk) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_sitemap_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Sitemap_Chunk.ProtoReflect.Descriptor instead.
-func (*Sitemap_Chunk) Descriptor() ([]byte, []int) {
+// Deprecated: Use SitemapEntry_Type.Descriptor instead.
+func (SitemapEntry_Type) EnumDescriptor() ([]byte, []int) {
 	return file_eolymp_content_sitemap_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *Sitemap_Chunk) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *Sitemap_Chunk) GetSize() uint32 {
-	if x != nil {
-		return x.Size
-	}
-	return 0
-}
-
-func (x *Sitemap_Chunk) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-type Sitemap_Entry struct {
+// SitemapEntry is a public object of a space (a problem, contest, post, page...) in the space's sitemap. The site
+// that renders the sitemap builds the object's pages from its type and attributes, e.g. a problem's statement and
+// discussion.
+type SitemapEntry struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          Sitemap_Entry_Type     `protobuf:"varint,4,opt,name=type,proto3,enum=eolymp.content.Sitemap_Entry_Type" json:"type,omitempty"`
-	ResourceLink  string                 `protobuf:"bytes,6,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"`                                                   // canonical identifier of the entity: its URL in the API, e.g. `https://api.eolymp.com/spaces/abc/problems/42`
-	Title         string                 `protobuf:"bytes,8,opt,name=title,proto3" json:"title,omitempty"`                                                                                     // the entity's title in English, or in its default language when there is no English version
-	Languages     []string               `protobuf:"bytes,2,rep,name=languages,proto3" json:"languages,omitempty"`                                                                             // locales the page is available in, empty for a page without translations
-	ImageLink     string                 `protobuf:"bytes,9,opt,name=image_link,json=imageLink,proto3" json:"image_link,omitempty"`                                                            // URL of the entity's preview image, empty when it has none
-	Attributes    map[string]string      `protobuf:"bytes,7,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // entity attributes a site may need, e.g. `number` of a problem, `path` of a page or `username` of a member
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                                                           // when the entity was created
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`                                                            // when the page's content last changed
+	Type          SitemapEntry_Type      `protobuf:"varint,1,opt,name=type,proto3,enum=eolymp.content.SitemapEntry_Type" json:"type,omitempty"`
+	ResourceLink  string                 `protobuf:"bytes,2,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"`                                                   // canonical identifier of the entity: its URL in the API, e.g. `https://api.eolymp.com/spaces/abc/problems/42`
+	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`                                                                                     // the entity's title in English, or in its default language when there is no English version
+	Languages     []string               `protobuf:"bytes,4,rep,name=languages,proto3" json:"languages,omitempty"`                                                                             // locales the page is available in, empty for a page without translations
+	ImageLink     string                 `protobuf:"bytes,5,opt,name=image_link,json=imageLink,proto3" json:"image_link,omitempty"`                                                            // URL of the entity's preview image, empty when it has none
+	Attributes    map[string]string      `protobuf:"bytes,6,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // entity attributes a site may need, e.g. `number` of a problem, `path` of a page or `username` of a member
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                                                            // when the entity was created
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`                                                            // when the page's content last changed
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Sitemap_Entry) Reset() {
-	*x = Sitemap_Entry{}
-	mi := &file_eolymp_content_sitemap_proto_msgTypes[2]
+func (x *SitemapEntry) Reset() {
+	*x = SitemapEntry{}
+	mi := &file_eolymp_content_sitemap_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Sitemap_Entry) String() string {
+func (x *SitemapEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Sitemap_Entry) ProtoMessage() {}
+func (*SitemapEntry) ProtoMessage() {}
 
-func (x *Sitemap_Entry) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_sitemap_proto_msgTypes[2]
+func (x *SitemapEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_sitemap_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,61 +143,61 @@ func (x *Sitemap_Entry) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Sitemap_Entry.ProtoReflect.Descriptor instead.
-func (*Sitemap_Entry) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_sitemap_proto_rawDescGZIP(), []int{0, 1}
+// Deprecated: Use SitemapEntry.ProtoReflect.Descriptor instead.
+func (*SitemapEntry) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_sitemap_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Sitemap_Entry) GetType() Sitemap_Entry_Type {
+func (x *SitemapEntry) GetType() SitemapEntry_Type {
 	if x != nil {
 		return x.Type
 	}
-	return Sitemap_Entry_UNKNOWN_TYPE
+	return SitemapEntry_UNKNOWN_TYPE
 }
 
-func (x *Sitemap_Entry) GetResourceLink() string {
+func (x *SitemapEntry) GetResourceLink() string {
 	if x != nil {
 		return x.ResourceLink
 	}
 	return ""
 }
 
-func (x *Sitemap_Entry) GetTitle() string {
+func (x *SitemapEntry) GetTitle() string {
 	if x != nil {
 		return x.Title
 	}
 	return ""
 }
 
-func (x *Sitemap_Entry) GetLanguages() []string {
+func (x *SitemapEntry) GetLanguages() []string {
 	if x != nil {
 		return x.Languages
 	}
 	return nil
 }
 
-func (x *Sitemap_Entry) GetImageLink() string {
+func (x *SitemapEntry) GetImageLink() string {
 	if x != nil {
 		return x.ImageLink
 	}
 	return ""
 }
 
-func (x *Sitemap_Entry) GetAttributes() map[string]string {
+func (x *SitemapEntry) GetAttributes() map[string]string {
 	if x != nil {
 		return x.Attributes
 	}
 	return nil
 }
 
-func (x *Sitemap_Entry) GetCreatedAt() *timestamppb.Timestamp {
+func (x *SitemapEntry) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *Sitemap_Entry) GetUpdatedAt() *timestamppb.Timestamp {
+func (x *SitemapEntry) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
@@ -305,28 +208,21 @@ var File_eolymp_content_sitemap_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_sitemap_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/content/sitemap.proto\x12\x0eeolymp.content\x1a\x1fgoogle/protobuf/timestamp.proto\"\x86\x06\n" +
-	"\aSitemap\x1af\n" +
-	"\x05Chunk\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04size\x18\x02 \x01(\rR\x04size\x129\n" +
+	"\x1ceolymp/content/sitemap.proto\x12\x0eeolymp.content\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x05\n" +
+	"\fSitemapEntry\x125\n" +
+	"\x04type\x18\x01 \x01(\x0e2!.eolymp.content.SitemapEntry.TypeR\x04type\x12#\n" +
+	"\rresource_link\x18\x02 \x01(\tR\fresourceLink\x12\x14\n" +
+	"\x05title\x18\x03 \x01(\tR\x05title\x12\x1c\n" +
+	"\tlanguages\x18\x04 \x03(\tR\tlanguages\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a\x92\x05\n" +
-	"\x05Entry\x126\n" +
-	"\x04type\x18\x04 \x01(\x0e2\".eolymp.content.Sitemap.Entry.TypeR\x04type\x12#\n" +
-	"\rresource_link\x18\x06 \x01(\tR\fresourceLink\x12\x14\n" +
-	"\x05title\x18\b \x01(\tR\x05title\x12\x1c\n" +
-	"\tlanguages\x18\x02 \x03(\tR\tlanguages\x12\x1d\n" +
+	"image_link\x18\x05 \x01(\tR\timageLink\x12L\n" +
 	"\n" +
-	"image_link\x18\t \x01(\tR\timageLink\x12M\n" +
-	"\n" +
-	"attributes\x18\a \x03(\v2-.eolymp.content.Sitemap.Entry.AttributesEntryR\n" +
+	"attributes\x18\x06 \x03(\v2,.eolymp.content.SitemapEntry.AttributesEntryR\n" +
 	"attributes\x129\n" +
 	"\n" +
-	"created_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a=\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a=\n" +
 	"\x0fAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd4\x01\n" +
@@ -361,26 +257,23 @@ func file_eolymp_content_sitemap_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_content_sitemap_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_eolymp_content_sitemap_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_content_sitemap_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_content_sitemap_proto_goTypes = []any{
-	(Sitemap_Entry_Type)(0),       // 0: eolymp.content.Sitemap.Entry.Type
-	(*Sitemap)(nil),               // 1: eolymp.content.Sitemap
-	(*Sitemap_Chunk)(nil),         // 2: eolymp.content.Sitemap.Chunk
-	(*Sitemap_Entry)(nil),         // 3: eolymp.content.Sitemap.Entry
-	nil,                           // 4: eolymp.content.Sitemap.Entry.AttributesEntry
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(SitemapEntry_Type)(0),        // 0: eolymp.content.SitemapEntry.Type
+	(*SitemapEntry)(nil),          // 1: eolymp.content.SitemapEntry
+	nil,                           // 2: eolymp.content.SitemapEntry.AttributesEntry
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_content_sitemap_proto_depIdxs = []int32{
-	5, // 0: eolymp.content.Sitemap.Chunk.updated_at:type_name -> google.protobuf.Timestamp
-	0, // 1: eolymp.content.Sitemap.Entry.type:type_name -> eolymp.content.Sitemap.Entry.Type
-	4, // 2: eolymp.content.Sitemap.Entry.attributes:type_name -> eolymp.content.Sitemap.Entry.AttributesEntry
-	5, // 3: eolymp.content.Sitemap.Entry.created_at:type_name -> google.protobuf.Timestamp
-	5, // 4: eolymp.content.Sitemap.Entry.updated_at:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	0, // 0: eolymp.content.SitemapEntry.type:type_name -> eolymp.content.SitemapEntry.Type
+	2, // 1: eolymp.content.SitemapEntry.attributes:type_name -> eolymp.content.SitemapEntry.AttributesEntry
+	3, // 2: eolymp.content.SitemapEntry.created_at:type_name -> google.protobuf.Timestamp
+	3, // 3: eolymp.content.SitemapEntry.updated_at:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_sitemap_proto_init() }
@@ -394,7 +287,7 @@ func file_eolymp_content_sitemap_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_sitemap_proto_rawDesc), len(file_eolymp_content_sitemap_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   4,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

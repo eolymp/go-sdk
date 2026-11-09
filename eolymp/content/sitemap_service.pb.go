@@ -8,6 +8,7 @@ package content
 
 import (
 	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -22,26 +23,29 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ListSitemapChunksInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+type ListSitemapEntriesInput struct {
+	state         protoimpl.MessageState          `protogen:"open.v1"`
+	Offset        int32                           `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                           `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"` // up to 10000
+	Filters       *ListSitemapEntriesInput_Filter `protobuf:"bytes,40,opt,name=filters,proto3" json:"filters,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListSitemapChunksInput) Reset() {
-	*x = ListSitemapChunksInput{}
+func (x *ListSitemapEntriesInput) Reset() {
+	*x = ListSitemapEntriesInput{}
 	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListSitemapChunksInput) String() string {
+func (x *ListSitemapEntriesInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListSitemapChunksInput) ProtoMessage() {}
+func (*ListSitemapEntriesInput) ProtoMessage() {}
 
-func (x *ListSitemapChunksInput) ProtoReflect() protoreflect.Message {
+func (x *ListSitemapEntriesInput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,32 +57,54 @@ func (x *ListSitemapChunksInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSitemapChunksInput.ProtoReflect.Descriptor instead.
-func (*ListSitemapChunksInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListSitemapEntriesInput.ProtoReflect.Descriptor instead.
+func (*ListSitemapEntriesInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_sitemap_service_proto_rawDescGZIP(), []int{0}
 }
 
-type ListSitemapChunksOutput struct {
+func (x *ListSitemapEntriesInput) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *ListSitemapEntriesInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListSitemapEntriesInput) GetFilters() *ListSitemapEntriesInput_Filter {
+	if x != nil {
+		return x.Filters
+	}
+	return nil
+}
+
+type ListSitemapEntriesOutput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*Sitemap_Chunk       `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*SitemapEntry        `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListSitemapChunksOutput) Reset() {
-	*x = ListSitemapChunksOutput{}
+func (x *ListSitemapEntriesOutput) Reset() {
+	*x = ListSitemapEntriesOutput{}
 	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListSitemapChunksOutput) String() string {
+func (x *ListSitemapEntriesOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListSitemapChunksOutput) ProtoMessage() {}
+func (*ListSitemapEntriesOutput) ProtoMessage() {}
 
-func (x *ListSitemapChunksOutput) ProtoReflect() protoreflect.Message {
+func (x *ListSitemapEntriesOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -90,39 +116,48 @@ func (x *ListSitemapChunksOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSitemapChunksOutput.ProtoReflect.Descriptor instead.
-func (*ListSitemapChunksOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListSitemapEntriesOutput.ProtoReflect.Descriptor instead.
+func (*ListSitemapEntriesOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_sitemap_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ListSitemapChunksOutput) GetItems() []*Sitemap_Chunk {
+func (x *ListSitemapEntriesOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListSitemapEntriesOutput) GetItems() []*SitemapEntry {
 	if x != nil {
 		return x.Items
 	}
 	return nil
 }
 
-type DescribeSitemapChunkInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ChunkId       string                 `protobuf:"bytes,1,opt,name=chunk_id,json=chunkId,proto3" json:"chunk_id,omitempty"`
+type ListSitemapEntriesInput_Filter struct {
+	state         protoimpl.MessageState           `protogen:"open.v1"`
+	Type          []*wellknown.ExpressionEnum      `protobuf:"bytes,1,rep,name=type,proto3" json:"type,omitempty"`
+	CreatedAt     []*wellknown.ExpressionTimestamp `protobuf:"bytes,2,rep,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     []*wellknown.ExpressionTimestamp `protobuf:"bytes,3,rep,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DescribeSitemapChunkInput) Reset() {
-	*x = DescribeSitemapChunkInput{}
+func (x *ListSitemapEntriesInput_Filter) Reset() {
+	*x = ListSitemapEntriesInput_Filter{}
 	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DescribeSitemapChunkInput) String() string {
+func (x *ListSitemapEntriesInput_Filter) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DescribeSitemapChunkInput) ProtoMessage() {}
+func (*ListSitemapEntriesInput_Filter) ProtoMessage() {}
 
-func (x *DescribeSitemapChunkInput) ProtoReflect() protoreflect.Message {
+func (x *ListSitemapEntriesInput_Filter) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -134,66 +169,28 @@ func (x *DescribeSitemapChunkInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeSitemapChunkInput.ProtoReflect.Descriptor instead.
-func (*DescribeSitemapChunkInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_sitemap_service_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use ListSitemapEntriesInput_Filter.ProtoReflect.Descriptor instead.
+func (*ListSitemapEntriesInput_Filter) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_sitemap_service_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *DescribeSitemapChunkInput) GetChunkId() string {
+func (x *ListSitemapEntriesInput_Filter) GetType() []*wellknown.ExpressionEnum {
 	if x != nil {
-		return x.ChunkId
-	}
-	return ""
-}
-
-type DescribeSitemapChunkOutput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Chunk         *Sitemap_Chunk         `protobuf:"bytes,1,opt,name=chunk,proto3" json:"chunk,omitempty"`
-	Entries       []*Sitemap_Entry       `protobuf:"bytes,2,rep,name=entries,proto3" json:"entries,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DescribeSitemapChunkOutput) Reset() {
-	*x = DescribeSitemapChunkOutput{}
-	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DescribeSitemapChunkOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DescribeSitemapChunkOutput) ProtoMessage() {}
-
-func (x *DescribeSitemapChunkOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_sitemap_service_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeSitemapChunkOutput.ProtoReflect.Descriptor instead.
-func (*DescribeSitemapChunkOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_sitemap_service_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *DescribeSitemapChunkOutput) GetChunk() *Sitemap_Chunk {
-	if x != nil {
-		return x.Chunk
+		return x.Type
 	}
 	return nil
 }
 
-func (x *DescribeSitemapChunkOutput) GetEntries() []*Sitemap_Entry {
+func (x *ListSitemapEntriesInput_Filter) GetCreatedAt() []*wellknown.ExpressionTimestamp {
 	if x != nil {
-		return x.Entries
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *ListSitemapEntriesInput_Filter) GetUpdatedAt() []*wellknown.ExpressionTimestamp {
+	if x != nil {
+		return x.UpdatedAt
 	}
 	return nil
 }
@@ -202,32 +199,29 @@ var File_eolymp_content_sitemap_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_sitemap_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/content/sitemap_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/content/sitemap.proto\"\x18\n" +
-	"\x16ListSitemapChunksInput\"N\n" +
-	"\x17ListSitemapChunksOutput\x123\n" +
-	"\x05items\x18\x02 \x03(\v2\x1d.eolymp.content.Sitemap.ChunkR\x05items\"6\n" +
-	"\x19DescribeSitemapChunkInput\x12\x19\n" +
-	"\bchunk_id\x18\x01 \x01(\tR\achunkId\"\x8a\x01\n" +
-	"\x1aDescribeSitemapChunkOutput\x123\n" +
-	"\x05chunk\x18\x01 \x01(\v2\x1d.eolymp.content.Sitemap.ChunkR\x05chunk\x127\n" +
-	"\aentries\x18\x02 \x03(\v2\x1d.eolymp.content.Sitemap.EntryR\aentries2\xad\x03\n" +
-	"\x0eSitemapService\x12\xb3\x01\n" +
-	"\x11ListSitemapChunks\x12&.eolymp.content.ListSitemapChunksInput\x1a'.eolymp.content.ListSitemapChunksOutput\"M\xea\xe2\n" +
+	"$eolymp/content/sitemap_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/content/sitemap.proto\x1a!eolymp/wellknown/expression.proto\"\xdc\x02\n" +
+	"\x17ListSitemapEntriesInput\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\x12\x12\n" +
+	"\x04size\x18\x02 \x01(\x05R\x04size\x12H\n" +
+	"\afilters\x18( \x01(\v2..eolymp.content.ListSitemapEntriesInput.FilterR\afilters\x1a\xca\x01\n" +
+	"\x06Filter\x124\n" +
+	"\x04type\x18\x01 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x04type\x12D\n" +
+	"\n" +
+	"created_at\x18\x02 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x12D\n" +
+	"\n" +
+	"updated_at\x18\x03 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tupdatedAt\"d\n" +
+	"\x18ListSitemapEntriesOutput\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x122\n" +
+	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.content.SitemapEntryR\x05items2\xe7\x01\n" +
+	"\x0eSitemapService\x12\xb7\x01\n" +
+	"\x12ListSitemapEntries\x12'.eolymp.content.ListSitemapEntriesInput\x1a(.eolymp.content.ListSitemapEntriesOutput\"N\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"d\x82\xe3\n" +
 	"\x1b\x8a\xe3\n" +
 	"\x17typewriter:sitemap:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/sitemap/chunks\x12\xc7\x01\n" +
-	"\x14DescribeSitemapChunk\x12).eolymp.content.DescribeSitemapChunkInput\x1a*.eolymp.content.DescribeSitemapChunkOutput\"X\xea\xe2\n" +
-	"\v\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"d\x82\xe3\n" +
-	"\x1b\x8a\xe3\n" +
-	"\x17typewriter:sitemap:read\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/sitemap/chunks/{chunk_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\x12\x12\x10/sitemap/entries\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_sitemap_service_proto_rawDescOnce sync.Once
@@ -241,28 +235,28 @@ func file_eolymp_content_sitemap_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_sitemap_service_proto_rawDescData
 }
 
-var file_eolymp_content_sitemap_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_eolymp_content_sitemap_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_content_sitemap_service_proto_goTypes = []any{
-	(*ListSitemapChunksInput)(nil),     // 0: eolymp.content.ListSitemapChunksInput
-	(*ListSitemapChunksOutput)(nil),    // 1: eolymp.content.ListSitemapChunksOutput
-	(*DescribeSitemapChunkInput)(nil),  // 2: eolymp.content.DescribeSitemapChunkInput
-	(*DescribeSitemapChunkOutput)(nil), // 3: eolymp.content.DescribeSitemapChunkOutput
-	(*Sitemap_Chunk)(nil),              // 4: eolymp.content.Sitemap.Chunk
-	(*Sitemap_Entry)(nil),              // 5: eolymp.content.Sitemap.Entry
+	(*ListSitemapEntriesInput)(nil),        // 0: eolymp.content.ListSitemapEntriesInput
+	(*ListSitemapEntriesOutput)(nil),       // 1: eolymp.content.ListSitemapEntriesOutput
+	(*ListSitemapEntriesInput_Filter)(nil), // 2: eolymp.content.ListSitemapEntriesInput.Filter
+	(*SitemapEntry)(nil),                   // 3: eolymp.content.SitemapEntry
+	(*wellknown.ExpressionEnum)(nil),       // 4: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionTimestamp)(nil),  // 5: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_content_sitemap_service_proto_depIdxs = []int32{
-	4, // 0: eolymp.content.ListSitemapChunksOutput.items:type_name -> eolymp.content.Sitemap.Chunk
-	4, // 1: eolymp.content.DescribeSitemapChunkOutput.chunk:type_name -> eolymp.content.Sitemap.Chunk
-	5, // 2: eolymp.content.DescribeSitemapChunkOutput.entries:type_name -> eolymp.content.Sitemap.Entry
-	0, // 3: eolymp.content.SitemapService.ListSitemapChunks:input_type -> eolymp.content.ListSitemapChunksInput
-	2, // 4: eolymp.content.SitemapService.DescribeSitemapChunk:input_type -> eolymp.content.DescribeSitemapChunkInput
-	1, // 5: eolymp.content.SitemapService.ListSitemapChunks:output_type -> eolymp.content.ListSitemapChunksOutput
-	3, // 6: eolymp.content.SitemapService.DescribeSitemapChunk:output_type -> eolymp.content.DescribeSitemapChunkOutput
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2, // 0: eolymp.content.ListSitemapEntriesInput.filters:type_name -> eolymp.content.ListSitemapEntriesInput.Filter
+	3, // 1: eolymp.content.ListSitemapEntriesOutput.items:type_name -> eolymp.content.SitemapEntry
+	4, // 2: eolymp.content.ListSitemapEntriesInput.Filter.type:type_name -> eolymp.wellknown.ExpressionEnum
+	5, // 3: eolymp.content.ListSitemapEntriesInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	5, // 4: eolymp.content.ListSitemapEntriesInput.Filter.updated_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	0, // 5: eolymp.content.SitemapService.ListSitemapEntries:input_type -> eolymp.content.ListSitemapEntriesInput
+	1, // 6: eolymp.content.SitemapService.ListSitemapEntries:output_type -> eolymp.content.ListSitemapEntriesOutput
+	6, // [6:7] is the sub-list for method output_type
+	5, // [5:6] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_sitemap_service_proto_init() }
@@ -277,7 +271,7 @@ func file_eolymp_content_sitemap_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_sitemap_service_proto_rawDesc), len(file_eolymp_content_sitemap_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

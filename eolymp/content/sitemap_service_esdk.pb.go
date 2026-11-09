@@ -100,25 +100,9 @@ func (s *SitemapServiceService) do(ctx context.Context, verb, path string, in, o
 	return nil
 }
 
-func (s *SitemapServiceService) ListSitemapChunks(ctx context.Context, in *ListSitemapChunksInput) (*ListSitemapChunksOutput, error) {
-	out := &ListSitemapChunksOutput{}
-	path := "/sitemap/chunks"
-
-	if err := s.do(ctx, "GET", path, in, out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
-
-func (s *SitemapServiceService) DescribeSitemapChunk(ctx context.Context, in *DescribeSitemapChunkInput) (*DescribeSitemapChunkOutput, error) {
-	out := &DescribeSitemapChunkOutput{}
-	path := "/sitemap/chunks/" + url.PathEscape(in.GetChunkId())
-
-	// Cleanup URL parameters to avoid any ambiguity
-	if in != nil {
-		in.ChunkId = ""
-	}
+func (s *SitemapServiceService) ListSitemapEntries(ctx context.Context, in *ListSitemapEntriesInput) (*ListSitemapEntriesOutput, error) {
+	out := &ListSitemapEntriesOutput{}
+	path := "/sitemap/entries"
 
 	if err := s.do(ctx, "GET", path, in, out); err != nil {
 		return nil, err

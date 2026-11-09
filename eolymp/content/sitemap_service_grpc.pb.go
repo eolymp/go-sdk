@@ -19,27 +19,24 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SitemapService_ListSitemapChunks_FullMethodName    = "/eolymp.content.SitemapService/ListSitemapChunks"
-	SitemapService_DescribeSitemapChunk_FullMethodName = "/eolymp.content.SitemapService/DescribeSitemapChunk"
+	SitemapService_ListSitemapEntries_FullMethodName = "/eolymp.content.SitemapService/ListSitemapEntries"
 )
 
 // SitemapServiceClient is the client API for SitemapService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// SitemapService describes the public pages of a space so a site can publish a sitemap for search engines.
+// SitemapService indexes the public objects of a space so a site can publish a sitemap for search engines.
 //
-// It holds what an anonymous visitor can read: public problems with their editorials and discussions, contests,
-// posts and pages. The sitemap follows changes to those as they happen, so an entry's time is when the page last
-// changed. It is split into chunks: ListSitemapChunks is the index, and DescribeSitemapChunk returns one chunk's
-// entries. Building each entry's URL and rendering the result, for example as sitemaps.org
-// XML with a language alternate per locale, is up to the site.
+// It holds what an anonymous visitor can read: public problems with their editorials, contests with their pages
+// and scoreboards, posts and pages. The index follows changes to those as they happen, so an entry's time is when
+// the object last changed. Entries are listed oldest first, so new objects are appended at the end and a site
+// can split the sitemap into files by offset. Building the pages of each entry and rendering them, for example
+// as sitemaps.org XML with a language alternate per locale, is up to the site.
 type SitemapServiceClient interface {
-	// ListSitemapChunks returns every chunk of the space's sitemap with its size and the time of its latest
-	// change, which is what a sitemap index lists.
-	ListSitemapChunks(ctx context.Context, in *ListSitemapChunksInput, opts ...grpc.CallOption) (*ListSitemapChunksOutput, error)
-	// DescribeSitemapChunk returns all entries of one chunk.
-	DescribeSitemapChunk(ctx context.Context, in *DescribeSitemapChunkInput, opts ...grpc.CallOption) (*DescribeSitemapChunkOutput, error)
+	// ListSitemapEntries returns entries ordered by creation time, oldest first, with the total number matching the
+	// filters.
+	ListSitemapEntries(ctx context.Context, in *ListSitemapEntriesInput, opts ...grpc.CallOption) (*ListSitemapEntriesOutput, error)
 }
 
 type sitemapServiceClient struct {
@@ -50,20 +47,10 @@ func NewSitemapServiceClient(cc grpc.ClientConnInterface) SitemapServiceClient {
 	return &sitemapServiceClient{cc}
 }
 
-func (c *sitemapServiceClient) ListSitemapChunks(ctx context.Context, in *ListSitemapChunksInput, opts ...grpc.CallOption) (*ListSitemapChunksOutput, error) {
+func (c *sitemapServiceClient) ListSitemapEntries(ctx context.Context, in *ListSitemapEntriesInput, opts ...grpc.CallOption) (*ListSitemapEntriesOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListSitemapChunksOutput)
-	err := c.cc.Invoke(ctx, SitemapService_ListSitemapChunks_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *sitemapServiceClient) DescribeSitemapChunk(ctx context.Context, in *DescribeSitemapChunkInput, opts ...grpc.CallOption) (*DescribeSitemapChunkOutput, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeSitemapChunkOutput)
-	err := c.cc.Invoke(ctx, SitemapService_DescribeSitemapChunk_FullMethodName, in, out, cOpts...)
+	out := new(ListSitemapEntriesOutput)
+	err := c.cc.Invoke(ctx, SitemapService_ListSitemapEntries_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,19 +61,17 @@ func (c *sitemapServiceClient) DescribeSitemapChunk(ctx context.Context, in *Des
 // All implementations should embed UnimplementedSitemapServiceServer
 // for forward compatibility.
 //
-// SitemapService describes the public pages of a space so a site can publish a sitemap for search engines.
+// SitemapService indexes the public objects of a space so a site can publish a sitemap for search engines.
 //
-// It holds what an anonymous visitor can read: public problems with their editorials and discussions, contests,
-// posts and pages. The sitemap follows changes to those as they happen, so an entry's time is when the page last
-// changed. It is split into chunks: ListSitemapChunks is the index, and DescribeSitemapChunk returns one chunk's
-// entries. Building each entry's URL and rendering the result, for example as sitemaps.org
-// XML with a language alternate per locale, is up to the site.
+// It holds what an anonymous visitor can read: public problems with their editorials, contests with their pages
+// and scoreboards, posts and pages. The index follows changes to those as they happen, so an entry's time is when
+// the object last changed. Entries are listed oldest first, so new objects are appended at the end and a site
+// can split the sitemap into files by offset. Building the pages of each entry and rendering them, for example
+// as sitemaps.org XML with a language alternate per locale, is up to the site.
 type SitemapServiceServer interface {
-	// ListSitemapChunks returns every chunk of the space's sitemap with its size and the time of its latest
-	// change, which is what a sitemap index lists.
-	ListSitemapChunks(context.Context, *ListSitemapChunksInput) (*ListSitemapChunksOutput, error)
-	// DescribeSitemapChunk returns all entries of one chunk.
-	DescribeSitemapChunk(context.Context, *DescribeSitemapChunkInput) (*DescribeSitemapChunkOutput, error)
+	// ListSitemapEntries returns entries ordered by creation time, oldest first, with the total number matching the
+	// filters.
+	ListSitemapEntries(context.Context, *ListSitemapEntriesInput) (*ListSitemapEntriesOutput, error)
 }
 
 // UnimplementedSitemapServiceServer should be embedded to have
@@ -96,11 +81,8 @@ type SitemapServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedSitemapServiceServer struct{}
 
-func (UnimplementedSitemapServiceServer) ListSitemapChunks(context.Context, *ListSitemapChunksInput) (*ListSitemapChunksOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListSitemapChunks not implemented")
-}
-func (UnimplementedSitemapServiceServer) DescribeSitemapChunk(context.Context, *DescribeSitemapChunkInput) (*DescribeSitemapChunkOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeSitemapChunk not implemented")
+func (UnimplementedSitemapServiceServer) ListSitemapEntries(context.Context, *ListSitemapEntriesInput) (*ListSitemapEntriesOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListSitemapEntries not implemented")
 }
 func (UnimplementedSitemapServiceServer) testEmbeddedByValue() {}
 
@@ -122,38 +104,20 @@ func RegisterSitemapServiceServer(s grpc.ServiceRegistrar, srv SitemapServiceSer
 	s.RegisterService(&SitemapService_ServiceDesc, srv)
 }
 
-func _SitemapService_ListSitemapChunks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListSitemapChunksInput)
+func _SitemapService_ListSitemapEntries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSitemapEntriesInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SitemapServiceServer).ListSitemapChunks(ctx, in)
+		return srv.(SitemapServiceServer).ListSitemapEntries(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SitemapService_ListSitemapChunks_FullMethodName,
+		FullMethod: SitemapService_ListSitemapEntries_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SitemapServiceServer).ListSitemapChunks(ctx, req.(*ListSitemapChunksInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SitemapService_DescribeSitemapChunk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeSitemapChunkInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SitemapServiceServer).DescribeSitemapChunk(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SitemapService_DescribeSitemapChunk_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SitemapServiceServer).DescribeSitemapChunk(ctx, req.(*DescribeSitemapChunkInput))
+		return srv.(SitemapServiceServer).ListSitemapEntries(ctx, req.(*ListSitemapEntriesInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -166,12 +130,8 @@ var SitemapService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SitemapServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListSitemapChunks",
-			Handler:    _SitemapService_ListSitemapChunks_Handler,
-		},
-		{
-			MethodName: "DescribeSitemapChunk",
-			Handler:    _SitemapService_DescribeSitemapChunk_Handler,
+			MethodName: "ListSitemapEntries",
+			Handler:    _SitemapService_ListSitemapEntries_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
