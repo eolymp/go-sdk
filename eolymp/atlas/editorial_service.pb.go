@@ -22,6 +22,66 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type EditorialChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+	Before        *Editorial             `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Editorial             `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EditorialChangedEvent) Reset() {
+	*x = EditorialChangedEvent{}
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EditorialChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EditorialChangedEvent) ProtoMessage() {}
+
+func (x *EditorialChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EditorialChangedEvent.ProtoReflect.Descriptor instead.
+func (*EditorialChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *EditorialChangedEvent) GetProblemId() string {
+	if x != nil {
+		return x.ProblemId
+	}
+	return ""
+}
+
+func (x *EditorialChangedEvent) GetBefore() *Editorial {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *EditorialChangedEvent) GetAfter() *Editorial {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
 type ListEditorialsInput struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	ProblemId string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
@@ -36,7 +96,7 @@ type ListEditorialsInput struct {
 
 func (x *ListEditorialsInput) Reset() {
 	*x = ListEditorialsInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +108,7 @@ func (x *ListEditorialsInput) String() string {
 func (*ListEditorialsInput) ProtoMessage() {}
 
 func (x *ListEditorialsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +121,7 @@ func (x *ListEditorialsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEditorialsInput.ProtoReflect.Descriptor instead.
 func (*ListEditorialsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListEditorialsInput) GetProblemId() string {
@@ -109,7 +169,7 @@ type ListEditorialsOutput struct {
 
 func (x *ListEditorialsOutput) Reset() {
 	*x = ListEditorialsOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -121,7 +181,7 @@ func (x *ListEditorialsOutput) String() string {
 func (*ListEditorialsOutput) ProtoMessage() {}
 
 func (x *ListEditorialsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -134,7 +194,7 @@ func (x *ListEditorialsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEditorialsOutput.ProtoReflect.Descriptor instead.
 func (*ListEditorialsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListEditorialsOutput) GetTotal() int32 {
@@ -163,7 +223,7 @@ type DescribeEditorialInput struct {
 
 func (x *DescribeEditorialInput) Reset() {
 	*x = DescribeEditorialInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -175,7 +235,7 @@ func (x *DescribeEditorialInput) String() string {
 func (*DescribeEditorialInput) ProtoMessage() {}
 
 func (x *DescribeEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -188,7 +248,7 @@ func (x *DescribeEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorialInput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *DescribeEditorialInput) GetProblemId() string {
@@ -228,7 +288,7 @@ type DescribeEditorialOutput struct {
 
 func (x *DescribeEditorialOutput) Reset() {
 	*x = DescribeEditorialOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -240,7 +300,7 @@ func (x *DescribeEditorialOutput) String() string {
 func (*DescribeEditorialOutput) ProtoMessage() {}
 
 func (x *DescribeEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -253,7 +313,7 @@ func (x *DescribeEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeEditorialOutput.ProtoReflect.Descriptor instead.
 func (*DescribeEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DescribeEditorialOutput) GetEditorial() *Editorial {
@@ -275,7 +335,7 @@ type LookupEditorialInput struct {
 
 func (x *LookupEditorialInput) Reset() {
 	*x = LookupEditorialInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -287,7 +347,7 @@ func (x *LookupEditorialInput) String() string {
 func (*LookupEditorialInput) ProtoMessage() {}
 
 func (x *LookupEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -300,7 +360,7 @@ func (x *LookupEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupEditorialInput.ProtoReflect.Descriptor instead.
 func (*LookupEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *LookupEditorialInput) GetProblemId() string {
@@ -340,7 +400,7 @@ type LookupEditorialOutput struct {
 
 func (x *LookupEditorialOutput) Reset() {
 	*x = LookupEditorialOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -352,7 +412,7 @@ func (x *LookupEditorialOutput) String() string {
 func (*LookupEditorialOutput) ProtoMessage() {}
 
 func (x *LookupEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +425,7 @@ func (x *LookupEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LookupEditorialOutput.ProtoReflect.Descriptor instead.
 func (*LookupEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LookupEditorialOutput) GetEditorial() *Editorial {
@@ -385,7 +445,7 @@ type PreviewEditorialInput struct {
 
 func (x *PreviewEditorialInput) Reset() {
 	*x = PreviewEditorialInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -397,7 +457,7 @@ func (x *PreviewEditorialInput) String() string {
 func (*PreviewEditorialInput) ProtoMessage() {}
 
 func (x *PreviewEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -410,7 +470,7 @@ func (x *PreviewEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PreviewEditorialInput.ProtoReflect.Descriptor instead.
 func (*PreviewEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *PreviewEditorialInput) GetProblemId() string {
@@ -436,7 +496,7 @@ type PreviewEditorialOutput struct {
 
 func (x *PreviewEditorialOutput) Reset() {
 	*x = PreviewEditorialOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -448,7 +508,7 @@ func (x *PreviewEditorialOutput) String() string {
 func (*PreviewEditorialOutput) ProtoMessage() {}
 
 func (x *PreviewEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -461,7 +521,7 @@ func (x *PreviewEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PreviewEditorialOutput.ProtoReflect.Descriptor instead.
 func (*PreviewEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *PreviewEditorialOutput) GetEditorial() *Editorial {
@@ -481,7 +541,7 @@ type CreateEditorialInput struct {
 
 func (x *CreateEditorialInput) Reset() {
 	*x = CreateEditorialInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -493,7 +553,7 @@ func (x *CreateEditorialInput) String() string {
 func (*CreateEditorialInput) ProtoMessage() {}
 
 func (x *CreateEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -506,7 +566,7 @@ func (x *CreateEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateEditorialInput.ProtoReflect.Descriptor instead.
 func (*CreateEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CreateEditorialInput) GetProblemId() string {
@@ -532,7 +592,7 @@ type CreateEditorialOutput struct {
 
 func (x *CreateEditorialOutput) Reset() {
 	*x = CreateEditorialOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -544,7 +604,7 @@ func (x *CreateEditorialOutput) String() string {
 func (*CreateEditorialOutput) ProtoMessage() {}
 
 func (x *CreateEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -557,7 +617,7 @@ func (x *CreateEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateEditorialOutput.ProtoReflect.Descriptor instead.
 func (*CreateEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CreateEditorialOutput) GetEditorialId() string {
@@ -578,7 +638,7 @@ type UpdateEditorialInput struct {
 
 func (x *UpdateEditorialInput) Reset() {
 	*x = UpdateEditorialInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[10]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -590,7 +650,7 @@ func (x *UpdateEditorialInput) String() string {
 func (*UpdateEditorialInput) ProtoMessage() {}
 
 func (x *UpdateEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[10]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -603,7 +663,7 @@ func (x *UpdateEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateEditorialInput.ProtoReflect.Descriptor instead.
 func (*UpdateEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UpdateEditorialInput) GetProblemId() string {
@@ -635,7 +695,7 @@ type UpdateEditorialOutput struct {
 
 func (x *UpdateEditorialOutput) Reset() {
 	*x = UpdateEditorialOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[11]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -647,7 +707,7 @@ func (x *UpdateEditorialOutput) String() string {
 func (*UpdateEditorialOutput) ProtoMessage() {}
 
 func (x *UpdateEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[11]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -660,7 +720,7 @@ func (x *UpdateEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateEditorialOutput.ProtoReflect.Descriptor instead.
 func (*UpdateEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{12}
 }
 
 type DeleteEditorialInput struct {
@@ -673,7 +733,7 @@ type DeleteEditorialInput struct {
 
 func (x *DeleteEditorialInput) Reset() {
 	*x = DeleteEditorialInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[12]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -685,7 +745,7 @@ func (x *DeleteEditorialInput) String() string {
 func (*DeleteEditorialInput) ProtoMessage() {}
 
 func (x *DeleteEditorialInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[12]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -698,7 +758,7 @@ func (x *DeleteEditorialInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteEditorialInput.ProtoReflect.Descriptor instead.
 func (*DeleteEditorialInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *DeleteEditorialInput) GetProblemId() string {
@@ -723,7 +783,7 @@ type DeleteEditorialOutput struct {
 
 func (x *DeleteEditorialOutput) Reset() {
 	*x = DeleteEditorialOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[13]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -735,7 +795,7 @@ func (x *DeleteEditorialOutput) String() string {
 func (*DeleteEditorialOutput) ProtoMessage() {}
 
 func (x *DeleteEditorialOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[13]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -748,7 +808,7 @@ func (x *DeleteEditorialOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteEditorialOutput.ProtoReflect.Descriptor instead.
 func (*DeleteEditorialOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{13}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{14}
 }
 
 type TranslateEditorialsInput struct {
@@ -764,7 +824,7 @@ type TranslateEditorialsInput struct {
 
 func (x *TranslateEditorialsInput) Reset() {
 	*x = TranslateEditorialsInput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[14]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -776,7 +836,7 @@ func (x *TranslateEditorialsInput) String() string {
 func (*TranslateEditorialsInput) ProtoMessage() {}
 
 func (x *TranslateEditorialsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[14]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -789,7 +849,7 @@ func (x *TranslateEditorialsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslateEditorialsInput.ProtoReflect.Descriptor instead.
 func (*TranslateEditorialsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{14}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *TranslateEditorialsInput) GetProblemId() string {
@@ -836,7 +896,7 @@ type TranslateEditorialsOutput struct {
 
 func (x *TranslateEditorialsOutput) Reset() {
 	*x = TranslateEditorialsOutput{}
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[15]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -848,7 +908,7 @@ func (x *TranslateEditorialsOutput) String() string {
 func (*TranslateEditorialsOutput) ProtoMessage() {}
 
 func (x *TranslateEditorialsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[15]
+	mi := &file_eolymp_atlas_editorial_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -861,7 +921,7 @@ func (x *TranslateEditorialsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranslateEditorialsOutput.ProtoReflect.Descriptor instead.
 func (*TranslateEditorialsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{15}
+	return file_eolymp_atlas_editorial_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *TranslateEditorialsOutput) GetJobId() string {
@@ -875,7 +935,12 @@ var File_eolymp_atlas_editorial_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_editorial_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\xb6\x01\n" +
+	"$eolymp/atlas/editorial_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/editorial.proto\"\x96\x01\n" +
+	"\x15EditorialChangedEvent\x12\x1d\n" +
+	"\n" +
+	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
+	"\x06before\x18\x02 \x01(\v2\x17.eolymp.atlas.EditorialR\x06before\x12-\n" +
+	"\x05after\x18\x03 \x01(\v2\x17.eolymp.atlas.EditorialR\x05after\"\xb6\x01\n" +
 	"\x13ListEditorialsInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12\x16\n" +
@@ -1015,60 +1080,63 @@ func file_eolymp_atlas_editorial_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_editorial_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_editorial_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_eolymp_atlas_editorial_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_eolymp_atlas_editorial_service_proto_goTypes = []any{
-	(*ListEditorialsInput)(nil),       // 0: eolymp.atlas.ListEditorialsInput
-	(*ListEditorialsOutput)(nil),      // 1: eolymp.atlas.ListEditorialsOutput
-	(*DescribeEditorialInput)(nil),    // 2: eolymp.atlas.DescribeEditorialInput
-	(*DescribeEditorialOutput)(nil),   // 3: eolymp.atlas.DescribeEditorialOutput
-	(*LookupEditorialInput)(nil),      // 4: eolymp.atlas.LookupEditorialInput
-	(*LookupEditorialOutput)(nil),     // 5: eolymp.atlas.LookupEditorialOutput
-	(*PreviewEditorialInput)(nil),     // 6: eolymp.atlas.PreviewEditorialInput
-	(*PreviewEditorialOutput)(nil),    // 7: eolymp.atlas.PreviewEditorialOutput
-	(*CreateEditorialInput)(nil),      // 8: eolymp.atlas.CreateEditorialInput
-	(*CreateEditorialOutput)(nil),     // 9: eolymp.atlas.CreateEditorialOutput
-	(*UpdateEditorialInput)(nil),      // 10: eolymp.atlas.UpdateEditorialInput
-	(*UpdateEditorialOutput)(nil),     // 11: eolymp.atlas.UpdateEditorialOutput
-	(*DeleteEditorialInput)(nil),      // 12: eolymp.atlas.DeleteEditorialInput
-	(*DeleteEditorialOutput)(nil),     // 13: eolymp.atlas.DeleteEditorialOutput
-	(*TranslateEditorialsInput)(nil),  // 14: eolymp.atlas.TranslateEditorialsInput
-	(*TranslateEditorialsOutput)(nil), // 15: eolymp.atlas.TranslateEditorialsOutput
-	(Editorial_Extra_Field)(0),        // 16: eolymp.atlas.Editorial.Extra.Field
+	(*EditorialChangedEvent)(nil),     // 0: eolymp.atlas.EditorialChangedEvent
+	(*ListEditorialsInput)(nil),       // 1: eolymp.atlas.ListEditorialsInput
+	(*ListEditorialsOutput)(nil),      // 2: eolymp.atlas.ListEditorialsOutput
+	(*DescribeEditorialInput)(nil),    // 3: eolymp.atlas.DescribeEditorialInput
+	(*DescribeEditorialOutput)(nil),   // 4: eolymp.atlas.DescribeEditorialOutput
+	(*LookupEditorialInput)(nil),      // 5: eolymp.atlas.LookupEditorialInput
+	(*LookupEditorialOutput)(nil),     // 6: eolymp.atlas.LookupEditorialOutput
+	(*PreviewEditorialInput)(nil),     // 7: eolymp.atlas.PreviewEditorialInput
+	(*PreviewEditorialOutput)(nil),    // 8: eolymp.atlas.PreviewEditorialOutput
+	(*CreateEditorialInput)(nil),      // 9: eolymp.atlas.CreateEditorialInput
+	(*CreateEditorialOutput)(nil),     // 10: eolymp.atlas.CreateEditorialOutput
+	(*UpdateEditorialInput)(nil),      // 11: eolymp.atlas.UpdateEditorialInput
+	(*UpdateEditorialOutput)(nil),     // 12: eolymp.atlas.UpdateEditorialOutput
+	(*DeleteEditorialInput)(nil),      // 13: eolymp.atlas.DeleteEditorialInput
+	(*DeleteEditorialOutput)(nil),     // 14: eolymp.atlas.DeleteEditorialOutput
+	(*TranslateEditorialsInput)(nil),  // 15: eolymp.atlas.TranslateEditorialsInput
+	(*TranslateEditorialsOutput)(nil), // 16: eolymp.atlas.TranslateEditorialsOutput
 	(*Editorial)(nil),                 // 17: eolymp.atlas.Editorial
-	(*Editorial_Patch)(nil),           // 18: eolymp.atlas.Editorial.Patch
+	(Editorial_Extra_Field)(0),        // 18: eolymp.atlas.Editorial.Extra.Field
+	(*Editorial_Patch)(nil),           // 19: eolymp.atlas.Editorial.Patch
 }
 var file_eolymp_atlas_editorial_service_proto_depIdxs = []int32{
-	16, // 0: eolymp.atlas.ListEditorialsInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
-	17, // 1: eolymp.atlas.ListEditorialsOutput.items:type_name -> eolymp.atlas.Editorial
-	16, // 2: eolymp.atlas.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
-	17, // 3: eolymp.atlas.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	16, // 4: eolymp.atlas.LookupEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
-	17, // 5: eolymp.atlas.LookupEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	17, // 6: eolymp.atlas.PreviewEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
-	17, // 7: eolymp.atlas.PreviewEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
-	17, // 8: eolymp.atlas.CreateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
-	18, // 9: eolymp.atlas.UpdateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial.Patch
-	8,  // 10: eolymp.atlas.EditorialService.CreateEditorial:input_type -> eolymp.atlas.CreateEditorialInput
-	10, // 11: eolymp.atlas.EditorialService.UpdateEditorial:input_type -> eolymp.atlas.UpdateEditorialInput
-	12, // 12: eolymp.atlas.EditorialService.DeleteEditorial:input_type -> eolymp.atlas.DeleteEditorialInput
-	2,  // 13: eolymp.atlas.EditorialService.DescribeEditorial:input_type -> eolymp.atlas.DescribeEditorialInput
-	4,  // 14: eolymp.atlas.EditorialService.LookupEditorial:input_type -> eolymp.atlas.LookupEditorialInput
-	6,  // 15: eolymp.atlas.EditorialService.PreviewEditorial:input_type -> eolymp.atlas.PreviewEditorialInput
-	0,  // 16: eolymp.atlas.EditorialService.ListEditorials:input_type -> eolymp.atlas.ListEditorialsInput
-	14, // 17: eolymp.atlas.EditorialService.TranslateEditorials:input_type -> eolymp.atlas.TranslateEditorialsInput
-	9,  // 18: eolymp.atlas.EditorialService.CreateEditorial:output_type -> eolymp.atlas.CreateEditorialOutput
-	11, // 19: eolymp.atlas.EditorialService.UpdateEditorial:output_type -> eolymp.atlas.UpdateEditorialOutput
-	13, // 20: eolymp.atlas.EditorialService.DeleteEditorial:output_type -> eolymp.atlas.DeleteEditorialOutput
-	3,  // 21: eolymp.atlas.EditorialService.DescribeEditorial:output_type -> eolymp.atlas.DescribeEditorialOutput
-	5,  // 22: eolymp.atlas.EditorialService.LookupEditorial:output_type -> eolymp.atlas.LookupEditorialOutput
-	7,  // 23: eolymp.atlas.EditorialService.PreviewEditorial:output_type -> eolymp.atlas.PreviewEditorialOutput
-	1,  // 24: eolymp.atlas.EditorialService.ListEditorials:output_type -> eolymp.atlas.ListEditorialsOutput
-	15, // 25: eolymp.atlas.EditorialService.TranslateEditorials:output_type -> eolymp.atlas.TranslateEditorialsOutput
-	18, // [18:26] is the sub-list for method output_type
-	10, // [10:18] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	17, // 0: eolymp.atlas.EditorialChangedEvent.before:type_name -> eolymp.atlas.Editorial
+	17, // 1: eolymp.atlas.EditorialChangedEvent.after:type_name -> eolymp.atlas.Editorial
+	18, // 2: eolymp.atlas.ListEditorialsInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
+	17, // 3: eolymp.atlas.ListEditorialsOutput.items:type_name -> eolymp.atlas.Editorial
+	18, // 4: eolymp.atlas.DescribeEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
+	17, // 5: eolymp.atlas.DescribeEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
+	18, // 6: eolymp.atlas.LookupEditorialInput.extra:type_name -> eolymp.atlas.Editorial.Extra.Field
+	17, // 7: eolymp.atlas.LookupEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
+	17, // 8: eolymp.atlas.PreviewEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
+	17, // 9: eolymp.atlas.PreviewEditorialOutput.editorial:type_name -> eolymp.atlas.Editorial
+	17, // 10: eolymp.atlas.CreateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial
+	19, // 11: eolymp.atlas.UpdateEditorialInput.editorial:type_name -> eolymp.atlas.Editorial.Patch
+	9,  // 12: eolymp.atlas.EditorialService.CreateEditorial:input_type -> eolymp.atlas.CreateEditorialInput
+	11, // 13: eolymp.atlas.EditorialService.UpdateEditorial:input_type -> eolymp.atlas.UpdateEditorialInput
+	13, // 14: eolymp.atlas.EditorialService.DeleteEditorial:input_type -> eolymp.atlas.DeleteEditorialInput
+	3,  // 15: eolymp.atlas.EditorialService.DescribeEditorial:input_type -> eolymp.atlas.DescribeEditorialInput
+	5,  // 16: eolymp.atlas.EditorialService.LookupEditorial:input_type -> eolymp.atlas.LookupEditorialInput
+	7,  // 17: eolymp.atlas.EditorialService.PreviewEditorial:input_type -> eolymp.atlas.PreviewEditorialInput
+	1,  // 18: eolymp.atlas.EditorialService.ListEditorials:input_type -> eolymp.atlas.ListEditorialsInput
+	15, // 19: eolymp.atlas.EditorialService.TranslateEditorials:input_type -> eolymp.atlas.TranslateEditorialsInput
+	10, // 20: eolymp.atlas.EditorialService.CreateEditorial:output_type -> eolymp.atlas.CreateEditorialOutput
+	12, // 21: eolymp.atlas.EditorialService.UpdateEditorial:output_type -> eolymp.atlas.UpdateEditorialOutput
+	14, // 22: eolymp.atlas.EditorialService.DeleteEditorial:output_type -> eolymp.atlas.DeleteEditorialOutput
+	4,  // 23: eolymp.atlas.EditorialService.DescribeEditorial:output_type -> eolymp.atlas.DescribeEditorialOutput
+	6,  // 24: eolymp.atlas.EditorialService.LookupEditorial:output_type -> eolymp.atlas.LookupEditorialOutput
+	8,  // 25: eolymp.atlas.EditorialService.PreviewEditorial:output_type -> eolymp.atlas.PreviewEditorialOutput
+	2,  // 26: eolymp.atlas.EditorialService.ListEditorials:output_type -> eolymp.atlas.ListEditorialsOutput
+	16, // 27: eolymp.atlas.EditorialService.TranslateEditorials:output_type -> eolymp.atlas.TranslateEditorialsOutput
+	20, // [20:28] is the sub-list for method output_type
+	12, // [12:20] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_editorial_service_proto_init() }
@@ -1083,7 +1151,7 @@ func file_eolymp_atlas_editorial_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_editorial_service_proto_rawDesc), len(file_eolymp_atlas_editorial_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
