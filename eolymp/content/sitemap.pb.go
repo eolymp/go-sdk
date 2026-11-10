@@ -31,6 +31,7 @@ const (
 	SitemapEntry_CONTEST            SitemapEntry_Type = 3
 	SitemapEntry_CONTEST_PAGE       SitemapEntry_Type = 4
 	SitemapEntry_CONTEST_SCOREBOARD SitemapEntry_Type = 5
+	SitemapEntry_SCOREBOARD         SitemapEntry_Type = 13 // a scoreboard combining several contests, see eolymp.scoreboard.Scoreboard
 	SitemapEntry_COURSE             SitemapEntry_Type = 6
 	SitemapEntry_COURSE_MODULE      SitemapEntry_Type = 7
 	SitemapEntry_COURSE_MATERIAL    SitemapEntry_Type = 8
@@ -49,6 +50,7 @@ var (
 		3:  "CONTEST",
 		4:  "CONTEST_PAGE",
 		5:  "CONTEST_SCOREBOARD",
+		13: "SCOREBOARD",
 		6:  "COURSE",
 		7:  "COURSE_MODULE",
 		8:  "COURSE_MATERIAL",
@@ -64,6 +66,7 @@ var (
 		"CONTEST":            3,
 		"CONTEST_PAGE":       4,
 		"CONTEST_SCOREBOARD": 5,
+		"SCOREBOARD":         13,
 		"COURSE":             6,
 		"COURSE_MODULE":      7,
 		"COURSE_MATERIAL":    8,
@@ -208,7 +211,7 @@ var File_eolymp_content_sitemap_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_sitemap_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/content/sitemap.proto\x12\x0eeolymp.content\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x05\n" +
+	"\x1ceolymp/content/sitemap.proto\x12\x0eeolymp.content\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\x05\n" +
 	"\fSitemapEntry\x125\n" +
 	"\x04type\x18\x01 \x01(\x0e2!.eolymp.content.SitemapEntry.TypeR\x04type\x12#\n" +
 	"\rresource_link\x18\x02 \x01(\tR\fresourceLink\x12\x14\n" +
@@ -225,14 +228,16 @@ const file_eolymp_content_sitemap_proto_rawDesc = "" +
 	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a=\n" +
 	"\x0fAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd4\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe4\x01\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\v\n" +
 	"\aPROBLEM\x10\x01\x12\x15\n" +
 	"\x11PROBLEM_EDITORIAL\x10\x02\x12\v\n" +
 	"\aCONTEST\x10\x03\x12\x10\n" +
 	"\fCONTEST_PAGE\x10\x04\x12\x16\n" +
-	"\x12CONTEST_SCOREBOARD\x10\x05\x12\n" +
+	"\x12CONTEST_SCOREBOARD\x10\x05\x12\x0e\n" +
+	"\n" +
+	"SCOREBOARD\x10\r\x12\n" +
 	"\n" +
 	"\x06COURSE\x10\x06\x12\x11\n" +
 	"\rCOURSE_MODULE\x10\a\x12\x13\n" +

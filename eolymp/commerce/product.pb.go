@@ -87,6 +87,8 @@ func (Product_Extra_Field) EnumDescriptor() ([]byte, []int) {
 type Product struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
 	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
 	Name         string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Summary      *ecm.Content           `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`         // short product specification
 	Description  *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"` // longer product description
@@ -143,6 +145,20 @@ func (*Product) Descriptor() ([]byte, []int) {
 func (x *Product) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *Product) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Product) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
 	}
 	return ""
 }
@@ -767,9 +783,12 @@ var File_eolymp_commerce_product_proto protoreflect.FileDescriptor
 
 const file_eolymp_commerce_product_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xad\x13\n" +
+	"\x1deolymp/commerce/product.proto\x12\x0feolymp.commerce\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\x83\x14\n" +
 	"\aProduct\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12-\n" +
 	"\asummary\x18\x03 \x01(\v2\x13.eolymp.ecm.ContentR\asummary\x125\n" +
 	"\vdescription\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x16\n" +

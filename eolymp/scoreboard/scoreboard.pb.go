@@ -131,8 +131,10 @@ func (Scoreboard_Visibility) EnumDescriptor() ([]byte, []int) {
 }
 
 type Scoreboard struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
 	// Must match [a-z][a-z0-9\-_]+. Unique within a space, and accepted anywhere the scoreboard id is.
 	Slug string `protobuf:"bytes,2,opt,name=slug,proto3" json:"slug,omitempty"`
 	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
@@ -182,6 +184,20 @@ func (*Scoreboard) Descriptor() ([]byte, []int) {
 func (x *Scoreboard) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *Scoreboard) GetResourceLink() string {
+	if x != nil {
+		return x.ResourceLink
+	}
+	return ""
+}
+
+func (x *Scoreboard) GetSpaceLink() string {
+	if x != nil {
+		return x.SpaceLink
 	}
 	return ""
 }
@@ -1460,10 +1476,13 @@ var File_eolymp_scoreboard_scoreboard_proto protoreflect.FileDescriptor
 
 const file_eolymp_scoreboard_scoreboard_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/scoreboard/scoreboard.proto\x12\x11eolymp.scoreboard\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xff\x13\n" +
+	"\"eolymp/scoreboard/scoreboard.proto\x12\x11eolymp.scoreboard\x1a\x1ceolymp/annotations/mcp.proto\x1a eolymp/community/attribute.proto\x1a\x1aeolymp/judge/contest.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd5\x14\n" +
 	"\n" +
 	"Scoreboard\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12,\n" +
+	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
+	"\n" +
+	"space_link\x18\xea\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\tspaceLink\x12\x12\n" +
 	"\x04slug\x18\x02 \x01(\tR\x04slug\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x17\n" +
 	"\abest_of\x18\x04 \x01(\rR\x06bestOf\x12H\n" +
