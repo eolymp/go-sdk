@@ -35,11 +35,12 @@ const (
 //
 // Topics belong to the space: they are defined once here, and problems then point at them from their
 // classification, which is what lets the problem archive be browsed and filtered by subject. A topic's name,
-// summary and keywords are translatable, so the same classification reads correctly in each language a space
-// publishes in.
+// summary, keywords and description are translatable, so the same classification reads correctly in each language
+// a space publishes in.
 type TopicServiceClient interface {
-	// DescribeTopic returns one topic, either resolved into a single language or carrying all of its
-	// translations — the first is what a page showing the topic needs, the second what a form editing it needs.
+	// DescribeTopic returns one topic, or its translation when a locale is given. A locale without a translation
+	// returns the topic itself. The description is only returned when asked for with DESCRIPTION_VALUE or
+	// DESCRIPTION_RENDER.
 	DescribeTopic(ctx context.Context, in *DescribeTopicInput, opts ...grpc.CallOption) (*DescribeTopicOutput, error)
 	// ListTopics pages through the topics a space has defined, which is what fills the topic settings of a space
 	// and the choice of topics offered when a problem is classified. Names can be resolved for a chosen language,
@@ -49,11 +50,11 @@ type TopicServiceClient interface {
 	// itself: the problems on the topic still have to be pointed at it through their classification.
 	CreateTopic(ctx context.Context, in *CreateTopicInput, opts ...grpc.CallOption) (*CreateTopicOutput, error)
 	// UpdateTopic rewrites a topic in place, so the change surfaces on every problem already classified under it
-	// without any of them being touched. There is no field mask here, the topic is written whole, so send the
-	// complete record even when only one language changes.
+	// without any of them being touched. There is no field mask here, the topic is written whole. With a locale it
+	// writes that translation instead, creating it when missing.
 	UpdateTopic(ctx context.Context, in *UpdateTopicInput, opts ...grpc.CallOption) (*UpdateTopicOutput, error)
 	// DeleteTopic removes the topic from the space and from every problem classified under it, leaving the
-	// problems themselves in place.
+	// problems themselves in place. With a locale it removes only that translation.
 	DeleteTopic(ctx context.Context, in *DeleteTopicInput, opts ...grpc.CallOption) (*DeleteTopicOutput, error)
 }
 
@@ -124,11 +125,12 @@ func (c *topicServiceClient) DeleteTopic(ctx context.Context, in *DeleteTopicInp
 //
 // Topics belong to the space: they are defined once here, and problems then point at them from their
 // classification, which is what lets the problem archive be browsed and filtered by subject. A topic's name,
-// summary and keywords are translatable, so the same classification reads correctly in each language a space
-// publishes in.
+// summary, keywords and description are translatable, so the same classification reads correctly in each language
+// a space publishes in.
 type TopicServiceServer interface {
-	// DescribeTopic returns one topic, either resolved into a single language or carrying all of its
-	// translations — the first is what a page showing the topic needs, the second what a form editing it needs.
+	// DescribeTopic returns one topic, or its translation when a locale is given. A locale without a translation
+	// returns the topic itself. The description is only returned when asked for with DESCRIPTION_VALUE or
+	// DESCRIPTION_RENDER.
 	DescribeTopic(context.Context, *DescribeTopicInput) (*DescribeTopicOutput, error)
 	// ListTopics pages through the topics a space has defined, which is what fills the topic settings of a space
 	// and the choice of topics offered when a problem is classified. Names can be resolved for a chosen language,
@@ -138,11 +140,11 @@ type TopicServiceServer interface {
 	// itself: the problems on the topic still have to be pointed at it through their classification.
 	CreateTopic(context.Context, *CreateTopicInput) (*CreateTopicOutput, error)
 	// UpdateTopic rewrites a topic in place, so the change surfaces on every problem already classified under it
-	// without any of them being touched. There is no field mask here, the topic is written whole, so send the
-	// complete record even when only one language changes.
+	// without any of them being touched. There is no field mask here, the topic is written whole. With a locale it
+	// writes that translation instead, creating it when missing.
 	UpdateTopic(context.Context, *UpdateTopicInput) (*UpdateTopicOutput, error)
 	// DeleteTopic removes the topic from the space and from every problem classified under it, leaving the
-	// problems themselves in place.
+	// problems themselves in place. With a locale it removes only that translation.
 	DeleteTopic(context.Context, *DeleteTopicInput) (*DeleteTopicOutput, error)
 }
 

@@ -346,6 +346,7 @@ func (x *CreateTopicOutput) GetTopicId() string {
 type UpdateTopicInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TopicId       string                 `protobuf:"bytes,1,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`
+	Locale        string                 `protobuf:"bytes,3,opt,name=locale,proto3" json:"locale,omitempty"` // update the topic when empty, update its translation when set
 	Topic         *Topic                 `protobuf:"bytes,2,opt,name=topic,proto3" json:"topic,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -384,6 +385,13 @@ func (*UpdateTopicInput) Descriptor() ([]byte, []int) {
 func (x *UpdateTopicInput) GetTopicId() string {
 	if x != nil {
 		return x.TopicId
+	}
+	return ""
+}
+
+func (x *UpdateTopicInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
 	}
 	return ""
 }
@@ -434,6 +442,7 @@ func (*UpdateTopicOutput) Descriptor() ([]byte, []int) {
 type DeleteTopicInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TopicId       string                 `protobuf:"bytes,1,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`
+	Locale        string                 `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"` // delete the topic when empty, delete only its translation when set
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -471,6 +480,13 @@ func (*DeleteTopicInput) Descriptor() ([]byte, []int) {
 func (x *DeleteTopicInput) GetTopicId() string {
 	if x != nil {
 		return x.TopicId
+	}
+	return ""
+}
+
+func (x *DeleteTopicInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
 	}
 	return ""
 }
@@ -536,13 +552,15 @@ const file_eolymp_atlas_topic_service_proto_rawDesc = "" +
 	"\x10CreateTopicInput\x12)\n" +
 	"\x05topic\x18\x01 \x01(\v2\x13.eolymp.atlas.TopicR\x05topic\".\n" +
 	"\x11CreateTopicOutput\x12\x19\n" +
-	"\btopic_id\x18\x01 \x01(\tR\atopicId\"X\n" +
+	"\btopic_id\x18\x01 \x01(\tR\atopicId\"p\n" +
 	"\x10UpdateTopicInput\x12\x19\n" +
-	"\btopic_id\x18\x01 \x01(\tR\atopicId\x12)\n" +
+	"\btopic_id\x18\x01 \x01(\tR\atopicId\x12\x16\n" +
+	"\x06locale\x18\x03 \x01(\tR\x06locale\x12)\n" +
 	"\x05topic\x18\x02 \x01(\v2\x13.eolymp.atlas.TopicR\x05topic\"\x13\n" +
-	"\x11UpdateTopicOutput\"-\n" +
+	"\x11UpdateTopicOutput\"E\n" +
 	"\x10DeleteTopicInput\x12\x19\n" +
-	"\btopic_id\x18\x01 \x01(\tR\atopicId\"\x13\n" +
+	"\btopic_id\x18\x01 \x01(\tR\atopicId\x12\x16\n" +
+	"\x06locale\x18\x02 \x01(\tR\x06locale\"\x13\n" +
 	"\x11DeleteTopicOutput2\xb2\x06\n" +
 	"\fTopicService\x12\xa2\x01\n" +
 	"\rDescribeTopic\x12 .eolymp.atlas.DescribeTopicInput\x1a!.eolymp.atlas.DescribeTopicOutput\"L\xea\xe2\n" +

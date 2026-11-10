@@ -7,6 +7,8 @@
 package atlas
 
 import (
+	_ "github.com/eolymp/go-sdk/eolymp/annotations"
+	ecm "github.com/eolymp/go-sdk/eolymp/ecm"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -25,7 +27,10 @@ type Topic_Extra int32
 
 const (
 	Topic_UNKNOWN_EXTRA Topic_Extra = 0
-	Topic_VARIANTS      Topic_Extra = 1 // include topic translations
+	// Deprecated: Marked as deprecated in eolymp/atlas/topic.proto.
+	Topic_VARIANTS           Topic_Extra = 1 // deprecated, read a translation with `locale` and list them with `locales`
+	Topic_DESCRIPTION_VALUE  Topic_Extra = 2 // include description source (original Markdown, LaTeX etc)
+	Topic_DESCRIPTION_RENDER Topic_Extra = 3 // include rendered description in ECM
 )
 
 // Enum value maps for Topic_Extra.
@@ -33,10 +38,14 @@ var (
 	Topic_Extra_name = map[int32]string{
 		0: "UNKNOWN_EXTRA",
 		1: "VARIANTS",
+		2: "DESCRIPTION_VALUE",
+		3: "DESCRIPTION_RENDER",
 	}
 	Topic_Extra_value = map[string]int32{
-		"UNKNOWN_EXTRA": 0,
-		"VARIANTS":      1,
+		"UNKNOWN_EXTRA":      0,
+		"VARIANTS":           1,
+		"DESCRIPTION_VALUE":  2,
+		"DESCRIPTION_RENDER": 3,
 	}
 )
 
@@ -68,12 +77,16 @@ func (Topic_Extra) EnumDescriptor() ([]byte, []int) {
 }
 
 type Topic struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
-	Keywords      []string               `protobuf:"bytes,4,rep,name=keywords,proto3" json:"keywords,omitempty"`
-	Variants      []*Topic_Variant       `protobuf:"bytes,100,rep,name=variants,proto3" json:"variants,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name        string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Summary     string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"` // short plain-text summary, used in listings and page descriptions
+	Keywords    []string               `protobuf:"bytes,4,rep,name=keywords,proto3" json:"keywords,omitempty"`
+	Description *ecm.Content           `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"` // explanation of the topic, shown on the topic's page
+	Locale      string                 `protobuf:"bytes,6,opt,name=locale,proto3" json:"locale,omitempty"`           // locale of the translation being read, empty when reading the topic itself
+	Locales     []string               `protobuf:"bytes,7,rep,name=locales,proto3" json:"locales,omitempty"`         // locales this topic has translations for
+	// Deprecated: Marked as deprecated in eolymp/atlas/topic.proto.
+	Variants      []*Topic_Variant `protobuf:"bytes,100,rep,name=variants,proto3" json:"variants,omitempty"` // deprecated, read a translation with `locale` and list them with `locales`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -136,6 +149,28 @@ func (x *Topic) GetKeywords() []string {
 	return nil
 }
 
+func (x *Topic) GetDescription() *ecm.Content {
+	if x != nil {
+		return x.Description
+	}
+	return nil
+}
+
+func (x *Topic) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *Topic) GetLocales() []string {
+	if x != nil {
+		return x.Locales
+	}
+	return nil
+}
+
+// Deprecated: Marked as deprecated in eolymp/atlas/topic.proto.
 func (x *Topic) GetVariants() []*Topic_Variant {
 	if x != nil {
 		return x.Variants
@@ -143,6 +178,7 @@ func (x *Topic) GetVariants() []*Topic_Variant {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in eolymp/atlas/topic.proto.
 type Topic_Variant struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Locale        string                 `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
@@ -215,21 +251,26 @@ var File_eolymp_atlas_topic_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_topic_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/topic.proto\x12\feolymp.atlas\"\xb1\x02\n" +
+	"\x18eolymp/atlas/topic.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xe5\x03\n" +
 	"\x05Topic\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1a\n" +
-	"\bkeywords\x18\x04 \x03(\tR\bkeywords\x127\n" +
-	"\bvariants\x18d \x03(\v2\x1b.eolymp.atlas.Topic.VariantR\bvariants\x1ak\n" +
+	"\bkeywords\x18\x04 \x03(\tR\bkeywords\x125\n" +
+	"\vdescription\x18\x05 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x1e\n" +
+	"\x06locale\x18\x06 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06locale\x12 \n" +
+	"\alocales\x18\a \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\alocales\x12;\n" +
+	"\bvariants\x18d \x03(\v2\x1b.eolymp.atlas.Topic.VariantB\x02\x18\x01R\bvariants\x1ao\n" +
 	"\aVariant\x12\x16\n" +
 	"\x06locale\x18\x01 \x01(\tR\x06locale\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
 	"\asummary\x18\x03 \x01(\tR\asummary\x12\x1a\n" +
-	"\bkeywords\x18\x04 \x03(\tR\bkeywords\"(\n" +
+	"\bkeywords\x18\x04 \x03(\tR\bkeywords:\x02\x18\x01\"[\n" +
 	"\x05Extra\x12\x11\n" +
-	"\rUNKNOWN_EXTRA\x10\x00\x12\f\n" +
-	"\bVARIANTS\x10\x01B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
+	"\rUNKNOWN_EXTRA\x10\x00\x12\x10\n" +
+	"\bVARIANTS\x10\x01\x1a\x02\b\x01\x12\x15\n" +
+	"\x11DESCRIPTION_VALUE\x10\x02\x12\x16\n" +
+	"\x12DESCRIPTION_RENDER\x10\x03B-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 
 var (
 	file_eolymp_atlas_topic_proto_rawDescOnce sync.Once
@@ -249,14 +290,16 @@ var file_eolymp_atlas_topic_proto_goTypes = []any{
 	(Topic_Extra)(0),      // 0: eolymp.atlas.Topic.Extra
 	(*Topic)(nil),         // 1: eolymp.atlas.Topic
 	(*Topic_Variant)(nil), // 2: eolymp.atlas.Topic.Variant
+	(*ecm.Content)(nil),   // 3: eolymp.ecm.Content
 }
 var file_eolymp_atlas_topic_proto_depIdxs = []int32{
-	2, // 0: eolymp.atlas.Topic.variants:type_name -> eolymp.atlas.Topic.Variant
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 0: eolymp.atlas.Topic.description:type_name -> eolymp.ecm.Content
+	2, // 1: eolymp.atlas.Topic.variants:type_name -> eolymp.atlas.Topic.Variant
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_topic_proto_init() }
