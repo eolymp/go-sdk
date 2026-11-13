@@ -126,21 +126,22 @@ func (Fragment_Extra_Field) EnumDescriptor() ([]byte, []int) {
 }
 
 type Fragment struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ResourceLink string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
-	SpaceLink    string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
-	ConsoleLink  string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
-	Path         string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                       // derived: the parent's path plus this fragment's slug; eolymp.judge still authors it
-	ParentId     string                 `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
-	Slug         string                 `protobuf:"bytes,18,opt,name=slug,proto3" json:"slug,omitempty"`
-	Position     int32                  `protobuf:"varint,19,opt,name=position,proto3" json:"position,omitempty"`                                             // order among the fragments sharing a parent
-	Locale       string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // locale of the translation being read, empty when reading the fragment itself
-	Locales      []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`                                                // locales this fragment has translations for
-	Draft        bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                   // content is only visible to admin
-	Automatic    bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`                                           // content generated automatically
-	Visibility   Fragment_Visibility    `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility" json:"visibility,omitempty"` // treated as PUBLIC unless set otherwise
-	Title        string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ResourceLink  string                 `protobuf:"bytes,1001,opt,name=resource_link,json=resourceLink,proto3" json:"resource_link,omitempty"` // canonical URL of this resource in the API
+	SpaceLink     string                 `protobuf:"bytes,1002,opt,name=space_link,json=spaceLink,proto3" json:"space_link,omitempty"`          // page on the space's own site, empty when it has none
+	ConsoleLink   string                 `protobuf:"bytes,1003,opt,name=console_link,json=consoleLink,proto3" json:"console_link,omitempty"`    // page in the console
+	Path          string                 `protobuf:"bytes,10,opt,name=path,proto3" json:"path,omitempty"`                                       // derived: the parent's path plus this fragment's slug; eolymp.judge still authors it
+	ParentId      string                 `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Slug          string                 `protobuf:"bytes,18,opt,name=slug,proto3" json:"slug,omitempty"`
+	Position      int32                  `protobuf:"varint,19,opt,name=position,proto3" json:"position,omitempty"`                                             // order among the fragments sharing a parent
+	Locale        string                 `protobuf:"bytes,11,opt,name=locale,proto3" json:"locale,omitempty"`                                                  // locale of the translation being read, empty when reading the fragment itself
+	Locales       []string               `protobuf:"bytes,14,rep,name=locales,proto3" json:"locales,omitempty"`                                                // locales this fragment has translations for
+	Draft         bool                   `protobuf:"varint,13,opt,name=draft,proto3" json:"draft,omitempty"`                                                   // content is only visible to admin
+	Automatic     bool                   `protobuf:"varint,15,opt,name=automatic,proto3" json:"automatic,omitempty"`                                           // content generated automatically
+	Visibility    Fragment_Visibility    `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility" json:"visibility,omitempty"` // treated as PUBLIC unless set otherwise
+	AllowFeedback bool                   `protobuf:"varint,20,opt,name=allow_feedback,json=allowFeedback,proto3" json:"allow_feedback,omitempty"`
+	Title         string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
 	// Types that are valid to be assigned to Kind:
 	//
 	//	*Fragment_Content
@@ -272,6 +273,13 @@ func (x *Fragment) GetVisibility() Fragment_Visibility {
 		return x.Visibility
 	}
 	return Fragment_VISIBILITY_UNKNOWN
+}
+
+func (x *Fragment) GetAllowFeedback() bool {
+	if x != nil {
+		return x.AllowFeedback
+	}
+	return false
 }
 
 func (x *Fragment) GetTitle() string {
@@ -426,15 +434,16 @@ func (*Fragment_Extra) Descriptor() ([]byte, []int) {
 }
 
 type Fragment_Patch struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	Path       *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"` // set parent_id and slug instead, the path is derived from them
-	ParentId   *string                `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
-	Slug       *string                `protobuf:"bytes,18,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
-	Position   *int32                 `protobuf:"varint,19,opt,name=position,proto3,oneof" json:"position,omitempty"`
-	Draft      *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
-	Automatic  *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
-	Title      *string                `protobuf:"bytes,12,opt,name=title,proto3,oneof" json:"title,omitempty"`
-	Visibility *Fragment_Visibility   `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility,oneof" json:"visibility,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Path          *string                `protobuf:"bytes,10,opt,name=path,proto3,oneof" json:"path,omitempty"` // set parent_id and slug instead, the path is derived from them
+	ParentId      *string                `protobuf:"bytes,17,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`
+	Slug          *string                `protobuf:"bytes,18,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
+	Position      *int32                 `protobuf:"varint,19,opt,name=position,proto3,oneof" json:"position,omitempty"`
+	Draft         *bool                  `protobuf:"varint,13,opt,name=draft,proto3,oneof" json:"draft,omitempty"`
+	Automatic     *bool                  `protobuf:"varint,15,opt,name=automatic,proto3,oneof" json:"automatic,omitempty"`
+	Title         *string                `protobuf:"bytes,12,opt,name=title,proto3,oneof" json:"title,omitempty"`
+	Visibility    *Fragment_Visibility   `protobuf:"varint,16,opt,name=visibility,proto3,enum=eolymp.content.Fragment_Visibility,oneof" json:"visibility,omitempty"`
+	AllowFeedback *bool                  `protobuf:"varint,20,opt,name=allow_feedback,json=allowFeedback,proto3,oneof" json:"allow_feedback,omitempty"`
 	// what the fragment is: a page with content, or a link somewhere else. Writing one replaces the other.
 	//
 	// Types that are valid to be assigned to Kind:
@@ -534,6 +543,13 @@ func (x *Fragment_Patch) GetVisibility() Fragment_Visibility {
 	return Fragment_VISIBILITY_UNKNOWN
 }
 
+func (x *Fragment_Patch) GetAllowFeedback() bool {
+	if x != nil && x.AllowFeedback != nil {
+		return *x.AllowFeedback
+	}
+	return false
+}
+
 func (x *Fragment_Patch) GetKind() isFragment_Patch_Kind {
 	if x != nil {
 		return x.Kind
@@ -593,7 +609,7 @@ var File_eolymp_content_content_fragment_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb7\x0f\n" +
+	"%eolymp/content/content_fragment.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf7\x10\n" +
 	"\bFragment\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12,\n" +
 	"\rresource_link\x18\xe9\a \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\fresourceLink\x12&\n" +
@@ -611,7 +627,8 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\tautomatic\x18\x0f \x01(\bR\tautomatic\x12C\n" +
 	"\n" +
 	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityR\n" +
-	"visibility\x12\x14\n" +
+	"visibility\x12\x7f\n" +
+	"\x0eallow_feedback\x18\x14 \x01(\bBX\xa2\xf0\xf0\xe4\x01Rreaders are asked whether the page helped them, see eolymp.content.FeedbackServiceR\rallowFeedback\x12\x14\n" +
 	"\x05title\x18\f \x01(\tR\x05title\x12/\n" +
 	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentH\x00R\acontent\x123\n" +
 	"\x04link\x184 \x01(\v2\x1d.eolymp.content.Fragment.LinkH\x00R\x04link\x12A\n" +
@@ -626,7 +643,7 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x12\n" +
 	"\x0eCONTENT_RENDER\x10\x01\x12\x11\n" +
-	"\rCONTENT_VALUE\x10\x02\x1a\xc2\x04\n" +
+	"\rCONTENT_VALUE\x10\x02\x1a\x81\x05\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04path\x18\n" +
 	" \x01(\tH\x01R\x04path\x88\x01\x01\x12 \n" +
@@ -638,11 +655,13 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\x05title\x18\f \x01(\tH\aR\x05title\x88\x01\x01\x12H\n" +
 	"\n" +
 	"visibility\x18\x10 \x01(\x0e2#.eolymp.content.Fragment.VisibilityH\bR\n" +
-	"visibility\x88\x01\x01\x12/\n" +
+	"visibility\x88\x01\x01\x12*\n" +
+	"\x0eallow_feedback\x18\x14 \x01(\bH\tR\rallowFeedback\x88\x01\x01\x12/\n" +
 	"\acontent\x183 \x01(\v2\x13.eolymp.ecm.ContentH\x00R\acontent\x123\n" +
 	"\x04link\x184 \x01(\v2\x1d.eolymp.content.Fragment.LinkH\x00R\x04link\x12\x16\n" +
 	"\x06labels\x18d \x03(\tR\x06labels\x12&\n" +
-	"\funset_labels\x18e \x01(\bH\tR\vunsetLabels\x88\x01\x01B\x06\n" +
+	"\funset_labels\x18e \x01(\bH\n" +
+	"R\vunsetLabels\x88\x01\x01B\x06\n" +
 	"\x04kindB\a\n" +
 	"\x05_pathB\f\n" +
 	"\n" +
@@ -653,7 +672,8 @@ const file_eolymp_content_content_fragment_proto_rawDesc = "" +
 	"\n" +
 	"_automaticB\b\n" +
 	"\x06_titleB\r\n" +
-	"\v_visibilityB\x0f\n" +
+	"\v_visibilityB\x11\n" +
+	"\x0f_allow_feedbackB\x0f\n" +
 	"\r_unset_labelsJ\x04\b\v\x10\f\"\xaa\x02\n" +
 	"\n" +
 	"Visibility\x12\x16\n" +
