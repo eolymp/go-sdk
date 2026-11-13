@@ -39,6 +39,7 @@ const (
 	SitemapEntry_PAGE               SitemapEntry_Type = 10 // a page of the space's site, see Fragment
 	SitemapEntry_MEMBER             SitemapEntry_Type = 11 // a member's profile
 	SitemapEntry_PRODUCT            SitemapEntry_Type = 12 // a product in the space's store
+	SitemapEntry_TOPIC              SitemapEntry_Type = 14 // a problem topic, see eolymp.atlas.Topic
 )
 
 // Enum value maps for SitemapEntry_Type.
@@ -58,6 +59,7 @@ var (
 		10: "PAGE",
 		11: "MEMBER",
 		12: "PRODUCT",
+		14: "TOPIC",
 	}
 	SitemapEntry_Type_value = map[string]int32{
 		"UNKNOWN_TYPE":       0,
@@ -74,6 +76,7 @@ var (
 		"PAGE":               10,
 		"MEMBER":             11,
 		"PRODUCT":            12,
+		"TOPIC":              14,
 	}
 )
 
@@ -211,7 +214,7 @@ var File_eolymp_content_sitemap_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_sitemap_proto_rawDesc = "" +
 	"\n" +
-	"\x1ceolymp/content/sitemap.proto\x12\x0eeolymp.content\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa7\x05\n" +
+	"\x1ceolymp/content/sitemap.proto\x12\x0eeolymp.content\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb2\x05\n" +
 	"\fSitemapEntry\x125\n" +
 	"\x04type\x18\x01 \x01(\x0e2!.eolymp.content.SitemapEntry.TypeR\x04type\x12#\n" +
 	"\rresource_link\x18\x02 \x01(\tR\fresourceLink\x12\x14\n" +
@@ -228,7 +231,7 @@ const file_eolymp_content_sitemap_proto_rawDesc = "" +
 	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a=\n" +
 	"\x0fAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe4\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xef\x01\n" +
 	"\x04Type\x12\x10\n" +
 	"\fUNKNOWN_TYPE\x10\x00\x12\v\n" +
 	"\aPROBLEM\x10\x01\x12\x15\n" +
@@ -247,7 +250,8 @@ const file_eolymp_content_sitemap_proto_rawDesc = "" +
 	"\x12\n" +
 	"\n" +
 	"\x06MEMBER\x10\v\x12\v\n" +
-	"\aPRODUCT\x10\fB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\aPRODUCT\x10\f\x12\t\n" +
+	"\x05TOPIC\x10\x0eB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_sitemap_proto_rawDescOnce sync.Once

@@ -78,9 +78,11 @@ type Topic struct {
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"` // short plain-text summary, used in listings and page descriptions
 	Keywords      []string               `protobuf:"bytes,4,rep,name=keywords,proto3" json:"keywords,omitempty"`
-	Description   *ecm.Content           `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"` // explanation of the topic, shown on the topic's page
-	Locale        string                 `protobuf:"bytes,6,opt,name=locale,proto3" json:"locale,omitempty"`           // locale of the translation being read, empty when reading the topic itself
-	Locales       []string               `protobuf:"bytes,7,rep,name=locales,proto3" json:"locales,omitempty"`         // locales this topic has translations for
+	Description   *ecm.Content           `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`                        // explanation of the topic, shown on the topic's page
+	Locale        string                 `protobuf:"bytes,6,opt,name=locale,proto3" json:"locale,omitempty"`                                  // locale of the translation being read, empty when reading the topic itself
+	Locales       []string               `protobuf:"bytes,7,rep,name=locales,proto3" json:"locales,omitempty"`                                // locales this topic has translations for
+	ImageUrl      string                 `protobuf:"bytes,8,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`              // illustration shown next to the topic in listings, the same in every locale
+	ProblemCount  uint32                 `protobuf:"varint,9,opt,name=problem_count,json=problemCount,proto3" json:"problem_count,omitempty"` // number of visible problems classified under this topic
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -164,11 +166,25 @@ func (x *Topic) GetLocales() []string {
 	return nil
 }
 
+func (x *Topic) GetImageUrl() string {
+	if x != nil {
+		return x.ImageUrl
+	}
+	return ""
+}
+
+func (x *Topic) GetProblemCount() uint32 {
+	if x != nil {
+		return x.ProblemCount
+	}
+	return 0
+}
+
 var File_eolymp_atlas_topic_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_topic_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/topic.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xa5\x02\n" +
+	"\x18eolymp/atlas/topic.proto\x12\feolymp.atlas\x1a\x1ceolymp/annotations/mcp.proto\x1a\x18eolymp/ecm/content.proto\"\xef\x02\n" +
 	"\x05Topic\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
@@ -176,7 +192,9 @@ const file_eolymp_atlas_topic_proto_rawDesc = "" +
 	"\bkeywords\x18\x04 \x03(\tR\bkeywords\x125\n" +
 	"\vdescription\x18\x05 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x1e\n" +
 	"\x06locale\x18\x06 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06locale\x12 \n" +
-	"\alocales\x18\a \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\alocales\"I\n" +
+	"\alocales\x18\a \x03(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\alocales\x12\x1b\n" +
+	"\timage_url\x18\b \x01(\tR\bimageUrl\x12+\n" +
+	"\rproblem_count\x18\t \x01(\rB\x06\xa8\xf0\xf0\xe4\x01\x01R\fproblemCount\"I\n" +
 	"\x05Extra\x12\x11\n" +
 	"\rUNKNOWN_EXTRA\x10\x00\x12\x15\n" +
 	"\x11DESCRIPTION_VALUE\x10\x02\x12\x16\n" +
