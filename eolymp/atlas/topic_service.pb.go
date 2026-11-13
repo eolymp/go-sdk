@@ -22,6 +22,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type TopicChangedEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Before        *Topic                 `protobuf:"bytes,1,opt,name=before,proto3" json:"before,omitempty"`
+	After         *Topic                 `protobuf:"bytes,2,opt,name=after,proto3" json:"after,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TopicChangedEvent) Reset() {
+	*x = TopicChangedEvent{}
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TopicChangedEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TopicChangedEvent) ProtoMessage() {}
+
+func (x *TopicChangedEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TopicChangedEvent.ProtoReflect.Descriptor instead.
+func (*TopicChangedEvent) Descriptor() ([]byte, []int) {
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *TopicChangedEvent) GetBefore() *Topic {
+	if x != nil {
+		return x.Before
+	}
+	return nil
+}
+
+func (x *TopicChangedEvent) GetAfter() *Topic {
+	if x != nil {
+		return x.After
+	}
+	return nil
+}
+
 type DescribeTopicInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TopicId       string                 `protobuf:"bytes,1,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`
@@ -33,7 +85,7 @@ type DescribeTopicInput struct {
 
 func (x *DescribeTopicInput) Reset() {
 	*x = DescribeTopicInput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +97,7 @@ func (x *DescribeTopicInput) String() string {
 func (*DescribeTopicInput) ProtoMessage() {}
 
 func (x *DescribeTopicInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[0]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +110,7 @@ func (x *DescribeTopicInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTopicInput.ProtoReflect.Descriptor instead.
 func (*DescribeTopicInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{0}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *DescribeTopicInput) GetTopicId() string {
@@ -91,7 +143,7 @@ type DescribeTopicOutput struct {
 
 func (x *DescribeTopicOutput) Reset() {
 	*x = DescribeTopicOutput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -103,7 +155,7 @@ func (x *DescribeTopicOutput) String() string {
 func (*DescribeTopicOutput) ProtoMessage() {}
 
 func (x *DescribeTopicOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[1]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -116,7 +168,7 @@ func (x *DescribeTopicOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeTopicOutput.ProtoReflect.Descriptor instead.
 func (*DescribeTopicOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{1}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *DescribeTopicOutput) GetTopic() *Topic {
@@ -140,7 +192,7 @@ type ListTopicsInput struct {
 
 func (x *ListTopicsInput) Reset() {
 	*x = ListTopicsInput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -152,7 +204,7 @@ func (x *ListTopicsInput) String() string {
 func (*ListTopicsInput) ProtoMessage() {}
 
 func (x *ListTopicsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[2]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -165,7 +217,7 @@ func (x *ListTopicsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTopicsInput.ProtoReflect.Descriptor instead.
 func (*ListTopicsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{2}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListTopicsInput) GetOffset() int32 {
@@ -213,7 +265,7 @@ type ListTopicsOutput struct {
 
 func (x *ListTopicsOutput) Reset() {
 	*x = ListTopicsOutput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -225,7 +277,7 @@ func (x *ListTopicsOutput) String() string {
 func (*ListTopicsOutput) ProtoMessage() {}
 
 func (x *ListTopicsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[3]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -238,7 +290,7 @@ func (x *ListTopicsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTopicsOutput.ProtoReflect.Descriptor instead.
 func (*ListTopicsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{3}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListTopicsOutput) GetTotal() int32 {
@@ -264,7 +316,7 @@ type CreateTopicInput struct {
 
 func (x *CreateTopicInput) Reset() {
 	*x = CreateTopicInput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -276,7 +328,7 @@ func (x *CreateTopicInput) String() string {
 func (*CreateTopicInput) ProtoMessage() {}
 
 func (x *CreateTopicInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[4]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -289,7 +341,7 @@ func (x *CreateTopicInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTopicInput.ProtoReflect.Descriptor instead.
 func (*CreateTopicInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateTopicInput) GetTopic() *Topic {
@@ -308,7 +360,7 @@ type CreateTopicOutput struct {
 
 func (x *CreateTopicOutput) Reset() {
 	*x = CreateTopicOutput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -320,7 +372,7 @@ func (x *CreateTopicOutput) String() string {
 func (*CreateTopicOutput) ProtoMessage() {}
 
 func (x *CreateTopicOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[5]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -333,7 +385,7 @@ func (x *CreateTopicOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTopicOutput.ProtoReflect.Descriptor instead.
 func (*CreateTopicOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateTopicOutput) GetTopicId() string {
@@ -354,7 +406,7 @@ type UpdateTopicInput struct {
 
 func (x *UpdateTopicInput) Reset() {
 	*x = UpdateTopicInput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -366,7 +418,7 @@ func (x *UpdateTopicInput) String() string {
 func (*UpdateTopicInput) ProtoMessage() {}
 
 func (x *UpdateTopicInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[6]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -379,7 +431,7 @@ func (x *UpdateTopicInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTopicInput.ProtoReflect.Descriptor instead.
 func (*UpdateTopicInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateTopicInput) GetTopicId() string {
@@ -411,7 +463,7 @@ type UpdateTopicOutput struct {
 
 func (x *UpdateTopicOutput) Reset() {
 	*x = UpdateTopicOutput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -423,7 +475,7 @@ func (x *UpdateTopicOutput) String() string {
 func (*UpdateTopicOutput) ProtoMessage() {}
 
 func (x *UpdateTopicOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[7]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -436,7 +488,7 @@ func (x *UpdateTopicOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTopicOutput.ProtoReflect.Descriptor instead.
 func (*UpdateTopicOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{8}
 }
 
 type DeleteTopicInput struct {
@@ -449,7 +501,7 @@ type DeleteTopicInput struct {
 
 func (x *DeleteTopicInput) Reset() {
 	*x = DeleteTopicInput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -461,7 +513,7 @@ func (x *DeleteTopicInput) String() string {
 func (*DeleteTopicInput) ProtoMessage() {}
 
 func (x *DeleteTopicInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[8]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -474,7 +526,7 @@ func (x *DeleteTopicInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTopicInput.ProtoReflect.Descriptor instead.
 func (*DeleteTopicInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteTopicInput) GetTopicId() string {
@@ -499,7 +551,7 @@ type DeleteTopicOutput struct {
 
 func (x *DeleteTopicOutput) Reset() {
 	*x = DeleteTopicOutput{}
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -511,7 +563,7 @@ func (x *DeleteTopicOutput) String() string {
 func (*DeleteTopicOutput) ProtoMessage() {}
 
 func (x *DeleteTopicOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[9]
+	mi := &file_eolymp_atlas_topic_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -524,14 +576,17 @@ func (x *DeleteTopicOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTopicOutput.ProtoReflect.Descriptor instead.
 func (*DeleteTopicOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_atlas_topic_service_proto_rawDescGZIP(), []int{10}
 }
 
 var File_eolymp_atlas_topic_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_topic_service_proto_rawDesc = "" +
 	"\n" +
-	" eolymp/atlas/topic_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/topic.proto\"y\n" +
+	" eolymp/atlas/topic_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x18eolymp/atlas/topic.proto\"k\n" +
+	"\x11TopicChangedEvent\x12+\n" +
+	"\x06before\x18\x01 \x01(\v2\x13.eolymp.atlas.TopicR\x06before\x12)\n" +
+	"\x05after\x18\x02 \x01(\v2\x13.eolymp.atlas.TopicR\x05after\"y\n" +
 	"\x12DescribeTopicInput\x12\x19\n" +
 	"\btopic_id\x18\x01 \x01(\tR\atopicId\x12\x16\n" +
 	"\x06locale\x18\n" +
@@ -617,43 +672,46 @@ func file_eolymp_atlas_topic_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_atlas_topic_service_proto_rawDescData
 }
 
-var file_eolymp_atlas_topic_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_eolymp_atlas_topic_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_atlas_topic_service_proto_goTypes = []any{
-	(*DescribeTopicInput)(nil),  // 0: eolymp.atlas.DescribeTopicInput
-	(*DescribeTopicOutput)(nil), // 1: eolymp.atlas.DescribeTopicOutput
-	(*ListTopicsInput)(nil),     // 2: eolymp.atlas.ListTopicsInput
-	(*ListTopicsOutput)(nil),    // 3: eolymp.atlas.ListTopicsOutput
-	(*CreateTopicInput)(nil),    // 4: eolymp.atlas.CreateTopicInput
-	(*CreateTopicOutput)(nil),   // 5: eolymp.atlas.CreateTopicOutput
-	(*UpdateTopicInput)(nil),    // 6: eolymp.atlas.UpdateTopicInput
-	(*UpdateTopicOutput)(nil),   // 7: eolymp.atlas.UpdateTopicOutput
-	(*DeleteTopicInput)(nil),    // 8: eolymp.atlas.DeleteTopicInput
-	(*DeleteTopicOutput)(nil),   // 9: eolymp.atlas.DeleteTopicOutput
-	(Topic_Extra)(0),            // 10: eolymp.atlas.Topic.Extra
+	(*TopicChangedEvent)(nil),   // 0: eolymp.atlas.TopicChangedEvent
+	(*DescribeTopicInput)(nil),  // 1: eolymp.atlas.DescribeTopicInput
+	(*DescribeTopicOutput)(nil), // 2: eolymp.atlas.DescribeTopicOutput
+	(*ListTopicsInput)(nil),     // 3: eolymp.atlas.ListTopicsInput
+	(*ListTopicsOutput)(nil),    // 4: eolymp.atlas.ListTopicsOutput
+	(*CreateTopicInput)(nil),    // 5: eolymp.atlas.CreateTopicInput
+	(*CreateTopicOutput)(nil),   // 6: eolymp.atlas.CreateTopicOutput
+	(*UpdateTopicInput)(nil),    // 7: eolymp.atlas.UpdateTopicInput
+	(*UpdateTopicOutput)(nil),   // 8: eolymp.atlas.UpdateTopicOutput
+	(*DeleteTopicInput)(nil),    // 9: eolymp.atlas.DeleteTopicInput
+	(*DeleteTopicOutput)(nil),   // 10: eolymp.atlas.DeleteTopicOutput
 	(*Topic)(nil),               // 11: eolymp.atlas.Topic
+	(Topic_Extra)(0),            // 12: eolymp.atlas.Topic.Extra
 }
 var file_eolymp_atlas_topic_service_proto_depIdxs = []int32{
-	10, // 0: eolymp.atlas.DescribeTopicInput.extra:type_name -> eolymp.atlas.Topic.Extra
-	11, // 1: eolymp.atlas.DescribeTopicOutput.topic:type_name -> eolymp.atlas.Topic
-	10, // 2: eolymp.atlas.ListTopicsInput.extra:type_name -> eolymp.atlas.Topic.Extra
-	11, // 3: eolymp.atlas.ListTopicsOutput.items:type_name -> eolymp.atlas.Topic
-	11, // 4: eolymp.atlas.CreateTopicInput.topic:type_name -> eolymp.atlas.Topic
-	11, // 5: eolymp.atlas.UpdateTopicInput.topic:type_name -> eolymp.atlas.Topic
-	0,  // 6: eolymp.atlas.TopicService.DescribeTopic:input_type -> eolymp.atlas.DescribeTopicInput
-	2,  // 7: eolymp.atlas.TopicService.ListTopics:input_type -> eolymp.atlas.ListTopicsInput
-	4,  // 8: eolymp.atlas.TopicService.CreateTopic:input_type -> eolymp.atlas.CreateTopicInput
-	6,  // 9: eolymp.atlas.TopicService.UpdateTopic:input_type -> eolymp.atlas.UpdateTopicInput
-	8,  // 10: eolymp.atlas.TopicService.DeleteTopic:input_type -> eolymp.atlas.DeleteTopicInput
-	1,  // 11: eolymp.atlas.TopicService.DescribeTopic:output_type -> eolymp.atlas.DescribeTopicOutput
-	3,  // 12: eolymp.atlas.TopicService.ListTopics:output_type -> eolymp.atlas.ListTopicsOutput
-	5,  // 13: eolymp.atlas.TopicService.CreateTopic:output_type -> eolymp.atlas.CreateTopicOutput
-	7,  // 14: eolymp.atlas.TopicService.UpdateTopic:output_type -> eolymp.atlas.UpdateTopicOutput
-	9,  // 15: eolymp.atlas.TopicService.DeleteTopic:output_type -> eolymp.atlas.DeleteTopicOutput
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	11, // 0: eolymp.atlas.TopicChangedEvent.before:type_name -> eolymp.atlas.Topic
+	11, // 1: eolymp.atlas.TopicChangedEvent.after:type_name -> eolymp.atlas.Topic
+	12, // 2: eolymp.atlas.DescribeTopicInput.extra:type_name -> eolymp.atlas.Topic.Extra
+	11, // 3: eolymp.atlas.DescribeTopicOutput.topic:type_name -> eolymp.atlas.Topic
+	12, // 4: eolymp.atlas.ListTopicsInput.extra:type_name -> eolymp.atlas.Topic.Extra
+	11, // 5: eolymp.atlas.ListTopicsOutput.items:type_name -> eolymp.atlas.Topic
+	11, // 6: eolymp.atlas.CreateTopicInput.topic:type_name -> eolymp.atlas.Topic
+	11, // 7: eolymp.atlas.UpdateTopicInput.topic:type_name -> eolymp.atlas.Topic
+	1,  // 8: eolymp.atlas.TopicService.DescribeTopic:input_type -> eolymp.atlas.DescribeTopicInput
+	3,  // 9: eolymp.atlas.TopicService.ListTopics:input_type -> eolymp.atlas.ListTopicsInput
+	5,  // 10: eolymp.atlas.TopicService.CreateTopic:input_type -> eolymp.atlas.CreateTopicInput
+	7,  // 11: eolymp.atlas.TopicService.UpdateTopic:input_type -> eolymp.atlas.UpdateTopicInput
+	9,  // 12: eolymp.atlas.TopicService.DeleteTopic:input_type -> eolymp.atlas.DeleteTopicInput
+	2,  // 13: eolymp.atlas.TopicService.DescribeTopic:output_type -> eolymp.atlas.DescribeTopicOutput
+	4,  // 14: eolymp.atlas.TopicService.ListTopics:output_type -> eolymp.atlas.ListTopicsOutput
+	6,  // 15: eolymp.atlas.TopicService.CreateTopic:output_type -> eolymp.atlas.CreateTopicOutput
+	8,  // 16: eolymp.atlas.TopicService.UpdateTopic:output_type -> eolymp.atlas.UpdateTopicOutput
+	10, // 17: eolymp.atlas.TopicService.DeleteTopic:output_type -> eolymp.atlas.DeleteTopicOutput
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_atlas_topic_service_proto_init() }
@@ -668,7 +726,7 @@ func file_eolymp_atlas_topic_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_atlas_topic_service_proto_rawDesc), len(file_eolymp_atlas_topic_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
