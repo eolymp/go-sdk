@@ -50,17 +50,18 @@ type IssueServiceClient interface {
 	// form, and the comment thread is not part of the response — read it through ListIssueActivities.
 	DescribeIssue(ctx context.Context, in *DescribeIssueInput, opts ...grpc.CallOption) (*DescribeIssueOutput, error)
 	// CreateIssue reports a new issue and returns its id. The reporter is taken from the caller rather than from
-	// the request.
+	// the request. An issue reported by a member starts in triage, any other starts as todo.
 	CreateIssue(ctx context.Context, in *CreateIssueInput, opts ...grpc.CallOption) (*CreateIssueOutput, error)
 	// UpdateIssue writes the fields named in the patch, or all of them when the patch is empty, blanking
 	// whatever the request left out. There is no separate close or reopen rpc, both are status updates. Each
 	// change is appended to the issue's activity thread as a before/after snapshot of the fields which moved.
 	UpdateIssue(ctx context.Context, in *UpdateIssueInput, opts ...grpc.CallOption) (*UpdateIssueOutput, error)
 	// DeleteIssue removes the issue permanently, discarding its activity thread with it. When a report has simply
-	// been dealt with, close it instead: a closed issue keeps the discussion around.
+	// been dealt with, mark it done or cancelled instead: such an issue keeps the discussion around.
 	DeleteIssue(ctx context.Context, in *DeleteIssueInput, opts ...grpc.CallOption) (*DeleteIssueOutput, error)
 	// ListIssueActivities returns the issue's thread in creation order, mixing the comments people wrote with the
-	// changes the platform recorded. Comment bodies arrive only when requested, in raw or rendered form.
+	// changes the platform recorded. Comment bodies arrive only when requested, in raw or rendered form. The member
+	// who reported the issue sees public comments only.
 	ListIssueActivities(ctx context.Context, in *ListIssueActivitiesInput, opts ...grpc.CallOption) (*ListIssueActivitiesOutput, error)
 	// CreateIssueComment appends a comment to the issue's thread and returns the id of the activity entry it
 	// produced. Only comments can be created this way, change entries are written by the platform.
@@ -191,17 +192,18 @@ type IssueServiceServer interface {
 	// form, and the comment thread is not part of the response — read it through ListIssueActivities.
 	DescribeIssue(context.Context, *DescribeIssueInput) (*DescribeIssueOutput, error)
 	// CreateIssue reports a new issue and returns its id. The reporter is taken from the caller rather than from
-	// the request.
+	// the request. An issue reported by a member starts in triage, any other starts as todo.
 	CreateIssue(context.Context, *CreateIssueInput) (*CreateIssueOutput, error)
 	// UpdateIssue writes the fields named in the patch, or all of them when the patch is empty, blanking
 	// whatever the request left out. There is no separate close or reopen rpc, both are status updates. Each
 	// change is appended to the issue's activity thread as a before/after snapshot of the fields which moved.
 	UpdateIssue(context.Context, *UpdateIssueInput) (*UpdateIssueOutput, error)
 	// DeleteIssue removes the issue permanently, discarding its activity thread with it. When a report has simply
-	// been dealt with, close it instead: a closed issue keeps the discussion around.
+	// been dealt with, mark it done or cancelled instead: such an issue keeps the discussion around.
 	DeleteIssue(context.Context, *DeleteIssueInput) (*DeleteIssueOutput, error)
 	// ListIssueActivities returns the issue's thread in creation order, mixing the comments people wrote with the
-	// changes the platform recorded. Comment bodies arrive only when requested, in raw or rendered form.
+	// changes the platform recorded. Comment bodies arrive only when requested, in raw or rendered form. The member
+	// who reported the issue sees public comments only.
 	ListIssueActivities(context.Context, *ListIssueActivitiesInput) (*ListIssueActivitiesOutput, error)
 	// CreateIssueComment appends a comment to the issue's thread and returns the id of the activity entry it
 	// produced. Only comments can be created this way, change entries are written by the platform.

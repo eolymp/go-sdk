@@ -27,21 +27,30 @@ type Issue_Status int32
 
 const (
 	Issue_UNKNOWN_STATUS Issue_Status = 0
-	Issue_OPEN           Issue_Status = 1
-	Issue_CLOSED         Issue_Status = 2
+	Issue_TRIAGE         Issue_Status = 3 // reported, not yet reviewed
+	Issue_TODO           Issue_Status = 1
+	Issue_IN_PROGRESS    Issue_Status = 5
+	Issue_DONE           Issue_Status = 2
+	Issue_CANCELLED      Issue_Status = 4
 )
 
 // Enum value maps for Issue_Status.
 var (
 	Issue_Status_name = map[int32]string{
 		0: "UNKNOWN_STATUS",
-		1: "OPEN",
-		2: "CLOSED",
+		3: "TRIAGE",
+		1: "TODO",
+		5: "IN_PROGRESS",
+		2: "DONE",
+		4: "CANCELLED",
 	}
 	Issue_Status_value = map[string]int32{
 		"UNKNOWN_STATUS": 0,
-		"OPEN":           1,
-		"CLOSED":         2,
+		"TRIAGE":         3,
+		"TODO":           1,
+		"IN_PROGRESS":    5,
+		"DONE":           2,
+		"CANCELLED":      4,
 	}
 )
 
@@ -412,7 +421,7 @@ var File_eolymp_atlas_issue_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\n" +
-	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xea\x06\n" +
+	"\x18eolymp/atlas/issue.proto\x12\feolymp.atlas\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x94\a\n" +
 	"\x05Issue\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -447,12 +456,15 @@ const file_eolymp_atlas_issue_proto_rawDesc = "" +
 	"\a_statusB\b\n" +
 	"\x06_titleB\v\n" +
 	"\t_assigneeB\r\n" +
-	"\v_unset_tags\"2\n" +
+	"\v_unset_tags\"\\\n" +
 	"\x06Status\x12\x12\n" +
-	"\x0eUNKNOWN_STATUS\x10\x00\x12\b\n" +
-	"\x04OPEN\x10\x01\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12\n" +
 	"\n" +
-	"\x06CLOSED\x10\x02B\n" +
+	"\x06TRIAGE\x10\x03\x12\b\n" +
+	"\x04TODO\x10\x01\x12\x0f\n" +
+	"\vIN_PROGRESS\x10\x05\x12\b\n" +
+	"\x04DONE\x10\x02\x12\r\n" +
+	"\tCANCELLED\x10\x04B\n" +
 	"\n" +
 	"\breporterB-Z+github.com/eolymp/go-sdk/eolymp/atlas;atlasb\x06proto3"
 

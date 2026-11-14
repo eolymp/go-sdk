@@ -277,6 +277,7 @@ func (*IssueActivity_Extra) Descriptor() ([]byte, []int) {
 type IssueActivity_Patch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       *ecm.Content           `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Public        *bool                  `protobuf:"varint,2,opt,name=public,proto3,oneof" json:"public,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -318,10 +319,20 @@ func (x *IssueActivity_Patch) GetMessage() *ecm.Content {
 	return nil
 }
 
-// Comment is a message posted by a user or member.
+func (x *IssueActivity_Patch) GetPublic() bool {
+	if x != nil && x.Public != nil {
+		return *x.Public
+	}
+	return false
+}
+
+// Comment is a message posted by a user or member. A public comment is shown to the member who reported the
+// issue, who is notified when it is posted; other comments stay internal. Comments written by members are
+// always public.
 type IssueActivity_Comment struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       *ecm.Content           `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Public        bool                   `protobuf:"varint,2,opt,name=public,proto3" json:"public,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -361,6 +372,13 @@ func (x *IssueActivity_Comment) GetMessage() *ecm.Content {
 		return x.Message
 	}
 	return nil
+}
+
+func (x *IssueActivity_Comment) GetPublic() bool {
+	if x != nil {
+		return x.Public
+	}
+	return false
 }
 
 // Change records an update to the issue: before and after are sparse snapshots
@@ -421,7 +439,7 @@ var File_eolymp_atlas_issue_activity_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_issue_activity_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/atlas/issue_activity.proto\x12\feolymp.atlas\x1a\x18eolymp/atlas/issue.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9c\x05\n" +
+	"!eolymp/atlas/issue_activity.proto\x12\feolymp.atlas\x1a\x18eolymp/atlas/issue.proto\x1a\x18eolymp/ecm/content.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdc\x05\n" +
 	"\rIssueActivity\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\bissue_id\x18\x02 \x01(\tR\aissueId\x12\x19\n" +
@@ -438,11 +456,14 @@ const file_eolymp_atlas_issue_activity_proto_rawDesc = "" +
 	"\x05Field\x12\x11\n" +
 	"\rUNKNOWN_FIELD\x10\x00\x12\x11\n" +
 	"\rMESSAGE_VALUE\x10\x01\x12\x12\n" +
-	"\x0eMESSAGE_RENDER\x10\x02\x1a6\n" +
+	"\x0eMESSAGE_RENDER\x10\x02\x1a^\n" +
 	"\x05Patch\x12-\n" +
-	"\amessage\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x1a8\n" +
+	"\amessage\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x12\x1b\n" +
+	"\x06public\x18\x02 \x01(\bH\x00R\x06public\x88\x01\x01B\t\n" +
+	"\a_public\x1aP\n" +
 	"\aComment\x12-\n" +
-	"\amessage\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x1a`\n" +
+	"\amessage\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\amessage\x12\x16\n" +
+	"\x06public\x18\x02 \x01(\bR\x06public\x1a`\n" +
 	"\x06Change\x12+\n" +
 	"\x06before\x18\x01 \x01(\v2\x13.eolymp.atlas.IssueR\x06before\x12)\n" +
 	"\x05after\x18\x02 \x01(\v2\x13.eolymp.atlas.IssueR\x05afterB\b\n" +
@@ -502,6 +523,7 @@ func file_eolymp_atlas_issue_activity_proto_init() {
 		(*IssueActivity_Comment_)(nil),
 		(*IssueActivity_Change_)(nil),
 	}
+	file_eolymp_atlas_issue_activity_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
