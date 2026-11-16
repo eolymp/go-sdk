@@ -31,6 +31,7 @@ const (
 	ProblemService_DescribeWidget_FullMethodName       = "/eolymp.judge.ProblemService/DescribeWidget"
 	ProblemService_DescribeEditorial_FullMethodName    = "/eolymp.judge.ProblemService/DescribeEditorial"
 	ProblemService_RateProblem_FullMethodName          = "/eolymp.judge.ProblemService/RateProblem"
+	ProblemService_ReportIssue_FullMethodName          = "/eolymp.judge.ProblemService/ReportIssue"
 	ProblemService_ListAttachments_FullMethodName      = "/eolymp.judge.ProblemService/ListAttachments"
 	ProblemService_ListExamples_FullMethodName         = "/eolymp.judge.ProblemService/ListExamples"
 	ProblemService_ListRuntimes_FullMethodName         = "/eolymp.judge.ProblemService/ListRuntimes"
@@ -106,6 +107,11 @@ type ProblemServiceClient interface {
 	// participant can see through the contest: the rating goes to the archive problem and replaces the member's
 	// previous one, and 0 stars withdraws it. Refused while the space has ratings off.
 	RateProblem(ctx context.Context, in *RateProblemInput, opts ...grpc.CallOption) (*RateProblemOutput, error)
+	// ReportIssue files an issue against the archive problem behind a contest problem, so the contest's testers,
+	// staff, authors and coordinators can flag a defect without access to the archive. Plain participants are
+	// refused: they raise questions through tickets. It is eolymp.atlas.IssueService.CreateIssue on behalf of the
+	// member, so the issue starts in triage with the member as its reporter.
+	ReportIssue(ctx context.Context, in *ReportIssueInput, opts ...grpc.CallOption) (*ReportIssueOutput, error)
 	// ListAttachments returns the files the archive publishes alongside the problem statement for
 	// participants to download, each with a link to fetch it. They are the statement's attachments, not the
 	// problem's test data.
@@ -264,6 +270,16 @@ func (c *problemServiceClient) RateProblem(ctx context.Context, in *RateProblemI
 	return out, nil
 }
 
+func (c *problemServiceClient) ReportIssue(ctx context.Context, in *ReportIssueInput, opts ...grpc.CallOption) (*ReportIssueOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReportIssueOutput)
+	err := c.cc.Invoke(ctx, ProblemService_ReportIssue_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *problemServiceClient) ListAttachments(ctx context.Context, in *ListAttachmentsInput, opts ...grpc.CallOption) (*ListAttachmentsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListAttachmentsOutput)
@@ -382,6 +398,11 @@ type ProblemServiceServer interface {
 	// participant can see through the contest: the rating goes to the archive problem and replaces the member's
 	// previous one, and 0 stars withdraws it. Refused while the space has ratings off.
 	RateProblem(context.Context, *RateProblemInput) (*RateProblemOutput, error)
+	// ReportIssue files an issue against the archive problem behind a contest problem, so the contest's testers,
+	// staff, authors and coordinators can flag a defect without access to the archive. Plain participants are
+	// refused: they raise questions through tickets. It is eolymp.atlas.IssueService.CreateIssue on behalf of the
+	// member, so the issue starts in triage with the member as its reporter.
+	ReportIssue(context.Context, *ReportIssueInput) (*ReportIssueOutput, error)
 	// ListAttachments returns the files the archive publishes alongside the problem statement for
 	// participants to download, each with a link to fetch it. They are the statement's attachments, not the
 	// problem's test data.
@@ -454,6 +475,9 @@ func (UnimplementedProblemServiceServer) DescribeEditorial(context.Context, *Des
 }
 func (UnimplementedProblemServiceServer) RateProblem(context.Context, *RateProblemInput) (*RateProblemOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RateProblem not implemented")
+}
+func (UnimplementedProblemServiceServer) ReportIssue(context.Context, *ReportIssueInput) (*ReportIssueOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReportIssue not implemented")
 }
 func (UnimplementedProblemServiceServer) ListAttachments(context.Context, *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListAttachments not implemented")
@@ -706,6 +730,24 @@ func _ProblemService_RateProblem_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProblemService_ReportIssue_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReportIssueInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProblemServiceServer).ReportIssue(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProblemService_ReportIssue_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProblemServiceServer).ReportIssue(ctx, req.(*ReportIssueInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProblemService_ListAttachments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAttachmentsInput)
 	if err := dec(in); err != nil {
@@ -850,6 +892,10 @@ var ProblemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RateProblem",
 			Handler:    _ProblemService_RateProblem_Handler,
+		},
+		{
+			MethodName: "ReportIssue",
+			Handler:    _ProblemService_ReportIssue_Handler,
 		},
 		{
 			MethodName: "ListAttachments",

@@ -303,6 +303,23 @@ func (s *ProblemServiceService) RateProblem(ctx context.Context, in *RateProblem
 	return out, nil
 }
 
+func (s *ProblemServiceService) ReportIssue(ctx context.Context, in *ReportIssueInput) (*ReportIssueOutput, error) {
+	out := &ReportIssueOutput{}
+	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/issues"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.ContestId = ""
+		in.ProblemId = ""
+	}
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *ProblemServiceService) ListAttachments(ctx context.Context, in *ListAttachmentsInput) (*ListAttachmentsOutput, error) {
 	out := &ListAttachmentsOutput{}
 	path := "/contests/" + url.PathEscape(in.GetContestId()) + "/problems/" + url.PathEscape(in.GetProblemId()) + "/attachments"
