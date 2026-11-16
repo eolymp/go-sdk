@@ -1331,6 +1331,7 @@ type ReportIssueInput struct {
 	ProblemId     string                 `protobuf:"bytes,2,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
 	Description   *ecm.Content           `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Tags          []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"` // same as eolymp.atlas.Issue.tags, e.g. statement, tests
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1389,6 +1390,13 @@ func (x *ReportIssueInput) GetTitle() string {
 func (x *ReportIssueInput) GetDescription() *ecm.Content {
 	if x != nil {
 		return x.Description
+	}
+	return nil
+}
+
+func (x *ReportIssueInput) GetTags() []string {
+	if x != nil {
+		return x.Tags
 	}
 	return nil
 }
@@ -2069,14 +2077,15 @@ const file_eolymp_judge_problem_service_proto_rawDesc = "" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x14\n" +
 	"\x05stars\x18\x03 \x01(\rR\x05stars\x12\x18\n" +
 	"\acomment\x18\x04 \x01(\tR\acomment\"\x13\n" +
-	"\x11RateProblemOutput\"\x9d\x01\n" +
+	"\x11RateProblemOutput\"\xb1\x01\n" +
 	"\x10ReportIssueInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x02 \x01(\tR\tproblemId\x12\x14\n" +
 	"\x05title\x18\x03 \x01(\tR\x05title\x125\n" +
-	"\vdescription\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\".\n" +
+	"\vdescription\x18\x04 \x01(\v2\x13.eolymp.ecm.ContentR\vdescription\x12\x12\n" +
+	"\x04tags\x18\x05 \x03(\tR\x04tags\".\n" +
 	"\x11ReportIssueOutput\x12\x19\n" +
 	"\bissue_id\x18\x01 \x01(\tR\aissueId\"T\n" +
 	"\x14ListAttachmentsInput\x12\x1d\n" +
