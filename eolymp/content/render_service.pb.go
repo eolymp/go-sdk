@@ -364,9 +364,9 @@ const file_eolymp_content_render_service_proto_rawDesc = "" +
 	"\x12RenderContentInput\x12-\n" +
 	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\"?\n" +
 	"\x13RenderContentOutput\x12(\n" +
-	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render\"\x83\x02\n" +
-	"\x11RenderFigureInput\x12\xe3\x01\n" +
-	"\x05typst\x18\x01 \x01(\tB\xca\x01\xa2\xf0\xf0\xe4\x01\xc3\x01Typst source of the figure; each page is sized to fit its drawing, and a page break starts the next page, such as the next step of a step-through figure. Packages cetz and fletcher are available.H\x00R\x05typstB\b\n" +
+	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render\"\xd1\x02\n" +
+	"\x11RenderFigureInput\x12\xb1\x02\n" +
+	"\x05typst\x18\x01 \x01(\tB\x98\x02\xa2\xf0\xf0\xe4\x01\x91\x02Typst source of the figure; each page is sized to fit its drawing, and a page break starts the next page, such as the next step of a step-through figure. Packages @preview/cetz:0.5.2, @preview/fletcher:0.5.8 and @eolymp/figlib:0.1.0 (the eolymp figure style) are available.H\x00R\x05typstB\b\n" +
 	"\x06source\"\xf4\x02\n" +
 	"\x12RenderFigureOutput\x12\x14\n" +
 	"\x05pages\x18\x01 \x03(\tR\x05pages\x12O\n" +
