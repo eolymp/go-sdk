@@ -207,6 +207,9 @@ func RegisterFeedbackServiceHttpHandlers(router *mux.Router, prefix string, cli 
 	router.Handle(prefix+"/content/feedback/{feedback_id}", _FeedbackService_DescribeFeedback_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.content.FeedbackService.DescribeFeedback")
+	router.Handle(prefix+"/content/feedback/{feedback_id}", _FeedbackService_UpdateFeedback_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.content.FeedbackService.UpdateFeedback")
 	router.Handle(prefix+"/content/feedback/{feedback_id}", _FeedbackService_DeleteFeedback_Rule0(cli)).
 		Methods("DELETE").
 		Name("eolymp.content.FeedbackService.DeleteFeedback")
@@ -259,6 +262,30 @@ func _FeedbackService_DescribeFeedback_Rule0(cli FeedbackServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeFeedback(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_FeedbackService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_FeedbackService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _FeedbackService_UpdateFeedback_Rule0(cli FeedbackServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &UpdateFeedbackInput{}
+
+		if err := _FeedbackService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_FeedbackService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.FeedbackId = vars["feedback_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.UpdateFeedback(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_FeedbackService_HTTPWriteErrorResponse(w, err)
 			return

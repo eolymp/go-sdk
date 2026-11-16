@@ -207,6 +207,94 @@ func (x *DescribeFeedbackOutput) GetFeedback() *Feedback {
 	return nil
 }
 
+type UpdateFeedbackInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FeedbackId    string                 `protobuf:"bytes,1,opt,name=feedback_id,json=feedbackId,proto3" json:"feedback_id,omitempty"`
+	Feedback      *Feedback_Patch        `protobuf:"bytes,2,opt,name=feedback,proto3" json:"feedback,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateFeedbackInput) Reset() {
+	*x = UpdateFeedbackInput{}
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateFeedbackInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateFeedbackInput) ProtoMessage() {}
+
+func (x *UpdateFeedbackInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateFeedbackInput.ProtoReflect.Descriptor instead.
+func (*UpdateFeedbackInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateFeedbackInput) GetFeedbackId() string {
+	if x != nil {
+		return x.FeedbackId
+	}
+	return ""
+}
+
+func (x *UpdateFeedbackInput) GetFeedback() *Feedback_Patch {
+	if x != nil {
+		return x.Feedback
+	}
+	return nil
+}
+
+type UpdateFeedbackOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateFeedbackOutput) Reset() {
+	*x = UpdateFeedbackOutput{}
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateFeedbackOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateFeedbackOutput) ProtoMessage() {}
+
+func (x *UpdateFeedbackOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateFeedbackOutput.ProtoReflect.Descriptor instead.
+func (*UpdateFeedbackOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{5}
+}
+
 type DeleteFeedbackInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FeedbackId    string                 `protobuf:"bytes,1,opt,name=feedback_id,json=feedbackId,proto3" json:"feedback_id,omitempty"`
@@ -216,7 +304,7 @@ type DeleteFeedbackInput struct {
 
 func (x *DeleteFeedbackInput) Reset() {
 	*x = DeleteFeedbackInput{}
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[4]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -228,7 +316,7 @@ func (x *DeleteFeedbackInput) String() string {
 func (*DeleteFeedbackInput) ProtoMessage() {}
 
 func (x *DeleteFeedbackInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[4]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +329,7 @@ func (x *DeleteFeedbackInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFeedbackInput.ProtoReflect.Descriptor instead.
 func (*DeleteFeedbackInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{4}
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteFeedbackInput) GetFeedbackId() string {
@@ -259,7 +347,7 @@ type DeleteFeedbackOutput struct {
 
 func (x *DeleteFeedbackOutput) Reset() {
 	*x = DeleteFeedbackOutput{}
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[5]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -271,7 +359,7 @@ func (x *DeleteFeedbackOutput) String() string {
 func (*DeleteFeedbackOutput) ProtoMessage() {}
 
 func (x *DeleteFeedbackOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[5]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -284,7 +372,7 @@ func (x *DeleteFeedbackOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFeedbackOutput.ProtoReflect.Descriptor instead.
 func (*DeleteFeedbackOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{5}
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{7}
 }
 
 type ListFeedbackInput struct {
@@ -300,7 +388,7 @@ type ListFeedbackInput struct {
 
 func (x *ListFeedbackInput) Reset() {
 	*x = ListFeedbackInput{}
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[6]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -312,7 +400,7 @@ func (x *ListFeedbackInput) String() string {
 func (*ListFeedbackInput) ProtoMessage() {}
 
 func (x *ListFeedbackInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[6]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -325,7 +413,7 @@ func (x *ListFeedbackInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFeedbackInput.ProtoReflect.Descriptor instead.
 func (*ListFeedbackInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListFeedbackInput) GetOffset() int32 {
@@ -359,7 +447,7 @@ type ListFeedbackOutput struct {
 
 func (x *ListFeedbackOutput) Reset() {
 	*x = ListFeedbackOutput{}
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[7]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -371,7 +459,7 @@ func (x *ListFeedbackOutput) String() string {
 func (*ListFeedbackOutput) ProtoMessage() {}
 
 func (x *ListFeedbackOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[7]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -384,7 +472,7 @@ func (x *ListFeedbackOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFeedbackOutput.ProtoReflect.Descriptor instead.
 func (*ListFeedbackOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListFeedbackOutput) GetTotal() int32 {
@@ -409,13 +497,15 @@ type ListFeedbackInput_Filter struct {
 	BlockIndex     []*wellknown.ExpressionInt       `protobuf:"bytes,4,rep,name=block_index,json=blockIndex,proto3" json:"block_index,omitempty"`
 	FragmentLocale []*wellknown.ExpressionEnum      `protobuf:"bytes,5,rep,name=fragment_locale,json=fragmentLocale,proto3" json:"fragment_locale,omitempty"`
 	CreatedAt      []*wellknown.ExpressionTimestamp `protobuf:"bytes,6,rep,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Status         []*wellknown.ExpressionEnum      `protobuf:"bytes,7,rep,name=status,proto3" json:"status,omitempty"`
+	Label          []*wellknown.ExpressionEnum      `protobuf:"bytes,8,rep,name=label,proto3" json:"label,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ListFeedbackInput_Filter) Reset() {
 	*x = ListFeedbackInput_Filter{}
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[8]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -427,7 +517,7 @@ func (x *ListFeedbackInput_Filter) String() string {
 func (*ListFeedbackInput_Filter) ProtoMessage() {}
 
 func (x *ListFeedbackInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_content_feedback_service_proto_msgTypes[8]
+	mi := &file_eolymp_content_feedback_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -440,7 +530,7 @@ func (x *ListFeedbackInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFeedbackInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListFeedbackInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{6, 0}
+	return file_eolymp_content_feedback_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
 func (x *ListFeedbackInput_Filter) GetFragmentId() []*wellknown.ExpressionID {
@@ -485,6 +575,20 @@ func (x *ListFeedbackInput_Filter) GetCreatedAt() []*wellknown.ExpressionTimesta
 	return nil
 }
 
+func (x *ListFeedbackInput_Filter) GetStatus() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+func (x *ListFeedbackInput_Filter) GetLabel() []*wellknown.ExpressionEnum {
+	if x != nil {
+		return x.Label
+	}
+	return nil
+}
+
 var File_eolymp_content_feedback_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_feedback_service_proto_rawDesc = "" +
@@ -501,16 +605,21 @@ const file_eolymp_content_feedback_service_proto_rawDesc = "" +
 	"\vfeedback_id\x18\x01 \x01(\tR\n" +
 	"feedbackId\"N\n" +
 	"\x16DescribeFeedbackOutput\x124\n" +
-	"\bfeedback\x18\x01 \x01(\v2\x18.eolymp.content.FeedbackR\bfeedback\"6\n" +
+	"\bfeedback\x18\x01 \x01(\v2\x18.eolymp.content.FeedbackR\bfeedback\"r\n" +
+	"\x13UpdateFeedbackInput\x12\x1f\n" +
+	"\vfeedback_id\x18\x01 \x01(\tR\n" +
+	"feedbackId\x12:\n" +
+	"\bfeedback\x18\x02 \x01(\v2\x1e.eolymp.content.Feedback.PatchR\bfeedback\"\x16\n" +
+	"\x14UpdateFeedbackOutput\"6\n" +
 	"\x13DeleteFeedbackInput\x12\x1f\n" +
 	"\vfeedback_id\x18\x01 \x01(\tR\n" +
 	"feedbackId\"\x16\n" +
-	"\x14DeleteFeedbackOutput\"\xa1\x04\n" +
+	"\x14DeleteFeedbackOutput\"\x93\x05\n" +
 	"\x11ListFeedbackInput\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
 	"\x04size\x18\v \x01(\x05R\x04size\x12B\n" +
-	"\afilters\x18( \x01(\v2(.eolymp.content.ListFeedbackInput.FilterR\afilters\x1a\x9b\x03\n" +
+	"\afilters\x18( \x01(\v2(.eolymp.content.ListFeedbackInput.FilterR\afilters\x1a\x8d\x04\n" +
 	"\x06Filter\x12?\n" +
 	"\vfragment_id\x18\x01 \x03(\v2\x1e.eolymp.wellknown.ExpressionIDR\n" +
 	"fragmentId\x12:\n" +
@@ -521,10 +630,12 @@ const file_eolymp_content_feedback_service_proto_rawDesc = "" +
 	"blockIndex\x12I\n" +
 	"\x0ffragment_locale\x18\x05 \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x0efragmentLocale\x12D\n" +
 	"\n" +
-	"created_at\x18\x06 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\"Z\n" +
+	"created_at\x18\x06 \x03(\v2%.eolymp.wellknown.ExpressionTimestampR\tcreatedAt\x128\n" +
+	"\x06status\x18\a \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x06status\x126\n" +
+	"\x05label\x18\b \x03(\v2 .eolymp.wellknown.ExpressionEnumR\x05label\"Z\n" +
 	"\x12ListFeedbackOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12.\n" +
-	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FeedbackR\x05items2\x85\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x18.eolymp.content.FeedbackR\x05items2\xc4\a\n" +
 	"\x0fFeedbackService\x12\xa5\x01\n" +
 	"\x0eCreateFeedback\x12#.eolymp.content.CreateFeedbackInput\x1a$.eolymp.content.CreateFeedbackOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -541,6 +652,14 @@ const file_eolymp_content_feedback_service_proto_rawDesc = "" +
 	"\x19typewriter:fragment:write\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
 	"\x01\x82\xd3\xe4\x93\x02!\x12\x1f/content/feedback/{feedback_id}\x12\xbc\x01\n" +
+	"\x0eUpdateFeedback\x12#.eolymp.content.UpdateFeedbackInput\x1a$.eolymp.content.UpdateFeedbackOutput\"_\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\x82\xe3\n" +
+	"\x1d\x8a\xe3\n" +
+	"\x19typewriter:fragment:write\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02!\x1a\x1f/content/feedback/{feedback_id}\x12\xbc\x01\n" +
 	"\x0eDeleteFeedback\x12#.eolymp.content.DeleteFeedbackInput\x1a$.eolymp.content.DeleteFeedbackOutput\"_\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
@@ -570,48 +689,56 @@ func file_eolymp_content_feedback_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_feedback_service_proto_rawDescData
 }
 
-var file_eolymp_content_feedback_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_eolymp_content_feedback_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_eolymp_content_feedback_service_proto_goTypes = []any{
 	(*CreateFeedbackInput)(nil),           // 0: eolymp.content.CreateFeedbackInput
 	(*CreateFeedbackOutput)(nil),          // 1: eolymp.content.CreateFeedbackOutput
 	(*DescribeFeedbackInput)(nil),         // 2: eolymp.content.DescribeFeedbackInput
 	(*DescribeFeedbackOutput)(nil),        // 3: eolymp.content.DescribeFeedbackOutput
-	(*DeleteFeedbackInput)(nil),           // 4: eolymp.content.DeleteFeedbackInput
-	(*DeleteFeedbackOutput)(nil),          // 5: eolymp.content.DeleteFeedbackOutput
-	(*ListFeedbackInput)(nil),             // 6: eolymp.content.ListFeedbackInput
-	(*ListFeedbackOutput)(nil),            // 7: eolymp.content.ListFeedbackOutput
-	(*ListFeedbackInput_Filter)(nil),      // 8: eolymp.content.ListFeedbackInput.Filter
-	(*Feedback)(nil),                      // 9: eolymp.content.Feedback
-	(*wellknown.ExpressionID)(nil),        // 10: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionBool)(nil),      // 11: eolymp.wellknown.ExpressionBool
-	(*wellknown.ExpressionInt)(nil),       // 12: eolymp.wellknown.ExpressionInt
-	(*wellknown.ExpressionEnum)(nil),      // 13: eolymp.wellknown.ExpressionEnum
-	(*wellknown.ExpressionTimestamp)(nil), // 14: eolymp.wellknown.ExpressionTimestamp
+	(*UpdateFeedbackInput)(nil),           // 4: eolymp.content.UpdateFeedbackInput
+	(*UpdateFeedbackOutput)(nil),          // 5: eolymp.content.UpdateFeedbackOutput
+	(*DeleteFeedbackInput)(nil),           // 6: eolymp.content.DeleteFeedbackInput
+	(*DeleteFeedbackOutput)(nil),          // 7: eolymp.content.DeleteFeedbackOutput
+	(*ListFeedbackInput)(nil),             // 8: eolymp.content.ListFeedbackInput
+	(*ListFeedbackOutput)(nil),            // 9: eolymp.content.ListFeedbackOutput
+	(*ListFeedbackInput_Filter)(nil),      // 10: eolymp.content.ListFeedbackInput.Filter
+	(*Feedback)(nil),                      // 11: eolymp.content.Feedback
+	(*Feedback_Patch)(nil),                // 12: eolymp.content.Feedback.Patch
+	(*wellknown.ExpressionID)(nil),        // 13: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionBool)(nil),      // 14: eolymp.wellknown.ExpressionBool
+	(*wellknown.ExpressionInt)(nil),       // 15: eolymp.wellknown.ExpressionInt
+	(*wellknown.ExpressionEnum)(nil),      // 16: eolymp.wellknown.ExpressionEnum
+	(*wellknown.ExpressionTimestamp)(nil), // 17: eolymp.wellknown.ExpressionTimestamp
 }
 var file_eolymp_content_feedback_service_proto_depIdxs = []int32{
-	9,  // 0: eolymp.content.CreateFeedbackInput.feedback:type_name -> eolymp.content.Feedback
-	9,  // 1: eolymp.content.DescribeFeedbackOutput.feedback:type_name -> eolymp.content.Feedback
-	8,  // 2: eolymp.content.ListFeedbackInput.filters:type_name -> eolymp.content.ListFeedbackInput.Filter
-	9,  // 3: eolymp.content.ListFeedbackOutput.items:type_name -> eolymp.content.Feedback
-	10, // 4: eolymp.content.ListFeedbackInput.Filter.fragment_id:type_name -> eolymp.wellknown.ExpressionID
-	11, // 5: eolymp.content.ListFeedbackInput.Filter.helpful:type_name -> eolymp.wellknown.ExpressionBool
-	11, // 6: eolymp.content.ListFeedbackInput.Filter.has_comment:type_name -> eolymp.wellknown.ExpressionBool
-	12, // 7: eolymp.content.ListFeedbackInput.Filter.block_index:type_name -> eolymp.wellknown.ExpressionInt
-	13, // 8: eolymp.content.ListFeedbackInput.Filter.fragment_locale:type_name -> eolymp.wellknown.ExpressionEnum
-	14, // 9: eolymp.content.ListFeedbackInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
-	0,  // 10: eolymp.content.FeedbackService.CreateFeedback:input_type -> eolymp.content.CreateFeedbackInput
-	2,  // 11: eolymp.content.FeedbackService.DescribeFeedback:input_type -> eolymp.content.DescribeFeedbackInput
-	4,  // 12: eolymp.content.FeedbackService.DeleteFeedback:input_type -> eolymp.content.DeleteFeedbackInput
-	6,  // 13: eolymp.content.FeedbackService.ListFeedback:input_type -> eolymp.content.ListFeedbackInput
-	1,  // 14: eolymp.content.FeedbackService.CreateFeedback:output_type -> eolymp.content.CreateFeedbackOutput
-	3,  // 15: eolymp.content.FeedbackService.DescribeFeedback:output_type -> eolymp.content.DescribeFeedbackOutput
-	5,  // 16: eolymp.content.FeedbackService.DeleteFeedback:output_type -> eolymp.content.DeleteFeedbackOutput
-	7,  // 17: eolymp.content.FeedbackService.ListFeedback:output_type -> eolymp.content.ListFeedbackOutput
-	14, // [14:18] is the sub-list for method output_type
-	10, // [10:14] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	11, // 0: eolymp.content.CreateFeedbackInput.feedback:type_name -> eolymp.content.Feedback
+	11, // 1: eolymp.content.DescribeFeedbackOutput.feedback:type_name -> eolymp.content.Feedback
+	12, // 2: eolymp.content.UpdateFeedbackInput.feedback:type_name -> eolymp.content.Feedback.Patch
+	10, // 3: eolymp.content.ListFeedbackInput.filters:type_name -> eolymp.content.ListFeedbackInput.Filter
+	11, // 4: eolymp.content.ListFeedbackOutput.items:type_name -> eolymp.content.Feedback
+	13, // 5: eolymp.content.ListFeedbackInput.Filter.fragment_id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 6: eolymp.content.ListFeedbackInput.Filter.helpful:type_name -> eolymp.wellknown.ExpressionBool
+	14, // 7: eolymp.content.ListFeedbackInput.Filter.has_comment:type_name -> eolymp.wellknown.ExpressionBool
+	15, // 8: eolymp.content.ListFeedbackInput.Filter.block_index:type_name -> eolymp.wellknown.ExpressionInt
+	16, // 9: eolymp.content.ListFeedbackInput.Filter.fragment_locale:type_name -> eolymp.wellknown.ExpressionEnum
+	17, // 10: eolymp.content.ListFeedbackInput.Filter.created_at:type_name -> eolymp.wellknown.ExpressionTimestamp
+	16, // 11: eolymp.content.ListFeedbackInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	16, // 12: eolymp.content.ListFeedbackInput.Filter.label:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 13: eolymp.content.FeedbackService.CreateFeedback:input_type -> eolymp.content.CreateFeedbackInput
+	2,  // 14: eolymp.content.FeedbackService.DescribeFeedback:input_type -> eolymp.content.DescribeFeedbackInput
+	4,  // 15: eolymp.content.FeedbackService.UpdateFeedback:input_type -> eolymp.content.UpdateFeedbackInput
+	6,  // 16: eolymp.content.FeedbackService.DeleteFeedback:input_type -> eolymp.content.DeleteFeedbackInput
+	8,  // 17: eolymp.content.FeedbackService.ListFeedback:input_type -> eolymp.content.ListFeedbackInput
+	1,  // 18: eolymp.content.FeedbackService.CreateFeedback:output_type -> eolymp.content.CreateFeedbackOutput
+	3,  // 19: eolymp.content.FeedbackService.DescribeFeedback:output_type -> eolymp.content.DescribeFeedbackOutput
+	5,  // 20: eolymp.content.FeedbackService.UpdateFeedback:output_type -> eolymp.content.UpdateFeedbackOutput
+	7,  // 21: eolymp.content.FeedbackService.DeleteFeedback:output_type -> eolymp.content.DeleteFeedbackOutput
+	9,  // 22: eolymp.content.FeedbackService.ListFeedback:output_type -> eolymp.content.ListFeedbackOutput
+	18, // [18:23] is the sub-list for method output_type
+	13, // [13:18] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_feedback_service_proto_init() }
@@ -626,7 +753,7 @@ func file_eolymp_content_feedback_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_feedback_service_proto_rawDesc), len(file_eolymp_content_feedback_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

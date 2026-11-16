@@ -23,6 +23,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Feedback_Status int32
+
+const (
+	Feedback_UNKNOWN_STATUS Feedback_Status = 0
+	Feedback_OPEN           Feedback_Status = 1
+	Feedback_RESOLVED       Feedback_Status = 2
+	Feedback_DISMISSED      Feedback_Status = 3
+)
+
+// Enum value maps for Feedback_Status.
+var (
+	Feedback_Status_name = map[int32]string{
+		0: "UNKNOWN_STATUS",
+		1: "OPEN",
+		2: "RESOLVED",
+		3: "DISMISSED",
+	}
+	Feedback_Status_value = map[string]int32{
+		"UNKNOWN_STATUS": 0,
+		"OPEN":           1,
+		"RESOLVED":       2,
+		"DISMISSED":      3,
+	}
+)
+
+func (x Feedback_Status) Enum() *Feedback_Status {
+	p := new(Feedback_Status)
+	*p = x
+	return p
+}
+
+func (x Feedback_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Feedback_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_content_content_feedback_proto_enumTypes[0].Descriptor()
+}
+
+func (Feedback_Status) Type() protoreflect.EnumType {
+	return &file_eolymp_content_content_feedback_proto_enumTypes[0]
+}
+
+func (x Feedback_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Feedback_Status.Descriptor instead.
+func (Feedback_Status) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_content_content_feedback_proto_rawDescGZIP(), []int{0, 0}
+}
+
 // Feedback is what one reader said about a page: whether it helped, and optionally how to make it better.
 type Feedback struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
@@ -34,7 +86,11 @@ type Feedback struct {
 	BlockIndex     int32                  `protobuf:"varint,20,opt,name=block_index,json=blockIndex,proto3" json:"block_index,omitempty"`
 	BlockText      string                 `protobuf:"bytes,21,opt,name=block_text,json=blockText,proto3" json:"block_text,omitempty"`
 	MemberId       string                 `protobuf:"bytes,30,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	Status         Feedback_Status        `protobuf:"varint,40,opt,name=status,proto3,enum=eolymp.content.Feedback_Status" json:"status,omitempty"`
+	Resolution     string                 `protobuf:"bytes,41,opt,name=resolution,proto3" json:"resolution,omitempty"`
+	Labels         []string               `protobuf:"bytes,42,rep,name=labels,proto3" json:"labels,omitempty"`
 	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,60,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ResolvedAt     *timestamppb.Timestamp `protobuf:"bytes,61,opt,name=resolved_at,json=resolvedAt,proto3" json:"resolved_at,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -125,6 +181,27 @@ func (x *Feedback) GetMemberId() string {
 	return ""
 }
 
+func (x *Feedback) GetStatus() Feedback_Status {
+	if x != nil {
+		return x.Status
+	}
+	return Feedback_UNKNOWN_STATUS
+}
+
+func (x *Feedback) GetResolution() string {
+	if x != nil {
+		return x.Resolution
+	}
+	return ""
+}
+
+func (x *Feedback) GetLabels() []string {
+	if x != nil {
+		return x.Labels
+	}
+	return nil
+}
+
 func (x *Feedback) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -132,11 +209,86 @@ func (x *Feedback) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *Feedback) GetResolvedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ResolvedAt
+	}
+	return nil
+}
+
+type Feedback_Patch struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        *Feedback_Status       `protobuf:"varint,40,opt,name=status,proto3,enum=eolymp.content.Feedback_Status,oneof" json:"status,omitempty"`
+	Resolution    *string                `protobuf:"bytes,41,opt,name=resolution,proto3,oneof" json:"resolution,omitempty"`
+	Labels        []string               `protobuf:"bytes,42,rep,name=labels,proto3" json:"labels,omitempty"`
+	UnsetLabels   *bool                  `protobuf:"varint,43,opt,name=unset_labels,json=unsetLabels,proto3,oneof" json:"unset_labels,omitempty"` // clears the labels, which an empty list cannot express
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Feedback_Patch) Reset() {
+	*x = Feedback_Patch{}
+	mi := &file_eolymp_content_content_feedback_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Feedback_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Feedback_Patch) ProtoMessage() {}
+
+func (x *Feedback_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_content_content_feedback_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Feedback_Patch.ProtoReflect.Descriptor instead.
+func (*Feedback_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_content_content_feedback_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Feedback_Patch) GetStatus() Feedback_Status {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return Feedback_UNKNOWN_STATUS
+}
+
+func (x *Feedback_Patch) GetResolution() string {
+	if x != nil && x.Resolution != nil {
+		return *x.Resolution
+	}
+	return ""
+}
+
+func (x *Feedback_Patch) GetLabels() []string {
+	if x != nil {
+		return x.Labels
+	}
+	return nil
+}
+
+func (x *Feedback_Patch) GetUnsetLabels() bool {
+	if x != nil && x.UnsetLabels != nil {
+		return *x.UnsetLabels
+	}
+	return false
+}
+
 var File_eolymp_content_content_feedback_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_content_feedback_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/content/content_feedback.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9f\x05\n" +
+	"%eolymp/content/content_feedback.proto\x12\x0eeolymp.content\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xef\v\n" +
 	"\bFeedback\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12'\n" +
 	"\vfragment_id\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\n" +
@@ -149,9 +301,31 @@ const file_eolymp_content_content_feedback_proto_rawDesc = "" +
 	"blockIndex\x12\x7f\n" +
 	"\n" +
 	"block_text\x18\x15 \x01(\tB`\xa2\xf0\xf0\xe4\x01Tplain text of that block when the feedback was left, the page may have changed since\xa8\xf0\xf0\xe4\x01\x01R\tblockText\x12Z\n" +
-	"\tmember_id\x18\x1e \x01(\tB=\xa2\xf0\xf0\xe4\x011member who left it, empty for an anonymous reader\xa8\xf0\xf0\xe4\x01\x01R\bmemberId\x12A\n" +
+	"\tmember_id\x18\x1e \x01(\tB=\xa2\xf0\xf0\xe4\x011member who left it, empty for an anonymous reader\xa8\xf0\xf0\xe4\x01\x01R\bmemberId\x12?\n" +
+	"\x06status\x18( \x01(\x0e2\x1f.eolymp.content.Feedback.StatusB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06status\x12T\n" +
 	"\n" +
-	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAtB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"resolution\x18) \x01(\tB4\xa2\xf0\xf0\xe4\x01(what the editor did about it, plain text\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"resolution\x12f\n" +
+	"\x06labels\x18* \x03(\tBN\xa2\xf0\xf0\xe4\x01Blabels the editor sorted it with, \"page\" or \"rule:S16\" for example\xa8\xf0\xf0\xe4\x01\x01R\x06labels\x12A\n" +
+	"\n" +
+	"created_at\x18< \x01(\v2\x1a.google.protobuf.TimestampB\x06\xa8\xf0\xf0\xe4\x01\x01R\tcreatedAt\x12\x7f\n" +
+	"\vresolved_at\x18= \x01(\v2\x1a.google.protobuf.TimestampBB\xa2\xf0\xf0\xe4\x016when the status last left OPEN, empty while it is open\xa8\xf0\xf0\xe4\x01\x01R\n" +
+	"resolvedAt\x1a\xd5\x01\n" +
+	"\x05Patch\x12<\n" +
+	"\x06status\x18( \x01(\x0e2\x1f.eolymp.content.Feedback.StatusH\x00R\x06status\x88\x01\x01\x12#\n" +
+	"\n" +
+	"resolution\x18) \x01(\tH\x01R\n" +
+	"resolution\x88\x01\x01\x12\x16\n" +
+	"\x06labels\x18* \x03(\tR\x06labels\x12&\n" +
+	"\funset_labels\x18+ \x01(\bH\x02R\vunsetLabels\x88\x01\x01B\t\n" +
+	"\a_statusB\r\n" +
+	"\v_resolutionB\x0f\n" +
+	"\r_unset_labels\"\xf5\x01\n" +
+	"\x06Status\x12\x12\n" +
+	"\x0eUNKNOWN_STATUS\x10\x00\x12K\n" +
+	"\x04OPEN\x10\x01\x1aA\x9a\xf0\xf0\xe4\x01;not dealt with yet, every new piece of feedback starts here\x12?\n" +
+	"\bRESOLVED\x10\x02\x1a1\x9a\xf0\xf0\xe4\x01+acted on, the resolution says what was done\x12I\n" +
+	"\tDISMISSED\x10\x03\x1a:\x9a\xf0\xf0\xe4\x014looked at and left as it is, the resolution says whyB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_content_feedback_proto_rawDescOnce sync.Once
@@ -165,18 +339,24 @@ func file_eolymp_content_content_feedback_proto_rawDescGZIP() []byte {
 	return file_eolymp_content_content_feedback_proto_rawDescData
 }
 
-var file_eolymp_content_content_feedback_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_eolymp_content_content_feedback_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_eolymp_content_content_feedback_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_content_content_feedback_proto_goTypes = []any{
-	(*Feedback)(nil),              // 0: eolymp.content.Feedback
-	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(Feedback_Status)(0),          // 0: eolymp.content.Feedback.Status
+	(*Feedback)(nil),              // 1: eolymp.content.Feedback
+	(*Feedback_Patch)(nil),        // 2: eolymp.content.Feedback.Patch
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_eolymp_content_content_feedback_proto_depIdxs = []int32{
-	1, // 0: eolymp.content.Feedback.created_at:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: eolymp.content.Feedback.status:type_name -> eolymp.content.Feedback.Status
+	3, // 1: eolymp.content.Feedback.created_at:type_name -> google.protobuf.Timestamp
+	3, // 2: eolymp.content.Feedback.resolved_at:type_name -> google.protobuf.Timestamp
+	0, // 3: eolymp.content.Feedback.Patch.status:type_name -> eolymp.content.Feedback.Status
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_content_content_feedback_proto_init() }
@@ -184,18 +364,20 @@ func file_eolymp_content_content_feedback_proto_init() {
 	if File_eolymp_content_content_feedback_proto != nil {
 		return
 	}
+	file_eolymp_content_content_feedback_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_content_content_feedback_proto_rawDesc), len(file_eolymp_content_content_feedback_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   1,
+			NumEnums:      1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_eolymp_content_content_feedback_proto_goTypes,
 		DependencyIndexes: file_eolymp_content_content_feedback_proto_depIdxs,
+		EnumInfos:         file_eolymp_content_content_feedback_proto_enumTypes,
 		MessageInfos:      file_eolymp_content_content_feedback_proto_msgTypes,
 	}.Build()
 	File_eolymp_content_content_feedback_proto = out.File

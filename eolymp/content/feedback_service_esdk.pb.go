@@ -132,6 +132,22 @@ func (s *FeedbackServiceService) DescribeFeedback(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (s *FeedbackServiceService) UpdateFeedback(ctx context.Context, in *UpdateFeedbackInput) (*UpdateFeedbackOutput, error) {
+	out := &UpdateFeedbackOutput{}
+	path := "/content/feedback/" + url.PathEscape(in.GetFeedbackId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.FeedbackId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *FeedbackServiceService) DeleteFeedback(ctx context.Context, in *DeleteFeedbackInput) (*DeleteFeedbackOutput, error) {
 	out := &DeleteFeedbackOutput{}
 	path := "/content/feedback/" + url.PathEscape(in.GetFeedbackId())

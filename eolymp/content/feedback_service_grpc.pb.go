@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	FeedbackService_CreateFeedback_FullMethodName   = "/eolymp.content.FeedbackService/CreateFeedback"
 	FeedbackService_DescribeFeedback_FullMethodName = "/eolymp.content.FeedbackService/DescribeFeedback"
+	FeedbackService_UpdateFeedback_FullMethodName   = "/eolymp.content.FeedbackService/UpdateFeedback"
 	FeedbackService_DeleteFeedback_FullMethodName   = "/eolymp.content.FeedbackService/DeleteFeedback"
 	FeedbackService_ListFeedback_FullMethodName     = "/eolymp.content.FeedbackService/ListFeedback"
 )
@@ -35,6 +36,9 @@ const (
 // Feedback is about the whole page, or about one top-level block of its content, a paragraph for example.
 // Every submission is kept as a record of its own, so a reader can leave feedback any number of times and
 // nothing they sent earlier is replaced. Feedback is read by the space's editors only.
+//
+// Feedback starts out open. An editor resolves or dismisses it and says what was done, and may label it, so
+// the record stays and can be filtered later.
 type FeedbackServiceClient interface {
 	// CreateFeedback records what the reader thinks of a page. Anyone who can read the page can leave feedback,
 	// signed in or not. The block index points at a top-level block of the content in the translation being read, and
@@ -43,7 +47,11 @@ type FeedbackServiceClient interface {
 	CreateFeedback(ctx context.Context, in *CreateFeedbackInput, opts ...grpc.CallOption) (*CreateFeedbackOutput, error)
 	// DescribeFeedback returns a single piece of feedback with its comment.
 	DescribeFeedback(ctx context.Context, in *DescribeFeedbackInput, opts ...grpc.CallOption) (*DescribeFeedbackOutput, error)
-	// DeleteFeedback removes a piece of feedback, once it has been dealt with or when it is spam.
+	// UpdateFeedback changes the status, resolution and labels of a piece of feedback. What the reader sent stays
+	// as it was. resolved_at is set when the status leaves OPEN and cleared when it returns to OPEN.
+	UpdateFeedback(ctx context.Context, in *UpdateFeedbackInput, opts ...grpc.CallOption) (*UpdateFeedbackOutput, error)
+	// DeleteFeedback removes a piece of feedback, when it is spam. Feedback that has been dealt with is resolved
+	// or dismissed with UpdateFeedback instead, so it stays on record.
 	DeleteFeedback(ctx context.Context, in *DeleteFeedbackInput, opts ...grpc.CallOption) (*DeleteFeedbackOutput, error)
 	// ListFeedback returns the feedback readers left on the pages of the space, newest first.
 	ListFeedback(ctx context.Context, in *ListFeedbackInput, opts ...grpc.CallOption) (*ListFeedbackOutput, error)
@@ -71,6 +79,16 @@ func (c *feedbackServiceClient) DescribeFeedback(ctx context.Context, in *Descri
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeFeedbackOutput)
 	err := c.cc.Invoke(ctx, FeedbackService_DescribeFeedback_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *feedbackServiceClient) UpdateFeedback(ctx context.Context, in *UpdateFeedbackInput, opts ...grpc.CallOption) (*UpdateFeedbackOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateFeedbackOutput)
+	err := c.cc.Invoke(ctx, FeedbackService_UpdateFeedback_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -107,6 +125,9 @@ func (c *feedbackServiceClient) ListFeedback(ctx context.Context, in *ListFeedba
 // Feedback is about the whole page, or about one top-level block of its content, a paragraph for example.
 // Every submission is kept as a record of its own, so a reader can leave feedback any number of times and
 // nothing they sent earlier is replaced. Feedback is read by the space's editors only.
+//
+// Feedback starts out open. An editor resolves or dismisses it and says what was done, and may label it, so
+// the record stays and can be filtered later.
 type FeedbackServiceServer interface {
 	// CreateFeedback records what the reader thinks of a page. Anyone who can read the page can leave feedback,
 	// signed in or not. The block index points at a top-level block of the content in the translation being read, and
@@ -115,7 +136,11 @@ type FeedbackServiceServer interface {
 	CreateFeedback(context.Context, *CreateFeedbackInput) (*CreateFeedbackOutput, error)
 	// DescribeFeedback returns a single piece of feedback with its comment.
 	DescribeFeedback(context.Context, *DescribeFeedbackInput) (*DescribeFeedbackOutput, error)
-	// DeleteFeedback removes a piece of feedback, once it has been dealt with or when it is spam.
+	// UpdateFeedback changes the status, resolution and labels of a piece of feedback. What the reader sent stays
+	// as it was. resolved_at is set when the status leaves OPEN and cleared when it returns to OPEN.
+	UpdateFeedback(context.Context, *UpdateFeedbackInput) (*UpdateFeedbackOutput, error)
+	// DeleteFeedback removes a piece of feedback, when it is spam. Feedback that has been dealt with is resolved
+	// or dismissed with UpdateFeedback instead, so it stays on record.
 	DeleteFeedback(context.Context, *DeleteFeedbackInput) (*DeleteFeedbackOutput, error)
 	// ListFeedback returns the feedback readers left on the pages of the space, newest first.
 	ListFeedback(context.Context, *ListFeedbackInput) (*ListFeedbackOutput, error)
@@ -133,6 +158,9 @@ func (UnimplementedFeedbackServiceServer) CreateFeedback(context.Context, *Creat
 }
 func (UnimplementedFeedbackServiceServer) DescribeFeedback(context.Context, *DescribeFeedbackInput) (*DescribeFeedbackOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeFeedback not implemented")
+}
+func (UnimplementedFeedbackServiceServer) UpdateFeedback(context.Context, *UpdateFeedbackInput) (*UpdateFeedbackOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateFeedback not implemented")
 }
 func (UnimplementedFeedbackServiceServer) DeleteFeedback(context.Context, *DeleteFeedbackInput) (*DeleteFeedbackOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteFeedback not implemented")
@@ -196,6 +224,24 @@ func _FeedbackService_DescribeFeedback_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FeedbackService_UpdateFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFeedbackInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeedbackServiceServer).UpdateFeedback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FeedbackService_UpdateFeedback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeedbackServiceServer).UpdateFeedback(ctx, req.(*UpdateFeedbackInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FeedbackService_DeleteFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteFeedbackInput)
 	if err := dec(in); err != nil {
@@ -246,6 +292,10 @@ var FeedbackService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeFeedback",
 			Handler:    _FeedbackService_DescribeFeedback_Handler,
+		},
+		{
+			MethodName: "UpdateFeedback",
+			Handler:    _FeedbackService_UpdateFeedback_Handler,
 		},
 		{
 			MethodName: "DeleteFeedback",
