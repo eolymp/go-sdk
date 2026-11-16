@@ -29,7 +29,10 @@ type RequestFiguresInput struct {
 	// The text the figures illustrate, such as the paragraph or the problem statement. Optional.
 	Context string `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
 	// Figures to change, or to match in style and layout.
-	Figures       []*Figure `protobuf:"bytes,3,rep,name=figures,proto3" json:"figures,omitempty"`
+	Figures []*Figure `protobuf:"bytes,3,rep,name=figures,proto3" json:"figures,omitempty"`
+	// Thread to continue, as returned by an earlier call, so the agent remembers what was said, such as a
+	// question it asked. Empty starts a new thread.
+	ThreadId      string `protobuf:"bytes,4,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -85,12 +88,21 @@ func (x *RequestFiguresInput) GetFigures() []*Figure {
 	return nil
 }
 
+func (x *RequestFiguresInput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
 type RequestFiguresOutput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// What was done, or a question back when the request is unclear.
 	Reply string `protobuf:"bytes,1,opt,name=reply,proto3" json:"reply,omitempty"`
 	// Figures created or changed. Figures passed in and left as they were are not listed.
-	Figures       []*Figure `protobuf:"bytes,2,rep,name=figures,proto3" json:"figures,omitempty"`
+	Figures []*Figure `protobuf:"bytes,2,rep,name=figures,proto3" json:"figures,omitempty"`
+	// Thread this call belongs to; pass it with the next request to follow up.
+	ThreadId      string `protobuf:"bytes,3,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -139,18 +151,27 @@ func (x *RequestFiguresOutput) GetFigures() []*Figure {
 	return nil
 }
 
+func (x *RequestFiguresOutput) GetThreadId() string {
+	if x != nil {
+		return x.ThreadId
+	}
+	return ""
+}
+
 var File_eolymp_content_figure_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_figure_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/content/figure_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1beolymp/content/figure.proto\"{\n" +
+	"#eolymp/content/figure_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1beolymp/content/figure.proto\"\x98\x01\n" +
 	"\x13RequestFiguresInput\x12\x18\n" +
 	"\arequest\x18\x01 \x01(\tR\arequest\x12\x18\n" +
 	"\acontext\x18\x02 \x01(\tR\acontext\x120\n" +
-	"\afigures\x18\x03 \x03(\v2\x16.eolymp.content.FigureR\afigures\"^\n" +
+	"\afigures\x18\x03 \x03(\v2\x16.eolymp.content.FigureR\afigures\x12\x1b\n" +
+	"\tthread_id\x18\x04 \x01(\tR\bthreadId\"{\n" +
 	"\x14RequestFiguresOutput\x12\x14\n" +
 	"\x05reply\x18\x01 \x01(\tR\x05reply\x120\n" +
-	"\afigures\x18\x02 \x03(\v2\x16.eolymp.content.FigureR\afigures2\xbb\x01\n" +
+	"\afigures\x18\x02 \x03(\v2\x16.eolymp.content.FigureR\afigures\x12\x1b\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId2\xbb\x01\n" +
 	"\rFigureService\x12\x8c\x01\n" +
 	"\x0eRequestFigures\x12#.eolymp.content.RequestFiguresInput\x1a$.eolymp.content.RequestFiguresOutput\"/\xea\xe2\n" +
 	"\v\xf5\xe2\n" +

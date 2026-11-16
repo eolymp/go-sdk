@@ -31,8 +31,9 @@ const (
 //
 // A figure is a Typst source uploaded as an asset: content links it as an image, readers see it rendered as
 // SVG, and a later request changes that source rather than drawing again. A step-through figure is one source
-// with one page per step. The service keeps no conversation: each call carries the figures it works on, and
-// returns the figures it made or changed. It only makes figures; any other request gets a reply and no figure.
+// with one page per step. Each call carries the figures it works on and returns the figures it made or
+// changed; a thread keeps the conversation, so a follow-up can answer a question the agent asked. It only
+// makes figures; any other request gets a reply and no figure.
 type FigureServiceClient interface {
 	// RequestFigures creates or changes figures as the request asks. A changed figure is uploaded as a new asset
 	// with a new URL, which the caller puts in place of the old one; the old figure stays as it was.
@@ -66,8 +67,9 @@ func (c *figureServiceClient) RequestFigures(ctx context.Context, in *RequestFig
 //
 // A figure is a Typst source uploaded as an asset: content links it as an image, readers see it rendered as
 // SVG, and a later request changes that source rather than drawing again. A step-through figure is one source
-// with one page per step. The service keeps no conversation: each call carries the figures it works on, and
-// returns the figures it made or changed. It only makes figures; any other request gets a reply and no figure.
+// with one page per step. Each call carries the figures it works on and returns the figures it made or
+// changed; a thread keeps the conversation, so a follow-up can answer a question the agent asked. It only
+// makes figures; any other request gets a reply and no figure.
 type FigureServiceServer interface {
 	// RequestFigures creates or changes figures as the request asks. A changed figure is uploaded as a new asset
 	// with a new URL, which the caller puts in place of the old one; the old figure stays as it was.
