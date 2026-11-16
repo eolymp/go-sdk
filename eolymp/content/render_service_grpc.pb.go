@@ -37,10 +37,11 @@ type RenderServiceClient interface {
 	// RenderContent parses the content carried in the request and returns the tree it produces. Nothing is
 	// read from or written to stored data, so it is safe to call as often as an editor's keystrokes allow.
 	RenderContent(ctx context.Context, in *RenderContentInput, opts ...grpc.CallOption) (*RenderContentOutput, error)
-	// RenderFigure compiles a figure written in a drawing language and returns it as an SVG image. The editor
+	// RenderFigure compiles a figure written in a drawing language and returns it as SVG images, one per page. The editor
 	// calls it to preview a figure while an author types, and statements call it when saved, to keep the image
-	// next to the source it was drawn from. A figure that does not compile is not an error: the call succeeds
-	// with no image and says what is wrong in diagnostics.
+	// next to the source it was drawn from. A figure with several pages, such as the steps of a step-through
+	// figure, comes back as one image per page. A figure that does not compile is not an error: the call
+	// succeeds with no images and says what is wrong in diagnostics.
 	RenderFigure(ctx context.Context, in *RenderFigureInput, opts ...grpc.CallOption) (*RenderFigureOutput, error)
 }
 
@@ -86,10 +87,11 @@ type RenderServiceServer interface {
 	// RenderContent parses the content carried in the request and returns the tree it produces. Nothing is
 	// read from or written to stored data, so it is safe to call as often as an editor's keystrokes allow.
 	RenderContent(context.Context, *RenderContentInput) (*RenderContentOutput, error)
-	// RenderFigure compiles a figure written in a drawing language and returns it as an SVG image. The editor
+	// RenderFigure compiles a figure written in a drawing language and returns it as SVG images, one per page. The editor
 	// calls it to preview a figure while an author types, and statements call it when saved, to keep the image
-	// next to the source it was drawn from. A figure that does not compile is not an error: the call succeeds
-	// with no image and says what is wrong in diagnostics.
+	// next to the source it was drawn from. A figure with several pages, such as the steps of a step-through
+	// figure, comes back as one image per page. A figure that does not compile is not an error: the call
+	// succeeds with no images and says what is wrong in diagnostics.
 	RenderFigure(context.Context, *RenderFigureInput) (*RenderFigureOutput, error)
 }
 
