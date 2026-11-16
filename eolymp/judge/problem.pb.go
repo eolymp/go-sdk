@@ -45,15 +45,18 @@ type Problem struct {
 	// Deprecated: Marked as deprecated in eolymp/judge/problem.proto.
 	FileSizeLimit uint64 `protobuf:"varint,202,opt,name=file_size_limit,json=fileSizeLimit,proto3" json:"file_size_limit,omitempty"` // in bytes
 	// Deprecated: Marked as deprecated in eolymp/judge/problem.proto.
-	SubmitLimit   uint32                     `protobuf:"varint,203,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`
-	Score         float32                    `protobuf:"fixed32,3,opt,name=score,proto3" json:"score,omitempty"`                                  // score for solving problem
-	Constraints   *atlas.Problem_Constraints `protobuf:"bytes,30,opt,name=constraints,proto3" json:"constraints,omitempty"`                       // Constraints
-	Language      string                     `protobuf:"bytes,20,opt,name=language,proto3" json:"language,omitempty"`                             // Statement language
-	Title         string                     `protobuf:"bytes,21,opt,name=title,proto3" json:"title,omitempty"`                                   // Problem title
-	Content       *ecm.Content               `protobuf:"bytes,22,opt,name=content,proto3" json:"content,omitempty"`                               // Statement content
-	DownloadLink  string                     `protobuf:"bytes,24,opt,name=download_link,json=downloadLink,proto3" json:"download_link,omitempty"` // Statement download link, allows to download statement in original format.
-	Languages     []string                   `protobuf:"bytes,25,rep,name=languages,proto3" json:"languages,omitempty"`                           // list of languages the statement is available in
-	Examples      []*atlas.Problem_Example   `protobuf:"bytes,60,rep,name=examples,proto3" json:"examples,omitempty"`
+	SubmitLimit  uint32                     `protobuf:"varint,203,opt,name=submit_limit,json=submitLimit,proto3" json:"submit_limit,omitempty"`
+	Score        float32                    `protobuf:"fixed32,3,opt,name=score,proto3" json:"score,omitempty"`                                  // score for solving problem
+	Constraints  *atlas.Problem_Constraints `protobuf:"bytes,30,opt,name=constraints,proto3" json:"constraints,omitempty"`                       // Constraints
+	Language     string                     `protobuf:"bytes,20,opt,name=language,proto3" json:"language,omitempty"`                             // Statement language
+	Title        string                     `protobuf:"bytes,21,opt,name=title,proto3" json:"title,omitempty"`                                   // Problem title
+	Content      *ecm.Content               `protobuf:"bytes,22,opt,name=content,proto3" json:"content,omitempty"`                               // Statement content
+	DownloadLink string                     `protobuf:"bytes,24,opt,name=download_link,json=downloadLink,proto3" json:"download_link,omitempty"` // Statement download link, allows to download statement in original format.
+	Languages    []string                   `protobuf:"bytes,25,rep,name=languages,proto3" json:"languages,omitempty"`                           // list of languages the statement is available in
+	Examples     []*atlas.Problem_Example   `protobuf:"bytes,60,rep,name=examples,proto3" json:"examples,omitempty"`
+	// How members rated the archive problem, the same as atlas.Problem.rating. Only filled in when requested with
+	// the RATING_VALUE extra, which also fills in rating.value with the stars the calling participant gave.
+	Rating        *atlas.Problem_Rating `protobuf:"bytes,52,opt,name=rating,proto3" json:"rating,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -244,6 +247,13 @@ func (x *Problem) GetLanguages() []string {
 func (x *Problem) GetExamples() []*atlas.Problem_Example {
 	if x != nil {
 		return x.Examples
+	}
+	return nil
+}
+
+func (x *Problem) GetRating() *atlas.Problem_Rating {
+	if x != nil {
+		return x.Rating
 	}
 	return nil
 }
@@ -536,7 +546,7 @@ var File_eolymp_judge_problem_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\xfd\x0f\n" +
+	"\x1aeolymp/judge/problem.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1aeolymp/atlas/problem.proto\x1a#eolymp/atlas/testing_feedback.proto\x1a\x18eolymp/ecm/content.proto\x1a\x15eolymp/ecm/node.proto\"\xb3\x10\n" +
 	"\aProblem\x12!\n" +
 	"\n" +
 	"contest_id\x18\x05 \x01(\tB\x02\x18\x01R\tcontestId\x12\x0e\n" +
@@ -562,7 +572,8 @@ const file_eolymp_judge_problem_proto_rawDesc = "" +
 	"\acontent\x18\x16 \x01(\v2\x13.eolymp.ecm.ContentB-\xa2\xf0\xf0\xe4\x01'problem statement in requested languageR\acontent\x12U\n" +
 	"\rdownload_link\x18\x18 \x01(\tB0\xa2\xf0\xf0\xe4\x01*a link to download statement in PDF formatR\fdownloadLink\x12\x1c\n" +
 	"\tlanguages\x18\x19 \x03(\tR\tlanguages\x129\n" +
-	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x1a\xff\x01\n" +
+	"\bexamples\x18< \x03(\v2\x1d.eolymp.atlas.Problem.ExampleR\bexamples\x124\n" +
+	"\x06rating\x184 \x01(\v2\x1c.eolymp.atlas.Problem.RatingR\x06rating\x1a\xff\x01\n" +
 	"\x05Patch\x12\x19\n" +
 	"\x05index\x18\x02 \x01(\rH\x00R\x05index\x88\x01\x01\x12'\n" +
 	"\fsubmit_limit\x18\xcb\x01 \x01(\rH\x01R\vsubmitLimit\x88\x01\x01\x127\n" +
@@ -615,7 +626,8 @@ var file_eolymp_judge_problem_proto_goTypes = []any{
 	(*atlas.Problem_Constraints)(nil), // 7: eolymp.atlas.Problem.Constraints
 	(*ecm.Content)(nil),               // 8: eolymp.ecm.Content
 	(*atlas.Problem_Example)(nil),     // 9: eolymp.atlas.Problem.Example
-	(*ecm.Node)(nil),                  // 10: eolymp.ecm.Node
+	(*atlas.Problem_Rating)(nil),      // 10: eolymp.atlas.Problem.Rating
+	(*ecm.Node)(nil),                  // 11: eolymp.ecm.Node
 }
 var file_eolymp_judge_problem_proto_depIdxs = []int32{
 	5,  // 0: eolymp.judge.Problem.type:type_name -> eolymp.atlas.Problem.Type
@@ -623,12 +635,13 @@ var file_eolymp_judge_problem_proto_depIdxs = []int32{
 	7,  // 2: eolymp.judge.Problem.constraints:type_name -> eolymp.atlas.Problem.Constraints
 	8,  // 3: eolymp.judge.Problem.content:type_name -> eolymp.ecm.Content
 	9,  // 4: eolymp.judge.Problem.examples:type_name -> eolymp.atlas.Problem.Example
-	10, // 5: eolymp.judge.Problem.Statement.content:type_name -> eolymp.ecm.Node
-	6,  // [6:6] is the sub-list for method output_type
-	6,  // [6:6] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	10, // 5: eolymp.judge.Problem.rating:type_name -> eolymp.atlas.Problem.Rating
+	11, // 6: eolymp.judge.Problem.Statement.content:type_name -> eolymp.ecm.Node
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_judge_problem_proto_init() }
