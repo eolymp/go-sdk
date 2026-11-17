@@ -256,9 +256,9 @@ func (x *UploadFileOutput) GetFileUrl() string {
 
 type UploadAssetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // name might be used to infer file type and to set Content-Disposition header
-	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"` // mime type, if empty inferred from extension in the filename
-	Keys          []string               `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys,omitempty"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`   // name might be used to infer file type and to set Content-Disposition header
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`   // mime type, if empty inferred from extension in the filename
+	Keys          []string               `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys,omitempty"`   // deprecated and ignored, assets are found by content hash with LookupAsset
 	Ttl           uint32                 `protobuf:"varint,20,opt,name=ttl,proto3" json:"ttl,omitempty"`   // time to live in seconds, 0 - forever
 	Data          []byte                 `protobuf:"bytes,100,opt,name=data,proto3" json:"data,omitempty"` // up to 5MB (5M bytes) of data
 	unknownFields protoimpl.UnknownFields
@@ -376,7 +376,8 @@ func (x *UploadAssetOutput) GetAssetUrl() string {
 
 type LookupAssetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`       // deprecated, use sha256
+	Sha256        string                 `protobuf:"bytes,2,opt,name=sha256,proto3" json:"sha256,omitempty"` // hex encoded SHA-256 of the file content
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -414,6 +415,13 @@ func (*LookupAssetInput) Descriptor() ([]byte, []int) {
 func (x *LookupAssetInput) GetKey() string {
 	if x != nil {
 		return x.Key
+	}
+	return ""
+}
+
+func (x *LookupAssetInput) GetSha256() string {
+	if x != nil {
+		return x.Sha256
 	}
 	return ""
 }
@@ -546,7 +554,7 @@ type StartMultipartUploadInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // name might be used to infer file type and to set Content-Disposition header
 	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"` // mime type, if empty inferred from extension in the filename
-	Keys          []string               `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys,omitempty"`
+	Keys          []string               `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys,omitempty"` // deprecated and ignored, assets are found by content hash with LookupAsset
 	Ttl           uint32                 `protobuf:"varint,20,opt,name=ttl,proto3" json:"ttl,omitempty"` // time to live in seconds, 0 - forever
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1584,9 +1592,10 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\x03ttl\x18\x14 \x01(\rR\x03ttl\x12\x12\n" +
 	"\x04data\x18d \x01(\fR\x04data\"0\n" +
 	"\x11UploadAssetOutput\x12\x1b\n" +
-	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"$\n" +
+	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"<\n" +
 	"\x10LookupAssetInput\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\"0\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x16\n" +
+	"\x06sha256\x18\x02 \x01(\tR\x06sha256\"0\n" +
 	"\x11LookupAssetOutput\x12\x1b\n" +
 	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"-\n" +
 	"\x10DeleteAssetInput\x12\x19\n" +

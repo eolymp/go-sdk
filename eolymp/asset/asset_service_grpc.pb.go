@@ -48,7 +48,9 @@ type AssetServiceClient interface {
 	UploadFile(ctx context.Context, in *UploadFileInput, opts ...grpc.CallOption) (*UploadFileOutput, error)
 	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
 	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
-	// LookupAsset allows to lookup asset by the key
+	// LookupAsset finds a ready asset in the space by the SHA-256 of its content, so a file uploaded before can be reused
+	// instead of uploaded again. The hash is computed by the server from the bytes it received, for multipart uploads only
+	// when parts are uploaded in order, starting from 1.
 	LookupAsset(ctx context.Context, in *LookupAssetInput, opts ...grpc.CallOption) (*LookupAssetOutput, error)
 	// DeleteAsset removes an asset and the object behind it, after which the asset URL stops resolving. Copies already
 	// cached by the CDN are still served until they expire.
@@ -243,7 +245,9 @@ type AssetServiceServer interface {
 	UploadFile(context.Context, *UploadFileInput) (*UploadFileOutput, error)
 	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
-	// LookupAsset allows to lookup asset by the key
+	// LookupAsset finds a ready asset in the space by the SHA-256 of its content, so a file uploaded before can be reused
+	// instead of uploaded again. The hash is computed by the server from the bytes it received, for multipart uploads only
+	// when parts are uploaded in order, starting from 1.
 	LookupAsset(context.Context, *LookupAssetInput) (*LookupAssetOutput, error)
 	// DeleteAsset removes an asset and the object behind it, after which the asset URL stops resolving. Copies already
 	// cached by the CDN are still served until they expire.
