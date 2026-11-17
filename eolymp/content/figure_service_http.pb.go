@@ -201,9 +201,9 @@ func _FigureService_HTTPWriteErrorResponse(w http.ResponseWriter, e error) {
 
 // RegisterFigureServiceHttpHandlers adds handlers for for FigureServiceClient
 func RegisterFigureServiceHttpHandlers(router *mux.Router, prefix string, cli FigureServiceClient) {
-	router.Handle(prefix+"/figures:request", _FigureService_RequestFigures_Rule0(cli)).
+	router.Handle(prefix+"/figures:draw", _FigureService_DrawFigures_Rule0(cli)).
 		Methods("POST").
-		Name("eolymp.content.FigureService.RequestFigures")
+		Name("eolymp.content.FigureService.DrawFigures")
 }
 
 // RegisterFigureServiceHttpProxy adds proxy handlers for for FigureServiceClient
@@ -211,9 +211,9 @@ func RegisterFigureServiceHttpProxy(router *mux.Router, prefix string, conn grpc
 	RegisterFigureServiceHttpHandlers(router, prefix, NewFigureServiceClient(conn))
 }
 
-func _FigureService_RequestFigures_Rule0(cli FigureServiceClient) http.Handler {
+func _FigureService_DrawFigures_Rule0(cli FigureServiceClient) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		in := &RequestFiguresInput{}
+		in := &DrawFiguresInput{}
 
 		if err := _FigureService_HTTPReadRequestBody(r, in, 1048576); err != nil {
 			_FigureService_HTTPWriteErrorResponse(w, err)
@@ -222,7 +222,7 @@ func _FigureService_RequestFigures_Rule0(cli FigureServiceClient) http.Handler {
 
 		var header, trailer metadata.MD
 
-		out, err := cli.RequestFigures(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		out, err := cli.DrawFigures(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_FigureService_HTTPWriteErrorResponse(w, err)
 			return

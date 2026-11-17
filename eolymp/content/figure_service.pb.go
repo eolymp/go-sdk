@@ -22,7 +22,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type RequestFiguresInput struct {
+type DrawFiguresInput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// What to draw or change, in plain words.
 	Request string `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
@@ -37,20 +37,20 @@ type RequestFiguresInput struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RequestFiguresInput) Reset() {
-	*x = RequestFiguresInput{}
+func (x *DrawFiguresInput) Reset() {
+	*x = DrawFiguresInput{}
 	mi := &file_eolymp_content_figure_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RequestFiguresInput) String() string {
+func (x *DrawFiguresInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequestFiguresInput) ProtoMessage() {}
+func (*DrawFiguresInput) ProtoMessage() {}
 
-func (x *RequestFiguresInput) ProtoReflect() protoreflect.Message {
+func (x *DrawFiguresInput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_content_figure_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -62,40 +62,40 @@ func (x *RequestFiguresInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestFiguresInput.ProtoReflect.Descriptor instead.
-func (*RequestFiguresInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DrawFiguresInput.ProtoReflect.Descriptor instead.
+func (*DrawFiguresInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_figure_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RequestFiguresInput) GetRequest() string {
+func (x *DrawFiguresInput) GetRequest() string {
 	if x != nil {
 		return x.Request
 	}
 	return ""
 }
 
-func (x *RequestFiguresInput) GetContext() string {
+func (x *DrawFiguresInput) GetContext() string {
 	if x != nil {
 		return x.Context
 	}
 	return ""
 }
 
-func (x *RequestFiguresInput) GetFigures() []*Figure {
+func (x *DrawFiguresInput) GetFigures() []*Figure {
 	if x != nil {
 		return x.Figures
 	}
 	return nil
 }
 
-func (x *RequestFiguresInput) GetThreadId() string {
+func (x *DrawFiguresInput) GetThreadId() string {
 	if x != nil {
 		return x.ThreadId
 	}
 	return ""
 }
 
-type RequestFiguresOutput struct {
+type DrawFiguresOutput struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// What was done, or a question back when the request is unclear.
 	Reply string `protobuf:"bytes,1,opt,name=reply,proto3" json:"reply,omitempty"`
@@ -107,20 +107,20 @@ type RequestFiguresOutput struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RequestFiguresOutput) Reset() {
-	*x = RequestFiguresOutput{}
+func (x *DrawFiguresOutput) Reset() {
+	*x = DrawFiguresOutput{}
 	mi := &file_eolymp_content_figure_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RequestFiguresOutput) String() string {
+func (x *DrawFiguresOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequestFiguresOutput) ProtoMessage() {}
+func (*DrawFiguresOutput) ProtoMessage() {}
 
-func (x *RequestFiguresOutput) ProtoReflect() protoreflect.Message {
+func (x *DrawFiguresOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_eolymp_content_figure_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -132,26 +132,26 @@ func (x *RequestFiguresOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestFiguresOutput.ProtoReflect.Descriptor instead.
-func (*RequestFiguresOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use DrawFiguresOutput.ProtoReflect.Descriptor instead.
+func (*DrawFiguresOutput) Descriptor() ([]byte, []int) {
 	return file_eolymp_content_figure_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *RequestFiguresOutput) GetReply() string {
+func (x *DrawFiguresOutput) GetReply() string {
 	if x != nil {
 		return x.Reply
 	}
 	return ""
 }
 
-func (x *RequestFiguresOutput) GetFigures() []*Figure {
+func (x *DrawFiguresOutput) GetFigures() []*Figure {
 	if x != nil {
 		return x.Figures
 	}
 	return nil
 }
 
-func (x *RequestFiguresOutput) GetThreadId() string {
+func (x *DrawFiguresOutput) GetThreadId() string {
 	if x != nil {
 		return x.ThreadId
 	}
@@ -162,23 +162,23 @@ var File_eolymp_content_figure_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_figure_service_proto_rawDesc = "" +
 	"\n" +
-	"#eolymp/content/figure_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1beolymp/content/figure.proto\"\x98\x01\n" +
-	"\x13RequestFiguresInput\x12\x18\n" +
+	"#eolymp/content/figure_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1beolymp/content/figure.proto\"\x95\x01\n" +
+	"\x10DrawFiguresInput\x12\x18\n" +
 	"\arequest\x18\x01 \x01(\tR\arequest\x12\x18\n" +
 	"\acontext\x18\x02 \x01(\tR\acontext\x120\n" +
 	"\afigures\x18\x03 \x03(\v2\x16.eolymp.content.FigureR\afigures\x12\x1b\n" +
-	"\tthread_id\x18\x04 \x01(\tR\bthreadId\"{\n" +
-	"\x14RequestFiguresOutput\x12\x14\n" +
+	"\tthread_id\x18\x04 \x01(\tR\bthreadId\"x\n" +
+	"\x11DrawFiguresOutput\x12\x14\n" +
 	"\x05reply\x18\x01 \x01(\tR\x05reply\x120\n" +
 	"\afigures\x18\x02 \x03(\v2\x16.eolymp.content.FigureR\afigures\x12\x1b\n" +
-	"\tthread_id\x18\x03 \x01(\tR\bthreadId2\xbb\x01\n" +
-	"\rFigureService\x12\x8c\x01\n" +
-	"\x0eRequestFigures\x12#.eolymp.content.RequestFiguresInput\x1a$.eolymp.content.RequestFiguresOutput\"/\xea\xe2\n" +
+	"\tthread_id\x18\x03 \x01(\tR\bthreadId2\xaf\x01\n" +
+	"\rFigureService\x12\x80\x01\n" +
+	"\vDrawFigures\x12 .eolymp.content.DrawFiguresInput\x1a!.eolymp.content.DrawFiguresOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
 	"\x00\x00\x80?\xf8\xe2\n" +
 	"\x05\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x02\x82\xd3\xe4\x93\x02\x12\"\x10/figures:request\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
+	"\x02\x82\xd3\xe4\x93\x02\x0f\"\r/figures:draw\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB1Z/github.com/eolymp/go-sdk/eolymp/content;contentb\x06proto3"
 
 var (
 	file_eolymp_content_figure_service_proto_rawDescOnce sync.Once
@@ -194,15 +194,15 @@ func file_eolymp_content_figure_service_proto_rawDescGZIP() []byte {
 
 var file_eolymp_content_figure_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_content_figure_service_proto_goTypes = []any{
-	(*RequestFiguresInput)(nil),  // 0: eolymp.content.RequestFiguresInput
-	(*RequestFiguresOutput)(nil), // 1: eolymp.content.RequestFiguresOutput
-	(*Figure)(nil),               // 2: eolymp.content.Figure
+	(*DrawFiguresInput)(nil),  // 0: eolymp.content.DrawFiguresInput
+	(*DrawFiguresOutput)(nil), // 1: eolymp.content.DrawFiguresOutput
+	(*Figure)(nil),            // 2: eolymp.content.Figure
 }
 var file_eolymp_content_figure_service_proto_depIdxs = []int32{
-	2, // 0: eolymp.content.RequestFiguresInput.figures:type_name -> eolymp.content.Figure
-	2, // 1: eolymp.content.RequestFiguresOutput.figures:type_name -> eolymp.content.Figure
-	0, // 2: eolymp.content.FigureService.RequestFigures:input_type -> eolymp.content.RequestFiguresInput
-	1, // 3: eolymp.content.FigureService.RequestFigures:output_type -> eolymp.content.RequestFiguresOutput
+	2, // 0: eolymp.content.DrawFiguresInput.figures:type_name -> eolymp.content.Figure
+	2, // 1: eolymp.content.DrawFiguresOutput.figures:type_name -> eolymp.content.Figure
+	0, // 2: eolymp.content.FigureService.DrawFigures:input_type -> eolymp.content.DrawFiguresInput
+	1, // 3: eolymp.content.FigureService.DrawFigures:output_type -> eolymp.content.DrawFiguresOutput
 	3, // [3:4] is the sub-list for method output_type
 	2, // [2:3] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

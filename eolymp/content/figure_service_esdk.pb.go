@@ -100,9 +100,9 @@ func (s *FigureServiceService) do(ctx context.Context, verb, path string, in, ou
 	return nil
 }
 
-func (s *FigureServiceService) RequestFigures(ctx context.Context, in *RequestFiguresInput) (*RequestFiguresOutput, error) {
-	out := &RequestFiguresOutput{}
-	path := "/figures:request"
+func (s *FigureServiceService) DrawFigures(ctx context.Context, in *DrawFiguresInput) (*DrawFiguresOutput, error) {
+	out := &DrawFiguresOutput{}
+	path := "/figures:draw"
 
 	if err := s.do(ctx, "POST", path, in, out); err != nil {
 		return nil, err

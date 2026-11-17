@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FigureService_RequestFigures_FullMethodName = "/eolymp.content.FigureService/RequestFigures"
+	FigureService_DrawFigures_FullMethodName = "/eolymp.content.FigureService/DrawFigures"
 )
 
 // FigureServiceClient is the client API for FigureService service.
@@ -35,9 +35,9 @@ const (
 // changed; a thread keeps the conversation, so a follow-up can answer a question the agent asked. It only
 // makes figures; any other request gets a reply and no figure.
 type FigureServiceClient interface {
-	// RequestFigures creates or changes figures as the request asks. A changed figure is uploaded as a new asset
+	// DrawFigures creates or changes figures as the request asks. A changed figure is uploaded as a new asset
 	// with a new URL, which the caller puts in place of the old one; the old figure stays as it was.
-	RequestFigures(ctx context.Context, in *RequestFiguresInput, opts ...grpc.CallOption) (*RequestFiguresOutput, error)
+	DrawFigures(ctx context.Context, in *DrawFiguresInput, opts ...grpc.CallOption) (*DrawFiguresOutput, error)
 }
 
 type figureServiceClient struct {
@@ -48,10 +48,10 @@ func NewFigureServiceClient(cc grpc.ClientConnInterface) FigureServiceClient {
 	return &figureServiceClient{cc}
 }
 
-func (c *figureServiceClient) RequestFigures(ctx context.Context, in *RequestFiguresInput, opts ...grpc.CallOption) (*RequestFiguresOutput, error) {
+func (c *figureServiceClient) DrawFigures(ctx context.Context, in *DrawFiguresInput, opts ...grpc.CallOption) (*DrawFiguresOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RequestFiguresOutput)
-	err := c.cc.Invoke(ctx, FigureService_RequestFigures_FullMethodName, in, out, cOpts...)
+	out := new(DrawFiguresOutput)
+	err := c.cc.Invoke(ctx, FigureService_DrawFigures_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -71,9 +71,9 @@ func (c *figureServiceClient) RequestFigures(ctx context.Context, in *RequestFig
 // changed; a thread keeps the conversation, so a follow-up can answer a question the agent asked. It only
 // makes figures; any other request gets a reply and no figure.
 type FigureServiceServer interface {
-	// RequestFigures creates or changes figures as the request asks. A changed figure is uploaded as a new asset
+	// DrawFigures creates or changes figures as the request asks. A changed figure is uploaded as a new asset
 	// with a new URL, which the caller puts in place of the old one; the old figure stays as it was.
-	RequestFigures(context.Context, *RequestFiguresInput) (*RequestFiguresOutput, error)
+	DrawFigures(context.Context, *DrawFiguresInput) (*DrawFiguresOutput, error)
 }
 
 // UnimplementedFigureServiceServer should be embedded to have
@@ -83,8 +83,8 @@ type FigureServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFigureServiceServer struct{}
 
-func (UnimplementedFigureServiceServer) RequestFigures(context.Context, *RequestFiguresInput) (*RequestFiguresOutput, error) {
-	return nil, status.Error(codes.Unimplemented, "method RequestFigures not implemented")
+func (UnimplementedFigureServiceServer) DrawFigures(context.Context, *DrawFiguresInput) (*DrawFiguresOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method DrawFigures not implemented")
 }
 func (UnimplementedFigureServiceServer) testEmbeddedByValue() {}
 
@@ -106,20 +106,20 @@ func RegisterFigureServiceServer(s grpc.ServiceRegistrar, srv FigureServiceServe
 	s.RegisterService(&FigureService_ServiceDesc, srv)
 }
 
-func _FigureService_RequestFigures_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestFiguresInput)
+func _FigureService_DrawFigures_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DrawFiguresInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FigureServiceServer).RequestFigures(ctx, in)
+		return srv.(FigureServiceServer).DrawFigures(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FigureService_RequestFigures_FullMethodName,
+		FullMethod: FigureService_DrawFigures_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FigureServiceServer).RequestFigures(ctx, req.(*RequestFiguresInput))
+		return srv.(FigureServiceServer).DrawFigures(ctx, req.(*DrawFiguresInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -132,8 +132,8 @@ var FigureService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FigureServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "RequestFigures",
-			Handler:    _FigureService_RequestFigures_Handler,
+			MethodName: "DrawFigures",
+			Handler:    _FigureService_DrawFigures_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
