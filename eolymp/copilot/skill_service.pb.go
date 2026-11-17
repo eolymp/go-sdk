@@ -282,6 +282,7 @@ func (*DeleteSkillOutput) Descriptor() ([]byte, []int) {
 type DescribeSkillInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SkillId       string                 `protobuf:"bytes,1,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
+	Version       uint32                 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"` // a specific version of the skill, 0 for the current one
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -321,6 +322,13 @@ func (x *DescribeSkillInput) GetSkillId() string {
 		return x.SkillId
 	}
 	return ""
+}
+
+func (x *DescribeSkillInput) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
 }
 
 type DescribeSkillOutput struct {
@@ -487,6 +495,118 @@ func (x *ListSkillsOutput) GetItems() []*Skill {
 	return nil
 }
 
+type ListSkillVersionsInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SkillId       string                 `protobuf:"bytes,1,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
+	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSkillVersionsInput) Reset() {
+	*x = ListSkillVersionsInput{}
+	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSkillVersionsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSkillVersionsInput) ProtoMessage() {}
+
+func (x *ListSkillVersionsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSkillVersionsInput.ProtoReflect.Descriptor instead.
+func (*ListSkillVersionsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_copilot_skill_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListSkillVersionsInput) GetSkillId() string {
+	if x != nil {
+		return x.SkillId
+	}
+	return ""
+}
+
+func (x *ListSkillVersionsInput) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *ListSkillVersionsInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+type ListSkillVersionsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Skill               `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSkillVersionsOutput) Reset() {
+	*x = ListSkillVersionsOutput{}
+	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSkillVersionsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSkillVersionsOutput) ProtoMessage() {}
+
+func (x *ListSkillVersionsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSkillVersionsOutput.ProtoReflect.Descriptor instead.
+func (*ListSkillVersionsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_copilot_skill_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListSkillVersionsOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListSkillVersionsOutput) GetItems() []*Skill {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type ListSkillsInput_Filter struct {
 	state         protoimpl.MessageState        `protogen:"open.v1"`
 	Id            []*wellknown.ExpressionID     `protobuf:"bytes,1,rep,name=id,proto3" json:"id,omitempty"`
@@ -497,7 +617,7 @@ type ListSkillsInput_Filter struct {
 
 func (x *ListSkillsInput_Filter) Reset() {
 	*x = ListSkillsInput_Filter{}
-	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[10]
+	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -509,7 +629,7 @@ func (x *ListSkillsInput_Filter) String() string {
 func (*ListSkillsInput_Filter) ProtoMessage() {}
 
 func (x *ListSkillsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[10]
+	mi := &file_eolymp_copilot_skill_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -554,9 +674,10 @@ const file_eolymp_copilot_skill_service_proto_rawDesc = "" +
 	"\x11UpdateSkillOutput\"-\n" +
 	"\x10DeleteSkillInput\x12\x19\n" +
 	"\bskill_id\x18\x01 \x01(\tR\askillId\"\x13\n" +
-	"\x11DeleteSkillOutput\"/\n" +
+	"\x11DeleteSkillOutput\"I\n" +
 	"\x12DescribeSkillInput\x12\x19\n" +
-	"\bskill_id\x18\x01 \x01(\tR\askillId\"B\n" +
+	"\bskill_id\x18\x01 \x01(\tR\askillId\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\rR\aversion\"B\n" +
 	"\x13DescribeSkillOutput\x12+\n" +
 	"\x05skill\x18\x01 \x01(\v2\x15.eolymp.copilot.SkillR\x05skill\"\x89\x02\n" +
 	"\x0fListSkillsInput\x12\x16\n" +
@@ -570,7 +691,15 @@ const file_eolymp_copilot_skill_service_proto_rawDesc = "" +
 	"\x04path\x18\x02 \x03(\v2\".eolymp.wellknown.ExpressionStringR\x04path\"U\n" +
 	"\x10ListSkillsOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.copilot.SkillR\x05items2\xd0\x06\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.copilot.SkillR\x05items\"_\n" +
+	"\x16ListSkillVersionsInput\x12\x19\n" +
+	"\bskill_id\x18\x01 \x01(\tR\askillId\x12\x16\n" +
+	"\x06offset\x18\n" +
+	" \x01(\x05R\x06offset\x12\x12\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\"\\\n" +
+	"\x17ListSkillVersionsOutput\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.copilot.SkillR\x05items2\x95\b\n" +
 	"\fSkillService\x12\x9d\x01\n" +
 	"\vCreateSkill\x12 .eolymp.copilot.CreateSkillInput\x1a!.eolymp.copilot.CreateSkillOutput\"I\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -603,7 +732,15 @@ const file_eolymp_copilot_skill_service_proto_rawDesc = "" +
 	"\x16\x8a\xe3\n" +
 	"\x12copilot:skill:read\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/copilot/skills/{skill_id}\x12\x99\x01\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x1c\x12\x1a/copilot/skills/{skill_id}\x12\xc2\x01\n" +
+	"\x11ListSkillVersions\x12&.eolymp.copilot.ListSkillVersionsInput\x1a'.eolymp.copilot.ListSkillVersionsOutput\"\\\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0A\xf8\xe2\n" +
+	"d\x82\xe3\n" +
+	"\x16\x8a\xe3\n" +
+	"\x12copilot:skill:read\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02%\x12#/copilot/skills/{skill_id}/versions\x12\x99\x01\n" +
 	"\n" +
 	"ListSkills\x12\x1f.eolymp.copilot.ListSkillsInput\x1a .eolymp.copilot.ListSkillsOutput\"H\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -626,7 +763,7 @@ func file_eolymp_copilot_skill_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_copilot_skill_service_proto_rawDescData
 }
 
-var file_eolymp_copilot_skill_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_eolymp_copilot_skill_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_eolymp_copilot_skill_service_proto_goTypes = []any{
 	(*CreateSkillInput)(nil),           // 0: eolymp.copilot.CreateSkillInput
 	(*CreateSkillOutput)(nil),          // 1: eolymp.copilot.CreateSkillOutput
@@ -638,35 +775,40 @@ var file_eolymp_copilot_skill_service_proto_goTypes = []any{
 	(*DescribeSkillOutput)(nil),        // 7: eolymp.copilot.DescribeSkillOutput
 	(*ListSkillsInput)(nil),            // 8: eolymp.copilot.ListSkillsInput
 	(*ListSkillsOutput)(nil),           // 9: eolymp.copilot.ListSkillsOutput
-	(*ListSkillsInput_Filter)(nil),     // 10: eolymp.copilot.ListSkillsInput.Filter
-	(*Skill)(nil),                      // 11: eolymp.copilot.Skill
-	(*Skill_Patch)(nil),                // 12: eolymp.copilot.Skill.Patch
-	(*wellknown.ExpressionID)(nil),     // 13: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionString)(nil), // 14: eolymp.wellknown.ExpressionString
+	(*ListSkillVersionsInput)(nil),     // 10: eolymp.copilot.ListSkillVersionsInput
+	(*ListSkillVersionsOutput)(nil),    // 11: eolymp.copilot.ListSkillVersionsOutput
+	(*ListSkillsInput_Filter)(nil),     // 12: eolymp.copilot.ListSkillsInput.Filter
+	(*Skill)(nil),                      // 13: eolymp.copilot.Skill
+	(*Skill_Patch)(nil),                // 14: eolymp.copilot.Skill.Patch
+	(*wellknown.ExpressionID)(nil),     // 15: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionString)(nil), // 16: eolymp.wellknown.ExpressionString
 }
 var file_eolymp_copilot_skill_service_proto_depIdxs = []int32{
-	11, // 0: eolymp.copilot.CreateSkillInput.skill:type_name -> eolymp.copilot.Skill
-	12, // 1: eolymp.copilot.UpdateSkillInput.skill:type_name -> eolymp.copilot.Skill.Patch
-	11, // 2: eolymp.copilot.DescribeSkillOutput.skill:type_name -> eolymp.copilot.Skill
-	10, // 3: eolymp.copilot.ListSkillsInput.filters:type_name -> eolymp.copilot.ListSkillsInput.Filter
-	11, // 4: eolymp.copilot.ListSkillsOutput.items:type_name -> eolymp.copilot.Skill
-	13, // 5: eolymp.copilot.ListSkillsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	14, // 6: eolymp.copilot.ListSkillsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
-	0,  // 7: eolymp.copilot.SkillService.CreateSkill:input_type -> eolymp.copilot.CreateSkillInput
-	2,  // 8: eolymp.copilot.SkillService.UpdateSkill:input_type -> eolymp.copilot.UpdateSkillInput
-	4,  // 9: eolymp.copilot.SkillService.DeleteSkill:input_type -> eolymp.copilot.DeleteSkillInput
-	6,  // 10: eolymp.copilot.SkillService.DescribeSkill:input_type -> eolymp.copilot.DescribeSkillInput
-	8,  // 11: eolymp.copilot.SkillService.ListSkills:input_type -> eolymp.copilot.ListSkillsInput
-	1,  // 12: eolymp.copilot.SkillService.CreateSkill:output_type -> eolymp.copilot.CreateSkillOutput
-	3,  // 13: eolymp.copilot.SkillService.UpdateSkill:output_type -> eolymp.copilot.UpdateSkillOutput
-	5,  // 14: eolymp.copilot.SkillService.DeleteSkill:output_type -> eolymp.copilot.DeleteSkillOutput
-	7,  // 15: eolymp.copilot.SkillService.DescribeSkill:output_type -> eolymp.copilot.DescribeSkillOutput
-	9,  // 16: eolymp.copilot.SkillService.ListSkills:output_type -> eolymp.copilot.ListSkillsOutput
-	12, // [12:17] is the sub-list for method output_type
-	7,  // [7:12] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	13, // 0: eolymp.copilot.CreateSkillInput.skill:type_name -> eolymp.copilot.Skill
+	14, // 1: eolymp.copilot.UpdateSkillInput.skill:type_name -> eolymp.copilot.Skill.Patch
+	13, // 2: eolymp.copilot.DescribeSkillOutput.skill:type_name -> eolymp.copilot.Skill
+	12, // 3: eolymp.copilot.ListSkillsInput.filters:type_name -> eolymp.copilot.ListSkillsInput.Filter
+	13, // 4: eolymp.copilot.ListSkillsOutput.items:type_name -> eolymp.copilot.Skill
+	13, // 5: eolymp.copilot.ListSkillVersionsOutput.items:type_name -> eolymp.copilot.Skill
+	15, // 6: eolymp.copilot.ListSkillsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	16, // 7: eolymp.copilot.ListSkillsInput.Filter.path:type_name -> eolymp.wellknown.ExpressionString
+	0,  // 8: eolymp.copilot.SkillService.CreateSkill:input_type -> eolymp.copilot.CreateSkillInput
+	2,  // 9: eolymp.copilot.SkillService.UpdateSkill:input_type -> eolymp.copilot.UpdateSkillInput
+	4,  // 10: eolymp.copilot.SkillService.DeleteSkill:input_type -> eolymp.copilot.DeleteSkillInput
+	6,  // 11: eolymp.copilot.SkillService.DescribeSkill:input_type -> eolymp.copilot.DescribeSkillInput
+	10, // 12: eolymp.copilot.SkillService.ListSkillVersions:input_type -> eolymp.copilot.ListSkillVersionsInput
+	8,  // 13: eolymp.copilot.SkillService.ListSkills:input_type -> eolymp.copilot.ListSkillsInput
+	1,  // 14: eolymp.copilot.SkillService.CreateSkill:output_type -> eolymp.copilot.CreateSkillOutput
+	3,  // 15: eolymp.copilot.SkillService.UpdateSkill:output_type -> eolymp.copilot.UpdateSkillOutput
+	5,  // 16: eolymp.copilot.SkillService.DeleteSkill:output_type -> eolymp.copilot.DeleteSkillOutput
+	7,  // 17: eolymp.copilot.SkillService.DescribeSkill:output_type -> eolymp.copilot.DescribeSkillOutput
+	11, // 18: eolymp.copilot.SkillService.ListSkillVersions:output_type -> eolymp.copilot.ListSkillVersionsOutput
+	9,  // 19: eolymp.copilot.SkillService.ListSkills:output_type -> eolymp.copilot.ListSkillsOutput
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_copilot_skill_service_proto_init() }
@@ -681,7 +823,7 @@ func file_eolymp_copilot_skill_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_copilot_skill_service_proto_rawDesc), len(file_eolymp_copilot_skill_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

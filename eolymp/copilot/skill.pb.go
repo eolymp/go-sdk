@@ -9,6 +9,7 @@ package copilot
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,13 +23,17 @@ const (
 )
 
 // Skill is a page of instructions for agents: how to do one kind of task on the platform. Skills link to each
-// other by path, so the path stays stable once a skill is published.
+// other by path, so the path stays stable once a skill is published. Every change to a skill makes a new version,
+// earlier versions stay readable.
 type Skill struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"` // unique, for example /copilot/draw-a-figure
 	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"` // markdown
+	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`                       // markdown
+	Version       uint32                 `protobuf:"varint,10,opt,name=version,proto3" json:"version,omitempty"`                     // revision number, starts at 1 and grows with every update
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // when this version was made
+	UpdatedBy     string                 `protobuf:"bytes,12,opt,name=updated_by,json=updatedBy,proto3" json:"updated_by,omitempty"` // user who made this version
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -87,6 +92,27 @@ func (x *Skill) GetTitle() string {
 func (x *Skill) GetContent() string {
 	if x != nil {
 		return x.Content
+	}
+	return ""
+}
+
+func (x *Skill) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *Skill) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *Skill) GetUpdatedBy() string {
+	if x != nil {
+		return x.UpdatedBy
 	}
 	return ""
 }
@@ -155,12 +181,18 @@ var File_eolymp_copilot_skill_proto protoreflect.FileDescriptor
 
 const file_eolymp_copilot_skill_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/copilot/skill.proto\x12\x0eeolymp.copilot\"\xd6\x01\n" +
+	"\x1aeolymp/copilot/skill.proto\x12\x0eeolymp.copilot\x1a\x1fgoogle/protobuf/timestamp.proto\"\xca\x02\n" +
 	"\x05Skill\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12\x14\n" +
 	"\x05title\x18\x03 \x01(\tR\x05title\x12\x18\n" +
-	"\acontent\x18\x04 \x01(\tR\acontent\x1ay\n" +
+	"\acontent\x18\x04 \x01(\tR\acontent\x12\x18\n" +
+	"\aversion\x18\n" +
+	" \x01(\rR\aversion\x129\n" +
+	"\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_by\x18\f \x01(\tR\tupdatedBy\x1ay\n" +
 	"\x05Patch\x12\x17\n" +
 	"\x04path\x18\x02 \x01(\tH\x00R\x04path\x88\x01\x01\x12\x19\n" +
 	"\x05title\x18\x03 \x01(\tH\x01R\x05title\x88\x01\x01\x12\x1d\n" +
@@ -184,15 +216,17 @@ func file_eolymp_copilot_skill_proto_rawDescGZIP() []byte {
 
 var file_eolymp_copilot_skill_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_eolymp_copilot_skill_proto_goTypes = []any{
-	(*Skill)(nil),       // 0: eolymp.copilot.Skill
-	(*Skill_Patch)(nil), // 1: eolymp.copilot.Skill.Patch
+	(*Skill)(nil),                 // 0: eolymp.copilot.Skill
+	(*Skill_Patch)(nil),           // 1: eolymp.copilot.Skill.Patch
+	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 }
 var file_eolymp_copilot_skill_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: eolymp.copilot.Skill.updated_at:type_name -> google.protobuf.Timestamp
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_copilot_skill_proto_init() }

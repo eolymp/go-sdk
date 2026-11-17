@@ -213,6 +213,9 @@ func RegisterSkillServiceHttpHandlers(router *mux.Router, prefix string, cli Ski
 	router.Handle(prefix+"/copilot/skills/{skill_id}", _SkillService_DescribeSkill_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.copilot.SkillService.DescribeSkill")
+	router.Handle(prefix+"/copilot/skills/{skill_id}/versions", _SkillService_ListSkillVersions_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.copilot.SkillService.ListSkillVersions")
 	router.Handle(prefix+"/copilot/skills", _SkillService_ListSkills_Rule0(cli)).
 		Methods("GET").
 		Name("eolymp.copilot.SkillService.ListSkills")
@@ -307,6 +310,30 @@ func _SkillService_DescribeSkill_Rule0(cli SkillServiceClient) http.Handler {
 		var header, trailer metadata.MD
 
 		out, err := cli.DescribeSkill(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_SkillService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_SkillService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _SkillService_ListSkillVersions_Rule0(cli SkillServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListSkillVersionsInput{}
+
+		if err := _SkillService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_SkillService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.SkillId = vars["skill_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListSkillVersions(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_SkillService_HTTPWriteErrorResponse(w, err)
 			return

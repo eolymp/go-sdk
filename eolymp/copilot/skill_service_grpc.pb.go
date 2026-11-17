@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SkillService_CreateSkill_FullMethodName   = "/eolymp.copilot.SkillService/CreateSkill"
-	SkillService_UpdateSkill_FullMethodName   = "/eolymp.copilot.SkillService/UpdateSkill"
-	SkillService_DeleteSkill_FullMethodName   = "/eolymp.copilot.SkillService/DeleteSkill"
-	SkillService_DescribeSkill_FullMethodName = "/eolymp.copilot.SkillService/DescribeSkill"
-	SkillService_ListSkills_FullMethodName    = "/eolymp.copilot.SkillService/ListSkills"
+	SkillService_CreateSkill_FullMethodName       = "/eolymp.copilot.SkillService/CreateSkill"
+	SkillService_UpdateSkill_FullMethodName       = "/eolymp.copilot.SkillService/UpdateSkill"
+	SkillService_DeleteSkill_FullMethodName       = "/eolymp.copilot.SkillService/DeleteSkill"
+	SkillService_DescribeSkill_FullMethodName     = "/eolymp.copilot.SkillService/DescribeSkill"
+	SkillService_ListSkillVersions_FullMethodName = "/eolymp.copilot.SkillService/ListSkillVersions"
+	SkillService_ListSkills_FullMethodName        = "/eolymp.copilot.SkillService/ListSkills"
 )
 
 // SkillServiceClient is the client API for SkillService service.
@@ -37,6 +38,9 @@ type SkillServiceClient interface {
 	UpdateSkill(ctx context.Context, in *UpdateSkillInput, opts ...grpc.CallOption) (*UpdateSkillOutput, error)
 	DeleteSkill(ctx context.Context, in *DeleteSkillInput, opts ...grpc.CallOption) (*DeleteSkillOutput, error)
 	DescribeSkill(ctx context.Context, in *DescribeSkillInput, opts ...grpc.CallOption) (*DescribeSkillOutput, error)
+	// ListSkillVersions returns the history of one skill, newest version first. Each version comes back as a whole
+	// skill.
+	ListSkillVersions(ctx context.Context, in *ListSkillVersionsInput, opts ...grpc.CallOption) (*ListSkillVersionsOutput, error)
 	// ListSkills finds skills by what a task is about with `search`, or one skill by its path with a `path` filter.
 	ListSkills(ctx context.Context, in *ListSkillsInput, opts ...grpc.CallOption) (*ListSkillsOutput, error)
 }
@@ -89,6 +93,16 @@ func (c *skillServiceClient) DescribeSkill(ctx context.Context, in *DescribeSkil
 	return out, nil
 }
 
+func (c *skillServiceClient) ListSkillVersions(ctx context.Context, in *ListSkillVersionsInput, opts ...grpc.CallOption) (*ListSkillVersionsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSkillVersionsOutput)
+	err := c.cc.Invoke(ctx, SkillService_ListSkillVersions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *skillServiceClient) ListSkills(ctx context.Context, in *ListSkillsInput, opts ...grpc.CallOption) (*ListSkillsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListSkillsOutput)
@@ -110,6 +124,9 @@ type SkillServiceServer interface {
 	UpdateSkill(context.Context, *UpdateSkillInput) (*UpdateSkillOutput, error)
 	DeleteSkill(context.Context, *DeleteSkillInput) (*DeleteSkillOutput, error)
 	DescribeSkill(context.Context, *DescribeSkillInput) (*DescribeSkillOutput, error)
+	// ListSkillVersions returns the history of one skill, newest version first. Each version comes back as a whole
+	// skill.
+	ListSkillVersions(context.Context, *ListSkillVersionsInput) (*ListSkillVersionsOutput, error)
 	// ListSkills finds skills by what a task is about with `search`, or one skill by its path with a `path` filter.
 	ListSkills(context.Context, *ListSkillsInput) (*ListSkillsOutput, error)
 }
@@ -132,6 +149,9 @@ func (UnimplementedSkillServiceServer) DeleteSkill(context.Context, *DeleteSkill
 }
 func (UnimplementedSkillServiceServer) DescribeSkill(context.Context, *DescribeSkillInput) (*DescribeSkillOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeSkill not implemented")
+}
+func (UnimplementedSkillServiceServer) ListSkillVersions(context.Context, *ListSkillVersionsInput) (*ListSkillVersionsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListSkillVersions not implemented")
 }
 func (UnimplementedSkillServiceServer) ListSkills(context.Context, *ListSkillsInput) (*ListSkillsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListSkills not implemented")
@@ -228,6 +248,24 @@ func _SkillService_DescribeSkill_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SkillService_ListSkillVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSkillVersionsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SkillServiceServer).ListSkillVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SkillService_ListSkillVersions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SkillServiceServer).ListSkillVersions(ctx, req.(*ListSkillVersionsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SkillService_ListSkills_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListSkillsInput)
 	if err := dec(in); err != nil {
@@ -268,6 +306,10 @@ var SkillService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeSkill",
 			Handler:    _SkillService_DescribeSkill_Handler,
+		},
+		{
+			MethodName: "ListSkillVersions",
+			Handler:    _SkillService_ListSkillVersions_Handler,
 		},
 		{
 			MethodName: "ListSkills",

@@ -159,6 +159,22 @@ func (s *SkillServiceService) DescribeSkill(ctx context.Context, in *DescribeSki
 	return out, nil
 }
 
+func (s *SkillServiceService) ListSkillVersions(ctx context.Context, in *ListSkillVersionsInput) (*ListSkillVersionsOutput, error) {
+	out := &ListSkillVersionsOutput{}
+	path := "/copilot/skills/" + url.PathEscape(in.GetSkillId()) + "/versions"
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.SkillId = ""
+	}
+
+	if err := s.do(ctx, "GET", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
 func (s *SkillServiceService) ListSkills(ctx context.Context, in *ListSkillsInput) (*ListSkillsOutput, error) {
 	out := &ListSkillsOutput{}
 	path := "/copilot/skills"
