@@ -214,12 +214,10 @@ type RenderFigureInput struct {
 	// Types that are valid to be assigned to Source:
 	//
 	//	*RenderFigureInput_Typst
-	Source isRenderFigureInput_Source `protobuf_oneof:"source"`
-	// Image format of the pages; unset renders SVG.
-	Format RenderFigureInput_Format `protobuf:"varint,2,opt,name=format,proto3,enum=eolymp.content.RenderFigureInput_Format" json:"format,omitempty"`
-	// Pages to return: the first one, and how many at most; as many as fit in 2MB when size is unset.
-	Offset        int32 `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	Size          int32 `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Source        isRenderFigureInput_Source `protobuf_oneof:"source"`
+	Format        RenderFigureInput_Format   `protobuf:"varint,2,opt,name=format,proto3,enum=eolymp.content.RenderFigureInput_Format" json:"format,omitempty"`
+	Offset        int32                      `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                      `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -296,20 +294,16 @@ type isRenderFigureInput_Source interface {
 }
 
 type RenderFigureInput_Typst struct {
-	// Typst source of the figure. Each page is sized to fit its drawing; a page break starts the next page.
 	Typst string `protobuf:"bytes,1,opt,name=typst,proto3,oneof"`
 }
 
 func (*RenderFigureInput_Typst) isRenderFigureInput_Source() {}
 
 type RenderFigureOutput struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Pages of the figure in order, starting at offset, up to size and as many as fit in 2MB; empty when the figure
-	// does not compile.
-	Pages       []*RenderFigureOutput_Page       `protobuf:"bytes,1,rep,name=pages,proto3" json:"pages,omitempty"`
-	Diagnostics []*RenderFigureOutput_Diagnostic `protobuf:"bytes,2,rep,name=diagnostics,proto3" json:"diagnostics,omitempty"`
-	// Number of pages in the whole figure.
-	Total         int32 `protobuf:"varint,3,opt,name=total,proto3" json:"total,omitempty"`
+	state         protoimpl.MessageState           `protogen:"open.v1"`
+	Pages         []*RenderFigureOutput_Page       `protobuf:"bytes,1,rep,name=pages,proto3" json:"pages,omitempty"`
+	Diagnostics   []*RenderFigureOutput_Diagnostic `protobuf:"bytes,2,rep,name=diagnostics,proto3" json:"diagnostics,omitempty"`
+	Total         int32                            `protobuf:"varint,3,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -366,9 +360,10 @@ func (x *RenderFigureOutput) GetTotal() int32 {
 }
 
 type RenderFigureOutput_Page struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The image, SVG markup or PNG bytes as asked.
-	Data          []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []byte                 `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Width         uint32                 `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
+	Height        uint32                 `protobuf:"varint,3,opt,name=height,proto3" json:"height,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -408,6 +403,20 @@ func (x *RenderFigureOutput_Page) GetData() []byte {
 		return x.Data
 	}
 	return nil
+}
+
+func (x *RenderFigureOutput_Page) GetWidth() uint32 {
+	if x != nil {
+		return x.Width
+	}
+	return 0
+}
+
+func (x *RenderFigureOutput_Page) GetHeight() uint32 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
 }
 
 type RenderFigureOutput_Diagnostic struct {
@@ -505,13 +514,15 @@ const file_eolymp_content_render_service_proto_rawDesc = "" +
 	"\x0eUNKNOWN_FORMAT\x10\x00\x12\a\n" +
 	"\x03SVG\x10\x01\x12\a\n" +
 	"\x03PNG\x10\x02B\b\n" +
-	"\x06source\"\xcf\x03\n" +
+	"\x06source\"\xfd\x03\n" +
 	"\x12RenderFigureOutput\x12=\n" +
 	"\x05pages\x18\x01 \x03(\v2'.eolymp.content.RenderFigureOutput.PageR\x05pages\x12O\n" +
 	"\vdiagnostics\x18\x02 \x03(\v2-.eolymp.content.RenderFigureOutput.DiagnosticR\vdiagnostics\x12\x14\n" +
-	"\x05total\x18\x03 \x01(\x05R\x05total\x1a\x1a\n" +
+	"\x05total\x18\x03 \x01(\x05R\x05total\x1aH\n" +
 	"\x04Page\x12\x12\n" +
-	"\x04data\x18\x01 \x01(\fR\x04data\x1a\xf6\x01\n" +
+	"\x04data\x18\x01 \x01(\fR\x04data\x12\x14\n" +
+	"\x05width\x18\x02 \x01(\rR\x05width\x12\x16\n" +
+	"\x06height\x18\x03 \x01(\rR\x06height\x1a\xf6\x01\n" +
 	"\n" +
 	"Diagnostic\x12R\n" +
 	"\bseverity\x18\x01 \x01(\x0e26.eolymp.content.RenderFigureOutput.Diagnostic.SeverityR\bseverity\x12\x12\n" +
