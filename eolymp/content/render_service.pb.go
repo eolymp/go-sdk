@@ -29,6 +29,7 @@ const (
 	RenderFigureInput_UNKNOWN_FORMAT RenderFigureInput_Format = 0
 	RenderFigureInput_SVG            RenderFigureInput_Format = 1
 	RenderFigureInput_PNG            RenderFigureInput_Format = 2
+	RenderFigureInput_GIF            RenderFigureInput_Format = 3
 )
 
 // Enum value maps for RenderFigureInput_Format.
@@ -37,11 +38,13 @@ var (
 		0: "UNKNOWN_FORMAT",
 		1: "SVG",
 		2: "PNG",
+		3: "GIF",
 	}
 	RenderFigureInput_Format_value = map[string]int32{
 		"UNKNOWN_FORMAT": 0,
 		"SVG":            1,
 		"PNG":            2,
+		"GIF":            3,
 	}
 )
 
@@ -367,7 +370,7 @@ func (x *RenderFigureOutput) GetTotal() int32 {
 
 type RenderFigureOutput_Page struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The image, SVG markup or PNG bytes as asked.
+	// The image: SVG markup, or PNG or GIF bytes, as asked.
 	Data          []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -494,17 +497,18 @@ const file_eolymp_content_render_service_proto_rawDesc = "" +
 	"\x12RenderContentInput\x12-\n" +
 	"\acontent\x18\x01 \x01(\v2\x13.eolymp.ecm.ContentR\acontent\"?\n" +
 	"\x13RenderContentOutput\x12(\n" +
-	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render\"\xd3\x01\n" +
+	"\x06render\x18\x01 \x01(\v2\x10.eolymp.ecm.NodeR\x06render\"\xdc\x01\n" +
 	"\x11RenderFigureInput\x12\x16\n" +
 	"\x05typst\x18\x01 \x01(\tH\x00R\x05typst\x12@\n" +
 	"\x06format\x18\x02 \x01(\x0e2(.eolymp.content.RenderFigureInput.FormatR\x06format\x12\x16\n" +
 	"\x06offset\x18\n" +
 	" \x01(\x05R\x06offset\x12\x12\n" +
-	"\x04size\x18\v \x01(\x05R\x04size\".\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\"7\n" +
 	"\x06Format\x12\x12\n" +
 	"\x0eUNKNOWN_FORMAT\x10\x00\x12\a\n" +
 	"\x03SVG\x10\x01\x12\a\n" +
-	"\x03PNG\x10\x02B\b\n" +
+	"\x03PNG\x10\x02\x12\a\n" +
+	"\x03GIF\x10\x03B\b\n" +
 	"\x06source\"\xcf\x03\n" +
 	"\x12RenderFigureOutput\x12=\n" +
 	"\x05pages\x18\x01 \x03(\v2'.eolymp.content.RenderFigureOutput.PageR\x05pages\x12O\n" +

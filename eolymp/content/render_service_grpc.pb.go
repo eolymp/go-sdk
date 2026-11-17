@@ -37,8 +37,9 @@ type RenderServiceClient interface {
 	// RenderContent parses the content carried in the request and returns the tree it produces. Nothing is
 	// read from or written to stored data, so it is safe to call as often as an editor's keystrokes allow.
 	RenderContent(ctx context.Context, in *RenderContentInput, opts ...grpc.CallOption) (*RenderContentOutput, error)
-	// RenderFigure compiles a figure into one image per page, SVG or PNG. A call returns at most 2MB of pages; page
-	// through the rest with offset and size. A figure that does not compile returns diagnostics, not an error.
+	// RenderFigure compiles a figure into one image per page, SVG or PNG, or into one looping GIF with a frame per
+	// page. A call returns at most 2MB of pages; page through the rest with offset and size. A figure that does not
+	// compile returns diagnostics, not an error.
 	RenderFigure(ctx context.Context, in *RenderFigureInput, opts ...grpc.CallOption) (*RenderFigureOutput, error)
 }
 
@@ -84,8 +85,9 @@ type RenderServiceServer interface {
 	// RenderContent parses the content carried in the request and returns the tree it produces. Nothing is
 	// read from or written to stored data, so it is safe to call as often as an editor's keystrokes allow.
 	RenderContent(context.Context, *RenderContentInput) (*RenderContentOutput, error)
-	// RenderFigure compiles a figure into one image per page, SVG or PNG. A call returns at most 2MB of pages; page
-	// through the rest with offset and size. A figure that does not compile returns diagnostics, not an error.
+	// RenderFigure compiles a figure into one image per page, SVG or PNG, or into one looping GIF with a frame per
+	// page. A call returns at most 2MB of pages; page through the rest with offset and size. A figure that does not
+	// compile returns diagnostics, not an error.
 	RenderFigure(context.Context, *RenderFigureInput) (*RenderFigureOutput, error)
 }
 
