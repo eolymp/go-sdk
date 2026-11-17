@@ -49,8 +49,7 @@ type AssetServiceClient interface {
 	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
 	UploadAsset(ctx context.Context, in *UploadAssetInput, opts ...grpc.CallOption) (*UploadAssetOutput, error)
 	// LookupAsset finds a ready asset in the space by the SHA-256 of its content, so a file uploaded before can be reused
-	// instead of uploaded again. The hash is computed by the server from the bytes it received, for multipart uploads only
-	// when parts are uploaded in order, starting from 1.
+	// instead of uploaded again. The hash is computed by the server from the bytes it received.
 	LookupAsset(ctx context.Context, in *LookupAssetInput, opts ...grpc.CallOption) (*LookupAssetOutput, error)
 	// DeleteAsset removes an asset and the object behind it, after which the asset URL stops resolving. Copies already
 	// cached by the CDN are still served until they expire.
@@ -79,7 +78,8 @@ type AssetServiceClient interface {
 	StartMultipartUpload(ctx context.Context, in *StartMultipartUploadInput, opts ...grpc.CallOption) (*StartMultipartUploadOutput, error)
 	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
 	// all parts are uploaded you must call CompleteMultipartUpload to finalize upload process and get asset_url.
-	// Every part, except last one, must be 5MB. You can use from 1 to 1000 parts per upload.
+	// Every part, except last one, must be 5MB. You can use from 1 to 1000 parts per upload. Parts are uploaded one at a
+	// time in order, starting from 1; any other part number is rejected.
 	UploadPart(ctx context.Context, in *UploadPartInput, opts ...grpc.CallOption) (*UploadPartOutput, error)
 	// CompleteMultipartUpload finalizes upload process and generates asset_url.
 	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadInput, opts ...grpc.CallOption) (*CompleteMultipartUploadOutput, error)
@@ -246,8 +246,7 @@ type AssetServiceServer interface {
 	// UploadAsset allows to upload a file under 5 MB, files over 5MB must be uploaded using multipart upload API
 	UploadAsset(context.Context, *UploadAssetInput) (*UploadAssetOutput, error)
 	// LookupAsset finds a ready asset in the space by the SHA-256 of its content, so a file uploaded before can be reused
-	// instead of uploaded again. The hash is computed by the server from the bytes it received, for multipart uploads only
-	// when parts are uploaded in order, starting from 1.
+	// instead of uploaded again. The hash is computed by the server from the bytes it received.
 	LookupAsset(context.Context, *LookupAssetInput) (*LookupAssetOutput, error)
 	// DeleteAsset removes an asset and the object behind it, after which the asset URL stops resolving. Copies already
 	// cached by the CDN are still served until they expire.
@@ -276,7 +275,8 @@ type AssetServiceServer interface {
 	StartMultipartUpload(context.Context, *StartMultipartUploadInput) (*StartMultipartUploadOutput, error)
 	// UploadPart of a file, before calling this method you must start upload process using StartMultipartUpload API, once
 	// all parts are uploaded you must call CompleteMultipartUpload to finalize upload process and get asset_url.
-	// Every part, except last one, must be 5MB. You can use from 1 to 1000 parts per upload.
+	// Every part, except last one, must be 5MB. You can use from 1 to 1000 parts per upload. Parts are uploaded one at a
+	// time in order, starting from 1; any other part number is rejected.
 	UploadPart(context.Context, *UploadPartInput) (*UploadPartOutput, error)
 	// CompleteMultipartUpload finalizes upload process and generates asset_url.
 	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadInput) (*CompleteMultipartUploadOutput, error)

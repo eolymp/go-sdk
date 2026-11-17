@@ -258,7 +258,6 @@ type UploadAssetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`   // name might be used to infer file type and to set Content-Disposition header
 	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`   // mime type, if empty inferred from extension in the filename
-	Keys          []string               `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys,omitempty"`   // deprecated and ignored, assets are found by content hash with LookupAsset
 	Ttl           uint32                 `protobuf:"varint,20,opt,name=ttl,proto3" json:"ttl,omitempty"`   // time to live in seconds, 0 - forever
 	Data          []byte                 `protobuf:"bytes,100,opt,name=data,proto3" json:"data,omitempty"` // up to 5MB (5M bytes) of data
 	unknownFields protoimpl.UnknownFields
@@ -307,13 +306,6 @@ func (x *UploadAssetInput) GetType() string {
 		return x.Type
 	}
 	return ""
-}
-
-func (x *UploadAssetInput) GetKeys() []string {
-	if x != nil {
-		return x.Keys
-	}
-	return nil
 }
 
 func (x *UploadAssetInput) GetTtl() uint32 {
@@ -376,7 +368,6 @@ func (x *UploadAssetOutput) GetAssetUrl() string {
 
 type LookupAssetInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`       // deprecated, use sha256
 	Sha256        string                 `protobuf:"bytes,2,opt,name=sha256,proto3" json:"sha256,omitempty"` // hex encoded SHA-256 of the file content
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -410,13 +401,6 @@ func (x *LookupAssetInput) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LookupAssetInput.ProtoReflect.Descriptor instead.
 func (*LookupAssetInput) Descriptor() ([]byte, []int) {
 	return file_eolymp_asset_asset_service_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *LookupAssetInput) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
 }
 
 func (x *LookupAssetInput) GetSha256() string {
@@ -554,7 +538,6 @@ type StartMultipartUploadInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // name might be used to infer file type and to set Content-Disposition header
 	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"` // mime type, if empty inferred from extension in the filename
-	Keys          []string               `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys,omitempty"` // deprecated and ignored, assets are found by content hash with LookupAsset
 	Ttl           uint32                 `protobuf:"varint,20,opt,name=ttl,proto3" json:"ttl,omitempty"` // time to live in seconds, 0 - forever
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -602,13 +585,6 @@ func (x *StartMultipartUploadInput) GetType() string {
 		return x.Type
 	}
 	return ""
-}
-
-func (x *StartMultipartUploadInput) GetKeys() []string {
-	if x != nil {
-		return x.Keys
-	}
-	return nil
 }
 
 func (x *StartMultipartUploadInput) GetTtl() uint32 {
@@ -665,7 +641,7 @@ func (x *StartMultipartUploadOutput) GetUploadId() string {
 type UploadPartInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UploadId      string                 `protobuf:"bytes,1,opt,name=upload_id,json=uploadId,proto3" json:"upload_id,omitempty"`        // upload_id given by StartMultipartUpload API
-	PartNumber    uint32                 `protobuf:"varint,2,opt,name=part_number,json=partNumber,proto3" json:"part_number,omitempty"` // must be number starting with 1
+	PartNumber    uint32                 `protobuf:"varint,2,opt,name=part_number,json=partNumber,proto3" json:"part_number,omitempty"` // next part number: 1 for the first part, then one more than the last part uploaded
 	Data          []byte                 `protobuf:"bytes,100,opt,name=data,proto3" json:"data,omitempty"`                              // must be 5MB, unless it's a last part
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1481,14 +1457,11 @@ func (x *UploadImageInput_Crop) GetLeft() uint32 {
 }
 
 type CompleteMultipartUploadInput_Part struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Number         uint32                 `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
-	Token          string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
-	ChecksumMd5    string                 `protobuf:"bytes,10,opt,name=checksum_md5,json=checksumMd5,proto3" json:"checksum_md5,omitempty"`
-	ChecksumSha1   string                 `protobuf:"bytes,11,opt,name=checksum_sha1,json=checksumSha1,proto3" json:"checksum_sha1,omitempty"`
-	ChecksumSha256 string                 `protobuf:"bytes,12,opt,name=checksum_sha256,json=checksumSha256,proto3" json:"checksum_sha256,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Number        uint32                 `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
+	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CompleteMultipartUploadInput_Part) Reset() {
@@ -1535,27 +1508,6 @@ func (x *CompleteMultipartUploadInput_Part) GetToken() string {
 	return ""
 }
 
-func (x *CompleteMultipartUploadInput_Part) GetChecksumMd5() string {
-	if x != nil {
-		return x.ChecksumMd5
-	}
-	return ""
-}
-
-func (x *CompleteMultipartUploadInput_Part) GetChecksumSha1() string {
-	if x != nil {
-		return x.ChecksumSha1
-	}
-	return ""
-}
-
-func (x *CompleteMultipartUploadInput_Part) GetChecksumSha256() string {
-	if x != nil {
-		return x.ChecksumSha256
-	}
-	return ""
-}
-
 var File_eolymp_asset_asset_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_asset_asset_service_proto_rawDesc = "" +
@@ -1584,27 +1536,24 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
 	"\x04data\x18d \x01(\fR\x04data\"-\n" +
 	"\x10UploadFileOutput\x12\x19\n" +
-	"\bfile_url\x18\x01 \x01(\tR\afileUrl\"t\n" +
+	"\bfile_url\x18\x01 \x01(\tR\afileUrl\"`\n" +
 	"\x10UploadAssetInput\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
-	"\x04keys\x18\x03 \x03(\tR\x04keys\x12\x10\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x10\n" +
 	"\x03ttl\x18\x14 \x01(\rR\x03ttl\x12\x12\n" +
 	"\x04data\x18d \x01(\fR\x04data\"0\n" +
 	"\x11UploadAssetOutput\x12\x1b\n" +
-	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"<\n" +
-	"\x10LookupAssetInput\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x16\n" +
+	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"*\n" +
+	"\x10LookupAssetInput\x12\x16\n" +
 	"\x06sha256\x18\x02 \x01(\tR\x06sha256\"0\n" +
 	"\x11LookupAssetOutput\x12\x1b\n" +
 	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"-\n" +
 	"\x10DeleteAssetInput\x12\x19\n" +
 	"\basset_id\x18\x01 \x01(\tR\aassetId\"\x13\n" +
-	"\x11DeleteAssetOutput\"i\n" +
+	"\x11DeleteAssetOutput\"U\n" +
 	"\x19StartMultipartUploadInput\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
-	"\x04keys\x18\x03 \x03(\tR\x04keys\x12\x10\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x10\n" +
 	"\x03ttl\x18\x14 \x01(\rR\x03ttl\"9\n" +
 	"\x1aStartMultipartUploadOutput\x12\x1b\n" +
 	"\tupload_id\x18\x01 \x01(\tR\buploadId\"c\n" +
@@ -1614,18 +1563,14 @@ const file_eolymp_asset_asset_service_proto_rawDesc = "" +
 	"partNumber\x12\x12\n" +
 	"\x04data\x18d \x01(\fR\x04data\"(\n" +
 	"\x10UploadPartOutput\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"\xaa\x02\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"\xb8\x01\n" +
 	"\x1cCompleteMultipartUploadInput\x12\x1b\n" +
 	"\tupload_id\x18\x01 \x01(\tR\buploadId\x12E\n" +
 	"\x05parts\x18\n" +
-	" \x03(\v2/.eolymp.asset.CompleteMultipartUploadInput.PartR\x05parts\x1a\xa5\x01\n" +
+	" \x03(\v2/.eolymp.asset.CompleteMultipartUploadInput.PartR\x05parts\x1a4\n" +
 	"\x04Part\x12\x16\n" +
 	"\x06number\x18\x01 \x01(\rR\x06number\x12\x14\n" +
-	"\x05token\x18\x02 \x01(\tR\x05token\x12!\n" +
-	"\fchecksum_md5\x18\n" +
-	" \x01(\tR\vchecksumMd5\x12#\n" +
-	"\rchecksum_sha1\x18\v \x01(\tR\fchecksumSha1\x12'\n" +
-	"\x0fchecksum_sha256\x18\f \x01(\tR\x0echecksumSha256\"<\n" +
+	"\x05token\x18\x02 \x01(\tR\x05token\"<\n" +
 	"\x1dCompleteMultipartUploadOutput\x12\x1b\n" +
 	"\tasset_url\x18\x01 \x01(\tR\bassetUrl\"L\n" +
 	"\x10StartStreamInput\x12\x12\n" +
