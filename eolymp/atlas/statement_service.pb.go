@@ -775,6 +775,7 @@ type UpdateStatementInput struct {
 	ProblemId     string                 `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	StatementId   string                 `protobuf:"bytes,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
 	Statement     *Statement_Patch       `protobuf:"bytes,4,opt,name=statement,proto3" json:"statement,omitempty"`
+	IfMatchDigest string                 `protobuf:"bytes,20,opt,name=if_match_digest,json=ifMatchDigest,proto3" json:"if_match_digest,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -828,6 +829,13 @@ func (x *UpdateStatementInput) GetStatement() *Statement_Patch {
 		return x.Statement
 	}
 	return nil
+}
+
+func (x *UpdateStatementInput) GetIfMatchDigest() string {
+	if x != nil {
+		return x.IfMatchDigest
+	}
+	return ""
 }
 
 type UpdateStatementOutput struct {
@@ -1184,7 +1192,7 @@ var File_eolymp_atlas_statement_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"\n" +
-	"$eolymp/atlas/statement_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/statement.proto\"\x96\x01\n" +
+	"$eolymp/atlas/statement_service.proto\x12\feolymp.atlas\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x1ceolymp/atlas/statement.proto\"\x96\x01\n" +
 	"\x15StatementChangedEvent\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12/\n" +
@@ -1242,12 +1250,13 @@ const file_eolymp_atlas_statement_service_proto_rawDesc = "" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x125\n" +
 	"\tstatement\x18\x02 \x01(\v2\x17.eolymp.atlas.StatementR\tstatement\":\n" +
 	"\x15CreateStatementOutput\x12!\n" +
-	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\xa1\x01\n" +
+	"\fstatement_id\x18\x01 \x01(\tR\vstatementId\"\x97\x03\n" +
 	"\x14UpdateStatementInput\x12\x1d\n" +
 	"\n" +
 	"problem_id\x18\x01 \x01(\tR\tproblemId\x12!\n" +
 	"\fstatement_id\x18\x02 \x01(\tR\vstatementId\x12;\n" +
-	"\tstatement\x18\x04 \x01(\v2\x1d.eolymp.atlas.Statement.PatchR\tstatementJ\x04\b\x03\x10\x04J\x04\b\n" +
+	"\tstatement\x18\x04 \x01(\v2\x1d.eolymp.atlas.Statement.PatchR\tstatement\x12\xf3\x01\n" +
+	"\x0fif_match_digest\x18\x14 \x01(\tB\xca\x01\xa2\xf0\xf0\xe4\x01\xc3\x01write only if the content stored now has this digest, the content.digest from an earlier read or write; when it differs, the content was changed in the meantime and the call fails without writingR\rifMatchDigestJ\x04\b\x03\x10\x04J\x04\b\n" +
 	"\x10\v\"\x17\n" +
 	"\x15UpdateStatementOutput\"X\n" +
 	"\x14DeleteStatementInput\x12\x1d\n" +

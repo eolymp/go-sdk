@@ -31,6 +31,7 @@ type Content struct {
 	//	*Content_Markdown
 	//	*Content_Ecm
 	Value         isContent_Value `protobuf_oneof:"value"`
+	Digest        string          `protobuf:"bytes,5,opt,name=digest,proto3" json:"digest,omitempty"`
 	Render        *Node           `protobuf:"bytes,99,opt,name=render,proto3" json:"render,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -109,6 +110,13 @@ func (x *Content) GetEcm() *Node {
 	return nil
 }
 
+func (x *Content) GetDigest() string {
+	if x != nil {
+		return x.Digest
+	}
+	return ""
+}
+
 func (x *Content) GetRender() *Node {
 	if x != nil {
 		return x.Render
@@ -149,12 +157,13 @@ var File_eolymp_ecm_content_proto protoreflect.FileDescriptor
 const file_eolymp_ecm_content_proto_rawDesc = "" +
 	"\n" +
 	"\x18eolymp/ecm/content.proto\x12\n" +
-	"eolymp.ecm\x1a\x1ceolymp/annotations/mcp.proto\x1a\x15eolymp/ecm/node.proto\"\xc6\x01\n" +
+	"eolymp.ecm\x1a\x1ceolymp/annotations/mcp.proto\x1a\x15eolymp/ecm/node.proto\"\xb2\x03\n" +
 	"\aContent\x12\x1c\n" +
 	"\x04html\x18\x01 \x01(\tB\x06\xb0\xf0\xf0\xe4\x01\x01H\x00R\x04html\x12\x16\n" +
 	"\x05latex\x18\x02 \x01(\tH\x00R\x05latex\x12\x1c\n" +
 	"\bmarkdown\x18\x03 \x01(\tH\x00R\bmarkdown\x12,\n" +
-	"\x03ecm\x18\x04 \x01(\v2\x10.eolymp.ecm.NodeB\x06\xb0\xf0\xf0\xe4\x01\x01H\x00R\x03ecm\x120\n" +
+	"\x03ecm\x18\x04 \x01(\v2\x10.eolymp.ecm.NodeB\x06\xb0\xf0\xf0\xe4\x01\x01H\x00R\x03ecm\x12\xe9\x01\n" +
+	"\x06digest\x18\x05 \x01(\tB\xd0\x01\xa2\xf0\xf0\xe4\x01\xc9\x01hex SHA-256 of the text (its markdown, LaTeX or HTML) as stored; sent with a write, it is the digest of the text being sent, and the write fails without storing anything when the text does not match itR\x06digest\x120\n" +
 	"\x06render\x18c \x01(\v2\x10.eolymp.ecm.NodeB\x06\xa8\xf0\xf0\xe4\x01\x01R\x06renderB\a\n" +
 	"\x05valueB)Z'github.com/eolymp/go-sdk/eolymp/ecm;ecmb\x06proto3"
 

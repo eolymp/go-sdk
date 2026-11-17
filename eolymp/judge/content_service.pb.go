@@ -439,6 +439,7 @@ type UpdateFragmentInput struct {
 	FragmentId    string                  `protobuf:"bytes,1,opt,name=fragment_id,json=fragmentId,proto3" json:"fragment_id,omitempty"`
 	Locale        string                  `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"` // update the fragment when empty, update its translation when set
 	Fragment      *content.Fragment_Patch `protobuf:"bytes,4,opt,name=fragment,proto3" json:"fragment,omitempty"`
+	IfMatchDigest string                  `protobuf:"bytes,20,opt,name=if_match_digest,json=ifMatchDigest,proto3" json:"if_match_digest,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -499,6 +500,13 @@ func (x *UpdateFragmentInput) GetFragment() *content.Fragment_Patch {
 		return x.Fragment
 	}
 	return nil
+}
+
+func (x *UpdateFragmentInput) GetIfMatchDigest() string {
+	if x != nil {
+		return x.IfMatchDigest
+	}
+	return ""
 }
 
 type UpdateFragmentOutput struct {
@@ -1127,7 +1135,7 @@ var File_eolymp_judge_content_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_content_service_proto_rawDesc = "" +
 	"\n" +
-	"\"eolymp/judge/content_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xac\x01\n" +
+	"\"eolymp/judge/content_service.proto\x12\feolymp.judge\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a%eolymp/content/content_fragment.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\xac\x01\n" +
 	"\x15DescribeFragmentInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x03 \x01(\tR\tcontestId\x12\x1f\n" +
@@ -1167,14 +1175,15 @@ const file_eolymp_judge_content_service_proto_rawDesc = "" +
 	"\bfragment\x18\x01 \x01(\v2\x18.eolymp.content.FragmentR\bfragment\"7\n" +
 	"\x14CreateFragmentOutput\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
-	"fragmentId\"\xa9\x01\n" +
+	"fragmentId\"\x9f\x03\n" +
 	"\x13UpdateFragmentInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x02 \x01(\tR\tcontestId\x12\x1f\n" +
 	"\vfragment_id\x18\x01 \x01(\tR\n" +
 	"fragmentId\x12\x16\n" +
 	"\x06locale\x18\x05 \x01(\tR\x06locale\x12:\n" +
-	"\bfragment\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\bfragment\"\x16\n" +
+	"\bfragment\x18\x04 \x01(\v2\x1e.eolymp.content.Fragment.PatchR\bfragment\x12\xf3\x01\n" +
+	"\x0fif_match_digest\x18\x14 \x01(\tB\xca\x01\xa2\xf0\xf0\xe4\x01\xc3\x01write only if the content stored now has this digest, the content.digest from an earlier read or write; when it differs, the content was changed in the meantime and the call fails without writingR\rifMatchDigest\"\x16\n" +
 	"\x14UpdateFragmentOutput\"m\n" +
 	"\x13DeleteFragmentInput\x12\x1d\n" +
 	"\n" +

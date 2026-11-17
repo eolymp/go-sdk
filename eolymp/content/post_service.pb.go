@@ -569,6 +569,7 @@ type UpdatePostInput struct {
 	PostId        string                 `protobuf:"bytes,2,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
 	Locale        string                 `protobuf:"bytes,4,opt,name=locale,proto3" json:"locale,omitempty"` // update the post when empty, update its translation when set
 	Post          *Post_Patch            `protobuf:"bytes,5,opt,name=post,proto3" json:"post,omitempty"`
+	IfMatchDigest string                 `protobuf:"bytes,20,opt,name=if_match_digest,json=ifMatchDigest,proto3" json:"if_match_digest,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -622,6 +623,13 @@ func (x *UpdatePostInput) GetPost() *Post_Patch {
 		return x.Post
 	}
 	return nil
+}
+
+func (x *UpdatePostInput) GetIfMatchDigest() string {
+	if x != nil {
+		return x.IfMatchDigest
+	}
+	return ""
 }
 
 type UpdatePostOutput struct {
@@ -1270,7 +1278,7 @@ var File_eolymp_content_post_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/content/post_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/content/post.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x99\x01\n" +
+	"!eolymp/content/post_service.proto\x12\x0eeolymp.content\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\x1ceolymp/annotations/mcp.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a\x19eolymp/content/post.proto\x1a\x18eolymp/ecm/content.proto\x1a eolymp/wellknown/direction.proto\x1a!eolymp/wellknown/expression.proto\"\x99\x01\n" +
 	"\x10PostChangedEvent\x12,\n" +
 	"\x06before\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x06before\x12*\n" +
 	"\x05after\x18\x02 \x01(\v2\x14.eolymp.content.PostR\x05after\x12+\n" +
@@ -1328,11 +1336,12 @@ const file_eolymp_content_post_service_proto_rawDesc = "" +
 	"\x0fCreatePostInput\x12(\n" +
 	"\x04post\x18\x01 \x01(\v2\x14.eolymp.content.PostR\x04post\"+\n" +
 	"\x10CreatePostOutput\x12\x17\n" +
-	"\apost_id\x18\x01 \x01(\tR\x06postId\"~\n" +
+	"\apost_id\x18\x01 \x01(\tR\x06postId\"\xf4\x02\n" +
 	"\x0fUpdatePostInput\x12\x17\n" +
 	"\apost_id\x18\x02 \x01(\tR\x06postId\x12\x16\n" +
 	"\x06locale\x18\x04 \x01(\tR\x06locale\x12.\n" +
-	"\x04post\x18\x05 \x01(\v2\x1a.eolymp.content.Post.PatchR\x04postJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x12\n" +
+	"\x04post\x18\x05 \x01(\v2\x1a.eolymp.content.Post.PatchR\x04post\x12\xf3\x01\n" +
+	"\x0fif_match_digest\x18\x14 \x01(\tB\xca\x01\xa2\xf0\xf0\xe4\x01\xc3\x01write only if the content stored now has this digest, the content.digest from an earlier read or write; when it differs, the content was changed in the meantime and the call fails without writingR\rifMatchDigestJ\x04\b\x01\x10\x02J\x04\b\x03\x10\x04\"\x12\n" +
 	"\x10UpdatePostOutput\"+\n" +
 	"\x10PublishPostInput\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\"\x13\n" +
