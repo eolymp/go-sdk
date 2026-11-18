@@ -1547,6 +1547,7 @@ type RequestProctoringOutput struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	StreamUrl           string                 `protobuf:"bytes,1,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"`                                 // WebSocket URL to stream the recording to
 	AdditionalCameraUrl string                 `protobuf:"bytes,2,opt,name=additional_camera_url,json=additionalCameraUrl,proto3" json:"additional_camera_url,omitempty"` // page a phone opens to stream the additional camera, usually shown as a QR code
+	Token               string                 `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`                                                          // token the participant's devices join the recording with on the proctoring host
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -1591,6 +1592,13 @@ func (x *RequestProctoringOutput) GetStreamUrl() string {
 func (x *RequestProctoringOutput) GetAdditionalCameraUrl() string {
 	if x != nil {
 		return x.AdditionalCameraUrl
+	}
+	return ""
+}
+
+func (x *RequestProctoringOutput) GetToken() string {
+	if x != nil {
+		return x.Token
 	}
 	return ""
 }
@@ -2077,11 +2085,12 @@ const file_eolymp_judge_participant_service_proto_rawDesc = "" +
 	"\x12StartContestOutput\"7\n" +
 	"\x16RequestProctoringInput\x12\x1d\n" +
 	"\n" +
-	"contest_id\x18\x01 \x01(\tR\tcontestId\"l\n" +
+	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x82\x01\n" +
 	"\x17RequestProctoringOutput\x12\x1d\n" +
 	"\n" +
 	"stream_url\x18\x01 \x01(\tR\tstreamUrl\x122\n" +
-	"\x15additional_camera_url\x18\x02 \x01(\tR\x13additionalCameraUrl\"2\n" +
+	"\x15additional_camera_url\x18\x02 \x01(\tR\x13additionalCameraUrl\x12\x14\n" +
+	"\x05token\x18\x03 \x01(\tR\x05token\"2\n" +
 	"\x11PauseContestInput\x12\x1d\n" +
 	"\n" +
 	"contest_id\x18\x01 \x01(\tR\tcontestId\"\x14\n" +

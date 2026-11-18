@@ -126,27 +126,32 @@ func (x Recording_Stream_Source) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Recording_Stream_Source.Descriptor instead.
 func (Recording_Stream_Source) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 0, 0}
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1, 0}
 }
 
 // Recording is a member's screen and camera recording.
 //
-// The service which asks for proctoring (e.g. a contest) creates the recording for a member and hands the
-// stream URL to the member's browser, which streams clips to it until the URL's token expires. A phone
-// streams the additional camera from the additional camera URL. The recording spans from its earliest clip
-// to the end of its latest one; the owner decides whether that covers what it needed recorded.
+// The service which asks for proctoring (e.g. a contest) creates the recording for a member, keeps its
+// configuration up to date and hands the recording's token to the member. Producers (a browser tab, a desktop
+// app, a phone) join the recording with the token on the proctoring host and record into it within the
+// capture window. The recording spans from its earliest clip to the end of its latest one; the owner decides
+// whether that covers what it needed recorded.
 type Recording struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	MemberId      string                 `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"` // member who is recorded
-	Status        Recording_Status       `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.proctoring.Recording_Status" json:"status,omitempty"`
-	StartedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`        // start of the earliest clip
-	EndedAt       *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=ended_at,json=endedAt,proto3" json:"ended_at,omitempty"`              // end of the latest clip
-	GapDuration   uint32                 `protobuf:"varint,6,opt,name=gap_duration,json=gapDuration,proto3" json:"gap_duration,omitempty"` // total time in seconds between started_at and ended_at not covered by clips
-	Streams       []*Recording_Stream    `protobuf:"bytes,7,rep,name=streams,proto3" json:"streams,omitempty"`                             // recorded streams
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState    `protogen:"open.v1"`
+	Id              string                    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	MemberId        string                    `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"` // member who is recorded
+	Status          Recording_Status          `protobuf:"varint,3,opt,name=status,proto3,enum=eolymp.proctoring.Recording_Status" json:"status,omitempty"`
+	StartedAt       *timestamppb.Timestamp    `protobuf:"bytes,4,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`        // start of the earliest clip
+	EndedAt         *timestamppb.Timestamp    `protobuf:"bytes,5,opt,name=ended_at,json=endedAt,proto3" json:"ended_at,omitempty"`              // end of the latest clip
+	GapDuration     uint32                    `protobuf:"varint,6,opt,name=gap_duration,json=gapDuration,proto3" json:"gap_duration,omitempty"` // total time in seconds between started_at and ended_at not covered by clips
+	Streams         []*Recording_Stream       `protobuf:"bytes,7,rep,name=streams,proto3" json:"streams,omitempty"`                             // recorded streams
+	CreatedAt       *timestamppb.Timestamp    `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	CaptureFrom     *timestamppb.Timestamp    `protobuf:"bytes,10,opt,name=capture_from,json=captureFrom,proto3" json:"capture_from,omitempty"`                                                                    // start of the capture window
+	CaptureTo       *timestamppb.Timestamp    `protobuf:"bytes,11,opt,name=capture_to,json=captureTo,proto3" json:"capture_to,omitempty"`                                                                          // end of the capture window
+	UploadUntil     *timestamppb.Timestamp    `protobuf:"bytes,12,opt,name=upload_until,json=uploadUntil,proto3" json:"upload_until,omitempty"`                                                                    // clips recorded within the capture window are accepted until this time, not earlier than capture_to
+	RequiredSources []Recording_Stream_Source `protobuf:"varint,13,rep,packed,name=required_sources,json=requiredSources,proto3,enum=eolymp.proctoring.Recording_Stream_Source" json:"required_sources,omitempty"` // sources the owner needs recorded
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Recording) Reset() {
@@ -235,6 +240,102 @@ func (x *Recording) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *Recording) GetCaptureFrom() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CaptureFrom
+	}
+	return nil
+}
+
+func (x *Recording) GetCaptureTo() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CaptureTo
+	}
+	return nil
+}
+
+func (x *Recording) GetUploadUntil() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UploadUntil
+	}
+	return nil
+}
+
+func (x *Recording) GetRequiredSources() []Recording_Stream_Source {
+	if x != nil {
+		return x.RequiredSources
+	}
+	return nil
+}
+
+type Recording_Patch struct {
+	state           protoimpl.MessageState    `protogen:"open.v1"`
+	CaptureFrom     *timestamppb.Timestamp    `protobuf:"bytes,10,opt,name=capture_from,json=captureFrom,proto3" json:"capture_from,omitempty"`
+	CaptureTo       *timestamppb.Timestamp    `protobuf:"bytes,11,opt,name=capture_to,json=captureTo,proto3" json:"capture_to,omitempty"`
+	UploadUntil     *timestamppb.Timestamp    `protobuf:"bytes,12,opt,name=upload_until,json=uploadUntil,proto3" json:"upload_until,omitempty"`
+	RequiredSources []Recording_Stream_Source `protobuf:"varint,13,rep,packed,name=required_sources,json=requiredSources,proto3,enum=eolymp.proctoring.Recording_Stream_Source" json:"required_sources,omitempty"` // left unchanged when empty
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Recording_Patch) Reset() {
+	*x = Recording_Patch{}
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Recording_Patch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Recording_Patch) ProtoMessage() {}
+
+func (x *Recording_Patch) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Recording_Patch.ProtoReflect.Descriptor instead.
+func (*Recording_Patch) Descriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Recording_Patch) GetCaptureFrom() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CaptureFrom
+	}
+	return nil
+}
+
+func (x *Recording_Patch) GetCaptureTo() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CaptureTo
+	}
+	return nil
+}
+
+func (x *Recording_Patch) GetUploadUntil() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UploadUntil
+	}
+	return nil
+}
+
+func (x *Recording_Patch) GetRequiredSources() []Recording_Stream_Source {
+	if x != nil {
+		return x.RequiredSources
+	}
+	return nil
+}
+
 type Recording_Stream struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Source        Recording_Stream_Source `protobuf:"varint,1,opt,name=source,proto3,enum=eolymp.proctoring.Recording_Stream_Source" json:"source,omitempty"`
@@ -245,7 +346,7 @@ type Recording_Stream struct {
 
 func (x *Recording_Stream) Reset() {
 	*x = Recording_Stream{}
-	mi := &file_eolymp_proctoring_recording_proto_msgTypes[1]
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -257,7 +358,7 @@ func (x *Recording_Stream) String() string {
 func (*Recording_Stream) ProtoMessage() {}
 
 func (x *Recording_Stream) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_proto_msgTypes[1]
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -270,7 +371,7 @@ func (x *Recording_Stream) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Recording_Stream.ProtoReflect.Descriptor instead.
 func (*Recording_Stream) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *Recording_Stream) GetSource() Recording_Stream_Source {
@@ -291,7 +392,7 @@ var File_eolymp_proctoring_recording_proto protoreflect.FileDescriptor
 
 const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/proctoring/recording.proto\x12\x11eolymp.proctoring\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x05\n" +
+	"!eolymp/proctoring/recording.proto\x12\x11eolymp.proctoring\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\t\n" +
 	"\tRecording\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12;\n" +
@@ -302,7 +403,20 @@ const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\fgap_duration\x18\x06 \x01(\rR\vgapDuration\x12=\n" +
 	"\astreams\x18\a \x03(\v2#.eolymp.proctoring.Recording.StreamR\astreams\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x1a\xbc\x01\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12=\n" +
+	"\fcapture_from\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\vcaptureFrom\x129\n" +
+	"\n" +
+	"capture_to\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcaptureTo\x12=\n" +
+	"\fupload_until\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\vuploadUntil\x12U\n" +
+	"\x10required_sources\x18\r \x03(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x0frequiredSources\x1a\x97\x02\n" +
+	"\x05Patch\x12=\n" +
+	"\fcapture_from\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\vcaptureFrom\x129\n" +
+	"\n" +
+	"capture_to\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcaptureTo\x12=\n" +
+	"\fupload_until\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\vuploadUntil\x12U\n" +
+	"\x10required_sources\x18\r \x03(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x0frequiredSources\x1a\xbc\x01\n" +
 	"\x06Stream\x12B\n" +
 	"\x06source\x18\x01 \x01(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x06source\x12!\n" +
 	"\fplaylist_url\x18\x02 \x01(\tR\vplaylistUrl\"K\n" +
@@ -334,26 +448,35 @@ func file_eolymp_proctoring_recording_proto_rawDescGZIP() []byte {
 }
 
 var file_eolymp_proctoring_recording_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_proctoring_recording_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_eolymp_proctoring_recording_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_eolymp_proctoring_recording_proto_goTypes = []any{
 	(Recording_Status)(0),         // 0: eolymp.proctoring.Recording.Status
 	(Recording_Stream_Source)(0),  // 1: eolymp.proctoring.Recording.Stream.Source
 	(*Recording)(nil),             // 2: eolymp.proctoring.Recording
-	(*Recording_Stream)(nil),      // 3: eolymp.proctoring.Recording.Stream
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Recording_Patch)(nil),       // 3: eolymp.proctoring.Recording.Patch
+	(*Recording_Stream)(nil),      // 4: eolymp.proctoring.Recording.Stream
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_eolymp_proctoring_recording_proto_depIdxs = []int32{
-	0, // 0: eolymp.proctoring.Recording.status:type_name -> eolymp.proctoring.Recording.Status
-	4, // 1: eolymp.proctoring.Recording.started_at:type_name -> google.protobuf.Timestamp
-	4, // 2: eolymp.proctoring.Recording.ended_at:type_name -> google.protobuf.Timestamp
-	3, // 3: eolymp.proctoring.Recording.streams:type_name -> eolymp.proctoring.Recording.Stream
-	4, // 4: eolymp.proctoring.Recording.created_at:type_name -> google.protobuf.Timestamp
-	1, // 5: eolymp.proctoring.Recording.Stream.source:type_name -> eolymp.proctoring.Recording.Stream.Source
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	0,  // 0: eolymp.proctoring.Recording.status:type_name -> eolymp.proctoring.Recording.Status
+	5,  // 1: eolymp.proctoring.Recording.started_at:type_name -> google.protobuf.Timestamp
+	5,  // 2: eolymp.proctoring.Recording.ended_at:type_name -> google.protobuf.Timestamp
+	4,  // 3: eolymp.proctoring.Recording.streams:type_name -> eolymp.proctoring.Recording.Stream
+	5,  // 4: eolymp.proctoring.Recording.created_at:type_name -> google.protobuf.Timestamp
+	5,  // 5: eolymp.proctoring.Recording.capture_from:type_name -> google.protobuf.Timestamp
+	5,  // 6: eolymp.proctoring.Recording.capture_to:type_name -> google.protobuf.Timestamp
+	5,  // 7: eolymp.proctoring.Recording.upload_until:type_name -> google.protobuf.Timestamp
+	1,  // 8: eolymp.proctoring.Recording.required_sources:type_name -> eolymp.proctoring.Recording.Stream.Source
+	5,  // 9: eolymp.proctoring.Recording.Patch.capture_from:type_name -> google.protobuf.Timestamp
+	5,  // 10: eolymp.proctoring.Recording.Patch.capture_to:type_name -> google.protobuf.Timestamp
+	5,  // 11: eolymp.proctoring.Recording.Patch.upload_until:type_name -> google.protobuf.Timestamp
+	1,  // 12: eolymp.proctoring.Recording.Patch.required_sources:type_name -> eolymp.proctoring.Recording.Stream.Source
+	1,  // 13: eolymp.proctoring.Recording.Stream.source:type_name -> eolymp.proctoring.Recording.Stream.Source
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_proctoring_recording_proto_init() }
@@ -367,7 +490,7 @@ func file_eolymp_proctoring_recording_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_proctoring_recording_proto_rawDesc), len(file_eolymp_proctoring_recording_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
