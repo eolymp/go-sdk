@@ -1597,10 +1597,11 @@ func (x *Contest_CertificationConfig) GetSigners() []*Contest_CertificationConfi
 }
 
 type Contest_ProctoringConfig struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
-	Mode          Contest_ProctoringConfig_Mode `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.judge.Contest_ProctoringConfig_Mode" json:"mode,omitempty"` // what is recorded for every participant for the duration of their participation, enabling it is the organiser's consent
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState        `protogen:"open.v1"`
+	Mode            Contest_ProctoringConfig_Mode `protobuf:"varint,2,opt,name=mode,proto3,enum=eolymp.judge.Contest_ProctoringConfig_Mode" json:"mode,omitempty"` // what is recorded for every participant for the duration of their participation, enabling it is the organiser's consent
+	UploadTolerance uint32                        `protobuf:"varint,3,opt,name=upload_tolerance,json=uploadTolerance,proto3" json:"upload_tolerance,omitempty"`    // seconds after a participation ends during which clips recorded offline are still accepted, 0 to 259200 (72 hours)
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Contest_ProctoringConfig) Reset() {
@@ -1638,6 +1639,13 @@ func (x *Contest_ProctoringConfig) GetMode() Contest_ProctoringConfig_Mode {
 		return x.Mode
 	}
 	return Contest_ProctoringConfig_UNKNOWN_MODE
+}
+
+func (x *Contest_ProctoringConfig) GetUploadTolerance() uint32 {
+	if x != nil {
+		return x.UploadTolerance
+	}
+	return 0
 }
 
 type Contest_EnvironmentConfig struct {
@@ -1800,7 +1808,7 @@ var File_eolymp_judge_contest_proto protoreflect.FileDescriptor
 
 const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\n" +
-	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82;\n" +
+	"\x1aeolymp/judge/contest.proto\x12\feolymp.judge\x1a\x1ceolymp/annotations/mcp.proto\x1a\x1ceolymp/runtime/runtime.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xad;\n" +
 	"\aContest\x12\x16\n" +
 	"\x02id\x18\x01 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x02id\x12\x18\n" +
 	"\x03url\x18\x02 \x01(\tB\x06\xa8\xf0\xf0\xe4\x01\x01R\x03url\x12,\n" +
@@ -1966,9 +1974,10 @@ const file_eolymp_judge_contest_proto_rawDesc = "" +
 	"\asigners\x18\x03 \x03(\v20.eolymp.judge.Contest.CertificationConfig.SignerR\asigners\x1a2\n" +
 	"\x06Signer\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x1a\xb6\x01\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x1a\xe1\x01\n" +
 	"\x10ProctoringConfig\x12?\n" +
-	"\x04mode\x18\x02 \x01(\x0e2+.eolymp.judge.Contest.ProctoringConfig.ModeR\x04mode\"a\n" +
+	"\x04mode\x18\x02 \x01(\x0e2+.eolymp.judge.Contest.ProctoringConfig.ModeR\x04mode\x12)\n" +
+	"\x10upload_tolerance\x18\x03 \x01(\rR\x0fuploadTolerance\"a\n" +
 	"\x04Mode\x12\x10\n" +
 	"\fUNKNOWN_MODE\x10\x00\x12\b\n" +
 	"\x04NONE\x10\x01\x12\n" +
