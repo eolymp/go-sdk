@@ -11,7 +11,6 @@ import (
 	wellknown "github.com/eolymp/go-sdk/eolymp/wellknown"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -26,8 +25,7 @@ const (
 
 type CreateRecordingInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Recording     *Recording             `protobuf:"bytes,1,opt,name=recording,proto3" json:"recording,omitempty"`                  // member_id is set on creation, along with the configuration
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"` // when the stream URL's token expires, 5 hours from now at most
+	Recording     *Recording             `protobuf:"bytes,1,opt,name=recording,proto3" json:"recording,omitempty"` // member_id is set on creation, along with the configuration
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -69,21 +67,12 @@ func (x *CreateRecordingInput) GetRecording() *Recording {
 	return nil
 }
 
-func (x *CreateRecordingInput) GetExpiresAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiresAt
-	}
-	return nil
-}
-
 type CreateRecordingOutput struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	RecordingId         string                 `protobuf:"bytes,1,opt,name=recording_id,json=recordingId,proto3" json:"recording_id,omitempty"`
-	StreamUrl           string                 `protobuf:"bytes,2,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"`                                 // WebSocket URL with a token to stream clips to
-	AdditionalCameraUrl string                 `protobuf:"bytes,3,opt,name=additional_camera_url,json=additionalCameraUrl,proto3" json:"additional_camera_url,omitempty"` // page a phone opens to stream the additional camera, usually shown as a QR code
-	Token               string                 `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`                                                          // token producers join the recording with
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RecordingId   string                 `protobuf:"bytes,1,opt,name=recording_id,json=recordingId,proto3" json:"recording_id,omitempty"`
+	Token         string                 `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"` // token producers join the recording with
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateRecordingOutput) Reset() {
@@ -119,20 +108,6 @@ func (*CreateRecordingOutput) Descriptor() ([]byte, []int) {
 func (x *CreateRecordingOutput) GetRecordingId() string {
 	if x != nil {
 		return x.RecordingId
-	}
-	return ""
-}
-
-func (x *CreateRecordingOutput) GetStreamUrl() string {
-	if x != nil {
-		return x.StreamUrl
-	}
-	return ""
-}
-
-func (x *CreateRecordingOutput) GetAdditionalCameraUrl() string {
-	if x != nil {
-		return x.AdditionalCameraUrl
 	}
 	return ""
 }
@@ -240,110 +215,6 @@ func (x *UpdateRecordingOutput) GetToken() string {
 	return ""
 }
 
-type ResumeRecordingInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RecordingId   string                 `protobuf:"bytes,1,opt,name=recording_id,json=recordingId,proto3" json:"recording_id,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"` // when the stream URL's token expires, 5 hours from now at most
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ResumeRecordingInput) Reset() {
-	*x = ResumeRecordingInput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ResumeRecordingInput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ResumeRecordingInput) ProtoMessage() {}
-
-func (x *ResumeRecordingInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResumeRecordingInput.ProtoReflect.Descriptor instead.
-func (*ResumeRecordingInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *ResumeRecordingInput) GetRecordingId() string {
-	if x != nil {
-		return x.RecordingId
-	}
-	return ""
-}
-
-func (x *ResumeRecordingInput) GetExpiresAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiresAt
-	}
-	return nil
-}
-
-type ResumeRecordingOutput struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	StreamUrl           string                 `protobuf:"bytes,1,opt,name=stream_url,json=streamUrl,proto3" json:"stream_url,omitempty"`                                 // WebSocket URL with a token to stream clips to
-	AdditionalCameraUrl string                 `protobuf:"bytes,2,opt,name=additional_camera_url,json=additionalCameraUrl,proto3" json:"additional_camera_url,omitempty"` // page a phone opens to stream the additional camera, usually shown as a QR code
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
-}
-
-func (x *ResumeRecordingOutput) Reset() {
-	*x = ResumeRecordingOutput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ResumeRecordingOutput) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ResumeRecordingOutput) ProtoMessage() {}
-
-func (x *ResumeRecordingOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResumeRecordingOutput.ProtoReflect.Descriptor instead.
-func (*ResumeRecordingOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *ResumeRecordingOutput) GetStreamUrl() string {
-	if x != nil {
-		return x.StreamUrl
-	}
-	return ""
-}
-
-func (x *ResumeRecordingOutput) GetAdditionalCameraUrl() string {
-	if x != nil {
-		return x.AdditionalCameraUrl
-	}
-	return ""
-}
-
 type DeleteRecordingInput struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RecordingId   string                 `protobuf:"bytes,1,opt,name=recording_id,json=recordingId,proto3" json:"recording_id,omitempty"`
@@ -353,7 +224,7 @@ type DeleteRecordingInput struct {
 
 func (x *DeleteRecordingInput) Reset() {
 	*x = DeleteRecordingInput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[6]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -365,7 +236,7 @@ func (x *DeleteRecordingInput) String() string {
 func (*DeleteRecordingInput) ProtoMessage() {}
 
 func (x *DeleteRecordingInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[6]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -378,7 +249,7 @@ func (x *DeleteRecordingInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRecordingInput.ProtoReflect.Descriptor instead.
 func (*DeleteRecordingInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{6}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteRecordingInput) GetRecordingId() string {
@@ -396,7 +267,7 @@ type DeleteRecordingOutput struct {
 
 func (x *DeleteRecordingOutput) Reset() {
 	*x = DeleteRecordingOutput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[7]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -408,7 +279,7 @@ func (x *DeleteRecordingOutput) String() string {
 func (*DeleteRecordingOutput) ProtoMessage() {}
 
 func (x *DeleteRecordingOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[7]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -421,7 +292,7 @@ func (x *DeleteRecordingOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRecordingOutput.ProtoReflect.Descriptor instead.
 func (*DeleteRecordingOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{7}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{5}
 }
 
 type DescribeRecordingInput struct {
@@ -433,7 +304,7 @@ type DescribeRecordingInput struct {
 
 func (x *DescribeRecordingInput) Reset() {
 	*x = DescribeRecordingInput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[8]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -445,7 +316,7 @@ func (x *DescribeRecordingInput) String() string {
 func (*DescribeRecordingInput) ProtoMessage() {}
 
 func (x *DescribeRecordingInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[8]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -458,7 +329,7 @@ func (x *DescribeRecordingInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRecordingInput.ProtoReflect.Descriptor instead.
 func (*DescribeRecordingInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{8}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DescribeRecordingInput) GetRecordingId() string {
@@ -477,7 +348,7 @@ type DescribeRecordingOutput struct {
 
 func (x *DescribeRecordingOutput) Reset() {
 	*x = DescribeRecordingOutput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[9]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -489,7 +360,7 @@ func (x *DescribeRecordingOutput) String() string {
 func (*DescribeRecordingOutput) ProtoMessage() {}
 
 func (x *DescribeRecordingOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[9]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -502,7 +373,7 @@ func (x *DescribeRecordingOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeRecordingOutput.ProtoReflect.Descriptor instead.
 func (*DescribeRecordingOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{9}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DescribeRecordingOutput) GetRecording() *Recording {
@@ -525,7 +396,7 @@ type ListRecordingsInput struct {
 
 func (x *ListRecordingsInput) Reset() {
 	*x = ListRecordingsInput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[10]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -537,7 +408,7 @@ func (x *ListRecordingsInput) String() string {
 func (*ListRecordingsInput) ProtoMessage() {}
 
 func (x *ListRecordingsInput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[10]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -550,7 +421,7 @@ func (x *ListRecordingsInput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecordingsInput.ProtoReflect.Descriptor instead.
 func (*ListRecordingsInput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{10}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListRecordingsInput) GetOffset() int32 {
@@ -584,7 +455,7 @@ type ListRecordingsOutput struct {
 
 func (x *ListRecordingsOutput) Reset() {
 	*x = ListRecordingsOutput{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[11]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -596,7 +467,7 @@ func (x *ListRecordingsOutput) String() string {
 func (*ListRecordingsOutput) ProtoMessage() {}
 
 func (x *ListRecordingsOutput) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[11]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -609,7 +480,7 @@ func (x *ListRecordingsOutput) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecordingsOutput.ProtoReflect.Descriptor instead.
 func (*ListRecordingsOutput) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{11}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListRecordingsOutput) GetTotal() int32 {
@@ -637,7 +508,7 @@ type RecordingChangedEvent struct {
 
 func (x *RecordingChangedEvent) Reset() {
 	*x = RecordingChangedEvent{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[12]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -649,7 +520,7 @@ func (x *RecordingChangedEvent) String() string {
 func (*RecordingChangedEvent) ProtoMessage() {}
 
 func (x *RecordingChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[12]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -662,7 +533,7 @@ func (x *RecordingChangedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecordingChangedEvent.ProtoReflect.Descriptor instead.
 func (*RecordingChangedEvent) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{12}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *RecordingChangedEvent) GetBefore() *Recording {
@@ -690,7 +561,7 @@ type ListRecordingsInput_Filter struct {
 
 func (x *ListRecordingsInput_Filter) Reset() {
 	*x = ListRecordingsInput_Filter{}
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[13]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -702,7 +573,7 @@ func (x *ListRecordingsInput_Filter) String() string {
 func (*ListRecordingsInput_Filter) ProtoMessage() {}
 
 func (x *ListRecordingsInput_Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[13]
+	mi := &file_eolymp_proctoring_recording_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -715,7 +586,7 @@ func (x *ListRecordingsInput_Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecordingsInput_Filter.ProtoReflect.Descriptor instead.
 func (*ListRecordingsInput_Filter) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{10, 0}
+	return file_eolymp_proctoring_recording_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
 func (x *ListRecordingsInput_Filter) GetId() []*wellknown.ExpressionID {
@@ -743,30 +614,17 @@ var File_eolymp_proctoring_recording_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_proctoring_recording_service_proto_rawDesc = "" +
 	"\n" +
-	")eolymp/proctoring/recording_service.proto\x12\x11eolymp.proctoring\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/proctoring/recording.proto\x1a!eolymp/wellknown/expression.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8d\x01\n" +
+	")eolymp/proctoring/recording_service.proto\x12\x11eolymp.proctoring\x1a\x1eeolymp/annotations/audit.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1eeolymp/annotations/scope.proto\x1a!eolymp/proctoring/recording.proto\x1a!eolymp/wellknown/expression.proto\"R\n" +
 	"\x14CreateRecordingInput\x12:\n" +
-	"\trecording\x18\x01 \x01(\v2\x1c.eolymp.proctoring.RecordingR\trecording\x129\n" +
-	"\n" +
-	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xa3\x01\n" +
+	"\trecording\x18\x01 \x01(\v2\x1c.eolymp.proctoring.RecordingR\trecording\"P\n" +
 	"\x15CreateRecordingOutput\x12!\n" +
-	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\x12\x1d\n" +
-	"\n" +
-	"stream_url\x18\x02 \x01(\tR\tstreamUrl\x122\n" +
-	"\x15additional_camera_url\x18\x03 \x01(\tR\x13additionalCameraUrl\x12\x14\n" +
+	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\x12\x14\n" +
 	"\x05token\x18\x04 \x01(\tR\x05token\"{\n" +
 	"\x14UpdateRecordingInput\x12!\n" +
 	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\x12@\n" +
 	"\trecording\x18\x03 \x01(\v2\".eolymp.proctoring.Recording.PatchR\trecording\"-\n" +
 	"\x15UpdateRecordingOutput\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"t\n" +
-	"\x14ResumeRecordingInput\x12!\n" +
-	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\x129\n" +
-	"\n" +
-	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"j\n" +
-	"\x15ResumeRecordingOutput\x12\x1d\n" +
-	"\n" +
-	"stream_url\x18\x01 \x01(\tR\tstreamUrl\x122\n" +
-	"\x15additional_camera_url\x18\x02 \x01(\tR\x13additionalCameraUrl\"9\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"9\n" +
 	"\x14DeleteRecordingInput\x12!\n" +
 	"\frecording_id\x18\x01 \x01(\tR\vrecordingId\"\x17\n" +
 	"\x15DeleteRecordingOutput\";\n" +
@@ -788,7 +646,7 @@ const file_eolymp_proctoring_recording_service_proto_rawDesc = "" +
 	"\x05items\x18\x02 \x03(\v2\x1c.eolymp.proctoring.RecordingR\x05items\"\x81\x01\n" +
 	"\x15RecordingChangedEvent\x124\n" +
 	"\x06before\x18\x01 \x01(\v2\x1c.eolymp.proctoring.RecordingR\x06before\x122\n" +
-	"\x05after\x18\x02 \x01(\v2\x1c.eolymp.proctoring.RecordingR\x05after2\xff\a\n" +
+	"\x05after\x18\x02 \x01(\v2\x1c.eolymp.proctoring.RecordingR\x05after2\xdc\x06\n" +
 	"\x10RecordingService\x12\xa0\x01\n" +
 	"\x0fCreateRecording\x12'.eolymp.proctoring.CreateRecordingInput\x1a(.eolymp.proctoring.CreateRecordingOutput\":\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
@@ -799,14 +657,6 @@ const file_eolymp_proctoring_recording_service_proto_rawDesc = "" +
 	"\x04\xa8\xe3\n" +
 	"\x02\x12\xa0\x01\n" +
 	"\x0fUpdateRecording\x12'.eolymp.proctoring.UpdateRecordingInput\x1a(.eolymp.proctoring.UpdateRecordingOutput\":\xea\xe2\n" +
-	"\f\xf5\xe2\n" +
-	"\x00\x00\xa0A\xf8\xe2\n" +
-	"\xc8\x01\x82\xe3\n" +
-	"\x1e\x8a\xe3\n" +
-	"\x1aproctoring:recording:write\xa2\xe3\n" +
-	"\x04\xa8\xe3\n" +
-	"\x02\x12\xa0\x01\n" +
-	"\x0fResumeRecording\x12'.eolymp.proctoring.ResumeRecordingInput\x1a(.eolymp.proctoring.ResumeRecordingOutput\":\xea\xe2\n" +
 	"\f\xf5\xe2\n" +
 	"\x00\x00\xa0A\xf8\xe2\n" +
 	"\xc8\x01\x82\xe3\n" +
@@ -851,58 +701,51 @@ func file_eolymp_proctoring_recording_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_proctoring_recording_service_proto_rawDescData
 }
 
-var file_eolymp_proctoring_recording_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_eolymp_proctoring_recording_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_eolymp_proctoring_recording_service_proto_goTypes = []any{
 	(*CreateRecordingInput)(nil),       // 0: eolymp.proctoring.CreateRecordingInput
 	(*CreateRecordingOutput)(nil),      // 1: eolymp.proctoring.CreateRecordingOutput
 	(*UpdateRecordingInput)(nil),       // 2: eolymp.proctoring.UpdateRecordingInput
 	(*UpdateRecordingOutput)(nil),      // 3: eolymp.proctoring.UpdateRecordingOutput
-	(*ResumeRecordingInput)(nil),       // 4: eolymp.proctoring.ResumeRecordingInput
-	(*ResumeRecordingOutput)(nil),      // 5: eolymp.proctoring.ResumeRecordingOutput
-	(*DeleteRecordingInput)(nil),       // 6: eolymp.proctoring.DeleteRecordingInput
-	(*DeleteRecordingOutput)(nil),      // 7: eolymp.proctoring.DeleteRecordingOutput
-	(*DescribeRecordingInput)(nil),     // 8: eolymp.proctoring.DescribeRecordingInput
-	(*DescribeRecordingOutput)(nil),    // 9: eolymp.proctoring.DescribeRecordingOutput
-	(*ListRecordingsInput)(nil),        // 10: eolymp.proctoring.ListRecordingsInput
-	(*ListRecordingsOutput)(nil),       // 11: eolymp.proctoring.ListRecordingsOutput
-	(*RecordingChangedEvent)(nil),      // 12: eolymp.proctoring.RecordingChangedEvent
-	(*ListRecordingsInput_Filter)(nil), // 13: eolymp.proctoring.ListRecordingsInput.Filter
-	(*Recording)(nil),                  // 14: eolymp.proctoring.Recording
-	(*timestamppb.Timestamp)(nil),      // 15: google.protobuf.Timestamp
-	(*Recording_Patch)(nil),            // 16: eolymp.proctoring.Recording.Patch
-	(*wellknown.ExpressionID)(nil),     // 17: eolymp.wellknown.ExpressionID
-	(*wellknown.ExpressionEnum)(nil),   // 18: eolymp.wellknown.ExpressionEnum
+	(*DeleteRecordingInput)(nil),       // 4: eolymp.proctoring.DeleteRecordingInput
+	(*DeleteRecordingOutput)(nil),      // 5: eolymp.proctoring.DeleteRecordingOutput
+	(*DescribeRecordingInput)(nil),     // 6: eolymp.proctoring.DescribeRecordingInput
+	(*DescribeRecordingOutput)(nil),    // 7: eolymp.proctoring.DescribeRecordingOutput
+	(*ListRecordingsInput)(nil),        // 8: eolymp.proctoring.ListRecordingsInput
+	(*ListRecordingsOutput)(nil),       // 9: eolymp.proctoring.ListRecordingsOutput
+	(*RecordingChangedEvent)(nil),      // 10: eolymp.proctoring.RecordingChangedEvent
+	(*ListRecordingsInput_Filter)(nil), // 11: eolymp.proctoring.ListRecordingsInput.Filter
+	(*Recording)(nil),                  // 12: eolymp.proctoring.Recording
+	(*Recording_Patch)(nil),            // 13: eolymp.proctoring.Recording.Patch
+	(*wellknown.ExpressionID)(nil),     // 14: eolymp.wellknown.ExpressionID
+	(*wellknown.ExpressionEnum)(nil),   // 15: eolymp.wellknown.ExpressionEnum
 }
 var file_eolymp_proctoring_recording_service_proto_depIdxs = []int32{
-	14, // 0: eolymp.proctoring.CreateRecordingInput.recording:type_name -> eolymp.proctoring.Recording
-	15, // 1: eolymp.proctoring.CreateRecordingInput.expires_at:type_name -> google.protobuf.Timestamp
-	16, // 2: eolymp.proctoring.UpdateRecordingInput.recording:type_name -> eolymp.proctoring.Recording.Patch
-	15, // 3: eolymp.proctoring.ResumeRecordingInput.expires_at:type_name -> google.protobuf.Timestamp
-	14, // 4: eolymp.proctoring.DescribeRecordingOutput.recording:type_name -> eolymp.proctoring.Recording
-	13, // 5: eolymp.proctoring.ListRecordingsInput.filters:type_name -> eolymp.proctoring.ListRecordingsInput.Filter
-	14, // 6: eolymp.proctoring.ListRecordingsOutput.items:type_name -> eolymp.proctoring.Recording
-	14, // 7: eolymp.proctoring.RecordingChangedEvent.before:type_name -> eolymp.proctoring.Recording
-	14, // 8: eolymp.proctoring.RecordingChangedEvent.after:type_name -> eolymp.proctoring.Recording
-	17, // 9: eolymp.proctoring.ListRecordingsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
-	17, // 10: eolymp.proctoring.ListRecordingsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
-	18, // 11: eolymp.proctoring.ListRecordingsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
-	0,  // 12: eolymp.proctoring.RecordingService.CreateRecording:input_type -> eolymp.proctoring.CreateRecordingInput
-	2,  // 13: eolymp.proctoring.RecordingService.UpdateRecording:input_type -> eolymp.proctoring.UpdateRecordingInput
-	4,  // 14: eolymp.proctoring.RecordingService.ResumeRecording:input_type -> eolymp.proctoring.ResumeRecordingInput
-	6,  // 15: eolymp.proctoring.RecordingService.DeleteRecording:input_type -> eolymp.proctoring.DeleteRecordingInput
-	8,  // 16: eolymp.proctoring.RecordingService.DescribeRecording:input_type -> eolymp.proctoring.DescribeRecordingInput
-	10, // 17: eolymp.proctoring.RecordingService.ListRecordings:input_type -> eolymp.proctoring.ListRecordingsInput
-	1,  // 18: eolymp.proctoring.RecordingService.CreateRecording:output_type -> eolymp.proctoring.CreateRecordingOutput
-	3,  // 19: eolymp.proctoring.RecordingService.UpdateRecording:output_type -> eolymp.proctoring.UpdateRecordingOutput
-	5,  // 20: eolymp.proctoring.RecordingService.ResumeRecording:output_type -> eolymp.proctoring.ResumeRecordingOutput
-	7,  // 21: eolymp.proctoring.RecordingService.DeleteRecording:output_type -> eolymp.proctoring.DeleteRecordingOutput
-	9,  // 22: eolymp.proctoring.RecordingService.DescribeRecording:output_type -> eolymp.proctoring.DescribeRecordingOutput
-	11, // 23: eolymp.proctoring.RecordingService.ListRecordings:output_type -> eolymp.proctoring.ListRecordingsOutput
-	18, // [18:24] is the sub-list for method output_type
-	12, // [12:18] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	12, // 0: eolymp.proctoring.CreateRecordingInput.recording:type_name -> eolymp.proctoring.Recording
+	13, // 1: eolymp.proctoring.UpdateRecordingInput.recording:type_name -> eolymp.proctoring.Recording.Patch
+	12, // 2: eolymp.proctoring.DescribeRecordingOutput.recording:type_name -> eolymp.proctoring.Recording
+	11, // 3: eolymp.proctoring.ListRecordingsInput.filters:type_name -> eolymp.proctoring.ListRecordingsInput.Filter
+	12, // 4: eolymp.proctoring.ListRecordingsOutput.items:type_name -> eolymp.proctoring.Recording
+	12, // 5: eolymp.proctoring.RecordingChangedEvent.before:type_name -> eolymp.proctoring.Recording
+	12, // 6: eolymp.proctoring.RecordingChangedEvent.after:type_name -> eolymp.proctoring.Recording
+	14, // 7: eolymp.proctoring.ListRecordingsInput.Filter.id:type_name -> eolymp.wellknown.ExpressionID
+	14, // 8: eolymp.proctoring.ListRecordingsInput.Filter.member_id:type_name -> eolymp.wellknown.ExpressionID
+	15, // 9: eolymp.proctoring.ListRecordingsInput.Filter.status:type_name -> eolymp.wellknown.ExpressionEnum
+	0,  // 10: eolymp.proctoring.RecordingService.CreateRecording:input_type -> eolymp.proctoring.CreateRecordingInput
+	2,  // 11: eolymp.proctoring.RecordingService.UpdateRecording:input_type -> eolymp.proctoring.UpdateRecordingInput
+	4,  // 12: eolymp.proctoring.RecordingService.DeleteRecording:input_type -> eolymp.proctoring.DeleteRecordingInput
+	6,  // 13: eolymp.proctoring.RecordingService.DescribeRecording:input_type -> eolymp.proctoring.DescribeRecordingInput
+	8,  // 14: eolymp.proctoring.RecordingService.ListRecordings:input_type -> eolymp.proctoring.ListRecordingsInput
+	1,  // 15: eolymp.proctoring.RecordingService.CreateRecording:output_type -> eolymp.proctoring.CreateRecordingOutput
+	3,  // 16: eolymp.proctoring.RecordingService.UpdateRecording:output_type -> eolymp.proctoring.UpdateRecordingOutput
+	5,  // 17: eolymp.proctoring.RecordingService.DeleteRecording:output_type -> eolymp.proctoring.DeleteRecordingOutput
+	7,  // 18: eolymp.proctoring.RecordingService.DescribeRecording:output_type -> eolymp.proctoring.DescribeRecordingOutput
+	9,  // 19: eolymp.proctoring.RecordingService.ListRecordings:output_type -> eolymp.proctoring.ListRecordingsOutput
+	15, // [15:20] is the sub-list for method output_type
+	10, // [10:15] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_proctoring_recording_service_proto_init() }
@@ -917,7 +760,7 @@ func file_eolymp_proctoring_recording_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_proctoring_recording_service_proto_rawDesc), len(file_eolymp_proctoring_recording_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
