@@ -341,6 +341,9 @@ func RegisterParticipantServiceHttpHandlers(router *mux.Router, prefix string, c
 	router.Handle(prefix+"/contests/{contest_id}/proctoring", _ParticipantService_RequestProctoring_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.judge.ParticipantService.RequestProctoring")
+	router.Handle(prefix+"/contests/{contest_id}/proctoring/watch", _ParticipantService_WatchProctoring_Rule0(cli)).
+		Methods("GET").
+		Name("eolymp.judge.ParticipantService.WatchProctoring")
 }
 
 // RegisterParticipantServiceHttpProxy adds proxy handlers for for ParticipantServiceClient
@@ -710,5 +713,27 @@ func _ParticipantService_RequestProctoring_Rule0(cli ParticipantServiceClient) h
 		}
 
 		_ParticipantService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _ParticipantService_WatchProctoring_Rule0(cli ParticipantServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &WatchProctoringInput{}
+
+		if err := _ParticipantService_HTTPReadQueryString(r, in, 131072); err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.ContestId = vars["contest_id"]
+
+		stream, err := cli.WatchProctoring(r.Context(), in)
+		if err != nil {
+			_ParticipantService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_ParticipantService_HTTPWriteEventStream(w, r, func() (proto.Message, error) { return stream.Recv() })
 	})
 }

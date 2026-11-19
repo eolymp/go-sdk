@@ -34,6 +34,7 @@ const (
 	ParticipantService_PauseContest_FullMethodName          = "/eolymp.judge.ParticipantService/PauseContest"
 	ParticipantService_FinishContest_FullMethodName         = "/eolymp.judge.ParticipantService/FinishContest"
 	ParticipantService_RequestProctoring_FullMethodName     = "/eolymp.judge.ParticipantService/RequestProctoring"
+	ParticipantService_WatchProctoring_FullMethodName       = "/eolymp.judge.ParticipantService/WatchProctoring"
 )
 
 // ParticipantServiceClient is the client API for ParticipantService service.
@@ -122,6 +123,10 @@ type ParticipantServiceClient interface {
 	// time changes. Only official participants of a proctored contest get one, from shortly before their start
 	// until they finish.
 	RequestProctoring(ctx context.Context, in *RequestProctoringInput, opts ...grpc.CallOption) (*RequestProctoringOutput, error)
+	// WatchProctoring streams the calling participant's proctoring recording with its slots, so every open
+	// contest page shows which sources are recorded, by which device, and which are missing. The stream closes
+	// when the recording closes.
+	WatchProctoring(ctx context.Context, in *WatchProctoringInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchProctoringOutput], error)
 }
 
 type participantServiceClient struct {
@@ -291,6 +296,25 @@ func (c *participantServiceClient) RequestProctoring(ctx context.Context, in *Re
 	return out, nil
 }
 
+func (c *participantServiceClient) WatchProctoring(ctx context.Context, in *WatchProctoringInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchProctoringOutput], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &ParticipantService_ServiceDesc.Streams[1], ParticipantService_WatchProctoring_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[WatchProctoringInput, WatchProctoringOutput]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type ParticipantService_WatchProctoringClient = grpc.ServerStreamingClient[WatchProctoringOutput]
+
 // ParticipantServiceServer is the server API for ParticipantService service.
 // All implementations should embed UnimplementedParticipantServiceServer
 // for forward compatibility.
@@ -377,6 +401,10 @@ type ParticipantServiceServer interface {
 	// time changes. Only official participants of a proctored contest get one, from shortly before their start
 	// until they finish.
 	RequestProctoring(context.Context, *RequestProctoringInput) (*RequestProctoringOutput, error)
+	// WatchProctoring streams the calling participant's proctoring recording with its slots, so every open
+	// contest page shows which sources are recorded, by which device, and which are missing. The stream closes
+	// when the recording closes.
+	WatchProctoring(*WatchProctoringInput, grpc.ServerStreamingServer[WatchProctoringOutput]) error
 }
 
 // UnimplementedParticipantServiceServer should be embedded to have
@@ -430,6 +458,9 @@ func (UnimplementedParticipantServiceServer) FinishContest(context.Context, *Fin
 }
 func (UnimplementedParticipantServiceServer) RequestProctoring(context.Context, *RequestProctoringInput) (*RequestProctoringOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method RequestProctoring not implemented")
+}
+func (UnimplementedParticipantServiceServer) WatchProctoring(*WatchProctoringInput, grpc.ServerStreamingServer[WatchProctoringOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchProctoring not implemented")
 }
 func (UnimplementedParticipantServiceServer) testEmbeddedByValue() {}
 
@@ -714,6 +745,17 @@ func _ParticipantService_RequestProctoring_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ParticipantService_WatchProctoring_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchProctoringInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ParticipantServiceServer).WatchProctoring(m, &grpc.GenericServerStream[WatchProctoringInput, WatchProctoringOutput]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type ParticipantService_WatchProctoringServer = grpc.ServerStreamingServer[WatchProctoringOutput]
+
 // ParticipantService_ServiceDesc is the grpc.ServiceDesc for ParticipantService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -782,6 +824,11 @@ var ParticipantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchParticipant",
 			Handler:       _ParticipantService_WatchParticipant_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchProctoring",
+			Handler:       _ParticipantService_WatchProctoring_Handler,
 			ServerStreams: true,
 		},
 	},

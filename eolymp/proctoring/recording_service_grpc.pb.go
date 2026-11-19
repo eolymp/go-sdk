@@ -23,6 +23,7 @@ const (
 	RecordingService_UpdateRecording_FullMethodName   = "/eolymp.proctoring.RecordingService/UpdateRecording"
 	RecordingService_DeleteRecording_FullMethodName   = "/eolymp.proctoring.RecordingService/DeleteRecording"
 	RecordingService_DescribeRecording_FullMethodName = "/eolymp.proctoring.RecordingService/DescribeRecording"
+	RecordingService_WatchRecording_FullMethodName    = "/eolymp.proctoring.RecordingService/WatchRecording"
 	RecordingService_ListRecordings_FullMethodName    = "/eolymp.proctoring.RecordingService/ListRecordings"
 )
 
@@ -39,6 +40,9 @@ type RecordingServiceClient interface {
 	// DeleteRecording removes the recording and its clips.
 	DeleteRecording(ctx context.Context, in *DeleteRecordingInput, opts ...grpc.CallOption) (*DeleteRecordingOutput, error)
 	DescribeRecording(ctx context.Context, in *DescribeRecordingInput, opts ...grpc.CallOption) (*DescribeRecordingOutput, error)
+	// WatchRecording streams the recording with its slots whenever a slot is acquired, released, goes live or
+	// stalls, or the recording's state or configuration changes. The stream closes when the recording closes.
+	WatchRecording(ctx context.Context, in *WatchRecordingInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRecordingOutput], error)
 	ListRecordings(ctx context.Context, in *ListRecordingsInput, opts ...grpc.CallOption) (*ListRecordingsOutput, error)
 }
 
@@ -90,6 +94,25 @@ func (c *recordingServiceClient) DescribeRecording(ctx context.Context, in *Desc
 	return out, nil
 }
 
+func (c *recordingServiceClient) WatchRecording(ctx context.Context, in *WatchRecordingInput, opts ...grpc.CallOption) (grpc.ServerStreamingClient[WatchRecordingOutput], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &RecordingService_ServiceDesc.Streams[0], RecordingService_WatchRecording_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[WatchRecordingInput, WatchRecordingOutput]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type RecordingService_WatchRecordingClient = grpc.ServerStreamingClient[WatchRecordingOutput]
+
 func (c *recordingServiceClient) ListRecordings(ctx context.Context, in *ListRecordingsInput, opts ...grpc.CallOption) (*ListRecordingsOutput, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListRecordingsOutput)
@@ -113,6 +136,9 @@ type RecordingServiceServer interface {
 	// DeleteRecording removes the recording and its clips.
 	DeleteRecording(context.Context, *DeleteRecordingInput) (*DeleteRecordingOutput, error)
 	DescribeRecording(context.Context, *DescribeRecordingInput) (*DescribeRecordingOutput, error)
+	// WatchRecording streams the recording with its slots whenever a slot is acquired, released, goes live or
+	// stalls, or the recording's state or configuration changes. The stream closes when the recording closes.
+	WatchRecording(*WatchRecordingInput, grpc.ServerStreamingServer[WatchRecordingOutput]) error
 	ListRecordings(context.Context, *ListRecordingsInput) (*ListRecordingsOutput, error)
 }
 
@@ -134,6 +160,9 @@ func (UnimplementedRecordingServiceServer) DeleteRecording(context.Context, *Del
 }
 func (UnimplementedRecordingServiceServer) DescribeRecording(context.Context, *DescribeRecordingInput) (*DescribeRecordingOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeRecording not implemented")
+}
+func (UnimplementedRecordingServiceServer) WatchRecording(*WatchRecordingInput, grpc.ServerStreamingServer[WatchRecordingOutput]) error {
+	return status.Error(codes.Unimplemented, "method WatchRecording not implemented")
 }
 func (UnimplementedRecordingServiceServer) ListRecordings(context.Context, *ListRecordingsInput) (*ListRecordingsOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListRecordings not implemented")
@@ -230,6 +259,17 @@ func _RecordingService_DescribeRecording_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RecordingService_WatchRecording_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchRecordingInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(RecordingServiceServer).WatchRecording(m, &grpc.GenericServerStream[WatchRecordingInput, WatchRecordingOutput]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type RecordingService_WatchRecordingServer = grpc.ServerStreamingServer[WatchRecordingOutput]
+
 func _RecordingService_ListRecordings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListRecordingsInput)
 	if err := dec(in); err != nil {
@@ -276,6 +316,12 @@ var RecordingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RecordingService_ListRecordings_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchRecording",
+			Handler:       _RecordingService_WatchRecording_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "eolymp/proctoring/recording_service.proto",
 }

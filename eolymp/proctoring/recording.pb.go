@@ -22,6 +22,62 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// State is where the recording is in its capture window, derived from the window and the current time.
+type Recording_State int32
+
+const (
+	Recording_UNKNOWN_STATE Recording_State = 0
+	Recording_PENDING       Recording_State = 1 // before capture_from; producers may connect, nothing is recorded
+	Recording_ACTIVE        Recording_State = 2 // within the capture window
+	Recording_UPLOAD_ONLY   Recording_State = 3 // after capture_to and before upload_until; recorded clips may still arrive
+	Recording_CLOSED        Recording_State = 4 // after upload_until
+)
+
+// Enum value maps for Recording_State.
+var (
+	Recording_State_name = map[int32]string{
+		0: "UNKNOWN_STATE",
+		1: "PENDING",
+		2: "ACTIVE",
+		3: "UPLOAD_ONLY",
+		4: "CLOSED",
+	}
+	Recording_State_value = map[string]int32{
+		"UNKNOWN_STATE": 0,
+		"PENDING":       1,
+		"ACTIVE":        2,
+		"UPLOAD_ONLY":   3,
+		"CLOSED":        4,
+	}
+)
+
+func (x Recording_State) Enum() *Recording_State {
+	p := new(Recording_State)
+	*p = x
+	return p
+}
+
+func (x Recording_State) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Recording_State) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_proctoring_recording_proto_enumTypes[0].Descriptor()
+}
+
+func (Recording_State) Type() protoreflect.EnumType {
+	return &file_eolymp_proctoring_recording_proto_enumTypes[0]
+}
+
+func (x Recording_State) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Recording_State.Descriptor instead.
+func (Recording_State) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 0}
+}
+
 type Recording_Status int32
 
 const (
@@ -61,11 +117,11 @@ func (x Recording_Status) String() string {
 }
 
 func (Recording_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_proctoring_recording_proto_enumTypes[0].Descriptor()
+	return file_eolymp_proctoring_recording_proto_enumTypes[1].Descriptor()
 }
 
 func (Recording_Status) Type() protoreflect.EnumType {
-	return &file_eolymp_proctoring_recording_proto_enumTypes[0]
+	return &file_eolymp_proctoring_recording_proto_enumTypes[1]
 }
 
 func (x Recording_Status) Number() protoreflect.EnumNumber {
@@ -74,7 +130,157 @@ func (x Recording_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Recording_Status.Descriptor instead.
 func (Recording_Status) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 0}
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1}
+}
+
+type Recording_Extra_Field int32
+
+const (
+	Recording_Extra_UNKNOWN_EXTRA Recording_Extra_Field = 0
+	Recording_Extra_SLOTS         Recording_Extra_Field = 1 // slots and their holders, read from the live session
+)
+
+// Enum value maps for Recording_Extra_Field.
+var (
+	Recording_Extra_Field_name = map[int32]string{
+		0: "UNKNOWN_EXTRA",
+		1: "SLOTS",
+	}
+	Recording_Extra_Field_value = map[string]int32{
+		"UNKNOWN_EXTRA": 0,
+		"SLOTS":         1,
+	}
+)
+
+func (x Recording_Extra_Field) Enum() *Recording_Extra_Field {
+	p := new(Recording_Extra_Field)
+	*p = x
+	return p
+}
+
+func (x Recording_Extra_Field) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Recording_Extra_Field) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_proctoring_recording_proto_enumTypes[2].Descriptor()
+}
+
+func (Recording_Extra_Field) Type() protoreflect.EnumType {
+	return &file_eolymp_proctoring_recording_proto_enumTypes[2]
+}
+
+func (x Recording_Extra_Field) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Recording_Extra_Field.Descriptor instead.
+func (Recording_Extra_Field) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1, 0}
+}
+
+type Recording_Slot_State int32
+
+const (
+	Recording_Slot_UNKNOWN_STATE Recording_Slot_State = 0
+	Recording_Slot_MISSING       Recording_Slot_State = 1 // no producer holds the slot
+	Recording_Slot_LIVE          Recording_Slot_State = 2 // the holder is sending data
+	Recording_Slot_STALLED       Recording_Slot_State = 3 // the slot is held, but no data arrived for 15 seconds
+)
+
+// Enum value maps for Recording_Slot_State.
+var (
+	Recording_Slot_State_name = map[int32]string{
+		0: "UNKNOWN_STATE",
+		1: "MISSING",
+		2: "LIVE",
+		3: "STALLED",
+	}
+	Recording_Slot_State_value = map[string]int32{
+		"UNKNOWN_STATE": 0,
+		"MISSING":       1,
+		"LIVE":          2,
+		"STALLED":       3,
+	}
+)
+
+func (x Recording_Slot_State) Enum() *Recording_Slot_State {
+	p := new(Recording_Slot_State)
+	*p = x
+	return p
+}
+
+func (x Recording_Slot_State) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Recording_Slot_State) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_proctoring_recording_proto_enumTypes[3].Descriptor()
+}
+
+func (Recording_Slot_State) Type() protoreflect.EnumType {
+	return &file_eolymp_proctoring_recording_proto_enumTypes[3]
+}
+
+func (x Recording_Slot_State) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Recording_Slot_State.Descriptor instead.
+func (Recording_Slot_State) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 2, 0}
+}
+
+type Recording_Slot_Holder_Kind int32
+
+const (
+	Recording_Slot_Holder_UNKNOWN_KIND Recording_Slot_Holder_Kind = 0
+	Recording_Slot_Holder_BROWSER      Recording_Slot_Holder_Kind = 1
+	Recording_Slot_Holder_APP          Recording_Slot_Holder_Kind = 2
+	Recording_Slot_Holder_PHONE        Recording_Slot_Holder_Kind = 3
+)
+
+// Enum value maps for Recording_Slot_Holder_Kind.
+var (
+	Recording_Slot_Holder_Kind_name = map[int32]string{
+		0: "UNKNOWN_KIND",
+		1: "BROWSER",
+		2: "APP",
+		3: "PHONE",
+	}
+	Recording_Slot_Holder_Kind_value = map[string]int32{
+		"UNKNOWN_KIND": 0,
+		"BROWSER":      1,
+		"APP":          2,
+		"PHONE":        3,
+	}
+)
+
+func (x Recording_Slot_Holder_Kind) Enum() *Recording_Slot_Holder_Kind {
+	p := new(Recording_Slot_Holder_Kind)
+	*p = x
+	return p
+}
+
+func (x Recording_Slot_Holder_Kind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Recording_Slot_Holder_Kind) Descriptor() protoreflect.EnumDescriptor {
+	return file_eolymp_proctoring_recording_proto_enumTypes[4].Descriptor()
+}
+
+func (Recording_Slot_Holder_Kind) Type() protoreflect.EnumType {
+	return &file_eolymp_proctoring_recording_proto_enumTypes[4]
+}
+
+func (x Recording_Slot_Holder_Kind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Recording_Slot_Holder_Kind.Descriptor instead.
+func (Recording_Slot_Holder_Kind) EnumDescriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 2, 0, 0}
 }
 
 type Recording_Stream_Source int32
@@ -113,11 +319,11 @@ func (x Recording_Stream_Source) String() string {
 }
 
 func (Recording_Stream_Source) Descriptor() protoreflect.EnumDescriptor {
-	return file_eolymp_proctoring_recording_proto_enumTypes[1].Descriptor()
+	return file_eolymp_proctoring_recording_proto_enumTypes[5].Descriptor()
 }
 
 func (Recording_Stream_Source) Type() protoreflect.EnumType {
-	return &file_eolymp_proctoring_recording_proto_enumTypes[1]
+	return &file_eolymp_proctoring_recording_proto_enumTypes[5]
 }
 
 func (x Recording_Stream_Source) Number() protoreflect.EnumNumber {
@@ -126,7 +332,7 @@ func (x Recording_Stream_Source) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Recording_Stream_Source.Descriptor instead.
 func (Recording_Stream_Source) EnumDescriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1, 0}
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 3, 0}
 }
 
 // Recording is a member's screen and camera recording.
@@ -150,6 +356,8 @@ type Recording struct {
 	CaptureTo       *timestamppb.Timestamp    `protobuf:"bytes,11,opt,name=capture_to,json=captureTo,proto3" json:"capture_to,omitempty"`                                                                          // end of the capture window
 	UploadUntil     *timestamppb.Timestamp    `protobuf:"bytes,12,opt,name=upload_until,json=uploadUntil,proto3" json:"upload_until,omitempty"`                                                                    // clips recorded within the capture window are accepted until this time, not earlier than capture_to
 	RequiredSources []Recording_Stream_Source `protobuf:"varint,13,rep,packed,name=required_sources,json=requiredSources,proto3,enum=eolymp.proctoring.Recording_Stream_Source" json:"required_sources,omitempty"` // sources the owner needs recorded
+	State           Recording_State           `protobuf:"varint,14,opt,name=state,proto3,enum=eolymp.proctoring.Recording_State" json:"state,omitempty"`
+	Slots           []*Recording_Slot         `protobuf:"bytes,15,rep,name=slots,proto3" json:"slots,omitempty"` // every slot, requires extra SLOTS
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -268,6 +476,20 @@ func (x *Recording) GetRequiredSources() []Recording_Stream_Source {
 	return nil
 }
 
+func (x *Recording) GetState() Recording_State {
+	if x != nil {
+		return x.State
+	}
+	return Recording_UNKNOWN_STATE
+}
+
+func (x *Recording) GetSlots() []*Recording_Slot {
+	if x != nil {
+		return x.Slots
+	}
+	return nil
+}
+
 type Recording_Patch struct {
 	state           protoimpl.MessageState    `protogen:"open.v1"`
 	CaptureFrom     *timestamppb.Timestamp    `protobuf:"bytes,10,opt,name=capture_from,json=captureFrom,proto3" json:"capture_from,omitempty"`
@@ -336,6 +558,103 @@ func (x *Recording_Patch) GetRequiredSources() []Recording_Stream_Source {
 	return nil
 }
 
+type Recording_Extra struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Recording_Extra) Reset() {
+	*x = Recording_Extra{}
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Recording_Extra) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Recording_Extra) ProtoMessage() {}
+
+func (x *Recording_Extra) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Recording_Extra.ProtoReflect.Descriptor instead.
+func (*Recording_Extra) Descriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1}
+}
+
+// Slot is one source of the recording, leased to the producer recording it.
+type Recording_Slot struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Source        Recording_Stream_Source `protobuf:"varint,1,opt,name=source,proto3,enum=eolymp.proctoring.Recording_Stream_Source" json:"source,omitempty"`
+	State         Recording_Slot_State    `protobuf:"varint,2,opt,name=state,proto3,enum=eolymp.proctoring.Recording_Slot_State" json:"state,omitempty"`
+	Holder        *Recording_Slot_Holder  `protobuf:"bytes,3,opt,name=holder,proto3" json:"holder,omitempty"` // empty when the slot is missing
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Recording_Slot) Reset() {
+	*x = Recording_Slot{}
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Recording_Slot) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Recording_Slot) ProtoMessage() {}
+
+func (x *Recording_Slot) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Recording_Slot.ProtoReflect.Descriptor instead.
+func (*Recording_Slot) Descriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 2}
+}
+
+func (x *Recording_Slot) GetSource() Recording_Stream_Source {
+	if x != nil {
+		return x.Source
+	}
+	return Recording_Stream_UNKNOWN_SOURCE
+}
+
+func (x *Recording_Slot) GetState() Recording_Slot_State {
+	if x != nil {
+		return x.State
+	}
+	return Recording_Slot_UNKNOWN_STATE
+}
+
+func (x *Recording_Slot) GetHolder() *Recording_Slot_Holder {
+	if x != nil {
+		return x.Holder
+	}
+	return nil
+}
+
 type Recording_Stream struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Source        Recording_Stream_Source `protobuf:"varint,1,opt,name=source,proto3,enum=eolymp.proctoring.Recording_Stream_Source" json:"source,omitempty"`
@@ -346,7 +665,7 @@ type Recording_Stream struct {
 
 func (x *Recording_Stream) Reset() {
 	*x = Recording_Stream{}
-	mi := &file_eolymp_proctoring_recording_proto_msgTypes[2]
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -358,7 +677,7 @@ func (x *Recording_Stream) String() string {
 func (*Recording_Stream) ProtoMessage() {}
 
 func (x *Recording_Stream) ProtoReflect() protoreflect.Message {
-	mi := &file_eolymp_proctoring_recording_proto_msgTypes[2]
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -371,7 +690,7 @@ func (x *Recording_Stream) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Recording_Stream.ProtoReflect.Descriptor instead.
 func (*Recording_Stream) Descriptor() ([]byte, []int) {
-	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 1}
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 3}
 }
 
 func (x *Recording_Stream) GetSource() Recording_Stream_Source {
@@ -388,11 +707,63 @@ func (x *Recording_Stream) GetPlaylistUrl() string {
 	return ""
 }
 
+type Recording_Slot_Holder struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Kind          Recording_Slot_Holder_Kind `protobuf:"varint,1,opt,name=kind,proto3,enum=eolymp.proctoring.Recording_Slot_Holder_Kind" json:"kind,omitempty"`
+	Version       string                     `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"` // producer's version
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Recording_Slot_Holder) Reset() {
+	*x = Recording_Slot_Holder{}
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Recording_Slot_Holder) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Recording_Slot_Holder) ProtoMessage() {}
+
+func (x *Recording_Slot_Holder) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_proctoring_recording_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Recording_Slot_Holder.ProtoReflect.Descriptor instead.
+func (*Recording_Slot_Holder) Descriptor() ([]byte, []int) {
+	return file_eolymp_proctoring_recording_proto_rawDescGZIP(), []int{0, 2, 0}
+}
+
+func (x *Recording_Slot_Holder) GetKind() Recording_Slot_Holder_Kind {
+	if x != nil {
+		return x.Kind
+	}
+	return Recording_Slot_Holder_UNKNOWN_KIND
+}
+
+func (x *Recording_Slot_Holder) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
 var File_eolymp_proctoring_recording_proto protoreflect.FileDescriptor
 
 const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\n" +
-	"!eolymp/proctoring/recording.proto\x12\x11eolymp.proctoring\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\t\n" +
+	"!eolymp/proctoring/recording.proto\x12\x11eolymp.proctoring\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe7\x0e\n" +
 	"\tRecording\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tmember_id\x18\x02 \x01(\tR\bmemberId\x12;\n" +
@@ -409,14 +780,37 @@ const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\n" +
 	"capture_to\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcaptureTo\x12=\n" +
 	"\fupload_until\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\vuploadUntil\x12U\n" +
-	"\x10required_sources\x18\r \x03(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x0frequiredSources\x1a\x97\x02\n" +
+	"\x10required_sources\x18\r \x03(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x0frequiredSources\x128\n" +
+	"\x05state\x18\x0e \x01(\x0e2\".eolymp.proctoring.Recording.StateR\x05state\x127\n" +
+	"\x05slots\x18\x0f \x03(\v2!.eolymp.proctoring.Recording.SlotR\x05slots\x1a\x97\x02\n" +
 	"\x05Patch\x12=\n" +
 	"\fcapture_from\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\vcaptureFrom\x129\n" +
 	"\n" +
 	"capture_to\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcaptureTo\x12=\n" +
 	"\fupload_until\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\vuploadUntil\x12U\n" +
-	"\x10required_sources\x18\r \x03(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x0frequiredSources\x1a\xbc\x01\n" +
+	"\x10required_sources\x18\r \x03(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x0frequiredSources\x1a.\n" +
+	"\x05Extra\"%\n" +
+	"\x05Field\x12\x11\n" +
+	"\rUNKNOWN_EXTRA\x10\x00\x12\t\n" +
+	"\x05SLOTS\x10\x01\x1a\xae\x03\n" +
+	"\x04Slot\x12B\n" +
+	"\x06source\x18\x01 \x01(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x06source\x12=\n" +
+	"\x05state\x18\x02 \x01(\x0e2'.eolymp.proctoring.Recording.Slot.StateR\x05state\x12@\n" +
+	"\x06holder\x18\x03 \x01(\v2(.eolymp.proctoring.Recording.Slot.HolderR\x06holder\x1a\xa0\x01\n" +
+	"\x06Holder\x12A\n" +
+	"\x04kind\x18\x01 \x01(\x0e2-.eolymp.proctoring.Recording.Slot.Holder.KindR\x04kind\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"9\n" +
+	"\x04Kind\x12\x10\n" +
+	"\fUNKNOWN_KIND\x10\x00\x12\v\n" +
+	"\aBROWSER\x10\x01\x12\a\n" +
+	"\x03APP\x10\x02\x12\t\n" +
+	"\x05PHONE\x10\x03\">\n" +
+	"\x05State\x12\x11\n" +
+	"\rUNKNOWN_STATE\x10\x00\x12\v\n" +
+	"\aMISSING\x10\x01\x12\b\n" +
+	"\x04LIVE\x10\x02\x12\v\n" +
+	"\aSTALLED\x10\x03\x1a\xbc\x01\n" +
 	"\x06Stream\x12B\n" +
 	"\x06source\x18\x01 \x01(\x0e2*.eolymp.proctoring.Recording.Stream.SourceR\x06source\x12!\n" +
 	"\fplaylist_url\x18\x02 \x01(\tR\vplaylistUrl\"K\n" +
@@ -426,7 +820,15 @@ const file_eolymp_proctoring_recording_proto_rawDesc = "" +
 	"\x06SCREEN\x10\x01\x12\n" +
 	"\n" +
 	"\x06CAMERA\x10\x02\x12\x15\n" +
-	"\x11ADDITIONAL_CAMERA\x10\x03\"R\n" +
+	"\x11ADDITIONAL_CAMERA\x10\x03\"P\n" +
+	"\x05State\x12\x11\n" +
+	"\rUNKNOWN_STATE\x10\x00\x12\v\n" +
+	"\aPENDING\x10\x01\x12\n" +
+	"\n" +
+	"\x06ACTIVE\x10\x02\x12\x0f\n" +
+	"\vUPLOAD_ONLY\x10\x03\x12\n" +
+	"\n" +
+	"\x06CLOSED\x10\x04\"R\n" +
 	"\x06Status\x12\x12\n" +
 	"\x0eUNKNOWN_STATUS\x10\x00\x12\t\n" +
 	"\x05EMPTY\x10\x01\x12\f\n" +
@@ -447,36 +849,49 @@ func file_eolymp_proctoring_recording_proto_rawDescGZIP() []byte {
 	return file_eolymp_proctoring_recording_proto_rawDescData
 }
 
-var file_eolymp_proctoring_recording_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_eolymp_proctoring_recording_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_eolymp_proctoring_recording_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
+var file_eolymp_proctoring_recording_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_eolymp_proctoring_recording_proto_goTypes = []any{
-	(Recording_Status)(0),         // 0: eolymp.proctoring.Recording.Status
-	(Recording_Stream_Source)(0),  // 1: eolymp.proctoring.Recording.Stream.Source
-	(*Recording)(nil),             // 2: eolymp.proctoring.Recording
-	(*Recording_Patch)(nil),       // 3: eolymp.proctoring.Recording.Patch
-	(*Recording_Stream)(nil),      // 4: eolymp.proctoring.Recording.Stream
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(Recording_State)(0),            // 0: eolymp.proctoring.Recording.State
+	(Recording_Status)(0),           // 1: eolymp.proctoring.Recording.Status
+	(Recording_Extra_Field)(0),      // 2: eolymp.proctoring.Recording.Extra.Field
+	(Recording_Slot_State)(0),       // 3: eolymp.proctoring.Recording.Slot.State
+	(Recording_Slot_Holder_Kind)(0), // 4: eolymp.proctoring.Recording.Slot.Holder.Kind
+	(Recording_Stream_Source)(0),    // 5: eolymp.proctoring.Recording.Stream.Source
+	(*Recording)(nil),               // 6: eolymp.proctoring.Recording
+	(*Recording_Patch)(nil),         // 7: eolymp.proctoring.Recording.Patch
+	(*Recording_Extra)(nil),         // 8: eolymp.proctoring.Recording.Extra
+	(*Recording_Slot)(nil),          // 9: eolymp.proctoring.Recording.Slot
+	(*Recording_Stream)(nil),        // 10: eolymp.proctoring.Recording.Stream
+	(*Recording_Slot_Holder)(nil),   // 11: eolymp.proctoring.Recording.Slot.Holder
+	(*timestamppb.Timestamp)(nil),   // 12: google.protobuf.Timestamp
 }
 var file_eolymp_proctoring_recording_proto_depIdxs = []int32{
-	0,  // 0: eolymp.proctoring.Recording.status:type_name -> eolymp.proctoring.Recording.Status
-	5,  // 1: eolymp.proctoring.Recording.started_at:type_name -> google.protobuf.Timestamp
-	5,  // 2: eolymp.proctoring.Recording.ended_at:type_name -> google.protobuf.Timestamp
-	4,  // 3: eolymp.proctoring.Recording.streams:type_name -> eolymp.proctoring.Recording.Stream
-	5,  // 4: eolymp.proctoring.Recording.created_at:type_name -> google.protobuf.Timestamp
-	5,  // 5: eolymp.proctoring.Recording.capture_from:type_name -> google.protobuf.Timestamp
-	5,  // 6: eolymp.proctoring.Recording.capture_to:type_name -> google.protobuf.Timestamp
-	5,  // 7: eolymp.proctoring.Recording.upload_until:type_name -> google.protobuf.Timestamp
-	1,  // 8: eolymp.proctoring.Recording.required_sources:type_name -> eolymp.proctoring.Recording.Stream.Source
-	5,  // 9: eolymp.proctoring.Recording.Patch.capture_from:type_name -> google.protobuf.Timestamp
-	5,  // 10: eolymp.proctoring.Recording.Patch.capture_to:type_name -> google.protobuf.Timestamp
-	5,  // 11: eolymp.proctoring.Recording.Patch.upload_until:type_name -> google.protobuf.Timestamp
-	1,  // 12: eolymp.proctoring.Recording.Patch.required_sources:type_name -> eolymp.proctoring.Recording.Stream.Source
-	1,  // 13: eolymp.proctoring.Recording.Stream.source:type_name -> eolymp.proctoring.Recording.Stream.Source
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	1,  // 0: eolymp.proctoring.Recording.status:type_name -> eolymp.proctoring.Recording.Status
+	12, // 1: eolymp.proctoring.Recording.started_at:type_name -> google.protobuf.Timestamp
+	12, // 2: eolymp.proctoring.Recording.ended_at:type_name -> google.protobuf.Timestamp
+	10, // 3: eolymp.proctoring.Recording.streams:type_name -> eolymp.proctoring.Recording.Stream
+	12, // 4: eolymp.proctoring.Recording.created_at:type_name -> google.protobuf.Timestamp
+	12, // 5: eolymp.proctoring.Recording.capture_from:type_name -> google.protobuf.Timestamp
+	12, // 6: eolymp.proctoring.Recording.capture_to:type_name -> google.protobuf.Timestamp
+	12, // 7: eolymp.proctoring.Recording.upload_until:type_name -> google.protobuf.Timestamp
+	5,  // 8: eolymp.proctoring.Recording.required_sources:type_name -> eolymp.proctoring.Recording.Stream.Source
+	0,  // 9: eolymp.proctoring.Recording.state:type_name -> eolymp.proctoring.Recording.State
+	9,  // 10: eolymp.proctoring.Recording.slots:type_name -> eolymp.proctoring.Recording.Slot
+	12, // 11: eolymp.proctoring.Recording.Patch.capture_from:type_name -> google.protobuf.Timestamp
+	12, // 12: eolymp.proctoring.Recording.Patch.capture_to:type_name -> google.protobuf.Timestamp
+	12, // 13: eolymp.proctoring.Recording.Patch.upload_until:type_name -> google.protobuf.Timestamp
+	5,  // 14: eolymp.proctoring.Recording.Patch.required_sources:type_name -> eolymp.proctoring.Recording.Stream.Source
+	5,  // 15: eolymp.proctoring.Recording.Slot.source:type_name -> eolymp.proctoring.Recording.Stream.Source
+	3,  // 16: eolymp.proctoring.Recording.Slot.state:type_name -> eolymp.proctoring.Recording.Slot.State
+	11, // 17: eolymp.proctoring.Recording.Slot.holder:type_name -> eolymp.proctoring.Recording.Slot.Holder
+	5,  // 18: eolymp.proctoring.Recording.Stream.source:type_name -> eolymp.proctoring.Recording.Stream.Source
+	4,  // 19: eolymp.proctoring.Recording.Slot.Holder.kind:type_name -> eolymp.proctoring.Recording.Slot.Holder.Kind
+	20, // [20:20] is the sub-list for method output_type
+	20, // [20:20] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_proctoring_recording_proto_init() }
@@ -489,8 +904,8 @@ func file_eolymp_proctoring_recording_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_proctoring_recording_proto_rawDesc), len(file_eolymp_proctoring_recording_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   3,
+			NumEnums:      6,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
