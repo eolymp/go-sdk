@@ -1423,11 +1423,291 @@ func (x *ListAvailablePlansOutput) GetItems() []*Plan {
 	return nil
 }
 
+type ListAvailableAddonsInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
+	Size          int32                  `protobuf:"varint,11,opt,name=size,proto3" json:"size,omitempty"`
+	Locale        string                 `protobuf:"bytes,101,opt,name=locale,proto3" json:"locale,omitempty"` // optionally, request name and description in particular language
+	Extra         []Addon_Extra          `protobuf:"varint,1123,rep,packed,name=extra,proto3,enum=eolymp.universe.Addon_Extra" json:"extra,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAvailableAddonsInput) Reset() {
+	*x = ListAvailableAddonsInput{}
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAvailableAddonsInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAvailableAddonsInput) ProtoMessage() {}
+
+func (x *ListAvailableAddonsInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAvailableAddonsInput.ProtoReflect.Descriptor instead.
+func (*ListAvailableAddonsInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_billing_service_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ListAvailableAddonsInput) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *ListAvailableAddonsInput) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListAvailableAddonsInput) GetLocale() string {
+	if x != nil {
+		return x.Locale
+	}
+	return ""
+}
+
+func (x *ListAvailableAddonsInput) GetExtra() []Addon_Extra {
+	if x != nil {
+		return x.Extra
+	}
+	return nil
+}
+
+type ListAvailableAddonsOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Items         []*Addon               `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAvailableAddonsOutput) Reset() {
+	*x = ListAvailableAddonsOutput{}
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAvailableAddonsOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAvailableAddonsOutput) ProtoMessage() {}
+
+func (x *ListAvailableAddonsOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAvailableAddonsOutput.ProtoReflect.Descriptor instead.
+func (*ListAvailableAddonsOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_billing_service_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *ListAvailableAddonsOutput) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListAvailableAddonsOutput) GetItems() []*Addon {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type AddAddonInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AddonId       string                 `protobuf:"bytes,1,opt,name=addon_id,json=addonId,proto3" json:"addon_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddAddonInput) Reset() {
+	*x = AddAddonInput{}
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddAddonInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddAddonInput) ProtoMessage() {}
+
+func (x *AddAddonInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddAddonInput.ProtoReflect.Descriptor instead.
+func (*AddAddonInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_billing_service_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *AddAddonInput) GetAddonId() string {
+	if x != nil {
+		return x.AddonId
+	}
+	return ""
+}
+
+type AddAddonOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddAddonOutput) Reset() {
+	*x = AddAddonOutput{}
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddAddonOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddAddonOutput) ProtoMessage() {}
+
+func (x *AddAddonOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddAddonOutput.ProtoReflect.Descriptor instead.
+func (*AddAddonOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_billing_service_proto_rawDescGZIP(), []int{33}
+}
+
+type RemoveAddonInput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AddonId       string                 `protobuf:"bytes,1,opt,name=addon_id,json=addonId,proto3" json:"addon_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RemoveAddonInput) Reset() {
+	*x = RemoveAddonInput{}
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RemoveAddonInput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveAddonInput) ProtoMessage() {}
+
+func (x *RemoveAddonInput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveAddonInput.ProtoReflect.Descriptor instead.
+func (*RemoveAddonInput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_billing_service_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *RemoveAddonInput) GetAddonId() string {
+	if x != nil {
+		return x.AddonId
+	}
+	return ""
+}
+
+type RemoveAddonOutput struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RemoveAddonOutput) Reset() {
+	*x = RemoveAddonOutput{}
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RemoveAddonOutput) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveAddonOutput) ProtoMessage() {}
+
+func (x *RemoveAddonOutput) ProtoReflect() protoreflect.Message {
+	mi := &file_eolymp_universe_billing_service_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveAddonOutput.ProtoReflect.Descriptor instead.
+func (*RemoveAddonOutput) Descriptor() ([]byte, []int) {
+	return file_eolymp_universe_billing_service_proto_rawDescGZIP(), []int{35}
+}
+
 var File_eolymp_universe_billing_service_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\n" +
-	"%eolymp/universe/billing_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/invoice.proto\x1a\x1deolymp/universe/billing.proto\x1a\x1aeolymp/universe/plan.proto\"!\n" +
+	"%eolymp/universe/billing_service.proto\x12\x0feolymp.universe\x1a\x1eeolymp/annotations/audit.proto\x1a\x1deolymp/annotations/http.proto\x1a\"eolymp/annotations/namespace.proto\x1a\"eolymp/annotations/ratelimit.proto\x1a\x1deolymp/commerce/invoice.proto\x1a\x1beolymp/universe/addon.proto\x1a\x1deolymp/universe/billing.proto\x1a\x1aeolymp/universe/plan.proto\"!\n" +
 	"\x1fDescribeBillingInformationInput\"\\\n" +
 	" DescribeBillingInformationOutput\x128\n" +
 	"\x04info\x18\x01 \x01(\v2$.eolymp.universe.Billing.InformationR\x04info\"Y\n" +
@@ -1507,7 +1787,22 @@ const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\x05extra\x18\xe3\b \x03(\x0e2\x1b.eolymp.universe.Plan.ExtraR\x05extra\"]\n" +
 	"\x18ListAvailablePlansOutput\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12+\n" +
-	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items2\xaa\x13\n" +
+	"\x05items\x18\x02 \x03(\v2\x15.eolymp.universe.PlanR\x05items\"\x93\x01\n" +
+	"\x18ListAvailableAddonsInput\x12\x16\n" +
+	"\x06offset\x18\n" +
+	" \x01(\x05R\x06offset\x12\x12\n" +
+	"\x04size\x18\v \x01(\x05R\x04size\x12\x16\n" +
+	"\x06locale\x18e \x01(\tR\x06locale\x123\n" +
+	"\x05extra\x18\xe3\b \x03(\x0e2\x1c.eolymp.universe.Addon.ExtraR\x05extra\"_\n" +
+	"\x19ListAvailableAddonsOutput\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x12,\n" +
+	"\x05items\x18\x02 \x03(\v2\x16.eolymp.universe.AddonR\x05items\"*\n" +
+	"\rAddAddonInput\x12\x19\n" +
+	"\baddon_id\x18\x01 \x01(\tR\aaddonId\"\x10\n" +
+	"\x0eAddAddonOutput\"-\n" +
+	"\x10RemoveAddonInput\x12\x19\n" +
+	"\baddon_id\x18\x01 \x01(\tR\aaddonId\"\x13\n" +
+	"\x11RemoveAddonOutput2\xe4\x16\n" +
 	"\x0eBillingService\x12\xaf\x01\n" +
 	"\x1aDescribeBillingInformation\x120.eolymp.universe.DescribeBillingInformationInput\x1a1.eolymp.universe.DescribeBillingInformationOutput\",\xea\xe2\n" +
 	"\v\xf5\xe2\n" +
@@ -1600,7 +1895,25 @@ const file_eolymp_universe_billing_service_proto_rawDesc = "" +
 	"\x00\x00\xa0@\xf8\xe2\n" +
 	"2\xa2\xe3\n" +
 	"\x04\xa8\xe3\n" +
-	"\x01\x82\xd3\xe4\x93\x02\x10\"\x0e/billing/plans\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
+	"\x01\x82\xd3\xe4\x93\x02\x10\"\x0e/billing/plans\x12\x9c\x01\n" +
+	"\x13ListAvailableAddons\x12).eolymp.universe.ListAvailableAddonsInput\x1a*.eolymp.universe.ListAvailableAddonsOutput\".\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x01\x82\xd3\xe4\x93\x02\x11\"\x0f/billing/addons\x12\x86\x01\n" +
+	"\bAddAddon\x12\x1e.eolymp.universe.AddAddonInput\x1a\x1f.eolymp.universe.AddAddonOutput\"9\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x02\x82\xd3\xe4\x93\x02\x1c\x1a\x1a/billing/addons/{addon_id}\x12\x8f\x01\n" +
+	"\vRemoveAddon\x12!.eolymp.universe.RemoveAddonInput\x1a\".eolymp.universe.RemoveAddonOutput\"9\xea\xe2\n" +
+	"\v\xf5\xe2\n" +
+	"\x00\x00\xa0@\xf8\xe2\n" +
+	"2\xa2\xe3\n" +
+	"\x04\xa8\xe3\n" +
+	"\x03\x82\xd3\xe4\x93\x02\x1c*\x1a/billing/addons/{addon_id}\x1a\x1b\x82\xf0\xf0\xe4\x01\x15eolymp.universe.SpaceB3Z1github.com/eolymp/go-sdk/eolymp/universe;universeb\x06proto3"
 
 var (
 	file_eolymp_universe_billing_service_proto_rawDescOnce sync.Once
@@ -1614,7 +1927,7 @@ func file_eolymp_universe_billing_service_proto_rawDescGZIP() []byte {
 	return file_eolymp_universe_billing_service_proto_rawDescData
 }
 
-var file_eolymp_universe_billing_service_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_eolymp_universe_billing_service_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_eolymp_universe_billing_service_proto_goTypes = []any{
 	(*DescribeBillingInformationInput)(nil),  // 0: eolymp.universe.DescribeBillingInformationInput
 	(*DescribeBillingInformationOutput)(nil), // 1: eolymp.universe.DescribeBillingInformationOutput
@@ -1646,59 +1959,75 @@ var file_eolymp_universe_billing_service_proto_goTypes = []any{
 	(*ListInvoicesOutput)(nil),               // 27: eolymp.universe.ListInvoicesOutput
 	(*ListAvailablePlansInput)(nil),          // 28: eolymp.universe.ListAvailablePlansInput
 	(*ListAvailablePlansOutput)(nil),         // 29: eolymp.universe.ListAvailablePlansOutput
-	(*Billing_Information)(nil),              // 30: eolymp.universe.Billing.Information
-	(*Billing_Subscription)(nil),             // 31: eolymp.universe.Billing.Subscription
-	(*commerce.Invoice)(nil),                 // 32: eolymp.commerce.Invoice
-	(Plan_Extra)(0),                          // 33: eolymp.universe.Plan.Extra
-	(*Plan)(nil),                             // 34: eolymp.universe.Plan
+	(*ListAvailableAddonsInput)(nil),         // 30: eolymp.universe.ListAvailableAddonsInput
+	(*ListAvailableAddonsOutput)(nil),        // 31: eolymp.universe.ListAvailableAddonsOutput
+	(*AddAddonInput)(nil),                    // 32: eolymp.universe.AddAddonInput
+	(*AddAddonOutput)(nil),                   // 33: eolymp.universe.AddAddonOutput
+	(*RemoveAddonInput)(nil),                 // 34: eolymp.universe.RemoveAddonInput
+	(*RemoveAddonOutput)(nil),                // 35: eolymp.universe.RemoveAddonOutput
+	(*Billing_Information)(nil),              // 36: eolymp.universe.Billing.Information
+	(*Billing_Subscription)(nil),             // 37: eolymp.universe.Billing.Subscription
+	(*commerce.Invoice)(nil),                 // 38: eolymp.commerce.Invoice
+	(Plan_Extra)(0),                          // 39: eolymp.universe.Plan.Extra
+	(*Plan)(nil),                             // 40: eolymp.universe.Plan
+	(Addon_Extra)(0),                         // 41: eolymp.universe.Addon.Extra
+	(*Addon)(nil),                            // 42: eolymp.universe.Addon
 }
 var file_eolymp_universe_billing_service_proto_depIdxs = []int32{
-	30, // 0: eolymp.universe.DescribeBillingInformationOutput.info:type_name -> eolymp.universe.Billing.Information
-	30, // 1: eolymp.universe.UpdateBillingInformationInput.info:type_name -> eolymp.universe.Billing.Information
-	31, // 2: eolymp.universe.DescribeSubscriptionOutput.current:type_name -> eolymp.universe.Billing.Subscription
-	31, // 3: eolymp.universe.DescribeSubscriptionOutput.upcoming:type_name -> eolymp.universe.Billing.Subscription
-	32, // 4: eolymp.universe.SimulateSubscriptionOutput.due:type_name -> eolymp.commerce.Invoice
-	32, // 5: eolymp.universe.SimulateSubscriptionOutput.invoice:type_name -> eolymp.commerce.Invoice
-	32, // 6: eolymp.universe.UpcomingInvoiceOutput.invoice:type_name -> eolymp.commerce.Invoice
-	32, // 7: eolymp.universe.DescribeInvoiceOutput.invoice:type_name -> eolymp.commerce.Invoice
-	32, // 8: eolymp.universe.ListInvoicesOutput.items:type_name -> eolymp.commerce.Invoice
-	33, // 9: eolymp.universe.ListAvailablePlansInput.extra:type_name -> eolymp.universe.Plan.Extra
-	34, // 10: eolymp.universe.ListAvailablePlansOutput.items:type_name -> eolymp.universe.Plan
-	0,  // 11: eolymp.universe.BillingService.DescribeBillingInformation:input_type -> eolymp.universe.DescribeBillingInformationInput
-	2,  // 12: eolymp.universe.BillingService.UpdateBillingInformation:input_type -> eolymp.universe.UpdateBillingInformationInput
-	4,  // 13: eolymp.universe.BillingService.DescribeSubscription:input_type -> eolymp.universe.DescribeSubscriptionInput
-	6,  // 14: eolymp.universe.BillingService.CreateSubscription:input_type -> eolymp.universe.CreateSubscriptionInput
-	8,  // 15: eolymp.universe.BillingService.UpdateSubscription:input_type -> eolymp.universe.UpdateSubscriptionInput
-	10, // 16: eolymp.universe.BillingService.CancelSubscription:input_type -> eolymp.universe.CancelSubscriptionInput
-	12, // 17: eolymp.universe.BillingService.StartSubscriptionTrial:input_type -> eolymp.universe.StartSubscriptionTrialInput
-	14, // 18: eolymp.universe.BillingService.EndSubscriptionTrial:input_type -> eolymp.universe.EndSubscriptionTrialInput
-	16, // 19: eolymp.universe.BillingService.SimulateSubscription:input_type -> eolymp.universe.SimulateSubscriptionInput
-	18, // 20: eolymp.universe.BillingService.CreatePortalLink:input_type -> eolymp.universe.CreatePortalLinkInput
-	20, // 21: eolymp.universe.BillingService.UpcomingInvoice:input_type -> eolymp.universe.UpcomingInvoiceInput
-	22, // 22: eolymp.universe.BillingService.DescribeInvoice:input_type -> eolymp.universe.DescribeInvoiceInput
-	24, // 23: eolymp.universe.BillingService.PayInvoice:input_type -> eolymp.universe.PayInvoiceInput
-	26, // 24: eolymp.universe.BillingService.ListInvoices:input_type -> eolymp.universe.ListInvoicesInput
-	28, // 25: eolymp.universe.BillingService.ListAvailablePlans:input_type -> eolymp.universe.ListAvailablePlansInput
-	1,  // 26: eolymp.universe.BillingService.DescribeBillingInformation:output_type -> eolymp.universe.DescribeBillingInformationOutput
-	3,  // 27: eolymp.universe.BillingService.UpdateBillingInformation:output_type -> eolymp.universe.UpdateBillingInformationOutput
-	5,  // 28: eolymp.universe.BillingService.DescribeSubscription:output_type -> eolymp.universe.DescribeSubscriptionOutput
-	7,  // 29: eolymp.universe.BillingService.CreateSubscription:output_type -> eolymp.universe.CreateSubscriptionOutput
-	9,  // 30: eolymp.universe.BillingService.UpdateSubscription:output_type -> eolymp.universe.UpdateSubscriptionOutput
-	11, // 31: eolymp.universe.BillingService.CancelSubscription:output_type -> eolymp.universe.CancelSubscriptionOutput
-	13, // 32: eolymp.universe.BillingService.StartSubscriptionTrial:output_type -> eolymp.universe.StartSubscriptionTrialOutput
-	15, // 33: eolymp.universe.BillingService.EndSubscriptionTrial:output_type -> eolymp.universe.EndSubscriptionTrialOutput
-	17, // 34: eolymp.universe.BillingService.SimulateSubscription:output_type -> eolymp.universe.SimulateSubscriptionOutput
-	19, // 35: eolymp.universe.BillingService.CreatePortalLink:output_type -> eolymp.universe.CreatePortalLinkOutput
-	21, // 36: eolymp.universe.BillingService.UpcomingInvoice:output_type -> eolymp.universe.UpcomingInvoiceOutput
-	23, // 37: eolymp.universe.BillingService.DescribeInvoice:output_type -> eolymp.universe.DescribeInvoiceOutput
-	25, // 38: eolymp.universe.BillingService.PayInvoice:output_type -> eolymp.universe.PayInvoiceOutput
-	27, // 39: eolymp.universe.BillingService.ListInvoices:output_type -> eolymp.universe.ListInvoicesOutput
-	29, // 40: eolymp.universe.BillingService.ListAvailablePlans:output_type -> eolymp.universe.ListAvailablePlansOutput
-	26, // [26:41] is the sub-list for method output_type
-	11, // [11:26] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	36, // 0: eolymp.universe.DescribeBillingInformationOutput.info:type_name -> eolymp.universe.Billing.Information
+	36, // 1: eolymp.universe.UpdateBillingInformationInput.info:type_name -> eolymp.universe.Billing.Information
+	37, // 2: eolymp.universe.DescribeSubscriptionOutput.current:type_name -> eolymp.universe.Billing.Subscription
+	37, // 3: eolymp.universe.DescribeSubscriptionOutput.upcoming:type_name -> eolymp.universe.Billing.Subscription
+	38, // 4: eolymp.universe.SimulateSubscriptionOutput.due:type_name -> eolymp.commerce.Invoice
+	38, // 5: eolymp.universe.SimulateSubscriptionOutput.invoice:type_name -> eolymp.commerce.Invoice
+	38, // 6: eolymp.universe.UpcomingInvoiceOutput.invoice:type_name -> eolymp.commerce.Invoice
+	38, // 7: eolymp.universe.DescribeInvoiceOutput.invoice:type_name -> eolymp.commerce.Invoice
+	38, // 8: eolymp.universe.ListInvoicesOutput.items:type_name -> eolymp.commerce.Invoice
+	39, // 9: eolymp.universe.ListAvailablePlansInput.extra:type_name -> eolymp.universe.Plan.Extra
+	40, // 10: eolymp.universe.ListAvailablePlansOutput.items:type_name -> eolymp.universe.Plan
+	41, // 11: eolymp.universe.ListAvailableAddonsInput.extra:type_name -> eolymp.universe.Addon.Extra
+	42, // 12: eolymp.universe.ListAvailableAddonsOutput.items:type_name -> eolymp.universe.Addon
+	0,  // 13: eolymp.universe.BillingService.DescribeBillingInformation:input_type -> eolymp.universe.DescribeBillingInformationInput
+	2,  // 14: eolymp.universe.BillingService.UpdateBillingInformation:input_type -> eolymp.universe.UpdateBillingInformationInput
+	4,  // 15: eolymp.universe.BillingService.DescribeSubscription:input_type -> eolymp.universe.DescribeSubscriptionInput
+	6,  // 16: eolymp.universe.BillingService.CreateSubscription:input_type -> eolymp.universe.CreateSubscriptionInput
+	8,  // 17: eolymp.universe.BillingService.UpdateSubscription:input_type -> eolymp.universe.UpdateSubscriptionInput
+	10, // 18: eolymp.universe.BillingService.CancelSubscription:input_type -> eolymp.universe.CancelSubscriptionInput
+	12, // 19: eolymp.universe.BillingService.StartSubscriptionTrial:input_type -> eolymp.universe.StartSubscriptionTrialInput
+	14, // 20: eolymp.universe.BillingService.EndSubscriptionTrial:input_type -> eolymp.universe.EndSubscriptionTrialInput
+	16, // 21: eolymp.universe.BillingService.SimulateSubscription:input_type -> eolymp.universe.SimulateSubscriptionInput
+	18, // 22: eolymp.universe.BillingService.CreatePortalLink:input_type -> eolymp.universe.CreatePortalLinkInput
+	20, // 23: eolymp.universe.BillingService.UpcomingInvoice:input_type -> eolymp.universe.UpcomingInvoiceInput
+	22, // 24: eolymp.universe.BillingService.DescribeInvoice:input_type -> eolymp.universe.DescribeInvoiceInput
+	24, // 25: eolymp.universe.BillingService.PayInvoice:input_type -> eolymp.universe.PayInvoiceInput
+	26, // 26: eolymp.universe.BillingService.ListInvoices:input_type -> eolymp.universe.ListInvoicesInput
+	28, // 27: eolymp.universe.BillingService.ListAvailablePlans:input_type -> eolymp.universe.ListAvailablePlansInput
+	30, // 28: eolymp.universe.BillingService.ListAvailableAddons:input_type -> eolymp.universe.ListAvailableAddonsInput
+	32, // 29: eolymp.universe.BillingService.AddAddon:input_type -> eolymp.universe.AddAddonInput
+	34, // 30: eolymp.universe.BillingService.RemoveAddon:input_type -> eolymp.universe.RemoveAddonInput
+	1,  // 31: eolymp.universe.BillingService.DescribeBillingInformation:output_type -> eolymp.universe.DescribeBillingInformationOutput
+	3,  // 32: eolymp.universe.BillingService.UpdateBillingInformation:output_type -> eolymp.universe.UpdateBillingInformationOutput
+	5,  // 33: eolymp.universe.BillingService.DescribeSubscription:output_type -> eolymp.universe.DescribeSubscriptionOutput
+	7,  // 34: eolymp.universe.BillingService.CreateSubscription:output_type -> eolymp.universe.CreateSubscriptionOutput
+	9,  // 35: eolymp.universe.BillingService.UpdateSubscription:output_type -> eolymp.universe.UpdateSubscriptionOutput
+	11, // 36: eolymp.universe.BillingService.CancelSubscription:output_type -> eolymp.universe.CancelSubscriptionOutput
+	13, // 37: eolymp.universe.BillingService.StartSubscriptionTrial:output_type -> eolymp.universe.StartSubscriptionTrialOutput
+	15, // 38: eolymp.universe.BillingService.EndSubscriptionTrial:output_type -> eolymp.universe.EndSubscriptionTrialOutput
+	17, // 39: eolymp.universe.BillingService.SimulateSubscription:output_type -> eolymp.universe.SimulateSubscriptionOutput
+	19, // 40: eolymp.universe.BillingService.CreatePortalLink:output_type -> eolymp.universe.CreatePortalLinkOutput
+	21, // 41: eolymp.universe.BillingService.UpcomingInvoice:output_type -> eolymp.universe.UpcomingInvoiceOutput
+	23, // 42: eolymp.universe.BillingService.DescribeInvoice:output_type -> eolymp.universe.DescribeInvoiceOutput
+	25, // 43: eolymp.universe.BillingService.PayInvoice:output_type -> eolymp.universe.PayInvoiceOutput
+	27, // 44: eolymp.universe.BillingService.ListInvoices:output_type -> eolymp.universe.ListInvoicesOutput
+	29, // 45: eolymp.universe.BillingService.ListAvailablePlans:output_type -> eolymp.universe.ListAvailablePlansOutput
+	31, // 46: eolymp.universe.BillingService.ListAvailableAddons:output_type -> eolymp.universe.ListAvailableAddonsOutput
+	33, // 47: eolymp.universe.BillingService.AddAddon:output_type -> eolymp.universe.AddAddonOutput
+	35, // 48: eolymp.universe.BillingService.RemoveAddon:output_type -> eolymp.universe.RemoveAddonOutput
+	31, // [31:49] is the sub-list for method output_type
+	13, // [13:31] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_universe_billing_service_proto_init() }
@@ -1706,6 +2035,7 @@ func file_eolymp_universe_billing_service_proto_init() {
 	if File_eolymp_universe_billing_service_proto != nil {
 		return
 	}
+	file_eolymp_universe_addon_proto_init()
 	file_eolymp_universe_billing_proto_init()
 	file_eolymp_universe_plan_proto_init()
 	type x struct{}
@@ -1714,7 +2044,7 @@ func file_eolymp_universe_billing_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_eolymp_universe_billing_service_proto_rawDesc), len(file_eolymp_universe_billing_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   36,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

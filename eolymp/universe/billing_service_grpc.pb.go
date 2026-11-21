@@ -34,6 +34,9 @@ const (
 	BillingService_PayInvoice_FullMethodName                 = "/eolymp.universe.BillingService/PayInvoice"
 	BillingService_ListInvoices_FullMethodName               = "/eolymp.universe.BillingService/ListInvoices"
 	BillingService_ListAvailablePlans_FullMethodName         = "/eolymp.universe.BillingService/ListAvailablePlans"
+	BillingService_ListAvailableAddons_FullMethodName        = "/eolymp.universe.BillingService/ListAvailableAddons"
+	BillingService_AddAddon_FullMethodName                   = "/eolymp.universe.BillingService/AddAddon"
+	BillingService_RemoveAddon_FullMethodName                = "/eolymp.universe.BillingService/RemoveAddon"
 )
 
 // BillingServiceClient is the client API for BillingService service.
@@ -57,6 +60,19 @@ type BillingServiceClient interface {
 	PayInvoice(ctx context.Context, in *PayInvoiceInput, opts ...grpc.CallOption) (*PayInvoiceOutput, error)
 	ListInvoices(ctx context.Context, in *ListInvoicesInput, opts ...grpc.CallOption) (*ListInvoicesOutput, error)
 	ListAvailablePlans(ctx context.Context, in *ListAvailablePlansInput, opts ...grpc.CallOption) (*ListAvailablePlansOutput, error)
+	// List addons which the space can add to its subscription.
+	//
+	// An addon is listed only if it upgrades the quota of the space: at least one field of the addon quota is higher
+	// than the current quota of the space.
+	ListAvailableAddons(ctx context.Context, in *ListAvailableAddonsInput, opts ...grpc.CallOption) (*ListAvailableAddonsOutput, error)
+	// Add an addon to the subscription of the space.
+	//
+	// The addon is charged in full when it is added, whatever part of the billing period is left, and is active at once.
+	AddAddon(ctx context.Context, in *AddAddonInput, opts ...grpc.CallOption) (*AddAddonOutput, error)
+	// Remove an addon from the subscription of the space.
+	//
+	// The addon stays active until the end of the billing period already paid for and is not renewed.
+	RemoveAddon(ctx context.Context, in *RemoveAddonInput, opts ...grpc.CallOption) (*RemoveAddonOutput, error)
 }
 
 type billingServiceClient struct {
@@ -217,6 +233,36 @@ func (c *billingServiceClient) ListAvailablePlans(ctx context.Context, in *ListA
 	return out, nil
 }
 
+func (c *billingServiceClient) ListAvailableAddons(ctx context.Context, in *ListAvailableAddonsInput, opts ...grpc.CallOption) (*ListAvailableAddonsOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAvailableAddonsOutput)
+	err := c.cc.Invoke(ctx, BillingService_ListAvailableAddons_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *billingServiceClient) AddAddon(ctx context.Context, in *AddAddonInput, opts ...grpc.CallOption) (*AddAddonOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddAddonOutput)
+	err := c.cc.Invoke(ctx, BillingService_AddAddon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *billingServiceClient) RemoveAddon(ctx context.Context, in *RemoveAddonInput, opts ...grpc.CallOption) (*RemoveAddonOutput, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RemoveAddonOutput)
+	err := c.cc.Invoke(ctx, BillingService_RemoveAddon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BillingServiceServer is the server API for BillingService service.
 // All implementations should embed UnimplementedBillingServiceServer
 // for forward compatibility.
@@ -238,6 +284,19 @@ type BillingServiceServer interface {
 	PayInvoice(context.Context, *PayInvoiceInput) (*PayInvoiceOutput, error)
 	ListInvoices(context.Context, *ListInvoicesInput) (*ListInvoicesOutput, error)
 	ListAvailablePlans(context.Context, *ListAvailablePlansInput) (*ListAvailablePlansOutput, error)
+	// List addons which the space can add to its subscription.
+	//
+	// An addon is listed only if it upgrades the quota of the space: at least one field of the addon quota is higher
+	// than the current quota of the space.
+	ListAvailableAddons(context.Context, *ListAvailableAddonsInput) (*ListAvailableAddonsOutput, error)
+	// Add an addon to the subscription of the space.
+	//
+	// The addon is charged in full when it is added, whatever part of the billing period is left, and is active at once.
+	AddAddon(context.Context, *AddAddonInput) (*AddAddonOutput, error)
+	// Remove an addon from the subscription of the space.
+	//
+	// The addon stays active until the end of the billing period already paid for and is not renewed.
+	RemoveAddon(context.Context, *RemoveAddonInput) (*RemoveAddonOutput, error)
 }
 
 // UnimplementedBillingServiceServer should be embedded to have
@@ -291,6 +350,15 @@ func (UnimplementedBillingServiceServer) ListInvoices(context.Context, *ListInvo
 }
 func (UnimplementedBillingServiceServer) ListAvailablePlans(context.Context, *ListAvailablePlansInput) (*ListAvailablePlansOutput, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListAvailablePlans not implemented")
+}
+func (UnimplementedBillingServiceServer) ListAvailableAddons(context.Context, *ListAvailableAddonsInput) (*ListAvailableAddonsOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListAvailableAddons not implemented")
+}
+func (UnimplementedBillingServiceServer) AddAddon(context.Context, *AddAddonInput) (*AddAddonOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddAddon not implemented")
+}
+func (UnimplementedBillingServiceServer) RemoveAddon(context.Context, *RemoveAddonInput) (*RemoveAddonOutput, error) {
+	return nil, status.Error(codes.Unimplemented, "method RemoveAddon not implemented")
 }
 func (UnimplementedBillingServiceServer) testEmbeddedByValue() {}
 
@@ -582,6 +650,60 @@ func _BillingService_ListAvailablePlans_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BillingService_ListAvailableAddons_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAvailableAddonsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).ListAvailableAddons(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_ListAvailableAddons_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).ListAvailableAddons(ctx, req.(*ListAvailableAddonsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BillingService_AddAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAddonInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).AddAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_AddAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).AddAddon(ctx, req.(*AddAddonInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BillingService_RemoveAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveAddonInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BillingServiceServer).RemoveAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BillingService_RemoveAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BillingServiceServer).RemoveAddon(ctx, req.(*RemoveAddonInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BillingService_ServiceDesc is the grpc.ServiceDesc for BillingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -648,6 +770,18 @@ var BillingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAvailablePlans",
 			Handler:    _BillingService_ListAvailablePlans_Handler,
+		},
+		{
+			MethodName: "ListAvailableAddons",
+			Handler:    _BillingService_ListAvailableAddons_Handler,
+		},
+		{
+			MethodName: "AddAddon",
+			Handler:    _BillingService_AddAddon_Handler,
+		},
+		{
+			MethodName: "RemoveAddon",
+			Handler:    _BillingService_RemoveAddon_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

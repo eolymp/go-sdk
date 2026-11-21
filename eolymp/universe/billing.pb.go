@@ -276,6 +276,7 @@ type Billing_Subscription struct {
 	Plan             *Plan                  `protobuf:"bytes,10,opt,name=plan,proto3" json:"plan,omitempty"`
 	Variant          *Plan_Variant          `protobuf:"bytes,11,opt,name=variant,proto3" json:"variant,omitempty"`
 	Seats            uint32                 `protobuf:"varint,12,opt,name=seats,proto3" json:"seats,omitempty"`
+	Addons           []*Addon               `protobuf:"bytes,13,rep,name=addons,proto3" json:"addons,omitempty"`                               // addons applied on top of the plan
 	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,210,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`       // time when subscription was created
 	StartedAt        *timestamppb.Timestamp `protobuf:"bytes,211,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`       // time when subscription was started (activated first time)
 	CancelAt         *timestamppb.Timestamp `protobuf:"bytes,213,opt,name=cancel_at,json=cancelAt,proto3" json:"cancel_at,omitempty"`          // time when subscription was/will be cancelled
@@ -368,6 +369,13 @@ func (x *Billing_Subscription) GetSeats() uint32 {
 	return 0
 }
 
+func (x *Billing_Subscription) GetAddons() []*Addon {
+	if x != nil {
+		return x.Addons
+	}
+	return nil
+}
+
 func (x *Billing_Subscription) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
@@ -435,7 +443,7 @@ var File_eolymp_universe_billing_proto protoreflect.FileDescriptor
 
 const file_eolymp_universe_billing_proto_rawDesc = "" +
 	"\n" +
-	"\x1deolymp/universe/billing.proto\x12\x0feolymp.universe\x1a\x1deolymp/commerce/address.proto\x1a\x1aeolymp/universe/plan.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\t\n" +
+	"\x1deolymp/universe/billing.proto\x12\x0feolymp.universe\x1a\x1deolymp/commerce/address.proto\x1a\x1beolymp/universe/addon.proto\x1a\x1aeolymp/universe/plan.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf8\t\n" +
 	"\aBilling\x1a\xfb\x01\n" +
 	"\vInformation\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
@@ -447,7 +455,7 @@ const file_eolymp_universe_billing_proto_rawDesc = "" +
 	"taxIdValue\x122\n" +
 	"\aaddress\x18\x14 \x01(\v2\x18.eolymp.commerce.AddressR\aaddress\x12\x1a\n" +
 	"\bcurrency\x18Z \x01(\tR\bcurrency\x12\x1a\n" +
-	"\blanguage\x18[ \x01(\tR\blanguage\x1a\xbb\x06\n" +
+	"\blanguage\x18[ \x01(\tR\blanguage\x1a\xeb\x06\n" +
 	"\fSubscription\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x127\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1f.eolymp.universe.Billing.StatusR\x06status\x12\x1c\n" +
@@ -456,7 +464,8 @@ const file_eolymp_universe_billing_proto_rawDesc = "" +
 	"\x04plan\x18\n" +
 	" \x01(\v2\x15.eolymp.universe.PlanR\x04plan\x127\n" +
 	"\avariant\x18\v \x01(\v2\x1d.eolymp.universe.Plan.VariantR\avariant\x12\x14\n" +
-	"\x05seats\x18\f \x01(\rR\x05seats\x12:\n" +
+	"\x05seats\x18\f \x01(\rR\x05seats\x12.\n" +
+	"\x06addons\x18\r \x03(\v2\x16.eolymp.universe.AddonR\x06addons\x12:\n" +
 	"\n" +
 	"created_at\x18\xd2\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12:\n" +
 	"\n" +
@@ -506,27 +515,29 @@ var file_eolymp_universe_billing_proto_goTypes = []any{
 	(*commerce.Address)(nil),      // 5: eolymp.commerce.Address
 	(*Plan)(nil),                  // 6: eolymp.universe.Plan
 	(*Plan_Variant)(nil),          // 7: eolymp.universe.Plan.Variant
-	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*Addon)(nil),                 // 8: eolymp.universe.Addon
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_eolymp_universe_billing_proto_depIdxs = []int32{
 	5,  // 0: eolymp.universe.Billing.Information.address:type_name -> eolymp.commerce.Address
 	0,  // 1: eolymp.universe.Billing.Subscription.status:type_name -> eolymp.universe.Billing.Status
 	6,  // 2: eolymp.universe.Billing.Subscription.plan:type_name -> eolymp.universe.Plan
 	7,  // 3: eolymp.universe.Billing.Subscription.variant:type_name -> eolymp.universe.Plan.Variant
-	8,  // 4: eolymp.universe.Billing.Subscription.created_at:type_name -> google.protobuf.Timestamp
-	8,  // 5: eolymp.universe.Billing.Subscription.started_at:type_name -> google.protobuf.Timestamp
-	8,  // 6: eolymp.universe.Billing.Subscription.cancel_at:type_name -> google.protobuf.Timestamp
-	8,  // 7: eolymp.universe.Billing.Subscription.cancelled_at:type_name -> google.protobuf.Timestamp
-	8,  // 8: eolymp.universe.Billing.Subscription.ended_at:type_name -> google.protobuf.Timestamp
-	8,  // 9: eolymp.universe.Billing.Subscription.period_start:type_name -> google.protobuf.Timestamp
-	8,  // 10: eolymp.universe.Billing.Subscription.period_end:type_name -> google.protobuf.Timestamp
-	8,  // 11: eolymp.universe.Billing.Subscription.trial_start:type_name -> google.protobuf.Timestamp
-	8,  // 12: eolymp.universe.Billing.Subscription.trial_end:type_name -> google.protobuf.Timestamp
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	8,  // 4: eolymp.universe.Billing.Subscription.addons:type_name -> eolymp.universe.Addon
+	9,  // 5: eolymp.universe.Billing.Subscription.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 6: eolymp.universe.Billing.Subscription.started_at:type_name -> google.protobuf.Timestamp
+	9,  // 7: eolymp.universe.Billing.Subscription.cancel_at:type_name -> google.protobuf.Timestamp
+	9,  // 8: eolymp.universe.Billing.Subscription.cancelled_at:type_name -> google.protobuf.Timestamp
+	9,  // 9: eolymp.universe.Billing.Subscription.ended_at:type_name -> google.protobuf.Timestamp
+	9,  // 10: eolymp.universe.Billing.Subscription.period_start:type_name -> google.protobuf.Timestamp
+	9,  // 11: eolymp.universe.Billing.Subscription.period_end:type_name -> google.protobuf.Timestamp
+	9,  // 12: eolymp.universe.Billing.Subscription.trial_start:type_name -> google.protobuf.Timestamp
+	9,  // 13: eolymp.universe.Billing.Subscription.trial_end:type_name -> google.protobuf.Timestamp
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_eolymp_universe_billing_proto_init() }
@@ -534,6 +545,7 @@ func file_eolymp_universe_billing_proto_init() {
 	if File_eolymp_universe_billing_proto != nil {
 		return
 	}
+	file_eolymp_universe_addon_proto_init()
 	file_eolymp_universe_plan_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

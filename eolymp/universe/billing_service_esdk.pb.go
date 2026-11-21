@@ -274,3 +274,46 @@ func (s *BillingServiceService) ListAvailablePlans(ctx context.Context, in *List
 
 	return out, nil
 }
+
+func (s *BillingServiceService) ListAvailableAddons(ctx context.Context, in *ListAvailableAddonsInput) (*ListAvailableAddonsOutput, error) {
+	out := &ListAvailableAddonsOutput{}
+	path := "/billing/addons"
+
+	if err := s.do(ctx, "POST", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) AddAddon(ctx context.Context, in *AddAddonInput) (*AddAddonOutput, error) {
+	out := &AddAddonOutput{}
+	path := "/billing/addons/" + url.PathEscape(in.GetAddonId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AddonId = ""
+	}
+
+	if err := s.do(ctx, "PUT", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (s *BillingServiceService) RemoveAddon(ctx context.Context, in *RemoveAddonInput) (*RemoveAddonOutput, error) {
+	out := &RemoveAddonOutput{}
+	path := "/billing/addons/" + url.PathEscape(in.GetAddonId())
+
+	// Cleanup URL parameters to avoid any ambiguity
+	if in != nil {
+		in.AddonId = ""
+	}
+
+	if err := s.do(ctx, "DELETE", path, in, out); err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

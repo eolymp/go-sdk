@@ -246,6 +246,15 @@ func RegisterBillingServiceHttpHandlers(router *mux.Router, prefix string, cli B
 	router.Handle(prefix+"/billing/plans", _BillingService_ListAvailablePlans_Rule0(cli)).
 		Methods("POST").
 		Name("eolymp.universe.BillingService.ListAvailablePlans")
+	router.Handle(prefix+"/billing/addons", _BillingService_ListAvailableAddons_Rule0(cli)).
+		Methods("POST").
+		Name("eolymp.universe.BillingService.ListAvailableAddons")
+	router.Handle(prefix+"/billing/addons/{addon_id}", _BillingService_AddAddon_Rule0(cli)).
+		Methods("PUT").
+		Name("eolymp.universe.BillingService.AddAddon")
+	router.Handle(prefix+"/billing/addons/{addon_id}", _BillingService_RemoveAddon_Rule0(cli)).
+		Methods("DELETE").
+		Name("eolymp.universe.BillingService.RemoveAddon")
 }
 
 // RegisterBillingServiceHttpProxy adds proxy handlers for for BillingServiceClient
@@ -565,6 +574,75 @@ func _BillingService_ListAvailablePlans_Rule0(cli BillingServiceClient) http.Han
 		var header, trailer metadata.MD
 
 		out, err := cli.ListAvailablePlans(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _BillingService_ListAvailableAddons_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &ListAvailableAddonsInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		var header, trailer metadata.MD
+
+		out, err := cli.ListAvailableAddons(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _BillingService_AddAddon_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &AddAddonInput{}
+
+		if err := _BillingService_HTTPReadRequestBody(r, in, 1048576); err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AddonId = vars["addon_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.AddAddon(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
+		if err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		_BillingService_HTTPWriteResponse(w, out, header, trailer)
+	})
+}
+
+func _BillingService_RemoveAddon_Rule0(cli BillingServiceClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		in := &RemoveAddonInput{}
+
+		if err := _BillingService_HTTPReadRequest(r, in, 1048576, 131072); err != nil {
+			_BillingService_HTTPWriteErrorResponse(w, err)
+			return
+		}
+
+		vars := mux.Vars(r)
+		in.AddonId = vars["addon_id"]
+
+		var header, trailer metadata.MD
+
+		out, err := cli.RemoveAddon(r.Context(), in, grpc.Header(&header), grpc.Trailer(&trailer))
 		if err != nil {
 			_BillingService_HTTPWriteErrorResponse(w, err)
 			return
