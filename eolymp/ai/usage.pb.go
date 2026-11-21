@@ -28,6 +28,7 @@ type Usage struct {
 	ThinkingTokens     uint64                 `protobuf:"varint,3,opt,name=thinking_tokens,json=thinkingTokens,proto3" json:"thinking_tokens,omitempty"`
 	TotalTokens        uint64                 `protobuf:"varint,4,opt,name=total_tokens,json=totalTokens,proto3" json:"total_tokens,omitempty"`
 	CachedPromptTokens uint64                 `protobuf:"varint,5,opt,name=cached_prompt_tokens,json=cachedPromptTokens,proto3" json:"cached_prompt_tokens,omitempty"`
+	CacheWriteTokens   uint64                 `protobuf:"varint,6,opt,name=cache_write_tokens,json=cacheWriteTokens,proto3" json:"cache_write_tokens,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -97,17 +98,25 @@ func (x *Usage) GetCachedPromptTokens() uint64 {
 	return 0
 }
 
+func (x *Usage) GetCacheWriteTokens() uint64 {
+	if x != nil {
+		return x.CacheWriteTokens
+	}
+	return 0
+}
+
 var File_eolymp_ai_usage_proto protoreflect.FileDescriptor
 
 const file_eolymp_ai_usage_proto_rawDesc = "" +
 	"\n" +
-	"\x15eolymp/ai/usage.proto\x12\teolymp.ai\"\xd7\x01\n" +
+	"\x15eolymp/ai/usage.proto\x12\teolymp.ai\"\x85\x02\n" +
 	"\x05Usage\x12#\n" +
 	"\rprompt_tokens\x18\x01 \x01(\x04R\fpromptTokens\x12+\n" +
 	"\x11completion_tokens\x18\x02 \x01(\x04R\x10completionTokens\x12'\n" +
 	"\x0fthinking_tokens\x18\x03 \x01(\x04R\x0ethinkingTokens\x12!\n" +
 	"\ftotal_tokens\x18\x04 \x01(\x04R\vtotalTokens\x120\n" +
-	"\x14cached_prompt_tokens\x18\x05 \x01(\x04R\x12cachedPromptTokensB'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
+	"\x14cached_prompt_tokens\x18\x05 \x01(\x04R\x12cachedPromptTokens\x12,\n" +
+	"\x12cache_write_tokens\x18\x06 \x01(\x04R\x10cacheWriteTokensB'Z%github.com/eolymp/go-sdk/eolymp/ai;aib\x06proto3"
 
 var (
 	file_eolymp_ai_usage_proto_rawDescOnce sync.Once
